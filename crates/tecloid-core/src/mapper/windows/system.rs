@@ -43,7 +43,7 @@ pub enum WindowsAction {
 pub fn resolve(name: &str) -> Option<WindowsAction> {
     if let Some(n) = name
         .strip_prefix("switchToKeyboardLayout")
-        .and_then(|rest| rest.parse::<u32>().ok())
+        .and_then(crate::config::actions::slot_number)
         .filter(|n| (1..=crate::config::actions::SYSTEM_NUMBERED_COUNT).contains(n))
     {
         return Some(WindowsAction::SwitchLayout(n));
@@ -53,7 +53,7 @@ pub fn resolve(name: &str) -> Option<WindowsAction> {
         "minimizeWindow" => WindowsAction::WindowMinimize,
         "maximizeWindow" => WindowsAction::WindowMaximize,
         "maximizeWindowVertically" => WindowsAction::WindowMaximizeVertical,
-        "toggleWindowKeepAbove" => WindowsAction::WindowKeepAbove,
+        "keepWindowAbove" => WindowsAction::WindowKeepAbove,
         "moveWindowToNextScreen" => WindowsAction::WindowToNextScreen,
         "moveWindowToPreviousScreen" => WindowsAction::WindowToPreviousScreen,
         "switchToNextDesktop" => WindowsAction::NextDesktop,

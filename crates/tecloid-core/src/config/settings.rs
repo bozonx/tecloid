@@ -38,44 +38,10 @@ pub(crate) fn json_schema() -> schemars::Schema {
     schemars::schema_for!(ConfigDoc)
 }
 
+/// Every setting is written, defaults included, so a later change of a
+/// default never changes the behaviour of an existing installation.
 pub fn serialize(settings: &AppSettings) -> String {
-    let defaults = serde_json::to_value(to_doc(&AppSettings::default())).unwrap_or_default();
-    let mut value = serde_json::to_value(to_doc(settings)).unwrap_or_default();
-    if let Some(object) = value.as_object_mut() {
-        if let (Some(current), Some(default)) =
-            (object.get_mut("settings"), defaults.get("settings"))
-        {
-            prune_defaults(current, default);
-        }
-        if object
-            .get("settings")
-            .and_then(serde_json::Value::as_object)
-            .is_some_and(serde_json::Map::is_empty)
-        {
-            object.remove("settings");
-        }
-    }
-
-    serde_json::to_string_pretty(&value).unwrap_or_default()
-}
-
-/// Drop the fields of `value` that equal those of `default`, descending
-/// into nested objects; lists are compared whole. Every section reads a
-/// missing field as its default, so the result parses to the same settings.
-fn prune_defaults(value: &mut serde_json::Value, default: &serde_json::Value) {
-    let (Some(object), Some(default)) = (value.as_object_mut(), default.as_object()) else {
-        return;
-    };
-    object.retain(|key, field| {
-        let Some(default) = default.get(key) else {
-            return true;
-        };
-        if field == default {
-            return false;
-        }
-        prune_defaults(field, default);
-        !field.as_object().is_some_and(serde_json::Map::is_empty)
-    });
+    serde_json::to_string_pretty(&to_doc(settings)).unwrap_or_default()
 }
 
 #[cfg_attr(test, derive(schemars::JsonSchema))]
@@ -106,14 +72,7 @@ struct SettingsDoc {
     launch_at_login: bool,
     /// Start the mapper when the app launches.
     start_mapper_on_launch: bool,
-    appearance: Appearance,
-    high_contrast: AccessibilityChoice,
-    reduce_motion: AccessibilityChoice,
-    keymap_osd: bool,
-    copy_osd: bool,
-    layer_hint: bool,
-    locale: LocalePreference,
-    #[serde(skip_serializing_if = "DevicesDoc::is_empty")]
+    interface: InterfaceDoc,
     devices: DevicesDoc,
     timing: TimingDoc,
     keymaps: KeymapsDoc,
@@ -129,6 +88,27 @@ impl Default for SettingsDoc {
     }
 }
 
+/// Look of the settings window and on-screen notices.
+#[cfg_attr(test, derive(schemars::JsonSchema))]
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields, default)]
+struct InterfaceDoc {
+    appearance: Appearance,
+    high_contrast: AccessibilityChoice,
+    reduce_motion: AccessibilityChoice,
+    locale: LocalePreference,
+    /// On-screen notice when the active keymap changes.
+    keymap_osd: bool,
+    /// While a layer is held, an overlay with its keys.
+    layer_hint: bool,
+}
+
+impl Default for InterfaceDoc {
+    fn default() -> Self {
+        to_doc(&AppSettings::default()).settings.interface
+    }
+}
+
 /// Devices the mapper grabs, as stable paths such as `/dev/input/by-id/…`
 /// on Linux. Lists leave room for several devices; this version grabs at
 /// most one of each kind.
@@ -136,17 +116,11 @@ impl Default for SettingsDoc {
 #[derive(Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields, default)]
 struct DevicesDoc {
-    #[serde(skip_serializing_if = "Vec::is_empty")]
     keyboards: Vec<String>,
-    #[serde(skip_serializing_if = "Vec::is_empty")]
     mice: Vec<String>,
 }
 
 impl DevicesDoc {
-    fn is_empty(&self) -> bool {
-        self.keyboards.is_empty() && self.mice.is_empty()
-    }
-
     /// The single device of `list`, checked.
     fn single(list: Vec<String>, what: &str) -> Result<Option<String>, String> {
         if list.len() > 1 {
@@ -169,8 +143,12 @@ impl DevicesDoc {
 #[serde(rename_all = "camelCase", deny_unknown_fields, default)]
 struct KeymapsDoc {
     mode: KeymapMode,
-    /// Keymap used in manual mode.
-    #[serde(skip_serializing_if = "Option::is_none")]
+    /// Keymap used in manual mode; missing: none chosen yet.
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     manual_keymap: Option<String>,
     /// Library order: the slots of `activateKeymapN` and the order of the
     /// list. Behaviour, not remembered state, so it lives in settings.
@@ -234,16 +212,13 @@ impl Default for TimingDoc {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct AutoRuleDoc {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[cfg_attr(test, schemars(regex(pattern = super::schema::ID_PATTERN)))]
-    id: Option<String>,
     /// Required; an explicit `null` turns the mapper off, so a forgotten
     /// field is an error rather than a silent "off".
     #[serde(deserialize_with = "nullable")]
     keymap: Option<String>,
-    #[serde(default = "yes", skip_serializing_if = "is_true")]
+    #[serde(default = "yes")]
     enabled: bool,
-    /// Empty conditions always match.
+    /// Empty conditions always match; no conditions are not written.
     #[serde(default, skip_serializing_if = "WhenDoc::is_empty")]
     when: WhenDoc,
 }
@@ -374,13 +349,10 @@ fn schema_settings_default() -> SettingsDoc {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct ProcessDoc {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[cfg_attr(test, schemars(regex(pattern = super::schema::ID_PATTERN)))]
-    id: Option<String>,
     name: String,
-    #[serde(default = "yes", skip_serializing_if = "is_true")]
+    #[serde(default = "yes")]
     foreground_only: bool,
-    #[serde(default, skip_serializing_if = "is_false")]
+    #[serde(default)]
     exclude: bool,
 }
 
@@ -390,6 +362,8 @@ struct ProcessDoc {
 struct LinuxDoc {
     /// How `text:` actions reach the focused application.
     text_mode: TextMode,
+    /// On-screen notice when Tecloid sends a copy shortcut.
+    copy_osd: bool,
     /// Shortcut the clipboard text modes send to paste, as a key chord.
     paste_shortcut: PasteShortcut,
     /// Paste shortcut for terminal windows, or `sameAsPaste`.
@@ -433,14 +407,6 @@ fn yes() -> bool {
     true
 }
 
-fn is_true(value: &bool) -> bool {
-    *value
-}
-
-fn is_false(value: &bool) -> bool {
-    !*value
-}
-
 fn non_empty(value: Option<String>) -> Option<String> {
     value.filter(|value| !value.trim().is_empty())
 }
@@ -469,31 +435,11 @@ pub fn validate(settings: &AppSettings) -> Result<(), String> {
     super::timing::validate_settings(settings)
 }
 
-fn from_doc(mut doc: ConfigDoc) -> Result<AppSettings, String> {
-    let mut ids: Vec<_> = doc
-        .settings
-        .keymaps
-        .auto
-        .rules
-        .iter_mut()
-        .map(|item| item.id.take())
-        .collect();
-    super::ids::complete(&mut ids, "rule-", "settings.keymaps.auto.rules")?;
-    for (item, id) in doc.settings.keymaps.auto.rules.iter_mut().zip(ids) {
-        item.id = id;
-    }
-    let mut ids: Vec<_> = doc
-        .settings
-        .game_mode
-        .processes
-        .iter_mut()
-        .map(|item| item.id.take())
-        .collect();
-    super::ids::complete(&mut ids, "process-", "settings.gameMode.processes")?;
-    for (item, id) in doc.settings.game_mode.processes.iter_mut().zip(ids) {
-        item.id = id;
-    }
+/// Auto rules and game-mode processes are not referenced from anywhere, so
+/// the file stores none of their ids; the editor's ids are assigned on load.
+fn from_doc(doc: ConfigDoc) -> Result<AppSettings, String> {
     let ConfigDoc { settings, .. } = doc;
+    let interface = settings.interface;
     let timing = settings.timing;
     let detectors = settings.game_mode.detectors;
     let keyboard_device = DevicesDoc::single(settings.devices.keyboards, "keyboards")?;
@@ -502,7 +448,7 @@ fn from_doc(mut doc: ConfigDoc) -> Result<AppSettings, String> {
     let mut auto_rules = Vec::new();
     for (index, rule) in keymaps.auto.rules.into_iter().enumerate() {
         auto_rules.push(AutoRule {
-            id: rule.id.unwrap_or_default(),
+            id: format!("rule-{}", index + 1),
             keymap_id: keymap_ref(
                 rule.keymap,
                 &format!("settings.keymaps.auto.rules[{index}]"),
@@ -516,13 +462,13 @@ fn from_doc(mut doc: ConfigDoc) -> Result<AppSettings, String> {
         in_development: settings.experimental,
         launch_on_startup: settings.launch_at_login,
         start_mapper_on_launch: settings.start_mapper_on_launch,
-        appearance: settings.appearance,
-        high_contrast: settings.high_contrast,
-        reduce_motion: settings.reduce_motion,
-        keymap_osd: settings.keymap_osd,
-        copy_osd: settings.copy_osd,
-        layer_hint: settings.layer_hint,
-        locale: settings.locale,
+        appearance: interface.appearance,
+        high_contrast: interface.high_contrast,
+        reduce_motion: interface.reduce_motion,
+        keymap_osd: interface.keymap_osd,
+        copy_osd: settings.linux.copy_osd,
+        layer_hint: interface.layer_hint,
+        locale: interface.locale,
         default_hold_timeout_ms: timing.hold_ms,
         default_long_hold_timeout_ms: timing.long_hold_ms,
         tap_decision: timing.tap_decision,
@@ -558,8 +504,9 @@ fn from_doc(mut doc: ConfigDoc) -> Result<AppSettings, String> {
                 .game_mode
                 .processes
                 .into_iter()
-                .map(|process| GameModeProcessMatcher {
-                    id: process.id.unwrap_or_default(),
+                .enumerate()
+                .map(|(index, process)| GameModeProcessMatcher {
+                    id: format!("process-{}", index + 1),
                     name: process.name.trim().into(),
                     only_active_window: process.foreground_only,
                     is_blacklist: process.exclude,
@@ -585,13 +532,14 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
             experimental: settings.in_development,
             launch_at_login: settings.launch_on_startup,
             start_mapper_on_launch: settings.start_mapper_on_launch,
-            appearance: settings.appearance,
-            high_contrast: settings.high_contrast,
-            reduce_motion: settings.reduce_motion,
-            keymap_osd: settings.keymap_osd,
-            copy_osd: settings.copy_osd,
-            layer_hint: settings.layer_hint,
-            locale: settings.locale,
+            interface: InterfaceDoc {
+                appearance: settings.appearance,
+                high_contrast: settings.high_contrast,
+                reduce_motion: settings.reduce_motion,
+                locale: settings.locale,
+                keymap_osd: settings.keymap_osd,
+                layer_hint: settings.layer_hint,
+            },
             devices: DevicesDoc {
                 keyboards: filled(&settings.input_device_path).into_iter().collect(),
                 mice: filled(&settings.input_mouse_device_path)
@@ -617,7 +565,6 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
                         .auto_rules
                         .iter()
                         .map(|rule| AutoRuleDoc {
-                            id: Some(rule.id.clone()).filter(|id| !id.is_empty()),
                             keymap: filled(&rule.keymap_id),
                             enabled: rule.enabled,
                             when: WhenDoc::from_set(&rule.conditions),
@@ -645,7 +592,6 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
                     .process_matchers
                     .iter()
                     .map(|process| ProcessDoc {
-                        id: Some(process.id.clone()).filter(|id| !id.is_empty()),
                         name: process.name.clone(),
                         foreground_only: process.only_active_window,
                         exclude: process.is_blacklist,
@@ -654,6 +600,7 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
             },
             linux: LinuxDoc {
                 text_mode: settings.linux_wayland_text_mode,
+                copy_osd: settings.copy_osd,
                 paste_shortcut: settings.linux_paste_shortcut,
                 terminal_paste_shortcut: TerminalPasteDoc(settings.linux_terminal_paste_shortcut),
                 ydotool_path: Some(settings.linux_ydotool_path.clone())
@@ -680,18 +627,12 @@ mod tests {
             "auto", "en", "ru", "de", "fr", "es", "it", "pt", "pl", "tr", "uk", "cs", "hu", "ro",
             "el", "hr", "ka", "kk", "zh-Hans", "zh-Hant", "ja", "ko",
         ] {
-            let settings = parse(&config(json!({"locale": code}))).unwrap();
+            let settings = parse(&config(json!({"interface": {"locale": code}}))).unwrap();
             assert_eq!(settings.locale.as_str(), code);
             let saved = serialize(&settings);
             let raw: Value = serde_json::from_str(&saved).unwrap();
             assert_eq!(raw["version"], CONFIG_SCHEMA_VERSION);
-            // The default is not written.
-            let expected = if code == "auto" {
-                Value::Null
-            } else {
-                json!(code)
-            };
-            assert_eq!(raw["settings"]["locale"], expected);
+            assert_eq!(raw["settings"]["interface"]["locale"], json!(code));
             assert_eq!(parse(&saved).unwrap().locale, settings.locale);
         }
     }
@@ -711,67 +652,62 @@ mod tests {
     }
 
     #[test]
-    fn experimental_flag_is_optional_and_removed_when_disabled() {
+    fn experimental_flag_is_optional() {
         let mut settings = parse(&config(json!({}))).unwrap();
         assert!(!settings.in_development);
-        let raw: Value = serde_json::from_str(&serialize(&settings)).unwrap();
-        assert!(raw.get("settings").is_none());
         settings.in_development = true;
-        let saved = serialize(&settings);
-        assert!(parse(&saved).unwrap().in_development);
-        settings.in_development = false;
-        let raw: Value = serde_json::from_str(&serialize(&settings)).unwrap();
-        assert!(raw.get("settings").is_none());
+        assert!(parse(&serialize(&settings)).unwrap().in_development);
     }
 
+    /// Defaults are written, so a later change of a default does not change
+    /// what an existing installation does.
     #[test]
-    fn only_values_differing_from_defaults_are_written() {
+    fn defaults_are_written() {
         let raw: Value = serde_json::from_str(&serialize(&AppSettings::default())).unwrap();
-        assert_eq!(raw, json!({"version": CONFIG_SCHEMA_VERSION}));
-        let settings = AppSettings {
-            default_hold_timeout_ms: 300,
-            linux_terminal_paste_shortcut: None,
-            ..AppSettings::default()
-        };
-        let text = serialize(&settings);
-        let raw: Value = serde_json::from_str(&text).unwrap();
+        let settings = &raw["settings"];
+        assert_eq!(settings["experimental"], false);
+        assert_eq!(settings["interface"]["appearance"], "system");
+        assert_eq!(settings["interface"]["locale"], "auto");
+        assert_eq!(settings["devices"], json!({"keyboards": [], "mice": []}));
+        assert_eq!(settings["timing"]["holdMs"], 200);
+        assert_eq!(settings["timing"]["tapDecision"], "permissiveHold");
+        assert_eq!(settings["keymaps"]["auto"]["fallback"], Value::Null);
+        assert_eq!(settings["gameMode"]["detectors"]["fullscreen"], false);
+        assert_eq!(settings["linux"]["pasteShortcut"], "Ctrl+KeyV");
+        assert_eq!(settings["linux"]["terminalPasteShortcut"], "Shift+Insert");
+        assert_eq!(settings["linux"]["copyOsd"], false);
+        assert!(settings["linux"].get("ydotoolPath").is_none());
+        assert!(settings["keymaps"].get("manualKeymap").is_none());
         assert_eq!(
-            raw,
-            json!({"version": CONFIG_SCHEMA_VERSION, "settings": {
-                "timing": {"holdMs": 300},
-                "linux": {"terminalPasteShortcut": "sameAsPaste"},
-            }})
+            parse(&serialize(&AppSettings::default())).unwrap(),
+            AppSettings::default()
         );
-        assert_eq!(parse(&text).unwrap(), settings);
     }
 
     #[test]
-    fn ids_are_unique_and_generated_without_collisions() {
-        for field in ["autoRules", "processes"] {
-            let items = if field == "autoRules" {
-                serde_json::json!([{"id":"x","keymap":null},{"id":"x","keymap":null}])
-            } else {
-                serde_json::json!([{"id":"x","name":"a"},{"id":"x","name":"b"}])
-            };
-            let settings = if field == "autoRules" {
-                serde_json::json!({"keymaps":{"auto":{"rules":items}}})
-            } else {
-                serde_json::json!({"gameMode":{field:items}})
-            };
-            assert!(
-                parse(&config(settings))
-                    .unwrap_err()
-                    .contains("duplicate id")
-            );
-        }
-        let settings = parse(&config(serde_json::json!({
-            "keymaps":{"auto":{"rules":[{"keymap":null}, {"id":"rule-1","keymap":null}]}},
-            "gameMode":{"processes":[{"name":"a"},{"id":"process-1","name":"b"}]}
+    fn auto_rules_and_processes_store_no_ids() {
+        assert!(
+            parse(&config(
+                json!({"keymaps":{"auto":{"rules":[{"id":"x","keymap":null}]}}})
+            ))
+            .is_err()
+        );
+        assert!(
+            parse(&config(
+                json!({"gameMode":{"processes":[{"id":"x","name":"a"}]}})
+            ))
+            .is_err()
+        );
+        let settings = parse(&config(json!({
+            "keymaps":{"auto":{"rules":[{"keymap":null}, {"keymap":"user:A"}]}},
+            "gameMode":{"processes":[{"name":"a"},{"name":"b"}]}
         })))
         .unwrap();
-        assert_eq!(settings.auto_rules[0].id, "rule-2");
-        assert_eq!(settings.game_mode.process_matchers[0].id, "process-2");
-        assert_eq!(parse(&serialize(&settings)).unwrap(), settings);
+        assert_eq!(settings.auto_rules[1].id, "rule-2");
+        assert_eq!(settings.game_mode.process_matchers[1].id, "process-2");
+        let saved = serialize(&settings);
+        assert!(!saved.contains("\"id\""));
+        assert_eq!(parse(&saved).unwrap(), settings);
     }
 
     #[test]
@@ -812,7 +748,7 @@ mod tests {
             ("off", AccessibilityChoice::Off),
         ] {
             let settings = parse(&config(
-                json!({"highContrast": value, "reduceMotion": value}),
+                json!({"interface": {"highContrast": value, "reduceMotion": value}}),
             ))
             .unwrap();
             assert_eq!(settings.high_contrast, choice);
@@ -820,8 +756,8 @@ mod tests {
             assert_eq!(parse(&serialize(&settings)).unwrap(), settings);
         }
         for value in [json!(true), json!(false)] {
-            assert!(parse(&config(json!({"highContrast": value}))).is_err());
-            assert!(parse(&config(json!({"reduceMotion": value}))).is_err());
+            assert!(parse(&config(json!({"interface": {"highContrast": value}}))).is_err());
+            assert!(parse(&config(json!({"interface": {"reduceMotion": value}}))).is_err());
         }
     }
 
@@ -833,13 +769,14 @@ mod tests {
                 TextMode::LibeiWithClipboardFallback,
             ),
             ("libeiOnly", TextMode::LibeiOnly),
-            ("clipboard", TextMode::Clipboard),
+            ("clipboardPaste", TextMode::Clipboard),
+            ("portalKeycode", TextMode::Keycode),
         ] {
             let settings = parse(&config(json!({"linux": {"textMode": value}}))).unwrap();
             assert_eq!(settings.linux_wayland_text_mode, mode);
             assert_eq!(parse(&serialize(&settings)).unwrap(), settings);
         }
-        for value in ["libei", "libeiPure"] {
+        for value in ["libei", "libeiPure", "keycode", "clipboard"] {
             assert!(parse(&config(json!({"linux": {"textMode": value}}))).is_err());
         }
     }
@@ -873,10 +810,12 @@ mod tests {
     #[test]
     fn invalid_or_unknown_values_are_errors() {
         for settings in [
-            json!({"appearance": "Dark"}),
-            json!({"locale": "de-DE"}),
-            json!({"locale": "en-US"}),
-            json!({"appearance": "eink"}),
+            json!({"interface": {"appearance": "Dark"}}),
+            json!({"interface": {"locale": "de-DE"}}),
+            json!({"interface": {"locale": "en-US"}}),
+            json!({"interface": {"appearance": "eink"}}),
+            json!({"appearance": "dark"}),
+            json!({"copyOsd": true}),
             json!({"linux": {"textMode": "libei-pure"}}),
             json!({"linux": {"pasteShortcut": "shift-insert"}}),
             json!({"linux": {"pasteShortcut": "Alt+KeyV"}}),
@@ -892,7 +831,7 @@ mod tests {
             json!({"keymaps": {"auto": {"rules": [{"when": {"gameMode": "on"}}]}}}),
             json!({"keymaps": {"auto": {"rules": [{"keymap": ""}]}}}),
             json!({"keymaps": {"auto": {"fallback": " "}}}),
-            json!({"keymaps": {"auto": {"rules": [{"id": "a b", "keymap": null}]}}}),
+            json!({"keymaps": {"auto": {"rules": [{"id": "a", "keymap": null}]}}}),
             json!({"keymaps": {"active": "user:A"}}),
             json!({"keyboardDevice": "/dev/input/event1"}),
             json!({"devices": {"keyboards": ["/dev/a", "/dev/b"]}}),
@@ -925,7 +864,7 @@ mod tests {
             manual_keymap_id: Some("user:Other".into()),
             keymap_order: vec!["user:Other".into(), "user:Main".into()],
             auto_rules: vec![AutoRule {
-                id: "a".into(),
+                id: "rule-1".into(),
                 keymap_id: None,
                 enabled: false,
                 conditions: super::super::model::KeymapConditionSet {
@@ -940,7 +879,7 @@ mod tests {
             game_mode: GameModeSettings {
                 use_fullscreen: true,
                 process_matchers: vec![GameModeProcessMatcher {
-                    id: "p".into(),
+                    id: "process-1".into(),
                     name: "steam".into(),
                     only_active_window: false,
                     is_blacklist: true,
@@ -960,9 +899,10 @@ mod tests {
         assert_eq!(raw["version"], CONFIG_SCHEMA_VERSION);
         assert_eq!(raw["settings"]["timing"]["holdMs"], 180);
         assert_eq!(raw["settings"]["linux"]["pasteShortcut"], "Ctrl+Shift+KeyV");
-        assert_eq!(raw["settings"]["appearance"], "eInk");
-        assert_eq!(raw["settings"]["locale"], "ru");
-        assert_eq!(raw["settings"]["linux"]["textMode"], "clipboard");
+        assert_eq!(raw["settings"]["interface"]["appearance"], "eInk");
+        assert_eq!(raw["settings"]["interface"]["locale"], "ru");
+        assert_eq!(raw["settings"]["linux"]["copyOsd"], true);
+        assert_eq!(raw["settings"]["linux"]["textMode"], "clipboardPaste");
         assert_eq!(
             raw["settings"]["linux"]["terminalPasteShortcut"],
             "sameAsPaste"
@@ -1066,7 +1006,7 @@ mod tests {
         assert_eq!(settings.linux_xdotool_path, "/opt/xdotool");
         assert_eq!(settings.linux_ydotool_path, "");
         let raw: Value = serde_json::from_str(&serialize(&AppSettings::default())).unwrap();
-        assert!(raw.get("settings").is_none());
+        assert!(raw["settings"]["linux"].get("xdotoolPath").is_none());
     }
 
     #[test]
@@ -1095,10 +1035,10 @@ mod tests {
     }
 
     #[test]
-    fn auto_rules_without_ids_get_deterministic_ids() {
+    fn auto_rules_get_ids_by_position() {
         let settings = parse(&config(json!({"keymaps": {"auto": {
             "rules": [
-                {"id": "a", "keymap": "user:A", "when": {"windows": ["blender"]}},
+                {"keymap": "user:A", "when": {"windows": ["blender"]}},
                 {"keymap": null, "enabled": false},
             ],
             "fallback": "user:B",
@@ -1109,7 +1049,7 @@ mod tests {
             settings.auto_rules[0].conditions.window_patterns,
             ["blender"]
         );
-        assert_eq!(settings.auto_rules[1].id, "rule-1");
+        assert_eq!(settings.auto_rules[1].id, "rule-2");
         assert_eq!(settings.auto_rules[1].keymap_id, None);
         assert!(!settings.auto_rules[1].enabled);
         assert!(settings.auto_rules[1].conditions.is_empty());

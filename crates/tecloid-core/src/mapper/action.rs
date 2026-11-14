@@ -45,7 +45,6 @@ pub fn explicit_pause(action: &str) -> Option<Duration> {
 /// Duration of a `pause:` payload: plain digits within
 /// [`crate::config::timing::PAUSE`], the same rule the macro editor applies.
 pub fn pause_duration(ms: &str) -> Option<Duration> {
-    let ms = ms.trim();
     if ms.is_empty() || !ms.bytes().all(|c| c.is_ascii_digit()) {
         return None;
     }
@@ -118,7 +117,8 @@ mod tests {
 
     #[test]
     fn explicit_text_preserves_payload_whitespace() {
-        assert_eq!(explicit_text("  text:hello  "), Some("hello  ".into()));
+        assert_eq!(explicit_text("text:hello  "), Some("hello  ".into()));
+        assert_eq!(explicit_text("  text:hello"), None);
         for text in [" ", "   ", "  a  b  ", "a\nb\n", "\t\n", "Привет 👋"] {
             assert_eq!(explicit_text(&format!("text:{text}")), Some(text.into()));
         }
@@ -128,10 +128,10 @@ mod tests {
     fn pause_follows_the_macro_editor_range() {
         assert_eq!(explicit_pause("pause:1"), Some(Duration::from_millis(1)));
         assert_eq!(
-            explicit_pause(" pause:10000 "),
+            explicit_pause("pause:10000"),
             Some(Duration::from_millis(10_000))
         );
-        for raw in ["pause:0", "pause:10001", "pause:+5", "pause:", "pause:-1"] {
+        for raw in [" pause:5", "pause:5 ", "pause:0", "pause:10001", "pause:+5", "pause:", "pause:-1"] {
             assert_eq!(explicit_pause(raw), None, "{raw}");
         }
     }

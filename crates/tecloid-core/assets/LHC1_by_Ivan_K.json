@@ -173,8 +173,14 @@
     {
       "id": "desktop",
       "keys": {
-        "Tab": { "action": "Alt+Tab", "holdModifiers": true },
-        "CapsLock": { "action": "Meta+Tab", "holdModifiers": true },
+        "Tab": {
+          "action": "Alt+Tab",
+          "holdModifiers": true
+        },
+        "CapsLock": {
+          "action": "Meta+Tab",
+          "holdModifiers": true
+        },
         "Backspace": "sys:turnOffScreen",
         "MetaLeft": "Ctrl+Alt+Shift+KeyV",
         "ShiftLeft": "sys:switchToKeyboardLayout4",
@@ -192,7 +198,7 @@
         "KeyW": "Ctrl+KeyA",
         "KeyE": "Ctrl+Alt+Shift+KeyS",
         "KeyR": "Ctrl+Alt+Shift+KeyW",
-        "KeyT": "sys:toggleWindowKeepAbove",
+        "KeyT": "sys:keepWindowAbove",
         "KeyY": "sys:closeWindow",
         "KeyU": "sys:maximizeWindow",
         "KeyI": "sys:minimizeWindow",
@@ -302,7 +308,6 @@
   ],
   "quickMenuPages": [
     {
-      "id": "snippets",
       "name": "Snippets",
       "cells": {
         "KeyQ": {
@@ -368,7 +373,6 @@
       }
     },
     {
-      "id": "system",
       "name": "System",
       "cells": {
         "KeyQ": {
@@ -436,7 +440,6 @@
   ],
   "emojiMenuPages": [
     {
-      "id": "text",
       "name": "Texts and lists",
       "cells": {
         "KeyQ": "☕",
@@ -457,7 +460,6 @@
       }
     },
     {
-      "id": "chat",
       "name": "Chat",
       "cells": {
         "KeyQ": "🔥",

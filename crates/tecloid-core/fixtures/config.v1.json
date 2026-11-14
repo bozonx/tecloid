@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "$schema": "https://raw.githubusercontent.com/bozonx/tecloid/main/schemas/config.v1.schema.json",
+  "settings": {
+    "experimental": true,
+    "launchAtLogin": true,
+    "startMapperOnLaunch": true,
+    "interface": {
+      "appearance": "eInk",
+      "highContrast": "on",
+      "reduceMotion": "off",
+      "locale": "zh-Hant",
+      "keymapOsd": true,
+      "layerHint": true
+    },
+    "devices": {
+      "keyboards": ["/dev/input/by-id/usb-Keyboard-event-kbd"],
+      "mice": ["/dev/input/by-id/usb-Mouse-event-mouse"]
+    },
+    "timing": {
+      "holdMs": 180,
+      "longHoldMs": 1200,
+      "doubleTapMs": 220,
+      "chordMs": 60,
+      "tapDecision": "holdOnOtherKeyPress",
+      "macroStepPauseMs": 0,
+      "macroModifierDelayMs": 0,
+      "macroTimeoutMs": 20000
+    },
+    "keymaps": {
+      "mode": "auto",
+      "manualKeymap": "user:Main",
+      "order": ["user:Main", "user:Blender"],
+      "auto": {
+        "rules": [
+          { "keymap": null, "when": { "gameMode": "on" } },
+          {
+            "keymap": "user:Blender",
+            "enabled": false,
+            "when": {
+              "windows": ["org.blender.Blender", "steam_app_*"],
+              "excludeWindows": ["title:Preferences"],
+              "keyboardLayouts": ["us"]
+            }
+          }
+        ],
+        "fallback": "user:Main"
+      }
+    },
+    "commandsEnabled": true,
+    "gameMode": {
+      "control": "off",
+      "detectors": {
+        "gamemoded": false,
+        "fullscreen": true,
+        "steam": false,
+        "lutris": false,
+        "heroic": false,
+        "umu": false,
+        "gamescope": false,
+        "appCategory": true,
+        "gameBar": true
+      },
+      "foregroundOnly": false,
+      "processes": [
+        { "name": "factorio" },
+        { "name": "obs", "foregroundOnly": false, "exclude": true }
+      ]
+    },
+    "linux": {
+      "textMode": "clipboardPaste",
+      "copyOsd": true,
+      "pasteShortcut": "Shift+Insert",
+      "terminalPasteShortcut": "sameAsPaste",
+      "ydotoolPath": "/usr/local/bin/ydotool",
+      "xdotoolPath": "/usr/local/bin/xdotool"
+    }
+  }
+}

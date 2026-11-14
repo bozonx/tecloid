@@ -300,7 +300,7 @@ pub const CATEGORIES: &[&[&str]] = &[
         "EjectCloseCD",
         "BassBoost",
         "VideoNext",
-        "VideoPrev",
+        "VideoPrevious",
         "CameraFocus",
         "CameraZoomIn",
         "CameraZoomOut",
@@ -321,13 +321,34 @@ pub fn canonical_key(value: &str) -> Option<&'static str> {
         .find(|key| key.eq_ignore_ascii_case(value))
 }
 
-/// Normalize only a complete key chord; callers retain other action payloads.
+/// Canonical spelling of a complete key chord: canonical key names,
+/// modifiers before the key in the order `Ctrl`, `Alt`, `Shift`, `Meta`,
+/// left modifiers by their generic name (`ControlLeft+KeyC` → `Ctrl+KeyC`).
+/// `None` when `value` is not a chord; callers retain other payloads.
 pub fn normalize_chord(value: &str) -> Option<String> {
-    value
+    let mut keys = value
         .split('+')
         .map(|part| canonical_key(part.trim()))
-        .collect::<Option<Vec<_>>>()
-        .map(|keys| keys.join("+"))
+        .collect::<Option<Vec<_>>>()?;
+    let key = keys.pop()?;
+    let rank = |modifier: &str| {
+        MODIFIER_ORDER
+            .iter()
+            .position(|name| modifier_name(modifier).unwrap_or(modifier) == *name)
+            .unwrap_or(MODIFIER_ORDER.len())
+    };
+    for modifier in &mut keys {
+        *modifier = match *modifier {
+            "ControlLeft" => "Ctrl",
+            "AltLeft" => "Alt",
+            "ShiftLeft" => "Shift",
+            "MetaLeft" => "Meta",
+            other => other,
+        };
+    }
+    keys.sort_by_key(|modifier| rank(modifier));
+    keys.push(key);
+    Some(keys.join("+"))
 }
 
 pub fn valid_key(value: &str) -> bool {
@@ -445,6 +466,14 @@ mod tests {
         );
         assert!(!valid_trigger("ctrl+controlleft"));
         assert!(normalize_chord("text:Hello").is_none());
+        assert_eq!(
+            normalize_chord("shiftleft+ControlRight+keyv").as_deref(),
+            Some("ControlRight+Shift+KeyV")
+        );
+        assert_eq!(
+            normalize_chord("ControlLeft").as_deref(),
+            Some("ControlLeft")
+        );
     }
 
     #[test]

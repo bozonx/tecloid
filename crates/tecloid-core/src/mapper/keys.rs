@@ -312,7 +312,7 @@ pub fn code_to_key(code: &str) -> Option<KeyCode> {
         "EjectCloseCD" => KeyCode::KEY_EJECTCLOSECD,
         "BassBoost" => KeyCode::KEY_BASSBOOST,
         "VideoNext" => KeyCode::KEY_VIDEO_NEXT,
-        "VideoPrev" => KeyCode::KEY_VIDEO_PREV,
+        "VideoPrevious" => KeyCode::KEY_VIDEO_PREV,
         "CameraFocus" => KeyCode::KEY_CAMERA_FOCUS,
         "CameraZoomIn" => KeyCode::KEY_CAMERA_ZOOMIN,
         "CameraZoomOut" => KeyCode::KEY_CAMERA_ZOOMOUT,

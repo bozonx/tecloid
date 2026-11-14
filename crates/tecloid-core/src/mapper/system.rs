@@ -98,11 +98,11 @@ pub fn resolve(name: &str) -> Option<SystemAction> {
     #[cfg(target_os = "linux")]
     {
         use crate::platform::linux::detect;
-        resolve_for_desktop(name.trim(), &detect().desktop)
+        resolve_for_desktop(name, &detect().desktop)
     }
     #[cfg(target_os = "windows")]
     {
-        super::windows::system::resolve(name.trim()).map(SystemAction::Windows)
+        super::windows::system::resolve(name).map(SystemAction::Windows)
     }
 }
 
@@ -111,7 +111,7 @@ pub fn resolve(name: &str) -> Option<SystemAction> {
 /// another desktop or OS; `resolve()` decides what runs there.
 pub fn is_known(name: &str) -> bool {
     // One catalog for the mapper, the editor and the action picker.
-    crate::config::actions::system_action_name(name.trim()).is_some()
+    crate::config::actions::system_action_name(name).is_some()
 }
 
 pub fn resolve_app(name: &str) -> Option<SystemAction> {
@@ -147,7 +147,7 @@ pub fn resolve_desktop_entry(id: &str) -> Option<SystemAction> {
     #[cfg(target_os = "linux")]
     {
         use crate::platform::desktop_entries::{self, Launch};
-        let (app, action) = crate::config::actions::desktop_entry_parts(id.trim())?;
+        let (app, action) = crate::config::actions::desktop_entry_parts(id)?;
         Some(match desktop_entries::resolve(app, action)? {
             Launch::Activate {
                 bus_name,
@@ -196,7 +196,7 @@ pub(crate) fn kde_runs_as_system_action(component: &str, name: &str) -> bool {
 
 #[cfg(target_os = "linux")]
 fn kde_shortcut(id: &str) -> Option<SystemAction> {
-    let (component, shortcut) = crate::config::actions::kde_shortcut_parts(id.trim())?;
+    let (component, shortcut) = crate::config::actions::kde_shortcut_parts(id)?;
     Some(kde::invoke_shortcut(component, shortcut))
 }
 
@@ -205,7 +205,6 @@ fn resolve_for_desktop(
     name: &str,
     desktop: &crate::platform::linux::Desktop,
 ) -> Option<SystemAction> {
-    let name = name.trim();
     if !is_known(name) {
         return None;
     }
@@ -237,7 +236,7 @@ mod kde {
         ("minimizeWindow", "kwin", "Window Minimize"),
         ("maximizeWindow", "kwin", "Window Maximize"),
         ("maximizeWindowVertically", "kwin", "Window Maximize Vertical"),
-        ("toggleWindowKeepAbove", "kwin", "Window Above Other Windows"),
+        ("keepWindowAbove", "kwin", "Window Above Other Windows"),
         ("moveWindowToNextDesktop", "kwin", "Window to Next Desktop"),
         ("moveWindowToPreviousDesktop", "kwin", "Window to Previous Desktop"),
         ("moveWindowToNextScreen", "kwin", "Window to Next Screen"),
@@ -263,7 +262,7 @@ mod kde {
     pub fn resolve(name: &str) -> Option<SystemAction> {
         let numbered = |prefix: &str| {
             name.strip_prefix(prefix)
-                .and_then(|rest| rest.parse::<u32>().ok())
+                .and_then(crate::config::actions::slot_number)
                 .filter(|n| (1..=SYSTEM_NUMBERED_COUNT).contains(n))
         };
         // KWin registers both families as global shortcuts; the same path

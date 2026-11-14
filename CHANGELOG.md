@@ -22,6 +22,9 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ### Changed
 
+- Stabilized the file formats before 0.5.0 (`config.json` and keymaps stay at version 1; from 0.5.0 on they only gain optional fields and values). `config.json` is now written in full, defaults included, so a later default change does not alter existing installations. Interface options moved to `settings.interface` (`appearance`, `highContrast`, `reduceMotion`, `locale`, `keymapOsd`, `layerHint`), `copyOsd` to `settings.linux`. Text modes `keycode` and `clipboard` are now `portalKeycode` and `clipboardPaste`. Rules, menu pages, auto rules and game-mode processes no longer store an `id`. `sys:toggleWindowKeepAbove` is `sys:keepWindowAbove`, key `VideoPrev` is `VideoPrevious`. New layers get ids from their names, new commands `c1`, `c2`, …. Old names are rejected; no migration.
+- Stricter values: key and shortcut actions are stored canonically (case, modifier order, `Ctrl` for `ControlLeft`); blanks around action prefixes and ids, numbers with a sign or leading zero (`switchToDesktop03`) and `null` in fields where it has no meaning are errors. Window patterns with an unknown `word:` prefix are reserved and reported by diagnostics.
+
 - Releases are Linux-only for now: the Windows portable ZIP is no longer attached. The Linux archive now includes `CHANGELOG.md`.
 - Mapper: modifiers still held after a shortcut-style chord act as modifiers again, so Shift held across "Ё" (Shift+Slash) capitalises the next letter and a second Shift+Slash types "Ё" again instead of "ё".
 - Mapper: a rule whose hold does nothing (hold `null`, no layer, double or long press) fires its tap on the press, so a slow press still runs it instead of doing nothing.

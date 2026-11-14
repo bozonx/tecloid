@@ -16,8 +16,10 @@ system tray.
 - Primary and only accepted target: **KDE Plasma 6 on Wayland**. GNOME Wayland
   (Shell extension) is experimental, Windows has a mapper backend, macOS only the
   shell. Matrix: [`docs/platforms.md`](docs/platforms.md).
-- **Tecloid is released software.** Users have `config.json` files and keymaps
-  on disk; never break them (see [Compatibility contract](#compatibility-contract)).
+- **Formats are frozen from 0.5.0 on.** Users of 0.5.0 and later have
+  `config.json` files and keymaps on disk; never break them (see
+  [Compatibility contract](#compatibility-contract)). 0.4.0 had no users; its
+  format is not supported.
 
 Stack: Rust edition 2024 (MSRV 1.92, toolchain in `rust-toolchain.toml`), Cargo
 workspace, Slint **=1.18.1** with winit 0.30, `ksni`, `evdev`/`uinput`, `zbus`,
@@ -118,7 +120,10 @@ Current format versions: **`config.json` = 1, keymap = 1**
   a real old file. Storage keeps `<file>.v<N>.bak` before overwriting. No
   fallbacks for files without `version`.
 - **Action ids are data in user keymaps:** `sys:`, `tecloid:`, `builtin:` ids and
-  key names are never renamed or removed; add new ones instead.
+  key names are never renamed or removed; add new ones instead. They are
+  listed in `schemas/names.v1.txt` (test `stored_names_are_never_removed`);
+  the fixtures `crates/tecloid-core/fixtures/*.v1.json` are never edited.
+- `config.json` is written in full, defaults included.
 - **Defaults that affect input** (`settings.timing`, tap decision) change only as
   a deliberate, CHANGELOG-documented behaviour change.
 - **Never lose user data:** a file that failed to parse is not overwritten;

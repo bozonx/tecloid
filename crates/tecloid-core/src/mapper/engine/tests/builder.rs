@@ -159,7 +159,7 @@ fn trigger_chord_buffered_long_hold_resolves_at_release_timestamp() {
 fn remote_and_bound_actions_resolve_the_same_way() {
     let cfg: MapperConfig = serde_json::from_value(serde_json::json!({
         "macros": [{"id": "m", "steps": [{"action": "KeyA"}]}],
-        "rules": [{"key": "KeyQ", "tapAction": "  text: hi "}]
+        "rules": [{"key": "KeyQ", "tapAction": "text: hi "}]
     }))
     .unwrap();
     let mut engine = Engine::new(&cfg);
@@ -167,7 +167,7 @@ fn remote_and_bound_actions_resolve_the_same_way() {
     let mut out = Vec::new();
     engine.handle_key_event(KeyCode::KEY_Q, true, now, &mut out);
     engine.handle_key_event(KeyCode::KEY_Q, false, now, &mut out);
-    engine.execute_remote("  text: hi ", &mut out);
+    engine.execute_remote("text: hi ", &mut out);
     let texts: Vec<_> = out
         .iter()
         .filter_map(|item| match item {

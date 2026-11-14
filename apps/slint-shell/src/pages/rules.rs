@@ -692,7 +692,7 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
             }
         };
         let Some(index) = editable(&ui, &doc) else { return; };
-        let id = ids::generate("layer-");
+        let id = doc.read().new_layer_id(&name);
         let result = change(&ui, &doc, true, |keymap| {
             keymap.layers.push(Layer {
                 id: id.clone(),

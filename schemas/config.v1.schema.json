@@ -45,14 +45,8 @@
       "additionalProperties": false,
       "properties": {
         "enabled": {
+          "default": true,
           "type": "boolean"
-        },
-        "id": {
-          "pattern": "^[A-Za-z0-9_-]{1,64}$",
-          "type": [
-            "string",
-            "null"
-          ]
         },
         "keymap": {
           "description": "Required; an explicit `null` turns the mapper off, so a forgotten\nfield is an error rather than a silent \"off\".",
@@ -63,7 +57,7 @@
         },
         "when": {
           "$ref": "#/$defs/WhenDoc",
-          "description": "Empty conditions always match."
+          "description": "Empty conditions always match; no conditions are not written."
         }
       },
       "type": "object"
@@ -116,12 +110,14 @@
       "description": "Devices the mapper grabs, as stable paths such as `/dev/input/by-id/…`\non Linux. Lists leave room for several devices; this version grabs at\nmost one of each kind.",
       "properties": {
         "keyboards": {
+          "default": [],
           "items": {
             "type": "string"
           },
           "type": "array"
         },
         "mice": {
+          "default": [],
           "items": {
             "type": "string"
           },
@@ -183,6 +179,39 @@
       },
       "type": "object"
     },
+    "InterfaceDoc": {
+      "additionalProperties": false,
+      "description": "Look of the settings window and on-screen notices.",
+      "properties": {
+        "appearance": {
+          "$ref": "#/$defs/Appearance",
+          "default": "system"
+        },
+        "highContrast": {
+          "$ref": "#/$defs/AccessibilityChoice",
+          "default": "system"
+        },
+        "keymapOsd": {
+          "default": false,
+          "description": "On-screen notice when the active keymap changes.",
+          "type": "boolean"
+        },
+        "layerHint": {
+          "default": false,
+          "description": "While a layer is held, an overlay with its keys.",
+          "type": "boolean"
+        },
+        "locale": {
+          "$ref": "#/$defs/LocalePreference",
+          "default": "auto"
+        },
+        "reduceMotion": {
+          "$ref": "#/$defs/AccessibilityChoice",
+          "default": "system"
+        }
+      },
+      "type": "object"
+    },
     "KeymapMode": {
       "enum": [
         "manual",
@@ -202,11 +231,8 @@
           }
         },
         "manualKeymap": {
-          "description": "Keymap used in manual mode.",
-          "type": [
-            "string",
-            "null"
-          ]
+          "description": "Keymap used in manual mode; missing: none chosen yet.",
+          "type": "string"
         },
         "mode": {
           "$ref": "#/$defs/KeymapMode",
@@ -226,6 +252,11 @@
     "LinuxDoc": {
       "additionalProperties": false,
       "properties": {
+        "copyOsd": {
+          "default": false,
+          "description": "On-screen notice when Tecloid sends a copy shortcut.",
+          "type": "boolean"
+        },
         "pasteShortcut": {
           "$ref": "#/$defs/PasteShortcut",
           "default": "Ctrl+KeyV",
@@ -294,17 +325,12 @@
       "description": "A process that marks game mode, or with `exclude` one that never does.",
       "properties": {
         "exclude": {
+          "default": false,
           "type": "boolean"
         },
         "foregroundOnly": {
+          "default": true,
           "type": "boolean"
-        },
-        "id": {
-          "pattern": "^[A-Za-z0-9_-]{1,64}$",
-          "type": [
-            "string",
-            "null"
-          ]
         },
         "name": {
           "type": "string"
@@ -318,20 +344,16 @@
     "SettingsDoc": {
       "additionalProperties": false,
       "properties": {
-        "appearance": {
-          "$ref": "#/$defs/Appearance",
-          "default": "system"
-        },
         "commandsEnabled": {
           "default": false,
           "type": "boolean"
         },
-        "copyOsd": {
-          "default": false,
-          "type": "boolean"
-        },
         "devices": {
-          "$ref": "#/$defs/DevicesDoc"
+          "$ref": "#/$defs/DevicesDoc",
+          "default": {
+            "keyboards": [],
+            "mice": []
+          }
         },
         "experimental": {
           "default": false,
@@ -357,13 +379,16 @@
             "processes": []
           }
         },
-        "highContrast": {
-          "$ref": "#/$defs/AccessibilityChoice",
-          "default": "system"
-        },
-        "keymapOsd": {
-          "default": false,
-          "type": "boolean"
+        "interface": {
+          "$ref": "#/$defs/InterfaceDoc",
+          "default": {
+            "appearance": "system",
+            "highContrast": "system",
+            "keymapOsd": false,
+            "layerHint": false,
+            "locale": "auto",
+            "reduceMotion": "system"
+          }
         },
         "keymaps": {
           "$ref": "#/$defs/KeymapsDoc",
@@ -380,25 +405,14 @@
           "default": false,
           "type": "boolean"
         },
-        "layerHint": {
-          "default": false,
-          "type": "boolean"
-        },
         "linux": {
           "$ref": "#/$defs/LinuxDoc",
           "default": {
+            "copyOsd": false,
             "pasteShortcut": "Ctrl+KeyV",
             "terminalPasteShortcut": "Shift+Insert",
             "textMode": "libeiWithClipboardFallback"
           }
-        },
-        "locale": {
-          "$ref": "#/$defs/LocalePreference",
-          "default": "auto"
-        },
-        "reduceMotion": {
-          "$ref": "#/$defs/AccessibilityChoice",
-          "default": "system"
         },
         "startMapperOnLaunch": {
           "default": false,
@@ -466,13 +480,13 @@
           "type": "string"
         },
         {
-          "const": "keycode",
+          "const": "portalKeycode",
           "description": "RemoteDesktop portal `NotifyKeyboardKeycode`.",
           "type": "string"
         },
         {
-          "const": "clipboard",
-          "description": "MIME-preserving clipboard ownership and Shift+Insert through the portal.",
+          "const": "clipboardPaste",
+          "description": "MIME-preserving clipboard ownership and the paste shortcut.",
           "type": "string"
         }
       ]
@@ -550,14 +564,7 @@
           "type": "array"
         },
         "gameMode": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/GameModeCondition"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "$ref": "#/$defs/GameModeCondition"
         },
         "keyboardLayouts": {
           "description": "Short ids of the system keyboard layout, e.g. `us`.",
@@ -587,9 +594,11 @@
     "settings": {
       "$ref": "#/$defs/SettingsDoc",
       "default": {
-        "appearance": "system",
         "commandsEnabled": false,
-        "copyOsd": false,
+        "devices": {
+          "keyboards": [],
+          "mice": []
+        },
         "experimental": false,
         "gameMode": {
           "control": "auto",
@@ -607,8 +616,14 @@
           "foregroundOnly": true,
           "processes": []
         },
-        "highContrast": "system",
-        "keymapOsd": false,
+        "interface": {
+          "appearance": "system",
+          "highContrast": "system",
+          "keymapOsd": false,
+          "layerHint": false,
+          "locale": "auto",
+          "reduceMotion": "system"
+        },
         "keymaps": {
           "auto": {
             "fallback": null,
@@ -618,14 +633,12 @@
           "order": []
         },
         "launchAtLogin": false,
-        "layerHint": false,
         "linux": {
+          "copyOsd": false,
           "pasteShortcut": "Ctrl+KeyV",
           "terminalPasteShortcut": "Shift+Insert",
           "textMode": "libeiWithClipboardFallback"
         },
-        "locale": "auto",
-        "reduceMotion": "system",
         "startMapperOnLaunch": false,
         "timing": {
           "chordMs": 50,

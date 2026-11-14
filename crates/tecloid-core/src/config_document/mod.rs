@@ -269,9 +269,17 @@ impl ConfigDocument {
             .unwrap_or_else(|| name.to_owned())
     }
 
+    /// Readable id for a new layer named `name`, unique in the keymap.
+    pub fn new_layer_id(&self, name: &str) -> String {
+        let layers = &self.keymap().layers;
+        crate::config::ids::from_name(name, "layer", |id| {
+            layers.iter().any(|layer| layer.id == id)
+        })
+    }
+
     pub fn create_layer(&mut self, name: &str, description: &str) -> Result<String, ConfigError> {
         let name = self.layer_name(name, None)?;
-        let id = crate::config::ids::generate("layer-");
+        let id = self.new_layer_id(&name);
         self.update_keymap(|keymap| keymap.add_layer(&id, name, optional_text(description)))?;
         Ok(id)
     }
@@ -322,7 +330,7 @@ impl ConfigDocument {
     ) -> Result<String, ConfigError> {
         let name = self.layer_name(name, None)?;
         self.require_layer(source_id)?;
-        let id = crate::config::ids::generate("layer-");
+        let id = self.new_layer_id(&name);
         self.update_keymap(|keymap| {
             keymap.clone_layer(source_id, &id, name, optional_text(description))
         })?;
@@ -670,7 +678,7 @@ mod tests {
                 .save_config(
                     &serde_json::to_string(&json!({
                         "version": 1,
-                        "settings": {"keymaps": {"manualKeymap": "user:Test"}, "appearance": "dark"}
+                        "settings": {"keymaps": {"manualKeymap": "user:Test"}, "interface": {"appearance": "dark"}}
                     }))
                     .unwrap(),
                 )
@@ -765,7 +773,7 @@ mod tests {
     #[test]
     fn reads_settings_and_keymap_from_their_own_files() {
         let (_dir, document) = document(
-            json!({"settings": {"devices": {"keyboards": ["/dev/input/by-id/kbd"]}, "appearance": "dark"}}),
+            json!({"settings": {"devices": {"keyboards": ["/dev/input/by-id/kbd"]}, "interface": {"appearance": "dark"}}}),
             KEYMAP,
         );
         assert_eq!(document.input_device(), Some("/dev/input/by-id/kbd"));
@@ -796,8 +804,8 @@ mod tests {
         assert!(entry.exists(), "a disabled entry stays for the desktop");
         let saved = fs::read_to_string(document.paths.config_path()).unwrap();
         assert!(
-            !saved.contains("launchAtLogin"),
-            "the default is not written"
+            saved.contains("\"launchAtLogin\": false"),
+            "the setting is written"
         );
 
         // Added outside the application: adopted and pointed at this binary.
@@ -825,7 +833,7 @@ mod tests {
             saved["settings"]["devices"]["keyboards"],
             json!(["/dev/input/by-id/other"])
         );
-        assert_eq!(saved["settings"]["locale"], "en");
+        assert_eq!(saved["settings"]["interface"]["locale"], "en");
         assert!(saved.get("rules").is_none());
         assert_eq!(
             fs::read_to_string(document.paths.keymaps_dir().join("Test.json")).unwrap(),
@@ -837,7 +845,7 @@ mod tests {
     fn invalid_settings_are_rejected_without_rewriting_the_file() {
         for text in [
             json!({"version": 1, "settings": {"futureOption": 7}}).to_string(),
-            json!({"version": 1, "settings": {"appearance": "blue"}}).to_string(),
+            json!({"version": 1, "settings": {"interface": {"appearance": "blue"}}}).to_string(),
             json!({"version": 3, "settings": {}}).to_string(),
             json!({"settings": {}}).to_string(),
         ] {
@@ -861,7 +869,10 @@ mod tests {
         assert!(!document.settings().commands_enabled);
         document
             .paths
-            .save_config(&json!({"version": 1, "settings": {"appearance": "dark"}}).to_string())
+            .save_config(
+                &json!({"version": 1, "settings": {"interface": {"appearance": "dark"}}})
+                    .to_string(),
+            )
             .unwrap();
         document = ConfigDocument::load(document.paths().clone()).unwrap();
         assert!(!document.settings().commands_enabled);
@@ -1179,17 +1190,20 @@ mod tests {
         assert!(
             fs::read_to_string(document.paths.config_path())
                 .unwrap()
-                .find("rules")
+                .find("CapsLock")
                 .is_none()
         );
     }
 
     #[test]
     fn manual_settings_changes_require_restart_and_do_not_block_keymap_edits() {
-        let (_dir, mut document) = document(json!({"settings": {"appearance": "dark"}}), KEYMAP);
+        let (_dir, mut document) = document(
+            json!({"settings": {"interface": {"appearance": "dark"}}}),
+            KEYMAP,
+        );
         document
             .paths
-            .save_config(r#"{"version":1,"settings":{"appearance":"light"}}"#)
+            .save_config(r#"{"version":1,"settings":{"interface":{"appearance":"light"}}}"#)
             .unwrap();
         document
             .set_layer_key("nav", "KeyJ", KeyAssignment::Swallow)
@@ -1367,7 +1381,7 @@ mod tests {
         let quick = &document.keymap().quick_action_pages;
         assert!(!quick.is_empty());
         assert!(quick.iter().all(|page| page.cells.len() == 15));
-        let system = quick.iter().find(|page| page.id == "system").unwrap();
+        let system = quick.iter().find(|page| page.name == "System").unwrap();
         assert_eq!(system.cells["KeyQ"].action, "Sleep");
         assert_eq!(system.cells["KeyS"].action, "PrintScreen");
         assert_eq!(reparsed.quick_action_pages, *quick);

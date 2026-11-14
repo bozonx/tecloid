@@ -40,12 +40,12 @@ impl Action {
         let Some(value) = value else {
             return Self::Swallow;
         };
-        // Leading blanks are not part of the prefix; the text payload keeps
-        // all of its whitespace.
-        if let Some(text) = value.trim_start().strip_prefix("text:") {
+        // Values are taken verbatim: blanks around a prefix or id make the
+        // action invalid rather than being dropped, so every action has one
+        // spelling. The text payload keeps all of its whitespace.
+        if let Some(text) = value.strip_prefix("text:") {
             return Self::Text(text.into());
         }
-        let value = value.trim();
         type Constructor = fn(String) -> Action;
         let prefixed: [(&str, Constructor); 8] = [
             ("macro:", Self::Macro),
@@ -59,7 +59,7 @@ impl Action {
         ];
         for (prefix, build) in prefixed {
             if let Some(id) = value.strip_prefix(prefix) {
-                return build(id.trim().into());
+                return build(id.into());
             }
         }
         if value.is_empty() {
@@ -136,7 +136,7 @@ pub const PLAIN_SYSTEM_ACTIONS: [&str; 16] = [
     "minimizeWindow",
     "maximizeWindow",
     "maximizeWindowVertically",
-    "toggleWindowKeepAbove",
+    "keepWindowAbove",
     "moveWindowToNextDesktop",
     "moveWindowToPreviousDesktop",
     "moveWindowToNextScreen",
@@ -163,7 +163,7 @@ const MACOS_UNSUPPORTED_SYSTEM_ACTIONS: [&str; 13] = [
     "switchToPreviousDesktop",
     "lockSession",
     "maximizeWindowVertically",
-    "toggleWindowKeepAbove",
+    "keepWindowAbove",
     "showDesktop",
     "showAppLauncher",
 ];
@@ -185,10 +185,22 @@ pub const MAX_MACRO_DEPTH: usize = 10;
 pub const MAX_MACRO_STEPS: usize = 1000;
 pub const KEYMAP_SLOT_COUNT: u32 = 5;
 
+/// The number of a numbered id: decimal digits without a sign or leading
+/// zero (`3`, not `03` or `+3`), so every number has one spelling.
+pub fn slot_number(digits: &str) -> Option<u32> {
+    if digits.is_empty()
+        || digits.starts_with('0')
+        || !digits.bytes().all(|byte| byte.is_ascii_digit())
+    {
+        return None;
+    }
+    digits.parse().ok()
+}
+
 /// Split `switchToDesktop3` into its catalog name and number.
 fn numbered(id: &str, names: &[&'static str], max: u32) -> Option<(&'static str, u32)> {
     names.iter().find_map(|name| {
-        let n: u32 = id.strip_prefix(name)?.parse().ok()?;
+        let n = slot_number(id.strip_prefix(name)?)?;
         (1..=max).contains(&n).then_some((*name, n))
     })
 }
@@ -219,7 +231,8 @@ pub fn kde_shortcut_parts(id: &str) -> Option<(&str, &str)> {
         && component
             .chars()
             .all(|c| c.is_ascii_alphanumeric() || c == '_');
-    (valid_component && !shortcut.trim().is_empty()).then_some((component, shortcut))
+    (valid_component && !shortcut.is_empty() && shortcut.trim() == shortcut)
+        .then_some((component, shortcut))
 }
 
 /// Split an `xdg:` id into its desktop-file id (without `.desktop`) and
@@ -528,12 +541,18 @@ mod tests {
         }
         assert_eq!(Action::parse(None), Action::Swallow);
         assert_eq!(Action::Swallow.format(), None);
-        // Same reading as the mapper: blanks before the prefix are ignored,
-        // the payload keeps its whitespace.
+        // Values are verbatim: blanks around a prefix or id are not dropped,
+        // so the action is invalid; the text payload keeps its whitespace.
         assert_eq!(
-            Action::parse(Some("  text: hi ")),
+            Action::parse(Some("text: hi ")),
             Action::Text(" hi ".into())
         );
+        assert!(matches!(Action::parse(Some(" text:hi")), Action::Keys(_)));
+        assert_eq!(Action::parse(Some("macro: a")), Action::Macro(" a".into()));
+        assert_eq!(system_action_name("switchToDesktop03"), None);
+        assert_eq!(system_action_name("switchToDesktop+3"), None);
+        assert!(system_action_name("switchToDesktop3").is_some());
+        assert_eq!(app_action_name("showQuickMenu01"), None);
     }
 
     #[test]
@@ -552,7 +571,7 @@ mod tests {
         let config =
             ResolvedAppConfig::from_parts(AppSettings::default(), KeymapPreset::default(), None);
         assert_eq!(
-            Action::parse(Some(" newKind:some value ")),
+            Action::parse(Some("newKind:some value")),
             Action::Unknown("newKind:some value".into())
         );
         assert_eq!(
@@ -586,7 +605,7 @@ mod tests {
             })
         );
         assert!(unsupported_on_macos("switchToDesktop3"));
-        assert!(unsupported_on_macos("toggleWindowKeepAbove"));
+        assert!(unsupported_on_macos("keepWindowAbove"));
         assert!(unsupported_on_macos("maximizeWindowVertically"));
         assert!(unsupported_on_macos("moveWindowToNextDesktop"));
         assert!(!unsupported_on_macos("switchToKeyboardLayout2"));

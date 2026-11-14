@@ -61,7 +61,16 @@ pub(super) fn bind(
         let value = picker.get_value().to_string();
         let id = match Action::parse(Some(value.as_str())) {
             Action::Command(id) => id,
-            _ => tecloid_core::config::ids::generate("cmd-"),
+            _ => {
+                let pending = state.borrow().command.as_ref().map(|command| command.id.clone());
+                let doc = doc.read();
+                let saved = &doc.keymap().commands;
+                tecloid_core::config::ids::numbered("c", |id| {
+                    saved.iter().any(|command| command.id == id)
+                        || drafts.command(id).is_some()
+                        || pending.as_deref() == Some(id)
+                })
+            }
         };
         // Keep the script of the other operating systems.
         let mut command = drafts.command(&id).or_else(|| doc

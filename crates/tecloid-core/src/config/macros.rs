@@ -310,16 +310,18 @@ mod tests {
         let mut keymap = KeymapPreset::default();
         for index in 0..2 {
             let mut rule = crate::config::model::KeyRule::new(format!("r{index}"), "KeyA");
-            rule.tap_action = Some(" macro: a ".into());
+            rule.tap_action = Some("macro:a".into());
             rule.long_hold_action = "macro:a".into();
             keymap.rules.push(rule);
         }
-        keymap.macros = vec![item("outer", &[" macro: a ", "macro:a", "text:macro:a"])];
+        keymap.macros = vec![item("outer", &["macro:a", "macro: a", "text:macro:a"])];
         let config = ResolvedAppConfig::from_parts(Default::default(), keymap.clone(), None);
         assert_eq!(usage(&config, "a"), ["KeyA", "KeyA", "macro:outer"]);
         rename_references(&mut keymap, &[("a".into(), "b".into())]);
         assert_eq!(keymap.rules[0].tap_action.as_deref(), Some("macro:b"));
         assert_eq!(keymap.macros[0].steps[0].action, "macro:b");
+        // An id with blanks is another (missing) macro.
+        assert_eq!(keymap.macros[0].steps[1].action, "macro: a");
         assert_eq!(keymap.macros[0].steps[2].action, "text:macro:a");
     }
 

@@ -8,10 +8,7 @@
           "type": "string"
         },
         "name": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         },
         "powershell": {
           "description": "PowerShell script, run on Windows.",
@@ -22,10 +19,7 @@
           "type": "string"
         },
         "workingDirectory": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         }
       },
       "required": [
@@ -53,10 +47,7 @@
           ]
         },
         "layer": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         },
         "retroTapMs": {
           "description": "Layer holds only: released within this many milliseconds without any\nother input, the hold still fires the tap. Missing: twice the hold\ntimeout; 0: off.",
@@ -78,10 +69,7 @@
       "additionalProperties": false,
       "properties": {
         "description": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         },
         "extraKeyOrder": {
           "description": "Saved display order of additional keys.",
@@ -102,10 +90,7 @@
           "type": "object"
         },
         "name": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         }
       },
       "required": [
@@ -157,10 +142,7 @@
           "type": "integer"
         },
         "name": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         },
         "stepPauseMs": {
           "format": "uint64",
@@ -208,10 +190,7 @@
           "type": "string"
         },
         "name": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": "string"
         }
       },
       "required": [
@@ -234,47 +213,19 @@
       "additionalProperties": false,
       "properties": {
         "doubleTap": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/TimedActionDoc"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "$ref": "#/$defs/TimedActionDoc"
         },
         "enabled": {
           "type": "boolean"
         },
         "hold": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/HoldDoc"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "id": {
-          "pattern": "^[A-Za-z0-9_-]{1,64}$",
-          "type": [
-            "string",
-            "null"
-          ]
+          "$ref": "#/$defs/HoldDoc"
         },
         "key": {
           "$ref": "#/$defs/RuleKeyDoc"
         },
         "longHold": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/TimedActionDoc"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "$ref": "#/$defs/TimedActionDoc"
         },
         "tap": {
           "description": "Missing: native key, `null`: swallowed, string: action.",
@@ -284,14 +235,7 @@
           ]
         },
         "tapDecision": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/TapDecision"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "$ref": "#/$defs/TapDecision"
         },
         "when": {
           "$ref": "#/$defs/WhenDoc"
@@ -362,14 +306,7 @@
           "type": "array"
         },
         "gameMode": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/GameModeCondition"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "$ref": "#/$defs/GameModeCondition"
         },
         "keyboardLayouts": {
           "description": "Short ids of the system keyboard layout, e.g. `us`.",
@@ -432,18 +369,8 @@
             },
             "type": "object"
           },
-          "id": {
-            "pattern": "^[A-Za-z0-9_-]{1,64}$",
-            "type": [
-              "string",
-              "null"
-            ]
-          },
           "name": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": "string"
           }
         },
         "type": "object"
@@ -495,18 +422,8 @@
             },
             "type": "object"
           },
-          "id": {
-            "pattern": "^[A-Za-z0-9_-]{1,64}$",
-            "type": [
-              "string",
-              "null"
-            ]
-          },
           "name": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": "string"
           }
         },
         "type": "object"

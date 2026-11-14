@@ -9,6 +9,10 @@
 //! * `title:YouTube` — the window title contains the text; with `*` / `?`
 //!   the wildcards cover the whole title.
 //!
+//! Any other `word:` prefix (two or more lowercase letters) is reserved for
+//! later pattern kinds and does not match, so adding one never changes
+//! what an existing pattern means.
+//!
 //! The title is the least stable property of a window, so it is read only
 //! when some condition uses a `title:` pattern (see [`uses_title`]).
 
@@ -26,11 +30,12 @@ pub enum AppMatcher {
 }
 
 impl AppMatcher {
-    /// `None` for a blank pattern.
+    /// `None` for a blank pattern or one with a reserved prefix.
     pub fn parse(pattern: &str) -> Option<Self> {
         let pattern = pattern.trim();
         let matcher = match strip_prefix_ignore_case(pattern, TITLE_PREFIX) {
             Some(title) => Self::Title(title.trim().to_lowercase()),
+            None if reserved_prefix(pattern) => return None,
             None => Self::App(pattern.to_lowercase()),
         };
         (!matcher.text().is_empty()).then_some(matcher)
@@ -156,6 +161,13 @@ fn name_matches(pattern: &str, name: &str) -> bool {
     }
 }
 
+/// `class:…`, `exe:…`: a pattern kind this version does not know.
+fn reserved_prefix(pattern: &str) -> bool {
+    pattern.split_once(':').is_some_and(|(prefix, _)| {
+        prefix.len() >= 2 && prefix.bytes().all(|byte| byte.is_ascii_lowercase())
+    })
+}
+
 fn has_wildcards(pattern: &str) -> bool {
     pattern.contains(['*', '?'])
 }
@@ -216,6 +228,12 @@ mod tests {
     fn parses_kinds() {
         assert_eq!(AppMatcher::parse("  "), None);
         assert_eq!(AppMatcher::parse("title:  "), None);
+        assert_eq!(AppMatcher::parse("class:firefox"), None);
+        assert_eq!(AppMatcher::parse("exe:game"), None);
+        assert_eq!(
+            AppMatcher::parse("C:game"),
+            Some(AppMatcher::App("c:game".into()))
+        );
         assert_eq!(
             AppMatcher::parse(" Firefox "),
             Some(AppMatcher::App("firefox".into()))

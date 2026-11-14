@@ -183,7 +183,7 @@ mod tests {
     #[test]
     fn cycles_distinguish_namespaces_and_ignore_literals_and_missing_targets() {
         let graph = MacroGraph::new([
-            ("a", vec![" macro: b "]),
+            ("a", vec!["macro:b"]),
             ("b", vec!["macro:a"]),
             (
                 "copyLine",

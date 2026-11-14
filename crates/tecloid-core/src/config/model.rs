@@ -677,8 +677,10 @@ pub enum TextMode {
     /// libei only.
     LibeiOnly,
     /// RemoteDesktop portal `NotifyKeyboardKeycode`.
+    #[serde(rename = "portalKeycode")]
     Keycode,
-    /// MIME-preserving clipboard ownership and Shift+Insert through the portal.
+    /// MIME-preserving clipboard ownership and the paste shortcut.
+    #[serde(rename = "clipboardPaste")]
     Clipboard,
     Ydotool,
     Xdotool,
@@ -699,8 +701,8 @@ impl TextMode {
         match self {
             Self::LibeiWithClipboardFallback => "libeiWithClipboardFallback",
             Self::LibeiOnly => "libeiOnly",
-            Self::Keycode => "keycode",
-            Self::Clipboard => "clipboard",
+            Self::Keycode => "portalKeycode",
+            Self::Clipboard => "clipboardPaste",
             Self::Ydotool => "ydotool",
             Self::Xdotool => "xdotool",
         }

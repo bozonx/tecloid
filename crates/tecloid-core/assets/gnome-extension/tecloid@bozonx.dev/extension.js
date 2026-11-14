@@ -263,7 +263,7 @@ export default class Bridge extends Extension {
             window.move_to_monitor((window.get_monitor() + count - 1) % count);
             return;
         }
-        case 'toggleWindowKeepAbove':
+        case 'keepWindowAbove':
             if (window.is_above()) window.unmake_above(); else window.make_above();
             return;
         default: throw new Error('Unsupported action');

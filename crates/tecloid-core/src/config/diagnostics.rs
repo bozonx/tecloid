@@ -472,8 +472,8 @@ mod tests {
     fn invalid_conditions_and_ignored_rule_combinations_are_visible() {
         let keymap = super::super::keymap_file::parse(
             r#"{"version":1,"rules":[
-            {"id":"bad-condition","key":"KeyA","when":{"windows":["title:"]}},
-            {"id":"bad-double","key":["KeyC","KeyD"],"doubleTap":{"action":"KeyE"}}
+            {"key":"KeyA","when":{"windows":["title:"]}},
+            {"key":["KeyC","KeyD"],"doubleTap":{"action":"KeyE"}}
         ]}"#,
         )
         .unwrap()
@@ -505,7 +505,7 @@ mod tests {
             r#"{"version":1,
             "layers":[{"id":"nav","keys":{"NoSuchKey":"KeyA","KeyA":"macro:missing"}}],
             "macros":[{"id":"a","steps":["macro:b"]},{"id":"b","steps":["macro:a"]}],
-            "quickMenuPages":[{"id":"q","cells":{"KeyQ":"cmd:missing"}}]}"#,
+            "quickMenuPages":[{"cells":{"KeyQ":"cmd:missing"}}]}"#,
         )
         .unwrap()
         .unwrap();

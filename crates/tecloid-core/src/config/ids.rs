@@ -18,6 +18,45 @@ pub fn generate(prefix: &str) -> String {
     out
 }
 
+/// First free `prefix1`, `prefix2`, …: short, readable ids for entities the
+/// user does not name by id (macros `m1`, commands `c1`).
+pub fn numbered(prefix: &str, taken: impl Fn(&str) -> bool) -> String {
+    (1u64..)
+        .map(|n| format!("{prefix}{n}"))
+        .find(|id| !taken(id))
+        .unwrap_or_else(|| generate(prefix))
+}
+
+/// A readable id derived from `name` (`Navigation keys` → `navigation-keys`),
+/// `fallback` when the name has no ASCII letters or digits, with `2`, `3`, …
+/// appended while `taken`.
+pub fn from_name(name: &str, fallback: &str, taken: impl Fn(&str) -> bool) -> String {
+    let mut base = String::new();
+    for c in name.chars() {
+        if c.is_ascii_alphanumeric() {
+            base.push(c.to_ascii_lowercase());
+        } else if !base.is_empty() && !base.ends_with('-') {
+            base.push('-');
+        }
+    }
+    let mut base: String = base
+        .trim_end_matches('-')
+        .chars()
+        .take(MAX_LEN - 4)
+        .collect();
+    base.truncate(base.trim_end_matches('-').len());
+    if base.is_empty() {
+        base = fallback.to_owned();
+    }
+    if !taken(&base) {
+        return base;
+    }
+    (2u64..)
+        .map(|n| format!("{base}{n}"))
+        .find(|id| !taken(id))
+        .unwrap_or_else(|| generate(fallback))
+}
+
 /// Longest id accepted in configuration files.
 pub const MAX_LEN: usize = 64;
 
@@ -43,31 +82,6 @@ pub(crate) fn unique<'a>(ids: impl IntoIterator<Item = &'a str>, path: &str) -> 
         }
         if !seen.insert(id) {
             return Err(format!("{path}[{index}].id: duplicate id \"{id}\""));
-        }
-    }
-    Ok(())
-}
-
-/// Fill absent ids deterministically, reserving every explicit id first.
-pub(crate) fn complete(ids: &mut [Option<String>], prefix: &str, path: &str) -> Result<(), String> {
-    let mut reserved = std::collections::HashSet::new();
-    for (index, id) in ids.iter().enumerate() {
-        if let Some(id) = id {
-            unique([id.as_str()], &format!("{path}[{index}]"))?;
-            if !reserved.insert(id.clone()) {
-                return Err(format!("{path}[{index}].id: duplicate id \"{id}\""));
-            }
-        }
-    }
-    let mut counter = 0u64;
-    for id in ids.iter_mut().filter(|id| id.is_none()) {
-        loop {
-            counter += 1;
-            let candidate = format!("{prefix}{counter}");
-            if reserved.insert(candidate.clone()) {
-                *id = Some(candidate);
-                break;
-            }
         }
     }
     Ok(())
@@ -109,6 +123,23 @@ mod tests {
         let b = super::generate("r_");
         assert!(a.starts_with("r_") && a.len() == 10);
         assert_ne!(a, b);
+    }
+
+    #[test]
+    fn readable_ids() {
+        let taken = |id: &str| id == "nav" || id == "c1";
+        assert_eq!(super::from_name("Nav", "layer", taken), "nav2");
+        assert_eq!(
+            super::from_name(" Navigation keys! ", "layer", taken),
+            "navigation-keys"
+        );
+        assert_eq!(super::from_name("Символы", "layer", taken), "layer");
+        assert!(super::valid(&super::from_name(
+            &"x".repeat(200),
+            "layer",
+            taken
+        )));
+        assert_eq!(super::numbered("c", taken), "c2");
     }
 
     #[test]

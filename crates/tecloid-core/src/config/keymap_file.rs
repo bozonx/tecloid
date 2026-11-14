@@ -130,9 +130,19 @@ impl MetaDoc {
 struct LayerDoc {
     #[cfg_attr(test, schemars(regex(pattern = super::schema::ID_PATTERN)))]
     id: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     name: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     description: Option<String>,
     /// Saved display order of additional keys.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -171,9 +181,6 @@ struct LayerKeyFullDoc {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct RuleDoc {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[cfg_attr(test, schemars(regex(pattern = super::schema::ID_PATTERN)))]
-    id: Option<String>,
     key: RuleKeyDoc,
     #[serde(default = "yes", skip_serializing_if = "is_true")]
     enabled: bool,
@@ -186,13 +193,33 @@ struct RuleDoc {
         skip_serializing_if = "Option::is_none"
     )]
     tap: Option<Option<String>>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "TimedActionDoc"))]
     double_tap: Option<TimedActionDoc>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "HoldDoc"))]
     hold: Option<HoldDoc>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "TimedActionDoc"))]
     long_hold: Option<TimedActionDoc>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "TapDecision"))]
     tap_decision: Option<TapDecision>,
 }
 
@@ -210,6 +237,12 @@ enum RuleKeyDoc {
     ),
 }
 
+/// A trigger key in its catalog spelling (`capslock` → `CapsLock`); an
+/// unknown name is kept for the diagnostics to report.
+fn canonical_trigger(key: String) -> String {
+    super::key_catalog::canonical_key(&key).map_or(key, str::to_owned)
+}
+
 impl RuleKeyDoc {
     /// The model's `+`-joined key.
     fn into_key(self) -> Result<String, String> {
@@ -222,7 +255,7 @@ impl RuleKeyDoc {
                         "rule key {key:?}: write a chord as an array of keys, e.g. {parts:?}"
                     ));
                 }
-                Ok(key)
+                Ok(canonical_trigger(key))
             }
             Self::Chord(keys) => {
                 if keys.len() < 2 {
@@ -236,7 +269,11 @@ impl RuleKeyDoc {
                         return Err(format!("rule chord key {key:?} must be one key code"));
                     }
                 }
-                Ok(keys.join("+"))
+                Ok(keys
+                    .into_iter()
+                    .map(canonical_trigger)
+                    .collect::<Vec<_>>()
+                    .join("+"))
             }
         }
     }
@@ -256,7 +293,12 @@ impl RuleKeyDoc {
 #[derive(Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub(crate) struct WhenDoc {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "OnOff"))]
     game_mode: Option<OnOff>,
     /// Short ids of the system keyboard layout, e.g. `us`.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -328,7 +370,12 @@ struct TimedActionDoc {
 #[derive(Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct HoldDoc {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     layer: Option<String>,
     /// Key or chord held down while the key is held. Missing: the key
     /// itself (or nothing while a layer is active), `null`: nothing.
@@ -374,7 +421,12 @@ impl HoldDoc {
 struct MacroDoc {
     #[cfg_attr(test, schemars(regex(pattern = super::schema::ID_PATTERN)))]
     id: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     name: Option<String>,
     #[cfg_attr(test, schemars(range(min = super::timing::MACRO_DELAY.min, max = super::timing::MACRO_DELAY.max)))]
     #[serde(
@@ -402,7 +454,12 @@ struct MacroDoc {
 struct CommandDoc {
     #[cfg_attr(test, schemars(regex(pattern = super::schema::ID_PATTERN)))]
     id: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     name: Option<String>,
     /// POSIX `sh` script, run on Linux and macOS.
     #[serde(default, skip_serializing_if = "String::is_empty")]
@@ -410,7 +467,12 @@ struct CommandDoc {
     /// PowerShell script, run on Windows.
     #[serde(default, skip_serializing_if = "String::is_empty")]
     powershell: String,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     working_directory: Option<String>,
 }
 
@@ -420,10 +482,12 @@ struct CommandDoc {
 #[serde(bound(serialize = "T: Serialize", deserialize = "T: Deserialize<'de>"))]
 #[cfg_attr(test, schemars(bound = "T: schemars::JsonSchema", inline))]
 struct PageDoc<T> {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[cfg_attr(test, schemars(regex(pattern = super::schema::ID_PATTERN)))]
-    id: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     name: Option<String>,
     #[serde(default)]
     cells: GridCells<T>,
@@ -471,7 +535,12 @@ enum QuickCellDoc {
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct QuickActionDoc {
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "String"))]
     name: Option<String>,
     action: String,
 }
@@ -545,6 +614,15 @@ fn non_empty_items(items: &[String], what: &str) -> Result<(), String> {
     items.iter().try_for_each(|item| non_empty(item, what))
 }
 
+/// A key or chord action in its canonical spelling (see
+/// [`super::key_catalog::normalize_chord`]); other actions are unchanged.
+fn canonical(action: String) -> String {
+    match super::actions::Action::parse(Some(&action)) {
+        super::actions::Action::Keys(keys) => keys,
+        _ => action,
+    }
+}
+
 /// Three-state action of a parsed field: `Some("")` native, `None`
 /// swallowed, otherwise the action.
 fn three_state(value: Option<Option<String>>, what: &str) -> Result<Option<String>, String> {
@@ -553,27 +631,17 @@ fn three_state(value: Option<Option<String>>, what: &str) -> Result<Option<Strin
         Some(None) => Ok(None),
         Some(Some(action)) => {
             non_empty(&action, what)?;
-            Ok(Some(action))
+            Ok(Some(canonical(action)))
         }
     }
 }
 
-fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
+/// Rules and menu pages are referenced by nothing (menus by position), so
+/// the file stores no ids for them; the editor's ids are assigned here.
+fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
     super::ids::unique(doc.layers.iter().map(|item| item.id.as_str()), "layers")?;
     super::ids::unique(doc.macros.iter().map(|item| item.id.as_str()), "macros")?;
     super::ids::unique(doc.commands.iter().map(|item| item.id.as_str()), "commands")?;
-    macro_rules! complete {
-        ($items:expr, $prefix:expr, $path:expr) => {{
-            let mut ids: Vec<_> = $items.iter_mut().map(|item| item.id.take()).collect();
-            super::ids::complete(&mut ids, $prefix, $path)?;
-            for (item, id) in $items.iter_mut().zip(ids) {
-                item.id = id;
-            }
-        }};
-    }
-    complete!(doc.rules, "rule-", "rules");
-    complete!(doc.quick_menu_pages, "quick-", "quickMenuPages");
-    complete!(doc.emoji_menu_pages, "emoji-", "emojiMenuPages");
     // Step ids live only in memory, for the editor.
     let mut step_counter = 0u32;
 
@@ -592,7 +660,8 @@ fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
                     }
                     Some(full.action)
                 }
-            };
+            }
+            .map(canonical);
             if let Some(action) = &action {
                 non_empty(action, &format!("action of {code} in layer {}", layer.id))?;
             }
@@ -614,7 +683,7 @@ fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
     }
 
     let mut rules = Vec::new();
-    for rule in doc.rules {
+    for (index, rule) in doc.rules.into_iter().enumerate() {
         let key = rule.key.into_key()?;
         let what = |field: &str| format!("{field} of rule {key}");
         if rule.hold.is_some() && rule.long_hold.is_some() {
@@ -627,14 +696,14 @@ fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
         let (double_tap_action, double_tap_timeout_ms) = match rule.double_tap {
             Some(double) => {
                 non_empty(&double.action, &what("doubleTap action"))?;
-                (double.action, double.timeout_ms)
+                (canonical(double.action), double.timeout_ms)
             }
             None => (String::new(), None),
         };
         let (long_hold_action, long_hold_timeout_ms) = match rule.long_hold {
             Some(long) => {
                 non_empty(&long.action, &what("longHold action"))?;
-                (long.action, long.timeout_ms)
+                (canonical(long.action), long.timeout_ms)
             }
             None => (String::new(), None),
         };
@@ -643,7 +712,7 @@ fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
             non_empty(layer, &what("hold layer"))?;
         }
         rules.push(KeyRule {
-            id: rule.id.unwrap_or_default(),
+            id: format!("rule-{}", index + 1),
             enabled: (!rule.enabled).then_some(false),
             condition_game_mode: when.game_mode.map(|mode| mode.as_str().to_owned()),
             condition_keyboard_layouts: (!when.keyboard_layouts.is_empty())
@@ -676,7 +745,7 @@ fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
             step_counter += 1;
             steps.push(MacroStep {
                 id: format!("step-{step_counter}"),
-                action,
+                action: canonical(action),
             });
         }
         macros.push(Macro {
@@ -701,7 +770,7 @@ fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
     }
 
     let mut quick_action_pages = Vec::new();
-    for page in doc.quick_menu_pages {
+    for (index, page) in doc.quick_menu_pages.into_iter().enumerate() {
         check_cells(page.cells.0.keys(), "quick action")?;
         let mut cells = BTreeMap::new();
         for (key, cell) in page.cells.0 {
@@ -716,10 +785,14 @@ fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
                 },
             };
             non_empty(&item.action, &format!("quick action {key}"))?;
+            let item = QuickAction {
+                action: canonical(item.action),
+                ..item
+            };
             cells.insert(key, item);
         }
         quick_action_pages.push(QuickActionPage {
-            id: page.id.unwrap_or_default(),
+            id: format!("quick-{}", index + 1),
             name: page.name.unwrap_or_default(),
             cells,
         });
@@ -729,13 +802,13 @@ fn from_doc(mut doc: KeymapDoc) -> Result<KeymapPreset, String> {
     }
 
     let mut emoji_pages = Vec::new();
-    for page in doc.emoji_menu_pages {
+    for (index, page) in doc.emoji_menu_pages.into_iter().enumerate() {
         check_cells(page.cells.0.keys(), "emoji")?;
         for (key, text) in &page.cells.0 {
             non_empty(text, &format!("emoji {key}"))?;
         }
         emoji_pages.push(EmojiPage {
-            id: page.id.unwrap_or_default(),
+            id: format!("emoji-{}", index + 1),
             name: page.name.unwrap_or_default(),
             cells: page.cells.0,
         });
@@ -854,7 +927,6 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
                 }
             };
             RuleDoc {
-                id: text(&rule.id),
                 key: RuleKeyDoc::from_key(&rule.key),
                 enabled: rule.is_enabled(),
                 when: WhenDoc {
@@ -910,7 +982,6 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
         .quick_action_pages
         .iter()
         .map(|page| PageDoc {
-            id: text(&page.id),
             name: text(&page.name),
             cells: page
                 .cells
@@ -937,7 +1008,6 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
         .emoji_pages
         .iter()
         .map(|page| PageDoc {
-            id: text(&page.id),
             name: text(&page.name),
             cells: page
                 .cells
@@ -1046,45 +1116,87 @@ mod tests {
 
     #[test]
     fn duplicate_ids_are_rejected_before_conversion() {
-        for field in [
-            "layers",
-            "rules",
-            "macros",
-            "commands",
-            "quickMenuPages",
-            "emojiMenuPages",
-        ] {
-            let item = if field == "rules" {
-                serde_json::json!({"id": "same", "key": "KeyA"})
-            } else {
-                serde_json::json!({"id": "same"})
-            };
+        for field in ["layers", "macros", "commands"] {
+            let item = serde_json::json!({"id": "same"});
             let text = serde_json::json!({"version": 1, field: [item.clone(), item]}).to_string();
             let error = parse(&text).unwrap_err();
             assert!(error.contains("duplicate id"), "{field}: {error}");
         }
     }
 
+    /// `null` is accepted only where it means something (swallow, no
+    /// action); elsewhere a missing field is the one spelling of "none".
     #[test]
-    fn generated_ids_reserve_explicit_ids_including_later_entries() {
-        let text = r#"{"version":1,"rules":[{"key":"KeyA"},{"id":"rule-1","key":"KeyB"}],
-            "quickMenuPages":[{}, {"id":"quick-1"}],"emojiMenuPages":[{}, {"id":"emoji-1"}]}"#;
-        let keymap = parse(text).unwrap().unwrap();
-        super::super::ids::validate_keymap(&keymap).unwrap();
-        assert_eq!(keymap.rules[0].id, "rule-2");
-        assert_eq!(keymap.quick_action_pages[0].id, "quick-2");
-        assert_eq!(keymap.emoji_pages[0].id, "emoji-2");
-        assert_eq!(parse(&serialize(&keymap)).unwrap().unwrap(), keymap);
-        assert_eq!(parse(text).unwrap().unwrap(), keymap);
+    fn null_only_where_it_has_a_meaning() {
+        for body in [
+            json!({"layers": [{"id": "l", "name": null}]}),
+            json!({"layers": [{"id": "l", "description": null}]}),
+            json!({"rules": [{"key": "KeyA", "hold": null}]}),
+            json!({"rules": [{"key": "KeyA", "doubleTap": null}]}),
+            json!({"rules": [{"key": "KeyA", "longHold": null}]}),
+            json!({"rules": [{"key": "KeyA", "tapDecision": null}]}),
+            json!({"rules": [{"key": "KeyA", "when": {"gameMode": null}}]}),
+            json!({"rules": [{"key": "KeyA", "hold": {"layer": null}}]}),
+            json!({"macros": [{"id": "m", "name": null}]}),
+            json!({"commands": [{"id": "c", "workingDirectory": null}]}),
+            json!({"quickMenuPages": [{"name": null}]}),
+            json!({"quickMenuPages": [{"cells": {"KeyQ": {"name": null, "action": "KeyA"}}}]}),
+        ] {
+            assert!(parse(&keymap(body.clone())).is_err(), "accepted {body}");
+        }
+        let preset = parsed(json!({
+            "layers": [{"id": "l", "keys": {"KeyA": null}}],
+            "rules": [{"key": "KeyA", "tap": null, "hold": {"action": null}}],
+        }));
+        assert_eq!(preset.rules[0].tap_action, None);
     }
 
     #[test]
-    fn explicit_invalid_ids_are_not_replaced() {
-        for id in ["", " ", " x", "x ", "a b", "a.b"] {
-            let text =
-                serde_json::json!({"version":1,"rules":[{"id":id,"key":"KeyA"}]}).to_string();
-            assert!(parse(&text).is_err(), "{id:?}");
+    fn key_actions_are_stored_canonically() {
+        let preset = parsed(json!({
+            "layers": [{"id": "l", "keys": {"KeyA": "shift+ctrl+keyc"}}],
+            "rules": [{"key": "capslock", "tap": "ControlLeft+KeyV"}],
+            "macros": [{"id": "m", "steps": ["alt+Tab", "text:shift+a"]}],
+        }));
+        assert_eq!(
+            preset.layer_keymaps["l"].keys["KeyA"].as_deref(),
+            Some("Ctrl+Shift+KeyC")
+        );
+        assert_eq!(preset.rules[0].key, "CapsLock");
+        assert_eq!(preset.rules[0].tap_action.as_deref(), Some("Ctrl+KeyV"));
+        assert_eq!(preset.macros[0].steps[0].action, "Alt+Tab");
+        assert_eq!(preset.macros[0].steps[1].action, "text:shift+a");
+    }
+
+    #[test]
+    fn newer_object_forms_point_at_a_newer_version() {
+        let error = parse(&keymap(json!({
+            "layers": [{"id": "l", "keys": {"KeyA": {"action": "KeyB", "future": 1}}}]
+        })))
+        .unwrap_err();
+        assert!(error.contains("newer version"), "{error}");
+    }
+
+    /// Rules and menu pages are not referenced by id, so the file has none.
+    #[test]
+    fn rules_and_pages_store_no_ids() {
+        for body in [
+            json!({"rules": [{"id": "r", "key": "KeyA"}]}),
+            json!({"quickMenuPages": [{"id": "q"}]}),
+            json!({"emojiMenuPages": [{"id": "e"}]}),
+        ] {
+            assert!(parse(&keymap(body.clone())).is_err(), "accepted {body}");
         }
+        let text = r#"{"version":1,"rules":[{"key":"KeyA"},{"key":"KeyB"}],
+            "quickMenuPages":[{}, {}],"emojiMenuPages":[{}, {}]}"#;
+        let keymap = parse(text).unwrap().unwrap();
+        super::super::ids::validate_keymap(&keymap).unwrap();
+        assert_eq!(keymap.rules[1].id, "rule-2");
+        assert_eq!(keymap.quick_action_pages[1].id, "quick-2");
+        assert_eq!(keymap.emoji_pages[1].id, "emoji-2");
+        let saved = serialize(&keymap);
+        assert!(!saved.contains("\"id\""));
+        assert_eq!(parse(&saved).unwrap().unwrap(), keymap);
     }
 
     #[test]
@@ -1210,13 +1322,13 @@ mod tests {
     #[test]
     fn rule_fields_map_to_the_model() {
         let preset = parsed(json!({"rules": [
-            {"id": "r1", "key": "CapsLock", "tap": "Escape",
+            {"key": "CapsLock", "tap": "Escape",
              "hold": {"layer": "nav", "action": "AltLeft", "timeoutMs": 180},
              "doubleTap": {"action": "Enter", "timeoutMs": 150},
              "tapDecision": "holdOnOtherKeyPress"},
-            {"id": "r2", "key": "Space", "enabled": false, "tap": null, "hold": {"action": null},
+            {"key": "Space", "enabled": false, "tap": null, "hold": {"action": null},
              "when": {"gameMode": "on", "keyboardLayouts": ["us"], "windows": ["code"], "excludeWindows": ["title:x"]}},
-            {"id": "r3", "key": ["ShiftLeft", "ControlRight"], "longHold": {"action": "text:hello", "timeoutMs": 1500}},
+            {"key": ["ShiftLeft", "ControlRight"], "longHold": {"action": "text:hello", "timeoutMs": 1500}},
         ]}));
         let caps = &preset.rules[0];
         assert_eq!(caps.hold_behavior(), HoldBehavior::Layer);
@@ -1307,11 +1419,11 @@ mod tests {
                         "steps": ["Home", "Shift+End", "Ctrl+KeyC"]}],
             "commands": [{"id": "music", "sh": "playerctl play-pause", "powershell": "Start-Process x",
                           "workingDirectory": "/tmp"}],
-            "quickMenuPages": [{"id": "qap1", "name": "First", "cells": {
+            "quickMenuPages": [{"name": "First", "cells": {
                 "KeyW": "Ctrl+KeyC",
                 "KeyQ": {"name": "Lock", "action": "kde:ksmserver/Lock Session"}
-            }}, {"id": "qap2"}],
-            "emojiMenuPages": [{"id": "e1", "name": "Faces", "cells": {"KeyQ": "😀"}}]
+            }}, {}],
+            "emojiMenuPages": [{"name": "Faces", "cells": {"KeyQ": "😀"}}]
         }));
         assert_eq!(preset.description.as_deref(), Some("Sample"));
         assert_eq!(preset.layers[1].name, "sym");

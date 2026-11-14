@@ -79,6 +79,9 @@ pub(crate) fn read_error(what: &str, error: &serde_json::Error) -> String {
     if text.starts_with("unknown field")
         || text.starts_with("unknown variant")
         || text.starts_with("unsupported paste shortcut")
+        // An object form with a field from a newer version (layer keys,
+        // menu cells) matches neither the string nor the known object form.
+        || text.starts_with("data did not match any variant")
     {
         format!("{what}: {text} (the file may come from a newer version of the application)")
     } else {
@@ -178,6 +181,101 @@ mod tests {
                 "{file} is out of date; regenerate it with TECLOID_UPDATE_SCHEMAS=1"
             );
         }
+    }
+
+    /// Every name a user file may store besides field names and enum values
+    /// (those are covered by the published schemas): action prefixes, `sys:`,
+    /// `tecloid:` and `builtin:` ids, key names and trigger modifiers.
+    fn stored_names() -> Vec<String> {
+        use super::super::{actions, key_catalog};
+        let mut names = Vec::new();
+        for prefix in [
+            "macro:", "builtin:", "cmd:", "sys:", "tecloid:", "kde:", "xdg:", "text:", "pause:",
+        ] {
+            let parsed = actions::Action::parse(Some(&format!("{prefix}1")));
+            assert!(
+                !matches!(
+                    parsed,
+                    actions::Action::Unknown(_) | actions::Action::Keys(_)
+                ),
+                "{prefix}"
+            );
+            names.push(format!("prefix {prefix}"));
+        }
+        for entry in actions::system_actions()
+            .into_iter()
+            .chain(actions::app_actions())
+        {
+            names.push(format!(
+                "action {}",
+                entry.action.format().unwrap_or_default()
+            ));
+        }
+        for builtin in crate::mapper::builtin_macros::BUILTIN_MACROS {
+            names.push(format!("action builtin:{}", builtin.id));
+        }
+        for key in key_catalog::CATEGORIES.iter().flat_map(|keys| keys.iter()) {
+            names.push(format!("key {key}"));
+        }
+        for modifier in key_catalog::TRIGGER_MODIFIERS {
+            names.push(format!("trigger {modifier}"));
+        }
+        names.push("window title:".into());
+        names.sort();
+        names
+    }
+
+    /// Names in user files are data: a released name is never renamed or
+    /// removed. Adding one updates `names.v1.txt` (run with
+    /// `TECLOID_UPDATE_SCHEMAS=1`); a missing line means a name was dropped.
+    #[test]
+    fn stored_names_are_never_removed() {
+        let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../schemas/names.v1.txt");
+        let current = stored_names();
+        let published = std::fs::read_to_string(&path).unwrap_or_default();
+        let removed: Vec<_> = published
+            .lines()
+            .filter(|line| !line.is_empty() && !current.iter().any(|name| name == line))
+            .collect();
+        assert!(
+            removed.is_empty(),
+            "names stored in user files were removed or renamed: {removed:?}"
+        );
+        let text = current.join("\n") + "\n";
+        if std::env::var_os("TECLOID_UPDATE_SCHEMAS").is_some() {
+            std::fs::write(&path, &text).unwrap();
+        }
+        assert!(
+            std::fs::read_to_string(&path).unwrap_or_default() == text,
+            "names.v1.txt is out of date; regenerate it with TECLOID_UPDATE_SCHEMAS=1"
+        );
+    }
+
+    /// Complete files of format version 1. They are never edited: every
+    /// later build must load them with the same meaning.
+    #[test]
+    fn version_1_fixtures_keep_loading() {
+        let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("fixtures");
+        let config = std::fs::read_to_string(dir.join("config.v1.json")).unwrap();
+        let settings = super::super::settings::parse(&config).unwrap();
+        assert_eq!(
+            super::super::settings::parse(&super::super::settings::serialize(&settings)).unwrap(),
+            settings
+        );
+        let keymap = std::fs::read_to_string(dir.join("keymap.v1.json")).unwrap();
+        let keymap = super::super::keymap_file::parse(&keymap).unwrap().unwrap();
+        assert_eq!(
+            super::super::keymap_file::parse(&super::super::keymap_file::serialize(&keymap))
+                .unwrap()
+                .unwrap(),
+            keymap
+        );
+        let resolved = super::super::model::ResolvedAppConfig::from_parts(settings, keymap, None);
+        let blocking: Vec<_> = super::super::diagnostics::analyze(&resolved)
+            .into_iter()
+            .filter(|issue| issue.code.is_error())
+            .collect();
+        assert!(blocking.is_empty(), "{blocking:?}");
     }
 
     #[test]

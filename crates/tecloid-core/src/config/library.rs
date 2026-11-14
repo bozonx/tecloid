@@ -1147,7 +1147,7 @@ mod tests {
         let original = r#"{"version": 1, "meta": {"description": "original"}}"#;
         paths.save_user_keymap("A", original, false).unwrap();
         paths
-            .save_config(r#"{"version":1,"settings":{"appearance":"light"}}"#)
+            .save_config(r#"{"version":1,"settings":{"interface":{"appearance":"light"}}}"#)
             .unwrap();
         document
             .edit_library_metadata("A", "B", Some("changed"), original)

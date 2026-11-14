@@ -12,8 +12,12 @@ overwritten by the next save.
 
 Readers live in `crates/tecloid-core/src/config/` (`settings.rs`,
 `keymap_file.rs`); versions in `config/schema.rs`. **Current versions:
-`config.json` = 1, keymap = 1.** These are released formats: user files in
-these versions must keep loading in every future build.
+`config.json` = 1, keymap = 1.** The contract below applies from release
+0.5.0 on: user files in these versions must keep loading in every later
+build, including 1.0. Files of 0.4.0 and earlier (`schemaVersion`,
+`layouts/`) are a different, unsupported format. Features shown only in
+development mode (game mode, automatic keymaps, `when.gameMode`, `xdg:`) are
+part of version 1 under the same rules.
 
 ## Compatibility contract
 
@@ -37,10 +41,27 @@ these versions must keep loading in every future build.
 - The application always writes the current version. Before it first overwrites
   an older-version file, storage keeps `<file>.v<N>.bak` next to it (an existing
   backup is not replaced).
-- Defaults are not written. `config.json` stores only values that differ from
-  defaults, so changing a default changes behaviour for everyone who did not set
-  it; input-affecting defaults change only as a user-visible change in
-  `CHANGELOG.md`.
+- `config.json` is written in full, defaults included, so changing a default
+  affects only new installations and settings added later. Only fields whose
+  absence has its own meaning are left out (`manualKeymap` before a choice,
+  `ydotoolPath`/`xdotoolPath` = search `PATH`). In keymaps, a missing rule or
+  macro timing means "inherit `settings.timing`", and is therefore not
+  written. Input-affecting defaults still change only as a user-visible
+  change in `CHANGELOG.md`.
+- Every value has one spelling. Key and shortcut actions are stored
+  canonically (see Actions); ids and prefixes are taken verbatim, without
+  trimming; numbers in ids have no sign or leading zero (`switchToDesktop3`,
+  not `switchToDesktop03`). `null` is accepted only where it means something
+  (`tap`, `hold.action`, a layer key, `keymap` of an auto rule,
+  `auto.fallback`); elsewhere "none" is a missing field.
+- **Stored names are frozen.** Action prefixes, `sys:`, `tecloid:` and
+  `builtin:` ids, key names and pattern prefixes are listed in
+  [`schemas/names.v1.txt`](../schemas/names.v1.txt); the test
+  `stored_names_are_never_removed` fails when one disappears. New names are
+  added to the list with `TECLOID_UPDATE_SCHEMAS=1`.
+- Fixtures `crates/tecloid-core/fixtures/{config,keymap}.v1.json` use every
+  field of version 1. They are never edited; `version_1_fixtures_keep_loading`
+  checks that they load without blocking diagnostics.
 - Semantic problems (reference to a missing macro, unknown key in an action) do
   not block loading; diagnostics report them and the mapper refuses to start
   with blocking errors.
@@ -70,12 +91,14 @@ Without the variable the test fails while the files are stale.
 
 ### Identifiers
 
-`id` is unique (case-sensitive) within its collection: layers, rules, macros,
-commands, quick/emoji pages, auto rules, game-mode processes. Grammar:
-`[A-Za-z0-9_-]{1,64}`, so ids appear unescaped in `macro:<id>`, `cmd:<id>`.
-Duplicates are load errors. Rules, pages, auto rules and processes may omit
-`id`; the loader generates `rule-1`, `quick-1`, `emoji-1`, `process-1` after
-reserving explicit ids, and saving writes them.
+Only entities something refers to have an `id`: layers (`hold.layer`),
+macros (`macro:<id>`) and commands (`cmd:<id>`). It is unique
+(case-sensitive) within its collection; grammar `[A-Za-z0-9_-]{1,64}`, so ids
+appear unescaped in actions. Duplicates are load errors. Rules, menu pages
+(addressed by position), auto rules and game-mode processes have no `id`
+field. The editor names new layers after their name (`Navigation` → `navigation`,
+`layer` for non-Latin names), new macros `m1`, `m2`, … and new commands `c1`,
+`c2`, ….
 
 Library keymap ids are `user:<file name without .json>`; the file name may
 contain any characters allowed by the file system. Renaming a keymap in the app
@@ -95,7 +118,10 @@ conditions must match; an empty object always matches.
 
 A window pattern is an app id or a full process name, case-insensitive
 (`org.telegram.desktop`, `Game.exe`; `.exe` optional), with `*`/`?` wildcards,
-or `title:<text>` (title contains text). Implemented in `config::app_match`.
+or `title:<text>` (title contains text). Any other prefix of two or more
+lowercase letters followed by `:` (`class:`, `exe:`) is reserved for later
+pattern kinds: such a pattern matches nothing and diagnostics report it.
+Implemented in `config::app_match`.
 
 ### Timing
 
@@ -136,17 +162,23 @@ physical key and `null` means "do nothing". An empty string is an error. An
 unknown `word:…` prefix (e.g. from a newer build) loads and saves unchanged, but
 diagnostics report it and the mapper does not start with it.
 
-- **Chords:** modifiers then key, joined by `+`. `Ctrl`, `Alt`, `Shift`, `Meta`
-  mean the left modifier; sided codes (`ControlRight`) are explicit. Canonical
-  order `Ctrl`, `Alt`, `Shift`, `Meta`; other orders and full names are accepted
-  and not normalized on load.
+- **Shortcuts** (a key with modifiers in an action): modifiers then key,
+  joined by `+`. In an action `Ctrl`, `Alt`, `Shift`, `Meta` mean the
+  **left** modifier; in a rule trigger (`rules[].key`) they mean **either**
+  side. Sided codes (`ControlRight`) are explicit. Any case, order and
+  `ControlLeft`-style spelling is accepted and stored canonically on load:
+  catalog key names, modifiers in the order `Ctrl`, `Alt`, `Shift`, `Meta`,
+  left modifiers by their generic name (`shiftleft+ctrl+keyv` →
+  `Ctrl+Shift+KeyV`). "Chord" means only several trigger keys pressed together
+  (`timing.chordMs`, array `key`).
 - **Key names:** W3C `KeyboardEvent.code`, then Chromium names, then names based
-  on Linux `KEY_*` (`WLAN`, `VideoPrev`, …).
+  on Linux `KEY_*` (`WLAN`, `VideoPrevious`, …).
 - **Built-in macros** (`mapper/builtin_macros.rs`) start with a verb: `goTo…`,
   `select…`, `copy…`, `cut…`, `paste…`, `replace…WithClipboard`, `insert…`,
   `duplicate…`. `builtin:` and `macro:` namespaces are independent.
-- **`sys:`**: `closeWindow`, `minimizeWindow`, `maximizeWindow`,
-  `maximizeWindowVertically`, `toggleWindowKeepAbove`, `moveWindowToNextDesktop`,
+- **`sys:`** ids follow the KDE Plasma names of the actions (Plasma is the
+  reference platform): `closeWindow`, `minimizeWindow`, `maximizeWindow`,
+  `maximizeWindowVertically`, `keepWindowAbove`, `moveWindowToNextDesktop`,
   `moveWindowToPreviousDesktop`, `moveWindowToNextScreen`,
   `moveWindowToPreviousScreen`, `switchToNextDesktop`, `switchToPreviousDesktop`,
   `showDesktop`, `showOverview`, `showAppLauncher`, `turnOffScreen`,
@@ -165,7 +197,8 @@ diagnostics report it and the mapper does not start with it.
 
 ## config.json
 
-Example with every field (the app writes only non-defaults):
+Example with every field (the application writes all of them except
+`manualKeymap` before a keymap is chosen and the tool paths):
 
 ```json
 {
@@ -173,14 +206,15 @@ Example with every field (the app writes only non-defaults):
   "settings": {
     "experimental": false,
     "launchAtLogin": false,
-    "startMapperOnLaunch": true,
-    "appearance": "system",
-    "highContrast": "system",
-    "reduceMotion": "system",
-    "keymapOsd": false,
-    "layerHint": false,
-    "copyOsd": false,
-    "locale": "auto",
+    "startMapperOnLaunch": false,
+    "interface": {
+      "appearance": "system",
+      "highContrast": "system",
+      "reduceMotion": "system",
+      "locale": "auto",
+      "keymapOsd": false,
+      "layerHint": false
+    },
     "devices": {
       "keyboards": ["/dev/input/by-id/usb-Keyboard-event-kbd"],
       "mice": ["/dev/input/by-id/usb-Mouse-event-mouse"]
@@ -196,8 +230,8 @@ Example with every field (the app writes only non-defaults):
       "order": ["user:Main", "user:Blender"],
       "auto": {
         "rules": [
-          { "id": "games", "keymap": null, "when": { "gameMode": "on" } },
-          { "id": "blender", "keymap": "user:Blender",
+          { "keymap": null, "enabled": true, "when": { "gameMode": "on" } },
+          { "keymap": "user:Blender", "enabled": true,
             "when": { "windows": ["org.blender.Blender"], "excludeWindows": ["title:Preferences"], "keyboardLayouts": ["us"] } }
         ],
         "fallback": "user:Main"
@@ -212,14 +246,15 @@ Example with every field (the app writes only non-defaults):
       },
       "foregroundOnly": true,
       "processes": [
-        { "id": "p1", "name": "factorio" },
-        { "id": "p2", "name": "obs", "foregroundOnly": false, "exclude": true }
+        { "name": "factorio", "foregroundOnly": true, "exclude": false },
+        { "name": "obs", "foregroundOnly": false, "exclude": true }
       ]
     },
     "linux": {
       "textMode": "libeiWithClipboardFallback",
-      "pasteShortcut": "Shift+Insert",
-      "terminalPasteShortcut": "Ctrl+Shift+KeyV",
+      "copyOsd": false,
+      "pasteShortcut": "Ctrl+KeyV",
+      "terminalPasteShortcut": "Shift+Insert",
       "ydotoolPath": "/usr/local/bin/ydotool",
       "xdotoolPath": "/usr/local/bin/xdotool"
     }
@@ -230,25 +265,26 @@ Example with every field (the app writes only non-defaults):
 | Field | Values | Default |
 | --- | --- | --- |
 | `experimental` | show in-development features in the UI (game mode, auto keymaps); core behaviour unchanged | `false` |
-| `appearance` | `system`, `light`, `dark`, `eInk` | `system` |
-| `highContrast`, `reduceMotion` | `system` (XDG Settings portal; KDE animation speed), `on`, `off` | `system` |
-| `keymapOsd`, `copyOsd` | on-screen notice when the active keymap changes / when Tecloid emits a copy command | `false` |
-| `layerHint` | overlay with the held layer's keys | `false` |
-| `locale` | `auto`, `en`, `ru`, `de`, `fr`, `es`, `it`, `pt`, `pl`, `tr`, `uk`, `cs`, `hu`, `ro`, `el`, `hr`, `ka`, `kk`, `zh-Hans`, `zh-Hant`, `ja`, `ko` | `auto` |
+| `interface.appearance` | `system`, `light`, `dark`, `eInk` | `system` |
+| `interface.highContrast`, `interface.reduceMotion` | `system` (XDG Settings portal; KDE animation speed), `on`, `off` | `system` |
+| `interface.keymapOsd` | on-screen notice when the active keymap changes | `false` |
+| `interface.layerHint` | overlay with the held layer's keys | `false` |
+| `interface.locale` | `auto`, `en`, `ru`, `de`, `fr`, `es`, `it`, `pt`, `pl`, `tr`, `uk`, `cs`, `hu`, `ro`, `el`, `hr`, `ka`, `kk`, `zh-Hans`, `zh-Hant`, `ja`, `ko` | `auto` |
 | `devices.keyboards`, `devices.mice` | device paths; on Linux stable `/dev/input/by-id/…` or `by-path/…` links. At most one of each in this version (a longer list is a load error) | empty |
-| `timing.tapDecision` | `permissiveHold` or `holdOnOtherKeyPress` (modifier-on-hold rules without their own value behave as the latter) | `permissiveHold` |
+| `timing.tapDecision` | `permissiveHold` or `holdOnOtherKeyPress` | `permissiveHold` |
 | `keymaps.mode` | `manual` (`manualKeymap`) or `auto` (first matching `auto.rules[]`, else `auto.fallback`) | `manual` |
 | `keymaps.order` | library order; numbers for `activateKeymapN`; unlisted keymaps follow | empty |
-| `keymaps.auto.rules[]` | `keymap` (required: id or `null` = native input), `enabled` (default `true`), `when` | — |
+| `keymaps.auto.rules[]` | `keymap` (required: id or `null` = native input), `enabled` (default `true`), `when` (missing = always) | — |
 | `keymaps.auto.fallback` | keymap id or `null` | `null` |
 | `commandsEnabled` | allow `cmd:` actions | `false` |
 | `gameMode.control` | `auto`, `on`, `off` | `auto` |
 | `gameMode.detectors` | per-source auto detection; each OS uses only its own | OS-dependent |
 | `gameMode.foregroundOnly` | launcher/Game Bar games count only while focused | `true` |
-| `gameMode.processes[]` | `name` pattern, `foregroundOnly` (default `true`), `exclude` | — |
-| `linux.textMode` | `libeiWithClipboardFallback`, `libeiOnly`, `keycode`, `clipboard`, `ydotool`, `xdotool` | `libeiWithClipboardFallback` |
-| `linux.pasteShortcut` | `Shift+Insert`, `Ctrl+KeyV`, `Ctrl+Shift+KeyV` (modifier order irrelevant) | `Shift+Insert` |
-| `linux.terminalPasteShortcut` | same values or `sameAsPaste` | `Ctrl+Shift+KeyV` |
+| `gameMode.processes[]` | `name` pattern, `foregroundOnly` (default `true`), `exclude` (default `false`) | — |
+| `linux.textMode` | `libeiWithClipboardFallback`, `libeiOnly`, `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` | `libeiWithClipboardFallback` |
+| `linux.copyOsd` | on-screen notice when Tecloid sends a copy shortcut | `false` |
+| `linux.pasteShortcut` | `Shift+Insert`, `Ctrl+KeyV`, `Ctrl+Shift+KeyV` (modifier order irrelevant) | `Ctrl+KeyV` |
+| `linux.terminalPasteShortcut` | same values or `sameAsPaste` | `Shift+Insert` |
 | `linux.ydotoolPath`, `xdotoolPath` | program path; missing = search `PATH`; empty string is an error | — |
 
 Not persisted: open editor, current page, selected layer.
@@ -260,22 +296,22 @@ Not persisted: open editor, current page, selected layer.
   "version": 1,
   "meta": { "name": "Main", "author": "Ivan K", "keymapVersion": "1.0", "description": "Main keymap" },
   "layers": [
-    { "id": "nav", "name": "Navigation", "extraKeyOrder": ["F13"],
+    { "id": "nav", "name": "Navigation", "description": "Arrows", "extraKeyOrder": ["F13"],
       "keys": { "KeyQ": null, "KeyH": "ArrowLeft", "F13": "builtin:copyLineText" } },
     { "id": "desktop",
       "keys": { "Tab": { "action": "Alt+Tab", "holdModifiers": true },
                 "CapsLock": { "action": "Alt+Shift+Tab", "holdModifiers": true } } }
   ],
   "rules": [
-    { "id": "caps", "key": "CapsLock", "tap": "Escape", "hold": { "layer": "nav", "timeoutMs": 180 } },
-    { "id": "alt", "key": "AltLeft", "tap": "Enter", "hold": { "layer": "desktop" } },
-    { "id": "meta", "key": "MetaLeft", "tap": "Escape", "hold": { "action": "ControlLeft" },
+    { "key": "CapsLock", "tap": "Escape", "hold": { "layer": "nav", "timeoutMs": 180 } },
+    { "key": "AltLeft", "tap": "Enter", "hold": { "layer": "desktop" } },
+    { "key": "MetaLeft", "tap": "Escape", "hold": { "action": "ControlLeft" },
       "tapDecision": "holdOnOtherKeyPress" },
-    { "id": "shift", "key": "ShiftLeft", "tap": "Ctrl+KeyC",
+    { "key": "ShiftLeft", "tap": "Ctrl+KeyC",
       "doubleTap": { "action": "Ctrl+KeyX", "timeoutMs": 250 } },
-    { "id": "chord", "key": ["ShiftLeft", "ControlRight"],
+    { "key": ["ShiftLeft", "ControlRight"],
       "longHold": { "action": "sys:turnOffScreen", "timeoutMs": 1500 } },
-    { "id": "games", "key": "Space", "enabled": false, "when": { "gameMode": "off" }, "tap": null }
+    { "key": "Space", "enabled": false, "when": { "gameMode": "off" }, "tap": null }
   ],
   "macros": [
     { "id": "copyLine", "name": "Copy line", "stepPauseMs": 10, "steps": ["Home", "Shift+End", "Ctrl+KeyC"] }
@@ -284,11 +320,11 @@ Not persisted: open editor, current page, selected layer.
     { "id": "music", "name": "Play/pause", "sh": "playerctl play-pause", "workingDirectory": "/tmp" }
   ],
   "quickMenuPages": [
-    { "id": "system", "name": "System",
+    { "name": "System",
       "cells": { "KeyQ": { "name": "Lock", "action": "kde:ksmserver/Lock Session" }, "KeyW": "sys:showDesktop" } }
   ],
   "emojiMenuPages": [
-    { "id": "faces", "name": "Faces", "cells": { "KeyQ": "😀" } }
+    { "name": "Faces", "cells": { "KeyQ": "😀" } }
   ]
 }
 ```
@@ -296,7 +332,8 @@ Not persisted: open editor, current page, selected layer.
 - **`meta`** (optional strings `name`, `author`, `keymapVersion`, `description`):
   author data, kept on edit/copy/rename; not an id and not used for updates.
 - **Layers:** `id` required, `name` defaults to `id` (an equal name is not
-  written; same for macros and commands). In `keys`, `null` swallows the key and
+  written; same for macros and commands), optional `description` shown in
+  the editor. In `keys`, `null` swallows the key and
   a missing key is transparent (lower active layer, then base rules). A key is a
   string or `{ "action", "holdModifiers"? }`. `holdModifiers: true` keeps the
   chord's modifiers pressed until the layer trigger is released (Alt+Tab window
@@ -314,7 +351,7 @@ Not persisted: open editor, current page, selected layer.
   | `doubleTap` | `{ "action", "timeoutMs"? }` |
   | `hold` | `layer` (active while held), `action` (held key/chord; missing = the key itself unless `layer` is set, `null` = nothing), `timeoutMs`, `retroTapMs` (late tap for a single-key layer trigger without `action`; missing = 2 × timeout, `0` = off) |
   | `longHold` | `{ "action", "timeoutMs"? }`; not combinable with `hold` |
-  | `tapDecision` | overrides `timing.tapDecision` |
+  | `tapDecision` | overrides `timing.tapDecision`. Missing: `timing.tapDecision`, except for a single modifier key whose hold is the key itself or another plain modifier (`MetaLeft` held as `ControlLeft`), which uses `holdOnOtherKeyPress` so fast rolls such as Meta+C give Ctrl+C. This is part of the meaning of the field in version 1 |
 
 - **Macros:** `steps` are action strings including `pause:<ms>`; `stepPauseMs`
   and `modifierDelayMs` override `settings.timing` (missing inherits the global
