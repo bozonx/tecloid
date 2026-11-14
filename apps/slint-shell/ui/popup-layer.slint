@@ -82,7 +82,7 @@ export component LayerHintPopup inherits Window {
     in property <bool> presented: true;
     panel := Rectangle {
         visible: root.presented;
-        x: (parent.width - self.width) / 2; y: 8px; width: min(1274px, parent.width - 16px); height: hint-layout.preferred-height;
+        x: (parent.width - self.width) / 2; y: max(8px, parent.height - self.height - 8px); width: min(1274px, parent.width - 16px); height: hint-layout.preferred-height;
         background: Theme.surface.with-alpha(Theme.eink || Theme.high-contrast ? 1 : 0.8); border-radius: Theme.radius-popup;
         border-width: 1px; border-color: Theme.divider;
         hint-layout := VerticalLayout {

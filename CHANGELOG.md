@@ -7,7 +7,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 ## [Unreleased]
 
 - Close the visible window with Ctrl+Q.
-- Fit the layer hint background to its contents and make it translucent while keeping keys opaque.
+- Fit the layer hint background to its contents, position it near the bottom of the screen and make it translucent while keeping keys opaque.
 
 ### Added
 
