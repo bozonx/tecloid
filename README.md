@@ -1,103 +1,73 @@
 # Tecloid
 
-Desktop keyboard mapper на Rust и Slint. Перехватывает физическую клавиатуру,
-применяет слои, правила, макросы и команды и выдаёт результат через виртуальное
-устройство. Настройки доступны из системного трея; Emoji и Quick actions
-открываются отдельными попапами.
+A desktop keyboard mapper written in Rust and Slint. Tecloid intercepts a
+physical keyboard, applies layers, rules, macros and commands, and emits the
+result through a virtual device. It lives in the system tray; Emoji and Quick
+action popups open from global hotkeys.
 
-Основная платформа — Linux, KDE Plasma 6 на Wayland. Оболочка компилируется
-на Windows и macOS. Windows backend перехвата через хуки сессии и `SendInput`
-реализован, но ещё не принят; на macOS перехват не реализован.
+Primary platform: **Linux, KDE Plasma 6 on Wayland**. GNOME Wayland is
+experimental (bundled Shell extension). Windows 11 has a mapper backend and a
+portable build; macOS has the shell without key interception. Details:
+[platforms](docs/platforms.md).
 
-## Сборка и запуск
+## Features
 
-Нужен Rust stable ≥ 1.92. На Linux установите clang, cmake, ninja, Python,
-библиотеки D-Bus, Fontconfig, Wayland и xkbcommon. Подробные команды и настройка
-доступа к `/dev/input` и `/dev/uinput` — в [руководстве разработчика](docs/development/guide.md).
+- **Rules per physical key:** tap, hold, double tap, long hold, chords, retro
+  tap, configurable tap/hold decision.
+- **Layers** with transparent keys, extra keys and held modifiers (Alt+Tab-style
+  window switching).
+- **Actions:** key chords, literal Unicode text, macros with pauses, built-in
+  editing macros, shell/PowerShell commands, system actions (desktops, windows,
+  layouts, lock), KDE global shortcuts, freedesktop application actions.
+- **Popups:** Emoji and Quick actions grids (Ctrl+Alt+F11 / Ctrl+Alt+F12) that
+  insert into the previously focused window.
+- **Keymap library** with manual or automatic selection by active application,
+  window title, keyboard layout and game mode.
+- **Game mode** detection (GameMode, Steam, Lutris, Heroic, umu, gamescope,
+  fullscreen) — experimental.
+- Themes (system, light, dark, E-ink, high contrast), 21 interface languages,
+  CLI control of the running instance.
 
-Все команды выполняются из корня репозитория:
+## Build and run
+
+Rust stable ≥ 1.92. On Linux install clang, cmake, ninja, Python and the D-Bus,
+Fontconfig, Wayland and xkbcommon development libraries; the mapper needs
+access to `/dev/input` and `/dev/uinput`. Full setup:
+[development guide](docs/development.md).
 
 ```sh
 cargo run --locked -p slint-shell
-# Layer-shell попапы с автоматическим переходом на winit:
-TECLOID_POPUPS=auto cargo run --locked -p slint-shell --features spell
+TECLOID_POPUPS=auto cargo run --locked -p slint-shell --features spell   # layer-shell popups
 ```
 
-Приложение запускается со скрытыми окнами и остаётся в трее. Открыть настройки:
+The app starts hidden in the tray. Control the running instance with the CLI:
 
 ```sh
-target/debug/tecloid show settings
+target/debug/tecloid show settings      # show emoji|quick, hide, toggle-mapper, game, quit, --help
 ```
 
-В одном runtime-каталоге работает один экземпляр; повторный запуск без аргументов
-открывает его настройки. Команды `show emoji`, `show quick`, `hide`, `toggle-mapper`,
-`ping` и `quit` отправляются ему по IPC; `--version` и `--help` работают без него.
+Debug builds keep their config in `dev-files/` inside the repository and never
+touch your real settings.
 
-## Установка Linux release
-
-Установка архива без `sudo`, пакеты deb/rpm, права и удаление описаны в
-[инструкции по установке](docs/install-linux.md); сборка релиза — в
-[руководстве разработчика](docs/development/guide.md#5-выпуск). Бинарник устанавливается
-по стабильному пути; пользовательские настройки сохраняются при обновлении.
-
-Для Windows 11 x64 подготовлена portable ZIP-поставка: [запуск, обновление и удаление](docs/install-windows.md).
-
-## Конфигурация
-
-Debug-сборки используют `dev-files/<os>/` внутри репозитория. `TECLOID_DEV_DIR`
-задаёт другой базовый каталог с той же структурой по ОС. На Linux конфиг находится
-в `dev-files/linux/.config/dev.bozonx.tecloid/config.json`, данные —
-в `dev-files/linux/.local/share/dev.bozonx.tecloid/`.
-
-Release-сборки используют системные config/data-каталоги. На Linux это
-`~/.config/dev.bozonx.tecloid/` и
-`~/.local/share/dev.bozonx.tecloid/`. Настройки сохраняются автоматически;
-Keymap записываются в библиотеку только при явном сохранении. Внешние изменения
-конфига обнаруживаются автоматически; сохранение проверяет уже произошедшие
-изменения, но не блокирует параллельную запись внешним редактором. Поддерживается текущий формат конфигурации
-и Keymap; автоматической миграции устаревших полей нет.
-
-## Проверки
+## Tests
 
 ```sh
 cargo fmt -p tecloid-core -p slint-shell --check
 cargo clippy --locked -p tecloid-core -p slint-shell \
   --features slint-shell/spell --all-targets --no-deps -- -D warnings
 cargo test --locked --workspace --features slint-shell/spell
-cargo check --locked -p slint-shell --all-targets
+cargo test --locked -p tecloid-core --test mapper_e2e -- --ignored   # needs /dev/uinput
 ```
 
-UI-сценарии требуют графической сессии и используют временную конфигурацию:
+UI scenarios, desktop and VM acceptance: [testing](docs/testing.md).
 
-```sh
-cargo run --locked -p slint-shell --example editor -- --smoke
-cargo run --locked -p slint-shell --example interactions
-cargo run --locked -p slint-shell --example library
-```
+## Documentation
 
-CI проверяет core и оболочку на Linux, Windows и macOS. Desktop e2e выполняются
-локально в KDE Wayland и Windows VM; [отчёты и границы приёмки](docs/testing/README.md)
-относятся к указанным исходникам и пакетам. Зелёный CI не заменяет desktop-приёмку.
+- [Developer documentation index](docs/README.md): architecture, development,
+  testing, platforms, config format, i18n, release
+- [Instructions for AI agents](AGENTS.md)
+- [Changelog](CHANGELOG.md) · [Security policy](SECURITY.md)
 
-## Структура
+User documentation is published on the documentation site.
 
-- `crates/tecloid-core/` — конфигурация, хранение, mapper и системные интеграции;
-  `assets/` содержит встроенный Keymap, `tests/fixtures/` — образцы для тестирования парсера.
-- `apps/slint-shell/` — UI, IPC, трей, платформенные адаптеры и Spell worker;
-  `assets/` содержит иконку приложения и каталог emoji.
-- `docs/` — [индекс документации](docs/README.md): разработка, проектирование и тестирование.
-- `apps/slint-shell/scripts/` — проверки, релиз, бенчмарки, Windows- и VM-стенды.
-
-## Документация
-
-- [Инструкции для агентов](AGENTS.md)
-- [Руководство разработчика: запуск, проверки, e2e, выпуск](docs/development/guide.md)
-- [Поведение приложения](docs/features.md)
-- [Установка на Linux](docs/install-linux.md)
-- [Portable Windows ZIP](docs/install-windows.md)
-- [Оболочка, сценарии и диагностика](apps/slint-shell/README.md)
-- [Windows-стенд](docs/testing/windows.md)
-- [Ручная приёмка](docs/testing/manual-acceptance.md)
-- [Политика безопасности](SECURITY.md)
-
-Лицензия: [GPL-3.0-or-later](LICENSE).
+License: [GPL-3.0-or-later](LICENSE).

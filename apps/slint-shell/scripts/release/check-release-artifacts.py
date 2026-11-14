@@ -89,7 +89,7 @@ def check(directory, version, require_vendor=False, compare_linux=False, lockfil
             raise ValueError('ZIP must contain one executable')
         verify_binary(zf.read(entries[exe[0]]), windows=True)
         parent = str(PurePosixPath(exe[0]).parent)
-        for name in ('LICENSE', 'README.md', 'features.md'):
+        for name in ('LICENSE', 'README.md'):
             if str(PurePosixPath(parent) / name) not in entries:
                 raise ValueError(f'ZIP lacks {name} beside executable')
     if (directory / deb).read_bytes()[:8] != b'!<arch>\n':

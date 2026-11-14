@@ -32,8 +32,7 @@ try {
     New-Item -ItemType Directory -Force $bundle | Out-Null
     Copy-Item $binary (Join-Path $bundle 'tecloid.exe')
     Copy-Item (Join-Path $root 'LICENSE') $bundle
-    Copy-Item (Join-Path $root 'docs\install-windows.md') (Join-Path $bundle 'README.md')
-    Copy-Item (Join-Path $root 'docs\features.md') $bundle
+    Copy-Item (Join-Path $root 'apps\slint-shell\packaging\windows\README.md') (Join-Path $bundle 'README.md')
     $archive = Join-Path $out "$name.zip"
     Compress-Archive -Path $bundle -DestinationPath $archive -Force
     $hash = (Get-FileHash -Algorithm SHA256 $archive).Hash.ToLowerInvariant()

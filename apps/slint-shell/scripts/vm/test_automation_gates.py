@@ -154,7 +154,7 @@ class AutomationGates(unittest.TestCase):
             pe[128:132] = b'PE\0\0'
             struct.pack_into('<H', pe, 132, 0x8664)
             with zipfile.ZipFile(root / f'{prefix}-windows-x86_64.zip', 'w') as zf:
-                for name, value in [('tecloid.exe', pe), ('LICENSE', b'L'), ('README.md', b'R'), ('features.md', b'F')]:
+                for name, value in [('tecloid.exe', pe), ('LICENSE', b'L'), ('README.md', b'R')]:
                     zf.writestr('bundle/' + name, value)
             vendor = root / f'{prefix}-vendor.tar.xz'
             with tarfile.open(vendor, 'w:xz') as tf:

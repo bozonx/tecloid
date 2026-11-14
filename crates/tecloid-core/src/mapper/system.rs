@@ -9,8 +9,7 @@
 //! platforms document (close, minimize, maximize, keep above, next/previous
 //! desktop, next screen, show desktop, overview, application launcher,
 //! screen off, lock). Everything else is a standard key, a chord, a `kde:`
-//! global shortcut or an `xdg:` application action. See
-//! `docs/design/removed-system-actions.md`.
+//! global shortcut or an `xdg:` application action.
 //!
 //! Action shapes:
 //!   * `SystemAction::Dbus`    — Linux session-bus method call. Preferred when

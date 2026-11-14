@@ -1,7 +1,7 @@
 #!/bin/sh
 # Run the local (L3) desktop scenarios in the current graphical session with
 # temporary configs, print a summary and write it to
-# docs/testing/results/linux/<date>.txt. Usage: e2e-local.sh [--no-mapper]
+# target/test-results/linux/<date>.txt. Usage: e2e-local.sh [--no-mapper]
 set -u
 
 command -v timeout >/dev/null 2>&1 || {
@@ -83,7 +83,7 @@ fi
 
 echo
 echo "Passed: $passed, failed: $failed" | tee -a "$summary"
-results=docs/testing/results/linux
+results=${CARGO_TARGET_DIR:-target}/test-results/linux
 mkdir -p -- "$results"
 result_file="$results/$(date +%F).txt"
 n=2
@@ -94,8 +94,8 @@ done
 {
     cat -- "$summary"
     echo
-    echo 'Manual smoke on the installed package (section 3 of'
-    echo 'docs/testing/manual-acceptance.md): not recorded yet.'
+    echo 'Manual acceptance on real hardware (docs/testing.md,'
+    echo '"Before a release"): not recorded yet.'
 } > "$result_file"
 echo "Summary: $result_file"
 [ "$failed" -eq 0 ]

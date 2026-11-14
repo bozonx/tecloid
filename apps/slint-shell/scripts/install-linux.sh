@@ -25,7 +25,7 @@ desktop="$prefix/share/applications/$app_id.desktop"
 metainfo="$prefix/share/metainfo/$app_id.metainfo.xml"
 icons="$prefix/share/icons/hicolor"
 icon_sizes='16 22 24 32 48 64 128 256 512'
-bundle_files="$binary LICENSE README.md features.md $app_id.desktop $app_id.metainfo.xml
+bundle_files="$binary LICENSE README.md $app_id.desktop $app_id.metainfo.xml
 60-tecloid.rules modules-load.conf icons/scalable.svg install-gnome-extension.sh
 gnome-extension/tecloid@bozonx.dev/metadata.json
 gnome-extension/tecloid@bozonx.dev/extension.js"

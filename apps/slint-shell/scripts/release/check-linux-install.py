@@ -15,7 +15,7 @@ with tempfile.TemporaryDirectory(prefix="tecloid-linux-install-") as directory:
     shutil.copy2(scripts.parent / "install-linux.sh", bundle / "install-linux.sh")
     shutil.copy2(scripts.parent / "install-gnome-extension.sh", bundle / "install-gnome-extension.sh")
     shutil.copytree(scripts.parents[3] / "crates/tecloid-core/assets/gnome-extension", bundle / "gnome-extension")
-    for name in ("LICENSE", "README.md", "features.md"):
+    for name in ("LICENSE", "README.md"):
         (bundle / name).write_text("fixture", encoding="utf-8")
     packaging = scripts.parents[1] / "packaging/linux"
     for name in (

@@ -9,7 +9,7 @@ The default smoke suite covers debug UI scenarios, IPC, popups and shutdown.
 These suites exercise the mapper through QEMU hardware keys and a native receiver.
 
 Usage: run-windows.py --vm /mnt/disk2/vm/tecloid-windows [--show] [--keep]
-See docs/development/guide.md, "E2E в виртуальных машинах".
+See docs/testing.md, "L4: virtual machines".
 """
 
 import argparse

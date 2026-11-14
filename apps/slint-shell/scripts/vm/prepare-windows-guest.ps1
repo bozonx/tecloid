@@ -113,6 +113,6 @@ Register-ScheduledTask -TaskName 'Tecloid-E2E' -Action $action -Principal $princ
 
 $cargo = "C:\Users\$User\.cargo\bin\cargo.exe"
 if (-not (Test-Path $cargo)) {
-    Write-Warning "Rust is not installed for $User; see docs/testing/windows.md, Toolchain installation."
+    Write-Warning "Rust is not installed for $User; see docs/testing.md, Windows VM."
 }
 Write-Host 'Prepared. Reboot once to confirm autologon, then shut down and freeze the disk.'

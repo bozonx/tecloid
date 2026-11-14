@@ -2,7 +2,7 @@
 overlay disk, QEMU with a QMP socket, key injection and ssh into the guest.
 
 A VM lives in its own directory outside the repository with a `vm.json` that
-describes it (see docs/development/guide.md, "E2E в виртуальных машинах").
+describes it (see docs/testing.md, "L4: virtual machines").
 """
 
 import json
@@ -30,7 +30,7 @@ class Vm:
         self.dir = Path(directory).expanduser().resolve()
         config_path = self.dir / "vm.json"
         if not config_path.is_file():
-            raise SystemExit(f"{config_path} not found; see docs/development/guide.md")
+            raise SystemExit(f"{config_path} not found; see docs/testing.md")
         self.config = json.loads(config_path.read_text(encoding="utf-8"))
         self.machine = self.config.get("machine", "q35")
         if not isinstance(self.machine, str) or not re.fullmatch(r"[A-Za-z0-9_.-]+", self.machine):
@@ -460,7 +460,7 @@ class Report:
 
 
 def result_path(platform, name):
-    directory = REPO / "docs/testing/results" / platform
+    directory = REPO / "target/test-results" / platform
     base = f"{time.strftime('%F')}-vm-{name}"
     path = directory / f"{base}.txt"
     n = 2

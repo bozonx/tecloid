@@ -1,45 +1,31 @@
-# Ввод любых символов без буфера обмена через общую XKB-раскладку
+# Typing any character without the clipboard via an XKB option (research)
 
-Статус: исследование, не реализовано. Дата: 2026-10-14.
+Status: **research, not implemented** (2026-10-14).
 
-## Проблема
+## Problem
 
-На KDE Plasma 6 Wayland текст вводится через libei (`crates/tecloid-core/src/text_input/portal/`).
-libei, как и uinput, ydotool и портал RemoteDesktop, отправляет **коды клавиш**, а не символы.
-Символ из кода получает KWin по текущей XKB-раскладке. Если символа (`→`, `é`, `😀`) в
-раскладке нет, его не набрать клавишами, и режим `libeiWithClipboardFallback` вставляет весь текст через буфер
-обмена (`wl-copy` + `Ctrl+V`).
+On KDE Wayland text is typed through libei (`text_input/portal/`). libei sends
+key codes; KWin turns them into characters through the current XKB layout. A
+character missing from the layout (`→`, `é`, `😀`) cannot be typed, so
+`libeiWithClipboardFallback` pastes the whole text through the clipboard.
 
-Способы вставки строки целиком без буфера на KDE недоступны или неполны:
+Alternatives do not work on KDE: `zwp_virtual_keyboard_v1` is not offered to
+normal clients; an input method would replace the user's fcitx5/IBus; AT-SPI
+`InsertText` misses Chromium/Electron and terminals; the portal's
+`NotifyKeyboardKeysym` also looks the keysym up in the current layout.
 
-| Способ | Почему не подходит |
-| --- | --- |
-| `zwp_virtual_keyboard_v1` (своя раскладка на лету, как в `wtype`) | KWin не даёт протокол обычным клиентам; работает только на wlroots |
-| Метод ввода (`input-method` / `text-input`, `commit_string`) | KWin держит один метод ввода; мы вытесним fcitx5 или IBus пользователя |
-| AT-SPI `EditableText.InsertText` | Работает не во всех приложениях (Chromium/Electron, терминалы) |
-| `NotifyKeyboardKeysym` портала | KWin тоже ищет keysym в текущей раскладке |
+## Idea
 
-Остаётся добавить недостающие символы в раскладку KWin. Тогда текущий код libei наберёт их
-клавишами сам: он уже ищет каждый символ в XKB-таблице и нажимает найденную клавишу с
-нужным модификатором.
+Generate an XKB option `tecloid:extra` in `~/.config/xkb/` that places the needed
+characters on key codes absent from real keyboards, and enable it in KWin. The
+existing libei code then types them like any other key. System files and the
+user's layouts stay untouched. One option works in every layout because it fills
+only group 1 and XKB wraps missing groups to it (`GroupsWrap`).
 
-## Идея
+libxkbcommon looks in `$XDG_CONFIG_HOME/xkb` before `/usr/share/X11/xkb`.
 
-Скрипт генерирует **XKB-опцию** `tecloid:extra` в `~/.config/xkb/` и подключает её к
-существующим раскладкам. Опция кладёт нужные символы на коды клавиш, которых нет на
-обычных клавиатурах. Системные файлы и сами раскладки пользователя не меняются.
-
-Почему одна опция работает во всех раскладках: опция добавляет символы только в первую
-группу (раскладку). Если у клавиши описана одна группа, а активна вторая или третья, XKB по
-умолчанию переносит её на первую (`GroupsWrap`). Так же сейчас работают мультимедийные
-клавиши в русской раскладке.
-
-## Файлы
-
-`libxkbcommon` (и KWin через него) по умолчанию ищет файлы сначала в
-`$XDG_CONFIG_HOME/xkb` (`~/.config/xkb`), потом в системном `/usr/share/X11/xkb`.
-
-`~/.config/xkb/rules/evdev`: подключаем системные правила и добавляем свою опцию.
+`~/.config/xkb/rules/evdev` (the include is mandatory, otherwise system rules are
+replaced):
 
 ```
 ! include %S/evdev
@@ -48,10 +34,7 @@ libei, как и uinput, ydotool и портал RemoteDesktop, отправля
   tecloid:extra = +tecloid(extra)
 ```
 
-`%S` — системный каталог XKB. Без `! include` пользовательский файл полностью заменит
-системные правила, и раскладки перестанут собираться.
-
-`~/.config/xkb/symbols/tecloid`: сами символы, по два на клавишу (без модификатора и с Shift).
+`~/.config/xkb/symbols/tecloid` (two levels: plain and Shift):
 
 ```
 default partial alphanumeric_keys
@@ -61,123 +44,66 @@ xkb_symbols "extra" {
 };
 ```
 
-Опцию добавляем к уже настроенным в `~/.config/kxkbrc`:
+`~/.config/kxkbrc`: `Options=…,tecloid:extra`.
 
-```
-[Keymap]
-Options=terminate:ctrl_alt_bksp,tecloid:extra
-```
+**Keysym names must match what the code looks up:** `text_keysym()` in
+`portal/keymap.rs` uses `xkb_utf32_to_keysym`, which returns legacy keysyms for
+many characters (`→` → `rightarrow`, not `U2192`). The generator must write
+`xkb_keysym_get_name(xkb_utf32_to_keysym(ch))`. Multi-codepoint emoji need every
+codepoint in the table.
 
-## Важно: имена keysym
+## Free key codes
 
-Символ нужно записывать **тем же keysym, который ищет наш код**. `text_keysym()` в
-`portal/keymap.rs` вызывает `xkb_utf32_to_keysym`, а она для многих символов возвращает старый
-keysym, а не `U+XXXX`:
+F13–F24 are unusable (mic mute, touchpad toggles, user macros). Use codes defined
+in `keycodes/evdev` without symbols in the compiled layout, computed at run time
+(xkeyboard-config 2.48 with `ru,us,latam`: 14 codes ≤ 255 after excluding
+Japanese/Brazilian keys, 19 above 255 — about 60 characters on two levels). Codes
+above 255 do not work in XWayland, so frequent characters get low codes.
 
-| Символ | `xkb_utf32_to_keysym` | Неверная запись |
-| --- | --- | --- |
-| `→` | `rightarrow` (0x08fd) | `U2192` (0x1002192) |
-| `é` | `eacute` (0x00e9) | `U00E9` |
-| `😀` | `U1F600` (0x101f600) | — |
+## Algorithm
 
-Приложение напечатает `→` в обоих случаях, но с `U2192` наша таблица символ не найдёт и
-текст уйдёт в буфер. Генератор должен писать `xkb_keysym_get_name(xkb_utf32_to_keysym(ch))`.
+1. Read layouts, variants and options from `kxkbrc`.
+2. Collect characters from `text:` actions, macro steps, emoji and quick cells.
+3. Keep characters missing from at least one configured layout.
+4. Assign free codes, frequent characters first.
+5. Write files to a temp dir and verify with
+   `xkbcli compile-keymap --include <tmp> --include-defaults …`; abort on failure.
+6. Atomically replace the files, add the option to `kxkbrc`.
+7. Ask KWin to reload (`org.kde.keyboard.reloadConfig`, unverified) or ask the
+   user to log in again. Regenerate when the characters change.
 
-Эмодзи из нескольких кодовых точек (флаги, ZWJ-последовательности, `❤️` с `U+FE0F`)
-набираются по одной точке; каждая точка нужна в таблице отдельно.
+Rollback: remove the option and both files, reload.
 
-## Свободные коды клавиш
+## Code changes needed
 
-F13–F24 **не подходят**: на них уже висят функции, и часть из них реальна. F20 — выключение
-микрофона, F21–F23 — тачпад, на многих ноутбуках эти кнопки шлют именно такие коды. Кроме
-того, F13–F24 часто назначают на макросы, и такое нажатие начнёт печатать символ.
+`build_keymap_table()` in `portal/keymap.rs` compiles only the current layout and
+variant without options and for group 0. It must compile the full KWin keymap
+(all layouts, variants, options), search the active group with wrapping
+(`group % xkb_keymap_num_layouts_for_key`) and drop its cache when `kxkbrc`
+changes. `level_to_mods()` treats right Alt as AltGr, so only levels 1–2 are used.
 
-Берём коды, которые определены в `keycodes/evdev`, но не имеют символов в собранной
-раскладке. На xkeyboard-config 2.48 для `ru,us,latam` таких кодов:
+## Verified
 
-- до 255 включительно — 14 (часть из них, например `AB11`, `JPCM`, `AE13`, есть на японских
-  и бразильских клавиатурах, их исключаем);
-- больше 255 — 19.
+On Manjaro (libxkbcommon 1.13.2, xkeyboard-config 2.48) in a temp
+`XDG_CONFIG_HOME`: the rules file and option compile; `<I168>` yields `😀`/`é`
+in all three groups of `ru,us,latam`; a character written as `U2192` is not found
+by `xkbcli how-to-type →`.
 
-Это около 60 символов при двух уровнях. Коды больше 255 работают только в нативных
-Wayland-приложениях: X11 (XWayland) их не поддерживает. Поэтому коды до 255 отдаём частым
-символам.
+## Not verified
 
-Список свободных кодов генератор вычисляет сам по собранной раскладке, а не берёт из
-жёсткого списка: набор зависит от версии xkeyboard-config и раскладок пользователя.
-Если символов больше, чем мест, можно определить свои коды через компонент `keycodes`
-или добавить уровни 3–4. Оба варианта не проверены.
+KWin picking up the user rules and option; libei typing in Qt, GTK, Firefox,
+Chromium/Electron and XWayland; reload without relogin; whether KDE keyboard
+settings drop the unknown option on save; exposing the option via `evdev.xml`.
 
-## Алгоритм скрипта
+## Risks
 
-1. Прочитать раскладки, варианты и опции из `~/.config/kxkbrc`.
-2. Собрать из конфига все символы: действия `text:…`, шаги макросов, ячейки эмодзи и
-   быстрых действий.
-3. Собрать текущую раскладку (без `tecloid:extra`) и отобрать символы, которых нет **хотя бы в
-   одной** раскладке. Символ из `ru`, которого нет в `us`, тоже нужно добавить, иначе в `us`
-   текст уйдёт в буфер.
-4. Найти свободные коды и распределить по ним символы: коды до 255 — частым символам.
-5. Записать `symbols/tecloid` и `rules/evdev` во временный каталог и проверить сборку:
-   `xkbcli compile-keymap --include <tmp> --include-defaults --keymap … --options …,tecloid:extra`.
-   Если сборка не удалась, ничего не менять.
-6. Атомарно заменить файлы в `~/.config/xkb/`, добавить `tecloid:extra` в `Options` в
-   `kxkbrc`, если его там нет.
-7. Попросить KWin перечитать раскладку (`dbus-send --session --type=signal /Keymaps
-   org.kde.keyboard.reloadConfig`; не проверено) или попросить пользователя перезайти.
-8. Перезапускать при изменении символов в конфиге.
+| Risk | Mitigation |
+| --- | --- |
+| Broken generated files make KWin fall back to `us` | compile check before writing; atomic replace |
+| A device actually sends a "free" code | exclude Japanese/Brazilian keys; show used codes |
+| User `rules/evdev` affects every libxkbcommon client | only the include plus one option line |
+| KDE settings overwrite `Options` | check at startup and notify |
+| More characters than free codes | frequent first; the rest via clipboard with a warning |
 
-Откат: удалить `tecloid:extra` из `Options`, удалить `~/.config/xkb/symbols/tecloid` и наш
-`~/.config/xkb/rules/evdev`, перечитать раскладку.
-
-## Что поменять в коде
-
-`build_keymap_table()` в `portal/keymap.rs` сейчас собирает раскладку только из имени текущей
-раскладки и варианта, без опций (`options: null`) и только для группы 0. Добавленные
-символы она не увидит, и текст по-прежнему уйдёт в буфер. Нужно:
-
-- собирать полную раскладку KWin: все раскладки, варианты и опции из `kxkbrc`;
-- искать символы в активной группе с учётом переноса на первую группу
-  (`группа % xkb_keymap_num_layouts_for_key`);
-- сбрасывать кэш таблицы при изменении `kxkbrc`.
-
-Отдельная проблема: `level_to_mods()` считает правый Alt клавишей AltGr. В стандартных `ru`
-и `us` это не так, поэтому символы опции кладём только на уровни 1 и 2.
-
-## Что проверено
-
-Проверено на Manjaro, libxkbcommon 1.13.2, xkeyboard-config 2.48, во временном каталоге
-через `XDG_CONFIG_HOME` (настоящие раскладки не трогали):
-
-- `rules/evdev` с `! include %S/evdev` и опция `tecloid:extra` собираются без ошибок
-  (`xkbcli compile-keymap`, `xkbcli how-to-type`).
-- Клавиша `<I168>` с `[ U1F600, eacute ]`, добавленная опцией только в первую группу,
-  выдаёт `😀` / `é` (без модификатора / с Shift) во всех трёх группах `ru,us,latam`
-  (проверка через `xkb_state_key_get_utf8` при активной группе 1, 2 и 3).
-- `xkbcli how-to-type →` не находит символ, записанный как `U2192`: подтверждает
-  требование к именам keysym.
-
-## Что не проверено
-
-- Что KWin подхватывает `~/.config/xkb/rules/evdev` и опцию из `kxkbrc` (ожидаемо, KWin
-  использует libxkbcommon с путями по умолчанию).
-- Ввод через libei на живой сессии: нажатие свободного кода печатает символ в приложениях
-  Qt, GTK, Firefox, Chromium/Electron и XWayland.
-- Сигнал `reloadConfig` для перечитывания раскладки без перезахода.
-- Не удалит ли модуль настроек клавиатуры KDE незнакомую опцию `tecloid:extra` при сохранении.
-  Если удалит, нужно проверять опцию при запуске и сообщать пользователю.
-- Можно ли показать опцию в настройках KDE через `~/.config/xkb/rules/evdev.xml`.
-
-## Риски
-
-| Риск | Последствие | Защита |
-| --- | --- | --- |
-| Ошибка в сгенерированных файлах | KWin не соберёт раскладку и может откатиться на `us` | Проверка `xkbcli compile-keymap` до записи; атомарная замена |
-| Свободный код всё же шлёт какое-то устройство | Кнопка начнёт печатать символ | Исключать коды японских и бразильских клавиш; показывать использованные коды |
-| `rules/evdev` в `~/.config/xkb` влияет на всех клиентов libxkbcommon пользователя | Ошибка в нём ломает все раскладки, а не только опцию | Только `! include %S/evdev` и одна строка опции |
-| Настройки KDE перезаписали `Options` | Символы молча идут через буфер | Проверка опции при запуске |
-| Символов больше, чем свободных кодов | Лишние идут через буфер | Приоритет частым символам; предупреждение |
-
-## Согласование
-
-Скрипт меняет раскладку пользователя и `kxkbrc`. По `AGENTS.md` это требует согласования,
-как и изменение формата настроек, если режим будет включаться из конфига.
+Changing the user's layout files and `kxkbrc` (and any new setting enabling this
+mode) needs the owner's approval before implementation.

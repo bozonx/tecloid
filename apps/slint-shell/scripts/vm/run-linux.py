@@ -7,7 +7,7 @@ popups, upgrades and removal.
 
 Usage: run-linux.py --vm /mnt/disk2/vm/tecloid-fedora-kde --package <file>
        [--previous <older release>] [--show] [--keep]
-See docs/development/guide.md, "E2E в виртуальных машинах".
+See docs/testing.md, "L4: virtual machines".
 """
 
 import argparse

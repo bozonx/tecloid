@@ -15,7 +15,7 @@ try {
     $executables = @(Get-ChildItem $extracted -Recurse -File -Filter tecloid.exe)
     if ($executables.Count -ne 1) { throw 'Package must contain exactly one executable' }
     $exe = $executables[0].FullName
-    foreach ($file in @('LICENSE', 'README.md', 'features.md')) {
+    foreach ($file in @('LICENSE', 'README.md')) {
         if (-not (Test-Path (Join-Path $executables[0].DirectoryName $file))) { throw "Package missing $file" }
     }
     & $exe --version
