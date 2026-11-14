@@ -27,7 +27,7 @@ trap 'exit 1' HUP INT TERM
 cat > "$staging/changelog.yml" <<CHANGELOG
 - semver: $version-1
   date: $(date -u +%Y-%m-%dT%H:%M:%SZ)
-  packager: bozonx <ipkozyrin@gmail.com>
+  packager: bozonx <bozonx@users.noreply.github.com>
   deb:
     urgency: medium
     distributions: [unstable]

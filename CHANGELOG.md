@@ -19,6 +19,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ### Changed
 
+- Releases are Linux-only for now: the Windows portable ZIP is no longer attached. The Linux archive now includes `CHANGELOG.md`.
 - Mapper: modifiers still held after a shortcut-style chord act as modifiers again, so Shift held across "Ё" (Shift+Slash) capitalises the next letter and a second Shift+Slash types "Ё" again instead of "ё".
 - Mapper: a rule whose hold does nothing (hold `null`, no layer, double or long press) fires its tap on the press, so a slow press still runs it instead of doing nothing.
 - Mapper: keys typed after a `text:` action that is still being inserted after 4 seconds are discarded with a notification instead of being replayed much later, possibly into another window.

@@ -142,7 +142,7 @@ class AutomationGates(unittest.TestCase):
             elf[:6] = b'\x7fELF\x02\x01'
             struct.pack_into('<H', elf, 18, 62)
             with tarfile.open(root / f'{prefix}-linux-x86_64.tar.gz', 'w:gz') as tf:
-                for name, value in [('tecloid', elf), ('LICENSE', b'license'), ('install-linux.sh', b'installer')]:
+                for name, value in [('tecloid', elf), ('LICENSE', b'license'), ('CHANGELOG.md', b'changes'), ('install-linux.sh', b'installer')]:
                     member = tarfile.TarInfo('bundle/' + name)
                     member.size = len(value)
                     tf.addfile(member, io.BytesIO(value))
@@ -169,6 +169,13 @@ class AutomationGates(unittest.TestCase):
             lock.write_text('[[package]]\nname="required"\nversion="1.2.3"\nsource="registry+https://example.invalid"\n')
             with self.assertRaisesRegex(ValueError, 'Vendored dependency missing: required 1.2.3'):
                 gate.check(root, version, require_vendor=True, lockfile=lock)
+            self.assertIn('Windows=True', gate.check(root, version))
+            # Linux-only release: Windows files are optional unless required.
+            (root / 'WINDOWS-SHA256SUMS').unlink()
+            (root / f'{prefix}-windows-x86_64.zip').unlink()
+            self.assertIn('Windows=False', gate.check(root, version))
+            with self.assertRaises(OSError):
+                gate.check(root, version, require_windows=True)
 
 
 if __name__ == '__main__':

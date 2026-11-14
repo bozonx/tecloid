@@ -1,8 +1,9 @@
 name: Release
 
-# A `v*` tag builds Linux and Windows artifacts, smoke-tests packages and creates
-# a draft release; a person publishes it after the local e2e run. A manual run
-# builds and checks the artifacts without creating a release.
+# A `v*` tag builds the Linux artifacts, smoke-tests packages and creates a draft
+# release; a person publishes it after the local VM acceptance (L4). A manual run
+# builds and checks the artifacts without creating a release. Windows is not
+# released yet: package-windows.ps1 stays available for local builds.
 on:
   push:
     tags: ['v*']
@@ -22,6 +23,8 @@ env:
 jobs:
   verify:
     uses: ./.github/workflows/ci.yml
+    with:
+      linux-only: true
     permissions:
       contents: read
 
@@ -57,10 +60,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
+      - name: Read pinned toolchain
+        id: toolchain
+        shell: bash
+        run: |
+          channel=$(sed -n 's/^channel = "\(.*\)"$/\1/p' rust-toolchain.toml)
+          test -n "$channel"
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
+
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
         with:
-          toolchain: 1.98.1  # keep in sync with rust-toolchain.toml
+          toolchain: ${{ steps.toolchain.outputs.channel }}
 
       - name: Install nfpm
         run: |
@@ -81,30 +92,6 @@ jobs:
         with:
           name: linux-x86_64
           path: target/release-artifacts/
-          if-no-files-found: error
-
-  build-windows:
-    name: Build Windows x86_64 portable
-    needs: [verify, metadata]
-    if: ${{ !failure() && !cancelled() }}
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
-        with:
-          toolchain: 1.98.1  # keep in sync with rust-toolchain.toml
-          targets: x86_64-pc-windows-msvc
-      - name: Build portable ZIP
-        run: powershell -NoProfile -File apps/slint-shell/scripts/release/package-windows.ps1
-      - name: Check extracted package CLI
-        shell: pwsh
-        run: |
-          $zip = Get-Item target/release-artifacts-windows/*.zip
-          & ./apps/slint-shell/scripts/windows/check-windows-package.ps1 -Archive $zip.FullName
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: windows-x86_64
-          path: target/release-artifacts-windows/*
           if-no-files-found: error
 
   rpmlint:
@@ -153,18 +140,13 @@ jobs:
 
   verify-artifacts:
     name: Verify assembled distribution
-    needs: [build-linux, build-windows]
-    if: ${{ !failure() && !cancelled() }}
+    needs: build-linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: linux-x86_64
-          path: artifacts
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: windows-x86_64
           path: artifacts
       - name: Check manifests, formats, architecture and bundled sources
         run: |
@@ -173,7 +155,7 @@ jobs:
 
   draft-release:
     name: Draft release
-    needs: [rpmlint, smoke-packages, build-windows, verify-artifacts]
+    needs: [rpmlint, smoke-packages, verify-artifacts]
     if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     permissions:
@@ -189,16 +171,10 @@ jobs:
           name: linux-x86_64
           path: artifacts
 
-      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
-        with:
-          name: windows-x86_64
-          path: artifacts
 
       - name: Verify checksums
         working-directory: artifacts
-        run: |
-          sha256sum -c SHA256SUMS
-          sha256sum -c WINDOWS-SHA256SUMS
+        run: sha256sum -c SHA256SUMS
 
       - name: Attest build provenance
         uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2
@@ -208,7 +184,6 @@ jobs:
             artifacts/*.deb
             artifacts/*.rpm
             artifacts/*.tar.xz
-            artifacts/*.zip
 
       - name: Create draft release
         env:

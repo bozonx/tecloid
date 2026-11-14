@@ -140,7 +140,8 @@ Stand: `apps/slint-shell/scripts/vm/`. Each run creates a disposable overlay on 
 frozen base image (`--keep` keeps it, `--show` opens a GTK window), stores logs
 and QMP screenshots in `<vm>/runs/<time>/logs/` and writes a summary to
 `target/test-results/<linux|windows>/<date>-vm-<name>.txt`. Keys are injected
-through QMP as a real USB keyboard.
+through QMP as a real USB keyboard. None of this goes into Git; see
+[release.md](release.md#acceptance-results).
 
 Host: `qemu-system-x86_64`, `qemu-img`, `/dev/kvm`, ssh; for Windows also OVMF
 with Secure Boot and `swtpm`. Guest access key:

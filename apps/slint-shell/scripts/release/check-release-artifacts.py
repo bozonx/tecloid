@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only verification of assembled Linux/Windows distribution artifacts."""
+"""Read-only verification of assembled Linux (and optionally Windows) distribution artifacts."""
 import argparse
 import hashlib
 from pathlib import Path, PurePosixPath
@@ -42,14 +42,34 @@ def verify_binary(data, windows=False):
         raise ValueError('Linux executable is not little-endian x86_64 ELF')
 
 
-def check(directory, version, require_vendor=False, compare_linux=False, lockfile=None):
+def check_windows(path):
+    with zipfile.ZipFile(path) as zf:
+        if zf.testzip():
+            raise ValueError('ZIP CRC mismatch')
+        files = [n for n in zf.namelist() if not n.endswith('/')]
+        entries = {n.replace('\\', '/'): n for n in files}
+        if len(entries) != len(files):
+            raise ValueError('Duplicate normalized ZIP paths')
+        exe = [n for n in entries if PurePosixPath(n).name == 'tecloid.exe']
+        if len(exe) != 1:
+            raise ValueError('ZIP must contain one executable')
+        verify_binary(zf.read(entries[exe[0]]), windows=True)
+        parent = str(PurePosixPath(exe[0]).parent)
+        for name in ('LICENSE', 'README.md'):
+            if str(PurePosixPath(parent) / name) not in entries:
+                raise ValueError(f'ZIP lacks {name} beside executable')
+
+
+def check(directory, version, require_vendor=False, compare_linux=False, lockfile=None, require_windows=False):
     linux = verify_manifest(directory, 'SHA256SUMS')
-    windows = verify_manifest(directory, 'WINDOWS-SHA256SUMS')
+    # Windows is not released yet; its files are checked only when present or required.
+    has_windows = require_windows or (directory / 'WINDOWS-SHA256SUMS').exists()
+    windows = verify_manifest(directory, 'WINDOWS-SHA256SUMS') if has_windows else None
     archive = f'tecloid-{version}-linux-x86_64.tar.gz'
     deb = f'tecloid_{version}_amd64.deb'
     rpm = f'tecloid-{version}-1.x86_64.rpm'
     portable = f'tecloid-{version}-windows-x86_64.zip'
-    if not {archive, deb, rpm} <= linux or windows != {portable}:
+    if not {archive, deb, rpm} <= linux or (has_windows and windows != {portable}):
         raise ValueError('Distribution files/version missing from checksum manifests')
     if require_vendor and f'tecloid-{version}-vendor.tar.xz' not in linux:
         raise ValueError('Offline vendor source archive is missing')
@@ -75,23 +95,10 @@ def check(directory, version, require_vendor=False, compare_linux=False, lockfil
         binary = tf.extractfile(executables[0]).read()
         verify_binary(binary)
         names = {PurePosixPath(m.name).name for m in files}
-        if not {'LICENSE', 'install-linux.sh'} <= names:
-            raise ValueError('Linux archive lacks license/installer')
-    with zipfile.ZipFile(directory / portable) as zf:
-        if zf.testzip():
-            raise ValueError('ZIP CRC mismatch')
-        files = [n for n in zf.namelist() if not n.endswith('/')]
-        entries = {n.replace('\\', '/'): n for n in files}
-        if len(entries) != len(files):
-            raise ValueError('Duplicate normalized ZIP paths')
-        exe = [n for n in entries if PurePosixPath(n).name == 'tecloid.exe']
-        if len(exe) != 1:
-            raise ValueError('ZIP must contain one executable')
-        verify_binary(zf.read(entries[exe[0]]), windows=True)
-        parent = str(PurePosixPath(exe[0]).parent)
-        for name in ('LICENSE', 'README.md'):
-            if str(PurePosixPath(parent) / name) not in entries:
-                raise ValueError(f'ZIP lacks {name} beside executable')
+        if not {'LICENSE', 'CHANGELOG.md', 'install-linux.sh'} <= names:
+            raise ValueError('Linux archive lacks license/changelog/installer')
+    if has_windows:
+        check_windows(directory / portable)
     if (directory / deb).read_bytes()[:8] != b'!<arch>\n':
         raise ValueError('Invalid DEB archive magic')
     if (directory / rpm).read_bytes()[:4] != b'\xed\xab\xee\xdb':
@@ -112,7 +119,7 @@ def check(directory, version, require_vendor=False, compare_linux=False, lockfil
                 extracted = subprocess.check_output(['bsdtar', '-xOf', str(directory / package), member])
             if extracted != binary:
                 raise ValueError(f'{package} binary differs from the accepted tar executable')
-    return f'{version}: checksums, required files, ELF/PE architecture, package formats; Linux binary comparison={compare_linux}'
+    return f'{version}: checksums, required files, ELF architecture; Windows={has_windows}, package formats; Linux binary comparison={compare_linux}'
 
 
 if __name__ == '__main__':
@@ -121,8 +128,9 @@ if __name__ == '__main__':
     parser.add_argument('--version', required=True)
     parser.add_argument('--require-vendor', action='store_true')
     parser.add_argument('--compare-linux', action='store_true')
+    parser.add_argument('--require-windows', action='store_true')
     args = parser.parse_args()
     try:
-        print('RELEASE ARTIFACTS PASSED:', check(args.directory, args.version, args.require_vendor, args.compare_linux))
+        print('RELEASE ARTIFACTS PASSED:', check(args.directory, args.version, args.require_vendor, args.compare_linux, require_windows=args.require_windows))
     except (ValueError, OSError, StopIteration, subprocess.SubprocessError, zipfile.BadZipFile, tarfile.TarError) as error:
         parser.exit(1, f'RELEASE ARTIFACTS FAILED: {error}\n')

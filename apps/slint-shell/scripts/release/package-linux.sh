@@ -24,7 +24,7 @@ install -m 755 -- apps/slint-shell/scripts/install-linux.sh "$staging/$name/inst
 install -m 755 -- apps/slint-shell/scripts/install-gnome-extension.sh "$staging/$name/install-gnome-extension.sh"
 cp -R -- crates/tecloid-core/assets/gnome-extension "$staging/$name/gnome-extension"
 packaging=apps/slint-shell/packaging/linux
-install -m 644 -- LICENSE "$packaging/dev.bozonx.tecloid.desktop" \
+install -m 644 -- LICENSE CHANGELOG.md "$packaging/dev.bozonx.tecloid.desktop" \
     "$packaging/dev.bozonx.tecloid.metainfo.xml" "$packaging/60-tecloid.rules" \
     "$packaging/modules-load.conf" "$staging/$name/"
 install -m 644 -- "$packaging"/icons/*.png "$staging/$name/icons/"

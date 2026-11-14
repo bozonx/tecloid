@@ -8,7 +8,7 @@ version: ${VERSION}
 release: 1
 section: utils
 priority: optional
-maintainer: bozonx <ipkozyrin@gmail.com>
+maintainer: bozonx <bozonx@users.noreply.github.com>
 vendor: bozonx
 homepage: https://github.com/bozonx/tecloid
 license: GPL-3.0-or-later

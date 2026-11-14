@@ -1,7 +1,8 @@
 # Tecloid for Linux
 
-Keyboard mapper for KDE Plasma 6 on Wayland. Verify the archive with
-`sha256sum -c --ignore-missing SHA256SUMS` before extracting it.
+Keyboard mapper for KDE Plasma 6 on Wayland. Before extracting, download
+`SHA256SUMS` from the same release page and verify the archive with
+`sha256sum -c --ignore-missing SHA256SUMS`. Changes are listed in `CHANGELOG.md`.
 
 ## Install
 
@@ -33,4 +34,5 @@ Quit Tecloid, then run the new archive's `install-linux.sh`; settings are kept.
 
 Uninstalling keeps your configuration and keymaps.
 
-Documentation: https://github.com/bozonx/tecloid. License: GPL-3.0-or-later.
+Documentation: https://bozonx.github.io/tecloid. Source: https://github.com/bozonx/tecloid.
+License: GPL-3.0-or-later.
