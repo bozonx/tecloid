@@ -18,15 +18,19 @@ impl Engine {
                 .find(|(_, keys)| keys.contains(&key))
                 .map(|(owner, _)| *owner);
             if let Some(owner) = owner {
-                self.chords.active.remove(&owner);
+                let members = self.chords.active.remove(&owner).unwrap_or_default();
                 self.on_release(owner, now, out);
-                for (member, stroke) in self.chords.suppressed.remove(&owner).unwrap_or_default() {
-                    if self.physical_down.contains(&member) {
-                        self.emit_stroke_press(member, stroke, out);
+                let suppressed = self.chords.suppressed.remove(&owner).unwrap_or_default();
+                for (member, stroke) in &suppressed {
+                    if self.physical_down.contains(member) {
+                        self.emit_stroke_press(*member, stroke.clone(), out);
                     }
                 }
                 self.release_emitted(key, out);
                 self.chords.consumed.remove(&key);
+                if is_shortcut_chord(&members) {
+                    self.restore_chord_modifiers(&members, &suppressed, now, out);
+                }
                 return true;
             }
             if self.chords.consumed.remove(&key) {
@@ -181,17 +185,54 @@ impl Engine {
         }
         self.chords.active.insert(owner, keys);
         self.chords.suppressed.insert(owner, suppressed);
-        if rule.taps_on_press() {
-            // Nothing to hold: holding the chord must not turn its tap into
-            // the native keys (Shift+Slash typing "," instead of "Ё").
-            self.fire_tap(owner, &rule.tap, at, out);
-            self.virt.oneshot.insert(owner);
-        } else {
-            self.start_rule(owner, rule, at, out);
-        }
+        self.start_rule(owner, rule, at, out);
         self.drain_decision_buffer(out);
         for ev in after {
             self.handle_event(ev.key, ev.down, ev.at, out);
+        }
+    }
+
+    /// After a shortcut chord (Shift+Slash typing "Ё"), modifiers still held
+    /// act as modifiers again: Shift held across "Ё" and "А" types "ЁА", and
+    /// the next Shift+Slash completes the chord again. A modifier the chord
+    /// suppressed was already pressed back above; one whose own rule was still
+    /// undecided gets that rule's hold. A modifier whose hold is a layer or
+    /// nothing stays consumed until its release, as before.
+    fn restore_chord_modifiers(
+        &mut self,
+        members: &[KeyCode],
+        suppressed: &[(KeyCode, Keystroke)],
+        now: Instant,
+        out: &mut Vec<EngineOutput>,
+    ) {
+        for &member in members {
+            if !is_modifier_key(member)
+                || !self.physical_down.contains(&member)
+                || !self.chords.consumed.contains(&member)
+            {
+                continue;
+            }
+            if suppressed.iter().any(|(key, _)| *key == member) {
+                self.chords.consumed.remove(&member);
+                continue;
+            }
+            let Some(rule) = self.active_rule_for_key(member) else {
+                continue;
+            };
+            if rule.layer_id.is_some() || matches!(rule.hold, HoldOutputMode::Swallow) {
+                continue;
+            }
+            self.chords.consumed.remove(&member);
+            self.pending.insert(
+                member,
+                RuleExecution {
+                    rule: rule.clone(),
+                    phase: RulePhase::HoldActive,
+                    second_press: false,
+                    pressed_at: now,
+                },
+            );
+            self.commit_hold_with(&rule, member, out);
         }
     }
 

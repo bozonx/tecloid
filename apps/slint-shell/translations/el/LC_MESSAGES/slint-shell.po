@@ -3880,3 +3880,6 @@ msgstr "Χρησιμοποιείται για ενεργοποιητές ενό�
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Χρήση του διπλάσιου του ορίου κρατήματος: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Η εισαγωγή του κειμένου άργησε πολύ. Τα πλήκτρα που πατήθηκαν στο μεταξύ απορρίφθηκαν."

@@ -3796,3 +3796,6 @@ msgstr "Використовується для однокнопкових тр�
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Використати подвоєний поріг утримання: {} мс"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Вставлення тексту тривало надто довго. Натискання за цей час відкинуто."

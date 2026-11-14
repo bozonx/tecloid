@@ -3825,3 +3825,6 @@ msgstr "Réteget bekapcsoló egybillentyűs indítókhoz."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "A nyomva tartási küszöb kétszeresének használata: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "A szöveg beszúrása túl sokáig tartott. A közben lenyomott billentyűket a program elvetette."

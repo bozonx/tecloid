@@ -3863,3 +3863,6 @@ msgstr "Für Ein-Tasten-Auslöser, die eine Ebene aktivieren."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Doppelte Halteschwelle verwenden: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Das Einfügen des Textes hat zu lange gedauert. Die währenddessen gedrückten Tasten wurden verworfen."

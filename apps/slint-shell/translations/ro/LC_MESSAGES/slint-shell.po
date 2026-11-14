@@ -3827,3 +3827,6 @@ msgstr "Folosit pentru declanșatoare cu o singură tastă care activează un st
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Folosește dublul pragului de ținere: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Inserarea textului a durat prea mult. Tastele apăsate între timp au fost ignorate."

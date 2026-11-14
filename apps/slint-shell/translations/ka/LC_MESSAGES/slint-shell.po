@@ -3779,3 +3779,6 @@ msgstr "გამოიყენება ერთკლავიშიან�
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "დაყოვნების ზღვრის ორმაგის გამოყენება: {} მწმ"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "ტექსტის ჩასმას ძალიან დიდი დრო დასჭირდა. ამ დროს დაჭერილი კლავიშები გაუქმდა."

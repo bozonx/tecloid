@@ -3828,3 +3828,6 @@ msgstr "Używane dla wyzwalaczy jednoklawiszowych włączających warstwę."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Użyj dwukrotności progu przytrzymania: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Wstawianie tekstu trwało zbyt długo. Klawisze naciśnięte w tym czasie zostały odrzucone."

@@ -3850,3 +3850,6 @@ msgstr "Usato per attivatori a tasto singolo che attivano un livello."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Usa il doppio della soglia di pressione prolungata: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "L’inserimento del testo ha richiesto troppo tempo. I tasti premuti nel frattempo sono stati scartati."

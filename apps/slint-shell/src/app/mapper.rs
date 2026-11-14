@@ -98,6 +98,9 @@ pub(super) fn forward_core_events() -> Result<tecloid_core::events::Subscription
             let error = error.clone();
             post(move |app| app.set_error(Msg::ActionFailed(error)));
         }
+        CoreEvent::TypingDiscarded => {
+            post(|app| crate::notifications::send(&app.settings, Msg::TypingDiscarded))
+        }
         CoreEvent::MacroRunFailed(reason) => {
             let reason = *reason;
             post(move |app| {

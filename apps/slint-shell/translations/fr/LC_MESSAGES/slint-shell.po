@@ -3872,3 +3872,6 @@ msgstr "Utilisé pour les déclencheurs à une touche qui activent une couche."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Utiliser le double du seuil de maintien : {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "L’insertion du texte a pris trop de temps. Les touches tapées entre-temps ont été ignorées."

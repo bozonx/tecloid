@@ -144,8 +144,10 @@ impl RuleEntry {
         }
     }
 
-    /// True for a chord rule with nothing to do on hold: its tap fires as
-    /// soon as the chord completes.
+    /// True for a rule with nothing to decide: holding does nothing and no
+    /// double or long press is configured. Its tap fires on the press, so a
+    /// slow press still types (Slash -> "ё", not the native key) and holding
+    /// a chord does not send its native keys (Shift+Slash -> "Ё", not ",").
     pub(super) fn taps_on_press(&self) -> bool {
         !self.has_hold()
             && self.long_hold.is_none()

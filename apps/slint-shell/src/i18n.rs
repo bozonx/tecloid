@@ -358,6 +358,8 @@ pub enum Msg {
     SettingsTimingInvalid,
     LongHoldInvalid,
     RetroTapInvalid,
+    /// Keys typed while a text was still being inserted were dropped.
+    TypingDiscarded,
     TextEmpty,
     DelayRange,
     SystemActionRequired,
@@ -577,6 +579,7 @@ impl Msg {
             Self::ExtraKeyTaken => ("extra-key-taken", empty(), 0),
             Self::LongHoldInvalid => ("long-hold-invalid", empty(), 0),
             Self::RetroTapInvalid => ("retro-tap-invalid", empty(), 0),
+            Self::TypingDiscarded => ("typing-discarded", empty(), 0),
             Self::SettingsTimingInvalid => ("settings-timing-invalid", empty(), 0),
             Self::TimeoutInvalid => ("timeout-invalid", empty(), 0),
             Self::TextEmpty => ("text-empty", empty(), 0),

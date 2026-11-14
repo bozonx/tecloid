@@ -3802,3 +3802,6 @@ msgstr "Usado em acionadores de uma tecla que ativam uma camada."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Usar o dobro do limiar de manter premido: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "A inserção do texto demorou demasiado. As teclas premidas entretanto foram descartadas."

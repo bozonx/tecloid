@@ -366,7 +366,15 @@ fn held_text_chord_types_its_text_instead_of_the_native_keys() {
         ],
         &[150, 280, 300],
     );
-    assert_eq!(trace, [Text("Ё".into())]);
+    // Shift is still held after the chord, so it acts as Shift again.
+    assert_eq!(
+        trace,
+        [
+            Text("Ё".into()),
+            Raw(KeyCode::KEY_LEFTSHIFT, true),
+            Raw(KeyCode::KEY_LEFTSHIFT, false)
+        ]
+    );
 }
 
 #[test]
@@ -384,7 +392,77 @@ fn text_chord_rolled_under_an_undecided_layer_key_is_still_the_chord() {
         ],
         &[],
     );
-    assert_eq!(trace, [Tap(KeyCode::KEY_ENTER, vec![]), Text("Ё".into())]);
+    assert_eq!(
+        trace,
+        [
+            Tap(KeyCode::KEY_ENTER, vec![]),
+            Text("Ё".into()),
+            Raw(KeyCode::KEY_LEFTSHIFT, true),
+            Raw(KeyCode::KEY_LEFTSHIFT, false)
+        ]
+    );
+}
+
+#[test]
+fn shift_held_across_a_text_chord_still_shifts_the_next_letter() {
+    use TraceEvent::*;
+    let trace = timeline(
+        paste_layer_cfg(),
+        &[
+            (KeyCode::KEY_LEFTSHIFT, true, 0),
+            (KeyCode::KEY_SLASH, true, 80),
+            (KeyCode::KEY_SLASH, false, 150),
+            (KeyCode::KEY_A, true, 250),
+            (KeyCode::KEY_A, false, 320),
+            (KeyCode::KEY_LEFTSHIFT, false, 400),
+        ],
+        &[100, 200, 300],
+    );
+    assert_eq!(
+        trace,
+        [
+            Text("Ё".into()),
+            Raw(KeyCode::KEY_LEFTSHIFT, true),
+            Raw(KeyCode::KEY_A, true),
+            Raw(KeyCode::KEY_A, false),
+            Raw(KeyCode::KEY_LEFTSHIFT, false),
+        ]
+    );
+}
+
+#[test]
+fn shift_held_across_two_text_chords_types_both() {
+    use TraceEvent::*;
+    let trace = timeline(
+        paste_layer_cfg(),
+        &[
+            (KeyCode::KEY_LEFTSHIFT, true, 0),
+            (KeyCode::KEY_SLASH, true, 80),
+            (KeyCode::KEY_SLASH, false, 150),
+            (KeyCode::KEY_SLASH, true, 250),
+            (KeyCode::KEY_SLASH, false, 320),
+            (KeyCode::KEY_LEFTSHIFT, false, 400),
+        ],
+        &[100, 200, 300],
+    );
+    let texts: Vec<_> = trace.iter().filter(|e| matches!(e, Text(_))).collect();
+    assert_eq!(texts, [&Text("Ё".into()), &Text("Ё".into())]);
+    // Shift ends released, never typed as Ctrl+C.
+    assert!(!trace.iter().any(|e| matches!(e, Tap(KeyCode::KEY_C, _))));
+}
+
+#[test]
+fn slow_press_of_a_rule_without_hold_still_fires_its_tap() {
+    use TraceEvent::*;
+    let cfg = serde_json::json!({
+        "rules": [{"key": "Slash", "tapAction": "text:ё", "holdAction": null}]
+    });
+    let trace = timeline(
+        cfg,
+        &[(KeyCode::KEY_SLASH, true, 0), (KeyCode::KEY_SLASH, false, 600)],
+        &[100, 250, 400],
+    );
+    assert_eq!(trace, [Text("ё".into())]);
 }
 
 fn retro_cfg(retro: Option<u64>) -> serde_json::Value {

@@ -19,6 +19,10 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ### Changed
 
+- Mapper: modifiers still held after a shortcut-style chord act as modifiers again, so Shift held across "Ё" (Shift+Slash) capitalises the next letter and a second Shift+Slash types "Ё" again instead of "ё".
+- Mapper: a rule whose hold does nothing (hold `null`, no layer, double or long press) fires its tap on the press, so a slow press still runs it instead of doing nothing.
+- Mapper: keys typed after a `text:` action that is still being inserted after 4 seconds are discarded with a notification instead of being replayed much later, possibly into another window.
+
 - Mapper: a layer key whose tap is a shortcut or macro (e.g. CapsLock: tap Ctrl+V, hold a layer) no longer resolves as a tap when pressed right after typing or held over a key the layer does not map; it holds its layer. Keys whose tap only types keep the rolling-typing behaviour.
 - Mapper: a chord trigger with a tap action and no hold (e.g. Shift+Slash typing "Ё") fires as soon as it completes; holding it no longer sends the native keys. A chord pressed while another tap-hold key is still undecided is recognised instead of falling back to the single-key rule.
 

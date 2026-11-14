@@ -23,9 +23,11 @@ const MAX_BLOCKING_MOD_DELAY: Duration = Duration::from_millis(15);
 /// shell never reports that the popup took the keyboard focus.
 const POPUP_HOLD_MAX: Duration = Duration::from_millis(1000);
 
-/// Longest time output stays held behind text that is still being typed;
-/// a slower backend then lets the keys through rather than lose them.
-const TEXT_HOLD_MAX: Duration = Duration::from_millis(2000);
+/// Longest time keys typed after a text wait for it to be typed. A backend
+/// that takes longer (a stuck portal, a consent dialog) would otherwise
+/// replay them much later, possibly into another window, so they are
+/// discarded and the user is told.
+const TEXT_HOLD_MAX: Duration = Duration::from_millis(4000);
 
 /// Longest time keys typed during a macro wait for it to finish; a macro
 /// with long pauses then lets typing through rather than stall it.
@@ -49,7 +51,11 @@ pub(super) struct OutputHold {
     until: Option<Instant>,
     released: bool,
     after_text: Vec<EngineOutput>,
+    /// Set while output is held behind text that is still being typed.
     text_until: Option<Instant>,
+    /// When output held behind the text is discarded; measured from the
+    /// first held key, not from the text.
+    text_discard_at: Option<Instant>,
     typed: Vec<EngineOutput>,
     /// Set by the first key held during the current macro run; once it has
     /// passed, typing flows freely until the macro ends.
@@ -79,6 +85,7 @@ impl OutputHold {
         self.released = false;
         self.after_text.clear();
         self.text_until = None;
+        self.text_discard_at = None;
         self.typed.clear();
         self.typed_until = None;
     }
@@ -186,11 +193,27 @@ impl OutputHold {
     }
 
     fn gate_text(&mut self, buf: &mut Vec<EngineOutput>, now: Instant, text_pending: bool) {
+        if self.text_until.is_some()
+            && text_pending
+            && self.text_discard_at.is_some_and(|at| now >= at)
+        {
+            // Keys pressed after the text never reached the OS, so dropping
+            // them leaves nothing stuck; their later releases pass harmlessly.
+            log::warn!(
+                "[mapper] text still being typed after {} ms; discarded {} held outputs",
+                TEXT_HOLD_MAX.as_millis(),
+                self.after_text.len()
+            );
+            self.after_text.clear();
+            self.text_discard_at = None;
+            crate::events::emit(crate::events::CoreEvent::TypingDiscarded);
+        }
         if self
             .text_until
             .is_some_and(|_| !text_pending)
         {
             self.text_until = None;
+            self.text_discard_at = None;
             let mut held = std::mem::take(&mut self.after_text);
             held.append(buf);
             *buf = held;
@@ -213,6 +236,7 @@ impl OutputHold {
                 preserve_released_modifiers(&mut self.after_text, &out);
                 buf.push(out);
             } else {
+                self.text_discard_at.get_or_insert(now + TEXT_HOLD_MAX);
                 self.after_text.push(out);
             }
         }
@@ -1350,6 +1374,32 @@ mod tests {
         effects.text_pending = false;
         iterate!(start + Duration::from_secs(2), Vec::new());
         assert_eq!(sink.batches.len(), 4);
+
+        // Text that hangs: keys typed after it are dropped once they waited
+        // TEXT_HOLD_MAX, instead of replaying later into whatever has focus.
+        let later = start + Duration::from_secs(10);
+        effects.text_pending = true;
+        iterate!(
+            later,
+            vec![EngineOutput::Literal("y".into()), key(KeyCode::KEY_C, true)],
+        );
+        iterate!(later + Duration::from_millis(500), vec![key(KeyCode::KEY_D, true)]);
+        iterate!(later + TEXT_HOLD_MAX - Duration::from_millis(1), Vec::new());
+        assert_eq!(sink.batches.len(), 4, "held until the limit");
+        iterate!(later + TEXT_HOLD_MAX, Vec::new());
+        assert_eq!(sink.batches.len(), 4, "discarded, not emitted");
+        // Releases of the dropped presses pass without a matching press.
+        iterate!(later + TEXT_HOLD_MAX, vec![key(KeyCode::KEY_C, false)]);
+        effects.text_pending = false;
+        iterate!(later + TEXT_HOLD_MAX + Duration::from_millis(10), Vec::new());
+        assert!(
+            !sink.batches[4..]
+                .iter()
+                .flatten()
+                .any(|&(code, value)| value == 1 && (code == KeyCode::KEY_C.code() || code == KeyCode::KEY_D.code())),
+            "dropped presses never reach the OS: {:?}",
+            &sink.batches[4..]
+        );
     }
 
     #[test]

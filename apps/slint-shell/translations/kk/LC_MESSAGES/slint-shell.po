@@ -3797,3 +3797,6 @@ msgstr "Қабатты қосатын бір пернелі триггерлер
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Ұстау шегінің екі еселенген мәнін қолдану: {} мс"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Мәтінді кірістіру тым ұзаққа созылды. Осы уақытта басылған пернелер еленбеді."

@@ -3783,3 +3783,6 @@ msgstr "Koristi se za okidače s jednom tipkom koji uključuju sloj."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Koristi dvostruki prag držanja: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Umetanje teksta trajalo je predugo. Tipke pritisnute u međuvremenu su odbačene."

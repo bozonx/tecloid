@@ -3785,3 +3785,6 @@ msgstr "Se usa en disparadores de una tecla que activan una capa."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Usar el doble del umbral de mantener: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "La inserción del texto tardó demasiado. Se descartaron las teclas pulsadas mientras tanto."

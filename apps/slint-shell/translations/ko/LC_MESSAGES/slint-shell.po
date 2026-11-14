@@ -3575,3 +3575,6 @@ msgstr "레이어를 켜는 단일 키 트리거에 사용됩니다."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "누름 임계값의 두 배 사용: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "텍스트 삽입이 너무 오래 걸렸습니다. 그동안 누른 키는 무시되었습니다."

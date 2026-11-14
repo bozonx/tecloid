@@ -3772,3 +3772,6 @@ msgstr "Používá se u jednoklávesových spouští, které aktivují vrstvu."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Použít dvojnásobek prahu podržení: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Vkládání textu trvalo příliš dlouho. Klávesy stisknuté mezitím byly zahozeny."

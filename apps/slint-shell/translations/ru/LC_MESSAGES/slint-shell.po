@@ -3238,3 +3238,6 @@ msgstr "Используется для одноклавишных тригге�
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Использовать удвоенный порог удержания: {} мс"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Вставка текста заняла слишком много времени. Нажатия за это время отброшены."

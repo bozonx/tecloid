@@ -3793,3 +3793,6 @@ msgstr "Bir katmanı etkinleştiren tek tuşlu tetikleyiciler için kullanılır
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Basılı tutma eşiğinin iki katını kullan: {} ms"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "Metin ekleme çok uzun sürdü. Bu sırada basılan tuşlar yok sayıldı."

@@ -3517,3 +3517,6 @@ msgstr "用於啟用層的單鍵觸發鍵。"
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "使用按住門檻的兩倍：{} 毫秒"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "插入文字耗時過長。期間按下的按鍵已被捨棄。"

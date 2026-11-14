@@ -49,8 +49,10 @@
 //!     the native key, i.e. anything but a swallowed hold):
 //!     then it decides again — short is the double-tap, long is the hold.
 //!
-//! Fast path: a rule with `tap == Swallow` and no `double_tap` skips
-//! WaitingDecision and commits the hold immediately on key-down.
+//! Fast paths skip WaitingDecision: a rule with `tap == Swallow` and no
+//! `double_tap` commits the hold on key-down; a rule whose hold does nothing
+//! (no layer, swallowed hold, no double or long press) fires its tap on
+//! key-down instead.
 
 mod builder;
 mod chords;
@@ -805,6 +807,13 @@ impl Engine {
         now: Instant,
         out: &mut Vec<EngineOutput>,
     ) {
+        if rule.taps_on_press() {
+            // Nothing to decide: holding does nothing and no double or long
+            // press waits, so the tap fires now, however long the key is held.
+            self.fire_tap(key, &rule.tap, now, out);
+            self.virt.oneshot.insert(key);
+            return;
+        }
         if let Some(action) = rule.long_hold.clone() {
             self.long_holds
                 .insert(key, (now + rule.long_hold_timeout, action));

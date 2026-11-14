@@ -48,6 +48,8 @@ pub enum CoreEvent {
     ActionUnavailable(String),
     /// A macro run was rejected or stopped before completing.
     MacroRunFailed(MacroRunFailure),
+    /// Keys typed after a text were dropped: the text took too long to type.
+    TypingDiscarded,
     /// The desktop's high-contrast or reduced-motion preference changed.
     SystemAccessibilityChanged(crate::platform::accessibility::SystemAccessibility),
 }

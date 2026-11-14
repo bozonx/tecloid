@@ -53,6 +53,7 @@ const POLICY: &[(&[&str], ToastKind, Duration)] = &[
             "worker-restarting",
             "commands-disabled",
             "macro-queue-full",
+            "typing-discarded",
             "macro-in-use",
             "action-unavailable",
             "action-unavailable-named",

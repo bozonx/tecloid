@@ -3582,3 +3582,6 @@ msgstr "レイヤーを有効にする単一キーのトリガーで使用され
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "長押ししきい値の 2 倍を使用：{} ミリ秒"
+
+msgid "Text insertion took too long. Keys typed meanwhile were discarded."
+msgstr "テキストの挿入に時間がかかりすぎました。その間に押されたキーは破棄されました。"
