@@ -10,7 +10,6 @@ component HintKey inherits Rectangle {
     border-width: 1px;
     border-color: Theme.border;
     background: Theme.card;
-    opacity: root.cell.kind == Assignment.action ? 1 : 0.55;
     VerticalLayout {
         padding: root.compact ? 0px : Theme.space-xs;
         spacing: root.compact ? 0px : Theme.space-2xs;
@@ -83,11 +82,11 @@ export component LayerHintPopup inherits Window {
     in property <bool> presented: true;
     panel := Rectangle {
         visible: root.presented;
-        x: (parent.width - self.width) / 2; y: 8px; width: min(1274px, parent.width - 16px); height: parent.height - 16px;
-        background: Theme.surface; border-radius: Theme.radius-popup;
+        x: (parent.width - self.width) / 2; y: 8px; width: min(1274px, parent.width - 16px); height: hint-layout.preferred-height;
+        background: Theme.surface.with-alpha(Theme.eink || Theme.high-contrast ? 1 : 0.8); border-radius: Theme.radius-popup;
         border-width: 1px; border-color: Theme.divider;
-        VerticalLayout {
-            padding: Theme.space-xl;
+        hint-layout := VerticalLayout {
+            padding: Theme.space-m;
             spacing: Theme.space-l;
             alignment: center;
             Text {

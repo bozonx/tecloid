@@ -410,6 +410,20 @@ fn observe(app: &Rc<App>, window: Window) {
                         .set_keyboard_navigation(keyboard),
                 }
             }
+            if app.window(window).is_visible()
+                && modifiers.get().control_key()
+                && !modifiers.get().alt_key()
+                && !modifiers.get().super_key()
+                && let WindowEvent::KeyboardInput { event, .. } = event
+                && event.state == slint::winit_030::winit::event::ElementState::Pressed
+                && event.physical_key
+                    == slint::winit_030::winit::keyboard::PhysicalKey::Code(
+                        slint::winit_030::winit::keyboard::KeyCode::KeyQ,
+                    )
+            {
+                app.defer_hide(window);
+                return EventResult::PreventDefault;
+            }
             if window == Window::Settings && app.input.observe(&app.settings, event) {
                 return EventResult::PreventDefault;
             }

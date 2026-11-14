@@ -6,6 +6,9 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Close the visible window with Ctrl+Q.
+- Fit the layer hint background to its contents and make it translucent while keeping keys opaque.
+
 ### Added
 
 - Mapper: late tap for layer keys. A layer trigger held a little past its hold threshold and released without pressing, clicking or scrolling anything still runs its tap (e.g. CapsLock pastes instead of silently opening and closing its layer). The window defaults to twice the hold threshold; set it or turn it off (`0`) per rule in the advanced options or as `hold.retroTapMs` in the keymap file.
