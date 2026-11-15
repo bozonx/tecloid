@@ -71,8 +71,14 @@ part of version 1 under the same rules.
   `minItems`/`maxItems` only widen, an id `pattern` changes only after
   review); size limits and bounds outside the schemas in
   [`schemas/limits.v1.txt`](../schemas/limits.v1.txt) (test
-  `limits_only_widen`). These lists only grow: a missing line fails the
-  test. New entries are added with `TECLOID_UPDATE_SCHEMAS=1`.
+  `limits_only_widen`); how values outside the schemas are read (action
+  strings, window patterns, keyboard layout ids, `kde:`/`xdg:` ids, device
+  ids, keymap names, ids, trigger keys, slot numbers) as input/result
+  examples in [`schemas/grammar.v1.txt`](../schemas/grammar.v1.txt) (test
+  `value_grammars_keep_their_meaning`). These lists only grow: a missing
+  line fails the test. New entries are added with `TECLOID_UPDATE_SCHEMAS=1`;
+  action prefixes come from `actions::PREFIXES`, the table `Action::parse`
+  uses.
 - The steps of every `builtin:` macro are a reviewed snapshot in
   [`schemas/builtin-macros.v1.txt`](../schemas/builtin-macros.v1.txt) (test
   `builtin_macro_steps_are_reviewed`). The id is frozen, the steps are what
@@ -90,8 +96,9 @@ part of version 1 under the same rules.
   field of version 1. They are never edited; `version_1_fixtures_keep_loading`
   checks that they load without blocking diagnostics, and
   `version_1_fixtures_save_unchanged` that they save exactly as
-  `*.v1.saved.json`. `config.v1.defaults.json` is what a new installation
-  writes on Linux (`config_defaults_are_frozen`): a diff there is a change of
+  `*.v1.saved.json`. `config.v1.defaults.{linux,windows,macos}.json` are
+  what a new installation writes on each system, all checked on every build
+  host (`config_defaults_are_frozen`): a diff there is a change of
   defaults and needs a `CHANGELOG.md` entry.
 - Semantic problems (reference to a missing macro, unknown key in an action) do
   not block loading; diagnostics report them and the mapper refuses to start
@@ -129,8 +136,8 @@ references must spell it exactly; grammar `[A-Za-z0-9_-]{1,64}`, so ids
 appear unescaped in actions. Duplicates are load errors. Rules, menu pages
 (addressed by position), auto rules and game-mode processes have no `id`
 field. The editor names new layers after their name (`Navigation` → `navigation`,
-`layer` for non-Latin names), new macros `m1`, `m2`, … and new commands `c1`,
-`c2`, ….
+`layer` for non-Latin names), new macros the same way (`Copy line` →
+`copy-line`, `macro` for non-Latin names) and new commands `c1`, `c2`, ….
 
 Library keymap ids are `user:<file name without .json>`. The name is 1–128
 characters (at most 250 UTF-8 bytes), no control characters or
@@ -237,6 +244,9 @@ diagnostics report it and the mapper does not start with it.
   (`BTN_EXTRA`) — the side buttons of ordinary mice — and `Mouse6`, `Mouse7`,
   `Mouse8` for the further buttons (`BTN_FORWARD`, `BTN_BACK`, `BTN_TASK` in
   that order; despite their kernel names they are not the usual back/forward).
+  `ScrollUp` and `ScrollDown` are keyboard keys (`KEY_SCROLLUP`,
+  `KEY_SCROLLDOWN`), not the mouse wheel. `WheelUp`, `WheelDown`, `WheelLeft`
+  and `WheelRight` are reserved for the wheel and never name a key.
 - **Built-in macros** (`mapper/builtin_macros.rs`) start with a verb: `goTo…`,
   `select…`, `copy…`, `cut…`, `paste…`, `replace…WithClipboard`, `insert…`,
   `duplicate…`. `builtin:` and `macro:` namespaces are independent.

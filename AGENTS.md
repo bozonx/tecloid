@@ -125,7 +125,8 @@ Current format versions: **`config.json` = 1, keymap = 1**
   fields and enum values in `schemas/contract.v1.json`, size limits in
   `schemas/limits.v1.txt` (only widen), built-in macro steps (a reviewed
   snapshot; changing them is a CHANGELOG-documented behaviour change) in
-  `schemas/builtin-macros.v1.txt`;
+  `schemas/builtin-macros.v1.txt`, value grammars (window patterns,
+  `kde:`/`xdg:`, device ids, …) as examples in `schemas/grammar.v1.txt`;
   the fixtures `crates/tecloid-core/fixtures/*.v1.json` are never edited.
 - `config.json` is written in full, defaults included.
 - **Defaults that affect input** (`settings.timing`, tap decision) change only as

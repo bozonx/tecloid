@@ -462,6 +462,28 @@ pub struct GameModeSettings {
     pub control: GameModeControl,
 }
 
+impl GameModeSettings {
+    /// Defaults of a new installation on `os` (`std::env::consts::OS`):
+    /// each system enables the detectors it has.
+    pub fn defaults_for(os: &str) -> Self {
+        let linux = os == "linux";
+        Self {
+            use_gamemoded: linux,
+            use_fullscreen: false,
+            use_steam: linux || os == "windows",
+            use_lutris: linux,
+            use_heroic: linux,
+            use_umu: linux,
+            use_gamescope: linux,
+            use_app_category: os == "macos",
+            use_game_bar: false,
+            foreground_only: true,
+            process_matchers: Vec::new(),
+            control: GameModeControl::Auto,
+        }
+    }
+}
+
 /// Who decides whether game mode is active: detection or the user.
 #[cfg_attr(test, derive(schemars::JsonSchema))]
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -840,20 +862,7 @@ impl Default for AppSettings {
             auto_rules: Vec::new(),
             auto_default_keymap_id: None,
             commands_enabled: false,
-            game_mode: GameModeSettings {
-                use_gamemoded: cfg!(target_os = "linux"),
-                use_fullscreen: false,
-                use_steam: cfg!(any(target_os = "linux", target_os = "windows")),
-                use_lutris: cfg!(target_os = "linux"),
-                use_heroic: cfg!(target_os = "linux"),
-                use_umu: cfg!(target_os = "linux"),
-                use_gamescope: cfg!(target_os = "linux"),
-                use_app_category: cfg!(target_os = "macos"),
-                use_game_bar: false,
-                foreground_only: true,
-                process_matchers: Vec::new(),
-                control: GameModeControl::Auto,
-            },
+            game_mode: GameModeSettings::defaults_for(std::env::consts::OS),
             linux_wayland_text_mode: TextMode::LibeiWithClipboardFallback,
             linux_paste_shortcut: PasteShortcut::CtrlV,
             linux_terminal_paste_shortcut: Some(PasteShortcut::ShiftInsert),

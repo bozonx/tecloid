@@ -337,12 +337,11 @@ fn unique_id(draft: &[Entry], base: &str) -> String {
         .unwrap_or_else(|| ids::generate(base))
 }
 
-/// Short id for a new macro: the first free `m1`, `m2`, …
-fn new_id(draft: &[Entry]) -> String {
-    (1..)
-        .map(|n| format!("m{n}"))
-        .find(|id| !taken(draft, id))
-        .unwrap_or_default()
+/// Readable id for a new macro named `name` (`Copy line` → `copy-line`,
+/// `macro` for non-Latin names), so `macro:<id>` in a shared keymap says
+/// what it runs.
+fn new_id(draft: &[Entry], name: &str) -> String {
+    ids::from_name(name, "macro", |id| taken(draft, id))
 }
 
 fn step(action: impl Into<String>) -> MacroStep {
@@ -499,7 +498,7 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) -> Shared {
     let s = structural.clone();
     editor.on_add(move |name| {
         s(&|draft| {
-            let id = new_id(draft);
+            let id = new_id(draft, &name);
             draft.insert(
                 0,
                 Entry::new(Macro {

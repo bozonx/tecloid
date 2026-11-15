@@ -35,7 +35,30 @@ pub enum Action {
     Unknown(String),
 }
 
+/// Every action prefix, in the order [`Action::parse`] tries them. Stored
+/// in user files, so a prefix is never removed (`names.v1.txt`).
+pub const PREFIXES: [&str; 9] = [
+    "text:", "macro:", "builtin:", "cmd:", "sys:", "app:", "kde:", "xdg:", "pause:",
+];
+
 impl Action {
+    /// The variant `prefix` (one of [`PREFIXES`]) builds from `payload`.
+    fn with_prefix(prefix: &str, payload: &str) -> Option<Self> {
+        let payload = payload.to_owned();
+        Some(match prefix {
+            "text:" => Self::Text(payload),
+            "macro:" => Self::Macro(payload),
+            "builtin:" => Self::BuiltinMacro(payload),
+            "cmd:" => Self::Command(payload),
+            "sys:" => Self::System(payload),
+            "app:" => Self::App(payload),
+            "kde:" => Self::KdeShortcut(payload),
+            "xdg:" => Self::DesktopEntry(payload),
+            "pause:" => Self::Pause(payload),
+            _ => return None,
+        })
+    }
+
     pub fn parse(value: Option<&str>) -> Self {
         let Some(value) = value else {
             return Self::Swallow;
@@ -43,23 +66,12 @@ impl Action {
         // Values are taken verbatim: blanks around a prefix or id make the
         // action invalid rather than being dropped, so every action has one
         // spelling. The text payload keeps all of its whitespace.
-        if let Some(text) = value.strip_prefix("text:") {
-            return Self::Text(text.into());
-        }
-        type Constructor = fn(String) -> Action;
-        let prefixed: [(&str, Constructor); 8] = [
-            ("macro:", Self::Macro),
-            ("builtin:", Self::BuiltinMacro),
-            ("cmd:", Self::Command),
-            ("sys:", Self::System),
-            ("app:", Self::App),
-            ("kde:", Self::KdeShortcut),
-            ("xdg:", Self::DesktopEntry),
-            ("pause:", Self::Pause),
-        ];
-        for (prefix, build) in prefixed {
-            if let Some(id) = value.strip_prefix(prefix) {
-                return build(id.into());
+        for prefix in PREFIXES {
+            if let Some(action) = value
+                .strip_prefix(prefix)
+                .and_then(|payload| Self::with_prefix(prefix, payload))
+            {
+                return action;
             }
         }
         if value.is_empty() {

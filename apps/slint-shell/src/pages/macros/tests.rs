@@ -350,7 +350,7 @@ fn picker_uses_new_and_renamed_macro_ids_from_the_invalid_draft() {
     assert!(editor.get_has_unsaved_changes());
     // The persisted id is not a target in the draft anymore.
     editor.invoke_add_step(0, "".into());
-    picker.set_value("macro:m1".into());
+    picker.set_value("macro:first".into());
     picker.invoke_refresh();
     assert!(!picker.get_valid());
     assert!(
@@ -361,4 +361,29 @@ fn picker_uses_new_and_renamed_macro_ids_from_the_invalid_draft() {
             .iter()
             .all(|item| item.id != "renamed")
     );
+}
+
+#[test]
+fn new_macros_get_ids_from_their_names() {
+    let draft = |names: &[&str]| -> Vec<Entry> {
+        names
+            .iter()
+            .map(|id| {
+                Entry::new(Macro {
+                    id: (*id).into(),
+                    name: (*id).into(),
+                    steps: vec![],
+                    step_pause_ms: None,
+                    modifier_delay_ms: None,
+                })
+            })
+            .collect()
+    };
+    assert_eq!(super::new_id(&draft(&[]), "Copy line"), "copy-line");
+    assert_eq!(
+        super::new_id(&draft(&["Copy-Line"]), "Copy line"),
+        "copy-line2"
+    );
+    assert_eq!(super::new_id(&draft(&[]), "Скопировать"), "macro");
+    assert_eq!(super::new_id(&draft(&["macro"]), "Вставить"), "macro2");
 }

@@ -213,9 +213,7 @@ mod tests {
     fn stored_names() -> Vec<String> {
         use super::super::{actions, key_catalog};
         let mut names = Vec::new();
-        for prefix in [
-            "app:", "macro:", "builtin:", "cmd:", "sys:", "kde:", "xdg:", "text:", "pause:",
-        ] {
+        for prefix in actions::PREFIXES {
             let parsed = actions::Action::parse(Some(&format!("{prefix}1")));
             assert!(
                 !matches!(
@@ -391,6 +389,263 @@ mod tests {
         snapshot(&path, &(current.join("\n") + "\n"));
     }
 
+    /// How values outside the JSON schemas are read: action strings, window
+    /// patterns, keyboard layout ids, `kde:` / `xdg:` ids, device ids,
+    /// keymap names, trigger keys and slot numbers. Each line is an input
+    /// and what this build makes of it. A line only disappears when a
+    /// grammar changes, which the test reports; new cases are added here and
+    /// written with `TECLOID_UPDATE_SCHEMAS=1`.
+    fn grammar_cases() -> Vec<String> {
+        use super::super::{actions, app_match, auto_switch, key_catalog, model};
+        use serde_json::{Value, json};
+        let mut lines: Vec<Value> = Vec::new();
+
+        for raw in [
+            "KeyA",
+            "keya",
+            "ctrl+keyc",
+            "ShiftLeft+Ctrl+KeyV",
+            "Ctrl + KeyC",
+            "Shift+ControlLeft",
+            "Ctrl",
+            "ControlRight+KeyA",
+            "macro:copyLine",
+            "macro: a",
+            " macro:a",
+            "builtin:copyLineText",
+            "cmd:c1",
+            "sys:switchToDesktop3",
+            "app:showQuickMenu1",
+            "kde:kwin/Window Maximize",
+            "xdg:org.mozilla.firefox/new-private-window",
+            "text: keep spaces ",
+            "text:",
+            "pause:100",
+            "pause:0100",
+            "future:thing",
+            "newKind:x",
+            "Ctrl+a:b",
+            "Key:A",
+            "",
+        ] {
+            let action = actions::Action::parse(Some(raw));
+            let kind = format!("{action:?}");
+            let kind = kind.split('(').next().unwrap_or_default().to_owned();
+            lines.push(json!(["action", raw, kind, action.format()]));
+        }
+        lines.push(json!([
+            "action",
+            null,
+            "Swallow",
+            actions::Action::Swallow.format()
+        ]));
+
+        for id in [
+            "switchToDesktop1",
+            "switchToDesktop999",
+            "switchToDesktop1000",
+            "switchToDesktop0",
+            "switchToDesktop03",
+            "switchToDesktop+3",
+            "switchToKeyboardLayout10",
+            "moveWindowToDesktop2",
+            "lockSession",
+            "lockScreen",
+        ] {
+            lines.push(json!([
+                "sys",
+                id,
+                actions::system_action_name(id).is_some()
+            ]));
+        }
+        for id in [
+            "showQuickMenu1",
+            "showQuickMenu999",
+            "showQuickMenu01",
+            "showEmojiMenu0",
+            "showEmojiMenuRecent",
+            "activateKeymap6",
+            "activateKeymap1000",
+            "setGameModeAuto",
+        ] {
+            lines.push(json!(["app", id, actions::app_action_name(id).is_some()]));
+        }
+        for digits in ["1", "999", "1000", "0", "01", "+1", "1 ", ""] {
+            lines.push(json!(["slot", digits, actions::slot_number(digits)]));
+        }
+        for id in [
+            "kwin/Window Maximize",
+            "org_kde_powerdevil/Turn Off Screen",
+            "org.kde.powerdevil/Turn Off Screen",
+            "kwin",
+            "kwin/",
+            "kwin/ ",
+            "kwin/ Overview",
+            "/Overview",
+        ] {
+            lines.push(json!([
+                "kde",
+                id,
+                actions::kde_shortcut_parts(id).is_some()
+            ]));
+        }
+        for id in [
+            "org.mozilla.firefox/new-private-window",
+            "kde4-foo/Action_1",
+            "firefox",
+            "firefox/",
+            "/x",
+            "a b/c",
+            "a/b c",
+            "a/b/c",
+            "a/b.c",
+        ] {
+            lines.push(json!([
+                "xdg",
+                id,
+                actions::desktop_entry_parts(id).is_some()
+            ]));
+        }
+
+        let window =
+            |app_id: &str, process: Option<&str>, title: &str| crate::runtime_state::ActiveWindow {
+                title: title.into(),
+                app_id: app_id.into(),
+                process_name: process.map(str::to_owned),
+                fullscreen: None,
+            };
+        for (pattern, app_id, process, title) in [
+            ("org.telegram.desktop", "org.telegram.desktop", None, ""),
+            ("ORG.Telegram.Desktop", "org.telegram.desktop", None, ""),
+            ("org.telegram", "org.telegram.desktop", None, ""),
+            ("Game.exe", "", Some("game"), ""),
+            ("game", "", Some("Game.exe"), ""),
+            ("steam_app_*", "steam_app_42", None, ""),
+            ("steam_app_?", "steam_app_42", None, ""),
+            ("title:YouTube", "firefox", None, "Music - youtube"),
+            ("Title: youtube ", "firefox", None, "Music - YouTube"),
+            ("title:a*b", "x", None, "a*b"),
+            ("title:a*b", "x", None, "axxb"),
+            ("class:firefox", "firefox", None, ""),
+            ("exe:firefox", "firefox", Some("firefox"), ""),
+            ("C:firefox", "C:firefox", None, ""),
+            ("  ", "", None, ""),
+        ] {
+            let matcher = app_match::AppMatcher::parse(pattern);
+            let kind = match &matcher {
+                Some(app_match::AppMatcher::App(_)) => "app",
+                Some(app_match::AppMatcher::Title(_)) => "title",
+                None => "none",
+            };
+            let matches = matcher
+                .is_some_and(|matcher| matcher.matches_window(&window(app_id, process, title)));
+            lines.push(json!([
+                "window", pattern, app_id, process, title, kind, matches
+            ]));
+        }
+        for process in ["Game.exe", "game", "steam_app_*", "title:Steam"] {
+            let matches = app_match::AppMatcher::parse(process)
+                .is_some_and(|matcher| matcher.matches_process("game.exe"));
+            lines.push(json!(["process", process, "game.exe", matches]));
+        }
+
+        for (item, current) in [
+            ("us", "us"),
+            (" US ", "us"),
+            ("de-neo", "de-neo"),
+            ("us_intl", "us_intl"),
+            ("us(dvorak)", "us(dvorak)"),
+            ("lang:en", "lang:en"),
+            ("us", "de"),
+            ("", ""),
+        ] {
+            lines.push(json!([
+                "layout",
+                item,
+                current,
+                auto_switch::keyboard_layout_matches(item, current)
+            ]));
+        }
+
+        for id in [
+            "/dev/input/by-id/usb-Keyboard-event-kbd",
+            "/dev/input/event3",
+            "/",
+            "windows:keyboard",
+            "windows:mouse",
+            "future:device",
+            "windows:",
+            "x:y",
+            "Windows:keyboard",
+            "C:\\keyboard",
+            "event3",
+            " /dev/input/event3",
+            "",
+        ] {
+            lines.push(json!(["device", id, model::valid_device_id(id)]));
+        }
+
+        for name in [
+            "Main",
+            " Left hand ",
+            "Name (2)",
+            "Раскладка",
+            "a:b",
+            "a/b",
+            ".hidden",
+            "end.",
+            "..",
+            "",
+        ] {
+            lines.push(json!([
+                "keymapName",
+                name,
+                crate::storage::validate_keymap_name(name).ok()
+            ]));
+        }
+        for id in ["nav", "Nav_2-x", "a b", "навигация", ""] {
+            lines.push(json!(["id", id, super::super::ids::valid(id)]));
+        }
+        for key in [
+            "capslock",
+            "Shift",
+            "ShiftLeft",
+            "KEYA",
+            "NotAKey",
+            "MouseLeft",
+        ] {
+            lines.push(json!([
+                "triggerKey",
+                key,
+                key_catalog::canonical_key(key),
+                key_catalog::valid_trigger(key)
+            ]));
+        }
+
+        lines
+            .into_iter()
+            .map(|line| serde_json::to_string(&line).unwrap())
+            .collect()
+    }
+
+    /// See [`grammar_cases`]: lines only grow, a missing line means a value
+    /// that a user file may hold now reads differently.
+    #[test]
+    fn value_grammars_keep_their_meaning() {
+        let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../schemas/grammar.v1.txt");
+        let current = grammar_cases();
+        let published = std::fs::read_to_string(&path).unwrap_or_default();
+        let changed: Vec<_> = published
+            .lines()
+            .filter(|line| !line.is_empty() && !current.iter().any(|case| case == line))
+            .collect();
+        assert!(
+            changed.is_empty(),
+            "values in user files now read differently or lost their case: {changed:?}"
+        );
+        snapshot(&path, &(current.join("\n") + "\n"));
+    }
+
     /// The fixtures saved again: every value in its stored spelling. A diff
     /// here means a version 1 file now reads or writes differently.
     #[test]
@@ -412,16 +667,26 @@ mod tests {
 
     /// Defaults are written into every new `config.json`, and input
     /// defaults change only as a documented behaviour change. Game-mode
-    /// detectors differ per OS, so the snapshot is the Linux one.
-    #[cfg(target_os = "linux")]
+    /// detectors differ per OS, so there is one snapshot per system, all
+    /// checked on every build host.
     #[test]
     fn config_defaults_are_frozen() {
         let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("fixtures");
-        let defaults = super::super::settings::parse(r#"{"version": 1}"#).unwrap();
-        snapshot(
-            &dir.join("config.v1.defaults.json"),
-            &(super::super::settings::serialize(&defaults) + "\n"),
+        let host = super::super::settings::parse(r#"{"version": 1}"#).unwrap();
+        assert_eq!(
+            host.game_mode,
+            super::super::model::GameModeSettings::defaults_for(std::env::consts::OS)
         );
+        for os in ["linux", "windows", "macos"] {
+            let defaults = super::super::model::AppSettings {
+                game_mode: super::super::model::GameModeSettings::defaults_for(os),
+                ..host.clone()
+            };
+            snapshot(
+                &dir.join(format!("config.v1.defaults.{os}.json")),
+                &(super::super::settings::serialize(&defaults) + "\n"),
+            );
+        }
     }
 
     /// What the contract records for a schema node, keyed by its JSON

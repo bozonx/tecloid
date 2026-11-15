@@ -19,7 +19,7 @@ pub fn generate(prefix: &str) -> String {
 }
 
 /// First free `prefix1`, `prefix2`, …: short, readable ids for entities the
-/// user does not name by id (macros `m1`, commands `c1`).
+/// user does not name by id (commands `c1`).
 pub fn numbered(prefix: &str, taken: impl Fn(&str) -> bool) -> String {
     (1u64..)
         .map(|n| format!("{prefix}{n}"))

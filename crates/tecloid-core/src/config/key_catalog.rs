@@ -280,6 +280,8 @@ pub const CATEGORIES: &[&[&str]] = &[
         "DeleteFile",
         "Transfer",
         "Macro",
+        // Keyboard keys `KEY_SCROLLUP` / `KEY_SCROLLDOWN`, not the mouse
+        // wheel; `Wheel*` names are reserved for the wheel.
         "ScrollUp",
         "ScrollDown",
         "LaunchComputer",
@@ -473,6 +475,14 @@ pub fn chord_keys(value: &str) -> Option<Vec<&str>> {
 
 #[cfg(test)]
 mod tests {
+
+    /// `Wheel*` names are kept free for mouse wheel triggers.
+    #[test]
+    fn wheel_names_are_reserved() {
+        for name in ["WheelUp", "WheelDown", "WheelLeft", "WheelRight"] {
+            assert_eq!(canonical_key(name), None, "{name}");
+        }
+    }
     use super::*;
     #[test]
     fn lowercase_chords_preserve_key_identity() {

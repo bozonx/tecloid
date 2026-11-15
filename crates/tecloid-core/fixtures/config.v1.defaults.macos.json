@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "settings": {
+    "experimental": false,
+    "launchAtLogin": false,
+    "startMapperOnLaunch": false,
+    "interface": {
+      "appearance": "system",
+      "highContrast": "system",
+      "reduceMotion": "system",
+      "locale": "auto",
+      "keymapOsd": false,
+      "layerHint": false,
+      "copyOsd": false
+    },
+    "devices": {
+      "keyboards": [],
+      "mice": []
+    },
+    "timing": {
+      "holdMs": 200,
+      "longHoldMs": 1000,
+      "doubleTapMs": 200,
+      "chordMs": 50,
+      "tapDecision": "permissiveHold",
+      "macroStepPauseMs": 20,
+      "macroModifierDelayMs": 5,
+      "macroTimeoutMs": 10000
+    },
+    "keymaps": {
+      "mode": "manual",
+      "order": [],
+      "auto": {
+        "rules": [],
+        "fallback": null
+      }
+    },
+    "commandsEnabled": false,
+    "gameMode": {
+      "control": "auto",
+      "detectors": {
+        "gamemoded": false,
+        "fullscreen": false,
+        "steam": false,
+        "lutris": false,
+        "heroic": false,
+        "umu": false,
+        "gamescope": false,
+        "appCategory": true,
+        "gameBar": false
+      },
+      "foregroundOnly": true,
+      "processes": []
+    },
+    "linux": {
+      "textMode": "libeiWithClipboardFallback",
+      "pasteShortcut": "Ctrl+KeyV",
+      "terminalPasteShortcut": "Shift+Insert"
+    }
+  }
+}

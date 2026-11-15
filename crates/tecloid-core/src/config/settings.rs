@@ -334,14 +334,13 @@ impl Default for DetectorsDoc {
 // Runtime defaults still follow the target platform.
 #[cfg(test)]
 fn schema_detectors_default() -> DetectorsDoc {
-    DetectorsDoc {
-        gamemoded: true,
-        lutris: true,
-        heroic: true,
-        umu: true,
-        gamescope: true,
-        ..DetectorsDoc::default()
-    }
+    to_doc(&AppSettings {
+        game_mode: GameModeSettings::defaults_for("linux"),
+        ..AppSettings::default()
+    })
+    .settings
+    .game_mode
+    .detectors
 }
 
 #[cfg(test)]
