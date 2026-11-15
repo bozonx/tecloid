@@ -3250,3 +3250,6 @@ msgstr "Если вы отклонили системный запрос или 
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Сохранённые разрешения сброшены. Система запросит их снова при следующем вводе текста через Tecloid."
+
+msgid "Open in file manager"
+msgstr "Открыть в файловом менеджере"

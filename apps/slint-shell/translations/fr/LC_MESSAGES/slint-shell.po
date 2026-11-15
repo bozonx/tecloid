@@ -3884,3 +3884,6 @@ msgstr "Si vous avez refusé la demande du système ou si la saisie ne fonctionn
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Autorisations enregistrées réinitialisées. Le système les demandera à nouveau lors de la prochaine saisie par Tecloid."
+
+msgid "Open in file manager"
+msgstr "Ouvrir dans le gestionnaire de fichiers"

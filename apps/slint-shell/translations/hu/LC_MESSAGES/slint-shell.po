@@ -3837,3 +3837,6 @@ msgstr "Ha elutasította a rendszer kérését, vagy a szövegbevitel nem műkö
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "A mentett engedélyek visszaállítva. A rendszer a Tecloid következő szövegbevitelénél újra engedélyt kér."
+
+msgid "Open in file manager"
+msgstr "Megnyitás a fájlkezelőben"

@@ -3839,3 +3839,6 @@ msgstr "Dacă ați refuzat cererea sistemului sau introducerea textului nu mai f
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Permisiunile salvate au fost resetate. Sistemul le va solicita din nou când Tecloid introduce text data viitoare."
+
+msgid "Open in file manager"
+msgstr "Deschide în managerul de fișiere"

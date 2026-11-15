@@ -3808,3 +3808,6 @@ msgstr "Якщо ви відхилили системний запит або в
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Збережені дозволи скинуто. Система запитає їх знову під час наступного введення тексту через Tecloid."
+
+msgid "Open in file manager"
+msgstr "Відкрити у файловому менеджері"

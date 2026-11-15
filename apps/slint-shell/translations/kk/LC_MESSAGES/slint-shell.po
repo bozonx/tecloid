@@ -3809,3 +3809,6 @@ msgstr "Жүйе сұрауын қабылдамасаңыз немесе мәт
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Сақталған рұқсаттар қалпына келтірілді. Tecloid келесі рет мәтін енгізгенде жүйе рұқсаттарды қайта сұрайды."
+
+msgid "Open in file manager"
+msgstr "Файл менеджерінде ашу"

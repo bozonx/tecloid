@@ -3594,3 +3594,6 @@ msgstr "システムの要求を拒否した場合やテキスト入力が動作
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "保存済みの権限をリセットしました。次に Tecloid がテキストを入力するとき、システムが再び許可を求めます。"
+
+msgid "Open in file manager"
+msgstr "ファイルマネージャーで開く"

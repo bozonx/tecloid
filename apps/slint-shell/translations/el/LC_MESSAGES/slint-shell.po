@@ -3892,3 +3892,6 @@ msgstr "Αν απορρίψατε το αίτημα του συστήματος 
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Έγινε επαναφορά των αποθηκευμένων αδειών. Το σύστημα θα τις ζητήσει ξανά την επόμενη φορά που το Tecloid εισάγει κείμενο."
+
+msgid "Open in file manager"
+msgstr "Άνοιγμα στη διαχείριση αρχείων"

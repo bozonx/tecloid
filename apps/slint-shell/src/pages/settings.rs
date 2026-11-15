@@ -783,6 +783,13 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
     let state = Rc::new(RefCell::new(State::default()));
     let e = ui.global::<SettingsEditor>();
     let weak = ui.as_weak();
+    e.on_open_directory(|path| {
+        if let Err(error) =
+            tecloid_core::storage::open_directory(std::path::Path::new(path.as_str()))
+        {
+            eprintln!("Failed to open directory: {error}");
+        }
+    });
     e.on_reset_text_permissions(move || {
         #[cfg(target_os = "linux")]
         tecloid_core::text_input::portal::reset_permissions();

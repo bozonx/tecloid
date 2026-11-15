@@ -3814,3 +3814,6 @@ msgstr "Se recusou o pedido do sistema ou a entrada de texto deixou de funcionar
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Permissões guardadas repostas. O sistema voltará a pedi-las na próxima vez que o Tecloid introduzir texto."
+
+msgid "Open in file manager"
+msgstr "Abrir no gestor de ficheiros"

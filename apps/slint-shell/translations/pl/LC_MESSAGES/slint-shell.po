@@ -3840,3 +3840,6 @@ msgstr "Jeśli odrzucono prośbę systemu lub wprowadzanie tekstu przestało dzi
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Zapisane uprawnienia zostały zresetowane. System poprosi o nie ponownie przy następnym wprowadzaniu tekstu przez Tecloid."
+
+msgid "Open in file manager"
+msgstr "Otwórz w menedżerze plików"

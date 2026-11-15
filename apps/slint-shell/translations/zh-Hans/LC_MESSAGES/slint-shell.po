@@ -3528,3 +3528,6 @@ msgstr "如果你拒绝了系统请求，或文本输入停止工作，请重置
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "已重置保存的权限。下次 Tecloid 输入文本时，系统会再次请求授权。"
+
+msgid "Open in file manager"
+msgstr "在文件管理器中打开"

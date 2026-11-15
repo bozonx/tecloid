@@ -3791,3 +3791,6 @@ msgstr "თუ სისტემის მოთხოვნა უარყა
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "შენახული ნებართვები განულებულია. სისტემა მათ ხელახლა მოითხოვს Tecloid-ით ტექსტის შემდეგი შეყვანისას."
+
+msgid "Open in file manager"
+msgstr "ფაილურ მმართველში გახსნა"

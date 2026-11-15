@@ -3795,3 +3795,6 @@ msgstr "Ako ste odbili zahtjev sustava ili unos teksta više ne radi, poništite
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Spremljene dozvole su poništene. Sustav će ih ponovno zatražiti pri sljedećem unosu teksta putem Tecloida."
+
+msgid "Open in file manager"
+msgstr "Otvori u upravitelju datoteka"

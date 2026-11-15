@@ -3784,3 +3784,6 @@ msgstr "Pokud jste odmítli systémovou žádost nebo zadávání textu přestal
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Uložená oprávnění byla obnovena. Systém se znovu zeptá při příštím zadávání textu přes Tecloid."
+
+msgid "Open in file manager"
+msgstr "Otevřít ve správci souborů"

@@ -22,6 +22,7 @@ export struct CommandAssignmentRow { keymap-name: string, first: bool, name: str
 
 export global SettingsEditor {
     callback reset-text-permissions();
+    callback open-directory(string);
     in-out property <bool> in-development;
     in-out property <bool> launch-on-startup;
     in-out property <bool> start-mapper-on-launch;
@@ -420,12 +421,14 @@ export component SettingsPage inherits PageLayout {
                         title: @tr("Paths");
                         HorizontalLayout { spacing: Theme.space-m; padding: 0px; vertical-stretch: 0;
                             Text { vertical-stretch: 0; text: @tr("Settings directory: {}", SettingsEditor.settings-dir); color: Theme.muted; wrap: word-wrap; horizontal-stretch: 1; }
-                            Button { text: @tr("Copy path"); accessible-description: SettingsEditor.settings-dir; clicked => { root.copy-path(SettingsEditor.settings-dir); } }
+                            IconButton { icon: @image-url("icons/copy.svg"); label: @tr("Copy path"); clicked => { root.copy-path(SettingsEditor.settings-dir); } }
+                            IconButton { icon: @image-url("icons/folder.svg"); label: @tr("Open in file manager"); clicked => { SettingsEditor.open-directory(SettingsEditor.settings-dir); } }
                         }
                         Divider {}
                         HorizontalLayout { spacing: Theme.space-m; padding: 0px; vertical-stretch: 0;
                             Text { vertical-stretch: 0; text: @tr("Keymaps directory: {}", SettingsEditor.keymaps-dir); color: Theme.muted; wrap: word-wrap; horizontal-stretch: 1; }
-                            Button { text: @tr("Copy path"); accessible-description: SettingsEditor.keymaps-dir; clicked => { root.copy-path(SettingsEditor.keymaps-dir); } }
+                            IconButton { icon: @image-url("icons/copy.svg"); label: @tr("Copy path"); clicked => { root.copy-path(SettingsEditor.keymaps-dir); } }
+                            IconButton { icon: @image-url("icons/folder.svg"); label: @tr("Open in file manager"); clicked => { SettingsEditor.open-directory(SettingsEditor.keymaps-dir); } }
                         }
                     }
                     HorizontalLayout {

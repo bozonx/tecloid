@@ -3862,3 +3862,6 @@ msgstr "Se hai rifiutato la richiesta di sistema o l’inserimento di testo non 
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "Autorizzazioni salvate reimpostate. Il sistema le richiederà al prossimo inserimento di testo tramite Tecloid."
+
+msgid "Open in file manager"
+msgstr "Apri nel gestore di file"
