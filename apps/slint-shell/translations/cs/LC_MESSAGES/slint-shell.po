@@ -1166,8 +1166,8 @@ msgstr "V /dev/input nebyla nalezena žádná vstupní zařízení."
 msgid "The selected keyboard is not connected."
 msgstr "Vybraná klávesnice není připojena."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Žádný přístup ke klávesnici. Přidejte uživatele do skupiny input a znovu se přihlaste."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Ke klávesnici není přístup. Nainstalujte oprávnění zařízení a použijte aktivní místní relaci."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput chybí. Spusťte: sudo modprobe uinput."

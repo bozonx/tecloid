@@ -1193,8 +1193,8 @@ msgstr "Δεν βρέθηκαν συσκευές εισόδου στο /dev/inpu
 msgid "The selected keyboard is not connected."
 msgstr "Το επιλεγμένο πληκτρολόγιο δεν είναι συνδεδεμένο."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Δεν υπάρχει πρόσβαση στο πληκτρολόγιο. Προσθέστε τον χρήστη στην ομάδα input και συνδεθείτε ξανά."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Δεν υπάρχει πρόσβαση στο πληκτρολόγιο. Εγκαταστήστε τα δικαιώματα συσκευών και χρησιμοποιήστε μια ενεργή τοπική συνεδρία."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "Το /dev/uinput λείπει. Εκτελέστε: sudo modprobe uinput."

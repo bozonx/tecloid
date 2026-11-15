@@ -597,9 +597,9 @@ fn run_device(
         return Err("Keyboard and mouse must use different input devices".into());
     }
     wait_for_released_keys(&device, &stop);
-    device
-        .grab()
-        .map_err(|e| format!("grab {device_path} (need perms? add user to input group): {e}"))?;
+    device.grab().map_err(|e| {
+        format!("grab {device_path} (check device permissions and active local session): {e}")
+    })?;
     // Declared before the loop driver, so it is cleared after the grab ends.
     let _grabbed = GrabbedKeyboard::register(keyboard.rdev());
 

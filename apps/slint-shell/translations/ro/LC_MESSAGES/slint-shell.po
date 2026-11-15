@@ -1180,8 +1180,8 @@ msgstr "Nu au fost găsite dispozitive de intrare în /dev/input."
 msgid "The selected keyboard is not connected."
 msgstr "Tastatura selectată nu este conectată."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Fără acces la tastatură. Adăugați utilizatorul în grupul input și autentificați-vă din nou."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Nu există acces la tastatură. Instalați permisiunile dispozitivelor și utilizați o sesiune locală activă."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput lipsește. Rulați: sudo modprobe uinput."

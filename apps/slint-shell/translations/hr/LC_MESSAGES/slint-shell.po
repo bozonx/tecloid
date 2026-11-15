@@ -1168,8 +1168,8 @@ msgstr "Nijedan ulazni uređaj nije pronađen u /dev/input."
 msgid "The selected keyboard is not connected."
 msgstr "Odabrana tipkovnica nije spojena."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Nema pristupa tipkovnici. Dodajte korisnika u grupu input i ponovno se prijavite."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Nema pristupa tipkovnici. Instalirajte dozvole uređaja i koristite aktivnu lokalnu sesiju."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput ne postoji. Pokrenite: sudo modprobe uinput."

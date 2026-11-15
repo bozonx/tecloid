@@ -1185,8 +1185,8 @@ msgstr "A /dev/input mappában nem található beviteli eszköz."
 msgid "The selected keyboard is not connected."
 msgstr "A kiválasztott billentyűzet nincs csatlakoztatva."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Nincs hozzáférés a billentyűzethez. Adja hozzá a felhasználót az input csoporthoz, és jelentkezzen be újra."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Nincs hozzáférés a billentyűzethez. Telepítse az eszközengedélyeket, és használjon aktív helyi munkamenetet."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "A /dev/uinput hiányzik. Futtassa: sudo modprobe uinput."

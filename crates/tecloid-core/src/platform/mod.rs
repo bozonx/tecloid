@@ -93,6 +93,46 @@ pub enum InputAccessIssue {
     UinputDenied,
 }
 
+/// Classify a denied event node without opening it. Missing sysfs data remains
+/// a possible access problem (for example during device removal).
+#[cfg(target_os = "linux")]
+pub(crate) fn remappable_input(path: &Path) -> bool {
+    let path = fs::canonicalize(path).unwrap_or_else(|_| path.to_path_buf());
+    if path.parent() != Some(Path::new(INPUT_DIR)) {
+        return true;
+    }
+    let Some(name) = path.file_name() else {
+        return true;
+    };
+    let Ok(bitmap) = fs::read_to_string(
+        Path::new("/sys/class/input")
+            .join(name)
+            .join("device/capabilities/key"),
+    ) else {
+        return true;
+    };
+    remappable_keys(&bitmap)
+}
+
+#[cfg(target_os = "linux")]
+fn remappable_keys(bitmap: &str) -> bool {
+    let words: Option<Vec<usize>> = bitmap
+        .split_whitespace()
+        .rev()
+        .map(|word| usize::from_str_radix(word, 16).ok())
+        .collect();
+    let Some(words) = words else {
+        return true;
+    };
+    let has = |bit: usize| {
+        words
+            .get(bit / usize::BITS as usize)
+            .is_some_and(|word| word & (1usize << (bit % usize::BITS as usize)) != 0)
+    };
+    // KEY_A/S/D/F, SPACE, ENTER; BTN_LEFT/RIGHT, matching discovery.
+    [30, 31, 32, 33, 57, 28].into_iter().all(has) || (has(272) && has(273))
+}
+
 /// Check the device access the mapper needs before it is started. With a
 /// `keyboard` the check opens that device, otherwise every input device:
 /// one readable mouse must not hide a denied keyboard.
@@ -147,7 +187,9 @@ fn input_access_issues_at(
                 OpenOptions::new()
                     .read(true)
                     .open(path)
-                    .is_err_and(|error| error.kind() == ErrorKind::PermissionDenied)
+                    .is_err_and(|error| {
+                        error.kind() == ErrorKind::PermissionDenied && remappable_input(path)
+                    })
             }) {
                 Err(InputAccessIssue::InputDenied)
             } else {
@@ -168,6 +210,29 @@ fn input_access_issues_at(
 #[cfg(all(test, target_os = "linux"))]
 mod tests {
     use super::{InputAccessIssue, input_access_issues_at};
+
+    #[test]
+    fn denied_nodes_are_classified_without_opening_them() {
+        fn bitmap(bits: &[usize]) -> String {
+            let mut words = vec![0usize; 274usize.div_ceil(usize::BITS as usize)];
+            for bit in bits {
+                words[bit / usize::BITS as usize] |= 1usize << (bit % usize::BITS as usize);
+            }
+            words
+                .iter()
+                .rev()
+                .map(|word| format!("{word:x}"))
+                .collect::<Vec<_>>()
+                .join(" ")
+        }
+        assert!(super::remappable_keys(&bitmap(&[30, 31, 32, 33, 57, 28])));
+        assert!(super::remappable_keys(&bitmap(&[272, 273])));
+        for bits in [&[116][..], &[113, 114, 115], &[], &[272]] {
+            assert!(!super::remappable_keys(&bitmap(bits)));
+        }
+        assert!(super::remappable_keys("invalid"));
+    }
+
     use std::fs;
     use std::path::PathBuf;
     use std::time::{SystemTime, UNIX_EPOCH};

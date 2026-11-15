@@ -70,6 +70,12 @@ User documentation is not shipped in packages; it lives on the documentation
 site. Packages install the udev rule and `uinput` autoload but never add the user
 to group `input`; removal never touches user configuration.
 
+Linux device permissions use logind uaccess for keyboards, mice and touchpads
+in the active local session, without adding users to input or requiring a new
+login. This grants access to every active local user and does not prevent
+keylogging by processes in that session. The input group remains an explicit
+fallback for systems without logind and use outside an active local session.
+
 ## Building locally
 
 ```sh

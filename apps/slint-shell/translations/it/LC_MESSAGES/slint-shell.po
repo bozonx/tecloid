@@ -1184,8 +1184,8 @@ msgstr "Nessun dispositivo di input trovato in /dev/input."
 msgid "The selected keyboard is not connected."
 msgstr "La tastiera selezionata non è collegata."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Nessun accesso alla tastiera. Aggiungi l'utente al gruppo input ed effettua di nuovo l'accesso."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Nessun accesso alla tastiera. Installare i permessi dei dispositivi e usare una sessione locale attiva."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput non esiste. Esegui: sudo modprobe uinput."

@@ -106,6 +106,11 @@ fn discover_in(
             Ok(dev) => dev,
             Err(error) => {
                 log::debug!("[mapper]   {}: open failed: {error}", path.display());
+                if error.kind() == std::io::ErrorKind::PermissionDenied
+                    && !crate::platform::remappable_input(&path)
+                {
+                    continue;
+                }
                 out.unavailable.push(UnavailableDevice {
                     path: stable_path(&path, stable),
                     error: format!("open {}: {error}", path.display()),

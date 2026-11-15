@@ -1136,8 +1136,8 @@ msgstr "/dev/input 中未找到輸入裝置。"
 msgid "The selected keyboard is not connected."
 msgstr "所選鍵盤未連接。"
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "無法存取鍵盤。請將使用者加入 input 群組並重新登入。"
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "無法存取鍵盤。請安裝裝置權限並使用作用中的本機工作階段。"
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput 不存在。請執行：sudo modprobe uinput。"

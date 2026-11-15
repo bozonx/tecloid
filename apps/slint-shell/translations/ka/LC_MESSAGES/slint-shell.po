@@ -1177,8 +1177,8 @@ msgstr "შეყვანის მოწყობილობები არ 
 msgid "The selected keyboard is not connected."
 msgstr "არჩეული კლავიატურა არ არის მიერთებული."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "კლავიატურაზე წვდომა არ არის. დაამატეთ მომხმარებელი input ჯგუფში და ხელახლა შედით სისტემაში."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "კლავიატურაზე წვდომა არ არის. დააყენეთ მოწყობილობების ნებართვები და გამოიყენეთ აქტიური ლოკალური სესია."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput არ არსებობს. გაუშვით: sudo modprobe uinput."

@@ -1172,8 +1172,8 @@ msgstr "У /dev/input не знайдено пристроїв введення.
 msgid "The selected keyboard is not connected."
 msgstr "Вибрану клавіатуру не підключено."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Немає доступу до клавіатури. Додайте користувача до групи input і увійдіть у систему знову."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Немає доступу до клавіатури. Установіть дозволи пристроїв і використовуйте активний локальний сеанс."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "Немає /dev/uinput. Виконайте: sudo modprobe uinput."

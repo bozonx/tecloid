@@ -24,8 +24,8 @@ Platform code stays behind `#[cfg]` and target-specific dependencies.
 
 ## Linux
 
-Runtime requirements: `/dev/input/event*` read and `/dev/uinput` write (group
-`input` + udev rule, see [development.md](development.md#device-access-linux-once-then-log-in-again));
+Runtime requirements: keyboard/mouse/touchpad event-node read and `/dev/uinput` write (group
+`uaccess` in an active local session; `input` is a fallback, see [development.md](development.md#device-access-linux));
 `xdg-desktop-portal` with the DE backend for `text:`; `hyprctl` / `swaymsg` on
 Hyprland / Sway; `xprop` (+ `xdotool` for title conditions) on X11. KDE Wayland
 needs nothing extra (a persistent KWin script reports focus over D-Bus; calls not

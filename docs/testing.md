@@ -182,7 +182,7 @@ apps/slint-shell/scripts/vm/run-linux.py --vm <vm-dir> --package target/release-
 
 `--previous <old package>` also checks an upgrade: version changes, `config.json`
 stays byte-identical and loads. Steps cover installed files and udev rule, start
-without `input` (tray, no grab), relogin with `input` and autostart, portal
+without `input` (tray and mapper through session ACLs), reboot and autostart, portal
 deny/consent, remap/chord/`text:`/Unicode, layer tap-hold, macro, command, system
 actions, Russian layout, popups and focus return, Ctrl+Alt+F11, game mode,
 screen-lock password typed through the mapper, S3 resume, second instance,

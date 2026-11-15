@@ -35,6 +35,12 @@ Fontconfig, Wayland and xkbcommon development libraries; the mapper needs
 access to `/dev/input` and `/dev/uinput`. Full setup:
 [development guide](docs/development.md).
 
+Linux device permissions use logind uaccess for keyboards, mice and touchpads
+in the active local session, without adding users to input or requiring a new
+login. This grants access to every active local user and does not prevent
+keylogging by processes in that session. The input group remains an explicit
+fallback for systems without logind and use outside an active local session.
+
 ```sh
 cargo run --locked -p slint-shell
 TECLOID_POPUPS=auto cargo run --locked -p slint-shell --features spell   # layer-shell popups

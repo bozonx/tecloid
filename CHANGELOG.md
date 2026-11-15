@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Linux: grant active local sessions access to keyboards, mice and touchpads through uaccess; installation no longer adds users to input. Ignore access failures on unrelated input devices.
+
 - Close the visible window with Ctrl+Q.
 - Fit the layer hint background to its contents, position it near the bottom of the screen and make it translucent while keeping keys opaque.
 

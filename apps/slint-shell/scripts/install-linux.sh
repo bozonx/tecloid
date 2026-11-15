@@ -76,18 +76,17 @@ case "${1:-install}" in
         as_root modprobe uinput || echo 'Could not load the uinput module now; it loads on the next boot.' >&2
         as_root udevadm control --reload-rules
         as_root udevadm trigger --subsystem-match=misc --sysname-match=uinput
-        if id -nG -- "$user" | tr ' ' '\n' | grep -qx input; then
-            echo "Device permissions installed; $user is already in the input group."
-        else
-            as_root usermod -aG input -- "$user"
-            echo "Device permissions installed and $user added to the input group."
-            echo 'Log out and back in so that keyboard access takes effect.'
-        fi
+        as_root udevadm trigger --subsystem-match=input --action=change
+        as_root udevadm settle
+        echo 'Device permissions installed for the active local session.'
         exit 0
         ;;
     remove-permissions)
         as_root rm -f -- "$udev_rule" "$modules_load"
         as_root udevadm control --reload-rules
+        as_root udevadm trigger --subsystem-match=input --action=change
+        as_root udevadm trigger --subsystem-match=misc --sysname-match=uinput
+        as_root udevadm settle
         echo 'Removed the udev rule and uinput autoload.'
         echo "Group membership is unchanged; leave the input group with: sudo gpasswd -d $(id -un) input"
         exit 0

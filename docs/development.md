@@ -22,7 +22,7 @@ Optional tools: `cargo-deny` (`cargo install --locked cargo-deny`),
 `cargo-release`, `nfpm` (packages), `desktop-file-validate`, `kwin_wayland` +
 `dbus-run-session` (isolated KWin checks), QEMU/KVM (VM tests).
 
-### Device access (Linux, once, then log in again)
+### Device access (Linux)
 
 ```sh
 sudo install -D -m 644 apps/slint-shell/packaging/linux/60-tecloid.rules /etc/udev/rules.d/60-tecloid.rules
@@ -30,13 +30,19 @@ sudo install -D -m 644 apps/slint-shell/packaging/linux/modules-load.conf /etc/m
 sudo modprobe uinput
 sudo udevadm control --reload-rules
 sudo udevadm trigger --subsystem-match=misc --sysname-match=uinput
-sudo usermod -aG input "$USER"
+sudo udevadm trigger --subsystem-match=input --action=change
+sudo udevadm settle
 ```
 
-The rule gives the active local session (`uaccess`) and group `input` write
-access to `/dev/uinput`. Reading `/dev/input/event*` needs group `input`, which
-lets every user process read all keyboards and mice; installers and packages
-never add users to it implicitly.
+The rule grants every active local session access to keyboards, mice, touchpads
+and `/dev/uinput` through logind (`uaccess`), without a new login. Other event
+nodes remain restricted. This does not protect against keyloggers in the same
+session. Packages grant this access to every local user while their session is
+active. Existing group memberships are retained.
+
+For systems without logind or operation outside an active local session,
+explicitly add the user with `sudo usermod -aG input "$USER"` and log in again.
+This fallback grants persistent access to all input devices, including from SSH.
 
 Runtime needs per feature: mapper — `/dev/input` read + `/dev/uinput` write;
 Ctrl+Alt+F11/F12 — `/dev/input` read; `text:` — `xdg-desktop-portal` with the DE
@@ -153,3 +159,7 @@ Every user-visible change gets an entry under `## [Unreleased]` in
 - **Windows: `Access is denied (os error 5)` at link:** quit the running
   `tecloid.exe` before rebuilding. PowerShell shows Cargo's stderr in red; trust
   `$LASTEXITCODE`.
+
+Removing the rule does not immediately revoke ACLs already granted in the
+current session. End the local session or reboot after removing permissions.
+Other system rules may independently grant access to some devices.

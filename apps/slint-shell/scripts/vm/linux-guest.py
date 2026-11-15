@@ -264,6 +264,8 @@ def cmd_check_install(args):
     if args.packaged:
         if not Path("/usr/lib/udev/rules.d/60-tecloid.rules").exists():
             problems.append("udev rule is not installed")
+        if "input" in subprocess.check_output(["id", "-nG"], text=True).split():
+            problems.append("VM user must not belong to input: ACL coverage would be hidden")
         # The uaccess rule gives the active session's user write access.
         if not os.access("/dev/uinput", os.W_OK):
             problems.append("/dev/uinput is not writable for the session user")

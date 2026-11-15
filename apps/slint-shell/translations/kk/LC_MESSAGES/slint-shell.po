@@ -1176,8 +1176,8 @@ msgstr "/dev/input ішінде енгізу құрылғылары табылм
 msgid "The selected keyboard is not connected."
 msgstr "Таңдалған пернетақта қосылмаған."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Пернетақтаға қатынау жоқ. Пайдаланушыны input тобына қосып, жүйеге қайта кіріңіз."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Пернетақтаға қол жеткізу мүмкін емес. Құрылғы рұқсаттарын орнатып, белсенді жергілікті сеансты пайдаланыңыз."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput жоқ. Орындаңыз: sudo modprobe uinput."

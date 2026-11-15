@@ -111,7 +111,7 @@ def main():
         session_deadline = time.monotonic() + 180
         while True:
             try:
-                guest("wait-session --group input --timeout 15")
+                guest("wait-session --timeout 15")
                 break
             except (StepFailed, subprocess.TimeoutExpired):
                 if time.monotonic() >= session_deadline:

@@ -32,7 +32,7 @@ export global Locale {
         if m.id == "mapper-unsupported" { return @tr("Keyboard interception is not implemented on this operating system."); }
         if m.id == "input-access-no-devices" { return @tr("No input devices were found in /dev/input."); }
         if m.id == "input-access-keyboard-missing" { return @tr("The selected keyboard is not connected."); }
-        if m.id == "input-access-input-denied" { return @tr("No access to the keyboard. Add your user to the input group and log in again."); }
+        if m.id == "input-access-input-denied" { return @tr("No access to the keyboard. Install the device permissions and use an active local session."); }
         if m.id == "input-access-uinput-missing" { return @tr("/dev/uinput is missing. Run: sudo modprobe uinput."); }
         if m.id == "input-access-uinput-denied" { return @tr("No access to /dev/uinput. Run install-linux.sh permissions or reinstall the package."); }
         if m.id == "game-mode-auto-disabled" { return @tr("Auto: no detection sources enabled"); }

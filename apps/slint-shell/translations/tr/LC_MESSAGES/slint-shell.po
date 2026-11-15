@@ -1176,8 +1176,8 @@ msgstr "/dev/input'ta hiçbir giriş aygıtı bulunamadı."
 msgid "The selected keyboard is not connected."
 msgstr "Seçilen klavye bağlı değil."
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "Klavyeye erişim yok. Kullanıcınızı input grubuna ekleyin ve yeniden oturum açın."
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "Klavyeye erişilemiyor. Aygıt izinlerini yükleyin ve etkin bir yerel oturum kullanın."
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput yok. Şunu çalıştırın: sudo modprobe uinput."

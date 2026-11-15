@@ -1141,8 +1141,8 @@ msgstr "/dev/input に入力デバイスが見つかりませんでした。"
 msgid "The selected keyboard is not connected."
 msgstr "選択したキーボードが接続されていません。"
 
-msgid "No access to the keyboard. Add your user to the input group and log in again."
-msgstr "キーボードにアクセスできません。ユーザーを input グループに追加して再ログインしてください。"
+msgid "No access to the keyboard. Install the device permissions and use an active local session."
+msgstr "キーボードにアクセスできません。デバイスの権限を設定し、アクティブなローカルセッションを使用してください。"
 
 msgid "/dev/uinput is missing. Run: sudo modprobe uinput."
 msgstr "/dev/uinput がありません。実行してください: sudo modprobe uinput。"

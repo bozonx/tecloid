@@ -99,7 +99,7 @@ def main():
         parser.error(str(error))
     report = Report()
     required = set("""boot upload plasma-session install installed-files keyboard-probe test-config
-        start-without-input keymap-loaded tray-item no-mapper-without-input autostart-entry reboot-with-input
+        start-without-input keymap-loaded tray-item mapper-with-session-acl autostart-entry reboot-with-input
         autostart-launch autostart-disabled-cycle tray-after-login mapper-running portal-deny portal-consent
         mapper-keys-and-text text-unicode text-unicode-corpus layer-tap-hold macro command
         system-actions russian-layout popups emoji-ipc quick-menu-rule emoji-hotkey game-mode
@@ -172,15 +172,15 @@ def main():
         vm.ssh(f"mkdir -p ~/.config/autostart && cp {source} ~/.config/autostart/{desktop}")
 
     def start_without_permissions():
+        if archive:
+            vm.ssh(f"{installer} permissions")
         guest(f"start-app --popups {args.popup_mode}")
 
     def reboot_with_input():
         guest("quit-app")
         if archive:
-            # The archive's explicit command: udev rule, uinput and the group.
+            # Install session ACLs without changing group membership.
             vm.ssh(f"{installer} permissions")
-        else:
-            vm.ssh(f"sudo usermod -aG input {vm.user}")
         # A cold session avoids SSH/PAM restarting user@ while logout is
         # still tearing it down. It also checks autostart after a real reboot.
         before = vm.ssh("cat /proc/sys/kernel/random/boot_id").strip()
@@ -191,8 +191,8 @@ def main():
                 return vm.ssh("cat /proc/sys/kernel/random/boot_id", timeout=10).strip() != before
             except (StepFailed, subprocess.SubprocessError, OSError):
                 return False
-        wait_for("new boot after input-group change", 180, rebooted, interval=2)
-        guest("wait-session --group input")
+        wait_for("new boot with session ACLs", 180, rebooted, interval=2)
+        guest("wait-session")
         # Logout terminates SSH sessions: create the persistent connection only
         # after the new desktop is ready, then avoid repeated handshakes.
         vm.ssh_multiplex = True
@@ -614,7 +614,7 @@ def main():
         report.step("start-without-input", start_without_permissions)
         report.step("keymap-loaded", guest, f"check-keymap --device {shlex.quote(state['device'])}", fatal=True, requires=("start-without-input",))
         report.step("tray-item", guest, "tray")
-        report.step("no-mapper-without-input", guest, "mapper --absent --timeout 8")
+        report.step("mapper-with-session-acl", guest, "mapper --timeout 30")
         report.step("autostart-entry", guest, "autostart")
         report.step("reboot-with-input", reboot_with_input, fatal=True)
         report.step("autostart-launch", guest, "wait-app --timeout 90")
