@@ -3799,8 +3799,8 @@ msgstr "Nem figyelhető meg a vágólapra történő szövegátvitel. Ellenőriz
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "A vágólap érzékenynek van jelölve. Szöveg beillesztése előtt másoljon egy másik elemet, hogy a jelszókezelő tulajdonjogát megőrizze."
 
-msgid "Reset text input permissions"
-msgstr "Szövegbeviteli engedélyek visszaállítása"
+msgid "Reset saved permissions"
+msgstr "Mentett engedélyek visszaállítása"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "A szöveg nem lett begépelve: a natív bevitel nem sikerült. Ellenőrizze a kisegítő lehetőségek engedélyeit és a célalkalmazás jogosultságait."
@@ -3828,3 +3828,9 @@ msgstr "A nyomva tartási küszöb kétszeresének használata: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "A szöveg beszúrása túl sokáig tartott. A közben lenyomott billentyűket a program elvetette."
+
+msgid "Text input permissions"
+msgstr "Szövegbeviteli engedélyek"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Ha elutasította a rendszer kérését, vagy a szövegbevitel nem működik, állítsa vissza a mentett engedélyeket. A rendszer a Tecloid következő szövegbevitelénél újra engedélyt kér."

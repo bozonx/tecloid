@@ -3549,8 +3549,8 @@ msgstr "클립보드 텍스트 전송이 관찰되지 않았습니다. 내장된
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "클립보드가 민감한 항목으로 표시되어 있습니다. 비밀번호 관리자 소유권이 유지되도록 텍스트를 붙여넣기 전에 다른 항목을 복사하세요."
 
-msgid "Reset text input permissions"
-msgstr "텍스트 입력 권한 재설정"
+msgid "Reset saved permissions"
+msgstr "저장된 권한 초기화"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "텍스트가 입력되지 않았습니다. 기본 입력이 실패했습니다. 접근성 권한과 대상 앱의 권한을 확인하세요."
@@ -3578,3 +3578,9 @@ msgstr "누름 임계값의 두 배 사용: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "텍스트 삽입이 너무 오래 걸렸습니다. 그동안 누른 키는 무시되었습니다."
+
+msgid "Text input permissions"
+msgstr "텍스트 입력 권한"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "시스템 요청을 거부했거나 텍스트 입력이 작동하지 않으면 저장된 권한을 초기화하세요. 다음에 Tecloid가 텍스트를 입력할 때 시스템이 권한을 다시 요청합니다."

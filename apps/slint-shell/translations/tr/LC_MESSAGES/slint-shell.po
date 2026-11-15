@@ -3767,8 +3767,8 @@ msgstr "Panoya metin aktarımı gözlenmedi. Katıştırılmış terminaller de 
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Pano hassas olarak işaretlendi. Parola yöneticisi sahipliğinin korunması için metni yapıştırmadan önce başka bir öğeyi kopyalayın."
 
-msgid "Reset text input permissions"
-msgstr "Metin girişi izinlerini sıfırla"
+msgid "Reset saved permissions"
+msgstr "Kayıtlı izinleri sıfırla"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Metin yazılmadı: yerel giriş başarısız oldu. Erişilebilirlik izinlerini ve hedef uygulamanın ayrıcalıklarını kontrol edin."
@@ -3796,3 +3796,9 @@ msgstr "Basılı tutma eşiğinin iki katını kullan: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "Metin ekleme çok uzun sürdü. Bu sırada basılan tuşlar yok sayıldı."
+
+msgid "Text input permissions"
+msgstr "Metin girişi izinleri"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Sistem isteğini reddettiyseniz veya metin girişi çalışmıyorsa kayıtlı izinleri sıfırlayın. Tecloid bir sonraki metin girişinde sistem yeniden izin isteyecektir."

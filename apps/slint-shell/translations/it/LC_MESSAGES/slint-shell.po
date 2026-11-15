@@ -3824,8 +3824,8 @@ msgstr "Non è stato osservato alcun trasferimento di testo negli appunti. Contr
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Gli appunti sono contrassegnati come sensibili. Copia un altro elemento prima di incollare il testo in modo da preservare la proprietà del gestore password."
 
-msgid "Reset text input permissions"
-msgstr "Reimposta le autorizzazioni di immissione del testo"
+msgid "Reset saved permissions"
+msgstr "Reimposta le autorizzazioni salvate"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Il testo non è stato digitato: input nativo non riuscito. Controlla le autorizzazioni di accessibilità e i privilegi dell'app di destinazione."
@@ -3853,3 +3853,9 @@ msgstr "Usa il doppio della soglia di pressione prolungata: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "L’inserimento del testo ha richiesto troppo tempo. I tasti premuti nel frattempo sono stati scartati."
+
+msgid "Text input permissions"
+msgstr "Autorizzazioni per l’inserimento di testo"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Se hai rifiutato la richiesta di sistema o l’inserimento di testo non funziona più, reimposta le autorizzazioni salvate. Il sistema le richiederà al prossimo inserimento di testo tramite Tecloid."

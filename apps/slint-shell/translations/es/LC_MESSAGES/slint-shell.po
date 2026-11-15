@@ -3759,8 +3759,8 @@ msgstr "No se observó ninguna transferencia de texto del portapapeles. Marque e
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "El portapapeles está marcado como sensible. Copie otro elemento antes de pegar texto para conservar la propiedad del administrador de contraseñas."
 
-msgid "Reset text input permissions"
-msgstr "Restablecer permisos de entrada de texto"
+msgid "Reset saved permissions"
+msgstr "Restablecer permisos guardados"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "El texto no fue escrito: la entrada nativa falló. Verifique los permisos de accesibilidad y los privilegios de la aplicación de destino."
@@ -3788,3 +3788,9 @@ msgstr "Usar el doble del umbral de mantener: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "La inserción del texto tardó demasiado. Se descartaron las teclas pulsadas mientras tanto."
+
+msgid "Text input permissions"
+msgstr "Permisos de entrada de texto"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Si rechazaste la solicitud del sistema o la entrada de texto dejó de funcionar, restablece los permisos guardados. El sistema volverá a solicitarlos la próxima vez que Tecloid introduzca texto."

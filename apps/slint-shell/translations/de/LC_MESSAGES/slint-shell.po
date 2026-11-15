@@ -3837,8 +3837,8 @@ msgstr "Es wurde keine Textübertragung in der Zwischenablage beobachtet. Überp
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Die Zwischenablage ist als vertraulich markiert. Kopieren Sie ein anderes Element, bevor Sie Text einfügen, damit der Besitz des Passwort-Managers erhalten bleibt."
 
-msgid "Reset text input permissions"
-msgstr "Texteingabeberechtigungen zurücksetzen"
+msgid "Reset saved permissions"
+msgstr "Gespeicherte Berechtigungen zurücksetzen"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Der Text wurde nicht eingegeben: Die native Eingabe ist fehlgeschlagen. Überprüfen Sie die Zugriffsberechtigungen und die Berechtigungen der Ziel-App."
@@ -3866,3 +3866,9 @@ msgstr "Doppelte Halteschwelle verwenden: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "Das Einfügen des Textes hat zu lange gedauert. Die währenddessen gedrückten Tasten wurden verworfen."
+
+msgid "Text input permissions"
+msgstr "Berechtigungen für die Texteingabe"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Wenn Sie die Systemanfrage abgelehnt haben oder die Texteingabe nicht mehr funktioniert, setzen Sie die gespeicherten Berechtigungen zurück. Das System fragt bei der nächsten Texteingabe durch Tecloid erneut nach."

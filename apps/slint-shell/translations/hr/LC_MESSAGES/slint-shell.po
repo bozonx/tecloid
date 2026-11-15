@@ -3757,8 +3757,8 @@ msgstr "Nije primijećen prijenos teksta međuspremnika. Provjerite prečac za l
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Međuspremnik je označen kao osjetljiv. Kopirajte drugu stavku prije lijepljenja teksta kako bi se sačuvalo vlasništvo nad upraviteljem zaporki."
 
-msgid "Reset text input permissions"
-msgstr "Ponovno postavite dopuštenja za unos teksta"
+msgid "Reset saved permissions"
+msgstr "Poništi spremljene dozvole"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Tekst nije upisan: izvorni unos nije uspio. Provjerite dopuštenja pristupačnosti i privilegije odredišne ​​aplikacije."
@@ -3786,3 +3786,9 @@ msgstr "Koristi dvostruki prag držanja: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "Umetanje teksta trajalo je predugo. Tipke pritisnute u međuvremenu su odbačene."
+
+msgid "Text input permissions"
+msgstr "Dozvole za unos teksta"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Ako ste odbili zahtjev sustava ili unos teksta više ne radi, poništite spremljene dozvole. Sustav će ih ponovno zatražiti pri sljedećem unosu teksta putem Tecloida."

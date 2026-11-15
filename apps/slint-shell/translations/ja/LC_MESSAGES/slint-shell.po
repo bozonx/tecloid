@@ -3556,8 +3556,8 @@ msgstr "クリップボードのテキスト転送は観察されませんでし
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "クリップボードは機密としてマークされています。パスワード マネージャーの所有権が保持されるように、テキストを貼り付ける前に別の項目をコピーします。"
 
-msgid "Reset text input permissions"
-msgstr "テキスト入力権限をリセットする"
+msgid "Reset saved permissions"
+msgstr "保存済みの権限をリセット"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "テキストが入力されませんでした。ネイティブ入力に失敗しました。アクセシビリティ権限と宛先アプリの権限を確認してください。"
@@ -3585,3 +3585,9 @@ msgstr "長押ししきい値の 2 倍を使用：{} ミリ秒"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "テキストの挿入に時間がかかりすぎました。その間に押されたキーは破棄されました。"
+
+msgid "Text input permissions"
+msgstr "テキスト入力の権限"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "システムの要求を拒否した場合やテキスト入力が動作しなくなった場合は、保存済みの権限をリセットしてください。次に Tecloid がテキストを入力するとき、システムが再び許可を求めます。"

@@ -3490,8 +3490,8 @@ msgstr "没有观察到剪贴板文本传输。检查目标应用程序的粘贴
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "剪贴板被标记为敏感。在粘贴文本之前复制另一个项目，以便保留密码管理器所有权。"
 
-msgid "Reset text input permissions"
-msgstr "重置文本输入权限"
+msgid "Reset saved permissions"
+msgstr "重置已保存的权限"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "未输入文本：本机输入失败。检查辅助功能权限和目标应用程序的权限。"
@@ -3519,3 +3519,9 @@ msgstr "使用按住阈值的两倍：{} 毫秒"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "插入文本耗时过长。期间按下的按键已被丢弃。"
+
+msgid "Text input permissions"
+msgstr "文本输入权限"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "如果你拒绝了系统请求，或文本输入停止工作，请重置已保存的权限。下次 Tecloid 输入文本时，系统会再次请求授权。"

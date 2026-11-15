@@ -605,9 +605,17 @@ export component SettingsPage inherits PageLayout {
                                 ][SettingsEditor.text-mode-index];
                             }
                         }
-                        Button {
-                            text: @tr("Reset text input permissions");
-                            clicked => { SettingsEditor.reset-text-permissions(); }
+                        if SettingsEditor.text-modes[SettingsEditor.text-mode-index] != "ydotool" && SettingsEditor.text-modes[SettingsEditor.text-mode-index] != "xdotool": VerticalLayout {
+                            padding: 0px; spacing: Theme.space-m;
+                            FormLabel { text: @tr("Text input permissions"); }
+                            Text {
+                                vertical-stretch: 0; max-width: Theme.text-column; color: Theme.muted; wrap: word-wrap;
+                                text: @tr("If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text.");
+                            }
+                            Button {
+                                text: @tr("Reset saved permissions");
+                                clicked => { SettingsEditor.reset-text-permissions(); }
+                            }
                         }
                         if SettingsEditor.text-modes[SettingsEditor.text-mode-index] == "libeiWithClipboardFallback" || SettingsEditor.text-modes[SettingsEditor.text-mode-index] == "clipboardPaste": VerticalLayout {
                             padding: 0px; spacing: Theme.space-m;

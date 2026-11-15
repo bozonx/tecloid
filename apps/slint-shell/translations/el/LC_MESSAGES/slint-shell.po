@@ -3854,8 +3854,8 @@ msgstr "Δεν παρατηρήθηκε μεταφορά κειμένου στο
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Το πρόχειρο επισημαίνεται ως ευαίσθητο. Αντιγράψτε ένα άλλο στοιχείο πριν επικολλήσετε κείμενο, ώστε να διατηρηθεί η ιδιοκτησία του διαχειριστή κωδικού πρόσβασης."
 
-msgid "Reset text input permissions"
-msgstr "Επαναφορά των δικαιωμάτων εισαγωγής κειμένου"
+msgid "Reset saved permissions"
+msgstr "Επαναφορά αποθηκευμένων αδειών"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Το κείμενο δεν πληκτρολογήθηκε: η εγγενής εισαγωγή απέτυχε. Ελέγξτε τα δικαιώματα προσβασιμότητας και τα προνόμια της εφαρμογής προορισμού."
@@ -3883,3 +3883,9 @@ msgstr "Χρήση του διπλάσιου του ορίου κρατήματ�
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "Η εισαγωγή του κειμένου άργησε πολύ. Τα πλήκτρα που πατήθηκαν στο μεταξύ απορρίφθηκαν."
+
+msgid "Text input permissions"
+msgstr "Άδειες εισαγωγής κειμένου"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Αν απορρίψατε το αίτημα του συστήματος ή η εισαγωγή κειμένου σταμάτησε να λειτουργεί, επαναφέρετε τις αποθηκευμένες άδειες. Το σύστημα θα τις ζητήσει ξανά την επόμενη φορά που το Tecloid εισάγει κείμενο."

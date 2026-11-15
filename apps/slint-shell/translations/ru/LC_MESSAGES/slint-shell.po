@@ -3212,8 +3212,8 @@ msgstr "Передача текста из буфера не обнаружен�
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Буфер обмена помечен как конфиденциальный. Скопируйте другой фрагмент перед вставкой текста, чтобы сохранить владение буфером у менеджера паролей."
 
-msgid "Reset text input permissions"
-msgstr "Сбросить разрешения ввода текста"
+msgid "Reset saved permissions"
+msgstr "Сбросить сохранённые разрешения"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Текст не введён: ошибка нативного ввода. Проверьте разрешения универсального доступа и права целевого приложения."
@@ -3241,3 +3241,9 @@ msgstr "Использовать удвоенный порог удержани�
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "Вставка текста заняла слишком много времени. Нажатия за это время отброшены."
+
+msgid "Text input permissions"
+msgstr "Разрешения на ввод текста"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Если вы отклонили системный запрос или ввод текста перестал работать, сбросьте сохранённые разрешения. Система запросит их снова при следующем вводе текста через Tecloid."

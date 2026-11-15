@@ -3771,8 +3771,8 @@ msgstr "Алмасу буферіндегі мәтінді тасымалдау 
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Алмасу буфері сезімтал деп белгіленген. Құпия сөз басқарушы иелігін сақтау үшін мәтінді қою алдында басқа элементті көшіріңіз."
 
-msgid "Reset text input permissions"
-msgstr "Мәтін енгізу рұқсаттарын қалпына келтіріңіз"
+msgid "Reset saved permissions"
+msgstr "Сақталған рұқсаттарды қалпына келтіру"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Мәтін терілмеді: түпнұсқа енгізу орындалмады. Арнайы мүмкіндіктер рұқсаттарын және тағайындалған қолданбаның артықшылықтарын тексеріңіз."
@@ -3800,3 +3800,9 @@ msgstr "Ұстау шегінің екі еселенген мәнін қолд�
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "Мәтінді кірістіру тым ұзаққа созылды. Осы уақытта басылған пернелер еленбеді."
+
+msgid "Text input permissions"
+msgstr "Мәтін енгізу рұқсаттары"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Жүйе сұрауын қабылдамасаңыз немесе мәтін енгізу жұмыс істемесе, сақталған рұқсаттарды қалпына келтіріңіз. Tecloid келесі рет мәтін енгізгенде жүйе рұқсаттарды қайта сұрайды."

@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Clarify text input permission reset with an explanation of when consent is requested again; hide it for ydotool and xdotool.
+
 - Tecloid's own actions use the `app:` prefix (`app:showQuickMenu1`, `app:toggleGameMode`); `tecloid:` is no longer recognised. No migration: the format is not released yet. Config and keymap files may start with a UTF-8 byte order mark.
 - Rule editor: a trigger typed with sided modifiers (`ShiftLeft+ControlRight`) keeps them; it was saved as side-neutral `Shift+ControlRight`, which matches either Shift.
 - Stricter, single-spelling values in keymaps and `config.json`: layer key codes are stored canonically (`keyh` → `KeyH`) and a key listed twice is an error; modifier-only actions are stored as `ControlLeft`, `Ctrl+ShiftLeft`; rule conditions are trimmed, deduplicated, layouts lowercased and `title:` spelled one way, as auto rules already were; empty optional texts (`name`, `description`, `meta`, `sh`, `powershell`, `workingDirectory`) are errors instead of being dropped; `hold.retroTapMs` requires `hold.layer`; keymap references must be `user:<name>` and `keymaps.order` lists each keymap once; game-mode process names must not be blank or a `title:` pattern.

@@ -3846,8 +3846,8 @@ msgstr "Aucun transfert de texte du presse-papiers n’a été observé. Vérifi
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Le presse-papiers est marqué comme sensible. Copiez un autre élément avant de coller le texte afin que la propriété du gestionnaire de mots de passe soit préservée."
 
-msgid "Reset text input permissions"
-msgstr "Réinitialiser les autorisations de saisie de texte"
+msgid "Reset saved permissions"
+msgstr "Réinitialiser les autorisations enregistrées"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Le texte n'a pas été saisi : la saisie native a échoué. Vérifiez les autorisations d'accessibilité et les privilèges de l'application de destination."
@@ -3875,3 +3875,9 @@ msgstr "Utiliser le double du seuil de maintien : {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "L’insertion du texte a pris trop de temps. Les touches tapées entre-temps ont été ignorées."
+
+msgid "Text input permissions"
+msgstr "Autorisations de saisie de texte"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Si vous avez refusé la demande du système ou si la saisie ne fonctionne plus, réinitialisez les autorisations enregistrées. Le système les demandera à nouveau lors de la prochaine saisie par Tecloid."

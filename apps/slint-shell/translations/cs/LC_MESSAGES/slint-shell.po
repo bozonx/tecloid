@@ -3746,8 +3746,8 @@ msgstr "Nebyl pozorován žádný přenos textu ze schránky. Zkontrolujte zást
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Schránka je označena jako citlivá. Před vložením textu zkopírujte další položku, aby bylo zachováno vlastnictví správce hesel."
 
-msgid "Reset text input permissions"
-msgstr "Resetovat oprávnění pro zadávání textu"
+msgid "Reset saved permissions"
+msgstr "Obnovit uložená oprávnění"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Text nebyl zadán: nativní vstup se nezdařil. Zkontrolujte oprávnění k usnadnění a oprávnění cílové aplikace."
@@ -3775,3 +3775,9 @@ msgstr "Použít dvojnásobek prahu podržení: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "Vkládání textu trvalo příliš dlouho. Klávesy stisknuté mezitím byly zahozeny."
+
+msgid "Text input permissions"
+msgstr "Oprávnění k zadávání textu"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Pokud jste odmítli systémovou žádost nebo zadávání textu přestalo fungovat, obnovte uložená oprávnění. Systém se znovu zeptá při příštím zadávání textu přes Tecloid."

@@ -3776,8 +3776,8 @@ msgstr "Nenhuma transferência de texto da área de transferência foi observada
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "A área de transferência está marcada como sensível. Copie outro item antes de colar o texto para que a propriedade do gerenciador de senhas seja preservada."
 
-msgid "Reset text input permissions"
-msgstr "Redefinir permissões de entrada de texto"
+msgid "Reset saved permissions"
+msgstr "Repor permissões guardadas"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "O texto não foi digitado: falha na entrada nativa. Verifique as permissões de acessibilidade e os privilégios do aplicativo de destino."
@@ -3805,3 +3805,9 @@ msgstr "Usar o dobro do limiar de manter premido: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "A inserção do texto demorou demasiado. As teclas premidas entretanto foram descartadas."
+
+msgid "Text input permissions"
+msgstr "Permissões de entrada de texto"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Se recusou o pedido do sistema ou a entrada de texto deixou de funcionar, reponha as permissões guardadas. O sistema voltará a pedi-las na próxima vez que o Tecloid introduzir texto."

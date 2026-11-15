@@ -3801,8 +3801,8 @@ msgstr "Nu a fost observat niciun transfer de text în clipboard. Verificați co
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Clipboard-ul este marcat ca fiind sensibil. Copiați un alt element înainte de a lipi textul, astfel încât proprietatea managerului de parole să fie păstrată."
 
-msgid "Reset text input permissions"
-msgstr "Resetați permisiunile de introducere a textului"
+msgid "Reset saved permissions"
+msgstr "Resetează permisiunile salvate"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "Textul nu a fost introdus: introducerea nativă a eșuat. Verificați permisiunile de accesibilitate și privilegiile aplicației de destinație."
@@ -3830,3 +3830,9 @@ msgstr "Folosește dublul pragului de ținere: {} ms"
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "Inserarea textului a durat prea mult. Tastele apăsate între timp au fost ignorate."
+
+msgid "Text input permissions"
+msgstr "Permisiuni de introducere a textului"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "Dacă ați refuzat cererea sistemului sau introducerea textului nu mai funcționează, resetați permisiunile salvate. Sistemul le va solicita din nou când Tecloid introduce text data viitoare."

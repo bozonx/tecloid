@@ -3753,8 +3753,8 @@ msgstr "ბუფერში ტექსტის გადატანა ა
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "ბუფერში მონიშნულია მგრძნობიარე. დააკოპირეთ სხვა ელემენტი ტექსტის ჩასმამდე, რათა პაროლის მენეჯერის საკუთრება შენარჩუნდეს."
 
-msgid "Reset text input permissions"
-msgstr "ტექსტის შეყვანის ნებართვების გადატვირთვა"
+msgid "Reset saved permissions"
+msgstr "შენახული ნებართვების განულება"
 
 msgid "The text was not typed: native input failed. Check accessibility permissions and the destination app's privileges."
 msgstr "ტექსტი არ იყო აკრეფილი: მშობლიური შეყვანა ვერ მოხერხდა. შეამოწმეთ ხელმისაწვდომობის ნებართვები და დანიშნულების აპის პრივილეგიები."
@@ -3782,3 +3782,9 @@ msgstr "დაყოვნების ზღვრის ორმაგის 
 
 msgid "Text insertion took too long. Keys typed meanwhile were discarded."
 msgstr "ტექსტის ჩასმას ძალიან დიდი დრო დასჭირდა. ამ დროს დაჭერილი კლავიშები გაუქმდა."
+
+msgid "Text input permissions"
+msgstr "ტექსტის შეყვანის ნებართვები"
+
+msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
+msgstr "თუ სისტემის მოთხოვნა უარყავით ან ტექსტის შეყვანა აღარ მუშაობს, გაანულეთ შენახული ნებართვები. სისტემა მათ ხელახლა მოითხოვს Tecloid-ით ტექსტის შემდეგი შეყვანისას."
