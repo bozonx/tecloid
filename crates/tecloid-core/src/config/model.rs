@@ -820,7 +820,9 @@ pub struct AppSettings {
     pub auto_rules: Vec<AutoRule>,
     /// Keymap used in automatic mode when no rule matches; `None` is off.
     pub auto_default_keymap_id: Option<String>,
-    pub commands_enabled: bool,
+    /// Library keymaps whose commands may run; every other keymap's
+    /// `cmd:` actions stay off.
+    pub commands_keymap_ids: Vec<String>,
     pub game_mode: GameModeSettings,
     pub linux_wayland_text_mode: TextMode,
     /// Shortcut the clipboard text modes send to paste.
@@ -829,6 +831,40 @@ pub struct AppSettings {
     pub linux_terminal_paste_shortcut: Option<PasteShortcut>,
     pub linux_ydotool_path: String,
     pub linux_xdotool_path: String,
+}
+
+impl AppSettings {
+    /// Whether the commands of the keymap `keymap_id` may run.
+    pub fn commands_allowed(&self, keymap_id: &str) -> bool {
+        self.commands_keymap_ids.iter().any(|id| id == keymap_id)
+    }
+
+    /// Whether the commands of the keymap being edited (the active keymap of
+    /// a resolved config) may run. An unsaved keymap has no id and no trust.
+    pub fn commands_enabled(&self) -> bool {
+        self.editing_keymap_id
+            .as_deref()
+            .is_some_and(|id| self.commands_allowed(id))
+    }
+
+    /// Allow or forbid the commands of `keymap_id`.
+    pub fn set_commands_allowed(&mut self, keymap_id: &str, allowed: bool) {
+        self.commands_keymap_ids.retain(|id| id != keymap_id);
+        if allowed {
+            self.commands_keymap_ids.push(keymap_id.to_owned());
+        }
+    }
+
+    /// Allow or forbid the commands of the keymap being edited, giving an
+    /// unsaved one a placeholder id.
+    #[cfg(test)]
+    pub fn set_commands_enabled(&mut self, enabled: bool) {
+        let id = self
+            .editing_keymap_id
+            .get_or_insert_with(|| "user:Test".to_owned())
+            .clone();
+        self.set_commands_allowed(&id, enabled);
+    }
 }
 
 impl Default for AppSettings {
@@ -861,7 +897,7 @@ impl Default for AppSettings {
             keymap_order: Vec::new(),
             auto_rules: Vec::new(),
             auto_default_keymap_id: None,
-            commands_enabled: false,
+            commands_keymap_ids: Vec::new(),
             game_mode: GameModeSettings::defaults_for(std::env::consts::OS),
             linux_wayland_text_mode: TextMode::LibeiWithClipboardFallback,
             linux_paste_shortcut: PasteShortcut::CtrlV,

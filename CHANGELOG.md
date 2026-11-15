@@ -6,6 +6,10 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Commands are allowed per keymap: the global `settings.commandsEnabled` switch is replaced by `settings.keymaps.commandsAllowed`, a list of trusted keymaps, toggled for each keymap on the Commands tab of the settings. A keymap imported, downloaded or copied starts with its commands off (no migration, the format is not released yet).
+
+- New built-in editing actions for keymaps that work on any keyboard layout: `builtin:copy`, `cut`, `paste`, `undo`, `redo`, `selectAll`. In all built-in macros the letter of `Ctrl+C/V/X/Z/A` now follows the active layout (undo on QWERTZ, copy on Dvorak), not only of copy, cut and paste.
+
 - New macros get readable ids from their names (`Copy line` → `macro:copy-line`) instead of `m1`, `m2`, …; existing ids are unchanged. `WheelUp`, `WheelDown`, `WheelLeft`, `WheelRight` are reserved for the mouse wheel (`ScrollUp`/`ScrollDown` are keyboard keys).
 
 - `config.json` (format version stays 1; no migration, the format is not released yet): `copyOsd` moved from `settings.linux` to `settings.interface`, next to the other on-screen notices; settings are grouped by topic and `settings.linux` keeps only the text input mechanism. Device ids in `settings.devices` are an absolute path or `<scheme>:<value>` (`windows:keyboard`, `windows:mouse`); anything else, such as a relative path, is rejected.

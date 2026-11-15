@@ -228,7 +228,7 @@ pub(super) fn open(
     } else {
         Msg::CommandHelpLinux.to_ui()
     });
-    picker.set_commands_enabled(doc.read().settings().commands_enabled);
+    picker.set_commands_enabled(doc.read().settings().commands_enabled());
     picker.set_subject("".into());
     picker.set_command_name(
         command
@@ -327,7 +327,7 @@ pub(super) fn refresh(
     let (development, commands_enabled) = {
         let config = doc.read();
         let settings = config.settings();
-        (settings.in_development, settings.commands_enabled)
+        (settings.in_development, settings.commands_enabled())
     };
     let filter = filter(ui, doc, &picker, state.target, &state.initial);
     let entries: Vec<&PickerItem> = state

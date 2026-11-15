@@ -2359,6 +2359,12 @@ msgstr "Lipește"
 msgid "Select all"
 msgstr "Selectează tot"
 
+msgid "Undo"
+msgstr "Anulează"
+
+msgid "Redo"
+msgstr "Refă"
+
 msgid "Clear search"
 msgstr "Ștergeți căutarea"
 

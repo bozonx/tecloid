@@ -237,6 +237,14 @@
             "rules": []
           }
         },
+        "commandsAllowed": {
+          "default": [],
+          "description": "Keymaps whose `cmd:` actions may run. Trust is a property of this\nmachine, never of the keymap file, so downloaded keymaps start off.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "manualKeymap": {
           "description": "Keymap used in manual mode; missing: none chosen yet.",
           "type": "string"
@@ -346,10 +354,6 @@
     "SettingsDoc": {
       "additionalProperties": false,
       "properties": {
-        "commandsEnabled": {
-          "default": false,
-          "type": "boolean"
-        },
         "devices": {
           "$ref": "#/$defs/DevicesDoc",
           "default": {
@@ -400,6 +404,7 @@
               "fallback": null,
               "rules": []
             },
+            "commandsAllowed": [],
             "mode": "manual",
             "order": []
           }
@@ -596,7 +601,6 @@
     "settings": {
       "$ref": "#/$defs/SettingsDoc",
       "default": {
-        "commandsEnabled": false,
         "devices": {
           "keyboards": [],
           "mice": []
@@ -632,6 +636,7 @@
             "fallback": null,
             "rules": []
           },
+          "commandsAllowed": [],
           "mode": "manual",
           "order": []
         },

@@ -171,9 +171,16 @@
   ],
   "config/$defs/KeymapsDoc/properties": [
     "auto",
+    "commandsAllowed",
     "manualKeymap",
     "mode",
     "order"
+  ],
+  "config/$defs/KeymapsDoc/properties/commandsAllowed/items/type": [
+    "string"
+  ],
+  "config/$defs/KeymapsDoc/properties/commandsAllowed/type": [
+    "array"
   ],
   "config/$defs/KeymapsDoc/properties/manualKeymap/type": [
     "string"
@@ -265,7 +272,6 @@
     "object"
   ],
   "config/$defs/SettingsDoc/properties": [
-    "commandsEnabled",
     "devices",
     "experimental",
     "gameMode",
@@ -275,9 +281,6 @@
     "linux",
     "startMapperOnLaunch",
     "timing"
-  ],
-  "config/$defs/SettingsDoc/properties/commandsEnabled/type": [
-    "boolean"
   ],
   "config/$defs/SettingsDoc/properties/experimental/type": [
     "boolean"

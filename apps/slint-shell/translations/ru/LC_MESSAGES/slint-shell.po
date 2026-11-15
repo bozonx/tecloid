@@ -2081,6 +2081,12 @@ msgstr "Вставить"
 msgid "Select all"
 msgstr "Выделить всё"
 
+msgid "Undo"
+msgstr "Отменить"
+
+msgid "Redo"
+msgstr "Повторить"
+
 msgid "Clear search"
 msgstr "Очистить поиск"
 

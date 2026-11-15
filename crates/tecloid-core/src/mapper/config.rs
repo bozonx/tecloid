@@ -284,7 +284,7 @@ impl TryFrom<&crate::config::model::ResolvedAppConfig> for MapperConfig {
                 macro_timeout_ms: value.settings.macro_timeout_ms,
                 default_double_tap_timeout_ms: value.settings.default_double_tap_timeout_ms,
                 trigger_chord_timeout_ms: value.settings.trigger_chord_timeout_ms,
-                commands_enabled: value.settings.commands_enabled,
+                commands_enabled: value.settings.commands_enabled(),
                 linux_wayland_text_mode: value.settings.linux_wayland_text_mode,
                 linux_paste_shortcut: value.settings.linux_paste_shortcut,
                 linux_terminal_paste_shortcut: value.settings.linux_terminal_paste_shortcut,

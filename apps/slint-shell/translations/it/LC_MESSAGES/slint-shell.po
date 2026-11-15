@@ -2365,6 +2365,12 @@ msgstr "Incolla"
 msgid "Select all"
 msgstr "Seleziona tutto"
 
+msgid "Undo"
+msgstr "Annulla"
+
+msgid "Redo"
+msgstr "Ripeti"
+
 msgid "Clear search"
 msgstr "Cancella ricerca"
 

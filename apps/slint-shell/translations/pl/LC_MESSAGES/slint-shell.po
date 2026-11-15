@@ -2361,6 +2361,12 @@ msgstr "Wklej"
 msgid "Select all"
 msgstr "Zaznacz wszystko"
 
+msgid "Undo"
+msgstr "Cofnij"
+
+msgid "Redo"
+msgstr "Ponów"
+
 msgid "Clear search"
 msgstr "Wyczyść wyszukiwanie"
 

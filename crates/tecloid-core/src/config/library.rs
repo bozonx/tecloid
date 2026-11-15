@@ -353,7 +353,11 @@ impl ConfigDocument {
             if settings.manual_keymap_id.as_ref() == Some(&old) {
                 settings.manual_keymap_id = Some(new.clone());
             }
-            for id in &mut settings.keymap_order {
+            for id in settings
+                .keymap_order
+                .iter_mut()
+                .chain(&mut settings.commands_keymap_ids)
+            {
                 if id == &old {
                     *id = new.clone();
                 }
@@ -409,6 +413,7 @@ impl ConfigDocument {
         let result = self.ordered_keymap_ids().and_then(|remaining| {
             self.update_settings(|settings| {
                 settings.keymap_order.retain(|item| item != &id);
+                settings.commands_keymap_ids.retain(|item| item != &id);
                 settings
                     .auto_rules
                     .retain(|rule| rule.keymap_id.as_ref() != Some(&id));
@@ -841,7 +846,7 @@ mod tests {
     }
 
     #[test]
-    fn saving_renaming_and_deleting_preserve_global_command_switch() {
+    fn renaming_moves_and_deleting_drops_command_permission() {
         let dir = tempfile::tempdir().unwrap();
         let paths = StoragePaths::new(dir.path().join("config"), dir.path().join("data"));
         paths
@@ -852,17 +857,24 @@ mod tests {
             )
             .unwrap();
         paths
-            .save_config(r#"{"version":1,"settings":{"commandsEnabled":true}}"#)
+            .save_config(
+                r#"{"version":1,"settings":{"keymaps":{"commandsAllowed":["user:Test"]}}}"#,
+            )
             .unwrap();
         let mut doc = ConfigDocument::load(paths.clone()).unwrap();
         doc.load_library_for_editing("Test").unwrap();
+        assert!(doc.settings().commands_enabled());
+        // A copy is a new keymap and is not trusted with the original's commands.
         doc.save_current_keymap_as("Hello").unwrap();
-        let text = paths.load_user_keymap("Hello").unwrap();
-        doc.edit_library_metadata("Hello", "Renamed", Some(""), &text)
+        assert!(!doc.settings().commands_enabled());
+        assert!(doc.settings().commands_allowed("user:Test"));
+        let text = paths.load_user_keymap("Test").unwrap();
+        doc.edit_library_metadata("Test", "Renamed", Some(""), &text)
             .unwrap();
+        assert_eq!(doc.settings().commands_keymap_ids, ["user:Renamed"]);
         let text = paths.load_user_keymap("Renamed").unwrap();
         doc.remove_library_keymap("Renamed", &text).unwrap();
-        assert!(doc.settings().commands_enabled);
+        assert!(doc.settings().commands_keymap_ids.is_empty());
     }
 
     #[test]

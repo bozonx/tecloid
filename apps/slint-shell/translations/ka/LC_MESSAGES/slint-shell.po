@@ -2333,6 +2333,12 @@ msgstr "ჩასმა"
 msgid "Select all"
 msgstr "ყველას მონიშვნა"
 
+msgid "Undo"
+msgstr "გაუქმება"
+
+msgid "Redo"
+msgstr "გამეორება"
+
 msgid "Clear search"
 msgstr "ძიების გასუფთავება"
 

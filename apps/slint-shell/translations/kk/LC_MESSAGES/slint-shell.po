@@ -2342,6 +2342,12 @@ msgstr "Қою"
 msgid "Select all"
 msgstr "Барлығын таңдау"
 
+msgid "Undo"
+msgstr "Болдырмау"
+
+msgid "Redo"
+msgstr "Қайталау"
+
 msgid "Clear search"
 msgstr "Іздеуді тазалау"
 

@@ -2329,6 +2329,12 @@ msgstr "Vložit"
 msgid "Select all"
 msgstr "Vybrat vše"
 
+msgid "Undo"
+msgstr "Zpět"
+
+msgid "Redo"
+msgstr "Znovu"
+
 msgid "Clear search"
 msgstr "Vymazat vyhledávání"
 

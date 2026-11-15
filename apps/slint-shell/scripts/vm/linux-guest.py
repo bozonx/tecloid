@@ -326,11 +326,10 @@ def cmd_write_config(args):
         "experimental": True,
         "linux": {"textMode": {"libei": "libeiWithClipboardFallback"}.get(args.text_backend, args.text_backend)},
         "devices": {"keyboards": [args.device]},
-        "keymaps": {"mode": "manual", "manualKeymap": "user:E2E"},
+        "keymaps": {"mode": "manual", "manualKeymap": "user:E2E", "commandsAllowed": ["user:E2E"]},
         "startMapperOnLaunch": True,
         "launchAtLogin": True,
         "interface": {"locale": "en"},
-        "commandsEnabled": True,
         "gameMode": {
             "processes": [{"name": FAKE_GAME, "foregroundOnly": False}],
         },

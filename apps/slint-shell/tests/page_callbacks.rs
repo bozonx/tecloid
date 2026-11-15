@@ -549,7 +549,11 @@ fn check_atomic_commands() -> Result<(), Box<dyn std::error::Error>> {
     let ui = SettingsWindow::new()?;
     bind_document(&ui, &document);
     let settings = ui.global::<SettingsEditor>();
-    settings.set_commands_enabled(true);
+    // Commands are allowed per library keymap, so save the new one first.
+    document.edit_library(|config| config.save_current_keymap_as("Test"))?;
+    let keymap = "user:Test";
+    settings.invoke_set_commands_allowed(keymap.into(), true);
+    assert!(document.read().settings().commands_enabled());
     settings.set_in_development(true);
     settings.invoke_save();
     ui.global::<AppState>().set_in_development(true);

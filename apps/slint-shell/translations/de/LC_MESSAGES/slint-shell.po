@@ -2377,6 +2377,12 @@ msgstr "Einfügen"
 msgid "Select all"
 msgstr "Alles auswählen"
 
+msgid "Undo"
+msgstr "Rückgängig"
+
+msgid "Redo"
+msgstr "Wiederholen"
+
 msgid "Clear search"
 msgstr "Suche löschen"
 

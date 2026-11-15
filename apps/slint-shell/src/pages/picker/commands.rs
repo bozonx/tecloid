@@ -54,7 +54,7 @@ pub(super) fn bind(
 ) {
     let picker = ui.global::<ActionPicker>();
     on!(ui, picker.on_edit_command, doc = document, state = session, drafts = drafts => |ui| {
-        if !doc.read().settings().commands_enabled {
+        if !doc.read().settings().commands_enabled() {
             return;
         }
         let picker = ui.global::<ActionPicker>();

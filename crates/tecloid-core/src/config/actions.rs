@@ -459,7 +459,7 @@ pub fn execution_issue(action: &Action, config: &ResolvedAppConfig) -> Option<Ex
             Action::Command(id) => {
                 if !crate::mapper::runtime::SUPPORTED {
                     Some(ExecutionIssue::Unavailable)
-                } else if !config.settings.commands_enabled {
+                } else if !config.settings.commands_enabled() {
                     Some(ExecutionIssue::CommandsDisabled)
                 } else if config
                     .commands
@@ -745,7 +745,7 @@ mod tests {
             execution_issue(&Action::parse(Some(raw)), config)
         };
 
-        config.settings.commands_enabled = false;
+        config.settings.set_commands_enabled(false);
         let disabled = if crate::mapper::runtime::SUPPORTED {
             Some(ExecutionIssue::CommandsDisabled)
         } else {
@@ -753,7 +753,7 @@ mod tests {
         };
         assert_eq!(issue(&config, "cmd:both"), disabled);
 
-        config.settings.commands_enabled = true;
+        config.settings.set_commands_enabled(true);
         let runnable = (!crate::mapper::runtime::SUPPORTED).then_some(ExecutionIssue::Unavailable);
         assert_eq!(issue(&config, "cmd:both"), runnable);
         assert_eq!(

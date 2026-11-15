@@ -2204,6 +2204,12 @@ msgstr "貼上"
 msgid "Select all"
 msgstr "全選"
 
+msgid "Undo"
+msgstr "復原"
+
+msgid "Redo"
+msgstr "重做"
+
 msgid "Clear search"
 msgstr "清除搜尋"
 

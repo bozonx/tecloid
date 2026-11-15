@@ -629,7 +629,7 @@ mod tests {
         ))
         .unwrap();
         document
-            .update_settings(|settings| settings.commands_enabled = true)
+            .update_settings(|settings| settings.set_commands_enabled(true))
             .unwrap();
         let command = crate::config::model::Command {
             id: "cmd-test".into(),
@@ -869,7 +869,7 @@ mod tests {
             json!({}),
             r#"{"version": 1, "commands": [{"id": "hello", "sh": "printf hello"}]}"#,
         );
-        assert!(!document.settings().commands_enabled);
+        assert!(!document.settings().commands_enabled());
         document
             .paths
             .save_config(
@@ -878,7 +878,7 @@ mod tests {
             )
             .unwrap();
         document = ConfigDocument::load(document.paths().clone()).unwrap();
-        assert!(!document.settings().commands_enabled);
+        assert!(!document.settings().commands_enabled());
     }
 
     #[test]

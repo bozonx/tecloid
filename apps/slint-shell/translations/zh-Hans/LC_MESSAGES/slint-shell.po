@@ -2203,6 +2203,12 @@ msgstr "粘贴"
 msgid "Select all"
 msgstr "全选"
 
+msgid "Undo"
+msgstr "撤销"
+
+msgid "Redo"
+msgstr "重做"
+
 msgid "Clear search"
 msgstr "清除搜索"
 

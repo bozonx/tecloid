@@ -2381,6 +2381,12 @@ msgstr "Coller"
 msgid "Select all"
 msgstr "Tout sélectionner"
 
+msgid "Undo"
+msgstr "Annuler"
+
+msgid "Redo"
+msgstr "Rétablir"
+
 msgid "Clear search"
 msgstr "Effacer la recherche"
 

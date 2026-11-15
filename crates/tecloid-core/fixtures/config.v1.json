@@ -46,9 +46,9 @@
           }
         ],
         "fallback": "user:Main"
-      }
+      },
+      "commandsAllowed": ["user:Main"]
     },
-    "commandsEnabled": true,
     "gameMode": {
       "control": "off",
       "detectors": {

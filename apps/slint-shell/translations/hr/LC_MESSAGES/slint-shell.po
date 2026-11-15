@@ -2333,6 +2333,12 @@ msgstr "Zalijepi"
 msgid "Select all"
 msgstr "Odaberi sve"
 
+msgid "Undo"
+msgstr "Poništi"
+
+msgid "Redo"
+msgstr "Ponovi"
+
 msgid "Clear search"
 msgstr "Očisti pretragu"
 

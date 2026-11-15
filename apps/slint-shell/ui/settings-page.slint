@@ -18,6 +18,8 @@ import { AppearanceChoice, CommandPlace, GameModeControl, SettingsTab, SettingsF
 /// `enabled` is false for a disabled rule.
 export struct CommandPlaceRow { kind: CommandPlace, layer: string, name: string, enabled: bool }
 /// `first` marks the first row of a keymap, which shows its header.
+/// A library keymap and whether its commands may run.
+export struct CommandKeymapRow { id: string, name: string, allowed: bool }
 export struct CommandAssignmentRow { keymap-name: string, first: bool, name: string, script: string, places: [CommandPlaceRow] }
 
 export global SettingsEditor {
@@ -56,8 +58,8 @@ export global SettingsEditor {
     in property <string> default-modifier-delay;
     in property <string> default-macro-timeout;
     /// The advanced key behavior settings are shown.
-    in-out property <bool> commands-enabled;
     in property <[CommandAssignmentRow]> command-assignments;
+    in property <[CommandKeymapRow]> command-keymaps;
     /// The command shown in full in a dialog; empty when it is closed.
     in-out property <string> full-command;
     in-out property <string> full-command-name;
@@ -111,6 +113,8 @@ export global SettingsEditor {
     callback schedule-save();
     callback refresh-devices();
     callback refresh-commands();
+    /// Allow or forbid the commands of one library keymap.
+    callback set-commands-allowed(keymap-id: string, allowed: bool);
     in-out property <bool> devices-loading;
     in property <bool> commands-loading;
     in property <bool> commands-loaded;
@@ -464,8 +468,17 @@ export component SettingsPage inherits PageLayout {
                     TitledCard {
                         accessible-name: @tr("Commands");
                         HorizontalLayout { alignment: start; spacing: Theme.space-s;
-                            CheckBox { horizontal-stretch: 0; text: @tr("Allow command execution"); checked <=> SettingsEditor.commands-enabled; toggled => { SettingsEditor.save(); } }
                             VerticalLayout { alignment: center; InfoTip { text: (AppState.is-windows ? @tr("Commands run with PowerShell in the background and are not awaited.") : @tr("Commands run with sh -lc in the background and are not awaited.")) + "\n" + @tr("Commands stay off until you allow execution. Review below what your keymaps would run."); } }
+                        }
+                        VerticalLayout { padding: 0px; spacing: Theme.space-m;
+                            for keymap in SettingsEditor.command-keymaps: HorizontalLayout {
+                                spacing: Theme.space-xl;
+                                Text { horizontal-stretch: 1; vertical-alignment: center; text: keymap.name; color: Theme.text; wrap: word-wrap; }
+                                CheckBox {
+                                    horizontal-stretch: 0; text: @tr("Allow command execution"); checked: keymap.allowed;
+                                    toggled => { SettingsEditor.set-commands-allowed(keymap.id, self.checked); }
+                                }
+                            }
                         }
                         VerticalLayout { padding: 0px; spacing: Theme.space-xl;
                             if SettingsEditor.commands-loading: Text { accessible-live-region: polite; text: @tr("Please wait…"); color: Theme.muted; }

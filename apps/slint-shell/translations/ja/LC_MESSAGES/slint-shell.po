@@ -2229,6 +2229,12 @@ msgstr "貼り付け"
 msgid "Select all"
 msgstr "すべて選択"
 
+msgid "Undo"
+msgstr "元に戻す"
+
+msgid "Redo"
+msgstr "やり直し"
+
 msgid "Clear search"
 msgstr "検索をクリア"
 

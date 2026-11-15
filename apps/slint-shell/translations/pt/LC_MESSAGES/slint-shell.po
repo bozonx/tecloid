@@ -2339,6 +2339,12 @@ msgstr "Colar"
 msgid "Select all"
 msgstr "Selecionar tudo"
 
+msgid "Undo"
+msgstr "Desfazer"
+
+msgid "Redo"
+msgstr "Refazer"
+
 msgid "Clear search"
 msgstr "Limpar pesquisa"
 

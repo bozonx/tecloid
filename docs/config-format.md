@@ -177,6 +177,13 @@ lowercase letters followed by `:` (`class:`, `exe:`) is reserved for later
 pattern kinds: such a pattern matches nothing and diagnostics report it.
 Implemented in `config::app_match`.
 
+The same program has different ids on different systems and install
+methods: a distribution package, a Flatpak and Windows each report their
+own (`org.telegram.desktop`, `Telegram.exe`). Because any pattern of the
+list matches, a keymap meant to be shared lists every id it should cover in
+one condition: `"windows": ["org.telegram.desktop", "Telegram.exe"]`. Ids
+that never occur on the running system are harmless and simply do not match.
+
 ### Timing
 
 All durations are integer milliseconds. Out-of-range, fractional and negative
@@ -250,6 +257,13 @@ diagnostics report it and the mapper does not start with it.
 - **Built-in macros** (`mapper/builtin_macros.rs`) start with a verb: `goTo…`,
   `select…`, `copy…`, `cut…`, `paste…`, `replace…WithClipboard`, `insert…`,
   `duplicate…`. `builtin:` and `macro:` namespaces are independent.
+  `builtin:copy`, `cut`, `paste`, `undo`, `redo` (`Ctrl+Shift+Z`) and
+  `selectAll` are the standard editing commands, for keymaps that should
+  work on any keyboard layout. In every built-in macro the letter keys of
+  `Ctrl+C/V/X/Z/A` steps are resolved at playback by the character they
+  type in the active layout (on QWERTZ undo is the physical `KeyY`), unlike
+  user actions, which always name physical keys. On Linux plain
+  `Ctrl+C/V/X` also follow the terminal and paste settings.
 - **Naming sources.** `sys:` ids act on the desktop and are named after KDE
   Plasma's actions; `app:` ids act on Tecloid itself and are Tecloid's own
   names; `builtin:` ids are Tecloid's own names for editing macros; key
@@ -334,9 +348,9 @@ Example with every field (the application writes all of them except
             "when": { "windows": ["org.blender.Blender"], "excludeWindows": ["title:Preferences"], "keyboardLayouts": ["us"] } }
         ],
         "fallback": "user:Main"
-      }
+      },
+      "commandsAllowed": ["user:Main"]
     },
-    "commandsEnabled": false,
     "gameMode": {
       "control": "auto",
       "detectors": {
@@ -376,7 +390,7 @@ Example with every field (the application writes all of them except
 | `keymaps.order` | library order; numbers for `activateKeymapN`; unlisted keymaps follow; each id at most once | empty |
 | `keymaps.auto.rules[]` | `keymap` (required: id or `null` = native input), `enabled` (default `true`), `when` (missing = always) | — |
 | `keymaps.auto.fallback` | keymap id or `null` | `null` |
-| `commandsEnabled` | allow `cmd:` actions | `false` |
+| `keymaps.commandsAllowed` | keymap ids whose `cmd:` actions may run; every other keymap's commands are skipped. Trust belongs to this machine, not to the keymap file, so an imported or copied keymap starts without it. Renaming a keymap in the app keeps its entry, deleting it removes the entry; each id at most once | empty |
 | `gameMode.control` | `auto`, `on`, `off` | `auto` |
 | `gameMode.detectors` | per-source auto detection; each OS uses only its own | OS-dependent |
 | `gameMode.foregroundOnly` | launcher/Game Bar games count only while focused | `true` |
@@ -486,7 +500,7 @@ are listed in `schemas/names.v1.txt` as `device …`.
 - **Commands:** `sh` (POSIX sh, Linux/macOS, run with `sh -lc`) and
   `powershell` (Windows); a command without a script for the running OS is
   skipped with a notice. `workingDirectory` defaults to home; `~/…` and
-  relative paths resolve from home. Run only with `settings.commandsEnabled`.
+  relative paths resolve from home. Run only when the keymap is listed in `settings.keymaps.commandsAllowed`.
 - **Menu pages:** cell keys are the grid `KeyQ…KeyT / KeyA…KeyG / KeyZ…KeyB`,
   in any case on load and canonical on save; an empty page is written as `{}`.
   A quick cell is an action string or `{ "name"?, "action" }`; an emoji cell is

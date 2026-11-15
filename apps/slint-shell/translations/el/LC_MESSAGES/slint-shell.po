@@ -2383,6 +2383,12 @@ msgstr "Επικόλληση"
 msgid "Select all"
 msgstr "Επιλογή όλων"
 
+msgid "Undo"
+msgstr "Αναίρεση"
+
+msgid "Redo"
+msgstr "Επανάληψη"
+
 msgid "Clear search"
 msgstr "Εκκαθάριση αναζήτησης"
 

@@ -145,7 +145,7 @@ impl ConfigDocument {
     }
 
     pub fn save_command(&mut self, mut command: Command) -> Result<(), ConfigError> {
-        if !self.settings().commands_enabled {
+        if !self.settings().commands_enabled() {
             return Err(ConfigError::Invalid("Commands are disabled".into()));
         }
         if command.name.trim().is_empty() {
@@ -703,7 +703,7 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let paths = StoragePaths::new(dir.path().join("config"), dir.path().join("data"));
         let mut doc = ConfigDocument::load(paths.clone()).unwrap();
-        assert!(!doc.settings().commands_enabled);
+        assert!(!doc.settings().commands_enabled());
         let command = Command {
             id: "hello".into(),
             name: String::new(),
@@ -712,17 +712,17 @@ mod tests {
             working_directory: None,
         };
         assert!(doc.save_command(command.clone()).is_err());
-        doc.update_settings(|settings| settings.commands_enabled = true)
+        doc.update_settings(|settings| settings.set_commands_enabled(true))
             .unwrap();
         doc.save_command(command).unwrap();
         doc.set_base_tap_action("KeyQ", "cmd:hello").unwrap();
         let keymap = doc.keymap().clone();
-        doc.update_settings(|settings| settings.commands_enabled = false)
+        doc.update_settings(|settings| settings.set_commands_enabled(false))
             .unwrap();
         doc.save_current_keymap_as("Saved").unwrap();
         let mut loaded = ConfigDocument::load(paths.clone()).unwrap();
         loaded.load_library_for_editing("Saved").unwrap();
-        assert!(!loaded.settings().commands_enabled);
+        assert!(!loaded.settings().commands_enabled());
         assert_eq!(
             super::super::keymap_file::serialize(loaded.keymap()),
             super::super::keymap_file::serialize(&keymap)
@@ -877,7 +877,8 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let paths = StoragePaths::new(dir.path().join("config"), dir.path().join("data"));
         let mut doc = ConfigDocument::load(paths).unwrap();
-        doc.update_settings(|s| s.commands_enabled = true).unwrap();
+        doc.update_settings(|s| s.set_commands_enabled(true))
+            .unwrap();
         doc.save_command(Command {
             id: "test".into(),
             name: "Before".into(),
@@ -910,10 +911,10 @@ mod tests {
                 .unwrap()
         })
         .unwrap();
-        doc.update_settings(|settings| settings.commands_enabled = true)
+        doc.update_settings(|settings| settings.set_commands_enabled(true))
             .unwrap();
         paths.delete_user_keymap("Test").unwrap();
-        assert!(doc.settings().commands_enabled);
+        assert!(doc.settings().commands_enabled());
         doc.save_current_keymap_as("First").unwrap();
         doc.save_current_keymap_as("Second").unwrap();
         let rows = doc.command_assignments().unwrap();

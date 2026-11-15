@@ -33,9 +33,9 @@
       "auto": {
         "rules": [],
         "fallback": null
-      }
+      },
+      "commandsAllowed": []
     },
-    "commandsEnabled": false,
     "gameMode": {
       "control": "auto",
       "detectors": {

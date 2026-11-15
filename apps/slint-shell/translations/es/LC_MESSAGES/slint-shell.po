@@ -2312,6 +2312,12 @@ msgstr "Pegar"
 msgid "Select all"
 msgstr "Seleccionar todo"
 
+msgid "Undo"
+msgstr "Deshacer"
+
+msgid "Redo"
+msgstr "Rehacer"
+
 msgid "Clear search"
 msgstr "Borrar búsqueda"
 

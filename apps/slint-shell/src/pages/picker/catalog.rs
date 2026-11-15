@@ -337,7 +337,7 @@ pub(super) fn catalog(ui: &SettingsWindow, config: &ResolvedAppConfig) -> Vec<Pi
                 }),
         );
     }
-    let enabled = config.settings.commands_enabled;
+    let enabled = config.settings.commands_enabled();
     items.extend(actions::catalog(config).into_iter().filter_map(|entry| {
         let category = match &entry.action {
             Action::Macro(_) if in_development => PickerCategory::Macros,

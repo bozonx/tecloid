@@ -2344,6 +2344,12 @@ msgstr "Вставити"
 msgid "Select all"
 msgstr "Вибрати все"
 
+msgid "Undo"
+msgstr "Скасувати"
+
+msgid "Redo"
+msgstr "Повторити"
+
 msgid "Clear search"
 msgstr "Очистити пошук"
 

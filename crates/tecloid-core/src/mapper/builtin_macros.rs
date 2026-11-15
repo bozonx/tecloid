@@ -188,6 +188,37 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
             "Shift+ArrowDown",
         ],
     },
+    // editing commands; letter keys follow the active layout at playback
+    BuiltinMacro {
+        id: "copy",
+        name: "Copy",
+        steps: &["Ctrl+KeyC"],
+    },
+    BuiltinMacro {
+        id: "cut",
+        name: "Cut",
+        steps: &["Ctrl+KeyX"],
+    },
+    BuiltinMacro {
+        id: "paste",
+        name: "Paste",
+        steps: &["Ctrl+KeyV"],
+    },
+    BuiltinMacro {
+        id: "undo",
+        name: "Undo",
+        steps: &["Ctrl+KeyZ"],
+    },
+    BuiltinMacro {
+        id: "redo",
+        name: "Redo",
+        steps: &["Ctrl+Shift+KeyZ"],
+    },
+    BuiltinMacro {
+        id: "selectAll",
+        name: "Select all",
+        steps: &["Ctrl+KeyA"],
+    },
 ];
 
 #[cfg(all(test, target_os = "linux"))]

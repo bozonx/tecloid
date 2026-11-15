@@ -87,7 +87,6 @@ struct SettingsDoc {
     devices: DevicesDoc,
     timing: TimingDoc,
     keymaps: KeymapsDoc,
-    commands_enabled: bool,
     #[cfg_attr(test, schemars(default = "schema_game_mode_default"))]
     game_mode: GameModeDoc,
     linux: LinuxDoc,
@@ -170,6 +169,9 @@ struct KeymapsDoc {
     /// list. Behaviour, not remembered state, so it lives in settings.
     order: Vec<String>,
     auto: AutoDoc,
+    /// Keymaps whose `cmd:` actions may run. Trust is a property of this
+    /// machine, never of the keymap file, so downloaded keymaps start off.
+    commands_allowed: Vec<String>,
 }
 
 impl Default for KeymapsDoc {
@@ -441,9 +443,13 @@ fn keymap_ref(value: Option<String>, what: &str) -> Result<Option<String>, Strin
 /// are unique ignoring case (one file on a case-insensitive file system),
 /// so `user:Main` and `user:main` are the same entry.
 fn keymap_order(order: Vec<String>) -> Result<Vec<String>, String> {
+    keymap_list(order, "settings.keymaps.order")
+}
+
+fn keymap_list(order: Vec<String>, field: &str) -> Result<Vec<String>, String> {
     let mut out: Vec<String> = Vec::with_capacity(order.len());
     for (index, id) in order.into_iter().enumerate() {
-        let what = format!("settings.keymaps.order[{index}]");
+        let what = format!("{field}[{index}]");
         let id = keymap_ref(Some(id), &what)?.unwrap_or_default();
         if out
             .iter()
@@ -468,6 +474,15 @@ fn process_name(name: &str, index: usize) -> Result<String, String> {
         return Err(format!("{what}: a process has no window title"));
     }
     Ok(name.into())
+}
+
+/// `ids` without repeated entries, first occurrence kept.
+fn unique_ids(ids: &[String]) -> Vec<String> {
+    ids.iter()
+        .enumerate()
+        .filter(|(index, id)| !ids[..*index].contains(id))
+        .map(|(_, id)| id.clone())
+        .collect()
 }
 
 pub fn validate(settings: &AppSettings) -> Result<(), String> {
@@ -539,7 +554,10 @@ fn from_doc(doc: ConfigDoc) -> Result<AppSettings, String> {
             keymaps.auto.fallback,
             "settings.keymaps.auto.fallback",
         )?,
-        commands_enabled: settings.commands_enabled,
+        commands_keymap_ids: keymap_list(
+            keymaps.commands_allowed,
+            "settings.keymaps.commandsAllowed",
+        )?,
         game_mode: GameModeSettings {
             use_gamemoded: detectors.gamemoded,
             use_fullscreen: detectors.fullscreen,
@@ -613,13 +631,7 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
             keymaps: KeymapsDoc {
                 mode: settings.keymap_mode,
                 manual_keymap: filled(&settings.manual_keymap_id),
-                order: settings
-                    .keymap_order
-                    .iter()
-                    .enumerate()
-                    .filter(|(index, id)| !settings.keymap_order[..*index].contains(id))
-                    .map(|(_, id)| id.clone())
-                    .collect(),
+                order: unique_ids(&settings.keymap_order),
                 auto: AutoDoc {
                     rules: settings
                         .auto_rules
@@ -632,8 +644,8 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
                         .collect(),
                     fallback: filled(&settings.auto_default_keymap_id),
                 },
+                commands_allowed: unique_ids(&settings.commands_keymap_ids),
             },
-            commands_enabled: settings.commands_enabled,
             game_mode: GameModeDoc {
                 control: game_mode.control,
                 detectors: DetectorsDoc {
@@ -953,7 +965,7 @@ mod tests {
                 },
             }],
             auto_default_keymap_id: Some("user:Main".into()),
-            commands_enabled: true,
+            commands_keymap_ids: vec!["user:Main".into()],
             game_mode: GameModeSettings {
                 use_fullscreen: true,
                 process_matchers: vec![GameModeProcessMatcher {

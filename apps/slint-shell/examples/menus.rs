@@ -55,6 +55,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ui.global::<Theme>().invoke_apply();
     let e = ui.global::<MenuEditor>();
     let loaded = || document.read();
+    // Commands are allowed per library keymap, so save the edited one first.
+    document.edit_library(|config| config.save_current_keymap_as("Menus"))?;
+    let allow_commands = |allowed: bool| {
+        ui.global::<SettingsEditor>()
+            .invoke_set_commands_allowed("user:Menus".into(), allowed);
+        assert_eq!(document.read().settings().commands_enabled(), allowed);
+    };
 
     e.invoke_open(MenuKind::Emoji);
     let cells = e.get_cells();
@@ -106,10 +113,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     assert!(loaded().keymap().emoji_pages[0].cells.is_empty());
     assert!(e.get_only_page_empty());
 
-    let settings = ui.global::<SettingsEditor>();
-    assert!(!settings.get_commands_enabled());
-    settings.set_commands_enabled(true);
-    settings.invoke_save();
+    assert!(!loaded().settings().commands_enabled());
+    allow_commands(true);
     let picker = ui.global::<ActionPicker>();
     picker.invoke_open(PickerTarget::QuickAction, 0, "".into(), false);
     picker.invoke_select_behavior(PickerBehavior::Action);
@@ -129,8 +134,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     picker.invoke_apply();
     assert_eq!(loaded().keymap().commands.len(), 1);
     assert_eq!(quick_action(loaded().keymap(), 0, "KeyQ"), reference);
-    settings.set_commands_enabled(false);
-    settings.invoke_save();
+    allow_commands(false);
     picker.invoke_open(
         PickerTarget::QuickAction,
         0,
@@ -141,8 +145,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     assert_eq!(picker.get_notice().id.as_str(), "commands-disabled");
     assert_eq!(loaded().keymap().commands.len(), 1);
     picker.invoke_dismiss_picker();
-    settings.set_commands_enabled(true);
-    settings.invoke_save();
+    allow_commands(true);
     e.invoke_open(MenuKind::Quick);
     assert_eq!(e.get_selected_cell(), 0);
     assert_eq!(
@@ -197,8 +200,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Manual config changes do not prevent edits in the running application.
     assert_eq!(e.get_status().id.as_str(), "");
     assert_eq!(e.get_name().as_str(), "Updated");
-    settings.set_commands_enabled(true);
-    settings.invoke_save();
+    allow_commands(true);
 
     document.edit(slint_shell::document::View::Shell, |config| {
         config.save_command(tecloid_core::config::model::Command {

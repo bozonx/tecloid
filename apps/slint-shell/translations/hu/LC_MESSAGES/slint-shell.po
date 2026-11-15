@@ -2356,6 +2356,12 @@ msgstr "Beillesztés"
 msgid "Select all"
 msgstr "Összes kijelölése"
 
+msgid "Undo"
+msgstr "Visszavonás"
+
+msgid "Redo"
+msgstr "Újra"
+
 msgid "Clear search"
 msgstr "Keresés törlése"
 

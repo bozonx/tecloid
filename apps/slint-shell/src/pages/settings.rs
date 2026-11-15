@@ -5,9 +5,9 @@ use crate::{
     document::{Document, View},
     i18n::Msg,
     ui::{
-        AppState, AppearanceChoice, CommandAssignmentRow, CommandPlace, CommandPlaceRow,
-        DeviceChoice, DeviceChoices, DeviceGroup, DeviceMatch, GameAppEntry, SettingsEditor,
-        SettingsField, SettingsWindow,
+        AppState, AppearanceChoice, CommandAssignmentRow, CommandKeymapRow, CommandPlace,
+        CommandPlaceRow, DeviceChoice, DeviceChoices, DeviceGroup, DeviceMatch, GameAppEntry,
+        SettingsEditor, SettingsField, SettingsWindow,
     },
 };
 use slint::{ComponentHandle, Model, ModelRc, VecModel};
@@ -208,8 +208,6 @@ form! {
     macro_timeout => MacroTimeout: String = get_macro_timeout / set_macro_timeout,
         load |s| s.macro_timeout_ms.to_string(),
         store |t, v| t.macro_timeout_ms = ms(v, timing::MACRO_TIMEOUT)?;
-    commands_enabled: bool = get_commands_enabled / set_commands_enabled,
-        load |s| s.commands_enabled, store |t, v| t.commands_enabled = *v;
     use_gamemoded: bool = get_use_gamemoded / set_use_gamemoded,
         load |s| s.game_mode.use_gamemoded, store |t, v| t.game_mode.use_gamemoded = *v;
     use_fullscreen: bool = get_use_fullscreen / set_use_fullscreen,
@@ -438,6 +436,26 @@ fn show_command_assignments(
     }
 }
 
+/// One row per library keymap with its command permission. Every keymap is
+/// listed, so commands can be allowed before any is assigned.
+fn show_command_keymaps(ui: &SettingsWindow, document: &Document) {
+    let config = document.read();
+    let ids = config.ordered_keymap_ids().unwrap_or_default();
+    let rows: Vec<_> = ids
+        .iter()
+        .map(|id| CommandKeymapRow {
+            name: tecloid_core::config::model::user_keymap_name(id)
+                .unwrap_or(id)
+                .into(),
+            allowed: config.settings().commands_allowed(id),
+            id: id.as_str().into(),
+        })
+        .collect();
+    drop(config);
+    ui.global::<SettingsEditor>()
+        .set_command_keymaps(ModelRc::new(VecModel::from(rows)));
+}
+
 fn refresh_commands(ui: &SettingsWindow, document: &Document, state: &mut State) {
     let e = ui.global::<SettingsEditor>();
     let invalidated = state
@@ -453,6 +471,7 @@ fn refresh_commands(ui: &SettingsWindow, document: &Document, state: &mut State)
     {
         return;
     }
+    show_command_keymaps(ui, document);
     let commands = state.commands.clone();
     let Some(generation) = commands
         .lock()
@@ -870,6 +889,19 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
 
     on!(ui, e.on_refresh_commands, doc = document, shared = state => |ui| {
         refresh_commands(&ui, &doc, &mut shared.borrow_mut());
+    });
+
+    on!(ui, e.on_set_commands_allowed, doc = document => |ui, keymap_id, allowed| {
+        let _ = super::change(
+            &ui,
+            &doc,
+            View::Settings,
+            |config| config.update_settings(|settings| settings.set_commands_allowed(&keymap_id, allowed)),
+            || {},
+            |_| {},
+        );
+        // Show what was saved: a failed save puts the checkbox back.
+        show_command_keymaps(&ui, &doc);
     });
 
     on!(ui, e.on_refresh_devices => |ui| {

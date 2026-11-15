@@ -2335,6 +2335,12 @@ msgstr "Yapıştır"
 msgid "Select all"
 msgstr "Tümünü seç"
 
+msgid "Undo"
+msgstr "Geri al"
+
+msgid "Redo"
+msgstr "Yinele"
+
 msgid "Clear search"
 msgstr "Aramayı temizle"
 

@@ -221,22 +221,27 @@ pub(crate) fn key_for_char(ch: char) -> Option<(u16, Vec<u16>)> {
     ))
 }
 
-/// Resolve built-in clipboard strokes at playback time. User `KeyC/V/X`
-/// bindings remain physical keys; only built-in editing commands are semantic.
+/// Resolve built-in editing strokes (Ctrl with C/V/X/Z/A) at playback time.
+/// User `KeyC/V/X/Z/A` bindings remain physical keys; only built-in editing
+/// commands are semantic.
 pub(crate) fn builtin_clipboard_stroke(
     stroke: &crate::mapper::action::Keystroke,
 ) -> crate::mapper::action::Keystroke {
     use crate::mapper::key_code::KeyCode as K;
-    if stroke.mods != [K::KEY_LEFTCTRL] {
+    if !stroke.mods.contains(&K::KEY_LEFTCTRL) {
         return stroke.clone();
     }
     let character = match stroke.key {
         K::KEY_C => 'c',
         K::KEY_V => 'v',
         K::KEY_X => 'x',
+        K::KEY_Z => 'z',
+        K::KEY_A => 'a',
         _ => return stroke.clone(),
     };
-    let terminal = crate::active_window::TextTarget::capture().is_terminal();
+    // Only plain Ctrl+C/V/X are clipboard strokes with terminal and paste
+    // variants; undo, redo and select all only follow the layout.
+    let clipboard = stroke.mods == [K::KEY_LEFTCTRL] && matches!(character, 'c' | 'v' | 'x');
     let key = crate::runtime_state::keyboard_layout()
         .and_then(|layout| {
             let layouts = crate::keyboard_layout::shortcut_layouts();
@@ -256,6 +261,14 @@ pub(crate) fn builtin_clipboard_stroke(
         })
         .and_then(|key| u16::try_from(key).ok())
         .map(K::new);
+    if !clipboard {
+        let mut result = stroke.clone();
+        if let Some(key) = key {
+            result.key = key;
+        }
+        return result;
+    }
+    let terminal = crate::active_window::TextTarget::capture().is_terminal();
     let cfg = TEXT_BACKEND.lock().unwrap_or_else(|e| e.into_inner());
     let shortcut = cfg.terminal_paste.filter(|_| terminal).unwrap_or(cfg.paste);
     contextual_clipboard_stroke(stroke, terminal, shortcut, key)
@@ -372,6 +385,10 @@ mod tests {
         assert_eq!(shortcut('c'), Some(u32::from(K::KEY_I.code())));
         assert_eq!(shortcut('x'), Some(u32::from(K::KEY_B.code())));
         assert_eq!(shortcut('v'), Some(u32::from(K::KEY_DOT.code())));
+        assert_eq!(shortcut('z'), Some(u32::from(K::KEY_SLASH.code())));
+        assert_eq!(shortcut('a'), Some(u32::from(K::KEY_A.code())));
+        let de = |character| shortcut_key_from_names(&[("de", "")], 0, "", character);
+        assert_eq!(de('z'), Some(u32::from(K::KEY_Y.code())));
         assert_eq!(
             shortcut_key_from_names(&[("ru", ""), ("us", "dvorak")], 0, "", 'c'),
             Some(u32::from(K::KEY_I.code()))

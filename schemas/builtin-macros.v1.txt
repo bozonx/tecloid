@@ -1,7 +1,9 @@
+copy: Ctrl+KeyC
 copyLineText: Home | Shift+End | Ctrl+KeyC | Home
 copyToLineEnd: Shift+End | Ctrl+KeyC | End
 copyToLineStart: Shift+Home | Ctrl+KeyC | Home
 copyWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyC | ArrowLeft
+cut: Ctrl+KeyX
 cutLine: Home | Shift+End | Ctrl+KeyX | Delete
 cutLineText: Home | Shift+End | Ctrl+KeyX
 cutToLineEnd: Shift+End | Ctrl+KeyX
@@ -17,13 +19,17 @@ goToPreviousLineStart: ArrowUp | Home
 insertEmptyLineAbove: Home | Enter | ArrowUp
 insertEmptyLineBelow: End | Enter
 insertSpaceAfterNextChar: ArrowRight | Space
+paste: Ctrl+KeyV
 pasteOnNewLineAbove: Home | Enter | ArrowUp | Ctrl+KeyV
 pasteOnNewLineBelow: End | Enter | Ctrl+KeyV
+redo: Ctrl+Shift+KeyZ
 replaceLineTextWithClipboard: Home | Shift+End | Ctrl+KeyV
 replaceToLineEndWithClipboard: Shift+End | Ctrl+KeyV
 replaceToLineStartWithClipboard: Shift+Home | Ctrl+KeyV
 replaceWordWithClipboard: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyV
 select5LinesDown: Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown
 select5LinesUp: Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp
+selectAll: Ctrl+KeyA
 selectLineText: Home | Shift+End
 selectWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft
+undo: Ctrl+KeyZ
