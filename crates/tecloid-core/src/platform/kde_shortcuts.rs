@@ -142,12 +142,13 @@ fn offered(component: &str, name: &str) -> bool {
     if component != "kwin" {
         return true;
     }
-    // KWin registers these for up to 20+ desktops; `sys:` covers 1…10.
+    // KWin registers these for up to 20+ desktops; the picker offers the
+    // first ones as `sys:` actions, the rest stay `kde:` shortcuts.
     ["Switch to Desktop ", "Window to Desktop "]
         .iter()
         .find_map(|prefix| name.strip_prefix(prefix))
         .and_then(|n| n.parse::<u32>().ok())
-        .is_none_or(|n| n <= crate::config::actions::SYSTEM_NUMBERED_COUNT)
+        .is_none_or(|n| n <= crate::config::actions::SYSTEM_PICKER_COUNT)
 }
 
 #[cfg(test)]

@@ -44,7 +44,6 @@ pub fn resolve(name: &str) -> Option<WindowsAction> {
     if let Some(n) = name
         .strip_prefix("switchToKeyboardLayout")
         .and_then(crate::config::actions::slot_number)
-        .filter(|n| (1..=crate::config::actions::SYSTEM_NUMBERED_COUNT).contains(n))
     {
         return Some(WindowsAction::SwitchLayout(n));
     }

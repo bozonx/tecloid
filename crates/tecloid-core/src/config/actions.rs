@@ -120,7 +120,7 @@ pub struct CatalogEntry {
     pub name: ActionName,
 }
 
-const NUMBERED_SYSTEM_ACTIONS: [&str; 3] = [
+pub const NUMBERED_SYSTEM_ACTIONS: [&str; 3] = [
     "switchToDesktop",
     "switchToKeyboardLayout",
     "moveWindowToDesktop",
@@ -168,27 +168,38 @@ const MACOS_UNSUPPORTED_SYSTEM_ACTIONS: [&str; 13] = [
     "showAppLauncher",
 ];
 
-/// Numbered actions have ids 1…10 (system), 1… without an upper bound
-/// (menu pages) and 1…5 (keymaps in library order).
+/// Numbered actions (`switchToDesktopN`, `showQuickMenuN`,
+/// `activateKeymapN`, …) accept any `N` in `1..=MAX_SLOT`; one rule for all
+/// families. A slot that resolves to nothing at run time does nothing. The
+/// `*_PICKER_COUNT` constants only size the action picker.
 ///
 /// Menu pages and keymaps are addressed by position on purpose, not by id:
 /// the user binds keys to slots once and changes what a key opens by
 /// reordering pages or library keymaps, which the UI shows. Reordering
 /// therefore does not rewrite these actions. Do not switch them to ids.
-/// Highest N of numbered system actions (`switchToKeyboardLayoutN`, …) the config accepts.
-pub const SYSTEM_NUMBERED_COUNT: u32 = 10;
-/// Menu pages offered in the action picker; any page number is valid.
+///
+/// `MAX_SLOT` is part of the file format: it may be raised, never lowered.
+pub const MAX_SLOT: u32 = 999;
+/// Numbered system actions offered in the action picker.
+pub const SYSTEM_PICKER_COUNT: u32 = 10;
+/// Menu pages offered in the action picker (more if the keymap has more).
 pub const MENU_PAGE_PICKER_COUNT: u32 = 10;
+/// Keymap slots offered in the action picker (more if the library has more).
+pub const KEYMAP_PICKER_COUNT: u32 = 5;
 /// How deep macros may reference other macros.
 pub const MAX_MACRO_DEPTH: usize = 10;
 /// Most steps a macro may expand to, nested macros included.
 pub const MAX_MACRO_STEPS: usize = 1000;
-pub const KEYMAP_SLOT_COUNT: u32 = 5;
+
+/// Numbered `app:` action families.
+pub const NUMBERED_APP_ACTIONS: [&str; 3] = ["showQuickMenu", "showEmojiMenu", "activateKeymap"];
 
 /// The number of a numbered id: decimal digits without a sign or leading
-/// zero (`3`, not `03` or `+3`), so every number has one spelling.
+/// zero (`3`, not `03` or `+3`), so every number has one spelling, in
+/// `1..=MAX_SLOT`.
 pub fn slot_number(digits: &str) -> Option<u32> {
     if digits.is_empty()
+        || digits.len() > 3
         || digits.starts_with('0')
         || !digits.bytes().all(|byte| byte.is_ascii_digit())
     {
@@ -198,15 +209,15 @@ pub fn slot_number(digits: &str) -> Option<u32> {
 }
 
 /// Split `switchToDesktop3` into its catalog name and number.
-fn numbered(id: &str, names: &[&'static str], max: u32) -> Option<(&'static str, u32)> {
+fn numbered(id: &str, names: &[&'static str]) -> Option<(&'static str, u32)> {
     names.iter().find_map(|name| {
         let n = slot_number(id.strip_prefix(name)?)?;
-        (1..=max).contains(&n).then_some((*name, n))
+        (n <= MAX_SLOT).then_some((*name, n))
     })
 }
 
 pub fn system_action_name(id: &str) -> Option<ActionName> {
-    numbered(id, &NUMBERED_SYSTEM_ACTIONS, SYSTEM_NUMBERED_COUNT)
+    numbered(id, &NUMBERED_SYSTEM_ACTIONS)
         .or_else(|| {
             PLAIN_SYSTEM_ACTIONS
                 .iter()
@@ -267,8 +278,7 @@ pub const SHOW_EMOJI_MENU_RECENT: &str = "app:showEmojiMenuRecent";
 pub const SHOW_QUICK_MENU_RECENT: &str = "app:showQuickMenuRecent";
 
 pub fn app_action_name(id: &str) -> Option<ActionName> {
-    numbered(id, &["showQuickMenu", "showEmojiMenu"], u32::MAX)
-        .or_else(|| numbered(id, &["activateKeymap"], KEYMAP_SLOT_COUNT))
+    numbered(id, &NUMBERED_APP_ACTIONS)
         .map(|(id, n)| ActionName::App { id, n })
         .or_else(|| {
             WINDOW_APP_ACTIONS
@@ -298,7 +308,7 @@ pub fn system_actions() -> Vec<CatalogEntry> {
             name: ActionName::System { id, n: 0 },
         })
         .chain(NUMBERED_SYSTEM_ACTIONS.into_iter().flat_map(|name| {
-            (1..=SYSTEM_NUMBERED_COUNT).map(move |n| CatalogEntry {
+            (1..=SYSTEM_PICKER_COUNT).map(move |n| CatalogEntry {
                 action: Action::System(format!("{name}{n}")),
                 name: ActionName::System { id: name, n },
             })
@@ -306,7 +316,14 @@ pub fn system_actions() -> Vec<CatalogEntry> {
         .collect()
 }
 
+/// App actions with the default picker ranges.
 pub fn app_actions() -> Vec<CatalogEntry> {
+    app_actions_up_to(0, 0, 0)
+}
+
+/// App actions whose numbered ranges grow past the picker defaults to
+/// cover `quick_pages`, `emoji_pages` and `keymaps` existing slots.
+fn app_actions_up_to(quick_pages: usize, emoji_pages: usize, keymaps: usize) -> Vec<CatalogEntry> {
     let plain = |id: &'static str| CatalogEntry {
         action: Action::App(id.into()),
         name: ActionName::App { id, n: 0 },
@@ -315,14 +332,25 @@ pub fn app_actions() -> Vec<CatalogEntry> {
         action: Action::App(format!("{id}{n}")),
         name: ActionName::App { id, n },
     };
+    let range = |default: u32, count: usize| {
+        1..=u32::try_from(count)
+            .unwrap_or(MAX_SLOT)
+            .clamp(default, MAX_SLOT)
+    };
+    let quick = range(MENU_PAGE_PICKER_COUNT, quick_pages);
+    let emoji = range(MENU_PAGE_PICKER_COUNT, emoji_pages);
+    let pages = 1..=(*quick.end()).max(*emoji.end());
     WINDOW_APP_ACTIONS
         .into_iter()
         .map(plain)
-        .chain(
-            (1..=MENU_PAGE_PICKER_COUNT)
-                .flat_map(|n| ["showQuickMenu", "showEmojiMenu"].map(|id| numbered(id, n))),
-        )
-        .chain((1..=KEYMAP_SLOT_COUNT).map(|n| numbered("activateKeymap", n)))
+        .chain(pages.flat_map(move |n| {
+            [("showQuickMenu", &quick), ("showEmojiMenu", &emoji)]
+                .into_iter()
+                .filter(|(_, range)| range.contains(&n))
+                .map(|(id, _)| numbered(id, n))
+                .collect::<Vec<_>>()
+        }))
+        .chain(range(KEYMAP_PICKER_COUNT, keymaps).map(|n| numbered("activateKeymap", n)))
         .chain(GAME_MODE_APP_ACTIONS.map(plain))
         .collect()
 }
@@ -351,7 +379,11 @@ pub fn catalog(config: &ResolvedAppConfig) -> Vec<CatalogEntry> {
         }),
     }));
     out.extend(system_actions());
-    out.extend(app_actions());
+    out.extend(app_actions_up_to(
+        config.quick_action_pages.len(),
+        config.emoji_pages.len(),
+        config.settings.keymap_order.len(),
+    ));
     out
 }
 
@@ -595,7 +627,15 @@ mod tests {
                 n: 10
             })
         );
-        assert_eq!(system_action_name("switchToDesktop11"), None);
+        assert_eq!(
+            system_action_name("switchToDesktop11"),
+            Some(ActionName::System {
+                id: "switchToDesktop",
+                n: 11
+            })
+        );
+        assert!(system_action_name("switchToDesktop999").is_some());
+        assert_eq!(system_action_name("switchToDesktop1000"), None);
         assert_eq!(system_action_name("lockScreen"), None);
         assert_eq!(
             system_action_name("turnOffScreen"),
@@ -638,7 +678,10 @@ mod tests {
                 n: 5
             })
         );
-        assert_eq!(app_action_name("activateKeymap6"), None);
+        assert!(app_action_name("activateKeymap6").is_some());
+        assert!(app_action_name("showQuickMenu999").is_some());
+        assert_eq!(app_action_name("activateKeymap1000"), None);
+        assert_eq!(app_action_name("showEmojiMenu1000"), None);
         assert!(app_action_name("showQuickMenuRecent").is_some());
         assert!(app_action_name("showSettings").is_some());
     }
@@ -716,7 +759,7 @@ mod tests {
             );
         }
         assert_eq!(
-            issue(&config, "sys:switchToDesktop11"),
+            issue(&config, "sys:switchToDesktop1000"),
             Some(ExecutionIssue::Unavailable)
         );
     }

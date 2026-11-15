@@ -1,8 +1,8 @@
 # Format stabilization proposals (before the first release with users)
 
-Status: **proposal**, not implemented. Every item here touches the on-disk
-format and needs the maintainer's approval (see AGENTS.md, "Ask first").
-Once a file with these values is released, the meaning below is frozen.
+Status: **accepted and implemented** (items 1–3); the normative text is in
+[config-format.md](../config-format.md). Once a file with these values is
+released, the meaning below is frozen.
 
 Guiding rule: **the reader accepts the widest form we can ever want; the UI
 offers a narrow, convenient subset.** Widening a reader later is compatible,
@@ -14,8 +14,8 @@ Affected: `app:activateKeymapN`, `app:showQuickMenuN`, `app:showEmojiMenuN`,
 `sys:switchToDesktopN`, `sys:moveWindowToDesktopN`,
 `sys:switchToKeyboardLayoutN`.
 
-Today the limits differ: menus accept any `N`, `activateKeymap` stops at 5
-(`KEYMAP_SLOT_COUNT`), `sys:*N` at 10 (`SYSTEM_NUMBERED_COUNT`).
+Today the limits differ: menus accept any `N`, `activateKeymap` stopped at 5, `sys:*N`
+at 10.
 
 Proposal:
 

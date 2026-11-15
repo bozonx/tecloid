@@ -119,8 +119,16 @@ field. The editor names new layers after their name (`Navigation` → `navigatio
 `c2`, ….
 
 Library keymap ids are `user:<file name without .json>`; the file name may
-contain any characters allowed by the file system. Renaming a keymap in the app
-updates every reference in `config.json`.
+contain any characters allowed by the file system. The id is exactly the file
+stem and is never normalized; keymap files carry no id of their own, so
+downloaded or copied files never collide. Ids are unique ignoring case: of
+library files whose names differ only in case, the first in sort order is
+loaded and the others are ignored with a warning. Importing a file whose
+name is taken stores it as `Name (2)`, `Name (3)`, … without changing its
+content. Renaming a keymap in the app updates every reference in
+`config.json`; renaming a file outside the app leaves dangling references,
+reported as a missing keymap (the fallback is used) and never rewritten on
+load. `user:` is the only prefix in version 1; others may be added later.
 
 ### Conditions (`when`)
 
@@ -228,7 +236,7 @@ diagnostics report it and the mapper does not start with it.
   `moveWindowToPreviousScreen`, `switchToNextDesktop`, `switchToPreviousDesktop`,
   `showDesktop`, `showOverview`, `showAppLauncher`, `turnOffScreen`,
   `lockSession`, and `switchToDesktopN`, `moveWindowToDesktopN`,
-  `switchToKeyboardLayoutN` (N = 1…10). Several map to system toggles. Platform
+  `switchToKeyboardLayoutN` (see numbered slots below). Several map to system toggles. Platform
   support: [platforms.md](platforms.md).
 - **`kde:<component>/<shortcut>`**: a kglobalaccel shortcut. The component
   is the last segment of its D-Bus object path (`org_kde_powerdevil`, not
@@ -238,10 +246,21 @@ diagnostics report it and the mapper does not start with it.
   `DBusActivatable=true` apps get `org.freedesktop.Application.ActivateAction`,
   others run the action's `Exec`.
 - **`app:`** (`config/app_action.rs`): `showQuickMenuN`, `showEmojiMenuN`
-  (N ≥ 1, past the end opens the last page), `showQuickMenuRecent`,
-  `showEmojiMenuRecent`, `showSettings`, `activateKeymapN` (N = 1…5, by
+  (past the end opens the last page), `showQuickMenuRecent`,
+  `showEmojiMenuRecent`, `showSettings`, `activateKeymapN` (by
   `settings.keymaps.order`), `toggleGameMode`, `setGameModeAuto|On|Off`.
-  References are by position on purpose; reordering does not rewrite them.
+
+**Numbered slots.** Every numbered family (`switchToDesktopN`,
+`moveWindowToDesktopN`, `switchToKeyboardLayoutN`, `showQuickMenuN`,
+`showEmojiMenuN`, `activateKeymapN`) accepts any `N` in `1…999`
+(`MAX_SLOT`; may be raised, never lowered). `N` is a position — in the OS
+list, the menu page list or `keymaps.order` — on purpose: reordering changes
+what a key does and does not rewrite actions. A slot that resolves to nothing
+at run time does nothing (with a notice), it is never a load error. The
+action picker offers only the first slots (desktops and layouts 1…10, menu
+pages 1…10, keymaps 1…5), more when the keymap or library has more, and
+always the value already bound. `schemas/names.v1.txt` records each family
+as `action sys:switchToDesktop<1..=999>`.
 
 ## config.json
 
@@ -318,7 +337,7 @@ Example with every field (the application writes all of them except
 | `interface.keymapOsd` | on-screen notice when the active keymap changes | `false` |
 | `interface.layerHint` | overlay with the held layer's keys | `false` |
 | `interface.locale` | `auto`, `en`, `ru`, `de`, `fr`, `es`, `it`, `pt`, `pl`, `tr`, `uk`, `cs`, `hu`, `ro`, `el`, `hr`, `ka`, `kk`, `zh-Hans`, `zh-Hant`, `ja`, `ko` | `auto` |
-| `devices.keyboards`, `devices.mice` | device paths; on Linux stable `/dev/input/by-id/…` or `by-path/…` links. At most one of each in this version (a longer list is a load error) | empty |
+| `devices.keyboards`, `devices.mice` | device paths; on Linux stable `/dev/input/by-id/…` or `by-path/…` links. The list is the set of devices Tecloid grabs; the active keymap applies to all of them as to one keyboard (shared modifier, layer and tap-hold state), order has no meaning, an empty list means none is chosen. At most one of each in this version (a longer list is a load error); allowing more is a compatible widening. Per-device keymaps, if added, will be a separate field | empty |
 | `timing.tapDecision` | `permissiveHold` or `holdOnOtherKeyPress` | `permissiveHold` |
 | `keymaps.mode` | `manual` (`manualKeymap`) or `auto` (first matching `auto.rules[]`, else `auto.fallback`) | `manual` |
 | `keymaps.manualKeymap`, `keymaps.order[]`, `keymaps.auto.rules[].keymap`, `keymaps.auto.fallback` | keymap ids `user:<name>` with a valid library name; any other string is a load error, a missing keymap is a diagnostic | — |

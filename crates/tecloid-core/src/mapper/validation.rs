@@ -420,8 +420,8 @@ mod tests {
             "unknown macro"
         );
         for (tap, step) in [
-            ("sys:switchToDesktop11", "KeyA"),
-            ("sys:moveWindowToDesktop20", "KeyA"),
+            ("sys:switchToDesktop1000", "KeyA"),
+            ("sys:moveWindowToDesktop01", "KeyA"),
             ("KeyA", "pause:0"),
             ("KeyA", "pause:+5"),
             ("pause:10", "KeyA"),

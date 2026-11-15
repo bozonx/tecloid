@@ -3,6 +3,7 @@ action app:activateKeymap2
 action app:activateKeymap3
 action app:activateKeymap4
 action app:activateKeymap5
+action app:activateKeymap<1..=999>
 action app:setGameModeAuto
 action app:setGameModeOff
 action app:setGameModeOn
@@ -16,6 +17,7 @@ action app:showEmojiMenu6
 action app:showEmojiMenu7
 action app:showEmojiMenu8
 action app:showEmojiMenu9
+action app:showEmojiMenu<1..=999>
 action app:showEmojiMenuRecent
 action app:showQuickMenu1
 action app:showQuickMenu10
@@ -27,6 +29,7 @@ action app:showQuickMenu6
 action app:showQuickMenu7
 action app:showQuickMenu8
 action app:showQuickMenu9
+action app:showQuickMenu<1..=999>
 action app:showQuickMenuRecent
 action app:showSettings
 action app:toggleGameMode
@@ -75,6 +78,7 @@ action sys:moveWindowToDesktop6
 action sys:moveWindowToDesktop7
 action sys:moveWindowToDesktop8
 action sys:moveWindowToDesktop9
+action sys:moveWindowToDesktop<1..=999>
 action sys:moveWindowToNextDesktop
 action sys:moveWindowToNextScreen
 action sys:moveWindowToPreviousDesktop
@@ -92,6 +96,7 @@ action sys:switchToDesktop6
 action sys:switchToDesktop7
 action sys:switchToDesktop8
 action sys:switchToDesktop9
+action sys:switchToDesktop<1..=999>
 action sys:switchToKeyboardLayout1
 action sys:switchToKeyboardLayout10
 action sys:switchToKeyboardLayout2
@@ -102,6 +107,7 @@ action sys:switchToKeyboardLayout6
 action sys:switchToKeyboardLayout7
 action sys:switchToKeyboardLayout8
 action sys:switchToKeyboardLayout9
+action sys:switchToKeyboardLayout<1..=999>
 action sys:switchToNextDesktop
 action sys:switchToPreviousDesktop
 action sys:turnOffScreen

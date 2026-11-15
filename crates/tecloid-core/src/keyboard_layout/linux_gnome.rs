@@ -58,7 +58,7 @@ pub fn available_layouts() -> Result<Vec<KeyboardLayoutInfo>, String> {
 }
 
 pub fn set_layout(index: u32) -> Result<(), String> {
-    if index >= crate::config::actions::SYSTEM_NUMBERED_COUNT {
+    if index >= crate::config::actions::MAX_SLOT {
         return Err("GNOME input source index is out of range".into());
     }
     gnome::action(&format!("switchToKeyboardLayout{}", index + 1))?;

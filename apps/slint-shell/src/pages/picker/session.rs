@@ -4,7 +4,7 @@ use super::{
     Drafts, Session, assigns_command,
     catalog::{
         ACTION_CATEGORIES, KEY_CATEGORIES, SHORTCUTS_GENERATION, catalog, category_for_value,
-        execution_notice, is_key_category, load_desktop_shortcuts,
+        execution_notice, include_slot_value, is_key_category, load_desktop_shortcuts,
     },
     commands::command_notice,
     request::{PickerMode, filter, request},
@@ -194,7 +194,9 @@ pub(super) fn open(
     let request = request(ui, doc, target, index, key_only);
     ui.global::<ActionPicker>()
         .set_trigger_chords(request.mode == PickerMode::Trigger);
-    let catalog = catalog(ui, &drafts.config(doc, Some(target)));
+    let config = drafts.config(doc, Some(target));
+    let mut catalog = catalog(ui, &config);
+    include_slot_value(&mut catalog, ui, &config, &value);
     // The catalog generation is read after building, so shortcuts arriving
     // later still trigger a rebuild.
     let category = initial_category(&value, &catalog, target);
@@ -306,10 +308,10 @@ pub(super) fn refresh(
         let mut state = state.borrow_mut();
         let shortcuts = SHORTCUTS_GENERATION.with(std::cell::Cell::get);
         if state.catalog_shortcuts != shortcuts {
-            state.catalog = catalog(
-                ui,
-                &drafts.config(doc, state.target.map(|(target, _)| target)),
-            );
+            let config = drafts.config(doc, state.target.map(|(target, _)| target));
+            state.catalog = catalog(ui, &config);
+            let initial = state.initial.clone();
+            include_slot_value(&mut state.catalog, ui, &config, &initial);
             state.catalog_shortcuts = shortcuts;
         }
         if state

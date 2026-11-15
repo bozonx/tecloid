@@ -269,6 +269,40 @@ fn read_desktop_items(desktop: ShortcutDesktop) -> (Vec<DesktopShortcutItem>, Re
     }
 }
 
+/// Add the bound `value` when it is a numbered slot outside the picker
+/// range (`app:activateKeymap7`, `sys:switchToDesktop12`), so editing a
+/// binding never drops it.
+pub(super) fn include_slot_value(
+    items: &mut Vec<PickerItem>,
+    ui: &SettingsWindow,
+    config: &ResolvedAppConfig,
+    value: &str,
+) {
+    if items.iter().any(|item| item.value == value) {
+        return;
+    }
+    let action = Action::parse(Some(value));
+    let (name, category) = match &action {
+        Action::App(id) => (actions::app_action_name(id), PickerCategory::App),
+        Action::System(id) => (
+            actions::system_action_name(id),
+            PickerCategory::SystemActions,
+        ),
+        _ => return,
+    };
+    let Some(name @ (ActionName::App { n: 1.., .. } | ActionName::System { n: 1.., .. })) = name
+    else {
+        return;
+    };
+    let label = action_label(ui, name).unwrap_or_else(|| value.to_string());
+    items.push(PickerItem {
+        value: value.into(),
+        label: label.into(),
+        category,
+        notice: execution_notice(&action, config).to_ui(),
+    });
+}
+
 pub(super) fn catalog(ui: &SettingsWindow, config: &ResolvedAppConfig) -> Vec<PickerItem> {
     let in_development = config.settings.in_development;
     let mut items: Vec<_> = CATEGORIES

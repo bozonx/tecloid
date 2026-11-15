@@ -229,6 +229,22 @@ mod tests {
             let action = entry.action.format().unwrap_or_default();
             names.push(format!("action {action}"));
         }
+        // Numbered families accept every N in 1..=MAX_SLOT; the enumerated
+        // lines above are only the picker defaults.
+        for family in actions::NUMBERED_SYSTEM_ACTIONS {
+            names.push(format!("action sys:{family}<1..={}>", actions::MAX_SLOT));
+        }
+        for family in actions::NUMBERED_APP_ACTIONS {
+            names.push(format!("action app:{family}<1..={}>", actions::MAX_SLOT));
+        }
+        for family in actions::NUMBERED_SYSTEM_ACTIONS {
+            let max = format!("{family}{}", actions::MAX_SLOT);
+            assert!(actions::system_action_name(&max).is_some(), "{max}");
+        }
+        for family in actions::NUMBERED_APP_ACTIONS {
+            let max = format!("{family}{}", actions::MAX_SLOT);
+            assert!(actions::app_action_name(&max).is_some(), "{max}");
+        }
         for builtin in crate::mapper::builtin_macros::BUILTIN_MACROS {
             names.push(format!("action builtin:{}", builtin.id));
         }

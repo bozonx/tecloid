@@ -125,6 +125,17 @@ impl StoragePaths {
             }
         }
         out.sort_unstable();
+        // Keymap ids are unique ignoring case, so a library copied to a
+        // case-insensitive file system keeps its meaning. Of names that differ
+        // only in case the first in sort order wins; the rest are not loaded.
+        let mut seen = std::collections::HashSet::new();
+        out.retain(|name| {
+            let unique = seen.insert(name.to_lowercase());
+            if !unique {
+                log::warn!("keymap {name:?} ignored: differs from another only in case");
+            }
+            unique
+        });
         Ok(out)
     }
 
@@ -800,6 +811,19 @@ mod tests {
             r#"{"description":"updated"}"#
         );
         assert!(storage.load_user_keymap("Old").is_err());
+    }
+
+    #[test]
+    fn names_differing_only_in_case_list_once() {
+        let temp = TempDir::new("storage-keymaps-case-dup");
+        let storage = StoragePaths::new(temp.path().join("config"), temp.path().join("data"));
+        storage.ensure().expect("dirs");
+        let dir = storage.keymaps_dir();
+        std::fs::create_dir_all(&dir).unwrap();
+        for name in ["main", "Main", "Other"] {
+            std::fs::write(dir.join(format!("{name}.json")), "{}").unwrap();
+        }
+        assert_eq!(storage.list_user_keymaps().unwrap(), ["Main", "Other"]);
     }
 
     #[test]

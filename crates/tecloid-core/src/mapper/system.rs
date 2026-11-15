@@ -227,7 +227,6 @@ fn resolve_for_desktop(
 mod kde {
     use super::{DbusArg, DbusCall, SystemAction};
     use crate::platform::dbus;
-    use crate::config::actions::SYSTEM_NUMBERED_COUNT;
 
     /// Plain `sys:` actions KWin, Plasma and PowerDevil register as
     /// kglobalaccel shortcuts: (id, component, shortcut name).
@@ -263,7 +262,6 @@ mod kde {
         let numbered = |prefix: &str| {
             name.strip_prefix(prefix)
                 .and_then(crate::config::actions::slot_number)
-                .filter(|n| (1..=SYSTEM_NUMBERED_COUNT).contains(n))
         };
         // KWin registers both families as global shortcuts; the same path
         // as every other window action, instead of the legacy
@@ -320,7 +318,8 @@ mod tests {
             assert_eq!(resolved, event);
             assert!(crate::config::actions::app_action_name(name).is_some());
         }
-        assert!(resolve_app("activateKeymap6").is_none());
+        assert!(resolve_app("activateKeymap6").is_some());
+        assert!(resolve_app("activateKeymap1000").is_none());
     }
 
     #[test]
@@ -369,8 +368,9 @@ mod tests {
             assert!(!is_known(id), "{id}");
         }
         assert!(is_known("switchToDesktop10") && is_known("turnOffScreen"));
-        // The same numbered range as the action picker.
-        assert!(!is_known("switchToDesktop11") && !is_known("moveWindowToDesktop11"));
+        // Any slot up to MAX_SLOT; the picker shows only the first ones.
+        assert!(is_known("switchToDesktop11") && is_known("moveWindowToDesktop999"));
+        assert!(!is_known("switchToDesktop1000"));
         for entry in crate::config::actions::system_actions() {
             let crate::config::actions::Action::System(id) = entry.action else {
                 panic!("system catalog holds only sys: actions");
@@ -439,8 +439,8 @@ mod linux_tests {
         for name in [
             "showDesktop",
             "switchToKeyboardLayout0",
-            "switchToKeyboardLayout11",
-            "switchToDesktop21",
+            "switchToKeyboardLayout1000",
+            "switchToDesktop01",
             "Eval",
             "global.display.focus_window.delete(0)",
         ] {
