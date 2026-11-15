@@ -10,7 +10,8 @@
       "reduceMotion": "system",
       "locale": "auto",
       "keymapOsd": false,
-      "layerHint": false
+      "layerHint": false,
+      "copyOsd": false
     },
     "devices": {
       "keyboards": [],
@@ -53,7 +54,6 @@
     },
     "linux": {
       "textMode": "libeiWithClipboardFallback",
-      "copyOsd": false,
       "pasteShortcut": "Ctrl+KeyV",
       "terminalPasteShortcut": "Shift+Insert"
     }

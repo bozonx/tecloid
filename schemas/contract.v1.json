@@ -90,11 +90,17 @@
     "keyboards",
     "mice"
   ],
+  "config/$defs/DevicesDoc/properties/keyboards/items/pattern": [
+    "^(/.+|[a-z]{2,}:.+)$"
+  ],
   "config/$defs/DevicesDoc/properties/keyboards/items/type": [
     "string"
   ],
   "config/$defs/DevicesDoc/properties/keyboards/type": [
     "array"
+  ],
+  "config/$defs/DevicesDoc/properties/mice/items/pattern": [
+    "^(/.+|[a-z]{2,}:.+)$"
   ],
   "config/$defs/DevicesDoc/properties/mice/items/type": [
     "string"
@@ -137,11 +143,15 @@
   ],
   "config/$defs/InterfaceDoc/properties": [
     "appearance",
+    "copyOsd",
     "highContrast",
     "keymapOsd",
     "layerHint",
     "locale",
     "reduceMotion"
+  ],
+  "config/$defs/InterfaceDoc/properties/copyOsd/type": [
+    "boolean"
   ],
   "config/$defs/InterfaceDoc/properties/keymapOsd/type": [
     "boolean"
@@ -178,15 +188,11 @@
     "object"
   ],
   "config/$defs/LinuxDoc/properties": [
-    "copyOsd",
     "pasteShortcut",
     "terminalPasteShortcut",
     "textMode",
     "xdotoolPath",
     "ydotoolPath"
-  ],
-  "config/$defs/LinuxDoc/properties/copyOsd/type": [
-    "boolean"
   ],
   "config/$defs/LinuxDoc/properties/xdotoolPath/minLength": [
     1

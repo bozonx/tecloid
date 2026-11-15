@@ -111,6 +111,8 @@ action sys:switchToKeyboardLayout<1..=999>
 action sys:switchToNextDesktop
 action sys:switchToPreviousDesktop
 action sys:turnOffScreen
+device windows:keyboard
+device windows:mouse
 key Accessibility
 key Again
 key AirplaneMode

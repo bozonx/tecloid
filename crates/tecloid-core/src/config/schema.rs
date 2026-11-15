@@ -39,6 +39,10 @@ pub const KEYMAP_SCHEMA_URL: &str =
 /// Grammar of collection IDs (layers, macros and commands), see [`super::ids`].
 pub const ID_PATTERN: &str = "^[A-Za-z0-9_-]{1,64}$";
 
+/// Grammar of device ids (`settings.devices`), see
+/// [`super::model::valid_device_id`].
+pub const DEVICE_ID_PATTERN: &str = "^(/.+|[a-z]{2,}:.+)$";
+
 /// The `version` of a parsed document, checked before the rest is
 /// read, so a file from a newer build is reported as such rather than as a
 /// list of unknown fields. Returns a version in `1..=current`.
@@ -255,6 +259,13 @@ mod tests {
             names.push(format!("trigger {modifier}"));
         }
         names.push("window title:".into());
+        for device in [
+            super::super::model::WINDOWS_KEYBOARD_DEVICE,
+            super::super::model::WINDOWS_MOUSE_DEVICE,
+        ] {
+            assert!(super::super::model::valid_device_id(device), "{device}");
+            names.push(format!("device {device}"));
+        }
         names.push(format!(
             "keymap {}",
             super::super::model::USER_KEYMAP_PREFIX

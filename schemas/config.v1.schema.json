@@ -107,11 +107,12 @@
     },
     "DevicesDoc": {
       "additionalProperties": false,
-      "description": "Devices the mapper grabs, as stable paths such as `/dev/input/by-id/…`\non Linux. Lists leave room for several devices; this version grabs at\nmost one of each kind.",
+      "description": "Devices the mapper grabs. A device id is an absolute path (on Linux a\nstable one such as `/dev/input/by-id/…`) or `<scheme>:<value>`\n(`windows:keyboard`). Lists leave room for several devices; this version\ngrabs at most one of each kind.",
       "properties": {
         "keyboards": {
           "default": [],
           "items": {
+            "pattern": "^(/.+|[a-z]{2,}:.+)$",
             "type": "string"
           },
           "type": "array"
@@ -119,6 +120,7 @@
         "mice": {
           "default": [],
           "items": {
+            "pattern": "^(/.+|[a-z]{2,}:.+)$",
             "type": "string"
           },
           "type": "array"
@@ -187,6 +189,11 @@
           "$ref": "#/$defs/Appearance",
           "default": "system"
         },
+        "copyOsd": {
+          "default": false,
+          "description": "On-screen notice when Tecloid sends a copy shortcut.",
+          "type": "boolean"
+        },
         "highContrast": {
           "$ref": "#/$defs/AccessibilityChoice",
           "default": "system"
@@ -252,11 +259,6 @@
     "LinuxDoc": {
       "additionalProperties": false,
       "properties": {
-        "copyOsd": {
-          "default": false,
-          "description": "On-screen notice when Tecloid sends a copy shortcut.",
-          "type": "boolean"
-        },
         "pasteShortcut": {
           "$ref": "#/$defs/PasteShortcut",
           "default": "Ctrl+KeyV",
@@ -383,6 +385,7 @@
           "$ref": "#/$defs/InterfaceDoc",
           "default": {
             "appearance": "system",
+            "copyOsd": false,
             "highContrast": "system",
             "keymapOsd": false,
             "layerHint": false,
@@ -408,7 +411,6 @@
         "linux": {
           "$ref": "#/$defs/LinuxDoc",
           "default": {
-            "copyOsd": false,
             "pasteShortcut": "Ctrl+KeyV",
             "terminalPasteShortcut": "Shift+Insert",
             "textMode": "libeiWithClipboardFallback"
@@ -618,6 +620,7 @@
         },
         "interface": {
           "appearance": "system",
+          "copyOsd": false,
           "highContrast": "system",
           "keymapOsd": false,
           "layerHint": false,
@@ -634,7 +637,6 @@
         },
         "launchAtLogin": false,
         "linux": {
-          "copyOsd": false,
           "pasteShortcut": "Ctrl+KeyV",
           "terminalPasteShortcut": "Shift+Insert",
           "textMode": "libeiWithClipboardFallback"

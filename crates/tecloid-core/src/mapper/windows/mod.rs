@@ -40,9 +40,9 @@ use windows::Win32::System::Threading::CreateMutexW;
 use windows::core::w;
 
 /// Device path of "every keyboard of this session".
-pub const KEYBOARD_PATH: &str = "windows:keyboard";
+pub const KEYBOARD_PATH: &str = crate::config::model::WINDOWS_KEYBOARD_DEVICE;
 /// Device path of "every mouse of this session" (buttons only).
-pub const MOUSE_PATH: &str = "windows:mouse";
+pub const MOUSE_PATH: &str = crate::config::model::WINDOWS_MOUSE_DEVICE;
 
 pub fn list_input_devices() -> Result<Vec<InputDevice>, String> {
     Ok(vec![

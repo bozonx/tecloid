@@ -11,7 +11,8 @@
       "reduceMotion": "off",
       "locale": "zh-Hant",
       "keymapOsd": true,
-      "layerHint": true
+      "layerHint": true,
+      "copyOsd": true
     },
     "devices": {
       "keyboards": [
@@ -97,7 +98,6 @@
     },
     "linux": {
       "textMode": "clipboardPaste",
-      "copyOsd": true,
       "pasteShortcut": "Shift+Insert",
       "terminalPasteShortcut": "sameAsPaste",
       "ydotoolPath": "/usr/local/bin/ydotool",

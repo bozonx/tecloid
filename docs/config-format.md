@@ -61,8 +61,8 @@ part of version 1 under the same rules.
   (`tap`, `hold.action`, a layer key, `keymap` of an auto rule,
   `auto.fallback`); elsewhere "none" is a missing field.
 - **Stored names are frozen.** Action prefixes, `sys:`, `app:` and
-  `builtin:` ids, key names, pattern prefixes and the keymap id prefix
-  `user:` are listed in [`schemas/names.v1.txt`](../schemas/names.v1.txt)
+  `builtin:` ids, key names, pattern prefixes, device ids with a scheme
+  (`windows:keyboard`) and the keymap id prefix `user:` are listed in [`schemas/names.v1.txt`](../schemas/names.v1.txt)
   (test `stored_names_are_never_removed`); field names, JSON types, enum
   values, required fields and numeric limits of both formats in
   [`schemas/contract.v1.json`](../schemas/contract.v1.json) (test
@@ -301,7 +301,8 @@ Example with every field (the application writes all of them except
       "reduceMotion": "system",
       "locale": "auto",
       "keymapOsd": false,
-      "layerHint": false
+      "layerHint": false,
+      "copyOsd": false
     },
     "devices": {
       "keyboards": ["/dev/input/by-id/usb-Keyboard-event-kbd"],
@@ -340,7 +341,6 @@ Example with every field (the application writes all of them except
     },
     "linux": {
       "textMode": "libeiWithClipboardFallback",
-      "copyOsd": false,
       "pasteShortcut": "Ctrl+KeyV",
       "terminalPasteShortcut": "Shift+Insert",
       "ydotoolPath": "/usr/local/bin/ydotool",
@@ -357,8 +357,9 @@ Example with every field (the application writes all of them except
 | `interface.highContrast`, `interface.reduceMotion` | `system` (XDG Settings portal; KDE animation speed), `on`, `off` | `system` |
 | `interface.keymapOsd` | on-screen notice when the active keymap changes | `false` |
 | `interface.layerHint` | overlay with the held layer's keys | `false` |
+| `interface.copyOsd` | on-screen notice when Tecloid sends a copy shortcut (shown on Linux) | `false` |
 | `interface.locale` | `auto`, `en`, `ru`, `de`, `fr`, `es`, `it`, `pt`, `pl`, `tr`, `uk`, `cs`, `hu`, `ro`, `el`, `hr`, `ka`, `kk`, `zh-Hans`, `zh-Hant`, `ja`, `ko` | `auto` |
-| `devices.keyboards`, `devices.mice` | device paths; on Linux stable `/dev/input/by-id/…` or `by-path/…` links. The list is the set of devices Tecloid grabs; the active keymap applies to all of them as to one keyboard (shared modifier, layer and tap-hold state), order has no meaning, an empty list means none is chosen. At most one of each in this version (a longer list is a load error); allowing more is a compatible widening. Per-device keymaps, if added, will be a separate field | empty |
+| `devices.keyboards`, `devices.mice` | device ids, see [Device ids](#device-ids). The list is the set of devices Tecloid grabs; the active keymap applies to all of them as to one keyboard (shared modifier, layer and tap-hold state), order has no meaning, an empty list means none is chosen. At most one of each in this version (a longer list is a load error); allowing more is a compatible widening. Per-device keymaps, if added, will be a separate field | empty |
 | `timing.tapDecision` | `permissiveHold` or `holdOnOtherKeyPress` | `permissiveHold` |
 | `keymaps.mode` | `manual` (`manualKeymap`) or `auto` (first matching `auto.rules[]`, else `auto.fallback`) | `manual` |
 | `keymaps.manualKeymap`, `keymaps.order[]`, `keymaps.auto.rules[].keymap`, `keymaps.auto.fallback` | keymap ids `user:<name>` with a valid library name; any other string is a load error, a missing keymap is a diagnostic | — |
@@ -371,12 +372,38 @@ Example with every field (the application writes all of them except
 | `gameMode.foregroundOnly` | launcher/Game Bar games count only while focused | `true` |
 | `gameMode.processes[]` | `name` pattern (not blank, no `title:`: a process has no title), `foregroundOnly` (default `true`), `exclude` (default `false`) | — |
 | `linux.textMode` | `libeiWithClipboardFallback`, `libeiOnly`, `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` | `libeiWithClipboardFallback` |
-| `linux.copyOsd` | on-screen notice when Tecloid sends a copy shortcut | `false` |
 | `linux.pasteShortcut` | `Shift+Insert`, `Ctrl+KeyV`, `Ctrl+Shift+KeyV` (modifier order irrelevant) | `Ctrl+KeyV` |
 | `linux.terminalPasteShortcut` | same values or `sameAsPaste` | `Shift+Insert` |
 | `linux.ydotoolPath`, `xdotoolPath` | program path; missing = search `PATH`; empty string is an error | — |
 
 Not persisted: open editor, current page, selected layer.
+
+### Sections and platform-specific settings
+
+Settings are grouped by what they are about (`interface`, `devices`,
+`timing`, `keymaps`, `gameMode`), not by operating system. An option that
+only some systems use still lives in its topic section, is written on every
+system and is ignored where it does not apply (`interface.copyOsd`,
+`gameMode.detectors.gameBar`). A platform section (`linux`; later `windows`,
+`macos`) holds only the choice of an OS mechanism that has no counterpart
+elsewhere: how text is injected and which programs do it. New settings follow
+the same rule.
+
+### Device ids
+
+An entry of `devices.keyboards` / `devices.mice` is one of:
+
+- an absolute path starting with `/`: on Linux a stable
+  `/dev/input/by-id/…` or `by-path/…` link;
+- `<scheme>:<value>`, the scheme being two or more lowercase letters, for
+  devices that are not files. Version 1 defines `windows:keyboard` and
+  `windows:mouse` (every keyboard / mouse of the session; Windows has no
+  per-device interception). An unknown scheme loads and names no device.
+
+Anything else (a relative path, blanks around the value) is a load error.
+Ids are taken verbatim and compared as written; on Linux two paths that
+resolve to the same event device are the same device. The known scheme ids
+are listed in `schemas/names.v1.txt` as `device …`.
 
 ## Keymap file
 

@@ -112,6 +112,8 @@ struct InterfaceDoc {
     keymap_osd: bool,
     /// While a layer is held, an overlay with its keys.
     layer_hint: bool,
+    /// On-screen notice when Tecloid sends a copy shortcut.
+    copy_osd: bool,
 }
 
 impl Default for InterfaceDoc {
@@ -120,14 +122,17 @@ impl Default for InterfaceDoc {
     }
 }
 
-/// Devices the mapper grabs, as stable paths such as `/dev/input/by-id/…`
-/// on Linux. Lists leave room for several devices; this version grabs at
-/// most one of each kind.
+/// Devices the mapper grabs. A device id is an absolute path (on Linux a
+/// stable one such as `/dev/input/by-id/…`) or `<scheme>:<value>`
+/// (`windows:keyboard`). Lists leave room for several devices; this version
+/// grabs at most one of each kind.
 #[cfg_attr(test, derive(schemars::JsonSchema))]
 #[derive(Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields, default)]
 struct DevicesDoc {
+    #[cfg_attr(test, schemars(inner(regex(pattern = schema::DEVICE_ID_PATTERN))))]
     keyboards: Vec<String>,
+    #[cfg_attr(test, schemars(inner(regex(pattern = schema::DEVICE_ID_PATTERN))))]
     mice: Vec<String>,
 }
 
@@ -140,8 +145,8 @@ impl DevicesDoc {
             ));
         }
         match list.into_iter().next() {
-            Some(path) if path.trim().is_empty() => Err(format!(
-                "settings.devices.{what}: device path must not be empty"
+            Some(path) if !super::model::valid_device_id(&path) => Err(format!(
+                "settings.devices.{what}: {path:?} is not a device id (expected an absolute path or \"<scheme>:<value>\")"
             )),
             path => Ok(path),
         }
@@ -373,8 +378,6 @@ struct ProcessDoc {
 struct LinuxDoc {
     /// How `text:` actions reach the focused application.
     text_mode: TextMode,
-    /// On-screen notice when Tecloid sends a copy shortcut.
-    copy_osd: bool,
     /// Shortcut the clipboard text modes send to paste, as a key chord.
     paste_shortcut: PasteShortcut,
     /// Paste shortcut for terminal windows, or `sameAsPaste`.
@@ -515,7 +518,7 @@ fn from_doc(doc: ConfigDoc) -> Result<AppSettings, String> {
         high_contrast: interface.high_contrast,
         reduce_motion: interface.reduce_motion,
         keymap_osd: interface.keymap_osd,
-        copy_osd: settings.linux.copy_osd,
+        copy_osd: interface.copy_osd,
         layer_hint: interface.layer_hint,
         locale: interface.locale,
         default_hold_timeout_ms: timing.hold_ms,
@@ -590,6 +593,7 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
                 locale: settings.locale,
                 keymap_osd: settings.keymap_osd,
                 layer_hint: settings.layer_hint,
+                copy_osd: settings.copy_osd,
             },
             devices: DevicesDoc {
                 keyboards: filled(&settings.input_device_path).into_iter().collect(),
@@ -662,7 +666,6 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
             },
             linux: LinuxDoc {
                 text_mode: settings.linux_wayland_text_mode,
-                copy_osd: settings.copy_osd,
                 paste_shortcut: settings.linux_paste_shortcut,
                 terminal_paste_shortcut: TerminalPasteDoc(settings.linux_terminal_paste_shortcut),
                 ydotool_path: Some(settings.linux_ydotool_path.clone())
@@ -737,7 +740,7 @@ mod tests {
         assert_eq!(settings["gameMode"]["detectors"]["fullscreen"], false);
         assert_eq!(settings["linux"]["pasteShortcut"], "Ctrl+KeyV");
         assert_eq!(settings["linux"]["terminalPasteShortcut"], "Shift+Insert");
-        assert_eq!(settings["linux"]["copyOsd"], false);
+        assert_eq!(settings["interface"]["copyOsd"], false);
         assert!(settings["linux"].get("ydotoolPath").is_none());
         assert!(settings["keymaps"].get("manualKeymap").is_none());
         assert_eq!(
@@ -878,6 +881,11 @@ mod tests {
             json!({"interface": {"appearance": "eink"}}),
             json!({"appearance": "dark"}),
             json!({"copyOsd": true}),
+            json!({"linux": {"copyOsd": true}}),
+            json!({"devices": {"keyboards": ["event3"]}}),
+            json!({"devices": {"keyboards": [" /dev/input/event3"]}}),
+            json!({"devices": {"mice": ["windows:"]}}),
+            json!({"devices": {"mice": ["C:\\mouse"]}}),
             json!({"linux": {"textMode": "libei-pure"}}),
             json!({"linux": {"pasteShortcut": "shift-insert"}}),
             json!({"linux": {"pasteShortcut": "Alt+KeyV"}}),
@@ -972,7 +980,7 @@ mod tests {
         assert_eq!(raw["settings"]["linux"]["pasteShortcut"], "Ctrl+Shift+KeyV");
         assert_eq!(raw["settings"]["interface"]["appearance"], "eInk");
         assert_eq!(raw["settings"]["interface"]["locale"], "ru");
-        assert_eq!(raw["settings"]["linux"]["copyOsd"], true);
+        assert_eq!(raw["settings"]["interface"]["copyOsd"], true);
         assert_eq!(raw["settings"]["linux"]["textMode"], "clipboardPaste");
         assert_eq!(
             raw["settings"]["linux"]["terminalPasteShortcut"],

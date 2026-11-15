@@ -41,6 +41,27 @@ pub fn user_keymap_name(id: &str) -> Option<&str> {
     id.strip_prefix(USER_KEYMAP_PREFIX)
 }
 
+/// Device id of "every keyboard of this session" on Windows, which has no
+/// per-device interception.
+pub const WINDOWS_KEYBOARD_DEVICE: &str = "windows:keyboard";
+/// Device id of "every mouse of this session" on Windows (buttons only).
+pub const WINDOWS_MOUSE_DEVICE: &str = "windows:mouse";
+
+/// Whether `id` is a stored device id (`settings.devices`): an absolute
+/// path (`/dev/input/by-id/…`), or `<scheme>:<value>` with a scheme of two
+/// or more lowercase letters for devices that are not files. A scheme this
+/// build does not know is kept and simply names no device here.
+pub fn valid_device_id(id: &str) -> bool {
+    if let Some(path) = id.strip_prefix('/') {
+        return !path.is_empty();
+    }
+    id.split_once(':').is_some_and(|(scheme, value)| {
+        scheme.len() >= 2
+            && scheme.bytes().all(|byte| byte.is_ascii_lowercase())
+            && !value.is_empty()
+    })
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Layer {
     pub id: String,
