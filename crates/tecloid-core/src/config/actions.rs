@@ -47,12 +47,13 @@ impl Action {
             return Self::Text(text.into());
         }
         type Constructor = fn(String) -> Action;
-        let prefixed: [(&str, Constructor); 8] = [
+        let prefixed: [(&str, Constructor); 9] = [
             ("macro:", Self::Macro),
             ("builtin:", Self::BuiltinMacro),
             ("cmd:", Self::Command),
             ("sys:", Self::System),
             ("tecloid:", Self::App),
+            ("app:", Self::App),
             ("kde:", Self::KdeShortcut),
             ("xdg:", Self::DesktopEntry),
             ("pause:", Self::Pause),
@@ -81,7 +82,7 @@ impl Action {
             Self::BuiltinMacro(id) => format!("builtin:{id}"),
             Self::Command(id) => format!("cmd:{id}"),
             Self::System(id) => format!("sys:{id}"),
-            Self::App(id) => format!("tecloid:{id}"),
+            Self::App(id) => format!("app:{id}"),
             Self::KdeShortcut(id) => format!("kde:{id}"),
             Self::DesktopEntry(id) => format!("xdg:{id}"),
             Self::Text(text) => format!("text:{text}"),
@@ -263,8 +264,8 @@ pub const WINDOW_APP_ACTIONS: [&str; 3] =
     ["showQuickMenuRecent", "showEmojiMenuRecent", "showSettings"];
 
 /// Actions of the built-in popup hotkeys Ctrl+Alt+F11 and Ctrl+Alt+F12.
-pub const SHOW_EMOJI_MENU_RECENT: &str = "tecloid:showEmojiMenuRecent";
-pub const SHOW_QUICK_MENU_RECENT: &str = "tecloid:showQuickMenuRecent";
+pub const SHOW_EMOJI_MENU_RECENT: &str = "app:showEmojiMenuRecent";
+pub const SHOW_QUICK_MENU_RECENT: &str = "app:showQuickMenuRecent";
 
 pub fn app_action_name(id: &str) -> Option<ActionName> {
     numbered(id, &["showQuickMenu", "showEmojiMenu"], u32::MAX)

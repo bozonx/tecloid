@@ -23,6 +23,7 @@ pub(crate) fn json_schema() -> schemars::Schema {
 
 /// Parse a keymap file. Returns `Ok(None)` for an empty document.
 pub fn parse(text: &str) -> Result<Option<KeymapPreset>, String> {
+    let text = text.strip_prefix('\u{feff}').unwrap_or(text);
     if text.trim().is_empty() {
         return Ok(None);
     }

@@ -1,0 +1,273 @@
+{
+  "config/$defs/AccessibilityChoice/enum": [
+    "system",
+    "on",
+    "off"
+  ],
+  "config/$defs/Appearance/enum": [
+    "system",
+    "light",
+    "dark",
+    "eInk"
+  ],
+  "config/$defs/AutoDoc/properties": [
+    "fallback",
+    "rules"
+  ],
+  "config/$defs/AutoRuleDoc/properties": [
+    "enabled",
+    "keymap",
+    "when"
+  ],
+  "config/$defs/DetectorsDoc/properties": [
+    "appCategory",
+    "fullscreen",
+    "gameBar",
+    "gamemoded",
+    "gamescope",
+    "heroic",
+    "lutris",
+    "steam",
+    "umu"
+  ],
+  "config/$defs/DevicesDoc/properties": [
+    "keyboards",
+    "mice"
+  ],
+  "config/$defs/GameModeCondition/enum": [
+    "on",
+    "off"
+  ],
+  "config/$defs/GameModeControl/enum": [
+    "auto",
+    "on",
+    "off"
+  ],
+  "config/$defs/GameModeDoc/properties": [
+    "control",
+    "detectors",
+    "foregroundOnly",
+    "processes"
+  ],
+  "config/$defs/InterfaceDoc/properties": [
+    "appearance",
+    "highContrast",
+    "keymapOsd",
+    "layerHint",
+    "locale",
+    "reduceMotion"
+  ],
+  "config/$defs/KeymapMode/enum": [
+    "manual",
+    "auto"
+  ],
+  "config/$defs/KeymapsDoc/properties": [
+    "auto",
+    "manualKeymap",
+    "mode",
+    "order"
+  ],
+  "config/$defs/LinuxDoc/properties": [
+    "copyOsd",
+    "pasteShortcut",
+    "terminalPasteShortcut",
+    "textMode",
+    "xdotoolPath",
+    "ydotoolPath"
+  ],
+  "config/$defs/LocalePreference/enum": [
+    "auto",
+    "en",
+    "ru",
+    "de",
+    "fr",
+    "es",
+    "it",
+    "pt",
+    "pl",
+    "tr",
+    "uk",
+    "cs",
+    "hu",
+    "ro",
+    "el",
+    "hr",
+    "ka",
+    "kk",
+    "zh-Hans",
+    "zh-Hant",
+    "ja",
+    "ko"
+  ],
+  "config/$defs/PasteShortcut/enum": [
+    "Shift+Insert",
+    "Ctrl+KeyV",
+    "Ctrl+Shift+KeyV"
+  ],
+  "config/$defs/ProcessDoc/properties": [
+    "exclude",
+    "foregroundOnly",
+    "name"
+  ],
+  "config/$defs/SettingsDoc/properties": [
+    "commandsEnabled",
+    "devices",
+    "experimental",
+    "gameMode",
+    "interface",
+    "keymaps",
+    "launchAtLogin",
+    "linux",
+    "startMapperOnLaunch",
+    "timing"
+  ],
+  "config/$defs/TerminalPasteShortcut/enum": [
+    "Shift+Insert",
+    "Ctrl+KeyV",
+    "Ctrl+Shift+KeyV",
+    "sameAsPaste"
+  ],
+  "config/$defs/TextMode/oneOf/0/enum": [
+    "ydotool",
+    "xdotool"
+  ],
+  "config/$defs/TimingDoc/properties": [
+    "chordMs",
+    "doubleTapMs",
+    "holdMs",
+    "longHoldMs",
+    "macroModifierDelayMs",
+    "macroStepPauseMs",
+    "macroTimeoutMs",
+    "tapDecision"
+  ],
+  "config/$defs/WhenDoc/properties": [
+    "excludeWindows",
+    "gameMode",
+    "keyboardLayouts",
+    "windows"
+  ],
+  "config/properties": [
+    "$schema",
+    "settings",
+    "version"
+  ],
+  "keymap/$defs/CommandDoc/properties": [
+    "id",
+    "name",
+    "powershell",
+    "sh",
+    "workingDirectory"
+  ],
+  "keymap/$defs/GameModeCondition/enum": [
+    "on",
+    "off"
+  ],
+  "keymap/$defs/HoldDoc/properties": [
+    "action",
+    "layer",
+    "retroTapMs",
+    "timeoutMs"
+  ],
+  "keymap/$defs/LayerDoc/properties": [
+    "description",
+    "extraKeyOrder",
+    "id",
+    "keys",
+    "name"
+  ],
+  "keymap/$defs/LayerKeyFullDoc/properties": [
+    "action",
+    "holdModifiers"
+  ],
+  "keymap/$defs/MacroDoc/properties": [
+    "id",
+    "modifierDelayMs",
+    "name",
+    "stepPauseMs",
+    "steps"
+  ],
+  "keymap/$defs/MetaDoc/properties": [
+    "author",
+    "description",
+    "keymapVersion",
+    "name"
+  ],
+  "keymap/$defs/QuickActionDoc/properties": [
+    "action",
+    "name"
+  ],
+  "keymap/$defs/RuleDoc/properties": [
+    "doubleTap",
+    "enabled",
+    "hold",
+    "key",
+    "longHold",
+    "tap",
+    "tapDecision",
+    "when"
+  ],
+  "keymap/$defs/TimedActionDoc/properties": [
+    "action",
+    "timeoutMs"
+  ],
+  "keymap/$defs/WhenDoc/properties": [
+    "excludeWindows",
+    "gameMode",
+    "keyboardLayouts",
+    "windows"
+  ],
+  "keymap/properties": [
+    "$schema",
+    "commands",
+    "emojiMenuPages",
+    "layers",
+    "macros",
+    "meta",
+    "quickMenuPages",
+    "rules",
+    "version"
+  ],
+  "keymap/properties/emojiMenuPages/items/properties": [
+    "cells",
+    "name"
+  ],
+  "keymap/properties/emojiMenuPages/items/properties/cells/propertyNames/enum": [
+    "KeyQ",
+    "KeyW",
+    "KeyE",
+    "KeyR",
+    "KeyT",
+    "KeyA",
+    "KeyS",
+    "KeyD",
+    "KeyF",
+    "KeyG",
+    "KeyZ",
+    "KeyX",
+    "KeyC",
+    "KeyV",
+    "KeyB"
+  ],
+  "keymap/properties/quickMenuPages/items/properties": [
+    "cells",
+    "name"
+  ],
+  "keymap/properties/quickMenuPages/items/properties/cells/propertyNames/enum": [
+    "KeyQ",
+    "KeyW",
+    "KeyE",
+    "KeyR",
+    "KeyT",
+    "KeyA",
+    "KeyS",
+    "KeyD",
+    "KeyF",
+    "KeyG",
+    "KeyZ",
+    "KeyX",
+    "KeyC",
+    "KeyV",
+    "KeyB"
+  ]
+}

@@ -54,7 +54,7 @@ part of version 1 under the same rules.
   not `switchToDesktop03`). `null` is accepted only where it means something
   (`tap`, `hold.action`, a layer key, `keymap` of an auto rule,
   `auto.fallback`); elsewhere "none" is a missing field.
-- **Stored names are frozen.** Action prefixes, `sys:`, `tecloid:` and
+- **Stored names are frozen.** Action prefixes, `sys:`, `app:` and
   `builtin:` ids, key names and pattern prefixes are listed in
   [`schemas/names.v1.txt`](../schemas/names.v1.txt); the test
   `stored_names_are_never_removed` fails when one disappears. New names are
@@ -151,7 +151,7 @@ An action is a string, parsed and built only through
 | user macro / built-in macro | `macro:myMacro`, `builtin:copyLineText` |
 | command | `cmd:<id>` |
 | system action | `sys:switchToDesktop2`, `sys:showDesktop` |
-| Tecloid action | `tecloid:showQuickMenu1`, `tecloid:toggleGameMode` |
+| Tecloid action | `app:showQuickMenu1`, `app:toggleGameMode` |
 | KDE global shortcut | `kde:kwin/Window Maximize` |
 | freedesktop application action (Linux) | `xdg:firefox/new-private-window` |
 | literal text | `text:Hello` |
@@ -189,7 +189,7 @@ diagnostics report it and the mapper does not start with it.
   extension (`kde4/foo.desktop` → `kde4-foo`), action is from `Actions=`.
   `DBusActivatable=true` apps get `org.freedesktop.Application.ActivateAction`,
   others run the action's `Exec`.
-- **`tecloid:`** (`config/app_action.rs`): `showQuickMenuN`, `showEmojiMenuN`
+- **`app:`** (`config/app_action.rs`): `showQuickMenuN`, `showEmojiMenuN`
   (N ≥ 1, past the end opens the last page), `showQuickMenuRecent`,
   `showEmojiMenuRecent`, `showSettings`, `activateKeymapN` (N = 1…5, by
   `settings.keymaps.order`), `toggleGameMode`, `setGameModeAuto|On|Off`.
@@ -364,3 +364,10 @@ Not persisted: open editor, current page, selected layer.
   A quick cell is an action string or `{ "name"?, "action" }`; an emoji cell is
   literal text. Emoji cells, macro steps and rule keys have no object form yet;
   one will be added the same way as for layer keys when needed.
+
+Application actions use `app:`; the legacy `tecloid:` prefix remains accepted.
+Whitespace around key chord components is trimmed (` KeyA ` becomes `KeyA`).
+Here “key chord” means a shortcut action; trigger chords describe physical triggers.
+In `kde:component/shortcut`, component is the D-Bus object-path segment
+(for example `org_kde_powerdevil`), not a dotted service name.
+JSON files may start with a UTF-8 BOM.

@@ -12,6 +12,7 @@ use serde::{Deserialize, Serialize};
 
 /// Parse `config.json`; an empty file gives the defaults.
 pub fn parse(text: &str) -> Result<AppSettings, String> {
+    let text = text.strip_prefix('\u{feff}').unwrap_or(text);
     if text.trim().is_empty() {
         return Ok(AppSettings::default());
     }

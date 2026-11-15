@@ -36,8 +36,7 @@ pub const CONFIG_SCHEMA_URL: &str =
 pub const KEYMAP_SCHEMA_URL: &str =
     "https://raw.githubusercontent.com/bozonx/tecloid/main/schemas/keymap.v1.schema.json";
 
-/// Grammar of collection IDs (layers, rules, macros, commands, pages,
-/// auto rules, game-mode processes), see [`super::ids`].
+/// Grammar of collection IDs (layers, macros and commands), see [`super::ids`].
 pub const ID_PATTERN: &str = "^[A-Za-z0-9_-]{1,64}$";
 
 /// The `version` of a parsed document, checked before the rest is
@@ -65,7 +64,7 @@ pub(crate) fn read_version(
 
 /// `version` of a file's text, if it is a JSON object with one.
 pub(crate) fn version_of(text: &str) -> Option<u64> {
-    serde_json::from_str::<serde_json::Value>(text)
+    serde_json::from_str::<serde_json::Value>(text.strip_prefix('\u{feff}').unwrap_or(text))
         .ok()?
         .get("version")?
         .as_u64()
@@ -190,7 +189,8 @@ mod tests {
         use super::super::{actions, key_catalog};
         let mut names = Vec::new();
         for prefix in [
-            "macro:", "builtin:", "cmd:", "sys:", "tecloid:", "kde:", "xdg:", "text:", "pause:",
+            "app:", "macro:", "builtin:", "cmd:", "sys:", "tecloid:", "kde:", "xdg:", "text:",
+            "pause:",
         ] {
             let parsed = actions::Action::parse(Some(&format!("{prefix}1")));
             assert!(
@@ -206,10 +206,11 @@ mod tests {
             .into_iter()
             .chain(actions::app_actions())
         {
-            names.push(format!(
-                "action {}",
-                entry.action.format().unwrap_or_default()
-            ));
+            let action = entry.action.format().unwrap_or_default();
+            if let Some(id) = action.strip_prefix("app:") {
+                names.push(format!("action tecloid:{id}"));
+            }
+            names.push(format!("action {action}"));
         }
         for builtin in crate::mapper::builtin_macros::BUILTIN_MACROS {
             names.push(format!("action builtin:{}", builtin.id));
@@ -276,6 +277,34 @@ mod tests {
             .filter(|issue| issue.code.is_error())
             .collect();
         assert!(blocking.is_empty(), "{blocking:?}");
+    }
+
+    #[test]
+    fn frozen_fields_and_enum_values_remain() {
+        let baseline: serde_json::Value =
+            serde_json::from_str(include_str!("../../../../schemas/contract.v1.json")).unwrap();
+        let schemas = [
+            ("config", super::super::settings::json_schema().to_value()),
+            (
+                "keymap",
+                super::super::keymap_file::json_schema().to_value(),
+            ),
+        ];
+        for (path, expected) in baseline.as_object().unwrap() {
+            let (name, pointer) = path.split_once('/').unwrap();
+            let schema = &schemas.iter().find(|(n, _)| *n == name).unwrap().1;
+            let actual = schema.pointer(&format!("/{pointer}")).expect(path);
+            for value in expected.as_array().unwrap() {
+                assert!(
+                    if pointer.ends_with("/properties") {
+                        actual.get(value.as_str().unwrap()).is_some()
+                    } else {
+                        actual.as_array().unwrap().contains(value)
+                    },
+                    "removed stored value {value} at {path}"
+                );
+            }
+        }
     }
 
     #[test]
