@@ -248,7 +248,10 @@ mod tests {
         );
         let mut config = ConfigDocument::load(paths.clone()).unwrap();
         config
-            .update_settings(|settings| settings.keymap_mode = KeymapMode::Auto)
+            .update_settings(|settings| {
+                settings.in_development = true;
+                settings.keymap_mode = KeymapMode::Auto;
+            })
             .unwrap();
         let document = Document::new(config);
         let context = AutoSwitchContext::default();

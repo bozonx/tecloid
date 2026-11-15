@@ -17,7 +17,7 @@ fn numeric_field_position(ui: &SettingsWindow, label: &str) -> slint::LogicalPos
     )
 }
 
-fn assert_visible_rule_value(ui: &SettingsWindow, label: &str, value: Option<&str>) {
+fn visible_rule_value(ui: &SettingsWindow, label: &str, value: Option<&str>) -> bool {
     use i_slint_core::{
         accessibility::AccessibleStringProperty, item_tree::ItemRc, window::WindowInner,
     };
@@ -37,7 +37,7 @@ fn assert_visible_rule_value(ui: &SettingsWindow, label: &str, value: Option<&st
                     == Some(value)
             })
         {
-            return;
+            return true;
         }
         let mut child = item.first_child();
         while let Some(next) = child {
@@ -45,7 +45,14 @@ fn assert_visible_rule_value(ui: &SettingsWindow, label: &str, value: Option<&st
             pending.push(next);
         }
     }
-    panic!("missing visible rule control: {label}, value: {value:?}");
+    false
+}
+
+fn assert_visible_rule_value(ui: &SettingsWindow, label: &str, value: Option<&str>) {
+    assert!(
+        visible_rule_value(ui, label, value),
+        "missing visible rule control: {label}, value: {value:?}"
+    );
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -772,12 +779,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 rules.set_game_mode(GameCondition::Off);
                 rules.invoke_apply_conditions();
                 ui.global::<AppState>().set_in_development(false);
-                assert_visible_rule_value(&ui, "When held", Some("text:hello"));
+                assert!(!visible_rule_value(&ui, "When held", Some("text:hello")));
                 assert_visible_rule_value(&ui, "Conditions", None);
                 snapshot(&ui, "rules-existing-outside-development");
                 rules.invoke_open_dialog(0, RuleDialog::Advanced);
-                assert_visible_rule_value(&ui, "Long-hold threshold, ms", None);
+                assert!(!visible_rule_value(&ui, "Long-hold threshold, ms", None));
                 ui.global::<AppState>().set_in_development(true);
+                assert_visible_rule_value(&ui, "Long-hold threshold, ms", None);
             }
             23 => {
                 snapshot(&ui, "rules-long-hold-advanced");

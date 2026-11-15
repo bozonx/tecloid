@@ -1088,6 +1088,7 @@ mod tests {
             .unwrap();
         document
             .update_settings(|settings| {
+                settings.in_development = true;
                 settings.keymap_mode = KeymapMode::Auto;
                 settings.auto_rules = vec![
                     AutoRule {

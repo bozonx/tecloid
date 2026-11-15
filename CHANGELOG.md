@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Hide retained experimental controls when experimental mode is off; suspend automatic keymap selection, commands, system/desktop actions, keymap OSD and layer hints without deleting their saved settings. Clarify that experimental code ships in release builds and debug storage isolation is independent.
+
 - Settings paths: use copy icons and add file manager buttons, with tooltips.
 
 - Keymap and `config.json` values with one spelling: layer, macro and command ids are unique ignoring case (`Nav` and `nav` are duplicates); `keymaps.order` lists a keymap once ignoring case; a rule chord may not repeat a key; an empty `hold` object is an error; `pause:` takes no leading zero (`pause:0100` is invalid); menu cell keys load in any case (`keyq` → `KeyQ`); empty menu pages are saved as `{}` and macros without steps without `steps`. Format version stays 1.

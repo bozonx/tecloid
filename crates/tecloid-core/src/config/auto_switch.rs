@@ -195,7 +195,8 @@ fn usable_rule(rule: &AutoRule, available: &[String]) -> bool {
 /// Whether the automatic choice can depend on the focused window, so a
 /// window change may switch the keymap.
 pub fn depends_on_window(settings: &AppSettings) -> bool {
-    settings.keymap_mode == KeymapMode::Auto
+    settings.in_development
+        && settings.keymap_mode == KeymapMode::Auto
         && settings.auto_rules.iter().any(|rule| {
             rule.enabled
                 && !(rule.conditions.window_patterns.is_empty()
@@ -208,7 +209,9 @@ pub fn window_patterns(settings: &AppSettings) -> impl Iterator<Item = &String> 
     settings
         .auto_rules
         .iter()
-        .filter(move |rule| settings.keymap_mode == KeymapMode::Auto && rule.enabled)
+        .filter(move |rule| {
+            settings.in_development && settings.keymap_mode == KeymapMode::Auto && rule.enabled
+        })
         .flat_map(|rule| {
             rule.conditions
                 .window_patterns
@@ -483,6 +486,7 @@ mod tests {
     #[test]
     fn window_dependency_follows_mode_and_enabled_rules() {
         let mut settings = AppSettings {
+            in_development: true,
             keymap_mode: KeymapMode::Auto,
             auto_rules: vec![AutoRule {
                 id: "a".into(),

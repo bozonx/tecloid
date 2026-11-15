@@ -41,9 +41,10 @@ impl LayerHint {
 impl App {
     /// Reconcile settings, current hold and content without extending a pending delay.
     pub(super) fn sync_layer_hint_setting(&self) {
-        let enabled = self
-            .document()
-            .is_some_and(|document| document.read().settings().layer_hint);
+        let enabled = self.document().is_some_and(|document| {
+            let config = document.read();
+            config.settings().in_development && config.settings().layer_hint
+        });
         let changed = self.supervisor.borrow().hint != enabled;
         self.supervisor.borrow_mut().hint = enabled;
         if changed && enabled {

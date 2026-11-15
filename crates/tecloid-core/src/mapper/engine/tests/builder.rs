@@ -335,3 +335,23 @@ fn swallowed_tap_with_native_hold_emits_nothing() {
     );
     assert!(out.is_empty());
 }
+
+#[test]
+fn stable_mode_ignores_retained_experimental_actions() {
+    let cfg: MapperConfig = serde_json::from_value(serde_json::json!({
+        "settings": {"inDevelopment": false, "commandsEnabled": true},
+        "rules": [
+            {"key": "KeyA", "tapAction": "sys:lockSession"},
+            {"key": "KeyB", "tapAction": "cmd:saved"},
+            {"key": "KeyC", "tapAction": "MouseLeft"},
+            {"key": "KeyD", "tapAction": "Ctrl+KeyC"}
+        ]
+    })).unwrap();
+    let engine = Engine::new(&cfg);
+    for key in [KeyCode::KEY_A, KeyCode::KEY_B, KeyCode::KEY_C] {
+        assert!(!matches!(engine.keymap.rules[&key][0].tap,
+            crate::mapper::engine::model::TapMode::Action(_)));
+    }
+    assert!(matches!(engine.keymap.rules[&KeyCode::KEY_D][0].tap,
+        crate::mapper::engine::model::TapMode::Action(_)));
+}

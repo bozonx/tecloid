@@ -157,7 +157,7 @@ fn refresh_auto(ui: &SettingsWindow, document: &Document, state: &mut State) {
     let config = document.read();
     let library = ui.global::<KeymapLibrary>();
     let settings = config.settings();
-    library.set_automatic(settings.keymap_mode == KeymapMode::Auto);
+    library.set_automatic(settings.in_development && settings.keymap_mode == KeymapMode::Auto);
     let ids: Vec<String> = slint::Model::iter(&library.get_names())
         .map(|name| user_keymap_id(&name))
         .collect();

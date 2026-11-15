@@ -163,3 +163,23 @@ Every user-visible change gets an entry under `## [Unreleased]` in
 Removing the rule does not immediately revoke ACLs already granted in the
 current session. End the local session or reboot after removing permissions.
 Other system rules may independently grant access to some devices.
+
+## Experimental features and debug isolation
+
+`settings.experimental` (Rust/UI: `in_development`) is a runtime opt-in,
+independent of the build profile. Experimental code ships in release builds.
+Enable it through the hidden area at the bottom right of the general settings;
+once enabled, the visible checkbox can turn it off.
+
+With the flag off, experimental controls and entry points must be absent, not
+disabled placeholders. Experimental runtime behaviour must be inactive even if
+its settings remain enabled in a previously saved file. Keep those settings and
+keymap data intact so enabling the flag again restores them. Stable features
+must remain usable. This includes game mode, automatic keymap selection, user
+macros, commands, system/desktop actions, mouse actions, long-hold actions,
+E-ink appearance, keymap OSD and held-layer hints wherever marked experimental.
+
+Debug storage isolation serves a separate purpose: development and tests must
+not modify real user configuration or OS registrations. Debug builds use the
+development storage layout; `TECLOID_DEV_DIR` explicitly isolates any build,
+including release. Neither mechanism enables experimental features.

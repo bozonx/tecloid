@@ -401,7 +401,7 @@ export component SettingsPage inherits PageLayout {
                             HorizontalLayout { alignment: start;
                                 ButtonGroup {
                                     labels: AppState.in-development ? [@tr("System"), @tr("Light"), @tr("Dark"), @tr("E-ink")] : [@tr("System"), @tr("Light"), @tr("Dark")];
-                                    selected-index: SettingsEditor.appearance == AppearanceChoice.system ? 0 : SettingsEditor.appearance == AppearanceChoice.light ? 1 : SettingsEditor.appearance == AppearanceChoice.dark ? 2 : 3;
+                                    selected-index: !AppState.in-development && SettingsEditor.appearance == AppearanceChoice.e-ink ? 1 : SettingsEditor.appearance == AppearanceChoice.system ? 0 : SettingsEditor.appearance == AppearanceChoice.light ? 1 : SettingsEditor.appearance == AppearanceChoice.dark ? 2 : 3;
                                     selected(index) => { SettingsEditor.appearance = index == 0 ? AppearanceChoice.system : index == 1 ? AppearanceChoice.light : index == 2 ? AppearanceChoice.dark : AppearanceChoice.e-ink; SettingsEditor.save(); }
                                 }
                             }
@@ -717,7 +717,7 @@ export component SettingsPage inherits PageLayout {
                                 edited => { SettingsEditor.schedule-save(); }
                                 reset => { SettingsEditor.save(); }
                             }
-                            if AppState.in-development || SettingsEditor.problem-field == SettingsField.long-hold: TimingField {
+                            if AppState.in-development: TimingField {
                                 label: @tr("Long hold");
                                 info: @tr("How long to keep holding a rule key before its long-hold action runs once. Applies to rules whose hold runs an action instead of a layer.")
                                 + "\n\n" + @tr("Standard value: {} ms.", SettingsEditor.default-long-hold-timeout);

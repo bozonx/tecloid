@@ -557,7 +557,7 @@ export component LibraryPage inherits PageLayout {
         height: toolbar-content.preferred-height;
         toolbar-content := GridLayout {
             spacing: Theme.space-m;
-            if AppState.in-development || KeymapLibrary.automatic: HorizontalLayout {
+            if AppState.in-development: HorizontalLayout {
                 row: 0; col: 0;
                 horizontal-stretch: 1;
                 alignment: start;

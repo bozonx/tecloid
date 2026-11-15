@@ -488,6 +488,7 @@ mod tests {
         document
             .edit(View::Library, |config| {
                 config.update_settings(|settings| {
+                    settings.in_development = true;
                     settings.keymap_mode = KeymapMode::Auto;
                     settings.auto_default_keymap_id = Some("user:A".into());
                     settings.auto_rules = vec![AutoRule {
@@ -670,6 +671,7 @@ mod tests {
         document
             .edit(View::Library, |config| {
                 config.update_settings(|settings| {
+                    settings.in_development = true;
                     settings.keymap_mode = tecloid_core::config::model::KeymapMode::Auto;
                     settings.auto_rules = vec![tecloid_core::config::model::AutoRule {
                         id: "t".into(),

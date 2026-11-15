@@ -74,7 +74,11 @@ impl ConfigDocument {
         &self,
         ctx: &AutoSwitchContext,
     ) -> Result<auto_switch::AutoChoice, ConfigError> {
-        match self.settings.keymap_mode {
+        match if self.settings.in_development {
+            self.settings.keymap_mode
+        } else {
+            KeymapMode::Manual
+        } {
             KeymapMode::Manual => Ok(auto_switch::AutoChoice {
                 keymap_id: self.settings.manual_keymap_id.clone(),
                 matched_rule_index: None,
@@ -121,7 +125,9 @@ impl ConfigDocument {
     /// working copy is the active keymap itself.
     pub fn keymap_for_activation(&self, id: Option<&str>) -> Result<KeymapPreset, ConfigError> {
         if id == self.settings.editing_keymap_id.as_deref()
-            && (id.is_some() || self.settings.keymap_mode == KeymapMode::Manual)
+            && (id.is_some()
+                || !self.settings.in_development
+                || self.settings.keymap_mode == KeymapMode::Manual)
         {
             return Ok(self.keymap.clone());
         }

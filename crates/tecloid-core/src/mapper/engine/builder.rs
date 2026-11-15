@@ -29,7 +29,7 @@ impl Engine {
         let mut macros: HashMap<String, CompiledMacro> = HashMap::new();
         let mut commands: HashMap<String, ProcessInvocation> = HashMap::new();
 
-        if cfg.settings.commands_enabled {
+        if in_development && cfg.settings.commands_enabled {
             for c in &cfg.commands {
                 let id = c.id.trim();
                 if id.is_empty() {
@@ -185,10 +185,17 @@ impl Engine {
         }
 
         let resolve = |action: &str, where_: &str| {
+            if !in_development && matches!(Action::parse(Some(action)),
+                Action::Command(_) | Action::System(_) | Action::KdeShortcut(_) | Action::DesktopEntry(_)) {
+                return None;
+            }
             if !in_development
                 && matches!(Action::parse(Some(action)), Action::App(id)
-                    if id.starts_with("showEmojiMenu") || id.starts_with("showQuickMenu"))
+                    if id.starts_with("showEmojiMenu") || id.starts_with("showQuickMenu") || id.contains("GameMode") || id.starts_with("gameMode"))
             {
+                return None;
+            }
+            if !in_development && action.split('+').any(|key| key.starts_with("Mouse")) {
                 return None;
             }
             resolve_action(action, &macros, &commands, where_)

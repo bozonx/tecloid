@@ -218,7 +218,7 @@ impl App {
             Appearance::System => system_dark(&self.settings),
         };
         Preferences {
-            theme: if settings.appearance == Appearance::EInk {
+            theme: if settings.in_development && settings.appearance == Appearance::EInk {
                 ThemeMode::EInk
             } else if dark {
                 ThemeMode::Dark

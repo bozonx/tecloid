@@ -331,7 +331,7 @@ Example with every field (the application writes all of them except
 
 | Field | Values | Default |
 | --- | --- | --- |
-| `experimental` | show in-development features in the UI (game mode, auto keymaps); core behaviour unchanged | `false` |
+| `experimental` | enable experimental UI and runtime behaviour in every build; see [runtime policy](development.md#experimental-features-and-debug-isolation) | `false` |
 | `interface.appearance` | `system`, `light`, `dark`, `eInk` | `system` |
 | `interface.highContrast`, `interface.reduceMotion` | `system` (XDG Settings portal; KDE animation speed), `on`, `off` | `system` |
 | `interface.keymapOsd` | on-screen notice when the active keymap changes | `false` |

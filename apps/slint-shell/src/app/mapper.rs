@@ -303,7 +303,10 @@ impl App {
             return;
         };
         let changed = self.mapper.keymap_changed(&id);
-        if !document.read().settings().keymap_osd || !changed {
+        if !document.read().settings().in_development
+            || !document.read().settings().keymap_osd
+            || !changed
+        {
             return;
         }
         let name = id

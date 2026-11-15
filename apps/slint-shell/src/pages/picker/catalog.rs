@@ -81,7 +81,12 @@ pub(super) fn development_only(value: &str) -> bool {
         | Action::KdeShortcut(_)
         | Action::DesktopEntry(_) => true,
         Action::System(_) => true,
-        Action::App(id) => id.starts_with("gameMode"),
+        Action::App(id) => {
+            id.starts_with("gameMode")
+                || id.contains("GameMode")
+                || id.starts_with("showEmojiMenu")
+                || id.starts_with("showQuickMenu")
+        }
         Action::Keys(_) | Action::Unknown(_) => category_for_value(value) == PickerCategory::Mouse,
         _ => false,
     }

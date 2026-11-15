@@ -607,6 +607,7 @@ mod tests {
         let mut automatic = loaded;
         automatic
             .update_settings(|settings| {
+                settings.in_development = true;
                 settings.keymap_mode = KeymapMode::Auto;
                 settings.auto_default_keymap_id = None;
             })
@@ -1302,7 +1303,10 @@ mod tests {
             .unwrap();
         assert!(!uses_titles(&document));
         document
-            .update_settings(|settings| settings.keymap_mode = KeymapMode::Auto)
+            .update_settings(|settings| {
+                settings.in_development = true;
+                settings.keymap_mode = KeymapMode::Auto;
+            })
             .unwrap();
         assert!(uses_titles(&document));
         document
@@ -1343,8 +1347,33 @@ mod tests {
     }
 
     #[test]
+    fn stable_mode_suspends_auto_without_erasing_settings() {
+        let (_dir, mut document) =
+            document(json!({"settings": {"keymaps": {"mode": "auto"}}}), KEYMAP);
+        let runtime = document
+            .runtime_config(&AutoSwitchContext::default())
+            .unwrap();
+        assert!(!runtime.mapper.rules.is_empty());
+        assert_eq!(document.settings().keymap_mode, KeymapMode::Auto);
+        document
+            .update_settings(|settings| settings.in_development = true)
+            .unwrap();
+        assert!(
+            document
+                .runtime_config(&AutoSwitchContext::default())
+                .unwrap()
+                .mapper
+                .rules
+                .is_empty()
+        );
+    }
+
+    #[test]
     fn auto_mode_without_a_match_is_passthrough() {
-        let (_dir, document) = document(json!({"settings": {"keymaps": {"mode": "auto"}}}), KEYMAP);
+        let (_dir, document) = document(
+            json!({"settings": {"experimental": true, "keymaps": {"mode": "auto"}}}),
+            KEYMAP,
+        );
         let runtime = document
             .runtime_config(&AutoSwitchContext::default())
             .unwrap();

@@ -119,6 +119,7 @@ component ConditionsCell inherits Rectangle {
     FocusRing { focused: action-focus.has-focus; border-radius: Theme.radius; }
     in property <RuleRow> rule;
     in property <bool> enabled: true;
+    private property <bool> visible-conditions: root.rule.languages != "" || root.rule.applications != "" || root.rule.excluded != "" || (AppState.in-development && root.rule.game != GameCondition.any);
     callback clicked();
     min-width: 0px;
     horizontal-stretch: 0;
@@ -129,11 +130,11 @@ component ConditionsCell inherits Rectangle {
     accessible-action-default => { if root.enabled { root.clicked(); } }
     HorizontalLayout { min-width: 0px; padding-left: Theme.space-s; padding-right: Theme.space-s; spacing: Theme.space-s;
         VerticalLayout { alignment: center;
-            Image { width: 16px; height: 16px; source: @image-url("icons/list-filter.svg"); colorize: root.rule.has-conditions ? Theme.accent : Theme.muted; }
+            Image { width: 16px; height: 16px; source: @image-url("icons/list-filter.svg"); colorize: root.visible-conditions ? Theme.accent : Theme.muted; }
         }
-        if !root.rule.has-conditions: Text { text: @tr("Always"); color: Theme.muted; vertical-alignment: center; }
-        if root.rule.has-conditions: Text { text: @tr("If:"); color: Theme.muted; vertical-alignment: center; }
-        if root.rule.game != GameCondition.any: ConditionChip { icon: @image-url("icons/gamepad-2.svg"); text: root.rule.game == GameCondition.on ? @tr("Game mode on") : @tr("Game mode off"); }
+        if !root.visible-conditions: Text { text: @tr("Always"); color: Theme.muted; vertical-alignment: center; }
+        if root.visible-conditions: Text { text: @tr("If:"); color: Theme.muted; vertical-alignment: center; }
+        if AppState.in-development && root.rule.game != GameCondition.any: ConditionChip { icon: @image-url("icons/gamepad-2.svg"); text: root.rule.game == GameCondition.on ? @tr("Game mode on") : @tr("Game mode off"); }
         if root.rule.languages != "": ConditionChip { icon: @image-url("icons/globe.svg"); text: root.rule.languages; }
         if root.rule.applications != "": ConditionChip { icon: @image-url("icons/app-window.svg"); text: root.rule.applications; tint: Theme.success; }
         if root.rule.excluded != "": ConditionChip { icon: @image-url("icons/ban.svg"); text: root.rule.excluded; tint: Theme.error; }
@@ -187,7 +188,7 @@ component HoldField inherits VerticalLayout {
     }
     private property <length> scroll-y;
     private property <int> count: RulesEditor.layer-items.length;
-    private property <bool> action-available: AppState.in-development || root.rule.hold-mode == HoldBehavior.action;
+    private property <bool> action-available: AppState.in-development;
     private property <length> list-height: min(216px, max(Theme.control-height-l, root.count * Theme.control-height-l));
     min-width: 0px;
     preferred-width: 0px;
@@ -224,7 +225,7 @@ component HoldField inherits VerticalLayout {
         KeyboardFocus.focus-checked();
         root.reveal();
     }
-    private property <bool> unassigned: root.rule.hold-mode == HoldBehavior.none;
+    private property <bool> unassigned: root.rule.hold-mode == HoldBehavior.none || (!AppState.in-development && root.rule.hold-mode == HoldBehavior.action);
     FormLabel { muted: root.unassigned; text: @tr("When held"); info: @tr("Choose a layer active until release, or an action performed once after the hold duration."); }
     field := Rectangle {
         min-width: 0px; height: Theme.control-height; border-radius: Theme.radius;
@@ -241,13 +242,13 @@ component HoldField inherits VerticalLayout {
         HorizontalLayout { padding-left: Theme.space-m-plus; padding-right: Theme.space-m-plus; spacing: Theme.space-s;
             if root.unassigned: VerticalLayout { alignment: center; Image { width: 14px; height: 14px; source: @image-url("icons/plus.svg"); colorize: Theme.muted; } }
             if root.rule.hold-mode == HoldBehavior.layer: VerticalLayout { alignment: center; Image { width: 16px; height: 16px; source: @image-url("icons/layers.svg"); colorize: Theme.muted; } }
-            if root.rule.hold-mode == HoldBehavior.action && root.rule.long-hold != "": CategoryIcon { category: root.rule.long-hold-category; }
+            if AppState.in-development && root.rule.hold-mode == HoldBehavior.action && root.rule.long-hold != "": CategoryIcon { category: root.rule.long-hold-category; }
             value-text := Text {
                 min-width: 0px; horizontal-stretch: 1; vertical-alignment: center; overflow: elide;
                 text: root.rule.hold-mode == HoldBehavior.layer ? (root.rule.layer != "" ? root.rule.layer : @tr("Choose layer"))
-                    : root.rule.hold-mode == HoldBehavior.action ? (root.rule.long-hold != "" ? root.rule.long-hold : @tr("Choose action"))
+                    : AppState.in-development && root.rule.hold-mode == HoldBehavior.action ? (root.rule.long-hold != "" ? root.rule.long-hold : @tr("Choose action"))
                     : @tr("Assign action");
-                color: (root.rule.hold-mode == HoldBehavior.layer && root.rule.layer != "") || (root.rule.hold-mode == HoldBehavior.action && root.rule.long-hold != "") ? Theme.text : Theme.muted;
+                color: (root.rule.hold-mode == HoldBehavior.layer && root.rule.layer != "") || (AppState.in-development && root.rule.hold-mode == HoldBehavior.action && root.rule.long-hold != "") ? Theme.text : Theme.muted;
             }
             if !root.unassigned: VerticalLayout { alignment: center; Image { width: 12px; height: 12px; source: @image-url("icons/chevron-down.svg"); colorize: Theme.muted; } }
         }
@@ -295,7 +296,7 @@ component HoldField inherits VerticalLayout {
                         if root.action-available: MenuLabel { text: @tr("Action after {} ms of holding", RulesEditor.long-hold-timeout != "" ? RulesEditor.long-hold-timeout : RulesEditor.default-long-hold-timeout); }
                         if root.action-available: MenuItem {
                             has-icon: true; icon: @image-url("icons/zap.svg");
-                            text: root.rule.hold-mode == HoldBehavior.action && root.rule.long-hold != "" ? @tr("Assign action") + ": " + root.rule.long-hold : @tr("Assign action") + "…";
+                            text: AppState.in-development && root.rule.hold-mode == HoldBehavior.action && root.rule.long-hold != "" ? @tr("Assign action") + ": " + root.rule.long-hold : @tr("Assign action") + "…";
                             checked: root.rule.hold-mode == HoldBehavior.action;
                             highlighted: RulesEditor.layer-highlight == root.count + 1;
                             clicked => { root.choose(root.count + 1); }
@@ -316,7 +317,7 @@ export component RulesPage inherits PageLayout {
                 : rule.hold-detection == HoldDetection.release ? @tr("Hold on other key release")
                 : rule.hold-detection == HoldDetection.press ? @tr("Hold on other key press") : ""),
             rule.hold-mode != HoldBehavior.action && rule.hold-timeout != "" ? @tr("Hold after {} ms", rule.hold-timeout) : ""),
-            rule.hold-mode == HoldBehavior.action && rule.long-hold-timeout != "" ? @tr("Long hold after {} ms", rule.long-hold-timeout) : ""),
+            AppState.in-development && rule.hold-mode == HoldBehavior.action && rule.long-hold-timeout != "" ? @tr("Long hold after {} ms", rule.long-hold-timeout) : ""),
             rule.double-timeout != "" ? @tr("Double tap: {} ms", rule.double-timeout) : "");
     }
     pure function held-text(rule: RuleRow) -> string {
@@ -473,7 +474,7 @@ export component RuleDialogOverlay inherits FocusScope {
                     HorizontalLayout { alignment: start; NumericInput { description: retro-form.info + (retro-form.active ? "" : "\n" + retro-form.inactive-reason); enabled: retro-form.active; text <=> RulesEditor.retro-tap; placeholder-text: RulesEditor.default-retro-tap; label: retro-form.label; minimum: Timing.retro-tap.minimum; maximum: Timing.retro-tap.maximum; } }
                 }
                 long-form := ResettableField {
-                    visible: AppState.in-development || RulesEditor.hold-mode == HoldBehavior.action;
+                    visible: AppState.in-development;
                     label: @tr("Long-hold threshold, ms");
                     info: @tr("How long to keep holding before the action runs. Empty uses the default from Settings: {} ms.", RulesEditor.default-long-hold-timeout);
                     active: RulesEditor.hold-mode == HoldBehavior.action;
