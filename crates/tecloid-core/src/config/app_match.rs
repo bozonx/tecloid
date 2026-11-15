@@ -6,8 +6,8 @@
 //!   (Wayland app id, X11 `WM_CLASS`, macOS bundle id) or its process
 //!   name; whole name, case-insensitive, `.exe` optional.
 //! * `steam_app_*` — the same with `*` / `?` wildcards over the whole name.
-//! * `title:YouTube` — the window title contains the text; with `*` / `?`
-//!   the wildcards cover the whole title.
+//! * `title:YouTube` — the window title contains the text, case-insensitive.
+//!   `*` and `?` are ordinary characters here: titles often contain them.
 //!
 //! Any other `word:` prefix (two or more lowercase letters) is reserved for
 //! later pattern kinds and does not match, so adding one never changes
@@ -57,14 +57,7 @@ impl AppMatcher {
                         .as_deref()
                         .is_some_and(|name| name_matches(pattern, name))
             }
-            Self::Title(pattern) => {
-                let title = window.title.to_lowercase();
-                if has_wildcards(pattern) {
-                    wildcard_matches(pattern, &title)
-                } else {
-                    title.contains(pattern.as_str())
-                }
-            }
+            Self::Title(pattern) => window.title.to_lowercase().contains(pattern.as_str()),
         }
     }
 
@@ -133,14 +126,9 @@ pub fn covers(outer: &str, inner: &str) -> bool {
         (Some(AppMatcher::App(outer)), Some(AppMatcher::App(inner))) => {
             has_wildcards(&outer) && !has_wildcards(&inner) && wildcard_matches(&outer, &inner)
         }
+        // A title containing `inner` also contains its substrings.
         (Some(AppMatcher::Title(outer)), Some(AppMatcher::Title(inner))) => {
-            // `*text*` is the same as plain `text`; a title containing
-            // `inner` also contains its substrings.
-            let outer = outer
-                .strip_prefix('*')
-                .and_then(|text| text.strip_suffix('*'))
-                .unwrap_or(&outer);
-            !has_wildcards(outer) && !has_wildcards(&inner) && inner.contains(outer)
+            inner.contains(outer.as_str())
         }
         _ => false,
     }
@@ -262,8 +250,15 @@ mod tests {
     fn title_patterns_match_substrings_or_wildcards() {
         let browser = window("Rust — YouTube — Mozilla Firefox", "firefox", None);
         assert!(matches("title:youtube", &browser));
-        assert!(matches("title:*firefox", &browser));
-        assert!(!matches("title:youtube*", &browser));
+        assert!(!matches("title:*firefox", &browser));
+        assert!(matches(
+            "title:watch?",
+            &window("Watch? - YouTube", "firefox", None)
+        ));
+        assert!(!matches(
+            "title:watch?",
+            &window("Watch! - YouTube", "firefox", None)
+        ));
         assert!(!matches("title:firefox", &window("", "firefox", None)));
     }
 
@@ -317,7 +312,7 @@ mod tests {
         assert!(!covers("firefox", "title:firefox"));
         assert!(covers("title:tube", "title:youtube"));
         assert!(!covers("title:youtube", "title:tube"));
-        assert!(covers("title:*tube*", "title:youtube"));
-        assert!(!covers("title:*tube", "title:tube"));
+        assert!(!covers("title:*tube*", "title:youtube"));
+        assert!(covers("title:tube?", "title:youtube?"));
     }
 }

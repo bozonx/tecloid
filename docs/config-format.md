@@ -148,7 +148,7 @@ lowercase and the title prefix as `title:` (`" US "` → `us`,
 
 A window pattern is an app id or a full process name, case-insensitive
 (`org.telegram.desktop`, `Game.exe`; `.exe` optional), with `*`/`?` wildcards,
-or `title:<text>` (title contains text). Any other prefix of two or more
+or `title:<text>` (title contains the text, case-insensitive; `*` and `?` are ordinary characters there). Any other prefix of two or more
 lowercase letters followed by `:` (`class:`, `exe:`) is reserved for later
 pattern kinds: such a pattern matches nothing and diagnostics report it.
 Implemented in `config::app_match`.

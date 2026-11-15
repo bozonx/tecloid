@@ -563,6 +563,21 @@ fn sync_parent_dir(_path: &Path) -> Result<(), String> {
     Ok(())
 }
 
+/// Open a directory with the system file manager.
+pub fn open_directory(path: &std::path::Path) -> Result<(), String> {
+    #[cfg(target_os = "linux")]
+    let mut command = std::process::Command::new("xdg-open");
+    #[cfg(target_os = "macos")]
+    let mut command = std::process::Command::new("open");
+    #[cfg(target_os = "windows")]
+    let mut command = std::process::Command::new("explorer.exe");
+    command
+        .arg(path)
+        .spawn()
+        .map(|_| ())
+        .map_err(|e| e.to_string())
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -963,19 +978,4 @@ mod tests {
         assert_eq!(storage.load_user_keymap("Shared").unwrap(), winners[0]);
         assert_eq!(fs::read_dir(storage.keymaps_dir()).unwrap().count(), 1);
     }
-}
-
-/// Open a directory with the system file manager.
-pub fn open_directory(path: &std::path::Path) -> Result<(), String> {
-    #[cfg(target_os = "linux")]
-    let mut command = std::process::Command::new("xdg-open");
-    #[cfg(target_os = "macos")]
-    let mut command = std::process::Command::new("open");
-    #[cfg(target_os = "windows")]
-    let mut command = std::process::Command::new("explorer.exe");
-    command
-        .arg(path)
-        .spawn()
-        .map(|_| ())
-        .map_err(|e| e.to_string())
 }
