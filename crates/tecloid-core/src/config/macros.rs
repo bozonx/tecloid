@@ -38,7 +38,7 @@ pub fn analyze(config: &ResolvedAppConfig) -> MacroAnalysis {
     let cycles = graph.cycle_members();
     let mut counts = HashMap::new();
     for item in &config.macros {
-        *counts.entry(item.id.as_str()).or_insert(0usize) += 1;
+        *counts.entry(item.id.to_ascii_lowercase()).or_insert(0usize) += 1;
     }
     let step_errors: Vec<Vec<_>> = config
         .macros
@@ -57,7 +57,7 @@ pub fn analyze(config: &ResolvedAppConfig) -> MacroAnalysis {
         .map(|(item, steps)| {
             let issue = if !super::ids::valid(&item.id) {
                 Some(MacroIssue::InvalidId)
-            } else if counts[item.id.as_str()] > 1 {
+            } else if counts[&item.id.to_ascii_lowercase()] > 1 {
                 Some(MacroIssue::DuplicateId)
             } else if item
                 .step_pause_ms

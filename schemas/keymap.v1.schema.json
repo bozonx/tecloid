@@ -135,6 +135,25 @@
       ],
       "type": "object"
     },
+    "LongHoldDoc": {
+      "additionalProperties": false,
+      "description": "`longHold`: an action and its own long-hold threshold.",
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "timeoutMs": {
+          "format": "uint64",
+          "maximum": 60000,
+          "minimum": 100,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "type": "object"
+    },
     "MacroDoc": {
       "additionalProperties": false,
       "properties": {
@@ -159,7 +178,6 @@
           "type": "integer"
         },
         "steps": {
-          "default": [],
           "items": {
             "type": "string"
           },
@@ -238,7 +256,7 @@
           "$ref": "#/$defs/RuleKeyDoc"
         },
         "longHold": {
-          "$ref": "#/$defs/TimedActionDoc"
+          "$ref": "#/$defs/LongHoldDoc"
         },
         "tap": {
           "description": "Missing: native key, `null`: swallowed, string: action.",
@@ -293,13 +311,15 @@
     },
     "TimedActionDoc": {
       "additionalProperties": false,
+      "description": "`doubleTap`: an action and its own tap window.",
       "properties": {
         "action": {
           "type": "string"
         },
         "timeoutMs": {
           "format": "uint64",
-          "minimum": 0,
+          "maximum": 1000,
+          "minimum": 50,
           "type": "integer"
         }
       },

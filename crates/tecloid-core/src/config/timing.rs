@@ -13,9 +13,13 @@ impl MillisecondsRange {
         (self.min..=self.max).contains(&value)
     }
 
-    /// Parse a persisted millisecond value: ASCII digits within this range.
+    /// Parse a persisted millisecond value: ASCII digits within this range,
+    /// without a leading zero (`100`, not `0100`), so it has one spelling.
     pub fn parse(self, value: &str) -> Option<u64> {
-        if value.is_empty() || !value.bytes().all(|byte| byte.is_ascii_digit()) {
+        if value.is_empty()
+            || !value.bytes().all(|byte| byte.is_ascii_digit())
+            || (value.len() > 1 && value.starts_with('0'))
+        {
             return None;
         }
         value.parse().ok().filter(|value| self.contains(*value))
@@ -134,6 +138,8 @@ mod tests {
                 " 100",
                 "100 ",
                 "1.5",
+                "0100",
+                "007",
                 "١٠٠",
                 "18446744073709551616",
             ] {

@@ -322,9 +322,9 @@ fn save(ui: &SettingsWindow, document: &Document, state: &mut State) {
 }
 
 fn taken(draft: &[Entry], id: &str) -> bool {
-    draft
-        .iter()
-        .any(|e| e.item.id == id || e.saved_id.as_deref() == Some(id))
+    draft.iter().any(|e| {
+        ids::same(&e.item.id, id) || e.saved_id.as_deref().is_some_and(|s| ids::same(s, id))
+    })
 }
 
 fn unique_id(draft: &[Entry], base: &str) -> String {

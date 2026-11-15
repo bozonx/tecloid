@@ -45,13 +45,9 @@ pub fn explicit_pause(action: &str) -> Option<Duration> {
 /// Duration of a `pause:` payload: plain digits within
 /// [`crate::config::timing::PAUSE`], the same rule the macro editor applies.
 pub fn pause_duration(ms: &str) -> Option<Duration> {
-    if ms.is_empty() || !ms.bytes().all(|c| c.is_ascii_digit()) {
-        return None;
-    }
-    let ms = ms.parse::<u64>().ok()?;
     crate::config::timing::PAUSE
-        .contains(ms)
-        .then(|| Duration::from_millis(ms))
+        .parse(ms)
+        .map(Duration::from_millis)
 }
 
 /// Parse an action like:

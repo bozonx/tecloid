@@ -174,7 +174,10 @@ pub fn command_issue(commands: &[Command], index: usize) -> Option<MenuIssue> {
     if !super::ids::valid(&command.id) {
         return Some(MenuIssue::CommandId);
     }
-    if commands[..index].iter().any(|c| c.id == command.id) {
+    if commands[..index]
+        .iter()
+        .any(|c| super::ids::same(&c.id, &command.id))
+    {
         return Some(MenuIssue::DuplicateCommand);
     }
     if command.script().trim().is_empty() {

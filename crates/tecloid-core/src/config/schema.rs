@@ -227,9 +227,6 @@ mod tests {
             .chain(actions::app_actions())
         {
             let action = entry.action.format().unwrap_or_default();
-            if let Some(id) = action.strip_prefix("app:") {
-                names.push(format!("action app:{id}"));
-            }
             names.push(format!("action {action}"));
         }
         for builtin in crate::mapper::builtin_macros::BUILTIN_MACROS {
@@ -247,6 +244,7 @@ mod tests {
             super::super::model::USER_KEYMAP_PREFIX
         ));
         names.sort();
+        names.dedup();
         names
     }
 
@@ -372,8 +370,13 @@ mod tests {
         );
     }
 
-    /// Field names and enum values of both formats, keyed by the JSON
-    /// pointer of their object or enum in the schema (`config/$defs/TextMode`).
+    /// What the contract records for a schema node, keyed by its JSON
+    /// pointer (`config/$defs/TextMode`) plus a suffix:
+    ///
+    /// * `…/properties` — field names; enum values under the bare pointer;
+    ///   `…/type` — JSON types: these only grow;
+    /// * `…/required` — required fields: this list only shrinks;
+    /// * `…/minimum`, `…/maximum` — numeric limits: they only widen.
     fn stored_fields_and_values() -> serde_json::Map<String, serde_json::Value> {
         use serde_json::Value;
         /// Enum values of a node: `enum` lists and `const`s under `oneOf` /
@@ -410,8 +413,30 @@ mod tests {
             }
             let mut found = Vec::new();
             values(node, &mut found);
-            if !found.is_empty() && !path.ends_with("$schema") && !path.ends_with("/version") {
+            let fixed = path.ends_with("$schema") || path.ends_with("/version");
+            if !found.is_empty() && !fixed {
                 out.insert(path.to_owned(), found.into());
+            }
+            if let Some(required) = object.get("required").and_then(Value::as_array) {
+                let mut names: Vec<_> = required.clone();
+                names.sort_by_key(|name| name.to_string());
+                out.insert(format!("{path}/required"), names.into());
+            }
+            if !fixed {
+                match object.get("type") {
+                    Some(Value::String(kind)) => {
+                        out.insert(format!("{path}/type"), vec![kind.clone()].into());
+                    }
+                    Some(Value::Array(kinds)) => {
+                        out.insert(format!("{path}/type"), kinds.clone().into());
+                    }
+                    _ => {}
+                }
+            }
+            for limit in ["minimum", "maximum"] {
+                if let Some(value) = object.get(limit) {
+                    out.insert(format!("{path}/{limit}"), vec![value.clone()].into());
+                }
             }
             for key in ["items", "propertyNames"] {
                 if let Some(child) = object.get(key) {
@@ -448,18 +473,56 @@ mod tests {
         let published: serde_json::Value =
             serde_json::from_str(&std::fs::read_to_string(&path).unwrap_or_default())
                 .unwrap_or_default();
+        let number = |value: Option<&serde_json::Value>| {
+            value
+                .and_then(|v| v.as_array())
+                .and_then(|v| v.first())
+                .and_then(serde_json::Value::as_f64)
+        };
         let mut removed = Vec::new();
         for (pointer, expected) in published.as_object().into_iter().flatten() {
-            let actual = current.get(pointer).and_then(|v| v.as_array());
+            let actual = current.get(pointer);
+            if pointer.ends_with("/minimum") || pointer.ends_with("/maximum") {
+                let (Some(old), new) = (number(Some(expected)), number(actual)) else {
+                    continue;
+                };
+                let narrowed = match new {
+                    None => false,
+                    Some(new) if pointer.ends_with("/minimum") => new > old,
+                    Some(new) => new < old,
+                };
+                if narrowed {
+                    removed.push(format!("{pointer}: {old} narrowed to {new:?}"));
+                }
+                continue;
+            }
+            let actual = actual.and_then(|v| v.as_array());
             for value in expected.as_array().into_iter().flatten() {
                 if !actual.is_some_and(|actual| actual.contains(value)) {
                     removed.push(format!("{pointer}: {value}"));
                 }
             }
         }
+        // A field that becomes required rejects files written without it.
+        for (pointer, required) in &current {
+            if !pointer.ends_with("/required") {
+                continue;
+            }
+            // An object that is new in this build may require what it likes.
+            let object = pointer.trim_end_matches("/required");
+            if published.get(format!("{object}/properties")).is_none() {
+                continue;
+            }
+            let before = published.get(pointer).and_then(|v| v.as_array());
+            for name in required.as_array().into_iter().flatten() {
+                if !before.is_some_and(|before| before.contains(name)) {
+                    removed.push(format!("{pointer}: {name} became required"));
+                }
+            }
+        }
         assert!(
             removed.is_empty(),
-            "fields or enum values stored in user files were removed or renamed: {removed:?}"
+            "fields, types, enum values or limits stored in user files changed incompatibly: {removed:?}"
         );
         snapshot(
             &path,

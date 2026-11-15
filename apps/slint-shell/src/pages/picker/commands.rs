@@ -66,7 +66,9 @@ pub(super) fn bind(
                 let doc = doc.read();
                 let saved = &doc.keymap().commands;
                 tecloid_core::config::ids::numbered("c", |id| {
-                    saved.iter().any(|command| command.id == id)
+                    saved
+                        .iter()
+                        .any(|command| tecloid_core::config::ids::same(&command.id, id))
                         || drafts.command(id).is_some()
                         || pending.as_deref() == Some(id)
                 })

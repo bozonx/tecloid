@@ -4,20 +4,46 @@
     "on",
     "off"
   ],
+  "config/$defs/AccessibilityChoice/type": [
+    "string"
+  ],
   "config/$defs/Appearance": [
     "system",
     "light",
     "dark",
     "eInk"
   ],
+  "config/$defs/Appearance/type": [
+    "string"
+  ],
   "config/$defs/AutoDoc/properties": [
     "fallback",
     "rules"
+  ],
+  "config/$defs/AutoDoc/properties/fallback/type": [
+    "string",
+    "null"
+  ],
+  "config/$defs/AutoDoc/properties/rules/type": [
+    "array"
+  ],
+  "config/$defs/AutoDoc/type": [
+    "object"
   ],
   "config/$defs/AutoRuleDoc/properties": [
     "enabled",
     "keymap",
     "when"
+  ],
+  "config/$defs/AutoRuleDoc/properties/enabled/type": [
+    "boolean"
+  ],
+  "config/$defs/AutoRuleDoc/properties/keymap/type": [
+    "string",
+    "null"
+  ],
+  "config/$defs/AutoRuleDoc/type": [
+    "object"
   ],
   "config/$defs/DetectorsDoc/properties": [
     "appCategory",
@@ -30,24 +56,84 @@
     "steam",
     "umu"
   ],
+  "config/$defs/DetectorsDoc/properties/appCategory/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/properties/fullscreen/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/properties/gameBar/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/properties/gamemoded/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/properties/gamescope/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/properties/heroic/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/properties/lutris/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/properties/steam/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/properties/umu/type": [
+    "boolean"
+  ],
+  "config/$defs/DetectorsDoc/type": [
+    "object"
+  ],
   "config/$defs/DevicesDoc/properties": [
     "keyboards",
     "mice"
   ],
+  "config/$defs/DevicesDoc/properties/keyboards/items/type": [
+    "string"
+  ],
+  "config/$defs/DevicesDoc/properties/keyboards/type": [
+    "array"
+  ],
+  "config/$defs/DevicesDoc/properties/mice/items/type": [
+    "string"
+  ],
+  "config/$defs/DevicesDoc/properties/mice/type": [
+    "array"
+  ],
+  "config/$defs/DevicesDoc/type": [
+    "object"
+  ],
   "config/$defs/GameModeCondition": [
     "on",
     "off"
+  ],
+  "config/$defs/GameModeCondition/type": [
+    "string"
   ],
   "config/$defs/GameModeControl": [
     "auto",
     "on",
     "off"
   ],
+  "config/$defs/GameModeControl/type": [
+    "string"
+  ],
   "config/$defs/GameModeDoc/properties": [
     "control",
     "detectors",
     "foregroundOnly",
     "processes"
+  ],
+  "config/$defs/GameModeDoc/properties/foregroundOnly/type": [
+    "boolean"
+  ],
+  "config/$defs/GameModeDoc/properties/processes/type": [
+    "array"
+  ],
+  "config/$defs/GameModeDoc/type": [
+    "object"
   ],
   "config/$defs/InterfaceDoc/properties": [
     "appearance",
@@ -57,15 +143,39 @@
     "locale",
     "reduceMotion"
   ],
+  "config/$defs/InterfaceDoc/properties/keymapOsd/type": [
+    "boolean"
+  ],
+  "config/$defs/InterfaceDoc/properties/layerHint/type": [
+    "boolean"
+  ],
+  "config/$defs/InterfaceDoc/type": [
+    "object"
+  ],
   "config/$defs/KeymapMode": [
     "manual",
     "auto"
+  ],
+  "config/$defs/KeymapMode/type": [
+    "string"
   ],
   "config/$defs/KeymapsDoc/properties": [
     "auto",
     "manualKeymap",
     "mode",
     "order"
+  ],
+  "config/$defs/KeymapsDoc/properties/manualKeymap/type": [
+    "string"
+  ],
+  "config/$defs/KeymapsDoc/properties/order/items/type": [
+    "string"
+  ],
+  "config/$defs/KeymapsDoc/properties/order/type": [
+    "array"
+  ],
+  "config/$defs/KeymapsDoc/type": [
+    "object"
   ],
   "config/$defs/LinuxDoc/properties": [
     "copyOsd",
@@ -74,6 +184,18 @@
     "textMode",
     "xdotoolPath",
     "ydotoolPath"
+  ],
+  "config/$defs/LinuxDoc/properties/copyOsd/type": [
+    "boolean"
+  ],
+  "config/$defs/LinuxDoc/properties/xdotoolPath/type": [
+    "string"
+  ],
+  "config/$defs/LinuxDoc/properties/ydotoolPath/type": [
+    "string"
+  ],
+  "config/$defs/LinuxDoc/type": [
+    "object"
   ],
   "config/$defs/LocalePreference": [
     "auto",
@@ -99,15 +221,36 @@
     "ja",
     "ko"
   ],
+  "config/$defs/LocalePreference/type": [
+    "string"
+  ],
   "config/$defs/PasteShortcut": [
     "Shift+Insert",
     "Ctrl+KeyV",
     "Ctrl+Shift+KeyV"
   ],
+  "config/$defs/PasteShortcut/type": [
+    "string"
+  ],
   "config/$defs/ProcessDoc/properties": [
     "exclude",
     "foregroundOnly",
     "name"
+  ],
+  "config/$defs/ProcessDoc/properties/exclude/type": [
+    "boolean"
+  ],
+  "config/$defs/ProcessDoc/properties/foregroundOnly/type": [
+    "boolean"
+  ],
+  "config/$defs/ProcessDoc/properties/name/type": [
+    "string"
+  ],
+  "config/$defs/ProcessDoc/required": [
+    "name"
+  ],
+  "config/$defs/ProcessDoc/type": [
+    "object"
   ],
   "config/$defs/SettingsDoc/properties": [
     "commandsEnabled",
@@ -121,6 +264,21 @@
     "startMapperOnLaunch",
     "timing"
   ],
+  "config/$defs/SettingsDoc/properties/commandsEnabled/type": [
+    "boolean"
+  ],
+  "config/$defs/SettingsDoc/properties/experimental/type": [
+    "boolean"
+  ],
+  "config/$defs/SettingsDoc/properties/launchAtLogin/type": [
+    "boolean"
+  ],
+  "config/$defs/SettingsDoc/properties/startMapperOnLaunch/type": [
+    "boolean"
+  ],
+  "config/$defs/SettingsDoc/type": [
+    "object"
+  ],
   "config/$defs/TapDecision": [
     "permissiveHold",
     "holdOnOtherKeyPress"
@@ -130,6 +288,9 @@
     "Ctrl+KeyV",
     "Ctrl+Shift+KeyV",
     "sameAsPaste"
+  ],
+  "config/$defs/TerminalPasteShortcut/type": [
+    "string"
   ],
   "config/$defs/TextMode": [
     "ydotool",
@@ -149,16 +310,112 @@
     "macroTimeoutMs",
     "tapDecision"
   ],
+  "config/$defs/TimingDoc/properties/chordMs/maximum": [
+    500
+  ],
+  "config/$defs/TimingDoc/properties/chordMs/minimum": [
+    10
+  ],
+  "config/$defs/TimingDoc/properties/chordMs/type": [
+    "integer"
+  ],
+  "config/$defs/TimingDoc/properties/doubleTapMs/maximum": [
+    1000
+  ],
+  "config/$defs/TimingDoc/properties/doubleTapMs/minimum": [
+    50
+  ],
+  "config/$defs/TimingDoc/properties/doubleTapMs/type": [
+    "integer"
+  ],
+  "config/$defs/TimingDoc/properties/holdMs/maximum": [
+    1000
+  ],
+  "config/$defs/TimingDoc/properties/holdMs/minimum": [
+    50
+  ],
+  "config/$defs/TimingDoc/properties/holdMs/type": [
+    "integer"
+  ],
+  "config/$defs/TimingDoc/properties/longHoldMs/maximum": [
+    60000
+  ],
+  "config/$defs/TimingDoc/properties/longHoldMs/minimum": [
+    100
+  ],
+  "config/$defs/TimingDoc/properties/longHoldMs/type": [
+    "integer"
+  ],
+  "config/$defs/TimingDoc/properties/macroModifierDelayMs/maximum": [
+    2000
+  ],
+  "config/$defs/TimingDoc/properties/macroModifierDelayMs/minimum": [
+    0
+  ],
+  "config/$defs/TimingDoc/properties/macroModifierDelayMs/type": [
+    "integer"
+  ],
+  "config/$defs/TimingDoc/properties/macroStepPauseMs/maximum": [
+    2000
+  ],
+  "config/$defs/TimingDoc/properties/macroStepPauseMs/minimum": [
+    0
+  ],
+  "config/$defs/TimingDoc/properties/macroStepPauseMs/type": [
+    "integer"
+  ],
+  "config/$defs/TimingDoc/properties/macroTimeoutMs/maximum": [
+    600000
+  ],
+  "config/$defs/TimingDoc/properties/macroTimeoutMs/minimum": [
+    1000
+  ],
+  "config/$defs/TimingDoc/properties/macroTimeoutMs/type": [
+    "integer"
+  ],
+  "config/$defs/TimingDoc/type": [
+    "object"
+  ],
   "config/$defs/WhenDoc/properties": [
     "excludeWindows",
     "gameMode",
     "keyboardLayouts",
     "windows"
   ],
+  "config/$defs/WhenDoc/properties/excludeWindows/items/type": [
+    "string"
+  ],
+  "config/$defs/WhenDoc/properties/excludeWindows/type": [
+    "array"
+  ],
+  "config/$defs/WhenDoc/properties/keyboardLayouts/items/type": [
+    "string"
+  ],
+  "config/$defs/WhenDoc/properties/keyboardLayouts/type": [
+    "array"
+  ],
+  "config/$defs/WhenDoc/properties/windows/items/type": [
+    "string"
+  ],
+  "config/$defs/WhenDoc/properties/windows/type": [
+    "array"
+  ],
+  "config/$defs/WhenDoc/type": [
+    "object"
+  ],
   "config/properties": [
     "$schema",
     "settings",
     "version"
+  ],
+  "config/properties/version/minimum": [
+    0
+  ],
+  "config/required": [
+    "version"
+  ],
+  "config/type": [
+    "object"
   ],
   "keymap/$defs/CommandDoc/properties": [
     "id",
@@ -167,15 +424,67 @@
     "sh",
     "workingDirectory"
   ],
+  "keymap/$defs/CommandDoc/properties/id/type": [
+    "string"
+  ],
+  "keymap/$defs/CommandDoc/properties/name/type": [
+    "string"
+  ],
+  "keymap/$defs/CommandDoc/properties/powershell/type": [
+    "string"
+  ],
+  "keymap/$defs/CommandDoc/properties/sh/type": [
+    "string"
+  ],
+  "keymap/$defs/CommandDoc/properties/workingDirectory/type": [
+    "string"
+  ],
+  "keymap/$defs/CommandDoc/required": [
+    "id"
+  ],
+  "keymap/$defs/CommandDoc/type": [
+    "object"
+  ],
   "keymap/$defs/GameModeCondition": [
     "on",
     "off"
+  ],
+  "keymap/$defs/GameModeCondition/type": [
+    "string"
   ],
   "keymap/$defs/HoldDoc/properties": [
     "action",
     "layer",
     "retroTapMs",
     "timeoutMs"
+  ],
+  "keymap/$defs/HoldDoc/properties/action/type": [
+    "string",
+    "null"
+  ],
+  "keymap/$defs/HoldDoc/properties/layer/type": [
+    "string"
+  ],
+  "keymap/$defs/HoldDoc/properties/retroTapMs/maximum": [
+    5000
+  ],
+  "keymap/$defs/HoldDoc/properties/retroTapMs/minimum": [
+    0
+  ],
+  "keymap/$defs/HoldDoc/properties/retroTapMs/type": [
+    "integer"
+  ],
+  "keymap/$defs/HoldDoc/properties/timeoutMs/maximum": [
+    1000
+  ],
+  "keymap/$defs/HoldDoc/properties/timeoutMs/minimum": [
+    50
+  ],
+  "keymap/$defs/HoldDoc/properties/timeoutMs/type": [
+    "integer"
+  ],
+  "keymap/$defs/HoldDoc/type": [
+    "object"
   ],
   "keymap/$defs/LayerDoc/properties": [
     "description",
@@ -184,9 +493,67 @@
     "keys",
     "name"
   ],
+  "keymap/$defs/LayerDoc/properties/description/type": [
+    "string"
+  ],
+  "keymap/$defs/LayerDoc/properties/extraKeyOrder/items/type": [
+    "string"
+  ],
+  "keymap/$defs/LayerDoc/properties/extraKeyOrder/type": [
+    "array"
+  ],
+  "keymap/$defs/LayerDoc/properties/id/type": [
+    "string"
+  ],
+  "keymap/$defs/LayerDoc/properties/keys/type": [
+    "object"
+  ],
+  "keymap/$defs/LayerDoc/properties/name/type": [
+    "string"
+  ],
+  "keymap/$defs/LayerDoc/required": [
+    "id"
+  ],
+  "keymap/$defs/LayerDoc/type": [
+    "object"
+  ],
   "keymap/$defs/LayerKeyFullDoc/properties": [
     "action",
     "holdModifiers"
+  ],
+  "keymap/$defs/LayerKeyFullDoc/properties/action/type": [
+    "string"
+  ],
+  "keymap/$defs/LayerKeyFullDoc/properties/holdModifiers/type": [
+    "boolean"
+  ],
+  "keymap/$defs/LayerKeyFullDoc/required": [
+    "action"
+  ],
+  "keymap/$defs/LayerKeyFullDoc/type": [
+    "object"
+  ],
+  "keymap/$defs/LongHoldDoc/properties": [
+    "action",
+    "timeoutMs"
+  ],
+  "keymap/$defs/LongHoldDoc/properties/action/type": [
+    "string"
+  ],
+  "keymap/$defs/LongHoldDoc/properties/timeoutMs/maximum": [
+    60000
+  ],
+  "keymap/$defs/LongHoldDoc/properties/timeoutMs/minimum": [
+    100
+  ],
+  "keymap/$defs/LongHoldDoc/properties/timeoutMs/type": [
+    "integer"
+  ],
+  "keymap/$defs/LongHoldDoc/required": [
+    "action"
+  ],
+  "keymap/$defs/LongHoldDoc/type": [
+    "object"
   ],
   "keymap/$defs/MacroDoc/properties": [
     "id",
@@ -195,15 +562,78 @@
     "stepPauseMs",
     "steps"
   ],
+  "keymap/$defs/MacroDoc/properties/id/type": [
+    "string"
+  ],
+  "keymap/$defs/MacroDoc/properties/modifierDelayMs/maximum": [
+    2000
+  ],
+  "keymap/$defs/MacroDoc/properties/modifierDelayMs/minimum": [
+    0
+  ],
+  "keymap/$defs/MacroDoc/properties/modifierDelayMs/type": [
+    "integer"
+  ],
+  "keymap/$defs/MacroDoc/properties/name/type": [
+    "string"
+  ],
+  "keymap/$defs/MacroDoc/properties/stepPauseMs/maximum": [
+    2000
+  ],
+  "keymap/$defs/MacroDoc/properties/stepPauseMs/minimum": [
+    0
+  ],
+  "keymap/$defs/MacroDoc/properties/stepPauseMs/type": [
+    "integer"
+  ],
+  "keymap/$defs/MacroDoc/properties/steps/items/type": [
+    "string"
+  ],
+  "keymap/$defs/MacroDoc/properties/steps/type": [
+    "array"
+  ],
+  "keymap/$defs/MacroDoc/required": [
+    "id"
+  ],
+  "keymap/$defs/MacroDoc/type": [
+    "object"
+  ],
   "keymap/$defs/MetaDoc/properties": [
     "author",
     "description",
     "keymapVersion",
     "name"
   ],
+  "keymap/$defs/MetaDoc/properties/author/type": [
+    "string"
+  ],
+  "keymap/$defs/MetaDoc/properties/description/type": [
+    "string"
+  ],
+  "keymap/$defs/MetaDoc/properties/keymapVersion/type": [
+    "string"
+  ],
+  "keymap/$defs/MetaDoc/properties/name/type": [
+    "string"
+  ],
+  "keymap/$defs/MetaDoc/type": [
+    "object"
+  ],
   "keymap/$defs/QuickActionDoc/properties": [
     "action",
     "name"
+  ],
+  "keymap/$defs/QuickActionDoc/properties/action/type": [
+    "string"
+  ],
+  "keymap/$defs/QuickActionDoc/properties/name/type": [
+    "string"
+  ],
+  "keymap/$defs/QuickActionDoc/required": [
+    "action"
+  ],
+  "keymap/$defs/QuickActionDoc/type": [
+    "object"
   ],
   "keymap/$defs/RuleDoc/properties": [
     "doubleTap",
@@ -215,6 +645,19 @@
     "tapDecision",
     "when"
   ],
+  "keymap/$defs/RuleDoc/properties/enabled/type": [
+    "boolean"
+  ],
+  "keymap/$defs/RuleDoc/properties/tap/type": [
+    "string",
+    "null"
+  ],
+  "keymap/$defs/RuleDoc/required": [
+    "key"
+  ],
+  "keymap/$defs/RuleDoc/type": [
+    "object"
+  ],
   "keymap/$defs/TapDecision": [
     "permissiveHold",
     "holdOnOtherKeyPress"
@@ -223,11 +666,50 @@
     "action",
     "timeoutMs"
   ],
+  "keymap/$defs/TimedActionDoc/properties/action/type": [
+    "string"
+  ],
+  "keymap/$defs/TimedActionDoc/properties/timeoutMs/maximum": [
+    1000
+  ],
+  "keymap/$defs/TimedActionDoc/properties/timeoutMs/minimum": [
+    50
+  ],
+  "keymap/$defs/TimedActionDoc/properties/timeoutMs/type": [
+    "integer"
+  ],
+  "keymap/$defs/TimedActionDoc/required": [
+    "action"
+  ],
+  "keymap/$defs/TimedActionDoc/type": [
+    "object"
+  ],
   "keymap/$defs/WhenDoc/properties": [
     "excludeWindows",
     "gameMode",
     "keyboardLayouts",
     "windows"
+  ],
+  "keymap/$defs/WhenDoc/properties/excludeWindows/items/type": [
+    "string"
+  ],
+  "keymap/$defs/WhenDoc/properties/excludeWindows/type": [
+    "array"
+  ],
+  "keymap/$defs/WhenDoc/properties/keyboardLayouts/items/type": [
+    "string"
+  ],
+  "keymap/$defs/WhenDoc/properties/keyboardLayouts/type": [
+    "array"
+  ],
+  "keymap/$defs/WhenDoc/properties/windows/items/type": [
+    "string"
+  ],
+  "keymap/$defs/WhenDoc/properties/windows/type": [
+    "array"
+  ],
+  "keymap/$defs/WhenDoc/type": [
+    "object"
   ],
   "keymap/properties": [
     "$schema",
@@ -239,6 +721,9 @@
     "quickMenuPages",
     "rules",
     "version"
+  ],
+  "keymap/properties/commands/type": [
+    "array"
   ],
   "keymap/properties/emojiMenuPages/items/properties": [
     "cells",
@@ -261,6 +746,24 @@
     "KeyV",
     "KeyB"
   ],
+  "keymap/properties/emojiMenuPages/items/properties/cells/type": [
+    "object"
+  ],
+  "keymap/properties/emojiMenuPages/items/properties/name/type": [
+    "string"
+  ],
+  "keymap/properties/emojiMenuPages/items/type": [
+    "object"
+  ],
+  "keymap/properties/emojiMenuPages/type": [
+    "array"
+  ],
+  "keymap/properties/layers/type": [
+    "array"
+  ],
+  "keymap/properties/macros/type": [
+    "array"
+  ],
   "keymap/properties/quickMenuPages/items/properties": [
     "cells",
     "name"
@@ -281,5 +784,29 @@
     "KeyC",
     "KeyV",
     "KeyB"
+  ],
+  "keymap/properties/quickMenuPages/items/properties/cells/type": [
+    "object"
+  ],
+  "keymap/properties/quickMenuPages/items/properties/name/type": [
+    "string"
+  ],
+  "keymap/properties/quickMenuPages/items/type": [
+    "object"
+  ],
+  "keymap/properties/quickMenuPages/type": [
+    "array"
+  ],
+  "keymap/properties/rules/type": [
+    "array"
+  ],
+  "keymap/properties/version/minimum": [
+    0
+  ],
+  "keymap/required": [
+    "version"
+  ],
+  "keymap/type": [
+    "object"
   ]
 }

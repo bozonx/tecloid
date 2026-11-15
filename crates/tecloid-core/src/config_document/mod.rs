@@ -273,7 +273,9 @@ impl ConfigDocument {
     pub fn new_layer_id(&self, name: &str) -> String {
         let layers = &self.keymap().layers;
         crate::config::ids::from_name(name, "layer", |id| {
-            layers.iter().any(|layer| layer.id == id)
+            layers
+                .iter()
+                .any(|layer| crate::config::ids::same(&layer.id, id))
         })
     }
 

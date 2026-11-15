@@ -71,7 +71,14 @@ pub fn valid(id: &str) -> bool {
             .all(|c| c.is_ascii_alphanumeric() || c == b'_' || c == b'-')
 }
 
-/// Validate identity within one collection. Different entity kinds may share ids.
+/// Whether two ids name the same entity. Ids are compared ignoring ASCII
+/// case, so `macro:Nav` and `macro:nav` never refer to different macros.
+pub fn same(a: &str, b: &str) -> bool {
+    a.eq_ignore_ascii_case(b)
+}
+
+/// Validate identity within one collection, ignoring case (see [`same`]).
+/// Different entity kinds may share ids.
 pub(crate) fn unique<'a>(ids: impl IntoIterator<Item = &'a str>, path: &str) -> Result<(), String> {
     let mut seen = std::collections::HashSet::new();
     for (index, id) in ids.into_iter().enumerate() {
@@ -80,7 +87,7 @@ pub(crate) fn unique<'a>(ids: impl IntoIterator<Item = &'a str>, path: &str) -> 
                 "{path}[{index}].id: \"{id}\" must be 1-{MAX_LEN} ASCII letters, digits, '_' or '-'"
             ));
         }
-        if !seen.insert(id) {
+        if !seen.insert(id.to_ascii_lowercase()) {
             return Err(format!("{path}[{index}].id: duplicate id \"{id}\""));
         }
     }
@@ -159,5 +166,7 @@ mod tests {
             assert!(!super::valid(id), "{id}");
         }
         assert!(super::unique(["a b"], "layers").is_err());
+        assert!(super::unique(["Nav", "nav"], "layers").is_err());
+        assert!(super::unique(["nav", "nav2"], "layers").is_ok());
     }
 }

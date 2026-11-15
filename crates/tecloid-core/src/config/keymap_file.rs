@@ -213,8 +213,8 @@ struct RuleDoc {
         skip_serializing_if = "Option::is_none",
         deserialize_with = "schema::non_null"
     )]
-    #[cfg_attr(test, schemars(with = "TimedActionDoc"))]
-    long_hold: Option<TimedActionDoc>,
+    #[cfg_attr(test, schemars(with = "LongHoldDoc"))]
+    long_hold: Option<LongHoldDoc>,
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
@@ -279,11 +279,15 @@ impl RuleKeyDoc {
                         return Err(format!("rule chord key {key:?} must be one key code"));
                     }
                 }
-                Ok(keys
-                    .into_iter()
-                    .map(canonical_trigger)
-                    .collect::<Vec<_>>()
-                    .join("+"))
+                let keys: Vec<String> = keys.into_iter().map(canonical_trigger).collect();
+                if let Some(key) = keys
+                    .iter()
+                    .enumerate()
+                    .find_map(|(index, key)| keys[..index].contains(key).then_some(key))
+                {
+                    return Err(format!("rule chord {keys:?}: key {key} is listed twice"));
+                }
+                Ok(keys.join("+"))
             }
         }
     }
@@ -361,11 +365,29 @@ impl WhenDoc {
     }
 }
 
+/// `doubleTap`: an action and its own tap window.
 #[cfg_attr(test, derive(schemars::JsonSchema))]
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct TimedActionDoc {
     action: String,
+    #[cfg_attr(test, schemars(range(min = super::timing::TAP_HOLD.min, max = super::timing::TAP_HOLD.max)))]
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "schema::non_null"
+    )]
+    #[cfg_attr(test, schemars(with = "u64"))]
+    timeout_ms: Option<u64>,
+}
+
+/// `longHold`: an action and its own long-hold threshold.
+#[cfg_attr(test, derive(schemars::JsonSchema))]
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct LongHoldDoc {
+    action: String,
+    #[cfg_attr(test, schemars(range(min = super::timing::LONG_HOLD.min, max = super::timing::LONG_HOLD.max)))]
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
@@ -454,7 +476,7 @@ struct MacroDoc {
     )]
     #[cfg_attr(test, schemars(with = "u64"))]
     modifier_delay_ms: Option<u64>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     steps: Vec<String>,
 }
 
@@ -509,7 +531,7 @@ struct PageDoc<T> {
     )]
     #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     name: Option<String>,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "GridCells::is_empty")]
     cells: GridCells<T>,
 }
 
@@ -519,6 +541,30 @@ struct PageDoc<T> {
 #[derive(Deserialize)]
 #[serde(transparent)]
 struct GridCells<T>(BTreeMap<String, T>);
+
+impl<T> GridCells<T> {
+    fn is_empty(&self) -> bool {
+        self.0.is_empty()
+    }
+
+    /// The cells keyed by their canonical hotkey (`keyq` → `KeyQ`); a key
+    /// outside the grid or listed twice in two spellings is an error.
+    fn canonical(self, menu: &str) -> Result<BTreeMap<String, T>, String> {
+        let mut out = BTreeMap::new();
+        for (key, cell) in self.0 {
+            let Some(hotkey) = LEFT_HAND_HOTKEYS
+                .iter()
+                .find(|hotkey| hotkey.eq_ignore_ascii_case(&key))
+            else {
+                return Err(format!("{menu} page cell {key}: not a menu hotkey"));
+            };
+            if out.insert((*hotkey).to_owned(), cell).is_some() {
+                return Err(format!("{menu} page cell {hotkey} is listed twice"));
+            }
+        }
+        Ok(out)
+    }
+}
 
 impl<T> Default for GridCells<T> {
     fn default() -> Self {
@@ -618,16 +664,6 @@ fn non_empty(value: &str, what: &str) -> Result<(), String> {
     } else {
         Ok(())
     }
-}
-
-fn check_cells<'a>(mut keys: impl Iterator<Item = &'a String>, menu: &str) -> Result<(), String> {
-    keys.try_for_each(|key| {
-        if LEFT_HAND_HOTKEYS.contains(&key.as_str()) {
-            Ok(())
-        } else {
-            Err(format!("{menu} page cell {key}: not a menu hotkey"))
-        }
-    })
 }
 
 fn non_empty_items(items: &[String], what: &str) -> Result<(), String> {
@@ -741,6 +777,11 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
             }
             None => (String::new(), None),
         };
+        if rule.hold.as_ref().is_some_and(HoldDoc::is_empty) {
+            return Err(format!(
+                "rule {key}: \"hold\" must not be empty; omit the field instead"
+            ));
+        }
         let hold = rule.hold.unwrap_or_default();
         if hold.retro_tap_ms.is_some() && hold.layer.is_none() {
             return Err(format!(
@@ -807,9 +848,8 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
 
     let mut quick_action_pages = Vec::new();
     for (index, page) in doc.quick_menu_pages.into_iter().enumerate() {
-        check_cells(page.cells.0.keys(), "quick action")?;
         let mut cells = BTreeMap::new();
-        for (key, cell) in page.cells.0 {
+        for (key, cell) in page.cells.canonical("quick action")? {
             let item = match cell {
                 QuickCellDoc::Action(action) => QuickAction {
                     action,
@@ -839,14 +879,14 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
 
     let mut emoji_pages = Vec::new();
     for (index, page) in doc.emoji_menu_pages.into_iter().enumerate() {
-        check_cells(page.cells.0.keys(), "emoji")?;
-        for (key, text) in &page.cells.0 {
+        let cells = page.cells.canonical("emoji")?;
+        for (key, text) in &cells {
             non_empty(text, &format!("emoji {key}"))?;
         }
         emoji_pages.push(EmojiPage {
             id: format!("emoji-{}", index + 1),
             name: page.name.unwrap_or_default(),
-            cells: page.cells.0,
+            cells,
         });
     }
     if emoji_pages.is_empty() {
@@ -948,7 +988,7 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
             let behavior = rule.hold_behavior();
             let long_hold = (behavior == HoldBehavior::Action
                 && !rule.long_hold_action.trim().is_empty())
-            .then(|| TimedActionDoc {
+            .then(|| LongHoldDoc {
                 action: rule.long_hold_action.clone(),
                 timeout_ms: rule.long_hold_timeout_ms,
             });
@@ -1632,5 +1672,33 @@ mod tests {
         assert!(parse(r#""just text""#).is_err());
         assert!(parse("{\"layers\": [").is_err());
         assert!(parse("layers: []\nrules: []\n").is_err());
+    }
+
+    /// Each value has one spelling: no repeated chord keys, no empty
+    /// `hold`, menu hotkeys in their catalog case, ids unique ignoring case,
+    /// and empty lists are not written.
+    #[test]
+    fn single_spelling_rules() {
+        let load = |body: &str| parse(&format!(r#"{{"version":1,{body}}}"#));
+        for bad in [
+            r#""rules":[{"key":["KeyA","keya"],"tap":"KeyB"}]"#,
+            r#""rules":[{"key":"KeyA","hold":{}}]"#,
+            r#""quickMenuPages":[{"cells":{"KeyQ":"KeyA","keyq":"KeyB"}}]"#,
+            r#""emojiMenuPages":[{"cells":{"KeyP":"x"}}]"#,
+            r#""layers":[{"id":"Nav"},{"id":"nav"}]"#,
+            r#""macros":[{"id":"M1"},{"id":"m1"}]"#,
+        ] {
+            assert!(load(bad).is_err(), "accepted {bad}");
+        }
+        let keymap = load(
+            r#""quickMenuPages":[{},{"cells":{"keyq":"KeyA"}}],"emojiMenuPages":[{"cells":{"keyw":"x"}}],"macros":[{"id":"m","steps":[]}]"#,
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(keymap.quick_action_pages[1].cells["KeyQ"].action, "KeyA");
+        assert_eq!(keymap.emoji_pages[0].cells["KeyW"], "x");
+        let saved: serde_json::Value = serde_json::from_str(&serialize(&keymap)).unwrap();
+        assert_eq!(saved["quickMenuPages"][0], serde_json::json!({}));
+        assert_eq!(saved["macros"][0], serde_json::json!({"id": "m"}));
     }
 }

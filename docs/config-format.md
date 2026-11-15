@@ -63,9 +63,11 @@ part of version 1 under the same rules.
 - **Stored names are frozen.** Action prefixes, `sys:`, `app:` and
   `builtin:` ids, key names, pattern prefixes and the keymap id prefix
   `user:` are listed in [`schemas/names.v1.txt`](../schemas/names.v1.txt)
-  (test `stored_names_are_never_removed`); field names and enum values of
-  both formats in [`schemas/contract.v1.json`](../schemas/contract.v1.json)
-  (test `frozen_fields_and_enum_values_remain`); the steps of every
+  (test `stored_names_are_never_removed`); field names, JSON types, enum
+  values, required fields and numeric limits of both formats in
+  [`schemas/contract.v1.json`](../schemas/contract.v1.json) (test
+  `frozen_fields_and_enum_values_remain`: names, types and values only grow,
+  required lists only shrink, limits only widen); the steps of every
   `builtin:` macro in
   [`schemas/builtin-macros.v1.txt`](../schemas/builtin-macros.v1.txt) (test
   `builtin_macro_steps_are_frozen`). These lists only grow: a missing line
@@ -107,8 +109,9 @@ Without the variable the test fails while the files are stale.
 ### Identifiers
 
 Only entities something refers to have an `id`: layers (`hold.layer`),
-macros (`macro:<id>`) and commands (`cmd:<id>`). It is unique
-(case-sensitive) within its collection; grammar `[A-Za-z0-9_-]{1,64}`, so ids
+macros (`macro:<id>`) and commands (`cmd:<id>`). It is unique within its
+collection ignoring ASCII case (`Nav` and `nav` are duplicates), while
+references must spell it exactly; grammar `[A-Za-z0-9_-]{1,64}`, so ids
 appear unescaped in actions. Duplicates are load errors. Rules, menu pages
 (addressed by position), auto rules and game-mode processes have no `id`
 field. The editor names new layers after their name (`Navigation` → `navigation`,
@@ -127,7 +130,7 @@ conditions must match; an empty object always matches.
 | Field | Meaning |
 | --- | --- |
 | `gameMode` | `on` / `off` |
-| `keyboardLayouts` | short system layout ids (`us`); any matches |
+| `keyboardLayouts` | short system layout ids; any matches. The id is what the OS reports: the XKB layout name on Linux (`us`, `de`; the variant is not compared, so `us` also matches US Dvorak), the language subtag on Windows (`en`, `ru`). A keymap using this condition is therefore tied to the kind of system it was made on |
 | `windows` | active-window patterns; any matches |
 | `excludeWindows` | patterns that block the condition; if the active window is unknown, the condition fails |
 
@@ -156,7 +159,7 @@ on save. Zero is allowed only for step pause and modifier delay.
 | `rules[].hold.retroTapMs` | 0–5000 |
 | `timing.chordMs` | 10–500 |
 | `timing.macroStepPauseMs`, `macroModifierDelayMs`; `macros[].stepPauseMs`, `modifierDelayMs` | 0–2000 |
-| `pause:<ms>` macro step | 1–10000 |
+| `pause:<ms>` macro step (digits without a leading zero) | 1–10000 |
 | `timing.macroTimeoutMs` | 1000–600000 |
 
 ## Actions
@@ -194,11 +197,27 @@ diagnostics report it and the mapper does not start with it.
   around the parts of a shortcut are dropped (`Ctrl + KeyC`). "Chord" means
   only several trigger keys pressed together (`timing.chordMs`, array
   `key`); an action with modifiers is a shortcut.
-- **Key names:** W3C `KeyboardEvent.code`, then Chromium names, then names based
-  on Linux `KEY_*` (`WLAN`, `VideoPrevious`, …).
+- **Key names** (`config/key_catalog.rs`) are the W3C UI Events
+  `KeyboardEvent.code` values (<https://www.w3.org/TR/uievents-code/>) wherever
+  that spec has one: `KeyA`, `Digit1`, `ArrowLeft`, `ControlLeft`, `Backquote`.
+  They name the physical key position, not the character it types in the
+  current keyboard layout. Keys the spec does not cover use Chromium's
+  `DomCode` name, and failing that a name derived from the Linux `KEY_*`
+  code (`WLAN`, `VideoPrevious`, …). Mouse buttons: `MouseLeft`,
+  `MouseRight`, `MouseMiddle`, `MouseBack` (`BTN_SIDE`), `MouseForward`
+  (`BTN_EXTRA`) — the side buttons of ordinary mice — and `Mouse6`, `Mouse7`,
+  `Mouse8` for the further buttons (`BTN_FORWARD`, `BTN_BACK`, `BTN_TASK` in
+  that order; despite their kernel names they are not the usual back/forward).
 - **Built-in macros** (`mapper/builtin_macros.rs`) start with a verb: `goTo…`,
   `select…`, `copy…`, `cut…`, `paste…`, `replace…WithClipboard`, `insert…`,
   `duplicate…`. `builtin:` and `macro:` namespaces are independent.
+- **Naming sources.** `sys:` ids act on the desktop and are named after KDE
+  Plasma's actions; `app:` ids act on Tecloid itself and are Tecloid's own
+  names; `builtin:` ids are Tecloid's own names for editing macros; key
+  names follow W3C. Toggling is part of an id's meaning: in `app:` it is
+  spelled out (`toggleGameMode`, `setGameModeOn`), in `sys:` it is
+  whatever the Plasma action does, so a `sys:` id without `toggle` may still
+  toggle.
 - **`sys:`** ids follow the KDE Plasma names of the actions (Plasma is the
   reference platform), and so does their meaning: an action does what the
   Plasma action of that name does, toggling included (`maximizeWindow`,
@@ -368,8 +387,9 @@ Not persisted: open editor, current page, selected layer.
   string or `{ "action", "holdModifiers"? }`. `holdModifiers: true` keeps the
   chord's modifiers pressed until the layer trigger is released (Alt+Tab window
   switching). `extraKeyOrder` is editor display order only.
-- **Rules:** `key` is a physical key code string, or an array of ≥ 2 codes for a
-  chord pressed within `timing.chordMs`. `+` is not allowed inside `key`.
+- **Rules:** `key` is a physical key code string, or an array of ≥ 2 distinct
+  codes for a chord pressed within `timing.chordMs`. `+` is not allowed inside
+  `key`. A `hold` object must not be empty.
   Generic `Shift`/`Ctrl`/`Alt`/`Meta` match either side; physical codes take
   priority over overlapping generic ones. Several rules may share a key: the
   first enabled one whose `when` matches wins.
@@ -390,7 +410,8 @@ Not persisted: open editor, current page, selected layer.
   `powershell` (Windows); a command without a script for the running OS is
   skipped with a notice. `workingDirectory` defaults to home; `~/…` and
   relative paths resolve from home. Run only with `settings.commandsEnabled`.
-- **Menu pages:** cell keys are the grid `KeyQ…KeyT / KeyA…KeyG / KeyZ…KeyB`.
+- **Menu pages:** cell keys are the grid `KeyQ…KeyT / KeyA…KeyG / KeyZ…KeyB`,
+  in any case on load and canonical on save; an empty page is written as `{}`.
   A quick cell is an action string or `{ "name"?, "action" }`; an emoji cell is
   literal text. Emoji cells, macro steps and rule keys have no object form yet;
   one will be added the same way as for layer keys when needed.

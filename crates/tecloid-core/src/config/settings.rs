@@ -425,13 +425,18 @@ fn keymap_ref(value: Option<String>, what: &str) -> Result<Option<String>, Strin
     }
 }
 
-/// `settings.keymaps.order`: keymap ids, each listed once.
+/// `settings.keymaps.order`: keymap ids, each listed once. Library names
+/// are unique ignoring case (one file on a case-insensitive file system),
+/// so `user:Main` and `user:main` are the same entry.
 fn keymap_order(order: Vec<String>) -> Result<Vec<String>, String> {
     let mut out: Vec<String> = Vec::with_capacity(order.len());
     for (index, id) in order.into_iter().enumerate() {
         let what = format!("settings.keymaps.order[{index}]");
         let id = keymap_ref(Some(id), &what)?.unwrap_or_default();
-        if out.contains(&id) {
+        if out
+            .iter()
+            .any(|listed| listed.to_lowercase() == id.to_lowercase())
+        {
             return Err(format!("{what}: {id:?} is listed twice"));
         }
         out.push(id);
@@ -888,6 +893,7 @@ mod tests {
             json!({"keymaps": {"manualKeymap": "user:"}}),
             json!({"keymaps": {"manualKeymap": "user: Main"}}),
             json!({"keymaps": {"order": ["user:A", "user:A"]}}),
+            json!({"keymaps": {"order": ["user:Main", "user:main"]}}),
             json!({"keymaps": {"order": ["bundled:x"]}}),
             json!({"keymaps": {"auto": {"fallback": "user:a/b"}}}),
             json!({"gameMode": {"processes": [{"name": " "}]}}),
