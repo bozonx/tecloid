@@ -88,31 +88,31 @@ struct MetaDoc {
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     name: Option<String>,
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     author: Option<String>,
     /// The author's version of the keymap, unrelated to the format `version`.
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     keymap_version: Option<String>,
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     description: Option<String>,
 }
 
@@ -134,16 +134,16 @@ struct LayerDoc {
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     name: Option<String>,
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     description: Option<String>,
     /// Saved display order of additional keys.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
@@ -242,6 +242,15 @@ enum RuleKeyDoc {
 /// unknown name is kept for the diagnostics to report.
 fn canonical_trigger(key: String) -> String {
     super::key_catalog::canonical_key(&key).map_or(key, str::to_owned)
+}
+
+/// A physical key code in its catalog spelling (`keyh` → `KeyH`); an
+/// unknown name is kept for the diagnostics to report.
+fn canonical_key_code(code: String) -> String {
+    match super::key_catalog::canonical_key(&code) {
+        Some(key) if super::key_catalog::valid_key(key) => key.to_owned(),
+        _ => code,
+    }
 }
 
 impl RuleKeyDoc {
@@ -374,9 +383,9 @@ struct HoldDoc {
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     layer: Option<String>,
     /// Key or chord held down while the key is held. Missing: the key
     /// itself (or nothing while a layer is active), `null`: nothing.
@@ -425,9 +434,9 @@ struct MacroDoc {
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     name: Option<String>,
     #[cfg_attr(test, schemars(range(min = super::timing::MACRO_DELAY.min, max = super::timing::MACRO_DELAY.max)))]
     #[serde(
@@ -458,22 +467,32 @@ struct CommandDoc {
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     name: Option<String>,
     /// POSIX `sh` script, run on Linux and macOS.
-    #[serde(default, skip_serializing_if = "String::is_empty")]
+    #[serde(
+        default,
+        skip_serializing_if = "String::is_empty",
+        deserialize_with = "schema::filled"
+    )]
+    #[cfg_attr(test, schemars(length(min = 1)))]
     sh: String,
     /// PowerShell script, run on Windows.
-    #[serde(default, skip_serializing_if = "String::is_empty")]
+    #[serde(
+        default,
+        skip_serializing_if = "String::is_empty",
+        deserialize_with = "schema::filled"
+    )]
+    #[cfg_attr(test, schemars(length(min = 1)))]
     powershell: String,
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     working_directory: Option<String>,
 }
 
@@ -486,9 +505,9 @@ struct PageDoc<T> {
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     name: Option<String>,
     #[serde(default)]
     cells: GridCells<T>,
@@ -539,9 +558,9 @@ struct QuickActionDoc {
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "schema::non_null"
+        deserialize_with = "schema::text"
     )]
-    #[cfg_attr(test, schemars(with = "String"))]
+    #[cfg_attr(test, schemars(with = "String", length(min = 1)))]
     name: Option<String>,
     action: String,
 }
@@ -653,6 +672,10 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
         let mut keys = BTreeMap::new();
         let mut hold_modifiers = BTreeSet::new();
         for (code, key) in layer.keys {
+            let code = canonical_key_code(code);
+            if keys.contains_key(&code) {
+                return Err(format!("layer {}: key {code} is listed twice", layer.id));
+            }
             let action = match key {
                 LayerKeyDoc::Action(action) => action,
                 LayerKeyDoc::Full(full) => {
@@ -673,11 +696,21 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
             description: layer.description.filter(|d| !d.is_empty()),
             id: layer.id.clone(),
         });
+        let mut extra_key_order: Vec<String> = Vec::new();
+        for code in layer.extra_key_order.into_iter().map(canonical_key_code) {
+            if extra_key_order.contains(&code) {
+                return Err(format!(
+                    "layer {}: extraKeyOrder lists {code} twice",
+                    layer.id
+                ));
+            }
+            extra_key_order.push(code);
+        }
         layer_keymaps.insert(
             layer.id,
             LayerKeymap {
                 keys,
-                extra_key_order: layer.extra_key_order,
+                extra_key_order,
                 hold_modifiers,
             },
         );
@@ -692,7 +725,7 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
                 "rule {key}: \"hold\" and \"longHold\" cannot be combined"
             ));
         }
-        let when = rule.when.into_set()?;
+        let when = rule.when.into_set()?.normalized();
         let tap_action = three_state(rule.tap, &what("tap"))?;
         let (double_tap_action, double_tap_timeout_ms) = match rule.double_tap {
             Some(double) => {
@@ -709,8 +742,10 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
             None => (String::new(), None),
         };
         let hold = rule.hold.unwrap_or_default();
-        if let Some(layer) = &hold.layer {
-            non_empty(layer, &what("hold layer"))?;
+        if hold.retro_tap_ms.is_some() && hold.layer.is_none() {
+            return Err(format!(
+                "rule {key}: \"hold.retroTapMs\" applies only to a hold with a \"layer\""
+            ));
         }
         rules.push(KeyRule {
             id: format!("rule-{}", index + 1),
@@ -843,7 +878,9 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
 /// hold transiently (a rule without a key, an empty macro step) are left
 /// out, so every saved file loads again.
 fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
-    let text = |value: &str| (!value.is_empty()).then(|| value.to_owned());
+    let text = |value: &str| (!value.trim().is_empty()).then(|| value.to_owned());
+    // A name equal to the id is the default and is not written.
+    let name = |name: &str, id: &str| (name != id).then(|| text(name)).flatten();
     let list = |items: &Option<Vec<String>>| -> Vec<String> {
         items
             .iter()
@@ -867,8 +904,8 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
             let keymap = preset.layer_keymaps.get(&layer.id);
             LayerDoc {
                 id: layer.id.clone(),
-                name: (layer.name != layer.id).then(|| layer.name.clone()),
-                description: layer.description.clone().filter(|d| !d.is_empty()),
+                name: name(&layer.name, &layer.id),
+                description: layer.description.as_deref().and_then(text),
                 extra_key_order: keymap
                     .map(|keymap| keymap.extra_key_order.clone())
                     .unwrap_or_default(),
@@ -924,18 +961,24 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
                         .flatten(),
                     action: three_state(&rule.hold_action),
                     timeout_ms: rule.hold_timeout_ms,
-                    retro_tap_ms: rule.retro_tap_ms,
+                    // The late tap belongs to a layer hold only.
+                    retro_tap_ms: rule
+                        .retro_tap_ms
+                        .filter(|_| behavior == HoldBehavior::Layer),
                 }
             };
             RuleDoc {
                 key: RuleKeyDoc::from_key(&rule.key),
                 enabled: rule.is_enabled(),
-                when: WhenDoc {
-                    game_mode: OnOff::parse(rule.condition_game_mode.as_deref()),
-                    keyboard_layouts: list(&rule.condition_keyboard_layouts),
-                    windows: list(&rule.condition_window_patterns),
-                    exclude_windows: list(&rule.condition_excluded_window_patterns),
-                },
+                when: WhenDoc::from_set(
+                    &KeymapConditionSet {
+                        game_mode: OnOff::parse(rule.condition_game_mode.as_deref()),
+                        keyboard_layouts: list(&rule.condition_keyboard_layouts),
+                        window_patterns: list(&rule.condition_window_patterns),
+                        excluded_window_patterns: list(&rule.condition_excluded_window_patterns),
+                    }
+                    .normalized(),
+                ),
                 tap: three_state(&rule.tap_action),
                 double_tap: (!rule.double_tap_action.trim().is_empty()).then(|| TimedActionDoc {
                     action: rule.double_tap_action.clone(),
@@ -954,7 +997,7 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
         .filter(|item| !item.id.is_empty())
         .map(|item| MacroDoc {
             id: item.id.clone(),
-            name: (item.name != item.id).then(|| item.name.clone()),
+            name: name(&item.name, &item.id),
             step_pause_ms: item.step_pause_ms,
             modifier_delay_ms: item.modifier_delay_ms,
             steps: item
@@ -972,10 +1015,10 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
         .filter(|command| !command.id.is_empty())
         .map(|command| CommandDoc {
             id: command.id.clone(),
-            name: (command.name != command.id).then(|| command.name.clone()),
-            sh: command.posix_script.clone(),
-            powershell: command.powershell_script.clone(),
-            working_directory: command.working_directory.clone().filter(|d| !d.is_empty()),
+            name: name(&command.name, &command.id),
+            sh: text(&command.posix_script).unwrap_or_default(),
+            powershell: text(&command.powershell_script).unwrap_or_default(),
+            working_directory: command.working_directory.as_deref().and_then(text),
         })
         .collect();
 
@@ -991,7 +1034,7 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
                     LEFT_HAND_HOTKEYS.contains(&key.as_str()) && !item.action.trim().is_empty()
                 })
                 .map(|(key, item)| {
-                    let cell = if item.name.is_empty() {
+                    let cell = if item.name.trim().is_empty() {
                         QuickCellDoc::Action(item.action.clone())
                     } else {
                         QuickCellDoc::Full(QuickActionDoc {
@@ -1031,10 +1074,10 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
         meta: {
             let meta = preset.meta.clone().unwrap_or_default();
             let meta = MetaDoc {
-                name: meta.name,
-                author: meta.author,
-                keymap_version: meta.version,
-                description: preset.description.clone().filter(|d| !d.trim().is_empty()),
+                name: meta.name.as_deref().and_then(text),
+                author: meta.author.as_deref().and_then(text),
+                keymap_version: meta.version.as_deref().and_then(text),
+                description: preset.description.as_deref().and_then(text),
             };
             (!meta.is_empty()).then_some(meta)
         },
@@ -1072,6 +1115,80 @@ mod tests {
 
     fn round_trip(preset: &KeymapPreset) -> KeymapPreset {
         parse(&serialize(preset)).unwrap().unwrap()
+    }
+
+    #[test]
+    fn every_value_has_one_spelling() {
+        let preset = parsed(json!({
+            "layers": [{"id": "a", "extraKeyOrder": ["f13"], "keys": {
+                "keyh": "ArrowLeft", "KeyJ": "Ctrl", "KeyK": "Shift+ControlLeft"
+            }}],
+            "rules": [{"key": "KeyA", "when": {
+                "keyboardLayouts": ["US", " us "], "windows": [" Kate ", "Kate"],
+                "excludeWindows": ["Title: Foo"]
+            }}]
+        }));
+        let saved: Value = serde_json::from_str(&serialize(&preset)).unwrap();
+        assert_eq!(
+            saved["layers"][0]["keys"],
+            json!({"KeyH": "ArrowLeft", "KeyJ": "ControlLeft", "KeyK": "Ctrl+ShiftLeft"})
+        );
+        assert_eq!(saved["layers"][0]["extraKeyOrder"], json!(["F13"]));
+        assert_eq!(
+            saved["rules"][0]["when"],
+            json!({"keyboardLayouts": ["us"], "windows": ["Kate"], "excludeWindows": ["title:Foo"]})
+        );
+        assert_eq!(round_trip(&preset), preset);
+    }
+
+    #[test]
+    fn ambiguous_or_empty_values_are_errors() {
+        for body in [
+            json!({"layers": [{"id": "a", "keys": {"KeyH": "KeyA", "keyh": "KeyB"}}]}),
+            json!({"layers": [{"id": "a", "extraKeyOrder": ["F13", "f13"]}]}),
+            json!({"layers": [{"id": "a", "name": ""}]}),
+            json!({"layers": [{"id": "a", "description": " "}]}),
+            json!({"meta": {"name": ""}}),
+            json!({"commands": [{"id": "c", "sh": ""}]}),
+            json!({"commands": [{"id": "c", "workingDirectory": ""}]}),
+            json!({"quickMenuPages": [{"name": ""}]}),
+            json!({"quickMenuPages": [{"cells": {"KeyQ": {"name": "", "action": "KeyA"}}}]}),
+            json!({"rules": [{"key": "KeyA", "hold": {"layer": ""}}]}),
+            json!({"rules": [{"key": "KeyA", "hold": {"action": "KeyB", "retroTapMs": 5}}]}),
+            json!({"rules": [{"key": "KeyA", "hold": {"retroTapMs": 5}}]}),
+        ] {
+            assert!(parse(&keymap(body.clone())).is_err(), "accepted {body}");
+        }
+        // The old prefix is an unknown action type, not an alias.
+        assert_eq!(
+            super::super::actions::Action::parse(Some("tecloid:showSettings")),
+            super::super::actions::Action::Unknown("tecloid:showSettings".into())
+        );
+    }
+
+    #[test]
+    fn writer_leaves_out_what_the_reader_rejects() {
+        let mut preset = parsed(json!({
+            "layers": [{"id": "a"}],
+            "rules": [{"key": "KeyA", "hold": {"layer": "a", "retroTapMs": 5}}],
+            "commands": [{"id": "c", "sh": "true"}]
+        }));
+        preset.layers[0].name = String::new();
+        preset.layers[0].description = Some(" ".into());
+        preset.rules[0].layer_id = String::new();
+        preset.rules[0].hold_action = Some("KeyB".into());
+        preset.commands[0].name = String::new();
+        preset.commands[0].powershell_script = " ".into();
+        preset.commands[0].working_directory = Some(String::new());
+        preset.meta = Some(super::super::model::KeymapMetadata {
+            name: Some(String::new()),
+            ..Default::default()
+        });
+        let saved = serialize(&preset);
+        let reloaded = parse(&saved).unwrap().unwrap();
+        assert_eq!(reloaded.layers[0].name, "a");
+        assert_eq!(reloaded.rules[0].retro_tap_ms, None);
+        assert!(!saved.contains("powershell") && !saved.contains("meta"));
     }
 
     #[test]

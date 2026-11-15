@@ -344,7 +344,7 @@ fn hidden_features_cannot_be_typed_outside_development_mode() {
     ] {
         assert!(!filter.admits(value), "{value}");
     }
-    assert!(filter.admits("tecloid:showQuickMenu"));
+    assert!(filter.admits("app:showQuickMenu"));
     assert!(filter.admits("macro:kept"));
     assert!(filter.admits("builtin:copyLineText"));
     let development = Filter {

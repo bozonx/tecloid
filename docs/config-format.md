@@ -21,6 +21,8 @@ part of version 1 under the same rules.
 
 ## Compatibility contract
 
+- Files are UTF-8 JSON; a leading byte order mark is accepted and not
+  written back.
 - Every file has a root `version` (format version, not content version; a
   keymap's own version is `meta.keymapVersion`). A file without `version` is
   rejected. A file with a newer `version` is rejected with a "created by a newer
@@ -48,20 +50,33 @@ part of version 1 under the same rules.
   macro timing means "inherit `settings.timing`", and is therefore not
   written. Input-affecting defaults still change only as a user-visible
   change in `CHANGELOG.md`.
-- Every value has one spelling. Key and shortcut actions are stored
-  canonically (see Actions); ids and prefixes are taken verbatim, without
-  trimming; numbers in ids have no sign or leading zero (`switchToDesktop3`,
+- Every value has one spelling. Key and shortcut actions, layer key codes
+  (`keyh` → `KeyH`) and conditions (see `when`) are stored canonically; a
+  layer key listed twice in two spellings is a load error. Ids, prefixes and
+  keymap references are taken verbatim, without trimming; optional text
+  fields (`name`, `description`, `meta.*`, `sh`, `powershell`,
+  `workingDirectory`) are missing rather than empty, an empty or blank string
+  is an error; numbers in ids have no sign or leading zero (`switchToDesktop3`,
   not `switchToDesktop03`). `null` is accepted only where it means something
   (`tap`, `hold.action`, a layer key, `keymap` of an auto rule,
   `auto.fallback`); elsewhere "none" is a missing field.
 - **Stored names are frozen.** Action prefixes, `sys:`, `app:` and
-  `builtin:` ids, key names and pattern prefixes are listed in
-  [`schemas/names.v1.txt`](../schemas/names.v1.txt); the test
-  `stored_names_are_never_removed` fails when one disappears. New names are
-  added to the list with `TECLOID_UPDATE_SCHEMAS=1`.
+  `builtin:` ids, key names, pattern prefixes and the keymap id prefix
+  `user:` are listed in [`schemas/names.v1.txt`](../schemas/names.v1.txt)
+  (test `stored_names_are_never_removed`); field names and enum values of
+  both formats in [`schemas/contract.v1.json`](../schemas/contract.v1.json)
+  (test `frozen_fields_and_enum_values_remain`); the steps of every
+  `builtin:` macro in
+  [`schemas/builtin-macros.v1.txt`](../schemas/builtin-macros.v1.txt) (test
+  `builtin_macro_steps_are_frozen`). These lists only grow: a missing line
+  fails the test. New entries are added with `TECLOID_UPDATE_SCHEMAS=1`.
 - Fixtures `crates/tecloid-core/fixtures/{config,keymap}.v1.json` use every
   field of version 1. They are never edited; `version_1_fixtures_keep_loading`
-  checks that they load without blocking diagnostics.
+  checks that they load without blocking diagnostics, and
+  `version_1_fixtures_save_unchanged` that they save exactly as
+  `*.v1.saved.json`. `config.v1.defaults.json` is what a new installation
+  writes on Linux (`config_defaults_are_frozen`): a diff there is a change of
+  defaults and needs a `CHANGELOG.md` entry.
 - Semantic problems (reference to a missing macro, unknown key in an action) do
   not block loading; diagnostics report them and the mapper refuses to start
   with blocking errors.
@@ -116,6 +131,10 @@ conditions must match; an empty object always matches.
 | `windows` | active-window patterns; any matches |
 | `excludeWindows` | patterns that block the condition; if the active window is unknown, the condition fails |
 
+List items are stored trimmed and without duplicates, keyboard layouts in
+lowercase and the title prefix as `title:` (`" US "` → `us`,
+`Title: Foo` → `title:Foo`); window patterns keep their case.
+
 A window pattern is an app id or a full process name, case-insensitive
 (`org.telegram.desktop`, `Game.exe`; `.exe` optional), with `*`/`?` wildcards,
 or `title:<text>` (title contains text). Any other prefix of two or more
@@ -151,7 +170,7 @@ An action is a string, parsed and built only through
 | user macro / built-in macro | `macro:myMacro`, `builtin:copyLineText` |
 | command | `cmd:<id>` |
 | system action | `sys:switchToDesktop2`, `sys:showDesktop` |
-| Tecloid action | `app:showQuickMenu1`, `app:toggleGameMode` |
+| Tecloid's own action | `app:showQuickMenu1`, `app:toggleGameMode` |
 | KDE global shortcut | `kde:kwin/Window Maximize` |
 | freedesktop application action (Linux) | `xdg:firefox/new-private-window` |
 | literal text | `text:Hello` |
@@ -169,15 +188,22 @@ diagnostics report it and the mapper does not start with it.
   `ControlLeft`-style spelling is accepted and stored canonically on load:
   catalog key names, modifiers in the order `Ctrl`, `Alt`, `Shift`, `Meta`,
   left modifiers by their generic name (`shiftleft+ctrl+keyv` →
-  `Ctrl+Shift+KeyV`). "Chord" means only several trigger keys pressed together
-  (`timing.chordMs`, array `key`).
+  `Ctrl+Shift+KeyV`). An action of modifiers only names the same keys in any
+  order, so they are sorted and the last one is written as a physical code:
+  `Ctrl` → `ControlLeft`, `Shift+ControlLeft` → `Ctrl+ShiftLeft`. Blanks
+  around the parts of a shortcut are dropped (`Ctrl + KeyC`). "Chord" means
+  only several trigger keys pressed together (`timing.chordMs`, array
+  `key`); an action with modifiers is a shortcut.
 - **Key names:** W3C `KeyboardEvent.code`, then Chromium names, then names based
   on Linux `KEY_*` (`WLAN`, `VideoPrevious`, …).
 - **Built-in macros** (`mapper/builtin_macros.rs`) start with a verb: `goTo…`,
   `select…`, `copy…`, `cut…`, `paste…`, `replace…WithClipboard`, `insert…`,
   `duplicate…`. `builtin:` and `macro:` namespaces are independent.
 - **`sys:`** ids follow the KDE Plasma names of the actions (Plasma is the
-  reference platform): `closeWindow`, `minimizeWindow`, `maximizeWindow`,
+  reference platform), and so does their meaning: an action does what the
+  Plasma action of that name does, toggling included (`maximizeWindow`,
+  `keepWindowAbove`, `showDesktop`, `showOverview` toggle there), and other
+  platforms reproduce it. The ids: `closeWindow`, `minimizeWindow`, `maximizeWindow`,
   `maximizeWindowVertically`, `keepWindowAbove`, `moveWindowToNextDesktop`,
   `moveWindowToPreviousDesktop`, `moveWindowToNextScreen`,
   `moveWindowToPreviousScreen`, `switchToNextDesktop`, `switchToPreviousDesktop`,
@@ -185,6 +211,9 @@ diagnostics report it and the mapper does not start with it.
   `lockSession`, and `switchToDesktopN`, `moveWindowToDesktopN`,
   `switchToKeyboardLayoutN` (N = 1…10). Several map to system toggles. Platform
   support: [platforms.md](platforms.md).
+- **`kde:<component>/<shortcut>`**: a kglobalaccel shortcut. The component
+  is the last segment of its D-Bus object path (`org_kde_powerdevil`, not
+  `org.kde.powerdevil`); the shortcut is its untranslated name.
 - **`xdg:<desktop-id>/<action>`**: desktop-id is the `.desktop` file name without
   extension (`kde4/foo.desktop` → `kde4-foo`), action is from `Actions=`.
   `DBusActivatable=true` apps get `org.freedesktop.Application.ActivateAction`,
@@ -273,14 +302,15 @@ Example with every field (the application writes all of them except
 | `devices.keyboards`, `devices.mice` | device paths; on Linux stable `/dev/input/by-id/…` or `by-path/…` links. At most one of each in this version (a longer list is a load error) | empty |
 | `timing.tapDecision` | `permissiveHold` or `holdOnOtherKeyPress` | `permissiveHold` |
 | `keymaps.mode` | `manual` (`manualKeymap`) or `auto` (first matching `auto.rules[]`, else `auto.fallback`) | `manual` |
-| `keymaps.order` | library order; numbers for `activateKeymapN`; unlisted keymaps follow | empty |
+| `keymaps.manualKeymap`, `keymaps.order[]`, `keymaps.auto.rules[].keymap`, `keymaps.auto.fallback` | keymap ids `user:<name>` with a valid library name; any other string is a load error, a missing keymap is a diagnostic | — |
+| `keymaps.order` | library order; numbers for `activateKeymapN`; unlisted keymaps follow; each id at most once | empty |
 | `keymaps.auto.rules[]` | `keymap` (required: id or `null` = native input), `enabled` (default `true`), `when` (missing = always) | — |
 | `keymaps.auto.fallback` | keymap id or `null` | `null` |
 | `commandsEnabled` | allow `cmd:` actions | `false` |
 | `gameMode.control` | `auto`, `on`, `off` | `auto` |
 | `gameMode.detectors` | per-source auto detection; each OS uses only its own | OS-dependent |
 | `gameMode.foregroundOnly` | launcher/Game Bar games count only while focused | `true` |
-| `gameMode.processes[]` | `name` pattern, `foregroundOnly` (default `true`), `exclude` (default `false`) | — |
+| `gameMode.processes[]` | `name` pattern (not blank, no `title:`: a process has no title), `foregroundOnly` (default `true`), `exclude` (default `false`) | — |
 | `linux.textMode` | `libeiWithClipboardFallback`, `libeiOnly`, `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` | `libeiWithClipboardFallback` |
 | `linux.copyOsd` | on-screen notice when Tecloid sends a copy shortcut | `false` |
 | `linux.pasteShortcut` | `Shift+Insert`, `Ctrl+KeyV`, `Ctrl+Shift+KeyV` (modifier order irrelevant) | `Ctrl+KeyV` |
@@ -349,7 +379,7 @@ Not persisted: open editor, current page, selected layer.
   | `enabled` | `false` keeps the rule inactive |
   | `tap` | action on tap; missing = the key itself, `null` = nothing |
   | `doubleTap` | `{ "action", "timeoutMs"? }` |
-  | `hold` | `layer` (active while held), `action` (held key/chord; missing = the key itself unless `layer` is set, `null` = nothing), `timeoutMs`, `retroTapMs` (late tap for a single-key layer trigger without `action`; missing = 2 × timeout, `0` = off) |
+  | `hold` | `layer` (active while held), `action` (held key/chord; missing = the key itself unless `layer` is set, `null` = nothing), `timeoutMs`, `retroTapMs` (late tap for a single-key layer trigger without `action`; only together with `layer`; missing = 2 × timeout, `0` = off) |
   | `longHold` | `{ "action", "timeoutMs"? }`; not combinable with `hold` |
   | `tapDecision` | overrides `timing.tapDecision`. Missing: `timing.tapDecision`, except for a single modifier key whose hold is the key itself or another plain modifier (`MetaLeft` held as `ControlLeft`), which uses `holdOnOtherKeyPress` so fast rolls such as Meta+C give Ctrl+C. This is part of the meaning of the field in version 1 |
 
@@ -364,10 +394,3 @@ Not persisted: open editor, current page, selected layer.
   A quick cell is an action string or `{ "name"?, "action" }`; an emoji cell is
   literal text. Emoji cells, macro steps and rule keys have no object form yet;
   one will be added the same way as for layer keys when needed.
-
-Application actions use `app:`; the legacy `tecloid:` prefix remains accepted.
-Whitespace around key chord components is trimmed (` KeyA ` becomes `KeyA`).
-Here “key chord” means a shortcut action; trigger chords describe physical triggers.
-In `kde:component/shortcut`, component is the D-Bus object-path segment
-(for example `org_kde_powerdevil`), not a dotted service name.
-JSON files may start with a UTF-8 BOM.

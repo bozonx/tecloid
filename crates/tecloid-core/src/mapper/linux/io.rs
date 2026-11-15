@@ -1265,8 +1265,8 @@ mod popup_hotkey_tests {
     #[test]
     fn popup_chord_never_emits_function_key_even_if_disabled_before_release() {
         for (key, action) in [
-            (KeyCode::KEY_F11, "tecloid:showEmojiMenuRecent"),
-            (KeyCode::KEY_F12, "tecloid:showQuickMenuRecent"),
+            (KeyCode::KEY_F11, "app:showEmojiMenuRecent"),
+            (KeyCode::KEY_F12, "app:showQuickMenuRecent"),
         ] {
             let mut hotkeys = PopupHotkeys::default();
             assert_eq!(hotkeys.event(KeyCode::KEY_LEFTCTRL, true, true), None);

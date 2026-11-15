@@ -798,7 +798,7 @@ mod tests {
                 SystemAction::Process(process) => format!("process:{}", process.program),
                 #[cfg(target_os = "windows")]
                 SystemAction::Windows(action) => format!("windows:{action:?}"),
-                SystemAction::AppEvent(event) => format!("tecloid:{event:?}"),
+                SystemAction::AppEvent(event) => format!("app:{event:?}"),
             };
             self.systems.push(label);
         }
@@ -1016,7 +1016,7 @@ mod tests {
             ]
         );
         assert_eq!(effects.texts, vec!["tail".to_string()]);
-        assert_eq!(effects.systems, vec!["tecloid:ShowSettings".to_string()]);
+        assert_eq!(effects.systems, vec!["app:ShowSettings".to_string()]);
         assert_eq!(
             effects.commands,
             vec!["cmd:sh:[\"-lc\", \"notify-send done\"]".to_string()]
@@ -1190,7 +1190,7 @@ mod tests {
         ));
         iterate!(&mut hold, start, vec![popup, key_a(true)]);
         let wait = iterate!(&mut hold, start, vec![key_a(false)]);
-        assert_eq!(effects.systems, vec!["tecloid:ShowMenu { menu: Quick, page: Some(1) }"]);
+        assert_eq!(effects.systems, vec!["app:ShowMenu { menu: Quick, page: Some(1) }"]);
         assert!(sink.batches.is_empty(), "keys wait for the popup");
         assert_eq!(wait, Duration::from_millis(100));
 

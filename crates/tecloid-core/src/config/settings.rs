@@ -408,16 +408,49 @@ fn yes() -> bool {
     true
 }
 
-fn non_empty(value: Option<String>) -> Option<String> {
-    value.filter(|value| !value.trim().is_empty())
+/// A keymap reference: `null` or `user:<name>` with a valid library name
+/// in its stored spelling. Other prefixes are not keymap ids.
+fn keymap_ref(value: Option<String>, what: &str) -> Result<Option<String>, String> {
+    let Some(id) = value else {
+        return Ok(None);
+    };
+    let valid = super::model::user_keymap_name(&id)
+        .is_some_and(|name| crate::storage::validate_keymap_name(name).as_deref() == Ok(name));
+    if valid {
+        Ok(Some(id))
+    } else {
+        Err(format!(
+            "{what}: {id:?} is not a keymap id (expected \"user:<keymap name>\")"
+        ))
+    }
 }
 
-/// A keymap reference: a keymap id or `null`, never an empty string.
-fn keymap_ref(value: Option<String>, what: &str) -> Result<Option<String>, String> {
-    match value {
-        Some(id) if id.trim().is_empty() => Err(format!("{what}: keymap id must not be empty")),
-        value => Ok(value),
+/// `settings.keymaps.order`: keymap ids, each listed once.
+fn keymap_order(order: Vec<String>) -> Result<Vec<String>, String> {
+    let mut out: Vec<String> = Vec::with_capacity(order.len());
+    for (index, id) in order.into_iter().enumerate() {
+        let what = format!("settings.keymaps.order[{index}]");
+        let id = keymap_ref(Some(id), &what)?.unwrap_or_default();
+        if out.contains(&id) {
+            return Err(format!("{what}: {id:?} is listed twice"));
+        }
+        out.push(id);
     }
+    Ok(out)
+}
+
+/// A game-mode process pattern: an app or process name, not blank and
+/// not a window-title pattern (a process has no title).
+fn process_name(name: &str, index: usize) -> Result<String, String> {
+    let what = format!("settings.gameMode.processes[{index}].name");
+    let name = name.trim();
+    if name.is_empty() {
+        return Err(format!("{what}: must not be empty"));
+    }
+    if super::app_match::title_text(name).is_some() {
+        return Err(format!("{what}: a process has no window title"));
+    }
+    Ok(name.into())
 }
 
 pub fn validate(settings: &AppSettings) -> Result<(), String> {
@@ -482,8 +515,8 @@ fn from_doc(doc: ConfigDoc) -> Result<AppSettings, String> {
         input_mouse_device_path: mouse_device,
         editing_keymap_id: None,
         keymap_mode: keymaps.mode,
-        manual_keymap_id: non_empty(keymaps.manual_keymap),
-        keymap_order: keymaps.order,
+        manual_keymap_id: keymap_ref(keymaps.manual_keymap, "settings.keymaps.manualKeymap")?,
+        keymap_order: keymap_order(keymaps.order)?,
         auto_rules,
         auto_default_keymap_id: keymap_ref(
             keymaps.auto.fallback,
@@ -506,13 +539,15 @@ fn from_doc(doc: ConfigDoc) -> Result<AppSettings, String> {
                 .processes
                 .into_iter()
                 .enumerate()
-                .map(|(index, process)| GameModeProcessMatcher {
-                    id: format!("process-{}", index + 1),
-                    name: process.name.trim().into(),
-                    only_active_window: process.foreground_only,
-                    is_blacklist: process.exclude,
+                .map(|(index, process)| {
+                    Ok(GameModeProcessMatcher {
+                        id: format!("process-{}", index + 1),
+                        name: process_name(&process.name, index)?,
+                        only_active_window: process.foreground_only,
+                        is_blacklist: process.exclude,
+                    })
                 })
-                .collect(),
+                .collect::<Result<_, String>>()?,
             control: settings.game_mode.control,
         },
         linux_wayland_text_mode: settings.linux.text_mode,
@@ -560,7 +595,13 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
             keymaps: KeymapsDoc {
                 mode: settings.keymap_mode,
                 manual_keymap: filled(&settings.manual_keymap_id),
-                order: settings.keymap_order.clone(),
+                order: settings
+                    .keymap_order
+                    .iter()
+                    .enumerate()
+                    .filter(|(index, id)| !settings.keymap_order[..*index].contains(id))
+                    .map(|(_, id)| id.clone())
+                    .collect(),
                 auto: AutoDoc {
                     rules: settings
                         .auto_rules
@@ -589,10 +630,15 @@ fn to_doc(settings: &AppSettings) -> ConfigDoc {
                     game_bar: game_mode.use_game_bar,
                 },
                 foreground_only: game_mode.foreground_only,
+                // Entries the reader rejects (a blank name the editor holds
+                // transiently, a title pattern) are left out, so the file
+                // loads again.
                 processes: game_mode
                     .process_matchers
                     .iter()
-                    .map(|process| ProcessDoc {
+                    .enumerate()
+                    .filter(|(index, process)| process_name(&process.name, *index).is_ok())
+                    .map(|(_, process)| ProcessDoc {
                         name: process.name.clone(),
                         foreground_only: process.only_active_window,
                         exclude: process.is_blacklist,
@@ -838,6 +884,14 @@ mod tests {
             json!({"devices": {"keyboards": ["/dev/a", "/dev/b"]}}),
             json!({"devices": {"mice": [""]}}),
             json!({"devices": {"tablets": []}}),
+            json!({"keymaps": {"manualKeymap": "Main"}}),
+            json!({"keymaps": {"manualKeymap": "user:"}}),
+            json!({"keymaps": {"manualKeymap": "user: Main"}}),
+            json!({"keymaps": {"order": ["user:A", "user:A"]}}),
+            json!({"keymaps": {"order": ["bundled:x"]}}),
+            json!({"keymaps": {"auto": {"fallback": "user:a/b"}}}),
+            json!({"gameMode": {"processes": [{"name": " "}]}}),
+            json!({"gameMode": {"processes": [{"name": "title:Steam"}]}}),
         ] {
             assert!(
                 parse(&config(settings.clone())).is_err(),

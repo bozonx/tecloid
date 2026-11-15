@@ -512,9 +512,13 @@ pub(super) fn apply(
     let swallow = picker.get_behavior() == PickerBehavior::Swallow;
     let value = if picker.get_behavior() == PickerBehavior::Action {
         let value = picker.get_value();
-        tecloid_core::config::key_catalog::normalize_chord(&value)
-            .map(Into::into)
-            .unwrap_or(value)
+        // A trigger keeps its sided keys: `ShiftLeft` there is not `Shift`.
+        let normalized = if picker.get_trigger_chords() {
+            tecloid_core::config::key_catalog::normalize_trigger(&value)
+        } else {
+            tecloid_core::config::key_catalog::normalize_chord(&value)
+        };
+        normalized.map(Into::into).unwrap_or(value)
     } else {
         "".into()
     };

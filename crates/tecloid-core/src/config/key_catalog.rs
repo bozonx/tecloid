@@ -330,13 +330,21 @@ pub fn normalize_chord(value: &str) -> Option<String> {
         .split('+')
         .map(|part| canonical_key(part.trim()))
         .collect::<Option<Vec<_>>>()?;
-    let key = keys.pop()?;
     let rank = |modifier: &str| {
         MODIFIER_ORDER
             .iter()
             .position(|name| modifier_name(modifier).unwrap_or(modifier) == *name)
             .unwrap_or(MODIFIER_ORDER.len())
     };
+    // Only modifiers (`Ctrl`, `Shift+ControlLeft`): the same keys in any
+    // order, so the last one in modifier order is the key, spelled as a
+    // physical code (`Ctrl` → `ControlLeft`, `Shift+ControlLeft` →
+    // `Ctrl+ShiftLeft`).
+    if keys.iter().all(|key| modifier_key(key).is_some()) {
+        keys.sort_by_key(|modifier| rank(modifier));
+    }
+    let key = keys.pop()?;
+    let key = modifier_key(key).unwrap_or(key);
     for modifier in &mut keys {
         *modifier = match *modifier {
             "ControlLeft" => "Ctrl",
@@ -349,6 +357,19 @@ pub fn normalize_chord(value: &str) -> Option<String> {
     keys.sort_by_key(|modifier| rank(modifier));
     keys.push(key);
     Some(keys.join("+"))
+}
+
+/// Canonical spelling of a rule trigger: each key in its catalog spelling,
+/// in the given order, sided and side-neutral names kept as written
+/// (`shiftleft+ctrl` → `ShiftLeft+Ctrl`). Unlike [`normalize_chord`] it never
+/// turns `ShiftLeft` into `Shift`, which in a trigger means either side.
+/// `None` when a part is not a key name.
+pub fn normalize_trigger(value: &str) -> Option<String> {
+    value
+        .split('+')
+        .map(|part| canonical_key(part.trim()))
+        .collect::<Option<Vec<_>>>()
+        .map(|keys| keys.join("+"))
 }
 
 pub fn valid_key(value: &str) -> bool {
@@ -474,6 +495,35 @@ mod tests {
             normalize_chord("ControlLeft").as_deref(),
             Some("ControlLeft")
         );
+    }
+
+    #[test]
+    fn triggers_keep_their_sides_and_order() {
+        assert_eq!(
+            normalize_trigger("shiftleft + controlright").as_deref(),
+            Some("ShiftLeft+ControlRight")
+        );
+        assert_eq!(normalize_trigger("ctrl+keya").as_deref(), Some("Ctrl+KeyA"));
+        assert_eq!(normalize_trigger("Nope"), None);
+    }
+
+    #[test]
+    fn modifier_only_chords_have_one_spelling() {
+        for (value, canonical) in [
+            ("Ctrl", "ControlLeft"),
+            ("controlleft", "ControlLeft"),
+            ("ShiftRight", "ShiftRight"),
+            ("Shift+ControlLeft", "Ctrl+ShiftLeft"),
+            ("Ctrl+ShiftLeft", "Ctrl+ShiftLeft"),
+            ("ShiftLeft+Ctrl", "Ctrl+ShiftLeft"),
+            ("Meta+AltRight", "AltRight+MetaLeft"),
+        ] {
+            assert_eq!(
+                normalize_chord(value).as_deref(),
+                Some(canonical),
+                "{value}"
+            );
+        }
     }
 
     #[test]

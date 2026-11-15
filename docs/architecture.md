@@ -183,7 +183,7 @@ px margin; `TECLOID_OUTPUT` picks the monitor. Spell lifecycle patches are in
 
 Popups open from Ctrl+Alt+F11 (Emoji) / Ctrl+Alt+F12 (Quick) via evdev
 listeners (devices are not grabbed; disable with `TECLOID_HOTKEYS=off`), from the
-tray, IPC (`show emoji|quick`) and `tecloid:` actions. Cells are chosen by the
+tray, IPC (`show emoji|quick`) and `app:` actions. Cells are chosen by the
 grid letters independent of layout; Tab/PgDn and Shift+Tab/PgUp switch pages,
 digits jump to a page, Escape closes, focus loss hides. The chosen action runs in
 the mapper after the popup has returned focus. Built-in hotkeys are suppressed

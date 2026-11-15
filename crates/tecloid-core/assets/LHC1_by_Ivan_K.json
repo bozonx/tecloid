@@ -23,7 +23,7 @@
         "KeyO": "End",
         "KeyP": "builtin:goTo5LinesUp",
         "BracketLeft": null,
-        "KeyA": "tecloid:showEmojiMenu1",
+        "KeyA": "app:showEmojiMenu1",
         "KeyS": "builtin:duplicateLine",
         "KeyD": "Ctrl+KeyD",
         "KeyF": "builtin:copyLineText",
@@ -262,7 +262,7 @@
     },
     {
       "key": "MetaLeft",
-      "tap": "tecloid:showQuickMenu1",
+      "tap": "app:showQuickMenu1",
       "hold": {
         "action": "ControlLeft",
         "timeoutMs": 350

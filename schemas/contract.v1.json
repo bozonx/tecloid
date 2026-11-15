@@ -1,10 +1,10 @@
 {
-  "config/$defs/AccessibilityChoice/enum": [
+  "config/$defs/AccessibilityChoice": [
     "system",
     "on",
     "off"
   ],
-  "config/$defs/Appearance/enum": [
+  "config/$defs/Appearance": [
     "system",
     "light",
     "dark",
@@ -34,11 +34,11 @@
     "keyboards",
     "mice"
   ],
-  "config/$defs/GameModeCondition/enum": [
+  "config/$defs/GameModeCondition": [
     "on",
     "off"
   ],
-  "config/$defs/GameModeControl/enum": [
+  "config/$defs/GameModeControl": [
     "auto",
     "on",
     "off"
@@ -57,7 +57,7 @@
     "locale",
     "reduceMotion"
   ],
-  "config/$defs/KeymapMode/enum": [
+  "config/$defs/KeymapMode": [
     "manual",
     "auto"
   ],
@@ -75,7 +75,7 @@
     "xdotoolPath",
     "ydotoolPath"
   ],
-  "config/$defs/LocalePreference/enum": [
+  "config/$defs/LocalePreference": [
     "auto",
     "en",
     "ru",
@@ -99,7 +99,7 @@
     "ja",
     "ko"
   ],
-  "config/$defs/PasteShortcut/enum": [
+  "config/$defs/PasteShortcut": [
     "Shift+Insert",
     "Ctrl+KeyV",
     "Ctrl+Shift+KeyV"
@@ -121,15 +121,23 @@
     "startMapperOnLaunch",
     "timing"
   ],
-  "config/$defs/TerminalPasteShortcut/enum": [
+  "config/$defs/TapDecision": [
+    "permissiveHold",
+    "holdOnOtherKeyPress"
+  ],
+  "config/$defs/TerminalPasteShortcut": [
     "Shift+Insert",
     "Ctrl+KeyV",
     "Ctrl+Shift+KeyV",
     "sameAsPaste"
   ],
-  "config/$defs/TextMode/oneOf/0/enum": [
+  "config/$defs/TextMode": [
     "ydotool",
-    "xdotool"
+    "xdotool",
+    "libeiWithClipboardFallback",
+    "libeiOnly",
+    "portalKeycode",
+    "clipboardPaste"
   ],
   "config/$defs/TimingDoc/properties": [
     "chordMs",
@@ -159,7 +167,7 @@
     "sh",
     "workingDirectory"
   ],
-  "keymap/$defs/GameModeCondition/enum": [
+  "keymap/$defs/GameModeCondition": [
     "on",
     "off"
   ],
@@ -207,6 +215,10 @@
     "tapDecision",
     "when"
   ],
+  "keymap/$defs/TapDecision": [
+    "permissiveHold",
+    "holdOnOtherKeyPress"
+  ],
   "keymap/$defs/TimedActionDoc/properties": [
     "action",
     "timeoutMs"
@@ -232,7 +244,7 @@
     "cells",
     "name"
   ],
-  "keymap/properties/emojiMenuPages/items/properties/cells/propertyNames/enum": [
+  "keymap/properties/emojiMenuPages/items/properties/cells/propertyNames": [
     "KeyQ",
     "KeyW",
     "KeyE",
@@ -253,7 +265,7 @@
     "cells",
     "name"
   ],
-  "keymap/properties/quickMenuPages/items/properties/cells/propertyNames/enum": [
+  "keymap/properties/quickMenuPages/items/properties/cells/propertyNames": [
     "KeyQ",
     "KeyW",
     "KeyE",

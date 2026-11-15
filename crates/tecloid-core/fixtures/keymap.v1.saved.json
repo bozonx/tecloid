@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "$schema": "https://raw.githubusercontent.com/bozonx/tecloid/main/schemas/keymap.v1.schema.json",
+  "meta": {
+    "name": "Main",
+    "author": "Fixture",
+    "keymapVersion": "1.0",
+    "description": "Every feature of format 1"
+  },
+  "layers": [
+    {
+      "id": "nav",
+      "name": "Navigation",
+      "description": "Arrows",
+      "extraKeyOrder": [
+        "F13"
+      ],
+      "keys": {
+        "KeyQ": null,
+        "KeyW": "macro:copyLine",
+        "KeyE": "cmd:music",
+        "KeyR": "sys:switchToDesktop2",
+        "KeyT": "app:showQuickMenu1",
+        "KeyY": "kde:kwin/Window Maximize",
+        "KeyU": "xdg:org.mozilla.firefox/new-private-window",
+        "KeyI": "text:Hello, world",
+        "KeyH": "ArrowLeft",
+        "KeyJ": "Ctrl+Shift+ArrowDown",
+        "F13": "builtin:copyLineText"
+      }
+    },
+    {
+      "id": "desktop",
+      "keys": {
+        "Tab": {
+          "action": "Alt+Tab",
+          "holdModifiers": true
+        },
+        "KeyA": "sys:keepWindowAbove"
+      }
+    }
+  ],
+  "rules": [
+    {
+      "key": "CapsLock",
+      "tap": "Escape",
+      "hold": {
+        "layer": "nav",
+        "timeoutMs": 180,
+        "retroTapMs": 0
+      }
+    },
+    {
+      "key": "AltLeft",
+      "tap": "Enter",
+      "hold": {
+        "layer": "desktop",
+        "action": "AltLeft"
+      }
+    },
+    {
+      "key": "MetaLeft",
+      "tap": "Escape",
+      "hold": {
+        "action": "ControlLeft"
+      },
+      "tapDecision": "permissiveHold"
+    },
+    {
+      "key": "ShiftLeft",
+      "tap": "Ctrl+KeyC",
+      "doubleTap": {
+        "action": "Ctrl+KeyX",
+        "timeoutMs": 250
+      }
+    },
+    {
+      "key": [
+        "ShiftLeft",
+        "ControlRight"
+      ],
+      "longHold": {
+        "action": "sys:turnOffScreen",
+        "timeoutMs": 1500
+      }
+    },
+    {
+      "key": "Space",
+      "enabled": false,
+      "when": {
+        "gameMode": "off",
+        "keyboardLayouts": [
+          "us"
+        ],
+        "windows": [
+          "code"
+        ],
+        "excludeWindows": [
+          "title:secret"
+        ]
+      },
+      "tap": null,
+      "hold": {
+        "action": null
+      }
+    },
+    {
+      "key": "Shift",
+      "tap": "app:toggleGameMode"
+    }
+  ],
+  "macros": [
+    {
+      "id": "copyLine",
+      "name": "Copy line",
+      "stepPauseMs": 10,
+      "modifierDelayMs": 0,
+      "steps": [
+        "Home",
+        "Shift+End",
+        "pause:50",
+        "Ctrl+KeyC"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "id": "music",
+      "name": "Play/pause",
+      "sh": "playerctl play-pause",
+      "powershell": "Write-Output x",
+      "workingDirectory": "~"
+    }
+  ],
+  "quickMenuPages": [
+    {
+      "name": "System",
+      "cells": {
+        "KeyQ": {
+          "name": "Lock",
+          "action": "sys:lockSession"
+        },
+        "KeyW": "sys:showDesktop",
+        "KeyB": "app:activateKeymap2"
+      }
+    },
+    {
+      "cells": {}
+    }
+  ],
+  "emojiMenuPages": [
+    {
+      "name": "Faces",
+      "cells": {
+        "KeyQ": "😀",
+        "KeyB": "👍"
+      }
+    }
+  ]
+}

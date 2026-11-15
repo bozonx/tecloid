@@ -99,6 +99,27 @@ pub fn backup_path(path: &std::path::Path, version: u64) -> std::path::PathBuf {
     path.with_file_name(name)
 }
 
+/// An optional text field: absent, or a string that is not blank. `null`
+/// and `""` are errors, so "no value" has one spelling: a missing field.
+pub(crate) fn text<'de, D: serde::Deserializer<'de>>(
+    deserializer: D,
+) -> Result<Option<String>, D::Error> {
+    filled(deserializer).map(Some)
+}
+
+/// A text field with a default: when present, it is not blank.
+pub(crate) fn filled<'de, D: serde::Deserializer<'de>>(
+    deserializer: D,
+) -> Result<String, D::Error> {
+    let value = <String as serde::Deserialize>::deserialize(deserializer)?;
+    if value.trim().is_empty() {
+        return Err(serde::de::Error::custom(
+            "text must not be empty; omit the field instead",
+        ));
+    }
+    Ok(value)
+}
+
 /// Read an optional field whose absence is allowed but explicit null is not.
 pub(crate) fn non_null<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
@@ -184,13 +205,12 @@ mod tests {
 
     /// Every name a user file may store besides field names and enum values
     /// (those are covered by the published schemas): action prefixes, `sys:`,
-    /// `tecloid:` and `builtin:` ids, key names and trigger modifiers.
+    /// `app:` and `builtin:` ids, key names and trigger modifiers.
     fn stored_names() -> Vec<String> {
         use super::super::{actions, key_catalog};
         let mut names = Vec::new();
         for prefix in [
-            "app:", "macro:", "builtin:", "cmd:", "sys:", "tecloid:", "kde:", "xdg:", "text:",
-            "pause:",
+            "app:", "macro:", "builtin:", "cmd:", "sys:", "kde:", "xdg:", "text:", "pause:",
         ] {
             let parsed = actions::Action::parse(Some(&format!("{prefix}1")));
             assert!(
@@ -208,7 +228,7 @@ mod tests {
         {
             let action = entry.action.format().unwrap_or_default();
             if let Some(id) = action.strip_prefix("app:") {
-                names.push(format!("action tecloid:{id}"));
+                names.push(format!("action app:{id}"));
             }
             names.push(format!("action {action}"));
         }
@@ -222,6 +242,10 @@ mod tests {
             names.push(format!("trigger {modifier}"));
         }
         names.push("window title:".into());
+        names.push(format!(
+            "keymap {}",
+            super::super::model::USER_KEYMAP_PREFIX
+        ));
         names.sort();
         names
     }
@@ -279,32 +303,168 @@ mod tests {
         assert!(blocking.is_empty(), "{blocking:?}");
     }
 
+    /// Compare `text` with the committed file at `path`; with
+    /// `TECLOID_UPDATE_SCHEMAS=1` write it first.
+    fn snapshot(path: &Path, text: &str) {
+        if std::env::var_os("TECLOID_UPDATE_SCHEMAS").is_some() {
+            std::fs::write(path, text).unwrap();
+        }
+        assert!(
+            std::fs::read_to_string(path).unwrap_or_default() == text,
+            "{} is out of date; review the change, then regenerate it with TECLOID_UPDATE_SCHEMAS=1",
+            path.display()
+        );
+    }
+
+    /// What a `builtin:` macro does is part of its stored id: its steps are
+    /// never changed and no macro is removed. A new macro adds a line.
     #[test]
-    fn frozen_fields_and_enum_values_remain() {
-        let baseline: serde_json::Value =
-            serde_json::from_str(include_str!("../../../../schemas/contract.v1.json")).unwrap();
-        let schemas = [
-            ("config", super::super::settings::json_schema().to_value()),
-            (
-                "keymap",
-                super::super::keymap_file::json_schema().to_value(),
-            ),
-        ];
-        for (path, expected) in baseline.as_object().unwrap() {
-            let (name, pointer) = path.split_once('/').unwrap();
-            let schema = &schemas.iter().find(|(n, _)| *n == name).unwrap().1;
-            let actual = schema.pointer(&format!("/{pointer}")).expect(path);
-            for value in expected.as_array().unwrap() {
-                assert!(
-                    if pointer.ends_with("/properties") {
-                        actual.get(value.as_str().unwrap()).is_some()
-                    } else {
-                        actual.as_array().unwrap().contains(value)
-                    },
-                    "removed stored value {value} at {path}"
-                );
+    fn builtin_macro_steps_are_frozen() {
+        let path =
+            Path::new(env!("CARGO_MANIFEST_DIR")).join("../../schemas/builtin-macros.v1.txt");
+        let mut lines: Vec<String> = crate::mapper::builtin_macros::BUILTIN_MACROS
+            .iter()
+            .map(|item| format!("{}: {}", item.id, item.steps.join(" | ")))
+            .collect();
+        lines.sort();
+        let published = std::fs::read_to_string(&path).unwrap_or_default();
+        let changed: Vec<_> = published
+            .lines()
+            .filter(|line| !line.is_empty() && !lines.iter().any(|current| current == line))
+            .collect();
+        assert!(
+            changed.is_empty(),
+            "built-in macros stored in user keymaps were changed or removed: {changed:?}"
+        );
+        snapshot(&path, &(lines.join("\n") + "\n"));
+    }
+
+    /// The fixtures saved again: every value in its stored spelling. A diff
+    /// here means a version 1 file now reads or writes differently.
+    #[test]
+    fn version_1_fixtures_save_unchanged() {
+        let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("fixtures");
+        let config = std::fs::read_to_string(dir.join("config.v1.json")).unwrap();
+        let config = super::super::settings::parse(&config).unwrap();
+        snapshot(
+            &dir.join("config.v1.saved.json"),
+            &(super::super::settings::serialize(&config) + "\n"),
+        );
+        let keymap = std::fs::read_to_string(dir.join("keymap.v1.json")).unwrap();
+        let keymap = super::super::keymap_file::parse(&keymap).unwrap().unwrap();
+        snapshot(
+            &dir.join("keymap.v1.saved.json"),
+            &(super::super::keymap_file::serialize(&keymap) + "\n"),
+        );
+    }
+
+    /// Defaults are written into every new `config.json`, and input
+    /// defaults change only as a documented behaviour change. Game-mode
+    /// detectors differ per OS, so the snapshot is the Linux one.
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn config_defaults_are_frozen() {
+        let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("fixtures");
+        let defaults = super::super::settings::parse(r#"{"version": 1}"#).unwrap();
+        snapshot(
+            &dir.join("config.v1.defaults.json"),
+            &(super::super::settings::serialize(&defaults) + "\n"),
+        );
+    }
+
+    /// Field names and enum values of both formats, keyed by the JSON
+    /// pointer of their object or enum in the schema (`config/$defs/TextMode`).
+    fn stored_fields_and_values() -> serde_json::Map<String, serde_json::Value> {
+        use serde_json::Value;
+        /// Enum values of a node: `enum` lists and `const`s under `oneOf` /
+        /// `anyOf` (documented variants are written as `const`).
+        fn values(node: &Value, out: &mut Vec<Value>) {
+            if let Some(list) = node.get("enum").and_then(Value::as_array) {
+                out.extend(list.iter().cloned());
+            }
+            if let Some(value) = node.get("const") {
+                out.push(value.clone());
+            }
+            for key in ["oneOf", "anyOf"] {
+                for item in node
+                    .get(key)
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                {
+                    values(item, out);
+                }
             }
         }
+        fn walk(node: &Value, path: &str, out: &mut serde_json::Map<String, Value>) {
+            let Some(object) = node.as_object() else {
+                return;
+            };
+            if let Some(properties) = object.get("properties").and_then(Value::as_object) {
+                let mut names: Vec<_> = properties.keys().cloned().collect();
+                names.sort();
+                out.insert(format!("{path}/properties"), names.into());
+                for (name, property) in properties {
+                    walk(property, &format!("{path}/properties/{name}"), out);
+                }
+            }
+            let mut found = Vec::new();
+            values(node, &mut found);
+            if !found.is_empty() && !path.ends_with("$schema") && !path.ends_with("/version") {
+                out.insert(path.to_owned(), found.into());
+            }
+            for key in ["items", "propertyNames"] {
+                if let Some(child) = object.get(key) {
+                    walk(child, &format!("{path}/{key}"), out);
+                }
+            }
+            if let Some(defs) = object.get("$defs").and_then(Value::as_object) {
+                for (name, def) in defs {
+                    walk(def, &format!("{path}/$defs/{name}"), out);
+                }
+            }
+        }
+        let mut out = serde_json::Map::new();
+        walk(
+            &super::super::settings::json_schema().to_value(),
+            "config",
+            &mut out,
+        );
+        walk(
+            &super::super::keymap_file::json_schema().to_value(),
+            "keymap",
+            &mut out,
+        );
+        out
+    }
+
+    /// Field names and enum values in user files are data: a released one
+    /// is never renamed or removed. Adding one updates `contract.v1.json`
+    /// (run with `TECLOID_UPDATE_SCHEMAS=1`).
+    #[test]
+    fn frozen_fields_and_enum_values_remain() {
+        let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../schemas/contract.v1.json");
+        let current = stored_fields_and_values();
+        let published: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&path).unwrap_or_default())
+                .unwrap_or_default();
+        let mut removed = Vec::new();
+        for (pointer, expected) in published.as_object().into_iter().flatten() {
+            let actual = current.get(pointer).and_then(|v| v.as_array());
+            for value in expected.as_array().into_iter().flatten() {
+                if !actual.is_some_and(|actual| actual.contains(value)) {
+                    removed.push(format!("{pointer}: {value}"));
+                }
+            }
+        }
+        assert!(
+            removed.is_empty(),
+            "fields or enum values stored in user files were removed or renamed: {removed:?}"
+        );
+        snapshot(
+            &path,
+            &(serde_json::to_string_pretty(&serde_json::Value::Object(current)).unwrap() + "\n"),
+        );
     }
 
     #[test]

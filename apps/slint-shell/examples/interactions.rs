@@ -101,7 +101,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     settings.invoke_save();
     assert_eq!(settings.get_message().id, "");
     let loaded = ConfigDocument::load(paths.clone())?;
-    assert_eq!(loaded.settings(), document.read().settings());
+    // Compare the saved form: entries without a stored id (game-mode
+    // processes) get positional ids on load.
+    assert_eq!(
+        tecloid_core::config::settings::serialize(loaded.settings()),
+        tecloid_core::config::settings::serialize(document.read().settings())
+    );
     assert_eq!(loaded.settings().default_hold_timeout_ms, 310);
     assert_eq!(loaded.settings().trigger_chord_timeout_ms, 80);
     assert_eq!(loaded.settings().game_mode.process_matchers.len(), 1);

@@ -29,7 +29,7 @@ pub enum AppAction {
 }
 
 impl AppAction {
-    /// Decode a persisted `tecloid:` id. Wire/config spelling stays at this boundary.
+    /// Decode a persisted `app:` id. Wire/config spelling stays at this boundary.
     pub fn parse(id: &str) -> Option<Self> {
         let ActionName::App { id, n } = app_action_name(id)? else {
             return None;

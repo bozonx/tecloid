@@ -16,7 +16,7 @@
         "KeyW": "macro:copyLine",
         "KeyE": "cmd:music",
         "KeyR": "sys:switchToDesktop2",
-        "KeyT": "tecloid:showQuickMenu1",
+        "KeyT": "app:showQuickMenu1",
         "KeyY": "kde:kwin/Window Maximize",
         "KeyU": "xdg:org.mozilla.firefox/new-private-window",
         "KeyI": "text:Hello, world"
@@ -37,7 +37,7 @@
     { "key": "ShiftLeft", "tap": "Ctrl+KeyC", "doubleTap": { "action": "Ctrl+KeyX", "timeoutMs": 250 } },
     { "key": ["ShiftLeft", "ControlRight"], "longHold": { "action": "sys:turnOffScreen", "timeoutMs": 1500 } },
     { "key": "Space", "enabled": false, "when": { "gameMode": "off", "keyboardLayouts": ["us"], "windows": ["code"], "excludeWindows": ["title:secret"] }, "tap": null, "hold": { "action": null } },
-    { "key": "Shift", "tap": "tecloid:toggleGameMode" }
+    { "key": "Shift", "tap": "app:toggleGameMode" }
   ],
   "macros": [
     { "id": "copyLine", "name": "Copy line", "stepPauseMs": 10, "modifierDelayMs": 0, "steps": ["Home", "Shift+End", "pause:50", "Ctrl+KeyC"] }
@@ -46,7 +46,7 @@
     { "id": "music", "name": "Play/pause", "sh": "playerctl play-pause", "powershell": "Write-Output x", "workingDirectory": "~" }
   ],
   "quickMenuPages": [
-    { "name": "System", "cells": { "KeyQ": { "name": "Lock", "action": "sys:lockSession" }, "KeyW": "sys:showDesktop", "KeyB": { "action": "tecloid:activateKeymap2" } } },
+    { "name": "System", "cells": { "KeyQ": { "name": "Lock", "action": "sys:lockSession" }, "KeyW": "sys:showDesktop", "KeyB": { "action": "app:activateKeymap2" } } },
     {}
   ],
   "emojiMenuPages": [

@@ -238,7 +238,7 @@ macro_rules! on_pages {
     };
 }
 
-/// Each menu has at least one page: the editor and `tecloid:show*Menu1` need it.
+/// Each menu has at least one page: the editor and `app:show*Menu1` need it.
 pub fn ensure_pages(keymap: &mut KeymapPreset) {
     fn ensure<P: MenuPage>(pages: &mut Vec<P>) {
         if pages.is_empty() {
@@ -259,7 +259,7 @@ pub fn page_count(keymap: &KeymapPreset, kind: MenuKind) -> usize {
 /// Move a page and its cells together, preserving the order of other pages.
 /// Returns whether anything moved.
 ///
-/// `tecloid:showQuickMenuN` / `tecloid:showEmojiMenuN` open a page by position and
+/// `app:showQuickMenuN` / `app:showEmojiMenuN` open a page by position and
 /// are deliberately left as they are: moving a page changes what those keys
 /// open. See [`actions::MENU_PAGE_PICKER_COUNT`].
 pub fn reorder_page(keymap: &mut KeymapPreset, kind: MenuKind, from: usize, to: usize) -> bool {
@@ -287,7 +287,7 @@ pub fn selection_after_reorder(selected: usize, from: usize, to: usize) -> usize
     }
 }
 
-/// Remove a page; numbered `tecloid:` menu actions keep their numbers, so the
+/// Remove a page; numbered `app:` menu actions keep their numbers, so the
 /// following pages move into the freed positions. The only page is cleared
 /// instead (name and cells), keeping its id. Returns the page to select.
 pub fn remove_page(keymap: &mut KeymapPreset, kind: MenuKind, index: usize) -> usize {
@@ -683,7 +683,7 @@ mod tests {
             ..KeymapPreset::default()
         };
         let mut rule = KeyRule::new("r".into(), "KeyA");
-        rule.tap_action = Some("tecloid:showQuickMenu1".into());
+        rule.tap_action = Some("app:showQuickMenu1".into());
         keymap.rules.push(rule);
         reorder_page(&mut keymap, MenuKind::Quick, 0, 2);
         assert_eq!(keymap.quick_action_pages[0].id, "b");
@@ -691,7 +691,7 @@ mod tests {
         assert_eq!(keymap.quick_action_pages[0].id, "c");
         assert_eq!(
             keymap.rules[0].tap_action.as_deref(),
-            Some("tecloid:showQuickMenu1")
+            Some("app:showQuickMenu1")
         );
     }
 

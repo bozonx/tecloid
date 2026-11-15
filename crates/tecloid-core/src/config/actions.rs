@@ -1,5 +1,5 @@
 //! Action strings (`KeyA`, `Ctrl+KeyC`, `macro:id`, `builtin:id`, `cmd:id`, `sys:id`,
-//! `tecloid:id`, `kde:component/shortcut`, `xdg:app-id/action`, `text:…`,
+//! `app:id`, `kde:component/shortcut`, `xdg:app-id/action`, `text:…`,
 //! `pause:ms`) and the
 //! catalogs of built-in actions.
 
@@ -47,12 +47,11 @@ impl Action {
             return Self::Text(text.into());
         }
         type Constructor = fn(String) -> Action;
-        let prefixed: [(&str, Constructor); 9] = [
+        let prefixed: [(&str, Constructor); 8] = [
             ("macro:", Self::Macro),
             ("builtin:", Self::BuiltinMacro),
             ("cmd:", Self::Command),
             ("sys:", Self::System),
-            ("tecloid:", Self::App),
             ("app:", Self::App),
             ("kde:", Self::KdeShortcut),
             ("xdg:", Self::DesktopEntry),
@@ -280,7 +279,7 @@ pub fn app_action_name(id: &str) -> Option<ActionName> {
         })
 }
 
-/// Page of an `tecloid:` menu action, e.g. `showEmojiMenu2` → (Emoji, 2).
+/// Page of an `app:` menu action, e.g. `showEmojiMenu2` → (Emoji, 2).
 pub fn menu_page(app_id: &str) -> Option<(bool, u32)> {
     match app_action_name(app_id)? {
         ActionName::App {
@@ -528,7 +527,7 @@ mod tests {
             "builtin:copyLineText",
             "cmd:music",
             "sys:switchToDesktop2",
-            "tecloid:showQuickMenu1",
+            "app:showQuickMenu1",
             "kde:kwin/Window Quick Tile Top",
             "xdg:org.mozilla.firefox/new-private-window",
             "text:  keep spaces ",
@@ -747,9 +746,9 @@ mod tests {
         assert_eq!(check("xdg:konsole"), Some(ActionIssue::InvalidSyntax));
         assert_eq!(check("kde:ksmserver/Lock Session"), None);
         assert_eq!(check("kde:Lock Session"), Some(ActionIssue::InvalidSyntax));
-        assert_eq!(check("tecloid:showEmojiMenu42"), None);
+        assert_eq!(check("app:showEmojiMenu42"), None);
         assert_eq!(
-            check("tecloid:showEmojiMenu0"),
+            check("app:showEmojiMenu0"),
             Some(ActionIssue::UnknownAppAction)
         );
         assert_eq!(check("pause:10"), Some(ActionIssue::PauseOutsideMacro));

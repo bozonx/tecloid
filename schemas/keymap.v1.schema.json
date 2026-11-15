@@ -8,17 +8,21 @@
           "type": "string"
         },
         "name": {
+          "minLength": 1,
           "type": "string"
         },
         "powershell": {
           "description": "PowerShell script, run on Windows.",
+          "minLength": 1,
           "type": "string"
         },
         "sh": {
           "description": "POSIX `sh` script, run on Linux and macOS.",
+          "minLength": 1,
           "type": "string"
         },
         "workingDirectory": {
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -47,6 +51,7 @@
           ]
         },
         "layer": {
+          "minLength": 1,
           "type": "string"
         },
         "retroTapMs": {
@@ -69,6 +74,7 @@
       "additionalProperties": false,
       "properties": {
         "description": {
+          "minLength": 1,
           "type": "string"
         },
         "extraKeyOrder": {
@@ -90,6 +96,7 @@
           "type": "object"
         },
         "name": {
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -142,6 +149,7 @@
           "type": "integer"
         },
         "name": {
+          "minLength": 1,
           "type": "string"
         },
         "stepPauseMs": {
@@ -168,16 +176,20 @@
       "description": "Portable information about the keymap from its author. Every field is\noptional; `null` is not allowed.",
       "properties": {
         "author": {
+          "minLength": 1,
           "type": "string"
         },
         "description": {
+          "minLength": 1,
           "type": "string"
         },
         "keymapVersion": {
           "description": "The author's version of the keymap, unrelated to the format `version`.",
+          "minLength": 1,
           "type": "string"
         },
         "name": {
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -190,6 +202,7 @@
           "type": "string"
         },
         "name": {
+          "minLength": 1,
           "type": "string"
         }
       },
@@ -370,6 +383,7 @@
             "type": "object"
           },
           "name": {
+            "minLength": 1,
             "type": "string"
           }
         },
@@ -423,6 +437,7 @@
             "type": "object"
           },
           "name": {
+            "minLength": 1,
             "type": "string"
           }
         },

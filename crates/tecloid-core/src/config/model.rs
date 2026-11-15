@@ -418,7 +418,8 @@ impl GameModeCondition {
 
 impl KeymapConditionSet {
     /// The same conditions with list items trimmed, blank and duplicate
-    /// items dropped and keyboard layout codes lowercased, so the set
+    /// items dropped, keyboard layout codes lowercased and the `title:`
+    /// prefix in its one spelling, so the set
     /// behaves the same before and after a save/load round trip.
     pub fn normalized(mut self) -> Self {
         fn clean(items: &mut Vec<String>, lowercase: bool) {
@@ -427,6 +428,9 @@ impl KeymapConditionSet {
                 let item = item.trim();
                 let item = if lowercase {
                     item.to_lowercase()
+                } else if let Some(title) = super::app_match::title_text(item) {
+                    // `Title:` and `title: x` name the same pattern.
+                    super::app_match::title_pattern(title)
                 } else {
                     item.to_owned()
                 };

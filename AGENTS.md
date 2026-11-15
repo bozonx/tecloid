@@ -84,7 +84,7 @@ Full description: [`docs/architecture.md`](docs/architecture.md).
   CLI client over IPC. The mapper holds a cross-process lock.
 - **Popups.** `popup_model.rs` keeps winit and Spell behaviour identical.
 - **Action strings** (`Ctrl+KeyC`, `macro:`, `builtin:`, `cmd:`, `sys:`,
-  `tecloid:`, `kde:`, `xdg:`, `text:`, `pause:`, `null`, empty) are parsed and
+  `app:`, `kde:`, `xdg:`, `text:`, `pause:`, `null`, empty) are parsed and
   built only through `Action` in `tecloid_core::config::actions`.
 
 ### Where does a change go?
@@ -119,9 +119,11 @@ Current format versions: **`config.json` = 1, keymap = 1**
   add a reader arm converting them, publish a new schema, add a fixture test with
   a real old file. Storage keeps `<file>.v<N>.bak` before overwriting. No
   fallbacks for files without `version`.
-- **Action ids are data in user keymaps:** `sys:`, `tecloid:`, `builtin:` ids and
+- **Action ids are data in user keymaps:** `sys:`, `app:`, `builtin:` ids and
   key names are never renamed or removed; add new ones instead. They are
-  listed in `schemas/names.v1.txt` (test `stored_names_are_never_removed`);
+  listed in `schemas/names.v1.txt` (test `stored_names_are_never_removed`),
+  fields and enum values in `schemas/contract.v1.json`, built-in macro steps
+  in `schemas/builtin-macros.v1.txt`;
   the fixtures `crates/tecloid-core/fixtures/*.v1.json` are never edited.
 - `config.json` is written in full, defaults included.
 - **Defaults that affect input** (`settings.timing`, tap decision) change only as

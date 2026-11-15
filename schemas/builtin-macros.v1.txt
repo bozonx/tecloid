@@ -1,0 +1,29 @@
+copyLineText: Home | Shift+End | Ctrl+KeyC | Home
+copyToLineEnd: Shift+End | Ctrl+KeyC | End
+copyToLineStart: Shift+Home | Ctrl+KeyC | Home
+copyWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyC | ArrowLeft
+cutLine: Home | Shift+End | Ctrl+KeyX | Delete
+cutLineText: Home | Shift+End | Ctrl+KeyX
+cutToLineEnd: Shift+End | Ctrl+KeyX
+cutToLineStart: Shift+Home | Ctrl+KeyX
+cutWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyX
+duplicateLine: End | Shift+Home | Ctrl+KeyC | End | Enter | Ctrl+KeyV
+goTo5LinesDown: ArrowDown | ArrowDown | ArrowDown | ArrowDown | ArrowDown
+goTo5LinesUp: ArrowUp | ArrowUp | ArrowUp | ArrowUp | ArrowUp
+goToNextLineEnd: ArrowDown | End
+goToNextLineStart: ArrowDown | Home
+goToPreviousLineEnd: ArrowUp | End
+goToPreviousLineStart: ArrowUp | Home
+insertEmptyLineAbove: Home | Enter | ArrowUp
+insertEmptyLineBelow: End | Enter
+insertSpaceAfterNextChar: ArrowRight | Space
+pasteOnNewLineAbove: Home | Enter | ArrowUp | Ctrl+KeyV
+pasteOnNewLineBelow: End | Enter | Ctrl+KeyV
+replaceLineTextWithClipboard: Home | Shift+End | Ctrl+KeyV
+replaceToLineEndWithClipboard: Shift+End | Ctrl+KeyV
+replaceToLineStartWithClipboard: Shift+Home | Ctrl+KeyV
+replaceWordWithClipboard: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyV
+select5LinesDown: Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown
+select5LinesUp: Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp
+selectLineText: Home | Shift+End
+selectWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft
