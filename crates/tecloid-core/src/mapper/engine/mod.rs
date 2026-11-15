@@ -1153,7 +1153,7 @@ fn rule_passes_conditions(rule: &RuleEntry, ctx: &AutoSwitchContext) -> bool {
             .is_some_and(|keymaps| {
                 keymaps
                     .iter()
-                    .any(|keymap| keymap.trim().eq_ignore_ascii_case(current.trim()))
+                    .any(|keymap| crate::config::auto_switch::keyboard_layout_matches(keymap, current))
             })
         {
             return false;

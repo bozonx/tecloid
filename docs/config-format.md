@@ -138,7 +138,7 @@ conditions must match; an empty object always matches.
 | Field | Meaning |
 | --- | --- |
 | `gameMode` | `on` / `off` |
-| `keyboardLayouts` | short system layout ids; any matches. The id is what the OS reports: the XKB layout name on Linux (`us`, `de`; the variant is not compared, so `us` also matches US Dvorak), the language subtag on Windows (`en`, `ru`). A keymap using this condition is therefore tied to the kind of system it was made on |
+| `keyboardLayouts` | short system layout ids; any matches. The id is what the OS reports: the XKB layout name on Linux (`us`, `de`; the variant is not compared, so `us` also matches US Dvorak), the language subtag on Windows (`en`, `ru`). A keymap using this condition is therefore tied to the kind of system it was made on. Only plain ids `[a-z0-9_-]+` (any case) are compared; other spellings such as `us(dvorak)` or `lang:en` are reserved for later forms (layout variant, platform-neutral language) and match nothing |
 | `windows` | active-window patterns; any matches |
 | `excludeWindows` | patterns that block the condition; if the active window is unknown, the condition fails |
 

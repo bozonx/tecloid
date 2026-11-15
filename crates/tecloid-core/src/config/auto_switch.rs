@@ -33,6 +33,20 @@ impl AutoSwitchContext {
     }
 }
 
+/// Whether the stored layout id `item` names the system layout `current`
+/// (ASCII case-insensitive). Only plain ids `[a-z0-9_-]+` are compared: any
+/// other spelling, such as `us(dvorak)` or `lang:en`, is reserved for later
+/// forms (variant, platform-neutral language) and matches nothing, so giving
+/// it a meaning later does not change a working condition.
+pub fn keyboard_layout_matches(item: &str, current: &str) -> bool {
+    let item = item.trim();
+    !item.is_empty()
+        && item
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'_' || b == b'-')
+        && item.eq_ignore_ascii_case(current.trim())
+}
+
 pub fn matches_condition_set(set: &KeymapConditionSet, ctx: &AutoSwitchContext) -> bool {
     if set
         .game_mode
@@ -44,7 +58,7 @@ pub fn matches_condition_set(set: &KeymapConditionSet, ctx: &AutoSwitchContext) 
         && !ctx.system_layout.as_ref().is_some_and(|layout| {
             set.keyboard_layouts
                 .iter()
-                .any(|item| item.trim().eq_ignore_ascii_case(layout.trim()))
+                .any(|item| keyboard_layout_matches(item, layout))
         })
     {
         return false;
@@ -488,5 +502,14 @@ mod tests {
         settings.keymap_mode = KeymapMode::Manual;
         assert!(!depends_on_window(&settings));
         assert_eq!(window_patterns(&settings).count(), 0);
+    }
+
+    #[test]
+    fn reserved_layout_spellings_match_nothing() {
+        assert!(keyboard_layout_matches("US", "us"));
+        assert!(keyboard_layout_matches("de-neo", "de-neo"));
+        assert!(!keyboard_layout_matches("us(dvorak)", "us(dvorak)"));
+        assert!(!keyboard_layout_matches("lang:en", "lang:en"));
+        assert!(!keyboard_layout_matches("", ""));
     }
 }
