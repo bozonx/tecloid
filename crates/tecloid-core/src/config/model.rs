@@ -41,12 +41,10 @@ pub fn user_keymap_name(id: &str) -> Option<&str> {
     id.strip_prefix(USER_KEYMAP_PREFIX)
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Layer {
     pub id: String,
     pub name: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
 }
 
@@ -61,41 +59,28 @@ pub enum HoldBehavior {
 /// A rule bound to a physical key. `tap_action` / `hold_action` use the
 /// three-state convention: `Some("")` is native passthrough, `None` swallows
 /// the key and any other value is an action.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct KeyRule {
     pub id: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub enabled: Option<bool>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub condition_game_mode: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub condition_keyboard_layouts: Option<Vec<String>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub condition_window_patterns: Option<Vec<String>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub condition_excluded_window_patterns: Option<Vec<String>>,
     pub key: String,
     pub layer_id: String,
     pub tap_action: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub hold_behavior: Option<HoldBehavior>,
-    #[serde(skip_serializing_if = "String::is_empty")]
     pub long_hold_action: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub long_hold_timeout_ms: Option<u64>,
     pub hold_action: Option<String>,
     pub double_tap_action: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub hold_timeout_ms: Option<u64>,
     /// Late tap window of a layer hold: released within it without any
     /// other input, the hold still taps. `None` is twice the hold timeout,
     /// `Some(0)` turns it off.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub retro_tap_ms: Option<u64>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub tap_decision: Option<TapDecision>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub double_tap_timeout_ms: Option<u64>,
 }
 
@@ -144,51 +129,41 @@ impl KeyRule {
     }
 }
 
-#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct LayerKeymap {
     /// Saved display order of additional keys.
-    #[serde(skip_serializing_if = "Vec::is_empty")]
     pub extra_key_order: Vec<String>,
     /// Key code → action; `None` swallows the key inside the layer. A
     /// missing entry is transparent.
     pub keys: BTreeMap<String, Option<String>>,
     /// Keys whose keystroke modifiers stay pressed until the layer is
     /// released (an Alt+Tab key keeps Alt down for the window switcher).
-    #[serde(skip_serializing_if = "BTreeSet::is_empty")]
     pub hold_modifiers: BTreeSet<String>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MacroStep {
     pub id: String,
     pub action: String,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Macro {
     pub id: String,
     pub name: String,
     pub steps: Vec<MacroStep>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub step_pause_ms: Option<u64>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub modifier_delay_ms: Option<u64>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Command {
     pub id: String,
     pub name: String,
     /// POSIX `sh` script, run on Linux and macOS.
     pub posix_script: String,
     /// PowerShell script, run on Windows.
-    #[serde(skip_serializing_if = "String::is_empty")]
     pub powershell_script: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub working_directory: Option<String>,
 }
 
@@ -222,21 +197,17 @@ pub fn display_name<'a>(name: &'a str, fallback: &'a str) -> &'a str {
     if name.is_empty() { fallback } else { name }
 }
 
-#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct QuickAction {
     /// Caption in the menu; the action is shown when it is empty.
-    #[serde(skip_serializing_if = "String::is_empty")]
     pub name: String,
     pub action: String,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct QuickActionPage {
     pub id: String,
     /// Optional caption; an empty page is shown by its number.
-    #[serde(skip_serializing_if = "String::is_empty")]
     pub name: String,
     /// Hotkey from [`LEFT_HAND_HOTKEYS`] → action; empty cells are absent.
     pub cells: BTreeMap<String, QuickAction>,
@@ -256,12 +227,10 @@ impl QuickActionPage {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct EmojiPage {
     pub id: String,
     /// Optional caption; an empty page is shown by its number.
-    #[serde(skip_serializing_if = "String::is_empty")]
     pub name: String,
     /// Hotkey from [`LEFT_HAND_HOTKEYS`] → inserted text.
     pub cells: BTreeMap<String, String>,
@@ -278,38 +247,18 @@ impl EmojiPage {
 }
 
 /// Portable author information, independent of the local library filename.
-#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, serde::Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct KeymapMetadata {
-    #[serde(
-        default,
-        skip_serializing_if = "Option::is_none",
-        deserialize_with = "super::schema::non_null"
-    )]
     pub name: Option<String>,
-    #[serde(
-        default,
-        skip_serializing_if = "Option::is_none",
-        deserialize_with = "super::schema::non_null"
-    )]
     pub author: Option<String>,
-    #[serde(
-        default,
-        skip_serializing_if = "Option::is_none",
-        deserialize_with = "super::schema::non_null"
-    )]
     pub version: Option<String>,
 }
 
 /// The portable keyboard configuration stored in keymap JSON files.
-#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct KeymapPreset {
-    #[serde(rename = "$schema", skip_serializing_if = "Option::is_none")]
     pub schema: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub meta: Option<KeymapMetadata>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
     pub layers: Vec<Layer>,
     pub rules: Vec<KeyRule>,
@@ -370,17 +319,13 @@ impl KeymapPreset {
     }
 }
 
-#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct KeymapConditionSet {
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub game_mode: Option<GameModeCondition>,
     pub keyboard_layouts: Vec<String>,
     /// Window patterns, see [`super::app_match`].
-    #[serde(rename = "windows", skip_serializing_if = "Vec::is_empty")]
     pub window_patterns: Vec<String>,
     /// Window patterns that block the match.
-    #[serde(rename = "excludeWindows", skip_serializing_if = "Vec::is_empty")]
     pub excluded_window_patterns: Vec<String>,
 }
 
@@ -454,28 +399,20 @@ impl KeymapConditionSet {
     }
 }
 
-fn is_true(value: &bool) -> bool {
-    *value
-}
-
 /// One automatic-mode rule: when `conditions` match, `keymap_id` is used.
 /// Rules are checked in order and the first match wins.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AutoRule {
     pub id: String,
     /// `None` turns the mapper off (native passthrough).
     pub keymap_id: Option<String>,
     /// A disabled rule is kept but never matches.
-    #[serde(skip_serializing_if = "is_true")]
     pub enabled: bool,
     /// Empty conditions always match.
-    #[serde(flatten)]
     pub conditions: KeymapConditionSet,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GameModeProcessMatcher {
     pub id: String,
     pub name: String,
@@ -483,8 +420,7 @@ pub struct GameModeProcessMatcher {
     pub is_blacklist: bool,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GameModeSettings {
     pub use_gamemoded: bool,
     pub use_fullscreen: bool,
@@ -802,10 +738,8 @@ pub enum KeymapMode {
 }
 
 /// Global settings persisted in `config.json`.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AppSettings {
-    #[serde(rename = "$schema", skip_serializing_if = "Option::is_none")]
     pub schema: Option<String>,
     /// Expose features that are still in development.
     pub in_development: bool,
@@ -828,23 +762,16 @@ pub struct AppSettings {
     pub tap_decision: TapDecision,
     pub default_double_tap_timeout_ms: u64,
     /// Window in which all keys of a multi-key rule must be pressed.
-    #[serde(rename = "comboTimeoutMs")]
     pub trigger_chord_timeout_ms: u64,
     pub default_macro_step_pause_ms: u64,
     pub default_macro_modifier_delay_ms: u64,
     /// A macro run still going after this time is aborted.
     pub macro_timeout_ms: u64,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub input_device_path: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub input_mouse_device_path: Option<String>,
     /// Keymap open for editing in this process; never persisted to config.json.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[serde(rename = "currentKeymapId")]
     pub editing_keymap_id: Option<String>,
     pub keymap_mode: KeymapMode,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[serde(rename = "manualActiveKeymapId")]
     pub manual_keymap_id: Option<String>,
     pub keymap_order: Vec<String>,
     pub auto_rules: Vec<AutoRule>,
@@ -916,8 +843,7 @@ impl Default for AppSettings {
 }
 
 /// Settings plus a keymap, used for editor diagnostics and mapper projection.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ResolvedAppConfig {
     pub layers: Vec<Layer>,
     pub rules: Vec<KeyRule>,
@@ -962,59 +888,6 @@ mod tests {
     use super::*;
 
     #[test]
-    fn renamed_model_fields_preserve_runtime_json_contract() {
-        let mut rule = KeyRule::new("r1".into(), "KeyA");
-        rule.condition_keyboard_layouts = Some(vec!["us".into()]);
-        rule.condition_window_patterns = Some(vec!["konsole".into()]);
-        rule.condition_excluded_window_patterns = Some(vec!["title:private".into()]);
-        let keymap = KeymapPreset {
-            rules: vec![rule],
-            commands: vec![Command {
-                id: "c1".into(),
-                name: "Command".into(),
-                posix_script: "printf test".into(),
-                powershell_script: "Write-Output test".into(),
-                working_directory: None,
-            }],
-            ..KeymapPreset::default()
-        };
-        let settings = AppSettings {
-            manual_keymap_id: Some("user:Manual".into()),
-            trigger_chord_timeout_ms: 80,
-            ..AppSettings::default()
-        };
-        let config = ResolvedAppConfig::from_parts(settings, keymap, Some("user:Editing"));
-        let value = serde_json::to_value(&config).unwrap();
-        assert_eq!(value["settings"]["currentKeymapId"], "user:Editing");
-        assert_eq!(value["settings"]["manualActiveKeymapId"], "user:Manual");
-        assert_eq!(value["settings"]["comboTimeoutMs"], 80);
-        assert_eq!(value["rules"][0]["conditionKeyboardLayouts"][0], "us");
-        assert_eq!(value["rules"][0]["conditionWindowPatterns"][0], "konsole");
-        assert_eq!(
-            value["rules"][0]["conditionExcludedWindowPatterns"][0],
-            "title:private"
-        );
-        assert_eq!(value["commands"][0]["posixScript"], "printf test");
-        assert_eq!(
-            value["commands"][0]["powershellScript"],
-            "Write-Output test"
-        );
-
-        let mapper: crate::mapper::config::MapperConfig = serde_json::from_value(value).unwrap();
-        assert_eq!(
-            mapper,
-            crate::mapper::config::MapperConfig::try_from(&config).unwrap()
-        );
-        assert_eq!(mapper.settings.trigger_chord_timeout_ms, 80);
-        assert_eq!(
-            mapper.rules[0].condition_window_patterns,
-            config.rules[0].condition_window_patterns
-        );
-        assert_eq!(mapper.commands[0].posix_script, "printf test");
-        assert_eq!(mapper.commands[0].powershell_script, "Write-Output test");
-    }
-
-    #[test]
     fn used_commands_skips_orphans() {
         let command = |id: &str| Command {
             id: id.into(),
@@ -1034,21 +907,5 @@ mod tests {
         let mut preset = preset;
         preset.remove_unused_commands();
         assert_eq!(preset.commands, vec![command("used")]);
-    }
-    #[test]
-    fn typed_mapper_projection_matches_the_existing_serialized_model() {
-        for keymap in super::super::bundled::BUNDLED {
-            let config = ResolvedAppConfig::from_parts(
-                AppSettings::default(),
-                keymap.keymap().unwrap(),
-                Some("user:Example"),
-            );
-            let serialized: crate::mapper::config::MapperConfig =
-                serde_json::from_value(serde_json::to_value(&config).unwrap()).unwrap();
-            assert_eq!(
-                crate::mapper::config::MapperConfig::try_from(&config).unwrap(),
-                serialized
-            );
-        }
     }
 }

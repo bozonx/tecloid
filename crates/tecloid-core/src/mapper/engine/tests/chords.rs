@@ -189,7 +189,7 @@ fn trigger_chord_window_expiry_types_the_member_and_blocks_the_chord() {
 fn trigger_chord_window_comes_from_settings() {
     let cfg: MapperConfig = serde_json::from_value(serde_json::json!({
         "rules": [{"key": "KeyJ+KeyK", "tapAction": "text:esc"}],
-        "settings": {"comboTimeoutMs": 120},
+        "settings": {"triggerChordTimeoutMs": 120},
     }))
     .unwrap();
     let mut engine = Engine::new(&cfg);
@@ -977,7 +977,7 @@ fn release_waiting_in_combo_buffer_decides_permissive_tap() {
                 {"key":"KeyX+KeyY", "tapAction":"text:chord"}
             ],
             "layerKeymaps": {"nav": {"keys": {"KeyX": "KeyQ"}}},
-            "settings": {"comboTimeoutMs": 50}
+            "settings": {"triggerChordTimeoutMs": 50}
         }),
         &[
             (KeyCode::KEY_D, true, 0),
@@ -1005,7 +1005,7 @@ fn second_press_waiting_in_combo_buffer_is_a_double_tap() {
                 {"key":"KeyA", "tapAction":"text:single", "doubleTapAction":"text:double", "doubleTapTimeoutMs":250},
                 {"key":"KeyA+KeyB", "tapAction":"text:chord"}
             ],
-            "settings": {"comboTimeoutMs": 50}
+            "settings": {"triggerChordTimeoutMs": 50}
         }),
         &[
             (KeyCode::KEY_A, true, 0),
@@ -1026,7 +1026,7 @@ fn chord_with_an_undecided_member_needs_the_combo_window() {
             {"key":"Space+KeyJ", "tapAction":"text:chord"}
         ],
         "layerKeymaps": {"nav": {"keys": {"KeyJ": "ArrowLeft"}}},
-        "settings": {"comboTimeoutMs": 50}
+        "settings": {"triggerChordTimeoutMs": 50}
     });
     let late = timeline(
         cfg.clone(),
@@ -1067,7 +1067,7 @@ fn chord_nested_in_undecided_tap_hold_key_does_not_overtake_it() {
                 {"key":"KeyJ+KeyK", "tapAction":"text:chord"}
             ],
             "layerKeymaps": {"nav": {"keys": {"KeyJ": "ArrowLeft", "KeyK": "ArrowRight"}}},
-            "settings": {"comboTimeoutMs": 50}
+            "settings": {"triggerChordTimeoutMs": 50}
         }),
         &[
             (KeyCode::KEY_SPACE, true, 0),
@@ -1101,7 +1101,7 @@ fn chord_rolled_under_undecided_tap_hold_key_types_its_keys_in_order() {
                 {"key":"KeyJ+KeyK", "tapAction":"text:chord"}
             ],
             "layerKeymaps": {"nav": {"keys": {"KeyJ": "ArrowLeft"}}},
-            "settings": {"comboTimeoutMs": 50}
+            "settings": {"triggerChordTimeoutMs": 50}
         }),
         &[
             (KeyCode::KEY_SPACE, true, 0),

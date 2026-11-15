@@ -137,7 +137,7 @@ impl ConfigDocument {
         }
         let mut draft = self.clone();
         draft.update_keymap(KeymapPreset::remove_unused_commands)?;
-        let text = keymap_file::serialize(draft.keymap());
+        let text = keymap_file::serialize_checked(draft.keymap()).map_err(ConfigError::Invalid)?;
         if !draft
             .paths()
             .replace_user_keymap(name, &text, disk.as_bytes())
@@ -154,7 +154,7 @@ impl ConfigDocument {
         self.require_external_operation()?;
         let mut draft = self.clone();
         draft.update_keymap(KeymapPreset::remove_unused_commands)?;
-        let text = keymap_file::serialize(draft.keymap());
+        let text = keymap_file::serialize_checked(draft.keymap()).map_err(ConfigError::Invalid)?;
         draft
             .paths()
             .save_user_keymap(name, &text, true)
@@ -204,7 +204,11 @@ impl ConfigDocument {
             preset.description = Some(description.to_owned());
         }
         self.paths()
-            .save_user_keymap(name, &keymap_file::serialize(&preset), false)
+            .save_user_keymap(
+                name,
+                &keymap_file::serialize_checked(&preset).map_err(ConfigError::Invalid)?,
+                false,
+            )
             .map_err(ConfigError::Io)
     }
 
@@ -248,7 +252,7 @@ impl ConfigDocument {
         self.require_external_operation()?;
         let mut draft = self.clone();
         draft.update_keymap(KeymapPreset::remove_unused_commands)?;
-        let text = keymap_file::serialize(draft.keymap());
+        let text = keymap_file::serialize_checked(draft.keymap()).map_err(ConfigError::Invalid)?;
         let saved = draft.save_current_keymap_as(name)?;
         *self = draft;
         Ok((saved, text))
@@ -259,7 +263,11 @@ impl ConfigDocument {
         let name = &self.checked_keymap_name(name, None)?;
         let saved = self
             .paths()
-            .save_user_keymap(name, &keymap_file::serialize(self.keymap()), false)
+            .save_user_keymap(
+                name,
+                &keymap_file::serialize_checked(self.keymap()).map_err(ConfigError::Invalid)?,
+                false,
+            )
             .map_err(ConfigError::Io)?;
         let result = self.update_settings(|settings| {
             let old = settings.editing_keymap_id.clone();
@@ -326,7 +334,10 @@ impl ConfigDocument {
                     .unwrap_or_default();
                 preset.description =
                     (!description.trim().is_empty()).then(|| description.trim().to_owned());
-                (keymap_file::serialize(&preset), Some(preset.description))
+                (
+                    keymap_file::serialize_checked(&preset).map_err(ConfigError::Invalid)?,
+                    Some(preset.description),
+                )
             }
         };
         let saved = self

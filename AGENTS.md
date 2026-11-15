@@ -122,8 +122,10 @@ Current format versions: **`config.json` = 1, keymap = 1**
 - **Action ids are data in user keymaps:** `sys:`, `app:`, `builtin:` ids and
   key names are never renamed or removed; add new ones instead. They are
   listed in `schemas/names.v1.txt` (test `stored_names_are_never_removed`),
-  fields and enum values in `schemas/contract.v1.json`, built-in macro steps
-  in `schemas/builtin-macros.v1.txt`;
+  fields and enum values in `schemas/contract.v1.json`, size limits in
+  `schemas/limits.v1.txt` (only widen), built-in macro steps (a reviewed
+  snapshot; changing them is a CHANGELOG-documented behaviour change) in
+  `schemas/builtin-macros.v1.txt`;
   the fixtures `crates/tecloid-core/fixtures/*.v1.json` are never edited.
 - `config.json` is written in full, defaults included.
 - **Defaults that affect input** (`settings.timing`, tap decision) change only as

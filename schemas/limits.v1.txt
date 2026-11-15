@@ -1,0 +1,11 @@
+max idLength 64
+max items 10000
+max keymapNameBytes 250
+max keymapNameChars 128
+max macroDepth 10
+max macroSteps 1000
+max menuPages 999
+max pauseMs 10000
+max slot 999
+max textBytes 65536
+min pauseMs 1

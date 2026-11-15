@@ -18,6 +18,7 @@ pub fn parse(text: &str) -> Result<AppSettings, String> {
     }
     let value: serde_json::Value =
         serde_json::from_str(text).map_err(|error| format!("{CONFIG_FILE}: {error}"))?;
+    super::limits::check(&value, CONFIG_FILE)?;
     let settings = match schema::read_version(&value, CONFIG_FILE, CONFIG_SCHEMA_VERSION)? {
         1 => from_doc(
             serde_json::from_str::<ConfigDoc>(text)
@@ -43,6 +44,15 @@ pub(crate) fn json_schema() -> schemars::Schema {
 /// default never changes the behaviour of an existing installation.
 pub fn serialize(settings: &AppSettings) -> String {
     serde_json::to_string_pretty(&to_doc(settings)).unwrap_or_default()
+}
+
+/// [`serialize`] for writing to disk: the text is read back first, so the
+/// application never writes a `config.json` it would refuse to load.
+pub fn serialize_checked(settings: &AppSettings) -> Result<String, String> {
+    let text = serialize(settings);
+    parse(&text)
+        .map(|_| text)
+        .map_err(|error| format!("not saved, the result would not load again: {error}"))
 }
 
 #[cfg_attr(test, derive(schemars::JsonSchema))]
@@ -565,7 +575,7 @@ fn from_doc(doc: ConfigDoc) -> Result<AppSettings, String> {
 
 fn to_doc(settings: &AppSettings) -> ConfigDoc {
     let game_mode = &settings.game_mode;
-    let filled = |value: &Option<String>| value.clone().filter(|value| !value.is_empty());
+    let filled = |value: &Option<String>| value.clone().filter(|value| !value.trim().is_empty());
     ConfigDoc {
         version: CONFIG_SCHEMA_VERSION,
         schema: settings.schema.clone(),

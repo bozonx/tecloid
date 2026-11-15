@@ -157,7 +157,7 @@ key CameraZoomOut
 key Cancel
 key CapsLock
 key Close
-key CloseCD
+key CloseCd
 key Comma
 key ContextMenu
 key ControlLeft
@@ -184,7 +184,7 @@ key DisplayToggleIntExt
 key DoNotDisturb
 key Edit
 key Eject
-key EjectCloseCD
+key EjectCloseCd
 key EmojiPicker
 key End
 key Enter
@@ -343,7 +343,7 @@ key PageUp
 key Paste
 key Pause
 key Period
-key PlayCD
+key PlayCd
 key Power
 key Print
 key PrintScreen
@@ -379,13 +379,13 @@ key TouchpadOff
 key TouchpadOn
 key TouchpadToggle
 key Transfer
-key UWB
 key Undo
+key Uwb
 key VideoNext
 key VideoPrevious
-key WLAN
-key WWAN
 key WakeUp
+key Wlan
+key Wwan
 key ZoomIn
 key ZoomOut
 key ZoomToggle

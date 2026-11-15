@@ -942,8 +942,7 @@ mod tests {
     }
 }
 
-#[derive(Debug, Clone, serde::Serialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone)]
 pub struct CommandAssignment {
     pub keymap_id: Option<String>,
     pub command: Command,

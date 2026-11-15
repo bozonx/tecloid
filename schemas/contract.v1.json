@@ -188,8 +188,14 @@
   "config/$defs/LinuxDoc/properties/copyOsd/type": [
     "boolean"
   ],
+  "config/$defs/LinuxDoc/properties/xdotoolPath/minLength": [
+    1
+  ],
   "config/$defs/LinuxDoc/properties/xdotoolPath/type": [
     "string"
+  ],
+  "config/$defs/LinuxDoc/properties/ydotoolPath/minLength": [
+    1
   ],
   "config/$defs/LinuxDoc/properties/ydotoolPath/type": [
     "string"
@@ -424,17 +430,32 @@
     "sh",
     "workingDirectory"
   ],
+  "keymap/$defs/CommandDoc/properties/id/pattern": [
+    "^[A-Za-z0-9_-]{1,64}$"
+  ],
   "keymap/$defs/CommandDoc/properties/id/type": [
     "string"
+  ],
+  "keymap/$defs/CommandDoc/properties/name/minLength": [
+    1
   ],
   "keymap/$defs/CommandDoc/properties/name/type": [
     "string"
   ],
+  "keymap/$defs/CommandDoc/properties/powershell/minLength": [
+    1
+  ],
   "keymap/$defs/CommandDoc/properties/powershell/type": [
     "string"
   ],
+  "keymap/$defs/CommandDoc/properties/sh/minLength": [
+    1
+  ],
   "keymap/$defs/CommandDoc/properties/sh/type": [
     "string"
+  ],
+  "keymap/$defs/CommandDoc/properties/workingDirectory/minLength": [
+    1
   ],
   "keymap/$defs/CommandDoc/properties/workingDirectory/type": [
     "string"
@@ -461,6 +482,9 @@
   "keymap/$defs/HoldDoc/properties/action/type": [
     "string",
     "null"
+  ],
+  "keymap/$defs/HoldDoc/properties/layer/minLength": [
+    1
   ],
   "keymap/$defs/HoldDoc/properties/layer/type": [
     "string"
@@ -493,6 +517,9 @@
     "keys",
     "name"
   ],
+  "keymap/$defs/LayerDoc/properties/description/minLength": [
+    1
+  ],
   "keymap/$defs/LayerDoc/properties/description/type": [
     "string"
   ],
@@ -502,11 +529,17 @@
   "keymap/$defs/LayerDoc/properties/extraKeyOrder/type": [
     "array"
   ],
+  "keymap/$defs/LayerDoc/properties/id/pattern": [
+    "^[A-Za-z0-9_-]{1,64}$"
+  ],
   "keymap/$defs/LayerDoc/properties/id/type": [
     "string"
   ],
   "keymap/$defs/LayerDoc/properties/keys/type": [
     "object"
+  ],
+  "keymap/$defs/LayerDoc/properties/name/minLength": [
+    1
   ],
   "keymap/$defs/LayerDoc/properties/name/type": [
     "string"
@@ -562,6 +595,9 @@
     "stepPauseMs",
     "steps"
   ],
+  "keymap/$defs/MacroDoc/properties/id/pattern": [
+    "^[A-Za-z0-9_-]{1,64}$"
+  ],
   "keymap/$defs/MacroDoc/properties/id/type": [
     "string"
   ],
@@ -573,6 +609,9 @@
   ],
   "keymap/$defs/MacroDoc/properties/modifierDelayMs/type": [
     "integer"
+  ],
+  "keymap/$defs/MacroDoc/properties/name/minLength": [
+    1
   ],
   "keymap/$defs/MacroDoc/properties/name/type": [
     "string"
@@ -604,14 +643,26 @@
     "keymapVersion",
     "name"
   ],
+  "keymap/$defs/MetaDoc/properties/author/minLength": [
+    1
+  ],
   "keymap/$defs/MetaDoc/properties/author/type": [
     "string"
+  ],
+  "keymap/$defs/MetaDoc/properties/description/minLength": [
+    1
   ],
   "keymap/$defs/MetaDoc/properties/description/type": [
     "string"
   ],
+  "keymap/$defs/MetaDoc/properties/keymapVersion/minLength": [
+    1
+  ],
   "keymap/$defs/MetaDoc/properties/keymapVersion/type": [
     "string"
+  ],
+  "keymap/$defs/MetaDoc/properties/name/minLength": [
+    1
   ],
   "keymap/$defs/MetaDoc/properties/name/type": [
     "string"
@@ -625,6 +676,9 @@
   ],
   "keymap/$defs/QuickActionDoc/properties/action/type": [
     "string"
+  ],
+  "keymap/$defs/QuickActionDoc/properties/name/minLength": [
+    1
   ],
   "keymap/$defs/QuickActionDoc/properties/name/type": [
     "string"
@@ -749,6 +803,9 @@
   "keymap/properties/emojiMenuPages/items/properties/cells/type": [
     "object"
   ],
+  "keymap/properties/emojiMenuPages/items/properties/name/minLength": [
+    1
+  ],
   "keymap/properties/emojiMenuPages/items/properties/name/type": [
     "string"
   ],
@@ -787,6 +844,9 @@
   ],
   "keymap/properties/quickMenuPages/items/properties/cells/type": [
     "object"
+  ],
+  "keymap/properties/quickMenuPages/items/properties/name/minLength": [
+    1
   ],
   "keymap/properties/quickMenuPages/items/properties/name/type": [
     "string"

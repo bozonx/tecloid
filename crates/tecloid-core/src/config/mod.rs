@@ -13,6 +13,7 @@ pub mod ids;
 pub mod keymap_file;
 pub mod layer_edit;
 pub mod layer_grid;
+pub mod limits;
 pub(crate) mod macro_graph;
 pub mod macros;
 pub mod model;

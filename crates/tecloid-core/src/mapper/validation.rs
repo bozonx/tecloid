@@ -389,10 +389,9 @@ mod tests {
                     .collect(),
                 ..Default::default()
             };
-            let mapper: MapperConfig =
-                serde_json::from_value(serde_json::to_value(&keymap).unwrap()).unwrap();
             let editor =
                 model::ResolvedAppConfig::from_parts(model::AppSettings::default(), keymap, None);
+            let mapper = MapperConfig::try_from(&editor).unwrap();
             assert_eq!(
                 editor
                     .macros

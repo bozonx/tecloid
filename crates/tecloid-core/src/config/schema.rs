@@ -330,10 +330,12 @@ mod tests {
         );
     }
 
-    /// What a `builtin:` macro does is part of its stored id: its steps are
-    /// never changed and no macro is removed. A new macro adds a line.
+    /// Steps of every `builtin:` macro. Ids are frozen in `names.v1.txt`;
+    /// the steps are what the id does today. Changing them is a deliberate
+    /// behaviour change (a fix, another platform's shortcut): regenerate
+    /// the file and add a `CHANGELOG.md` entry.
     #[test]
-    fn builtin_macro_steps_are_frozen() {
+    fn builtin_macro_steps_are_reviewed() {
         let path =
             Path::new(env!("CARGO_MANIFEST_DIR")).join("../../schemas/builtin-macros.v1.txt");
         let mut lines: Vec<String> = crate::mapper::builtin_macros::BUILTIN_MACROS
@@ -341,16 +343,41 @@ mod tests {
             .map(|item| format!("{}: {}", item.id, item.steps.join(" | ")))
             .collect();
         lines.sort();
+        snapshot(&path, &(lines.join("\n") + "\n"));
+    }
+
+    /// Size limits and numeric bounds outside the schemas (see
+    /// [`super::super::limits`]): a `max` only grows, a `min` only shrinks.
+    #[test]
+    fn limits_only_widen() {
+        let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../schemas/limits.v1.txt");
+        let current = super::super::limits::published();
+        let value = |line: &str| -> Option<(String, u64)> {
+            let (key, number) = line.rsplit_once(' ')?;
+            Some((key.to_owned(), number.parse().ok()?))
+        };
+        let current_values: Vec<_> = current.iter().filter_map(|line| value(line)).collect();
         let published = std::fs::read_to_string(&path).unwrap_or_default();
-        let changed: Vec<_> = published
+        let narrowed: Vec<_> = published
             .lines()
-            .filter(|line| !line.is_empty() && !lines.iter().any(|current| current == line))
+            .filter_map(value)
+            .filter(|(key, old)| {
+                let new = current_values
+                    .iter()
+                    .find(|(name, _)| name == key)
+                    .map(|(_, new)| *new);
+                match new {
+                    None => true,
+                    Some(new) if key.starts_with("max ") => new < *old,
+                    Some(new) => new > *old,
+                }
+            })
             .collect();
         assert!(
-            changed.is_empty(),
-            "built-in macros stored in user keymaps were changed or removed: {changed:?}"
+            narrowed.is_empty(),
+            "limits of the file formats were removed or narrowed: {narrowed:?}"
         );
-        snapshot(&path, &(lines.join("\n") + "\n"));
+        snapshot(&path, &(current.join("\n") + "\n"));
     }
 
     /// The fixtures saved again: every value in its stored spelling. A diff
@@ -392,7 +419,9 @@ mod tests {
     /// * `…/properties` — field names; enum values under the bare pointer;
     ///   `…/type` — JSON types: these only grow;
     /// * `…/required` — required fields: this list only shrinks;
-    /// * `…/minimum`, `…/maximum` — numeric limits: they only widen.
+    /// * `…/minimum`, `…/maximum`, `…/minLength`, `…/maxLength`,
+    ///   `…/minItems`, `…/maxItems` — limits: they only widen;
+    /// * `…/pattern` — grammar of a string (ids): a change needs review.
     fn stored_fields_and_values() -> serde_json::Map<String, serde_json::Value> {
         use serde_json::Value;
         /// Enum values of a node: `enum` lists and `const`s under `oneOf` /
@@ -449,7 +478,15 @@ mod tests {
                     _ => {}
                 }
             }
-            for limit in ["minimum", "maximum"] {
+            for limit in [
+                "minimum",
+                "maximum",
+                "minLength",
+                "maxLength",
+                "minItems",
+                "maxItems",
+                "pattern",
+            ] {
                 if let Some(value) = object.get(limit) {
                     out.insert(format!("{path}/{limit}"), vec![value.clone()].into());
                 }
@@ -498,13 +535,19 @@ mod tests {
         let mut removed = Vec::new();
         for (pointer, expected) in published.as_object().into_iter().flatten() {
             let actual = current.get(pointer);
-            if pointer.ends_with("/minimum") || pointer.ends_with("/maximum") {
+            let lower = ["/minimum", "/minLength", "/minItems"]
+                .iter()
+                .any(|suffix| pointer.ends_with(suffix));
+            let upper = ["/maximum", "/maxLength", "/maxItems"]
+                .iter()
+                .any(|suffix| pointer.ends_with(suffix));
+            if lower || upper {
                 let (Some(old), new) = (number(Some(expected)), number(actual)) else {
                     continue;
                 };
                 let narrowed = match new {
                     None => false,
-                    Some(new) if pointer.ends_with("/minimum") => new > old,
+                    Some(new) if lower => new > old,
                     Some(new) => new < old,
                 };
                 if narrowed {

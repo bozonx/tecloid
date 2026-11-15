@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Keymap and `config.json` hardening (format version stays 1): the application refuses to save a file it would not load back; library files whose name is not a valid keymap name (`.hidden.json`, `Main .json`, `a:b.json`) are ignored instead of producing a `config.json` that does not load; an emoji cell holding only a no-break space loads again; a key written twice in a layer or menu page is an error; files are limited to 10 000 entries per array or object, 65 536 bytes per string and 999 pages per menu. Key names derived from Linux codes follow W3C PascalCase: `Wlan`, `Wwan`, `Uwb`, `PlayCd`, `CloseCd`, `EjectCloseCd` (previously `WLAN`, …; no migration, the format is not released yet).
+
 - Hide retained experimental controls when experimental mode is off; suspend automatic keymap selection, commands, system/desktop actions, keymap OSD and layer hints without deleting their saved settings. Clarify that experimental code ships in release builds and debug storage isolation is independent.
 
 - Settings paths: use copy icons and add file manager buttons, with tooltips.

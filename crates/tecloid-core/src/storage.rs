@@ -121,7 +121,13 @@ impl StoragePaths {
                 continue;
             }
             if let Some(stem) = p.file_stem().and_then(|s| s.to_str()) {
-                out.push(stem.to_string());
+                // Only names a keymap id may hold (`user:<name>` is checked
+                // the same way in `config.json`); other files are not keymaps.
+                if validate_keymap_name(stem).as_deref() == Ok(stem) {
+                    out.push(stem.to_string());
+                } else {
+                    log::warn!("keymap file {stem:?}.json ignored: not a valid keymap name");
+                }
             }
         }
         out.sort_unstable();
@@ -268,7 +274,7 @@ impl StoragePaths {
 /// Longest keymap name, in characters.
 pub const MAX_KEYMAP_NAME_CHARS: usize = 128;
 // Common file systems limit a component to 255 bytes; reserve the extension.
-const MAX_KEYMAP_NAME_BYTES: usize = 255 - ".json".len();
+pub const MAX_KEYMAP_NAME_BYTES: usize = 255 - ".json".len();
 
 pub fn validate_keymap_name(name: &str) -> Result<String, String> {
     let trimmed = name.trim();
@@ -826,6 +832,19 @@ mod tests {
             r#"{"description":"updated"}"#
         );
         assert!(storage.load_user_keymap("Old").is_err());
+    }
+
+    #[test]
+    fn files_with_invalid_keymap_names_are_not_listed() {
+        let dir = tempfile::tempdir().unwrap();
+        let paths = StoragePaths::new(dir.path().join("c"), dir.path().join("d"));
+        paths.ensure().unwrap();
+        let keymaps = paths.keymaps_dir();
+        std::fs::create_dir_all(&keymaps).unwrap();
+        for name in ["Main", ".hidden", "Main ", " Lead", "a:b", "dot."] {
+            std::fs::write(keymaps.join(format!("{name}.json")), "{}").unwrap();
+        }
+        assert_eq!(paths.list_user_keymaps().unwrap(), ["Main"]);
     }
 
     #[test]

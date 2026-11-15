@@ -67,11 +67,25 @@ part of version 1 under the same rules.
   values, required fields and numeric limits of both formats in
   [`schemas/contract.v1.json`](../schemas/contract.v1.json) (test
   `frozen_fields_and_enum_values_remain`: names, types and values only grow,
-  required lists only shrink, limits only widen); the steps of every
-  `builtin:` macro in
+  required lists only shrink, limits, `minLength`/`maxLength`,
+  `minItems`/`maxItems` only widen, an id `pattern` changes only after
+  review); size limits and bounds outside the schemas in
+  [`schemas/limits.v1.txt`](../schemas/limits.v1.txt) (test
+  `limits_only_widen`). These lists only grow: a missing line fails the
+  test. New entries are added with `TECLOID_UPDATE_SCHEMAS=1`.
+- The steps of every `builtin:` macro are a reviewed snapshot in
   [`schemas/builtin-macros.v1.txt`](../schemas/builtin-macros.v1.txt) (test
-  `builtin_macro_steps_are_frozen`). These lists only grow: a missing line
-  fails the test. New entries are added with `TECLOID_UPDATE_SCHEMAS=1`.
+  `builtin_macro_steps_are_reviewed`). The id is frozen, the steps are what
+  it does today: fixing them or changing them for a platform is allowed as a
+  deliberate behaviour change with a `CHANGELOG.md` entry.
+- **Limits** ([`config/limits.rs`](../crates/tecloid-core/src/config/limits.rs)):
+  any JSON array or object holds at most 10 000 entries, any string (key or
+  value) at most 65 536 UTF-8 bytes; at most 999 quick and 999 emoji menu
+  pages (one `app:` slot each). A file over a limit is a load error.
+- A JSON object key written twice (in `layers[].keys`, menu `cells`, or a
+  field name) is a load error rather than "the last one wins".
+- The application never writes a file it would refuse to load: every save
+  reads the new text back first and fails instead of writing it.
 - Fixtures `crates/tecloid-core/fixtures/{config,keymap}.v1.json` use every
   field of version 1. They are never edited; `version_1_fixtures_keep_loading`
   checks that they load without blocking diagnostics, and
@@ -118,8 +132,11 @@ field. The editor names new layers after their name (`Navigation` → `navigatio
 `layer` for non-Latin names), new macros `m1`, `m2`, … and new commands `c1`,
 `c2`, ….
 
-Library keymap ids are `user:<file name without .json>`; the file name may
-contain any characters allowed by the file system. The id is exactly the file
+Library keymap ids are `user:<file name without .json>`. The name is 1–128
+characters (at most 250 UTF-8 bytes), no control characters or
+`\ / : * ? " < > |`, no leading or trailing blank, does not start or end with
+`.`. Other `*.json` files in `keymaps/` are not keymaps: they are ignored
+with a warning, never listed or referenced. The id is exactly the file
 stem and is never normalized; keymap files carry no id of their own, so
 downloaded or copied files never collide. Ids are unique ignoring case: of
 library files whose names differ only in case, the first in sort order is
@@ -210,8 +227,12 @@ diagnostics report it and the mapper does not start with it.
   that spec has one: `KeyA`, `Digit1`, `ArrowLeft`, `ControlLeft`, `Backquote`.
   They name the physical key position, not the character it types in the
   current keyboard layout. Keys the spec does not cover use Chromium's
-  `DomCode` name, and failing that a name derived from the Linux `KEY_*`
-  code (`WLAN`, `VideoPrevious`, …). Mouse buttons: `MouseLeft`,
+  `DomCode` name (`BrightnessUp`, `MailSend`), and failing that a name
+  derived from the Linux `KEY_*` code. Derived names follow the spec's
+  PascalCase, acronyms written as words like the spec's `IntlRo`: `Wlan`,
+  `Wwan`, `Uwb`, `PlayCd`, `EjectCloseCd`, `VideoPrevious`. Of the spec's
+  alternatives the catalog uses the primary name (`Lang3`, not the legacy
+  `Katakana`). Mouse buttons: `MouseLeft`,
   `MouseRight`, `MouseMiddle`, `MouseBack` (`BTN_SIDE`), `MouseForward`
   (`BTN_EXTRA`) — the side buttons of ordinary mice — and `Mouse6`, `Mouse7`,
   `Mouse8` for the further buttons (`BTN_FORWARD`, `BTN_BACK`, `BTN_TASK` in
@@ -331,7 +352,7 @@ Example with every field (the application writes all of them except
 
 | Field | Values | Default |
 | --- | --- | --- |
-| `experimental` | enable experimental UI and runtime behaviour in every build; see [runtime policy](development.md#experimental-features-and-debug-isolation) | `false` |
+| `experimental` | enable experimental UI and runtime behaviour in every build; see [runtime policy](development.md#experimental-features-and-debug-isolation). With `false`, settings of experimental features are kept but have no effect (e.g. `keymaps.mode: auto` acts as `manual`). When a feature stops being experimental its saved settings start to apply with the flag off: a behaviour change listed in `CHANGELOG.md` | `false` |
 | `interface.appearance` | `system`, `light`, `dark`, `eInk` | `system` |
 | `interface.highContrast`, `interface.reduceMotion` | `system` (XDG Settings portal; KDE animation speed), `on`, `off` | `system` |
 | `interface.keymapOsd` | on-screen notice when the active keymap changes | `false` |
@@ -432,5 +453,7 @@ Not persisted: open editor, current page, selected layer.
 - **Menu pages:** cell keys are the grid `KeyQ…KeyT / KeyA…KeyG / KeyZ…KeyB`,
   in any case on load and canonical on save; an empty page is written as `{}`.
   A quick cell is an action string or `{ "name"?, "action" }`; an emoji cell is
-  literal text. Emoji cells, macro steps and rule keys have no object form yet;
+  literal text inserted as is (an emoji or a snippet, spaces kept). It is
+  empty only when it is all spaces, tabs or line breaks; a no-break space is
+  valid text. Emoji cells, macro steps and rule keys have no object form yet;
   one will be added the same way as for layer keys when needed.

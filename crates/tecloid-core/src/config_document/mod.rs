@@ -193,7 +193,7 @@ impl ConfigDocument {
             self.settings = updated;
             return Ok(());
         }
-        let text = settings::serialize(&updated);
+        let text = settings::serialize_checked(&updated).map_err(ConfigError::Invalid)?;
         let autostart_changed = crate::autostart::apply_setting(
             &self.paths,
             self.settings.launch_on_startup,
@@ -230,7 +230,7 @@ impl ConfigDocument {
         let mut updated = self.settings.clone();
         updated.launch_on_startup = registered;
         self.paths
-            .save_config(&settings::serialize(&updated))
+            .save_config(&settings::serialize_checked(&updated).map_err(ConfigError::Invalid)?)
             .map_err(ConfigError::Io)?;
         self.settings = updated;
         Ok(true)

@@ -168,7 +168,6 @@ pub struct Settings {
     #[serde(default = "default_double_tap")]
     pub default_double_tap_timeout_ms: u64,
     #[serde(default = "default_trigger_chord_timeout")]
-    #[serde(rename = "comboTimeoutMs")]
     pub trigger_chord_timeout_ms: u64,
     #[serde(default)]
     pub commands_enabled: bool,

@@ -29,6 +29,7 @@ pub fn parse(text: &str) -> Result<Option<KeymapPreset>, String> {
     }
     let value: serde_json::Value =
         serde_json::from_str(text).map_err(|error| format!("parse keymap: {error}"))?;
+    super::limits::check(&value, "keymap")?;
     let keymap = match schema::read_version(&value, "keymap", KEYMAP_SCHEMA_VERSION)? {
         1 => from_doc(
             serde_json::from_str::<KeymapDoc>(text)
@@ -42,6 +43,15 @@ pub fn parse(text: &str) -> Result<Option<KeymapPreset>, String> {
 
 pub fn serialize(preset: &KeymapPreset) -> String {
     serde_json::to_string_pretty(&to_doc(preset)).unwrap_or_default()
+}
+
+/// [`serialize`] for writing to disk: the text is read back first, so the
+/// application never writes a keymap file it would refuse to load.
+pub fn serialize_checked(preset: &KeymapPreset) -> Result<String, String> {
+    let text = serialize(preset);
+    parse(&text)
+        .map(|_| text)
+        .map_err(|error| format!("not saved, the result would not load again: {error}"))
 }
 
 #[cfg_attr(test, derive(schemars::JsonSchema))]
@@ -153,7 +163,8 @@ struct LayerDoc {
     #[serde(
         default,
         skip_serializing_if = "BTreeMap::is_empty",
-        serialize_with = "keyboard_order"
+        serialize_with = "keyboard_order",
+        deserialize_with = "unique_keys"
     )]
     keys: BTreeMap<String, LayerKeyDoc>,
 }
@@ -538,9 +549,13 @@ struct PageDoc<T> {
 /// Menu cells keyed by grid hotkey (`KeyQ`…`KeyB`), written in grid order.
 #[cfg_attr(test, derive(schemars::JsonSchema))]
 #[cfg_attr(test, schemars(transparent, inline, extend("propertyNames" = { "enum": LEFT_HAND_HOTKEYS })))]
-#[derive(Deserialize)]
-#[serde(transparent)]
 struct GridCells<T>(BTreeMap<String, T>);
+
+impl<'de, T: Deserialize<'de>> Deserialize<'de> for GridCells<T> {
+    fn deserialize<D: Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        unique_keys(deserializer).map(Self)
+    }
+}
 
 impl<T> GridCells<T> {
     fn is_empty(&self) -> bool {
@@ -627,6 +642,36 @@ fn is_false(value: &bool) -> bool {
 /// (`Some(None)`).
 fn present<'de, D: Deserializer<'de>>(deserializer: D) -> Result<Option<Option<String>>, D::Error> {
     Option::<String>::deserialize(deserializer).map(Some)
+}
+
+/// A JSON object read into a map; a key written twice is an error rather
+/// than the last one silently winning.
+fn unique_keys<'de, D: Deserializer<'de>, T: Deserialize<'de>>(
+    deserializer: D,
+) -> Result<BTreeMap<String, T>, D::Error> {
+    struct Visitor<T>(std::marker::PhantomData<T>);
+    impl<'de, T: Deserialize<'de>> serde::de::Visitor<'de> for Visitor<T> {
+        type Value = BTreeMap<String, T>;
+        fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+            f.write_str("an object")
+        }
+        fn visit_map<A: serde::de::MapAccess<'de>>(
+            self,
+            mut map: A,
+        ) -> Result<Self::Value, A::Error> {
+            let mut out = BTreeMap::new();
+            while let Some((key, value)) = map.next_entry::<String, T>()? {
+                if out.contains_key(&key) {
+                    return Err(serde::de::Error::custom(format!(
+                        "key {key} is listed twice"
+                    )));
+                }
+                out.insert(key, value);
+            }
+            Ok(out)
+        }
+    }
+    deserializer.deserialize_map(Visitor(std::marker::PhantomData))
 }
 
 /// Layer keys in keyboard order: grid rows from left to right, then the key
@@ -846,6 +891,17 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
         });
     }
 
+    for (count, menu) in [
+        (doc.quick_menu_pages.len(), "quickMenuPages"),
+        (doc.emoji_menu_pages.len(), "emojiMenuPages"),
+    ] {
+        if count > super::limits::MAX_MENU_PAGES {
+            return Err(format!(
+                "{menu}: {count} pages, at most {} are allowed",
+                super::limits::MAX_MENU_PAGES
+            ));
+        }
+    }
     let mut quick_action_pages = Vec::new();
     for (index, page) in doc.quick_menu_pages.into_iter().enumerate() {
         let mut cells = BTreeMap::new();
@@ -880,8 +936,13 @@ fn from_doc(doc: KeymapDoc) -> Result<KeymapPreset, String> {
     let mut emoji_pages = Vec::new();
     for (index, page) in doc.emoji_menu_pages.into_iter().enumerate() {
         let cells = page.cells.canonical("emoji")?;
-        for (key, text) in &cells {
-            non_empty(text, &format!("emoji {key}"))?;
+        // Same rule as the editor: only ordinary whitespace is blank, so a
+        // no-break space the editor stores loads again.
+        if let Some(key) = cells
+            .iter()
+            .find_map(|(key, text)| super::menus::emoji_text_is_blank(text).then_some(key))
+        {
+            return Err(format!("emoji {key} must not be empty"));
         }
         emoji_pages.push(EmojiPage {
             id: format!("emoji-{}", index + 1),
@@ -947,7 +1008,15 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
                 name: name(&layer.name, &layer.id),
                 description: layer.description.as_deref().and_then(text),
                 extra_key_order: keymap
-                    .map(|keymap| keymap.extra_key_order.clone())
+                    .map(|keymap| {
+                        let mut order: Vec<String> = Vec::new();
+                        for code in &keymap.extra_key_order {
+                            if !code.trim().is_empty() && !order.contains(code) {
+                                order.push(code.clone());
+                            }
+                        }
+                        order
+                    })
                     .unwrap_or_default(),
                 keys: keymap
                     .map(|keymap| {
@@ -1097,7 +1166,8 @@ fn to_doc(preset: &KeymapPreset) -> KeymapDoc {
                 .cells
                 .iter()
                 .filter(|(key, value)| {
-                    LEFT_HAND_HOTKEYS.contains(&key.as_str()) && !value.is_empty()
+                    LEFT_HAND_HOTKEYS.contains(&key.as_str())
+                        && !super::menus::emoji_text_is_blank(value)
                 })
                 .map(|(key, value)| (key.clone(), value.clone()))
                 .collect(),
@@ -1521,10 +1591,16 @@ mod tests {
         assert_eq!(chord.long_hold_timeout_ms, Some(1500));
         assert_eq!(chord.hold_action.as_deref(), Some(""));
         assert_eq!(round_trip(&preset), preset);
-        // The mapper reads the model JSON.
-        let mapper: crate::mapper::config::Rule =
-            serde_json::from_value(serde_json::to_value(&preset.rules[0]).unwrap()).unwrap();
-        assert_eq!(mapper.tap_decision, Some(TapDecision::HoldOnOtherKeyPress));
+        let resolved = super::super::model::ResolvedAppConfig::from_parts(
+            super::super::model::AppSettings::default(),
+            preset.clone(),
+            None,
+        );
+        let mapper = crate::mapper::config::MapperConfig::try_from(&resolved).unwrap();
+        assert_eq!(
+            mapper.rules[0].tap_decision,
+            Some(TapDecision::HoldOnOtherKeyPress)
+        );
     }
 
     #[test]
@@ -1700,5 +1776,50 @@ mod tests {
         let saved: serde_json::Value = serde_json::from_str(&serialize(&keymap)).unwrap();
         assert_eq!(saved["quickMenuPages"][0], serde_json::json!({}));
         assert_eq!(saved["macros"][0], serde_json::json!({"id": "m"}));
+    }
+
+    #[test]
+    fn a_map_key_written_twice_is_an_error() {
+        for text in [
+            r#"{"version":1,"layers":[{"id":"a","keys":{"KeyQ":"KeyA","KeyQ":"KeyB"}}]}"#,
+            r#"{"version":1,"emojiMenuPages":[{"cells":{"KeyQ":"a","KeyQ":"b"}}]}"#,
+            r#"{"version":1,"quickMenuPages":[{"cells":{"KeyQ":"KeyA","KeyQ":"KeyB"}}]}"#,
+        ] {
+            assert!(parse(text).unwrap_err().contains("twice"), "{text}");
+        }
+    }
+
+    #[test]
+    fn emoji_cells_keep_unusual_spaces_the_editor_allows() {
+        let mut keymap = KeymapPreset::default();
+        super::super::menus::ensure_pages(&mut keymap);
+        super::super::menus::set_emoji(&mut keymap, 0, 0, "\u{a0}");
+        let text = serialize_checked(&keymap).unwrap();
+        assert_eq!(
+            parse(&text).unwrap().unwrap().emoji_pages[0].cells["KeyQ"],
+            "\u{a0}"
+        );
+        assert!(parse(r#"{"version":1,"emojiMenuPages":[{"cells":{"KeyQ":" \t"}}]}"#).is_err());
+    }
+
+    #[test]
+    fn extra_key_order_is_written_once_per_key() {
+        let mut keymap = KeymapPreset::default();
+        keymap.add_layer("a", "a".into(), None);
+        let layer = keymap.layer_keymaps.get_mut("a").unwrap();
+        layer.keys.insert("F13".into(), Some("KeyA".into()));
+        layer.extra_key_order = vec!["F13".into(), "F13".into()];
+        let text = serialize_checked(&keymap).unwrap();
+        assert_eq!(
+            parse(&text).unwrap().unwrap().layer_keymaps["a"].extra_key_order,
+            ["F13"]
+        );
+    }
+
+    #[test]
+    fn menu_pages_are_limited_to_their_slots() {
+        let pages = vec![serde_json::json!({}); super::super::limits::MAX_MENU_PAGES + 1];
+        let text = serde_json::json!({"version": 1, "quickMenuPages": pages}).to_string();
+        assert!(parse(&text).unwrap_err().contains("at most"));
     }
 }
