@@ -3881,3 +3881,6 @@ msgstr "Autorisations de saisie de texte"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Si vous avez refusé la demande du système ou si la saisie ne fonctionne plus, réinitialisez les autorisations enregistrées. Le système les demandera à nouveau lors de la prochaine saisie par Tecloid."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Autorisations enregistrées réinitialisées. Le système les demandera à nouveau lors de la prochaine saisie par Tecloid."

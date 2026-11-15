@@ -782,9 +782,13 @@ pub(crate) fn prepare_mapper_start(ui: &SettingsWindow) -> bool {
 pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
     let state = Rc::new(RefCell::new(State::default()));
     let e = ui.global::<SettingsEditor>();
-    e.on_reset_text_permissions(|| {
+    let weak = ui.as_weak();
+    e.on_reset_text_permissions(move || {
         #[cfg(target_os = "linux")]
         tecloid_core::text_input::portal::reset_permissions();
+        if let Some(ui) = weak.upgrade() {
+            crate::notifications::send(&ui, Msg::TextPermissionsReset);
+        }
     });
     let choices = ui.global::<DeviceChoices>();
     choices.on_filter(|choices, query, all| filtered_devices(choices, &query, all));

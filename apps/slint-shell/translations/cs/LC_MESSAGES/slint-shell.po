@@ -3781,3 +3781,6 @@ msgstr "Oprávnění k zadávání textu"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Pokud jste odmítli systémovou žádost nebo zadávání textu přestalo fungovat, obnovte uložená oprávnění. Systém se znovu zeptá při příštím zadávání textu přes Tecloid."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Uložená oprávnění byla obnovena. Systém se znovu zeptá při příštím zadávání textu přes Tecloid."

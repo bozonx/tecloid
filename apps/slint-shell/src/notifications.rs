@@ -39,6 +39,7 @@ const POLICY: &[(&[&str], ToastKind, Duration)] = &[
             "keymap-discarded",
             "mapper-running",
             "mapper-stopped",
+            "text-permissions-reset",
         ],
         ToastKind::Success,
         SUCCESS,

@@ -3806,3 +3806,6 @@ msgstr "Мәтін енгізу рұқсаттары"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Жүйе сұрауын қабылдамасаңыз немесе мәтін енгізу жұмыс істемесе, сақталған рұқсаттарды қалпына келтіріңіз. Tecloid келесі рет мәтін енгізгенде жүйе рұқсаттарды қайта сұрайды."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Сақталған рұқсаттар қалпына келтірілді. Tecloid келесі рет мәтін енгізгенде жүйе рұқсаттарды қайта сұрайды."

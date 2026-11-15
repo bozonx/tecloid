@@ -3802,3 +3802,6 @@ msgstr "Metin girişi izinleri"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Sistem isteğini reddettiyseniz veya metin girişi çalışmıyorsa kayıtlı izinleri sıfırlayın. Tecloid bir sonraki metin girişinde sistem yeniden izin isteyecektir."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Kayıtlı izinler sıfırlandı. Tecloid bir sonraki metin girişinde sistem yeniden izin isteyecektir."

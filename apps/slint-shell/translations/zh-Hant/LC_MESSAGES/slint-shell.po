@@ -3526,3 +3526,6 @@ msgstr "文字輸入權限"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "如果你拒絕了系統請求，或文字輸入停止運作，請重設已儲存的權限。下次 Tecloid 輸入文字時，系統會再次請求授權。"
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "已重設儲存的權限。下次 Tecloid 輸入文字時，系統會再次請求授權。"

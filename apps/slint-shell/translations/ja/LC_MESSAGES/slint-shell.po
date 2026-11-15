@@ -3591,3 +3591,6 @@ msgstr "テキスト入力の権限"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "システムの要求を拒否した場合やテキスト入力が動作しなくなった場合は、保存済みの権限をリセットしてください。次に Tecloid がテキストを入力するとき、システムが再び許可を求めます。"
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "保存済みの権限をリセットしました。次に Tecloid がテキストを入力するとき、システムが再び許可を求めます。"

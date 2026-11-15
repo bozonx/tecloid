@@ -3792,3 +3792,6 @@ msgstr "Dozvole za unos teksta"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Ako ste odbili zahtjev sustava ili unos teksta više ne radi, poništite spremljene dozvole. Sustav će ih ponovno zatražiti pri sljedećem unosu teksta putem Tecloida."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Spremljene dozvole su poništene. Sustav će ih ponovno zatražiti pri sljedećem unosu teksta putem Tecloida."

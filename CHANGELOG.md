@@ -9,7 +9,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 - Keymap and `config.json` values with one spelling: layer, macro and command ids are unique ignoring case (`Nav` and `nav` are duplicates); `keymaps.order` lists a keymap once ignoring case; a rule chord may not repeat a key; an empty `hold` object is an error; `pause:` takes no leading zero (`pause:0100` is invalid); menu cell keys load in any case (`keyq` → `KeyQ`); empty menu pages are saved as `{}` and macros without steps without `steps`. Format version stays 1.
 - The published keymap schema states the ranges of `doubleTap.timeoutMs` and `longHold.timeoutMs`.
 
-- Clarify text input permission reset with an explanation of when consent is requested again; hide it for ydotool and xdotool.
+- Clarify text input permission reset with an explanation of when consent is requested again; hide it for ydotool and xdotool. Keep the reset button compact and confirm the reset with a toast.
 
 - Tecloid's own actions use the `app:` prefix (`app:showQuickMenu1`, `app:toggleGameMode`); `tecloid:` is no longer recognised. No migration: the format is not released yet. Config and keymap files may start with a UTF-8 byte order mark.
 - Rule editor: a trigger typed with sided modifiers (`ShiftLeft+ControlRight`) keeps them; it was saved as side-neutral `Shift+ControlRight`, which matches either Shift.

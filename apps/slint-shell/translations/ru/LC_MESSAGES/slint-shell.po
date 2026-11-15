@@ -3247,3 +3247,6 @@ msgstr "Разрешения на ввод текста"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Если вы отклонили системный запрос или ввод текста перестал работать, сбросьте сохранённые разрешения. Система запросит их снова при следующем вводе текста через Tecloid."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Сохранённые разрешения сброшены. Система запросит их снова при следующем вводе текста через Tecloid."

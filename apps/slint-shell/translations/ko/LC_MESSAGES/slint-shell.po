@@ -3584,3 +3584,6 @@ msgstr "텍스트 입력 권한"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "시스템 요청을 거부했거나 텍스트 입력이 작동하지 않으면 저장된 권한을 초기화하세요. 다음에 Tecloid가 텍스트를 입력할 때 시스템이 권한을 다시 요청합니다."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "저장된 권한이 초기화되었습니다. 다음에 Tecloid가 텍스트를 입력할 때 시스템이 권한을 다시 요청합니다."

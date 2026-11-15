@@ -3872,3 +3872,6 @@ msgstr "Berechtigungen für die Texteingabe"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Wenn Sie die Systemanfrage abgelehnt haben oder die Texteingabe nicht mehr funktioniert, setzen Sie die gespeicherten Berechtigungen zurück. Das System fragt bei der nächsten Texteingabe durch Tecloid erneut nach."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Gespeicherte Berechtigungen zurückgesetzt. Das System fragt bei der nächsten Texteingabe durch Tecloid erneut nach."

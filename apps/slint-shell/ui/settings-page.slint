@@ -612,9 +612,12 @@ export component SettingsPage inherits PageLayout {
                                 vertical-stretch: 0; max-width: Theme.text-column; color: Theme.muted; wrap: word-wrap;
                                 text: @tr("If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text.");
                             }
-                            Button {
-                                text: @tr("Reset saved permissions");
-                                clicked => { SettingsEditor.reset-text-permissions(); }
+                            HorizontalLayout { alignment: start; vertical-stretch: 0;
+                                Button {
+                                    horizontal-stretch: 0;
+                                    text: @tr("Reset saved permissions");
+                                    clicked => { SettingsEditor.reset-text-permissions(); }
+                                }
                             }
                         }
                         if SettingsEditor.text-modes[SettingsEditor.text-mode-index] == "libeiWithClipboardFallback" || SettingsEditor.text-modes[SettingsEditor.text-mode-index] == "clipboardPaste": VerticalLayout {

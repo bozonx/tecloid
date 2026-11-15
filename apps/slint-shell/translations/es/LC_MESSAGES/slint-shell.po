@@ -3794,3 +3794,6 @@ msgstr "Permisos de entrada de texto"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Si rechazaste la solicitud del sistema o la entrada de texto dejó de funcionar, restablece los permisos guardados. El sistema volverá a solicitarlos la próxima vez que Tecloid introduzca texto."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Permisos guardados restablecidos. El sistema volverá a solicitarlos la próxima vez que Tecloid introduzca texto."

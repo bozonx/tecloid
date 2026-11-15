@@ -3889,3 +3889,6 @@ msgstr "Άδειες εισαγωγής κειμένου"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Αν απορρίψατε το αίτημα του συστήματος ή η εισαγωγή κειμένου σταμάτησε να λειτουργεί, επαναφέρετε τις αποθηκευμένες άδειες. Το σύστημα θα τις ζητήσει ξανά την επόμενη φορά που το Tecloid εισάγει κείμενο."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "Έγινε επαναφορά των αποθηκευμένων αδειών. Το σύστημα θα τις ζητήσει ξανά την επόμενη φορά που το Tecloid εισάγει κείμενο."

@@ -299,6 +299,7 @@ pub enum Msg {
     SavedMapperNotUpdated(String),
     ActionSaved,
     SettingsSaved,
+    TextPermissionsReset,
     CapabilityAvailable,
     CapabilityUnavailable,
     CapabilityUnsupported,
@@ -503,6 +504,7 @@ impl Msg {
             Self::GameModeManualOn => ("game-mode-manual-on", empty(), 0),
             Self::GameModeManualOff => ("game-mode-manual-off", empty(), 0),
             Self::GameModeInDevelopment => ("game-mode-in-development", empty(), 0),
+            Self::TextPermissionsReset => ("text-permissions-reset", empty(), 0),
             Self::SettingsSaved => ("settings-saved", empty(), 0),
             Self::MacroRunFailure(reason) => (
                 match reason {

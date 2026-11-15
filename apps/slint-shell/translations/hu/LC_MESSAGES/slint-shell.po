@@ -3834,3 +3834,6 @@ msgstr "Szövegbeviteli engedélyek"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
 msgstr "Ha elutasította a rendszer kérését, vagy a szövegbevitel nem működik, állítsa vissza a mentett engedélyeket. A rendszer a Tecloid következő szövegbevitelénél újra engedélyt kér."
+
+msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
+msgstr "A mentett engedélyek visszaállítva. A rendszer a Tecloid következő szövegbevitelénél újra engedélyt kér."
