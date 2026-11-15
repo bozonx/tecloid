@@ -36,7 +36,17 @@ try {
     Add-Line ''
 
     $suite = (Get-Content 'D:\tecloid-e2e\suite.txt' -Raw).Trim()
-    if ($suite -notin @('smoke', 'full', 'release', 'mapper')) { throw "Unknown suite: $suite" }
+    if ($suite -notin @('smoke', 'full', 'release', 'mapper', 'autostart')) { throw "Unknown suite: $suite" }
+    if ($suite -eq 'autostart') {
+        $ErrorActionPreference = 'Continue'
+        & cargo build --release --locked --manifest-path (Join-Path $root 'Cargo.toml') `
+            -p slint-shell --bin tecloid *>&1 | Out-File -FilePath $log -Encoding utf8
+        $code = $LASTEXITCODE
+        $ErrorActionPreference = 'Stop'
+        if ($code -ne 0) { throw 'Autostart release shell build failed' }
+        Add-Line '- autostart-shell-build: passed'
+        return
+    }
     $script = 'windows\check-windows-smoke.ps1'
     Add-Line "Suite: $suite"
 

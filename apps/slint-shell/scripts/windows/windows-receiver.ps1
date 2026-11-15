@@ -225,6 +225,67 @@ $timer.Add_Tick({
                 Start-Process powershell -Verb RunAs -ArgumentList @('-NoProfile', '-STA', '-ExecutionPolicy', 'Bypass', '-File', $script:receiverScript, '-Output', $elevatedOutput)
             }
             'close' { $script:closePending = $true }
+            'tray' {
+                # Restrict UIA to Explorer's notification surfaces, avoiding our own UI thread.
+                $root = [System.Windows.Automation.AutomationElement]::RootElement
+                $surfaces = @($root.FindAll([System.Windows.Automation.TreeScope]::Children,
+                    [System.Windows.Automation.Condition]::TrueCondition) | Where-Object {
+                        $_.Current.ClassName -in @('Shell_TrayWnd', 'NotifyIconOverflowWindow', 'TopLevelWindowForOverflowXamlIsland')
+                    })
+                function Find-TecloidTrayIcon {
+                    foreach ($surface in $surfaces) {
+                        foreach ($element in $surface.FindAll([System.Windows.Automation.TreeScope]::Descendants,
+                            [System.Windows.Automation.Condition]::TrueCondition)) {
+                            if ($element.Current.Name.Trim() -notlike 'Tecloid*') { continue }
+                            $node = $element
+                            for ($depth = 0; $node -and $depth -lt 12; $depth++) {
+                                if ($node.Current.AutomationId -like 'SystemTray*' -or
+                                    $node.Current.ClassName -like '*SystemTray*' -or
+                                    $node.Current.ClassName -in @('TrayNotifyWnd', 'NotifyIconOverflowWindow', 'TopLevelWindowForOverflowXamlIsland')) {
+                                    return $element
+                                }
+                                $node = [System.Windows.Automation.TreeWalker]::RawViewWalker.GetParent($node)
+                            }
+                        }
+                    }
+                    return $null
+                }
+                $icon = Find-TecloidTrayIcon
+                if (-not $icon) {
+                    $condition = [System.Windows.Automation.OrCondition]::new(
+                        [System.Windows.Automation.PropertyCondition]::new(
+                            [System.Windows.Automation.AutomationElement]::AutomationIdProperty, 'SystemTrayOverflowButton'),
+                        [System.Windows.Automation.PropertyCondition]::new(
+                            [System.Windows.Automation.AutomationElement]::NameProperty, 'Show hidden icons',
+                            [System.Windows.Automation.PropertyConditionFlags]::IgnoreCase))
+                    foreach ($surface in $surfaces) {
+                        $overflow = $surface.FindFirst([System.Windows.Automation.TreeScope]::Descendants, $condition)
+                        if ($overflow) {
+                            $overflow.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                            Start-Sleep -Milliseconds 500
+                            break
+                        }
+                    }
+                    # Opening overflow creates a new top-level notification surface.
+                    $surfaces = @($root.FindAll([System.Windows.Automation.TreeScope]::Children,
+                        [System.Windows.Automation.Condition]::TrueCondition) | Where-Object {
+                            $_.Current.ClassName -in @('Shell_TrayWnd', 'NotifyIconOverflowWindow', 'TopLevelWindowForOverflowXamlIsland')
+                        })
+                    $icon = Find-TecloidTrayIcon
+                }
+                if (-not $icon) {
+                    $tree = @(foreach ($surface in $surfaces) {
+                        foreach ($element in $surface.FindAll([System.Windows.Automation.TreeScope]::Descendants,
+                            [System.Windows.Automation.Condition]::TrueCondition)) {
+                            @{ name=$element.Current.Name; class=$element.Current.ClassName;
+                               id=$element.Current.AutomationId; type=$element.Current.ControlType.ProgrammaticName }
+                        }
+                    })
+                    [IO.File]::WriteAllText((Join-Path $Output 'tray-tree.json'),
+                        ($tree | ConvertTo-Json -Depth 4), [Text.UTF8Encoding]::new($false))
+                    throw 'Tecloid notification icon not found; see tray-tree.json'
+                }
+            }
             'session-state' { }
             'lock' {
                 if (-not [tecloidKeyTrace]::LockWorkStation()) { throw 'LockWorkStation failed' }

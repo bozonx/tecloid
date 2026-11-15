@@ -16,6 +16,7 @@ from unittest.mock import Mock, patch
 import importlib.util
 from vmlib import Report, StepFailed, Vm
 from windows_mapper import WindowsMapper, retry_guest_io
+import windows_autostart
 import windows_popups
 
 spec = importlib.util.spec_from_file_location("run_windows", Path(__file__).with_name("run-windows.py"))
@@ -24,6 +25,13 @@ spec.loader.exec_module(run_windows)
 
 
 class WindowsStandTests(unittest.TestCase):
+    def test_autostart_upgrade_rejects_a_same_version_reinstall(self):
+        vm = Mock()
+        ps = Mock(return_value="tecloid 0.5.0")
+        with self.assertRaisesRegex(StepFailed, "versions must differ"):
+            windows_autostart.cycle(vm, ps, r"D:\fixture", r"D:\previous.zip")
+        self.assertFalse(any("shutdown.exe" in call.args[0] for call in ps.call_args_list))
+
     def test_stop_releases_physical_key_before_remote_trace_reads_and_checks_event_order(self):
         for transitions, succeeds in (([(17, False), (70, False)], True),
                                      ([(70, False)], False),

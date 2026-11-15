@@ -12,7 +12,7 @@ results of a run apply to the sources it recorded, not automatically to HEAD.
 | L1 | Mapper e2e: evdev → engine → uinput without a desktop | Host; CI (missing `uinput` fails the job) | Every PR |
 | L2 | Package smoke: install/remove in containers | CI (`release.yml`), Docker | Release tag |
 | L3 | Desktop scenarios in a real KDE Wayland session + L1 | Developer machine | Before a release, after UI changes |
-| L4 | Disposable KVM/QEMU VMs: package install, permissions, relogin, autostart, tray, mapper, portal, upgrade, removal | Local VMs | Before a release, after packaging/permissions/tray/portal changes |
+| L4 | Disposable KVM/QEMU VMs: package install, permissions, relogin, autostart, tray, mapper, portal, upgrade, removal | Local VMs | Before a release, after packaging/permissions/autostart/tray/portal changes |
 | L5 | Manual acceptance on physical hardware | Real machines | Before a release |
 
 Desktop e2e (L3–L5) never run on GitHub: cloud runners have no Plasma session,
@@ -189,6 +189,16 @@ screen-lock password typed through the mapper, S3 resume, second instance,
 keyboard replug, stuck keys on stop and `kill -9`, upgrade over a running app,
 quit and removal (user config kept). Full list: `linux-guest.py`.
 
+Autostart checks include a real reboot, disabling through the desktop entry
+(`Hidden=true`), a 90-second observation with no shell/mapper, a manual launch
+followed by package replacement and another disabled login, re-enabling, and startup after package
+replacement. These exercise OS registration and synchronization, not the settings
+checkbox. `run-linux.py --autostart-only` runs this focused subset (without
+`--acceptance`). The same cycle runs in the GNOME stand, including reinstall; it also accepts
+`--autostart-only`.
+Reinstalling the same package is not evidence of a previous-version upgrade;
+use `--previous` for that coverage.
+
 If portal steps fail, check `portal-deny-*.png`/`portal-consent.png` and adjust
 `portal_*` keys for the guest's xdg-desktop-portal-kde version.
 
@@ -224,7 +234,7 @@ and registers the interactive task `Tecloid-E2E`. Disable hibernation before
 saving the base image.
 
 ```sh
-apps/slint-shell/scripts/vm/run-windows.py --vm <vm-dir> [--suite smoke|full|mapper] [--extended]
+apps/slint-shell/scripts/vm/run-windows.py --vm <vm-dir> [--suite smoke|full|release|mapper|autostart] [--extended]
 ```
 
 The runner packs the working tree (tracked + untracked, not ignored), builds in
@@ -236,6 +246,19 @@ engine → `SendInput`. `full` adds release build, storage override, release
 lifecycle (100 popup cycles, resources) and crash-with-held-keys. `--extended`
 adds lock/unlock, S3, stress, process-tree kill, Notepad, elevated target. Host
 part self-test: `python3 -m unittest discover -s apps/slint-shell/scripts/vm -p test_windows_stand.py`.
+
+Windows `run-windows.py --suite full` and `--suite release` also reboot to check
+the current user's Run registration: enabled launch with working IPC and no
+visible main window, disabled login observed for 120 seconds, and re-enabled
+launch. After enabled logins, QEMU keyboard input must be remapped from A to B
+in the native WinForms receiver; UI Automation must also find the Tecloid
+notification icon in the tray or overflow. The settings checkbox is not exercised. With
+`--suite full --previous-package`, it also starts the previous ZIP executable,
+replaces it in place with the current release, checks that Run registration is
+unchanged and reboots into the new shell. Without that ZIP, version upgrade
+coverage is explicitly NOT RUN. The debug smoke suite skips startup checks.
+`--suite autostart` builds only the release shell and runs this focused cycle
+without the full hardware/mapper acceptance suite.
 
 ## Before a release
 

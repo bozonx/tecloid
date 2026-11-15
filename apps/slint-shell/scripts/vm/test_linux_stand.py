@@ -29,6 +29,25 @@ receiver_probe = module("receiver_probe", "check-linux-receiver.py")
 
 
 class LinuxStandTests(unittest.TestCase):
+    def test_disabled_startup_rejects_a_process_even_without_ipc(self):
+        args = SimpleNamespace(absent=True, timeout=90)
+        with patch.object(guest.time, "monotonic", side_effect=[0, 1]), \
+                patch.object(guest, "processes", return_value=["123"]), \
+                patch.object(guest, "app") as app:
+            with self.assertRaises(SystemExit):
+                guest.cmd_wait_app(args)
+            app.assert_not_called()
+
+    def test_disabled_startup_observes_the_entire_interval(self):
+        args = SimpleNamespace(absent=True, timeout=90)
+        with patch.object(guest.time, "monotonic", side_effect=[0, 1, 45, 90]), \
+                patch.object(guest.time, "sleep") as sleep, \
+                patch.object(guest, "processes", return_value=[]), \
+                patch.object(guest, "app", return_value=SimpleNamespace(returncode=1)) as app:
+            guest.cmd_wait_app(args)
+            self.assertEqual(app.call_count, 2)
+            self.assertEqual(sleep.call_count, 2)
+
     def test_portal_denial_stops_after_the_job_is_cancelled(self):
         click = Mock()
         visible = Mock(return_value=False)

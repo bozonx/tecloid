@@ -26,6 +26,7 @@ import tarfile
 import threading
 import time
 
+from windows_autostart import cycle as autostart_cycle
 from windows_mapper import WindowsMapper, retry_guest_io
 from windows_popups import check_popups
 from vmlib import REPO, Report, StepFailed, Vm, commit, environment_ok, result_path, wait_for
@@ -201,8 +202,8 @@ def validate_acceptance(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--vm", required=True, help="VM directory with vm.json")
-    parser.add_argument("--suite", choices=("smoke", "full", "release", "mapper"), default="smoke",
-                        help="smoke (default), full native/release checks, release input/popups, or mapper diagnostics")
+    parser.add_argument("--suite", choices=("smoke", "full", "release", "mapper", "autostart"), default="smoke",
+                        help="smoke (default), full checks, release input/popups, mapper diagnostics, or autostart only")
     parser.add_argument("--memory", type=int, help="guest RAM in MiB; overrides vm.json for this run only")
     parser.add_argument("--mapper-from", help="mapper-only diagnostics: begin at this named scenario")
     parser.add_argument("--mapper-only", help="mapper-only diagnostics: run just this named scenario")
@@ -240,7 +241,7 @@ def main():
         vm.config["memory"] = args.memory
     report = Report()
     if args.acceptance:
-        report.require(("boot", "preflight", "upload-source", "windows-full", "hardware-keyboard",
+        report.require(("boot", "preflight", "upload-source", "windows-full", "autostart-cycle", "hardware-keyboard",
                         "shell-keymap-remap-restart", "shell-mapper-crash-held",
                         "popup-bmp-focus", "popup-surrogate-focus", "popup-zwj-focus",
                         "popup-mixed-text-focus", "popup-reopen-focus"))
@@ -425,7 +426,11 @@ Remove-Item $stage -Recurse -Force
         else:
             summary.write(ps(f"Get-Content -Raw -Encoding utf8 {WORK}\\out\\summary.txt"))
             status = ps(f"Get-Content -Raw {WORK}\\out\\done.txt").strip()
-        validate_guest_result(status, summary.getvalue(), input_checked)
+        if args.suite == "autostart":
+            if status != "0" or "- autostart-shell-build: passed" not in summary.getvalue():
+                raise StepFailed(summary.getvalue() or "Autostart shell build failed")
+        else:
+            validate_guest_result(status, summary.getvalue(), input_checked)
         if args.acceptance and "- full-native-release: passed" not in summary.getvalue():
             raise StepFailed("full native/package acceptance verdict is missing")
         if args.previous_package:
@@ -439,6 +444,12 @@ Remove-Item $stage -Recurse -Force
         report.step("preflight", preflight, fatal=True)
         report.step("upload-source", upload, fatal=True)
         report.step(f"windows-{args.suite}", run)
+        if args.suite in ("full", "release", "autostart"):
+            report.step("autostart-cycle", autostart_cycle, vm, ps, WORK,
+                        f"{WORK}\\previous\\{args.previous_package.name}" if args.previous_package else None,
+                        requires=(f"windows-{args.suite}",), fatal=True)
+        else:
+            report.skip("autostart-cycle", "requires a release shell (--suite full, release or autostart)")
     except (StepFailed, subprocess.SubprocessError, OSError):
         print("A required step failed; later steps were not run.")
     except KeyboardInterrupt:
@@ -465,8 +476,8 @@ Remove-Item $stage -Recurse -Force
         f"Suite: {args.suite}; acceptance requested: {args.acceptance}",
         f"Previous-version upgrade: {args.previous_package or ('N/A: first public release' if args.first_release else 'NOT RUN')}",
         "Scope: Windows developer VM; clean-package and previous-version upgrade require separate acceptance",
-        f"Mapper build: {'release' if args.suite in ('full', 'release') else 'debug'}",
-        f"Popup shell build: {'none' if args.suite == 'mapper' else 'release' if args.suite in ('full', 'release') else 'debug'}",
+        f"Mapper build: {'not included' if args.suite == 'autostart' else 'release' if args.suite in ('full', 'release') else 'debug'}",
+        f"Popup shell build: {'none' if args.suite == 'mapper' else 'release' if args.suite in ('full', 'release', 'autostart') else 'debug'}",
         f"Native tests/clippy/package lifecycle: {'included' if args.suite == 'full' else 'not included in this suite'}",
         f"Mapper from: {args.mapper_from or 'beginning'}",
         f"Mapper only: {args.mapper_only or 'all'}",

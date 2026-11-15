@@ -132,7 +132,6 @@ E2E_LAYOUT = f'''{{
   ],
   "emojiMenuPages": [
     {{
-      "id": "e2e",
       "name": "E2E",
       "cells": {{
         "KeyQ": "🙂"
@@ -141,7 +140,6 @@ E2E_LAYOUT = f'''{{
   ],
   "quickMenuPages": [
     {{
-      "id": "e2e",
       "name": "E2E",
       "cells": {{
         "KeyQ": "text:quick-ok"
@@ -329,7 +327,7 @@ def cmd_write_config(args):
         "keymaps": {"mode": "manual", "manualKeymap": "user:E2E"},
         "startMapperOnLaunch": True,
         "launchAtLogin": True,
-        "locale": "en",
+        "interface": {"locale": "en"},
         "commandsEnabled": True,
         "gameMode": {
             "processes": [{"name": FAKE_GAME, "foregroundOnly": False}],
@@ -377,6 +375,13 @@ def cmd_start_app(args):
 
 
 def cmd_wait_app(args):
+    if getattr(args, "absent", False):
+        deadline = time.monotonic() + args.timeout
+        while time.monotonic() < deadline:
+            if processes() or app("ping").returncode == 0:
+                fail("Tecloid started with autostart disabled")
+            time.sleep(1)
+        return
     wait("an answer to `ping`", args.timeout, lambda: app("ping").returncode == 0)
 
 
@@ -843,6 +848,7 @@ def main():
     p.add_argument("--popups", default="auto")
     p.add_argument("--timeout", type=float, default=30)
     p = sub.add_parser("wait-app")
+    p.add_argument("--absent", action="store_true")
     p.add_argument("--timeout", type=float, default=60)
     sub.add_parser("quit-app")
     sub.add_parser("resources")

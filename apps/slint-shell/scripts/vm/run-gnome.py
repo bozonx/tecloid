@@ -10,8 +10,10 @@ import json
 from pathlib import Path
 import shlex
 import subprocess
+import sys
 import time
 
+from autostart_cycle import disabled_cycle, upgraded_cycle
 from vmlib import Report, StepFailed, Vm, commit, environment_ok, receiver_text, result_path
 
 GUEST = "~/tecloid-e2e"
@@ -26,6 +28,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--vm", required=True)
     parser.add_argument("--package", required=True, type=Path)
+    parser.add_argument("--autostart-only", action="store_true", help="only startup, disable/re-enable and reinstall checks")
     parser.add_argument("--keep", action="store_true")
     parser.add_argument("--examples", type=Path, help="directory with current editor and interactions binaries")
     args = parser.parse_args()
@@ -70,7 +73,7 @@ def main():
 
     def install():
         vm.copy_to(package, "tecloid-e2e/")
-        vm.ssh(f"cd {GUEST} && mkdir bundle && tar -xzf {shlex.quote(package.name)} -C bundle && "
+        vm.ssh(f"cd {GUEST} && mkdir -p bundle && tar -xzf {shlex.quote(package.name)} -C bundle && "
                "cd bundle/* && ./install-linux.sh && ./install-gnome-extension.sh")
         return guest("check-install")
 
@@ -302,29 +305,32 @@ def main():
         step("permissions-and-extension", permissions)
         # Autostart is expected to launch the app after the fresh login.
         step("autostart", guest, "wait-app --timeout 90")
+        step("autostart-disabled-cycle", disabled_cycle, vm, guest, install)
+        step("autostart-after-reinstall", upgraded_cycle, vm, guest, install)
         step("mapper-start", guest, "mapper")
         step("tray", guest, "tray")
-        step("tray-host-lifecycle", tray_recovery)
-        if args.examples:
-            step("editor-smoke", ui_example, "editor")
-            step("interactions", ui_example, "interactions")
-        step("passthrough", expect, "passthrough", "c", ("c",))
-        step("remap", expect, "remap", "b", ("a",))
-        step("chord", expect, "chord", "X", ("d",))
-        step("layer-tap-hold", layer)
-        step("stop-restart-native", stop_keys)
-        step("system-layout-workspace", system_actions)
-        step("command", command)
-        step("game-mode-on-off", game_mode)
-        step("clipboard-seed", clipboard_seed)
-        step("text-portal-ascii", consent)
-        step("quick-popup-focus-delivery", quick_popup)
-        step("text-unicode", expect, "text-unicode", "Привет, ёж 😀", ("y",))
-        step("clipboard-restored", clipboard_preserved)
-        step("mixed-macro", expect, "mixed-macro", "nmacO", ("m",))
-        step("popup-open-hide", guest, "popups")
-        step("clipboard-new-owner", clipboard_interruption, "replace")
-        step("clipboard-cancel-on-stop", clipboard_interruption, "hold")
+        if not args.autostart_only:
+            step("tray-host-lifecycle", tray_recovery)
+            if args.examples:
+                step("editor-smoke", ui_example, "editor")
+                step("interactions", ui_example, "interactions")
+            step("passthrough", expect, "passthrough", "c", ("c",))
+            step("remap", expect, "remap", "b", ("a",))
+            step("chord", expect, "chord", "X", ("d",))
+            step("layer-tap-hold", layer)
+            step("stop-restart-native", stop_keys)
+            step("system-layout-workspace", system_actions)
+            step("command", command)
+            step("game-mode-on-off", game_mode)
+            step("clipboard-seed", clipboard_seed)
+            step("text-portal-ascii", consent)
+            step("quick-popup-focus-delivery", quick_popup)
+            step("text-unicode", expect, "text-unicode", "Привет, ёж 😀", ("y",))
+            step("clipboard-restored", clipboard_preserved)
+            step("mixed-macro", expect, "mixed-macro", "nmacO", ("m",))
+            step("popup-open-hide", guest, "popups")
+            step("clipboard-new-owner", clipboard_interruption, "replace")
+            step("clipboard-cancel-on-stop", clipboard_interruption, "hold")
         step("quit", guest, "quit-app")
     except (StepFailed, subprocess.SubprocessError, OSError):
         print("Stopped on the first failed step; remaining acceptance is NOT passed.")
@@ -340,7 +346,9 @@ def main():
         finally:
             vm.stop(keep=args.keep)
     report.write([f"Date: {time.strftime('%F %T %z')}", f"Commit: {commit()}",
+                  f"Command: {shlex.join(sys.argv)}",
                   f"VM: {vm.name}", f"Package: {package}",
+                  f"Autostart only: {args.autostart_only}",
                   f"Keyboard: {state.get('device', 'not detected')}",
                   f"Logs and screenshots: {vm.logs}",
                   "Scope: GNOME smoke only; lock/suspend/replug, other receivers and upgrade not covered."],
