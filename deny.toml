@@ -44,6 +44,20 @@ confidence-threshold = 0.9
 ignore = true
 
 [bans]
+# Guard against accidentally introducing HTTP clients or TLS dependencies.
+# This does not prevent networking through std::net.
+deny = [
+    { crate = "reqwest", reason = "Tecloid never talks to the network" },
+    { crate = "ureq" },
+    { crate = "hyper" },
+    { crate = "curl" },
+    { crate = "isahc" },
+    { crate = "attohttpc" },
+    { crate = "h2" },
+    { crate = "rustls" },
+    { crate = "native-tls" },
+    { crate = "openssl" },
+]
 # Slint, wgpu and winit bring several duplicated versions we cannot unify;
 # report them without failing.
 multiple-versions = "warn"
