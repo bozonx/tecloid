@@ -20,12 +20,18 @@ struct Progress {
     generation: u64,
     active: bool,
     pending: usize,
+    capture_registered: bool,
+    capture_suspended: bool,
+    permissions: usize,
 }
 
 static PROGRESS: Mutex<Progress> = Mutex::new(Progress {
     generation: 0,
     active: false,
     pending: 0,
+    capture_registered: false,
+    capture_suspended: false,
+    permissions: 0,
 });
 
 /// Completion and cancellation of one macro text step, independent of other input.
@@ -89,6 +95,8 @@ impl Progress {
     fn reset(&mut self, active: bool) {
         self.generation = self.generation.wrapping_add(1);
         self.pending = 0;
+        self.permissions = 0;
+        self.capture_suspended = false;
         self.active = active;
     }
 }
@@ -138,6 +146,53 @@ impl TextRequest {
             .unwrap_or_else(|e| e.into_inner())
             .prepare()
             .map_err(|e| unavailable(&e))
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn await_permission(
+        &self,
+        timeout: Duration,
+    ) -> Result<Permission, TextInputFailure> {
+        self.check_lifetime()?;
+        self.timing
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .await_permission(timeout)
+            .map_err(|e| unavailable(&e))?;
+        {
+            let mut progress = PROGRESS.lock().unwrap_or_else(|e| e.into_inner());
+            if progress.generation != self.generation {
+                return Err(unavailable("text input cancelled"));
+            }
+            progress.permissions += 1;
+        }
+        let permission = Permission(self.clone());
+        loop {
+            self.check_lifetime()?;
+            let ready = {
+                let progress = PROGRESS.lock().unwrap_or_else(|e| e.into_inner());
+                !progress.capture_registered || progress.capture_suspended
+            };
+            if ready {
+                return Ok(permission);
+            }
+            std::thread::sleep(TARGET_POLL);
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn wait_for_capture(&self) -> Result<(), TextInputFailure> {
+        loop {
+            self.check_lifetime()?;
+            if !PROGRESS
+                .lock()
+                .unwrap_or_else(|e| e.into_inner())
+                .capture_suspended
+            {
+                return Ok(());
+            }
+            std::thread::sleep(TARGET_POLL);
+        }
     }
 
     pub(crate) fn start_typing(&self) -> Result<(), TextInputFailure> {
@@ -212,6 +267,26 @@ impl TextRequest {
     }
 }
 
+/// Keeps physical capture suspended for the complete portal consent exchange.
+#[cfg(target_os = "linux")]
+pub(crate) struct Permission(TextRequest);
+
+#[cfg(target_os = "linux")]
+impl Drop for Permission {
+    fn drop(&mut self) {
+        let mut progress = PROGRESS.lock().unwrap_or_else(|e| e.into_inner());
+        if progress.generation == self.0.generation {
+            progress.permissions = progress.permissions.saturating_sub(1);
+        }
+        drop(progress);
+        self.0
+            .timing
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .permission_finished();
+    }
+}
+
 pub(crate) fn cancel() {
     let mut progress = PROGRESS.lock().unwrap_or_else(|e| e.into_inner());
     progress.reset(false);
@@ -226,9 +301,35 @@ impl Session {
     pub(crate) fn start() -> Self {
         let mut progress = PROGRESS.lock().unwrap_or_else(|e| e.into_inner());
         progress.reset(true);
+        progress.capture_registered = false;
         Self {
             generation: progress.generation,
         }
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn register_capture(&self) {
+        PROGRESS
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .capture_registered = true;
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn permission_pending(&self) -> bool {
+        PROGRESS
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .permissions
+            != 0
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn capture_suspended(&self, suspended: bool) {
+        PROGRESS
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .capture_suspended = suspended;
     }
 
     pub(crate) fn restart(&mut self) {
@@ -243,6 +344,7 @@ impl Drop for Session {
         let mut progress = PROGRESS.lock().unwrap_or_else(|e| e.into_inner());
         if progress.generation == self.generation {
             progress.reset(false);
+            progress.capture_registered = false;
         }
     }
 }
@@ -268,6 +370,31 @@ mod tests {
         let job = MacroText::default();
         let request = TextRequest::enqueue_macro("macro text", job.clone()).unwrap();
         let unrelated = TextRequest::enqueue("other text").unwrap();
+        #[cfg(target_os = "linux")]
+        {
+            current.register_capture();
+            unrelated.prepare().unwrap();
+            let handshake = unrelated.clone();
+            let worker =
+                std::thread::spawn(move || handshake.await_permission(Duration::from_secs(180)));
+            let deadline = Instant::now() + Duration::from_secs(2);
+            while !current.permission_pending() {
+                assert!(Instant::now() < deadline);
+                std::thread::yield_now();
+            }
+            assert!(
+                !worker.is_finished(),
+                "dialog cannot open before capture is released"
+            );
+            current.capture_suspended(true);
+            let permission = worker.join().unwrap().unwrap();
+            assert!(current.permission_pending());
+            drop(permission);
+            assert!(!current.permission_pending());
+            current.capture_suspended(false);
+            unrelated.wait_for_capture().unwrap();
+        }
+
         job.cancel();
         assert!(request.check_lifetime().is_err());
         assert!(unrelated.check_lifetime().is_ok());
@@ -277,6 +404,21 @@ mod tests {
         unrelated.complete(false);
         assert!(!pending());
         assert!(TextRequest::enqueue_macro("cancelled", job).is_err());
+        #[cfg(target_os = "linux")]
+        {
+            let cancelled = TextRequest::enqueue("cancelled consent").unwrap();
+            cancelled.prepare().unwrap();
+            let worker =
+                std::thread::spawn(move || cancelled.await_permission(Duration::from_secs(180)));
+            let deadline = Instant::now() + Duration::from_secs(2);
+            while !current.permission_pending() {
+                assert!(Instant::now() < deadline);
+                std::thread::yield_now();
+            }
+            current.restart();
+            assert!(worker.join().unwrap().is_err());
+            assert!(!current.permission_pending());
+        }
         current.restart();
         drop(current);
         assert!(!PROGRESS.lock().unwrap().active);

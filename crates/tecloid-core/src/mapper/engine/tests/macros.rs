@@ -1068,3 +1068,23 @@ fn timeout_shutdown_and_reconfigure_cancel_pending_macro_text() {
         assert!(!engine.macro_running());
     }
 }
+
+#[cfg(target_os = "linux")]
+#[test]
+fn permission_pause_releases_inputs_without_cancelling_the_waiting_text() {
+    let mut engine = text_macro_engine();
+    let mut out = Vec::new();
+    engine.execute_remote("macro:text", &mut out);
+    let now = Instant::now();
+    engine.tick(now, &mut out);
+    let job = take_macro_text(&mut out);
+    engine.handle_key_event(KeyCode::KEY_LEFTCTRL, true, now, &mut out);
+    out.clear();
+    engine.suspend_input(&mut out);
+    assert!(!job.cancelled());
+    assert!(!engine.physical_down.contains(&KeyCode::KEY_LEFTCTRL));
+    assert!(engine.virt.emitted.is_empty());
+    let deadline = engine.runner.active.as_ref().unwrap().deadline;
+    engine.resume_after_permission(Duration::from_secs(60));
+    assert_eq!(engine.runner.active.as_ref().unwrap().deadline, deadline + Duration::from_secs(60));
+}

@@ -90,6 +90,13 @@ impl OutputHold {
         self.typed_until = None;
     }
 
+    /// Drop pre-dialog input while retaining ordering behind the text request.
+    #[cfg(target_os = "linux")]
+    pub(super) fn suspend_for_permission(&mut self, now: Instant) {
+        self.discard();
+        self.text_until = Some(now);
+    }
+
     /// Config changes revoke pending side effects, while key transitions
     /// must remain balanced with presses already emitted before the popup.
     pub(super) fn cancel_actions(&mut self, buf: &mut Vec<EngineOutput>) {
@@ -339,6 +346,11 @@ pub(super) enum DriverInput {
 }
 
 pub(super) trait LoopDriver {
+    /// Temporarily return physical devices to the desktop for a system dialog.
+    #[cfg(target_os = "linux")]
+    fn suspend_capture(&mut self, _suspended: bool) -> Result<bool, String> {
+        Ok(true)
+    }
     fn now(&mut self) -> Instant;
     fn wait(&mut self, timeout: Duration) -> Result<bool, String>;
     /// Nonblocking: called after every wait, including timeout and control wakes.
@@ -858,6 +870,24 @@ mod tests {
             commands: Vec::new(),
             settings: Settings::default(),
         }
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn consent_discards_old_input_but_restores_text_ordering_afterwards() {
+        let now = Instant::now();
+        let key = |key| EngineOutput::KeyRaw { key, down: true };
+        let mut hold = OutputHold::default();
+        let mut output = vec![EngineOutput::Literal("❓".into()), key(KeyCode::KEY_A)];
+        hold.gate(&mut output, now, true);
+        output.clear(); // The text request was dispatched to its worker.
+        hold.suspend_for_permission(now);
+        let after_dialog = now + Duration::from_secs(60);
+        output.push(key(KeyCode::KEY_B));
+        hold.gate(&mut output, after_dialog, true);
+        assert!(output.is_empty(), "typing waits for the actual insertion");
+        hold.gate(&mut output, after_dialog, false);
+        assert!(matches!(output.as_slice(), [EngineOutput::KeyRaw { key: KeyCode::KEY_B, down: true }]));
     }
 
     #[test]

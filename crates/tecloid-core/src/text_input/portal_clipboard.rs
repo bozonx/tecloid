@@ -368,6 +368,25 @@ fn set_selection(
         .map_err(|e| e.to_string())
 }
 
+impl State {
+    fn check_preservable(&self) -> Result<(), String> {
+        // OwnerChanged signals can still describe our temporary sensitive offer.
+        // Once restored, the data we serve is authoritative while we own it.
+        let types: Vec<_> = if self.own {
+            self.contents.keys().collect()
+        } else {
+            self.types.iter().collect()
+        };
+        if types.iter().any(|mime| mime.as_str() == SENSITIVE_MIME) {
+            return Err("sensitive clipboard cannot safely change ownership".into());
+        }
+        if types.len() > MAX_TYPES {
+            return Err("too many clipboard formats to preserve".into());
+        }
+        Ok(())
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 fn transaction(
     portal: &Proxy<'_>,
@@ -385,12 +404,7 @@ fn transaction(
     if !state.known {
         return Err("clipboard portal has not reported the initial owner".into());
     }
-    if state.types.iter().any(|mime| mime == SENSITIVE_MIME) {
-        return Err("sensitive clipboard cannot safely change ownership".into());
-    }
-    if state.types.len() > MAX_TYPES {
-        return Err("too many clipboard formats to preserve".into());
-    }
+    state.check_preservable()?;
     request.check().map_err(|e| format!("{e:?}"))?;
     let revision = state.revision;
     let saved = if state.own {
@@ -509,6 +523,25 @@ mod tests {
     use super::*;
     use std::io::Write;
     use std::os::unix::net::UnixStream;
+
+    #[test]
+    fn restored_clipboard_does_not_inherit_the_temporary_sensitive_offer() {
+        let mut state = State {
+            own: true,
+            types: vec![TEXT_MIME.into(), SENSITIVE_MIME.into()],
+            contents: HashMap::from([(TEXT_MIME.into(), Arc::from(b"original".as_slice()))]),
+            ..State::default()
+        };
+        assert!(state.check_preservable().is_ok());
+        // The same advertisement from an external owner must remain protected.
+        state.own = false;
+        assert!(state.check_preservable().unwrap_err().contains("sensitive"));
+        state.own = true;
+        state
+            .contents
+            .insert(SENSITIVE_MIME.into(), Arc::from(b"secret".as_slice()));
+        assert!(state.check_preservable().is_err());
+    }
 
     #[test]
     fn retired_owner_wakes_on_portal_signals_and_closes_after_replacement() {

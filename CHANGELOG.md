@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Linux: release keyboard and mouse capture while the text portal asks for permission, with a separate consent deadline; discard dialog input before restoring mappings. GNOME clipboard insertion no longer mistakes our restored clipboard for the temporary sensitive offer from a previous paste.
+
 - Add `manual-linux.py gnome` and GNOME VM `--manual` acceptance, preparing the Shell bridge and tray extension before an operator checklist.
 
 - Refresh the KDE application menu after installation in manual VM acceptance so Tecloid is immediately available in the launcher.

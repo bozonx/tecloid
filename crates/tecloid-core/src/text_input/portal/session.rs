@@ -111,6 +111,9 @@ pub(super) fn init_portal(text_request: &TextRequest) -> Result<PortalSession, S
 
     log::debug!("[portal] handshake: Start (consent dialog if no valid restore_token)");
     let start_results = {
+        let _permission = text_request
+            .await_permission(CONSENT_TIMEOUT)
+            .map_err(|error| format!("{error:?}"))?;
         let handle_token = gen_token("t");
         let request_path = make_request_path(&sender_escaped, &handle_token);
         let mut opts: HashMap<String, Value> = HashMap::new();
@@ -126,6 +129,10 @@ pub(super) fn init_portal(text_request: &TextRequest) -> Result<PortalSession, S
         )?;
         results
     };
+
+    text_request
+        .wait_for_capture()
+        .map_err(|error| format!("{error:?}"))?;
 
     if let Some(clipboard) = &clipboard {
         let enabled = start_results

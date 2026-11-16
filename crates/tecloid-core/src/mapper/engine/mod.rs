@@ -1010,6 +1010,14 @@ impl Engine {
     /// Generic shutdown helper — release everything that is currently held.
     pub fn shutdown(&mut self, out: &mut Vec<EngineOutput>) {
         self.runner.cancel(&mut self.virt, out);
+        self.suspend_input(out);
+    }
+
+    /// Release mapped holds for a system permission dialog without cancelling its text step.
+    pub(crate) fn suspend_input(&mut self, out: &mut Vec<EngineOutput>) {
+        if !self.runner.active.as_ref().is_some_and(|active| matches!(active.phase, model::MacroPhase::Text(_))) {
+            self.runner.cancel(&mut self.virt, out);
+        }
         // HashMap drain order is arbitrary; release plain keys before
         // modifier keys so a chord's main key never outlives its modifier.
         let mut held: Vec<KeyCode> = self.virt.emitted.drain().map(|(_, ks)| ks.key).collect();
@@ -1042,6 +1050,14 @@ impl Engine {
         self.chords.consumed.clear();
         self.physical_down.clear();
         self.press_at.clear();
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn resume_after_permission(&mut self, elapsed: Duration) {
+        if let Some(active) = &mut self.runner.active {
+            active.deadline += elapsed;
+            active.next_wake += elapsed;
+        }
     }
 
     pub fn execute_remote(&mut self, action: &str, out: &mut Vec<EngineOutput>) {

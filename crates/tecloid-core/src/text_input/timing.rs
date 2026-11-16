@@ -7,10 +7,12 @@ const QUEUE_TIMEOUT: Duration = Duration::from_secs(15);
 const PREPARE_TIMEOUT: Duration = Duration::from_secs(15);
 const IDLE_TIMEOUT: Duration = Duration::from_secs(15);
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Phase {
     Queued,
     Preparing,
+    #[cfg(target_os = "linux")]
+    Permission,
     Typing,
     #[cfg(target_os = "linux")]
     Tool,
@@ -47,6 +49,20 @@ impl TextTiming {
             PREPARE_TIMEOUT,
             Instant::now(),
         )
+    }
+
+    /// User consent has its own budget; polling must not prolong it.
+    #[cfg(target_os = "linux")]
+    pub(crate) fn await_permission(&mut self, timeout: Duration) -> Result<(), String> {
+        self.transition(Phase::Preparing, Phase::Permission, timeout, Instant::now())
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn permission_finished(&mut self) {
+        if self.phase == Phase::Permission && self.check().is_ok() {
+            self.phase = Phase::Preparing;
+            self.deadline = Instant::now() + PREPARE_TIMEOUT;
+        }
     }
 
     /// Start character delivery after setup and modifier waits have completed.
@@ -90,6 +106,8 @@ impl TextTiming {
             Err(match self.phase {
                 Phase::Queued => "text input expired in queue",
                 Phase::Preparing => "text input preparation timed out",
+                #[cfg(target_os = "linux")]
+                Phase::Permission => "text input permission timed out",
                 Phase::Typing => "text input made no progress",
                 #[cfg(target_os = "linux")]
                 Phase::Tool => "text input tool timed out",
@@ -115,6 +133,26 @@ impl TextTiming {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn consent_outlives_setup_without_renewing_its_own_deadline() {
+        let mut timing = TextTiming::new("❓").unwrap();
+        timing.prepare().unwrap();
+        timing.await_permission(Duration::from_secs(180)).unwrap();
+        let deadline = timing.deadline;
+        timing.await_permission(Duration::from_secs(360)).unwrap();
+        assert_eq!(timing.deadline, deadline);
+        assert!(timing.check_at(deadline - Duration::from_secs(1)).is_ok());
+        assert!(
+            timing
+                .check_at(deadline)
+                .unwrap_err()
+                .contains("permission")
+        );
+        timing.permission_finished();
+        assert_eq!(timing.phase, Phase::Preparing);
+    }
 
     #[test]
     fn text_limit_counts_utf8_bytes() {

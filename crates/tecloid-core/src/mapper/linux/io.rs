@@ -439,6 +439,35 @@ impl LoopDriver for MultiDeviceLoopDriver {
         )
     }
 
+    fn suspend_capture(&mut self, suspended: bool) -> Result<bool, String> {
+        // Discard dialog input and detect unplugging without ever replaying it.
+        let _ = self.fetch_inputs()?;
+        if !suspended {
+            for device in self.devices.iter().flatten() {
+                if device
+                    .get_key_state()
+                    .map_err(|error| format!("permission key state: {error}"))?
+                    .iter()
+                    .next()
+                    .is_some()
+                {
+                    return Ok(false);
+                }
+            }
+        }
+        for device in self.devices.iter_mut().flatten() {
+            if suspended {
+                device.ungrab()
+            } else {
+                device.grab()
+            }
+            .map_err(|error| format!("permission capture: {error}"))?;
+        }
+        self.keys = DeviceKeys::default();
+        self.hotkeys = PopupHotkeys::default();
+        Ok(true)
+    }
+
     fn now(&mut self) -> Instant {
         Instant::now()
     }
@@ -1149,6 +1178,39 @@ mod tests {
         for pair in events.windows(2) {
             assert!(pair[1].2 > pair[0].2);
         }
+        // An independent evdev client can grab both physical sources only while
+        // consent owns input. No keystrokes are emitted during the ungrabbed gap.
+        let mut observers: Vec<_> = [&mut first, &mut second]
+            .into_iter()
+            .map(|device| {
+                let path = device
+                    .enumerate_dev_nodes_blocking()
+                    .unwrap()
+                    .next()
+                    .unwrap()
+                    .unwrap();
+                Device::open(path).unwrap()
+            })
+            .collect();
+        for observer in &mut observers {
+            assert_eq!(
+                observer.grab().unwrap_err().raw_os_error(),
+                Some(libc::EBUSY)
+            );
+        }
+        assert!(driver.suspend_capture(true).unwrap());
+        for observer in &mut observers {
+            observer.grab().unwrap();
+            observer.ungrab().unwrap();
+        }
+        assert!(driver.suspend_capture(false).unwrap());
+        for observer in &mut observers {
+            assert_eq!(
+                observer.grab().unwrap_err().raw_os_error(),
+                Some(libc::EBUSY)
+            );
+        }
+
         second.emit(&[*KeyEvent::new(KeyCode::KEY_B, 1)]).unwrap();
         assert!(driver.wait(Duration::from_secs(1)).unwrap());
         driver.fetch_timed_key_events().unwrap();

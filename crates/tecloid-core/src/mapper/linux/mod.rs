@@ -746,6 +746,8 @@ fn run_loop<D: LoopDriver>(
     let mut engine = Engine::new(cfg);
     let mut out_buf: Vec<EngineOutput> = Vec::with_capacity(16);
     let mut hold = OutputHold::default();
+    text_session.register_capture();
+    let mut suspended = None;
     let result = (|| {
         while !stop.load(Ordering::SeqCst) {
             // Take a bounded batch without holding the queue lock during engine work.
@@ -781,12 +783,40 @@ fn run_loop<D: LoopDriver>(
                         text_session.restart();
                         *cfg = next_cfg;
                     }
+                    MapperControl::Execute(_)
+                        if suspended.is_some() || text_session.permission_pending() =>
+                    {
+                        log::debug!("[mapper] action ignored during system permission dialog");
+                    }
                     MapperControl::Execute(action) => {
                         log::debug!("[mapper] remote execute requested");
                         engine.execute_remote(&action, &mut out_buf);
                     }
                     MapperControl::PopupFocused => hold.release(),
                 }
+            }
+            if text_session.permission_pending() {
+                if suspended.is_none() {
+                    hold.suspend_for_permission(std::time::Instant::now());
+                    out_buf.clear();
+                    engine.suspend_input(&mut out_buf);
+                    flush_out(&mut virt, &mut out_buf)?;
+                    driver.suspend_capture(true)?;
+                    suspended = Some(std::time::Instant::now());
+                    super::layer_state::publish(super::layer_state::HeldLayerState::default());
+                }
+                text_session.capture_suspended(true);
+                std::thread::sleep(std::time::Duration::from_millis(5));
+                continue;
+            }
+            if let Some(started) = suspended {
+                if !driver.suspend_capture(false)? {
+                    std::thread::sleep(std::time::Duration::from_millis(5));
+                    continue;
+                }
+                text_session.capture_suspended(false);
+                engine.resume_after_permission(started.elapsed());
+                suspended = None;
             }
             io::resolve_literals(&io::RuntimeSideEffects, &mut out_buf);
             hold.gate(
