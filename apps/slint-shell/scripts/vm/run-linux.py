@@ -722,6 +722,12 @@ def main():
                 collect()
         except (StepFailed, subprocess.SubprocessError, OSError, ValueError) as error:
             report.skip("collect-diagnostics", str(error))
+        if args.manual and vm.qemu and vm.qemu.poll() is None:
+            try:
+                # Avoid a desktop power-button confirmation after the operator exits.
+                vm.ssh("sudo systemctl poweroff", check=False, timeout=15)
+            except (StepFailed, subprocess.SubprocessError, OSError) as error:
+                report.skip("manual-poweroff", str(error))
         vm.stop(keep=args.manual or args.keep or report.unsuccessful)
 
     header = [

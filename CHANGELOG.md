@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Add `manual-linux.py fedora|debian` to select the prepared KDE VM and current native package for manual acceptance.
+
 - Linux VM stand: add `--manual` to install a package in a visible disposable KDE VM and record guided operator acceptance, retaining the disk and diagnostics.
 
 - Commands are allowed per keymap: the global `settings.commandsEnabled` switch is replaced by `settings.keymaps.commandsAllowed`, a list of trusted keymaps, toggled for each keymap on the Commands tab of the settings. A keymap imported, downloaded or copied starts with its commands off (no migration, the format is not released yet).

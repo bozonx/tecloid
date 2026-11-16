@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import Mock, patch
@@ -28,7 +29,35 @@ matrix_runner = module("linux_matrix", "run-linux-matrix.py")
 receiver_probe = module("receiver_probe", "check-linux-receiver.py")
 
 
+manual_launcher = module("manual_linux", "manual-linux.py")
+
+
 class LinuxStandTests(unittest.TestCase):
+    def test_manual_launcher_selects_native_package_without_booting(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            key = root / "key"
+            key.touch()
+            for stand, (name, filename) in manual_launcher.STANDS.items():
+                vm = root / name
+                vm.mkdir()
+                (vm / "base.qcow2").touch()
+                (vm / "vm.json").write_text(json.dumps({"ssh_key": str(key)}))
+                packages = root / "release-artifacts"
+                packages.mkdir(exist_ok=True)
+                package = packages / filename.format(version="1.2.3")
+                package.touch()
+                metadata = {"target_directory": str(root),
+                            "packages": [{"name": "slint-shell", "version": "1.2.3"}]}
+                output = io.StringIO()
+                with patch.object(sys, "argv", ["manual-linux.py", stand, "--vm-root", str(root), "--check"]), \
+                        patch.object(manual_launcher.subprocess, "check_output", return_value=json.dumps(metadata)), \
+                        patch.object(manual_launcher.os, "execv") as boot, \
+                        contextlib.redirect_stdout(output):
+                    manual_launcher.main()
+                boot.assert_not_called()
+                self.assertIn(str(package), output.getvalue())
+
     def test_manual_acceptance_records_operator_results(self):
         report = Report()
         answers = iter(["invalid", "fail broken tray", "skip no device"] +

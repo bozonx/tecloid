@@ -204,9 +204,38 @@ If portal steps fail, check `portal-deny-*.png`/`portal-consent.png` and adjust
 
 ### Manual KDE acceptance
 
+On the prepared local machine, from the repository root:
+
 ```sh
-python3 apps/slint-shell/scripts/vm/run-linux.py --vm <vm-dir> --package <package> --manual
+python3 apps/slint-shell/scripts/vm/manual-linux.py fedora
+# After completing Fedora:
+python3 apps/slint-shell/scripts/vm/manual-linux.py debian
 ```
+
+The launcher finds the current version and Cargo target directory itself, then
+selects the RPM for Fedora or DEB for Debian. `--check` validates the paths without
+booting. It never silently selects a historical package. To rebuild packages after
+source changes, build in Ubuntu 22.04 as described in [release.md](release.md#building-locally)
+and put the RPM/DEB in the host Cargo `release-artifacts/` directory. Native
+host builds on a newer distribution can require a GLIBC version absent in the
+guests. A package's version alone does not prove it contains current sources.
+
+Local VM location is saved in ignored `dev-files/vm/manual.json`:
+
+```json
+{"vm_root": "/mnt/disk2/vm"}
+```
+
+You can override it with `TECLOID_VM_ROOT` or `--vm-root`. This directory contains
+`tecloid-fedora-kde/` and `tecloid-debian13-kde/`, each with `vm.json` and
+`base.qcow2`. Their SSH key is `~/.ssh/tecloid-vm`; package removal uses `tecloid`.
+The prepared bases are standalone frozen copies; they do not depend on the
+historical directories. Historical runs and packages remain archived and are
+not selected by the launcher.
+
+For another prepared stand use `run-linux.py` directly: `--vm` is the directory
+with `vm.json` and `base.qcow2`; `--package` is the application RPM, DEB or bundle
+archive, never a sources/vendor archive.
 
 Requires an interactive terminal and a graphical host. Boots a disposable VM
 with its QEMU window visible, uploads and installs the package, checks the Plasma

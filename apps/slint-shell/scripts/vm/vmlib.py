@@ -106,7 +106,8 @@ class Vm:
             command += ["-device", "ide-hd,drive=cache,bus=ahci.1" if bus == "ahci"
                         else "virtio-blk-pci,drive=cache"]
         with (self.logs / "qemu.log").open("w") as log:
-            self.qemu = subprocess.Popen(command, stdout=log, stderr=log)
+            # The controller must collect diagnostics before Ctrl+C stops the VM.
+            self.qemu = subprocess.Popen(command, stdout=log, stderr=log, start_new_session=True)
         self.qmp = Qmp(self.sockets / "qmp.sock", self.qemu, self.logs / "qmp-events.jsonl")
         # Confirm this process started before SSH can reach an older VM that
         # still owns the forwarded port while it is shutting down.

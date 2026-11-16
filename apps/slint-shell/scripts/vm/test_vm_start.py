@@ -22,11 +22,12 @@ class VmStartTests(unittest.TestCase):
             process.poll.return_value = 1
             try:
                 with patch("vmlib.subprocess.run"), \
-                     patch("vmlib.subprocess.Popen", return_value=process), \
+                     patch("vmlib.subprocess.Popen", return_value=process) as popen, \
                      patch.object(vm, "ssh", return_value="ok") as ssh:
                     with self.assertRaisesRegex(StepFailed, "QEMU exited before QMP"):
                         vm.start()
                     ssh.assert_not_called()
+                    self.assertTrue(popen.call_args.kwargs["start_new_session"])
             finally:
                 vm.stop(keep=True)
 
