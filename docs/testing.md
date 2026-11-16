@@ -259,6 +259,7 @@ acceptance. `--manual` cannot be combined with automated suite/upgrade options.
 
 For GNOME, the runner installs the application bundle and Shell extension,
 configures input permissions and enables the Tecloid bridge and tray extension,
+configures two fixed workspaces (as in the automated GNOME fixture),
 then restarts the guest graphical session automatically. Wait for the terminal
 checklist before interacting with the guest. No generated test keymap, injected
 keys, portal consent clicks or automated mapper scenarios run in manual mode.

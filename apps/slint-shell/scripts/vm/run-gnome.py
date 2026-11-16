@@ -120,6 +120,12 @@ def main():
                   f"s.set_strv('enabled-extensions',list(dict.fromkeys(v+['{UUID}','ubuntu-appindicators@ubuntu.com']))); "
                   f"s.set_strv('disabled-extensions',[x for x in s.get_strv('disabled-extensions') if x!='{UUID}']); "
                   "Gio.Settings.sync()")
+        if args.manual:
+            # Dynamic workspaces change the list while a window moves; use the
+            # same stable two-workspace acceptance fixture as the automated suite.
+            script += ("; Gio.Settings.new('org.gnome.mutter').set_boolean('dynamic-workspaces',False); "
+                       "Gio.Settings.new('org.gnome.desktop.wm.preferences').set_int('num-workspaces',2); "
+                       "Gio.Settings.sync()")
         vm.ssh(f"DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus python3 -c {shlex.quote(script)}")
         vm.ssh("sudo systemd-run --quiet --on-active=2 --unit=tecloid-e2e-relogin "
                f"sh -c 'systemctl stop display-manager; loginctl terminate-user {shlex.quote(vm.user)}; sleep 3; systemctl start display-manager'")

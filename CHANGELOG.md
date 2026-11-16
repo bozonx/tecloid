@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- GNOME: moving a window to the next or previous desktop now wraps at the ends of the current workspace list and keeps the moved window focused. The manual GNOME stand now uses two fixed workspaces, matching the automated fixture, so workspace cycling is stable.
+
 - Linux: release keyboard and mouse capture while the text portal asks for permission, with a separate consent deadline; discard dialog input before restoring mappings. GNOME clipboard insertion no longer mistakes our restored clipboard for the temporary sensitive offer from a previous paste.
 
 - Add `manual-linux.py gnome` and GNOME VM `--manual` acceptance, preparing the Shell bridge and tray extension before an operator checklist.

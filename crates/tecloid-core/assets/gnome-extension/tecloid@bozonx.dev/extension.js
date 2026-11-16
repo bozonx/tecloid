@@ -236,13 +236,16 @@ export default class Bridge extends Extension {
         }
         case 'moveWindowToNextDesktop':
         case 'moveWindowToPreviousDesktop': {
-            // Like KWin, the view follows the window. GNOME's dynamic
-            // workspaces always keep an empty last one to move into.
+            // Like KWin, wrap at either end and follow the moved window.
             const current = window.get_workspace();
             if (!current || window.is_on_all_workspaces())
                 throw new Error('Window is on all workspaces');
             const step = action === 'moveWindowToNextDesktop' ? 1 : -1;
-            const next = global.workspace_manager.get_workspace_by_index(current.index() + step);
+            const manager = global.workspace_manager;
+            const count = manager.n_workspaces;
+            if (count < 1)
+                throw new Error('Workspace is unavailable');
+            const next = manager.get_workspace_by_index((current.index() + step + count) % count);
             if (!next)
                 throw new Error('Workspace is unavailable');
             window.change_workspace(next);
