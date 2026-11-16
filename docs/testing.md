@@ -202,7 +202,7 @@ use `--previous` for that coverage.
 If portal steps fail, check `portal-deny-*.png`/`portal-consent.png` and adjust
 `portal_*` keys for the guest's xdg-desktop-portal-kde version.
 
-### Manual KDE acceptance
+### Manual KDE and GNOME acceptance
 
 On the prepared local machine, from the repository root:
 
@@ -210,10 +210,13 @@ On the prepared local machine, from the repository root:
 python3 apps/slint-shell/scripts/vm/manual-linux.py fedora
 # After completing Fedora:
 python3 apps/slint-shell/scripts/vm/manual-linux.py debian
+# Experimental GNOME Wayland:
+python3 apps/slint-shell/scripts/vm/manual-linux.py gnome
 ```
 
 The launcher finds the current version and Cargo target directory itself, then
-selects the RPM for Fedora or DEB for Debian. `--check` validates the paths without
+selects the RPM for Fedora, DEB for Debian or application tar.gz for GNOME.
+`--check` validates the paths without
 booting. It never silently selects a historical package. To rebuild packages after
 source changes, build in Ubuntu 22.04 as described in [release.md](release.md#building-locally)
 and put the RPM/DEB in the host Cargo `release-artifacts/` directory. Native
@@ -227,7 +230,8 @@ Local VM location is saved in ignored `dev-files/vm/manual.json`:
 ```
 
 You can override it with `TECLOID_VM_ROOT` or `--vm-root`. This directory contains
-`tecloid-fedora-kde/` and `tecloid-debian13-kde/`, each with `vm.json` and
+`tecloid-fedora-kde/`, `tecloid-debian13-kde/` and `tecloid-ubuntu2604-gnome/`,
+each with `vm.json` and
 `base.qcow2`. Their SSH key is `~/.ssh/tecloid-vm`; package removal uses `tecloid`.
 The prepared bases are standalone frozen copies; they do not depend on the
 historical directories. Historical runs and packages remain archived and are
@@ -252,6 +256,22 @@ normal summary are collected on exit, then the VM is stopped. The overlay disk
 is always retained in the printed run directory; the frozen base is unchanged.
 Manual results are identified as operator reports and do not replace automated
 acceptance. `--manual` cannot be combined with automated suite/upgrade options.
+
+For GNOME, the runner installs the application bundle and Shell extension,
+configures input permissions and enables the Tecloid bridge and tray extension,
+then restarts the guest graphical session automatically. Wait for the terminal
+checklist before interacting with the guest. No generated test keymap, injected
+keys, portal consent clicks or automated mapper scenarios run in manual mode.
+Launch Tecloid from the application overview and create a test keymap. The extra
+GNOME checks cover desktop actions/focus and Unicode insertion with clipboard
+restoration. Removal commands are shown in the checklist. GNOME remains
+experimental; operator checks are not a claim of KDE feature parity.
+
+For a custom GNOME stand:
+
+```sh
+python3 apps/slint-shell/scripts/vm/run-gnome.py --manual --vm <vm-dir> --package <application.tar.gz>
+```
 
 ### GNOME
 

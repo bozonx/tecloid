@@ -13,6 +13,7 @@ import subprocess
 import sys
 import time
 
+from manual_acceptance import MANUAL_CHECKS, manual_acceptance
 from autostart_cycle import disabled_cycle, upgraded_cycle
 from vmlib import Report, StepFailed, Vm, commit, environment_ok, receiver_text, result_path
 
@@ -24,14 +25,30 @@ UUID = "tecloid@bozonx.dev"
 BRIDGE = "gdbus call --session --dest org.gnome.Shell --object-path /dev/bozonx/Tecloid/Gnome --method dev.bozonx.Tecloid.Gnome."
 
 
+GNOME_MANUAL_CHECKS = tuple(
+    (name, "Удаление: ~/.local/lib/dev.bozonx.tecloid/install-gnome-extension.sh uninstall, затем ~/.local/lib/dev.bozonx.tecloid/install-linux.sh uninstall. Настройки должны сохраниться.")
+    if name == "removal" else (name, instruction)
+    for name, instruction in MANUAL_CHECKS
+)
+GNOME_MANUAL_CHECKS = GNOME_MANUAL_CHECKS[:-1] + (
+    ("gnome-bridge", "В GNOME проверь переключение раскладки/рабочего стола и возврат фокуса после Quick actions."),
+    ("gnome-clipboard", "Задай содержимое буфера обмена, вставь через Tecloid ASCII и Привет 🙂 после разрешения портала. Исходный буфер должен сохраниться."),
+) + GNOME_MANUAL_CHECKS[-1:]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--vm", required=True)
     parser.add_argument("--package", required=True, type=Path)
     parser.add_argument("--autostart-only", action="store_true", help="only startup, disable/re-enable and reinstall checks")
+    parser.add_argument("--manual", action="store_true", help="prepare a visible GNOME session for guided operator checks")
     parser.add_argument("--keep", action="store_true")
     parser.add_argument("--examples", type=Path, help="directory with current editor and interactions binaries")
     args = parser.parse_args()
+    if args.manual and (args.autostart_only or args.examples):
+        parser.error("--manual excludes --autostart-only and --examples")
+    if args.manual and not sys.stdin.isatty():
+        parser.error("--manual needs an interactive terminal")
     environment_ok()
     package = args.package.resolve()
     if not package.is_file() or not package.name.endswith(".tar.gz"):
@@ -40,6 +57,8 @@ def main():
         parser.error("--examples needs both editor and interactions binaries")
     vm = Vm(args.vm)
     report = Report()
+    if args.manual:
+        report.require("manual-" + name for name, _ in GNOME_MANUAL_CHECKS)
     state = {}
 
     def step(name, function, *arguments):
@@ -49,7 +68,7 @@ def main():
         return vm.ssh(f"{PY} {command}", **kwargs).strip()
 
     def boot():
-        vm.start()
+        vm.start(show=args.manual)
         vm.wait_ssh()
         vm.ssh(f"mkdir -p {GUEST}")
         vm.copy_to(Path(__file__).with_name("linux-guest.py"), "tecloid-e2e/")
@@ -297,43 +316,50 @@ def main():
     try:
         step("boot-session", boot)
         step("install", install)
-        step("keyboard-and-config", keyboard)
-        step("no-permissions-start", guest, "start-app --popups auto")
-        step("no-permissions-no-grab", guest, "mapper --absent --timeout 5")
-        step("quit-before-permissions", guest, "quit-app")
-        step("autostart-entry", guest, "autostart")
-        step("permissions-and-extension", permissions)
-        # Autostart is expected to launch the app after the fresh login.
-        step("autostart", guest, "wait-app --timeout 90")
-        step("autostart-disabled-cycle", disabled_cycle, vm, guest, install)
-        step("autostart-after-reinstall", upgraded_cycle, vm, guest, install)
-        step("mapper-start", guest, "mapper")
-        step("tray", guest, "tray")
-        if not args.autostart_only:
-            step("tray-host-lifecycle", tray_recovery)
-            if args.examples:
-                step("editor-smoke", ui_example, "editor")
-                step("interactions", ui_example, "interactions")
-            step("passthrough", expect, "passthrough", "c", ("c",))
-            step("remap", expect, "remap", "b", ("a",))
-            step("chord", expect, "chord", "X", ("d",))
-            step("layer-tap-hold", layer)
-            step("stop-restart-native", stop_keys)
-            step("system-layout-workspace", system_actions)
-            step("command", command)
-            step("game-mode-on-off", game_mode)
-            step("clipboard-seed", clipboard_seed)
-            step("text-portal-ascii", consent)
-            step("quick-popup-focus-delivery", quick_popup)
-            step("text-unicode", expect, "text-unicode", "Привет, ёж 😀", ("y",))
-            step("clipboard-restored", clipboard_preserved)
-            step("mixed-macro", expect, "mixed-macro", "nmacO", ("m",))
-            step("popup-open-hide", guest, "popups")
-            step("clipboard-new-owner", clipboard_interruption, "replace")
-            step("clipboard-cancel-on-stop", clipboard_interruption, "hold")
-        step("quit", guest, "quit-app")
+        if args.manual:
+            step("permissions-and-extension", permissions)
+            print(f"Logs and retained disk: {vm.run_dir}")
+            manual_acceptance(report, checks=GNOME_MANUAL_CHECKS)
+        else:
+            step("keyboard-and-config", keyboard)
+            step("no-permissions-start", guest, "start-app --popups auto")
+            step("no-permissions-no-grab", guest, "mapper --absent --timeout 5")
+            step("quit-before-permissions", guest, "quit-app")
+            step("autostart-entry", guest, "autostart")
+            step("permissions-and-extension", permissions)
+            # Autostart is expected to launch the app after the fresh login.
+            step("autostart", guest, "wait-app --timeout 90")
+            step("autostart-disabled-cycle", disabled_cycle, vm, guest, install)
+            step("autostart-after-reinstall", upgraded_cycle, vm, guest, install)
+            step("mapper-start", guest, "mapper")
+            step("tray", guest, "tray")
+            if not args.autostart_only:
+                step("tray-host-lifecycle", tray_recovery)
+                if args.examples:
+                    step("editor-smoke", ui_example, "editor")
+                    step("interactions", ui_example, "interactions")
+                step("passthrough", expect, "passthrough", "c", ("c",))
+                step("remap", expect, "remap", "b", ("a",))
+                step("chord", expect, "chord", "X", ("d",))
+                step("layer-tap-hold", layer)
+                step("stop-restart-native", stop_keys)
+                step("system-layout-workspace", system_actions)
+                step("command", command)
+                step("game-mode-on-off", game_mode)
+                step("clipboard-seed", clipboard_seed)
+                step("text-portal-ascii", consent)
+                step("quick-popup-focus-delivery", quick_popup)
+                step("text-unicode", expect, "text-unicode", "Привет, ёж 😀", ("y",))
+                step("clipboard-restored", clipboard_preserved)
+                step("mixed-macro", expect, "mixed-macro", "nmacO", ("m",))
+                step("popup-open-hide", guest, "popups")
+                step("clipboard-new-owner", clipboard_interruption, "replace")
+                step("clipboard-cancel-on-stop", clipboard_interruption, "hold")
+            step("quit", guest, "quit-app")
     except (StepFailed, subprocess.SubprocessError, OSError):
         print("Stopped on the first failed step; remaining acceptance is NOT passed.")
+    except (KeyboardInterrupt, EOFError):
+        report.steps.append(("controller", "FAILED", "interrupted"))
     finally:
         try:
             if vm.qemu and vm.qemu.poll() is None:
@@ -343,17 +369,26 @@ def main():
                     vm.copy_from("tecloid-e2e/ui-snapshots", vm.logs)
                 (vm.logs / "journal.txt").write_text(vm.ssh("journalctl --user -b --no-pager", check=False))
                 (vm.logs / "extensions.txt").write_text(vm.ssh("gnome-extensions list --enabled; journalctl -b --no-pager _COMM=gnome-shell", check=False))
+        except (StepFailed, subprocess.SubprocessError, OSError, ValueError) as error:
+            report.skip("collect-diagnostics", str(error))
         finally:
-            vm.stop(keep=args.keep)
+            if args.manual and vm.qemu and vm.qemu.poll() is None:
+                try:
+                    vm.ssh("sudo systemctl poweroff", check=False, timeout=15)
+                except (StepFailed, subprocess.SubprocessError, OSError) as error:
+                    report.skip("manual-poweroff", str(error))
+            vm.stop(keep=args.manual or args.keep or report.unsuccessful)
     report.write([f"Date: {time.strftime('%F %T %z')}", f"Commit: {commit()}",
                   f"Command: {shlex.join(sys.argv)}",
                   f"VM: {vm.name}", f"Package: {package}",
                   f"Autostart only: {args.autostart_only}",
+                  f"Manual acceptance: {args.manual}; operator results",
                   f"Keyboard: {state.get('device', 'not detected')}",
                   f"Logs and screenshots: {vm.logs}",
-                  "Scope: GNOME smoke only; lock/suspend/replug, other receivers and upgrade not covered."],
+                  ("Scope: manual GNOME acceptance; operator checklist results only." if args.manual else
+                   "Scope: GNOME smoke only; lock/suspend/replug, other receivers and upgrade not covered.")],
                  result_path("linux", vm.name))
-    raise SystemExit(1 if report.failed else 0)
+    raise SystemExit(1 if report.unsuccessful else 0)
 
 
 if __name__ == "__main__":

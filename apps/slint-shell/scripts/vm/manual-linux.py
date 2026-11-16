@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Start guided KDE VM acceptance with the current native release package."""
+"""Start guided KDE or GNOME VM acceptance with the current release package."""
 
 import argparse
 import json
@@ -11,7 +11,8 @@ import sys
 
 REPO = Path(__file__).resolve().parents[4]
 STANDS = {"fedora": ("tecloid-fedora-kde", "tecloid-{version}-1.x86_64.rpm"),
-          "debian": ("tecloid-debian13-kde", "tecloid_{version}_amd64.deb")}
+          "debian": ("tecloid-debian13-kde", "tecloid_{version}_amd64.deb"),
+          "gnome": ("tecloid-ubuntu2604-gnome", "tecloid-{version}-linux-x86_64.tar.gz")}
 
 
 def main():
@@ -39,8 +40,11 @@ def main():
     config = json.loads((vm / "vm.json").read_text())
     if not Path(config["ssh_key"]).expanduser().is_file():
         parser.error("VM SSH key is missing")
-    command = [sys.executable, str(Path(__file__).with_name("run-linux.py")),
-               "--manual", "--popup-mode", "auto", "--vm", str(vm), "--package", str(package)]
+    runner = "run-gnome.py" if args.stand == "gnome" else "run-linux.py"
+    command = [sys.executable, str(Path(__file__).with_name(runner)),
+               "--manual", "--vm", str(vm), "--package", str(package)]
+    if args.stand != "gnome":
+        command += ["--popup-mode", "auto"]
     print(f"VM: {vm}\nPackage: {package}", flush=True)
     if not args.check:
         os.chdir(REPO)

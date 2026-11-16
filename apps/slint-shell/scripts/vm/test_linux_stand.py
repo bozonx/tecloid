@@ -24,6 +24,7 @@ def module(name, filename):
 
 guest = module("linux_guest", "linux-guest.py")
 linux = module("linux_runner", "run-linux.py")
+gnome = module("gnome_runner", "run-gnome.py")
 windows = module("windows_runner_keymap", "run-windows.py")
 matrix_runner = module("linux_matrix", "run-linux-matrix.py")
 receiver_probe = module("receiver_probe", "check-linux-receiver.py")
@@ -57,6 +58,26 @@ class LinuxStandTests(unittest.TestCase):
                     manual_launcher.main()
                 boot.assert_not_called()
                 self.assertIn(str(package), output.getvalue())
+                with patch.object(sys, "argv", ["manual-linux.py", stand, "--vm-root", str(root)]), \
+                        patch.object(manual_launcher.subprocess, "check_output", return_value=json.dumps(metadata)), \
+                        patch.object(manual_launcher.os, "chdir"), \
+                        patch.object(manual_launcher.os, "execv") as boot, \
+                        contextlib.redirect_stdout(output):
+                    manual_launcher.main()
+                command = boot.call_args.args[1]
+                self.assertEqual(Path(command[1]).name, "run-gnome.py" if stand == "gnome" else "run-linux.py")
+                self.assertIn("--manual", command)
+                self.assertEqual("--popup-mode" in command, stand != "gnome")
+
+
+    def test_gnome_manual_checklist_keeps_skipped_checks_incomplete(self):
+        report = Report()
+        with contextlib.redirect_stdout(io.StringIO()):
+            gnome.manual_acceptance(report, lambda _: "skip", checks=gnome.GNOME_MANUAL_CHECKS)
+        self.assertTrue(report.unsuccessful)
+        self.assertIn("manual-gnome-bridge", report.incomplete)
+        self.assertIn("manual-gnome-clipboard", report.incomplete)
+        self.assertEqual(gnome.GNOME_MANUAL_CHECKS[-1][0], "removal")
 
     def test_manual_acceptance_records_operator_results(self):
         report = Report()

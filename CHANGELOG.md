@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Add `manual-linux.py gnome` and GNOME VM `--manual` acceptance, preparing the Shell bridge and tray extension before an operator checklist.
+
 - Refresh the KDE application menu after installation in manual VM acceptance so Tecloid is immediately available in the launcher.
 
 - Add `manual-linux.py fedora|debian` to select the prepared KDE VM and current native package for manual acceptance.
