@@ -202,6 +202,28 @@ use `--previous` for that coverage.
 If portal steps fail, check `portal-deny-*.png`/`portal-consent.png` and adjust
 `portal_*` keys for the guest's xdg-desktop-portal-kde version.
 
+### Manual KDE acceptance
+
+```sh
+python3 apps/slint-shell/scripts/vm/run-linux.py --vm <vm-dir> --package <package> --manual
+```
+
+Requires an interactive terminal and a graphical host. Boots a disposable VM
+with its QEMU window visible, uploads and installs the package, checks the Plasma
+session and installed files, then hands control to you. Launch Tecloid from the
+guest application menu and create a test keymap yourself. No automated keyboard
+input, generated config, automatic app launch or removal runs in this mode.
+
+The terminal guides you through launch/tray, mapper, layers/macros, Unicode and
+popups, saved settings, autostart with reboots, recovery and removal. After each
+check enter `pass`, `fail` or `skip`, optionally followed by notes. Leave the
+terminal waiting while working or rebooting in QEMU. A skipped item is incomplete,
+not a pass. Ctrl+C or terminal EOF interrupts acceptance. Diagnostics and the
+normal summary are collected on exit, then the VM is stopped. The overlay disk
+is always retained in the printed run directory; the frozen base is unchanged.
+Manual results are identified as operator reports and do not replace automated
+acceptance. `--manual` cannot be combined with automated suite/upgrade options.
+
 ### GNOME
 
 ```sh

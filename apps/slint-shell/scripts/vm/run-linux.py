@@ -57,6 +57,35 @@ def validate_acceptance(args, suspend_exclusion=None):
         raise StepFailed("acceptance requires suspend; use an S3-capable VM")
 
 
+MANUAL_CHECKS = (
+    ("launch-tray", "Запусти Tecloid из меню. Проверь окно, трей, закрытие и повторное открытие окна."),
+    ("mapper", "Создай тестовый keymap: A → B и Ctrl+A. Проверь в редакторе, выключи и включи mapper."),
+    ("layers-macros", "Проверь tap/hold, временный слой и макрос с паузой. После отпускания слой выключается."),
+    ("text-popups", "Проверь текст Привет 🙂, Emoji и Quick actions, Escape и возврат фокуса в редактор. Разрешение портала — вручную."),
+    ("settings", "Измени назначение, перезапусти приложение и проверь сохранение. Проверь темы, язык и маленькое окно."),
+    ("autostart", "Включи автозапуск и перезагрузи VM: трей и mapper работают. Отключи и перезагрузи: приложение не запущено."),
+    ("recovery", "Проверь блокировку/разблокировку, сон если доступен, повторный запуск и выход без залипших модификаторов."),
+    ("removal", "Удали пакет: приложение удалено, пользовательские настройки сохранены."),
+)
+
+
+def manual_acceptance(report, ask=input):
+    """Only the operator supplies evidence; never inject guest input here."""
+    report.require("manual-" + name for name, _ in MANUAL_CHECKS)
+    print("\nVM готова. Автоматический ввод отключён. Проверяй в окне QEMU.")
+    print("После каждого пункта в этом терминале: pass / fail / skip и необязательное пояснение.")
+    print("Ctrl+C завершает проверку с неполным результатом. Диск VM будет сохранён.")
+    for name, instruction in MANUAL_CHECKS:
+        print("\n" + instruction)
+        while True:
+            answer = ask(f"{name} [pass/fail/skip]: ").strip().split(maxsplit=1)
+            if answer and answer[0].lower() in ("pass", "fail", "skip"):
+                status = {"pass": "passed", "fail": "FAILED", "skip": "skipped"}[answer[0].lower()]
+                report.steps.append(("manual-" + name, status,
+                                     "operator: " + (answer[1] if len(answer) > 1 else answer[0])))
+                break
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--vm", required=True, help="VM directory with vm.json")
@@ -70,6 +99,7 @@ def main():
     parser.add_argument("--acceptance", action="store_true", help="require every scenario for this backend/VM, including stress and suspend")
     parser.add_argument("--first-release", action="store_true", help="explicit N/A for previous-version upgrade of the first public release")
     parser.add_argument("--autostart-only", action="store_true", help="only session startup, disable/re-enable and package replacement")
+    parser.add_argument("--manual", action="store_true", help="install and hand the visible VM to the operator; always keep its disk")
     parser.add_argument("--show", action="store_true", help="show the VM display")
     parser.add_argument("--keep", action="store_true", help="keep the overlay disk")
     args = parser.parse_args()
@@ -77,6 +107,11 @@ def main():
         parser.error("--autostart-only excludes --acceptance")
     if args.stress_seconds < 0:
         parser.error("--stress-seconds must be nonnegative")
+    if args.manual:
+        if args.acceptance or args.autostart_only or args.previous or args.first_release or args.stress_seconds:
+            parser.error("--manual excludes automated suites, stress and upgrade options")
+        if not sys.stdin.isatty():
+            parser.error("--manual needs an interactive terminal")
     environment_ok()
     package = args.package.resolve()
     previous = args.previous.resolve() if args.previous else None
@@ -98,6 +133,8 @@ def main():
     except StepFailed as error:
         parser.error(str(error))
     report = Report()
+    if args.manual:
+        report.require("manual-" + name for name, _ in MANUAL_CHECKS)
     required = set("""boot upload plasma-session install installed-files keyboard-probe test-config
         start-without-input keymap-loaded tray-item mapper-with-session-acl autostart-entry reboot-with-input
         autostart-launch autostart-disabled-cycle tray-after-login mapper-running portal-deny portal-consent
@@ -120,7 +157,7 @@ def main():
         return vm.ssh(f"{GUEST_PY} {command}", **kwargs).strip()
 
     def boot():
-        vm.start(show=args.show)
+        vm.start(show=args.show or args.manual)
         vm.wait_ssh()
 
     def session():
@@ -604,75 +641,79 @@ def main():
         else:
             report.step("install", install, fatal=True)
         report.step("installed-files", check_install, fatal=True)
-        report.step("keyboard-probe", probe_keyboard, fatal=True)
-        report.step("test-config", write_config, fatal=True)
-        if not previous:
-            report.skip("upgrade-from-previous", "N/A: first public release" if args.first_release else "NOT RUN: no --previous")
-        if previous:
-            report.step("previous-release", previous_release, fatal=True)
-            report.step("upgrade-from-previous", upgrade_from_previous, fatal=True)
-        report.step("start-without-input", start_without_permissions)
-        report.step("keymap-loaded", guest, f"check-keymap --device {shlex.quote(state['device'])}", fatal=True, requires=("start-without-input",))
-        report.step("tray-item", guest, "tray")
-        report.step("mapper-with-session-acl", guest, "mapper --timeout 30")
-        report.step("autostart-entry", guest, "autostart")
-        report.step("reboot-with-input", reboot_with_input, fatal=True)
-        report.step("autostart-launch", guest, "wait-app --timeout 90")
-        report.step("tray-after-login", guest, "tray")
-        report.step("mapper-running", guest, "mapper --timeout 30", fatal=True)
-        report.step("autostart-disabled-cycle", disabled_cycle, vm, guest,
-                    (lambda: install("reinstall")) if archive or vm.get("reinstall") else None, fatal=True)
-        if not args.autostart_only:
-            # Clipboard mode still needs RemoteDesktop consent for its paste shortcut.
-            report.step("portal-deny", portal_deny)
-            report.step("portal-consent", portal_approve)
-            if args.text_backend == "clipboard":
-                report.step("clipboard-preservation", clipboard_preservation)
-            report.step("mapper-keys-and-text", mapper_text)
-            report.step("text-unicode", expect, "text-unicode", TEXT_UNICODE, ["y"], None, 5)
-            report.step("text-unicode-corpus", expect, "text-corpus", TEXT_CORPUS, ["u"], None, 5)
-            report.step("layer-tap-hold", layer)
-            report.step("macro", expect, "macro", "nmacO", ["m"])
-            report.step("command", command)
-            report.step("system-actions", system_actions)
-            report.step("russian-layout", russian_layout)
-            report.step("popups", popup_hide_focus)
-            report.step("emoji-ipc", emoji_ipc)
-            report.step("quick-menu-rule", quick_rule)
-            report.step("emoji-hotkey", emoji_hotkey)
-            report.step("game-mode", game_mode)
-            isolated("screen-lock", screen_lock)
-            if suspend_exclusion:
-                report.skip("suspend-resume", suspend_exclusion)
-            else:
-                isolated("suspend-resume", suspend)
-            report.step("cli", guest, "cli")
-            report.step("second-instance", guest, "second-instance")
-            report.step("text-after-second-instance", expect, "after-second-instance",
-                        TEXT_UNICODE, ["y"], None, 5)
-            isolated("keyboard-replug", keyboard_replug)
-            report.step("mapper-stop", set_mapper, False)
-            report.step("mapper-start", set_mapper, True, requires=("mapper-stop",))
-            isolated("stuck-keys-on-stop", stuck_on_stop)
-            isolated("stuck-keys-on-kill", stuck_on_kill)
-            if args.stress_seconds:
-                isolated("sustained-input-lifecycle", stress)
-            else:
-                report.skip("sustained-input-lifecycle", "not requested; use --stress-seconds >= 180")
-            if archive or vm.get("reinstall"):
-                report.step("upgrade-over-running", upgrade)
-                report.step("autostart-after-upgrade", upgraded_cycle, vm, guest, lambda: None,
-                            requires=("upgrade-over-running",), fatal=True)
-            else:
-                report.skip("upgrade-over-running", "no `reinstall` in vm.json")
+        if args.manual:
+            print(f"Guest binary: {binary}; logs and retained disk: {vm.run_dir}")
+            manual_acceptance(report)
         else:
-            report.step("autostart-after-upgrade", upgraded_cycle, vm, guest,
-                        lambda: install("reinstall"), fatal=True)
-        report.step("quit", guest, "quit-app")
-        report.step("remove", remove)
+            report.step("keyboard-probe", probe_keyboard, fatal=True)
+            report.step("test-config", write_config, fatal=True)
+            if not previous:
+                report.skip("upgrade-from-previous", "N/A: first public release" if args.first_release else "NOT RUN: no --previous")
+            if previous:
+                report.step("previous-release", previous_release, fatal=True)
+                report.step("upgrade-from-previous", upgrade_from_previous, fatal=True)
+            report.step("start-without-input", start_without_permissions)
+            report.step("keymap-loaded", guest, f"check-keymap --device {shlex.quote(state['device'])}", fatal=True, requires=("start-without-input",))
+            report.step("tray-item", guest, "tray")
+            report.step("mapper-with-session-acl", guest, "mapper --timeout 30")
+            report.step("autostart-entry", guest, "autostart")
+            report.step("reboot-with-input", reboot_with_input, fatal=True)
+            report.step("autostart-launch", guest, "wait-app --timeout 90")
+            report.step("tray-after-login", guest, "tray")
+            report.step("mapper-running", guest, "mapper --timeout 30", fatal=True)
+            report.step("autostart-disabled-cycle", disabled_cycle, vm, guest,
+                        (lambda: install("reinstall")) if archive or vm.get("reinstall") else None, fatal=True)
+            if not args.autostart_only:
+                # Clipboard mode still needs RemoteDesktop consent for its paste shortcut.
+                report.step("portal-deny", portal_deny)
+                report.step("portal-consent", portal_approve)
+                if args.text_backend == "clipboard":
+                    report.step("clipboard-preservation", clipboard_preservation)
+                report.step("mapper-keys-and-text", mapper_text)
+                report.step("text-unicode", expect, "text-unicode", TEXT_UNICODE, ["y"], None, 5)
+                report.step("text-unicode-corpus", expect, "text-corpus", TEXT_CORPUS, ["u"], None, 5)
+                report.step("layer-tap-hold", layer)
+                report.step("macro", expect, "macro", "nmacO", ["m"])
+                report.step("command", command)
+                report.step("system-actions", system_actions)
+                report.step("russian-layout", russian_layout)
+                report.step("popups", popup_hide_focus)
+                report.step("emoji-ipc", emoji_ipc)
+                report.step("quick-menu-rule", quick_rule)
+                report.step("emoji-hotkey", emoji_hotkey)
+                report.step("game-mode", game_mode)
+                isolated("screen-lock", screen_lock)
+                if suspend_exclusion:
+                    report.skip("suspend-resume", suspend_exclusion)
+                else:
+                    isolated("suspend-resume", suspend)
+                report.step("cli", guest, "cli")
+                report.step("second-instance", guest, "second-instance")
+                report.step("text-after-second-instance", expect, "after-second-instance",
+                            TEXT_UNICODE, ["y"], None, 5)
+                isolated("keyboard-replug", keyboard_replug)
+                report.step("mapper-stop", set_mapper, False)
+                report.step("mapper-start", set_mapper, True, requires=("mapper-stop",))
+                isolated("stuck-keys-on-stop", stuck_on_stop)
+                isolated("stuck-keys-on-kill", stuck_on_kill)
+                if args.stress_seconds:
+                    isolated("sustained-input-lifecycle", stress)
+                else:
+                    report.skip("sustained-input-lifecycle", "not requested; use --stress-seconds >= 180")
+                if archive or vm.get("reinstall"):
+                    report.step("upgrade-over-running", upgrade)
+                    report.step("autostart-after-upgrade", upgraded_cycle, vm, guest, lambda: None,
+                                requires=("upgrade-over-running",), fatal=True)
+                else:
+                    report.skip("upgrade-over-running", "no `reinstall` in vm.json")
+            else:
+                report.step("autostart-after-upgrade", upgraded_cycle, vm, guest,
+                            lambda: install("reinstall"), fatal=True)
+            report.step("quit", guest, "quit-app")
+            report.step("remove", remove)
     except (StepFailed, subprocess.SubprocessError, OSError):
         print("A required step failed; later steps were not run.")
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         report.steps.append(("controller", "FAILED", "interrupted"))
     finally:
         try:
@@ -681,7 +722,7 @@ def main():
                 collect()
         except (StepFailed, subprocess.SubprocessError, OSError, ValueError) as error:
             report.skip("collect-diagnostics", str(error))
-        vm.stop(keep=args.keep or report.unsuccessful)
+        vm.stop(keep=args.manual or args.keep or report.unsuccessful)
 
     header = [
         f"Date: {time.strftime('%F %T %z')}",
@@ -691,6 +732,7 @@ def main():
         f"Memory: {vm.get('memory', 6144)} MiB",
         f"CPU: {vm.get('cpu', 'host')}",
         f"Machine: {vm.machine}",
+        f"Manual acceptance: {args.manual}; results supplied by operator",
         f"Autostart only: {args.autostart_only}",
         f"Acceptance requested: {args.acceptance}; scope: this VM/backend combination only",
         f"Text backend: {args.text_backend}; stress seconds: {args.stress_seconds}",

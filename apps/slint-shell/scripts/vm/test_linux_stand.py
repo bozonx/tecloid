@@ -29,6 +29,24 @@ receiver_probe = module("receiver_probe", "check-linux-receiver.py")
 
 
 class LinuxStandTests(unittest.TestCase):
+    def test_manual_acceptance_records_operator_results(self):
+        report = Report()
+        answers = iter(["invalid", "fail broken tray", "skip no device"] +
+                       ["pass checked"] * (len(linux.MANUAL_CHECKS) - 2))
+        with contextlib.redirect_stdout(io.StringIO()):
+            linux.manual_acceptance(report, lambda _: next(answers))
+        self.assertTrue(report.unsuccessful)
+        self.assertEqual(report.failed, 1)
+        self.assertEqual(len(report.incomplete), 2)
+        self.assertEqual(report.steps[0][2], "operator: broken tray")
+
+    def test_manual_acceptance_requires_every_item(self):
+        report = Report()
+        with contextlib.redirect_stdout(io.StringIO()):
+            linux.manual_acceptance(report, lambda _: "pass")
+        self.assertFalse(report.unsuccessful)
+        self.assertEqual(len(report.steps), len(linux.MANUAL_CHECKS))
+
     def test_disabled_startup_rejects_a_process_even_without_ipc(self):
         args = SimpleNamespace(absent=True, timeout=90)
         with patch.object(guest.time, "monotonic", side_effect=[0, 1]), \
