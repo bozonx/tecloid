@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Refresh the KDE application menu after installation in manual VM acceptance so Tecloid is immediately available in the launcher.
+
 - Add `manual-linux.py fedora|debian` to select the prepared KDE VM and current native package for manual acceptance.
 
 - Linux VM stand: add `--manual` to install a package in a visible disposable KDE VM and record guided operator acceptance, retaining the disk and diagnostics.

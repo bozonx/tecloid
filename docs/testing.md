@@ -239,7 +239,7 @@ archive, never a sources/vendor archive.
 
 Requires an interactive terminal and a graphical host. Boots a disposable VM
 with its QEMU window visible, uploads and installs the package, checks the Plasma
-session and installed files, then hands control to you. Launch Tecloid from the
+session and installed files, refreshes the KDE application menu cache, then hands control to you. Launch Tecloid from the
 guest application menu and create a test keymap yourself. No automated keyboard
 input, generated config, automatic app launch or removal runs in this mode.
 

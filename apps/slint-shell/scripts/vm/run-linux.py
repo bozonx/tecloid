@@ -642,6 +642,9 @@ def main():
             report.step("install", install, fatal=True)
         report.step("installed-files", check_install, fatal=True)
         if args.manual:
+            report.step("application-menu", vm.ssh,
+                        "systemd-run --user --wait --pipe kbuildsycoca6 --noincremental",
+                        fatal=True)
             print(f"Guest binary: {binary}; logs and retained disk: {vm.run_dir}")
             manual_acceptance(report)
         else:
