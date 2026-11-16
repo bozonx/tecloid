@@ -257,10 +257,11 @@ diagnostics report it and the mapper does not start with it.
 - **Built-in macros** (`mapper/builtin_macros.rs`) start with a verb: `goTo…`,
   `select…`, `copy…`, `cut…`, `paste…`, `replace…WithClipboard`, `insert…`,
   `duplicate…`. `builtin:` and `macro:` namespaces are independent.
-  `builtin:copy`, `cut`, `paste`, `undo`, `redo` (`Ctrl+Shift+Z`) and
-  `selectAll` are the standard editing commands, for keymaps that should
+  `builtin:copy`, `cut`, `paste`, `undo`, `redo` (`Ctrl+Shift+Z`),
+  `selectAll`, `find`, `save`, `newTab` and `closeTab` are standard
+  application commands, for keymaps that should
   work on any keyboard layout. In every built-in macro the letter keys of
-  `Ctrl+C/V/X/Z/A` steps are resolved at playback by the character they
+  `Ctrl+C/V/X/Z/A/F/S/T/W` steps are resolved at playback by the character they
   type in the active layout (on QWERTZ undo is the physical `KeyY`), unlike
   user actions, which always name physical keys. On Linux plain
   `Ctrl+C/V/X` also follow the terminal and paste settings.

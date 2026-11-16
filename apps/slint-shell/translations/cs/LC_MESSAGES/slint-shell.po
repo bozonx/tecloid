@@ -2335,6 +2335,15 @@ msgstr "Zpět"
 msgid "Redo"
 msgstr "Znovu"
 
+msgid "Find"
+msgstr "Najít"
+
+msgid "New tab"
+msgstr "Nová karta"
+
+msgid "Close tab"
+msgstr "Zavřít kartu"
+
 msgid "Clear search"
 msgstr "Vymazat vyhledávání"
 

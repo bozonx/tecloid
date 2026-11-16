@@ -2339,6 +2339,15 @@ msgstr "გაუქმება"
 msgid "Redo"
 msgstr "გამეორება"
 
+msgid "Find"
+msgstr "ძებნა"
+
+msgid "New tab"
+msgstr "ახალი ჩანართი"
+
+msgid "Close tab"
+msgstr "ჩანართის დახურვა"
+
 msgid "Clear search"
 msgstr "ძიების გასუფთავება"
 

@@ -2341,6 +2341,15 @@ msgstr "Geri al"
 msgid "Redo"
 msgstr "Yinele"
 
+msgid "Find"
+msgstr "Bul"
+
+msgid "New tab"
+msgstr "Yeni sekme"
+
+msgid "Close tab"
+msgstr "Sekmeyi kapat"
+
 msgid "Clear search"
 msgstr "Aramayı temizle"
 

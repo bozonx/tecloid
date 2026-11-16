@@ -221,8 +221,8 @@ pub(crate) fn key_for_char(ch: char) -> Option<(u16, Vec<u16>)> {
     ))
 }
 
-/// Resolve built-in editing strokes (Ctrl with C/V/X/Z/A) at playback time.
-/// User `KeyC/V/X/Z/A` bindings remain physical keys; only built-in editing
+/// Resolve built-in editing strokes (Ctrl with C/V/X/Z/A/F/S/T/W) at playback
+/// time. User letter-key bindings remain physical keys; only built-in editing
 /// commands are semantic.
 pub(crate) fn builtin_clipboard_stroke(
     stroke: &crate::mapper::action::Keystroke,
@@ -237,10 +237,14 @@ pub(crate) fn builtin_clipboard_stroke(
         K::KEY_X => 'x',
         K::KEY_Z => 'z',
         K::KEY_A => 'a',
+        K::KEY_F => 'f',
+        K::KEY_S => 's',
+        K::KEY_T => 't',
+        K::KEY_W => 'w',
         _ => return stroke.clone(),
     };
     // Only plain Ctrl+C/V/X are clipboard strokes with terminal and paste
-    // variants; undo, redo and select all only follow the layout.
+    // variants; the other editing commands only follow the layout.
     let clipboard = stroke.mods == [K::KEY_LEFTCTRL] && matches!(character, 'c' | 'v' | 'x');
     let key = crate::runtime_state::keyboard_layout()
         .and_then(|layout| {
@@ -389,6 +393,8 @@ mod tests {
         assert_eq!(shortcut('a'), Some(u32::from(K::KEY_A.code())));
         let de = |character| shortcut_key_from_names(&[("de", "")], 0, "", character);
         assert_eq!(de('z'), Some(u32::from(K::KEY_Y.code())));
+        assert_eq!(shortcut('s'), Some(u32::from(K::KEY_SEMICOLON.code())));
+        assert_eq!(shortcut('w'), Some(u32::from(K::KEY_COMMA.code())));
         assert_eq!(
             shortcut_key_from_names(&[("ru", ""), ("us", "dvorak")], 0, "", 'c'),
             Some(u32::from(K::KEY_I.code()))

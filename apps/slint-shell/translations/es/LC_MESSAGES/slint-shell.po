@@ -2318,6 +2318,15 @@ msgstr "Deshacer"
 msgid "Redo"
 msgstr "Rehacer"
 
+msgid "Find"
+msgstr "Buscar"
+
+msgid "New tab"
+msgstr "Nueva pestaña"
+
+msgid "Close tab"
+msgstr "Cerrar pestaña"
+
 msgid "Clear search"
 msgstr "Borrar búsqueda"
 

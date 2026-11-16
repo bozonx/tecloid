@@ -2362,6 +2362,15 @@ msgstr "Visszavonás"
 msgid "Redo"
 msgstr "Újra"
 
+msgid "Find"
+msgstr "Keresés"
+
+msgid "New tab"
+msgstr "Új lap"
+
+msgid "Close tab"
+msgstr "Lap bezárása"
+
 msgid "Clear search"
 msgstr "Keresés törlése"
 

@@ -2345,6 +2345,15 @@ msgstr "Desfazer"
 msgid "Redo"
 msgstr "Refazer"
 
+msgid "Find"
+msgstr "Localizar"
+
+msgid "New tab"
+msgstr "Novo separador"
+
+msgid "Close tab"
+msgstr "Fechar separador"
+
 msgid "Clear search"
 msgstr "Limpar pesquisa"
 

@@ -2210,6 +2210,15 @@ msgstr "復原"
 msgid "Redo"
 msgstr "重做"
 
+msgid "Find"
+msgstr "尋找"
+
+msgid "New tab"
+msgstr "新增分頁"
+
+msgid "Close tab"
+msgstr "關閉分頁"
+
 msgid "Clear search"
 msgstr "清除搜尋"
 

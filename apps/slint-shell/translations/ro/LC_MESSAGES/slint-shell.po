@@ -2365,6 +2365,15 @@ msgstr "Anulează"
 msgid "Redo"
 msgstr "Refă"
 
+msgid "Find"
+msgstr "Caută"
+
+msgid "New tab"
+msgstr "Filă nouă"
+
+msgid "Close tab"
+msgstr "Închide fila"
+
 msgid "Clear search"
 msgstr "Ștergeți căutarea"
 

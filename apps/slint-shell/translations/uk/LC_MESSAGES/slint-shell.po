@@ -2350,6 +2350,15 @@ msgstr "Скасувати"
 msgid "Redo"
 msgstr "Повторити"
 
+msgid "Find"
+msgstr "Знайти"
+
+msgid "New tab"
+msgstr "Нова вкладка"
+
+msgid "Close tab"
+msgstr "Закрити вкладку"
+
 msgid "Clear search"
 msgstr "Очистити пошук"
 

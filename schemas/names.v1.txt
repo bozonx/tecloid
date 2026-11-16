@@ -33,6 +33,7 @@ action app:showQuickMenu<1..=999>
 action app:showQuickMenuRecent
 action app:showSettings
 action app:toggleGameMode
+action builtin:closeTab
 action builtin:copy
 action builtin:copyLineText
 action builtin:copyToLineEnd
@@ -45,6 +46,7 @@ action builtin:cutToLineEnd
 action builtin:cutToLineStart
 action builtin:cutWord
 action builtin:duplicateLine
+action builtin:find
 action builtin:goTo5LinesDown
 action builtin:goTo5LinesUp
 action builtin:goToNextLineEnd
@@ -54,6 +56,7 @@ action builtin:goToPreviousLineStart
 action builtin:insertEmptyLineAbove
 action builtin:insertEmptyLineBelow
 action builtin:insertSpaceAfterNextChar
+action builtin:newTab
 action builtin:paste
 action builtin:pasteOnNewLineAbove
 action builtin:pasteOnNewLineBelow
@@ -62,6 +65,7 @@ action builtin:replaceLineTextWithClipboard
 action builtin:replaceToLineEndWithClipboard
 action builtin:replaceToLineStartWithClipboard
 action builtin:replaceWordWithClipboard
+action builtin:save
 action builtin:select5LinesDown
 action builtin:select5LinesUp
 action builtin:selectAll

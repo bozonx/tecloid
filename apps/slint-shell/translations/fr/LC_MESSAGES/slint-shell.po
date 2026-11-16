@@ -2387,6 +2387,15 @@ msgstr "Annuler"
 msgid "Redo"
 msgstr "Rétablir"
 
+msgid "Find"
+msgstr "Rechercher"
+
+msgid "New tab"
+msgstr "Nouvel onglet"
+
+msgid "Close tab"
+msgstr "Fermer l’onglet"
+
 msgid "Clear search"
 msgstr "Effacer la recherche"
 

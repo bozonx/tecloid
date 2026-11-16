@@ -2339,6 +2339,15 @@ msgstr "Poništi"
 msgid "Redo"
 msgstr "Ponovi"
 
+msgid "Find"
+msgstr "Pronađi"
+
+msgid "New tab"
+msgstr "Nova kartica"
+
+msgid "Close tab"
+msgstr "Zatvori karticu"
+
 msgid "Clear search"
 msgstr "Očisti pretragu"
 

@@ -82,6 +82,10 @@ export global Locale {
         if m.id == "builtin-macro" && m.arg == "undo" { return @tr("Undo"); }
         if m.id == "builtin-macro" && m.arg == "redo" { return @tr("Redo"); }
         if m.id == "builtin-macro" && m.arg == "selectAll" { return @tr("Select all"); }
+        if m.id == "builtin-macro" && m.arg == "find" { return @tr("Find"); }
+        if m.id == "builtin-macro" && m.arg == "save" { return @tr("Save"); }
+        if m.id == "builtin-macro" && m.arg == "newTab" { return @tr("New tab"); }
+        if m.id == "builtin-macro" && m.arg == "closeTab" { return @tr("Close tab"); }
         if m.id == "picker-action" && m.arg == "showQuickMenu" { return @tr("Show Quick Action Menu page {}", m.count); }
         if m.id == "picker-action" && m.arg == "showEmojiMenu" { return @tr("Show Emoji & Symbols menu page {}", m.count); }
         if m.id == "picker-action" && m.arg == "showQuickMenuRecent" { return @tr("Show Quick Action Menu on the last used page"); }

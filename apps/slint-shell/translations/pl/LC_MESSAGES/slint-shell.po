@@ -2367,6 +2367,15 @@ msgstr "Cofnij"
 msgid "Redo"
 msgstr "Ponów"
 
+msgid "Find"
+msgstr "Znajdź"
+
+msgid "New tab"
+msgstr "Nowa karta"
+
+msgid "Close tab"
+msgstr "Zamknij kartę"
+
 msgid "Clear search"
 msgstr "Wyczyść wyszukiwanie"
 

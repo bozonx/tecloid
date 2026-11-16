@@ -2371,6 +2371,15 @@ msgstr "Annulla"
 msgid "Redo"
 msgstr "Ripeti"
 
+msgid "Find"
+msgstr "Trova"
+
+msgid "New tab"
+msgstr "Nuova scheda"
+
+msgid "Close tab"
+msgstr "Chiudi scheda"
+
 msgid "Clear search"
 msgstr "Cancella ricerca"
 

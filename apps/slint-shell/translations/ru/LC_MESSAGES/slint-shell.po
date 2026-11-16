@@ -2087,6 +2087,15 @@ msgstr "Отменить"
 msgid "Redo"
 msgstr "Повторить"
 
+msgid "Find"
+msgstr "Найти"
+
+msgid "New tab"
+msgstr "Новая вкладка"
+
+msgid "Close tab"
+msgstr "Закрыть вкладку"
+
 msgid "Clear search"
 msgstr "Очистить поиск"
 

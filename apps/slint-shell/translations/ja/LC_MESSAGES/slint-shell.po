@@ -2235,6 +2235,15 @@ msgstr "元に戻す"
 msgid "Redo"
 msgstr "やり直し"
 
+msgid "Find"
+msgstr "検索"
+
+msgid "New tab"
+msgstr "新しいタブ"
+
+msgid "Close tab"
+msgstr "タブを閉じる"
+
 msgid "Clear search"
 msgstr "検索をクリア"
 

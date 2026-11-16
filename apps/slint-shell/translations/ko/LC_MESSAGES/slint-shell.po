@@ -2231,6 +2231,15 @@ msgstr "실행 취소"
 msgid "Redo"
 msgstr "다시 실행"
 
+msgid "Find"
+msgstr "찾기"
+
+msgid "New tab"
+msgstr "새 탭"
+
+msgid "Close tab"
+msgstr "탭 닫기"
+
 msgid "Clear search"
 msgstr "검색 지우기"
 

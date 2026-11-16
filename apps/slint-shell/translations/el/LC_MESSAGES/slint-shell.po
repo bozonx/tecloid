@@ -2389,6 +2389,15 @@ msgstr "Αναίρεση"
 msgid "Redo"
 msgstr "Επανάληψη"
 
+msgid "Find"
+msgstr "Εύρεση"
+
+msgid "New tab"
+msgstr "Νέα καρτέλα"
+
+msgid "Close tab"
+msgstr "Κλείσιμο καρτέλας"
+
 msgid "Clear search"
 msgstr "Εκκαθάριση αναζήτησης"
 

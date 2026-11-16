@@ -2209,6 +2209,15 @@ msgstr "撤销"
 msgid "Redo"
 msgstr "重做"
 
+msgid "Find"
+msgstr "查找"
+
+msgid "New tab"
+msgstr "新建标签页"
+
+msgid "Close tab"
+msgstr "关闭标签页"
+
 msgid "Clear search"
 msgstr "清除搜索"
 

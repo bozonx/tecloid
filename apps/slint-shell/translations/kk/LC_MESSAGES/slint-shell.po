@@ -2348,6 +2348,15 @@ msgstr "Болдырмау"
 msgid "Redo"
 msgstr "Қайталау"
 
+msgid "Find"
+msgstr "Табу"
+
+msgid "New tab"
+msgstr "Жаңа бет"
+
+msgid "Close tab"
+msgstr "Бетті жабу"
+
 msgid "Clear search"
 msgstr "Іздеуді тазалау"
 

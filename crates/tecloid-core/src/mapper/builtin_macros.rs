@@ -219,6 +219,26 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
         name: "Select all",
         steps: &["Ctrl+KeyA"],
     },
+    BuiltinMacro {
+        id: "find",
+        name: "Find",
+        steps: &["Ctrl+KeyF"],
+    },
+    BuiltinMacro {
+        id: "save",
+        name: "Save",
+        steps: &["Ctrl+KeyS"],
+    },
+    BuiltinMacro {
+        id: "newTab",
+        name: "New tab",
+        steps: &["Ctrl+KeyT"],
+    },
+    BuiltinMacro {
+        id: "closeTab",
+        name: "Close tab",
+        steps: &["Ctrl+KeyW"],
+    },
 ];
 
 #[cfg(all(test, target_os = "linux"))]
