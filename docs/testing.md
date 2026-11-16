@@ -621,6 +621,8 @@ physical KDE Plasma 6 Wayland (and Windows 11 if its backend is shipped) when:
 About 15–20 minutes on a **physical** KDE Plasma 6 Wayland machine with the
 `Manual acceptance` test keymap ([assignments](#prepare-one-run)):
 
+
+
 - [ ] Launch from the menu; tray icon present; a second instance opens the
   existing one.
 - [ ] F6 → B once and held (normal repeat); layer J → K and back; one tap/hold
