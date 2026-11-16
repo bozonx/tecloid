@@ -601,9 +601,53 @@ experimental GNOME run is not KDE acceptance.
 Automated: L0–L2 green, L3 on current `main`, L4 at least Fedora KDE (rpm) and
 Debian 13 KDE (deb), Windows VM `--suite full` after changes to portable code.
 
-Manual: complete the [acceptance checklist](#manual-acceptance-checklist) on
-physical KDE Plasma 6 Wayland and Windows 11 machines using a test keymap,
-including the physical-hardware section. Add GNOME experimental acceptance when
-its bridge, portal or popup behavior changes; macOS acceptance covers the shell
-only. Record the exact environment, package/SHA and every remaining gap as shown
-in the checklist's result template.
+Manual checks are tiered. The full checklist is not repeated for every release;
+automated L0–L4 covers installation, permissions, autostart, portal, upgrade and
+S3 in VMs. Manual work covers what VMs cannot: real hardware, the real portal
+dialog and subjective behaviour (stuck keys, tap/hold feel, layout).
+
+### Full acceptance (triggers)
+
+Complete the whole [acceptance checklist](#manual-acceptance-checklist) on
+physical KDE Plasma 6 Wayland (and Windows 11 if its backend is shipped) when:
+
+- this is the first public release, or the first release on a new platform;
+- Slint, `spell-framework`, `i-slint-core` or another major dependency was bumped;
+- target distributions moved to a new Plasma or xdg-desktop-portal release;
+- the mapper, `text_input` or popup/focus-return code was substantially reworked.
+
+### Every release: release smoke
+
+About 15–20 minutes on a **physical** KDE Plasma 6 Wayland machine with the
+`Manual acceptance` test keymap ([assignments](#prepare-one-run)):
+
+- [ ] Launch from the menu; tray icon present; a second instance opens the
+  existing one.
+- [ ] F6 → B once and held (normal repeat); layer J → K and back; one tap/hold
+  key including a quick roll; the `one`/pause/`two` macro.
+- [ ] F8 and F9 insert exact text once; rapid F8 ×5 gives `❓❓❓❓❓`; the
+  previously copied clipboard content is unchanged.
+- [ ] Emoji and Quick: insertion at a mid-line caret, Escape cancels, focus
+  returns to the original window.
+- [ ] Disable the mapper while holding modifiers, release, type: nothing stuck.
+- [ ] Reboot with autostart enabled: tray and F6 work before opening settings.
+- [ ] Upgrade from the previous release: settings and keymap load, mapper works.
+
+### Every release: sections by change
+
+Additionally run the checklist sections touched by the release diff:
+
+| Changed since the previous release | Run |
+| --- | --- |
+| Settings UI, themes, i18n, accessibility | Common: themes, languages, keyboard navigation |
+| Portal, text injection, clipboard | Linux: installation and text permission |
+| KDE system actions, layouts, `kde:`/`xdg:` | KDE Plasma 6 Wayland |
+| GNOME extension, bridge, portal or popups | GNOME Wayland (experimental) |
+| Windows backend or portable code | Windows 11 (plus VM `--suite full`) |
+| Device handling, hotplug, suspend, DPI | Physical hardware |
+| Packaging, autostart, install paths | Lifecycle |
+| macOS shell | macOS (shell only) |
+
+Record the exact environment, package/SHA, which tier was run and every remaining
+gap as shown in the checklist's result template. A release smoke is not full
+acceptance; say so in the report.
