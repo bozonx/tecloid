@@ -9,7 +9,7 @@
     {
       "id": "navigation",
       "keys": {
-        "MetaLeft": "Ctrl+KeyX",
+        "MetaLeft": "Ctrl+Enter",
         "AltLeft": "Delete",
         "Space": "Backspace",
         "KeyQ": "builtin:insertEmptyLineAbove",
@@ -50,7 +50,6 @@
       "id": "select",
       "keys": {
         "CapsLock": "CapsLock",
-        "AltLeft": "Ctrl+Enter",
         "Digit1": "sys:switchToKeyboardLayout1",
         "Digit2": "sys:switchToKeyboardLayout2",
         "Digit3": "sys:switchToKeyboardLayout3",
@@ -247,10 +246,7 @@
     },
     {
       "key": "ShiftLeft",
-      "tap": "Ctrl+KeyC",
-      "doubleTap": {
-        "action": "Ctrl+KeyX"
-      },
+      "tap": "app:showQuickMenu1",
       "tapDecision": "holdOnOtherKeyPress"
     },
     {
@@ -262,7 +258,7 @@
     },
     {
       "key": "MetaLeft",
-      "tap": "app:showQuickMenu1",
+      "tap": "Enter",
       "hold": {
         "action": "ControlLeft",
         "timeoutMs": 350
@@ -270,7 +266,10 @@
     },
     {
       "key": "AltLeft",
-      "tap": "Enter",
+      "tap": "Ctrl+KeyC",
+      "doubleTap": {
+        "action": "Ctrl+KeyX"
+      },
       "hold": {
         "layer": "desktop",
         "retroTapMs": 0
