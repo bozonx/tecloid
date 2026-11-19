@@ -9,7 +9,7 @@
     {
       "id": "navigation",
       "keys": {
-        "MetaLeft": "Ctrl+Enter",
+        "MetaLeft": "Ctrl+KeyX",
         "AltLeft": "Delete",
         "Space": "Backspace",
         "KeyQ": "builtin:insertEmptyLineAbove",
@@ -182,7 +182,7 @@
         },
         "Backspace": "sys:turnOffScreen",
         "MetaLeft": "Ctrl+Alt+Shift+KeyV",
-        "ShiftLeft": "sys:switchToKeyboardLayout4",
+        "ShiftLeft": "Shift+Enter",
         "Digit1": "Meta+Digit1",
         "Digit2": "Meta+Digit2",
         "Digit3": "Meta+Digit3",
@@ -246,7 +246,7 @@
     },
     {
       "key": "ShiftLeft",
-      "tap": "app:showQuickMenu1",
+      "tap": "Enter",
       "tapDecision": "holdOnOtherKeyPress"
     },
     {
@@ -258,7 +258,7 @@
     },
     {
       "key": "MetaLeft",
-      "tap": "Enter",
+      "tap": "app:showQuickMenu1",
       "hold": {
         "action": "ControlLeft",
         "timeoutMs": 350
