@@ -18,8 +18,8 @@ use windows::Win32::Graphics::Gdi::{
 use windows::Win32::UI::WindowsAndMessaging::{
     GWL_EXSTYLE, GetForegroundWindow, GetWindowLongW, GetWindowRect, HWND_BROADCAST, HWND_TOPMOST,
     IsZoomed, PostMessageW, SC_CLOSE, SC_MAXIMIZE, SC_MINIMIZE, SC_MONITORPOWER, SC_RESTORE,
-    SWP_ASYNCWINDOWPOS, SWP_NOACTIVATE, SWP_NOMOVE, SWP_NOSIZE, SetWindowPos, WM_SYSCOMMAND,
-    WS_EX_TOPMOST,
+    SWP_ASYNCWINDOWPOS, SWP_NOACTIVATE, SWP_NOMOVE, SWP_NOSIZE, SWP_NOZORDER, SetWindowPos,
+    WM_SYSCOMMAND, WS_EX_TOPMOST,
 };
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -30,6 +30,7 @@ pub enum WindowsAction {
     WindowMinimize,
     WindowMaximize,
     WindowMaximizeVertical,
+    WindowMaximizeHorizontal,
     WindowKeepAbove,
     WindowToNextScreen,
     WindowToPreviousScreen,
@@ -69,6 +70,7 @@ pub fn resolve(name: &str) -> Option<SystemAction> {
         "minimizeWindow" => WindowsAction::WindowMinimize,
         "maximizeWindow" => WindowsAction::WindowMaximize,
         "maximizeWindowVertically" => WindowsAction::WindowMaximizeVertical,
+        "maximizeWindowHorizontally" => WindowsAction::WindowMaximizeHorizontal,
         "keepWindowAbove" => WindowsAction::WindowKeepAbove,
         "moveWindowToNextScreen" => WindowsAction::WindowToNextScreen,
         "moveWindowToPreviousScreen" => WindowsAction::WindowToPreviousScreen,
@@ -133,8 +135,8 @@ fn toggle_keep_above() -> Result<(), String> {
 /// (about 8 px at 100 % scale, more at higher scales).
 const EDGE_SLACK: i32 = 24;
 
-/// Whether the window spans its monitor's work area from top to bottom.
-fn spans_work_area_vertically(window: HWND) -> Result<bool, String> {
+/// The window's rectangle and its monitor's work area.
+fn window_and_work_area(window: HWND) -> Result<(RECT, RECT), String> {
     let mut rect = RECT::default();
     unsafe { GetWindowRect(window, &mut rect) }
         .map_err(|error| format!("Window geometry failed: {error}"))?;
@@ -146,11 +148,67 @@ fn spans_work_area_vertically(window: HWND) -> Result<bool, String> {
     if !unsafe { GetMonitorInfoW(monitor, &mut info) }.as_bool() {
         return Err("Monitor geometry failed".into());
     }
-    let work = info.rcWork;
+    Ok((rect, info.rcWork))
+}
+
+/// Whether the window spans its monitor's work area from top to bottom.
+fn spans_work_area_vertically(window: HWND) -> Result<bool, String> {
+    let (rect, work) = window_and_work_area(window)?;
     Ok(
         (rect.top - work.top).abs() <= EDGE_SLACK
             && (rect.bottom - work.bottom).abs() <= EDGE_SLACK,
     )
+}
+
+/// Left and right edges of windows stretched by
+/// [`toggle_maximize_horizontal`], keyed by window handle, to restore them.
+static HORIZONTAL_RESTORE: std::sync::Mutex<Vec<(isize, i32, i32)>> =
+    std::sync::Mutex::new(Vec::new());
+
+/// Windows has no shortcut for horizontal maximization, so the window is
+/// stretched to the work area width and keeps its height; a second run
+/// gives back the remembered edges, like the KDE toggle. A maximized window
+/// is left alone.
+fn toggle_maximize_horizontal() -> Result<(), String> {
+    let window = app_window()?;
+    if unsafe { IsZoomed(window) }.as_bool() {
+        return Ok(());
+    }
+    let (rect, work) = window_and_work_area(window)?;
+    let spans = (rect.left - work.left).abs() <= EDGE_SLACK
+        && (rect.right - work.right).abs() <= EDGE_SLACK;
+    let mut saved = HORIZONTAL_RESTORE.lock().unwrap_or_else(|e| e.into_inner());
+    let id = window.0 as isize;
+    let previous = saved
+        .iter()
+        .position(|entry| entry.0 == id)
+        .map(|i| saved.remove(i));
+    let (left, right) = match previous {
+        Some((_, left, right)) if spans => (left, right),
+        _ if spans => return Ok(()),
+        _ => {
+            // Keep the list small: handles of closed windows are reused.
+            if saved.len() >= 32 {
+                saved.remove(0);
+            }
+            saved.push((id, rect.left, rect.right));
+            // Extend by the invisible borders so the frame meets the edges.
+            let border = (rect.right - rect.left).min(EDGE_SLACK) / 3;
+            (work.left - border, work.right + border)
+        }
+    };
+    unsafe {
+        SetWindowPos(
+            window,
+            None,
+            left,
+            rect.top,
+            right - left,
+            rect.bottom - rect.top,
+            SWP_NOZORDER | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS,
+        )
+    }
+    .map_err(|error| format!("Maximize horizontally failed: {error}"))
 }
 
 /// Win+Shift+Up stretches the window to the work area height; Win+Shift+Down
@@ -231,6 +289,7 @@ pub(super) fn run(action: WindowsAction) -> Result<(), String> {
             }
         }
         WindowsAction::WindowMaximizeVertical => toggle_maximize_vertical(),
+        WindowsAction::WindowMaximizeHorizontal => toggle_maximize_horizontal(),
         WindowsAction::WindowKeepAbove => toggle_keep_above(),
         WindowsAction::WindowToNextScreen => {
             app_window()?;

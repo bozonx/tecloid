@@ -756,6 +756,9 @@ msgstr "Maximalizovat okno"
 msgid "Maximize window vertically"
 msgstr "Maximalizovat okno svisle"
 
+msgid "Maximize window horizontally"
+msgstr "Maximalizovat okno vodorovně"
+
 msgid "Keep window above others"
 msgstr "Udržujte okno nad ostatními"
 

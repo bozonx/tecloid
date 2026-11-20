@@ -747,6 +747,9 @@ msgstr "Развернуть окно"
 msgid "Maximize window vertically"
 msgstr "Развернуть окно по вертикали"
 
+msgid "Maximize window horizontally"
+msgstr "Развернуть окно по горизонтали"
+
 msgid "Keep window above others"
 msgstr "Окно поверх остальных"
 

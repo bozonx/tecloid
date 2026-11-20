@@ -246,11 +246,12 @@ mod kde {
 
     /// Plain `sys:` actions KWin, Plasma and PowerDevil register as
     /// kglobalaccel shortcuts: (id, component, shortcut name).
-    pub(super) const SHORTCUT_ACTIONS: [(&str, &str, &str); 20] = [
+    pub(super) const SHORTCUT_ACTIONS: [(&str, &str, &str); 21] = [
         ("closeWindow", "kwin", "Window Close"),
         ("minimizeWindow", "kwin", "Window Minimize"),
         ("maximizeWindow", "kwin", "Window Maximize"),
         ("maximizeWindowVertically", "kwin", "Window Maximize Vertical"),
+        ("maximizeWindowHorizontally", "kwin", "Window Maximize Horizontal"),
         ("keepWindowAbove", "kwin", "Window Above Other Windows"),
         ("moveWindowToNextDesktop", "kwin", "Window to Next Desktop"),
         ("moveWindowToPreviousDesktop", "kwin", "Window to Previous Desktop"),
@@ -479,6 +480,7 @@ mod linux_tests {
             "moveWindowToDesktop3",
             "closeWindow",
             "maximizeWindowVertically",
+            "maximizeWindowHorizontally",
             "moveWindowToNextDesktop",
             "moveWindowToPreviousDesktop",
             "moveWindowToNextScreen",

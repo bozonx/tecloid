@@ -297,7 +297,7 @@ diagnostics report it and the mapper does not start with it.
   Plasma action of that name does, toggling included (`maximizeWindow`,
   `keepWindowAbove`, `showDesktop`, `showOverview` toggle there), and other
   platforms reproduce it. The ids: `closeWindow`, `minimizeWindow`, `maximizeWindow`,
-  `maximizeWindowVertically`, `tileWindowLeft`, `tileWindowRight`,
+  `maximizeWindowVertically`, `maximizeWindowHorizontally`, `tileWindowLeft`, `tileWindowRight`,
   `tileWindowTop`, `tileWindowBottom` (KWin Quick Tile), `keepWindowAbove`, `moveWindowToNextDesktop`,
   `moveWindowToPreviousDesktop`, `moveWindowToNextScreen`,
   `moveWindowToPreviousScreen`, `switchToNextDesktop`, `switchToPreviousDesktop`,

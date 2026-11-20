@@ -214,7 +214,7 @@
         "KeyK": "sys:tileWindowBottom",
         "KeyL": "sys:tileWindowRight",
         "Semicolon": "sys:maximizeWindowVertically",
-        "Quote": "kde:kwin/Window Maximize Horizontal",
+        "Quote": "sys:maximizeWindowHorizontally",
         "KeyZ": "sys:switchToKeyboardLayout3",
         "KeyX": "sys:switchToKeyboardLayout2",
         "KeyC": "sys:switchToKeyboardLayout1",

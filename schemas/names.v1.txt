@@ -83,6 +83,7 @@ action sys:find
 action sys:keepWindowAbove
 action sys:lockSession
 action sys:maximizeWindow
+action sys:maximizeWindowHorizontally
 action sys:maximizeWindowVertically
 action sys:minimizeWindow
 action sys:moveToDocumentEnd

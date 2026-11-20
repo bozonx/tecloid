@@ -761,6 +761,9 @@ msgstr "Pencereyi büyüt"
 msgid "Maximize window vertically"
 msgstr "Pencereyi dikey olarak büyüt"
 
+msgid "Maximize window horizontally"
+msgstr "Pencereyi yatay olarak büyüt"
+
 msgid "Keep window above others"
 msgstr "Pencereyi diğerlerinin üstünde tut"
 

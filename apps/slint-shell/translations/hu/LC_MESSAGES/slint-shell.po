@@ -766,6 +766,9 @@ msgstr "Az ablak maximalizálása"
 msgid "Maximize window vertically"
 msgstr "Az ablak függőleges maximalizálása"
 
+msgid "Maximize window horizontally"
+msgstr "Az ablak vízszintes maximalizálása"
+
 msgid "Keep window above others"
 msgstr "Tartsa az ablakot mások felett"
 

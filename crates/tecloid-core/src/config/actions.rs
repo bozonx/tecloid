@@ -181,11 +181,12 @@ pub const SHORTCUT_SYSTEM_ACTIONS: [&str; 28] = [
 /// window between virtual desktops; on GNOME `showDesktop`, top and bottom
 /// tiling and clipboard history have no counterpart. See
 /// [`unsupported_on_macos`] for macOS.
-pub const PLAIN_SYSTEM_ACTIONS: [&str; 21] = [
+pub const PLAIN_SYSTEM_ACTIONS: [&str; 22] = [
     "closeWindow",
     "minimizeWindow",
     "maximizeWindow",
     "maximizeWindowVertically",
+    "maximizeWindowHorizontally",
     "tileWindowLeft",
     "tileWindowRight",
     "tileWindowTop",
@@ -213,7 +214,7 @@ pub fn is_shortcut_system_action(id: &str) -> bool {
 
 /// `sys:` ids (numbered ones without their number) that macOS has no
 /// public API for. Running one there is ignored with a notice.
-const MACOS_UNSUPPORTED_SYSTEM_ACTIONS: [&str; 19] = [
+const MACOS_UNSUPPORTED_SYSTEM_ACTIONS: [&str; 20] = [
     "switchToDesktop",
     "activateTaskManagerEntry",
     "tileWindowLeft",
@@ -230,6 +231,7 @@ const MACOS_UNSUPPORTED_SYSTEM_ACTIONS: [&str; 19] = [
     "switchToPreviousDesktop",
     "lockSession",
     "maximizeWindowVertically",
+    "maximizeWindowHorizontally",
     "keepWindowAbove",
     "showDesktop",
     "showAppLauncher",
@@ -687,7 +689,7 @@ mod tests {
 
     #[test]
     fn catalogs_preserve_builtin_action_ids() {
-        assert_eq!(system_actions().len(), 89);
+        assert_eq!(system_actions().len(), 90);
         assert_eq!(app_actions().len(), 32);
         assert_eq!(
             system_action_name("switchToDesktop10"),

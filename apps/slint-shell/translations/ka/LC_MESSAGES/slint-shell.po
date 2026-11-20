@@ -764,6 +764,9 @@ msgstr "ფანჯრის მაქსიმიზაცია"
 msgid "Maximize window vertically"
 msgstr "ფანჯრის ვერტიკალური მაქსიმიზაცია"
 
+msgid "Maximize window horizontally"
+msgstr "ფანჯრის ჰორიზონტალური მაქსიმიზაცია"
+
 msgid "Keep window above others"
 msgstr "შეინახეთ ფანჯარა სხვებზე მაღლა"
 

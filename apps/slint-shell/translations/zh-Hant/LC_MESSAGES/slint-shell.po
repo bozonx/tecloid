@@ -746,6 +746,9 @@ msgstr "最大化視窗"
 msgid "Maximize window vertically"
 msgstr "垂直最大化視窗"
 
+msgid "Maximize window horizontally"
+msgstr "水平最大化視窗"
+
 msgid "Keep window above others"
 msgstr "將窗戶放在其他窗戶上方"
 
