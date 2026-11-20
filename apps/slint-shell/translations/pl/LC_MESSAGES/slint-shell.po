@@ -2594,8 +2594,6 @@ msgstr "Wkleja ze skonfigurowanym skrótem do Waylanda: kontrola danych w KDE, p
 msgid "Paste shortcut"
 msgstr "Wklej skrót"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Wysyłany do aktywnej aplikacji, aby wkleić tekst."
 
 msgid "Paste shortcut in terminals"
 msgstr "Skrót wklejania w terminalach"
@@ -3852,3 +3850,54 @@ msgstr "Zapisane uprawnienia zostały zresetowane. System poprosi o nie ponownie
 
 msgid "Open in file manager"
 msgstr "Otwórz w menedżerze plików"
+
+msgid "Move to previous word"
+msgstr "Przejdź do poprzedniego słowa"
+
+msgid "Move to next word"
+msgstr "Przejdź do następnego słowa"
+
+msgid "Select to previous word"
+msgstr "Zaznacz do poprzedniego słowa"
+
+msgid "Select to next word"
+msgstr "Zaznacz do następnego słowa"
+
+msgid "Delete previous word"
+msgstr "Usuń poprzednie słowo"
+
+msgid "Delete next word"
+msgstr "Usuń następne słowo"
+
+msgid "Move to document start"
+msgstr "Przejdź na początek dokumentu"
+
+msgid "Move to document end"
+msgstr "Przejdź na koniec dokumentu"
+
+msgid "Switch windows"
+msgstr "Przełącz okno"
+
+msgid "Tile window left"
+msgstr "Przyciągnij okno do lewej"
+
+msgid "Tile window right"
+msgstr "Przyciągnij okno do prawej"
+
+msgid "Tile window top"
+msgstr "Przyciągnij okno do góry"
+
+msgid "Tile window bottom"
+msgstr "Przyciągnij okno do dołu"
+
+msgid "Show clipboard history"
+msgstr "Pokaż historię schowka"
+
+msgid "Activate task manager entry {}"
+msgstr "Aktywuj element {} menedżera zadań"
+
+msgid "Paste key"
+msgstr "Klawisz Wklej"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Wysyłany do aktywnej aplikacji, aby wkleić tekst. Akcje Kopiuj, Wytnij i Wklej używają odpowiednich skrótów. Automatycznie: Ctrl+V, a w terminalach Ctrl+Shift+V. Nie każda aplikacja obsługuje klawisz Wklej."

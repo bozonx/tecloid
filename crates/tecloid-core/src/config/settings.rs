@@ -749,8 +749,8 @@ mod tests {
         assert_eq!(settings["timing"]["tapDecision"], "permissiveHold");
         assert_eq!(settings["keymaps"]["auto"]["fallback"], Value::Null);
         assert_eq!(settings["gameMode"]["detectors"]["fullscreen"], false);
-        assert_eq!(settings["linux"]["pasteShortcut"], "Ctrl+KeyV");
-        assert_eq!(settings["linux"]["terminalPasteShortcut"], "Shift+Insert");
+        assert_eq!(settings["linux"]["pasteShortcut"], "auto");
+        assert_eq!(settings["linux"]["terminalPasteShortcut"], "sameAsPaste");
         assert_eq!(settings["interface"]["copyOsd"], false);
         assert!(settings["linux"].get("ydotoolPath").is_none());
         assert!(settings["keymaps"].get("manualKeymap").is_none());
@@ -1042,11 +1042,8 @@ mod tests {
     #[test]
     fn paste_defaults_do_not_override_explicit_shortcuts() {
         let defaults = parse(&config(json!({}))).unwrap();
-        assert_eq!(defaults.linux_paste_shortcut, PasteShortcut::CtrlV);
-        assert_eq!(
-            defaults.linux_terminal_paste_shortcut,
-            Some(PasteShortcut::ShiftInsert)
-        );
+        assert_eq!(defaults.linux_paste_shortcut, PasteShortcut::Auto);
+        assert_eq!(defaults.linux_terminal_paste_shortcut, None);
         let explicit = parse(&config(json!({"linux": {
             "pasteShortcut": "Shift+Insert",
             "terminalPasteShortcut": "Ctrl+Shift+KeyV"
@@ -1066,9 +1063,14 @@ mod tests {
                 .unwrap()
                 .linux_terminal_paste_shortcut
         };
+        assert_eq!(shortcut(json!({"pasteShortcut": "Ctrl+KeyV"})), None);
         assert_eq!(
-            shortcut(json!({"pasteShortcut": "Ctrl+KeyV"})),
-            Some(PasteShortcut::ShiftInsert)
+            shortcut(json!({"terminalPasteShortcut": "Paste"})),
+            Some(PasteShortcut::PasteKey)
+        );
+        assert_eq!(
+            shortcut(json!({"terminalPasteShortcut": "auto"})),
+            Some(PasteShortcut::Auto)
         );
         assert_eq!(
             shortcut(json!({"terminalPasteShortcut": "sameAsPaste"})),

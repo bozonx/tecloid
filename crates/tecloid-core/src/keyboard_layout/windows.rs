@@ -14,7 +14,9 @@ use windows::Win32::Foundation::{LPARAM, WPARAM};
 use windows::Win32::Globalization::{
     GetLocaleInfoEx, LCIDToLocaleName, LOCALE_SLOCALIZEDDISPLAYNAME,
 };
-use windows::Win32::UI::Input::KeyboardAndMouse::{GetKeyboardLayout, GetKeyboardLayoutList, HKL};
+use windows::Win32::UI::Input::KeyboardAndMouse::{
+    GetKeyboardLayout, GetKeyboardLayoutList, HKL, MAPVK_VK_TO_VSC, MapVirtualKeyExW, VkKeyScanExW,
+};
 use windows::Win32::UI::WindowsAndMessaging::{
     GetForegroundWindow, GetWindowThreadProcessId, PostMessageW, WM_INPUTLANGCHANGEREQUEST,
 };
@@ -38,6 +40,26 @@ fn foreground_layout() -> Option<HKL> {
     let thread = unsafe { GetWindowThreadProcessId(window, None) };
     let layout = unsafe { GetKeyboardLayout(thread) };
     (!layout.is_invalid()).then_some(layout)
+}
+
+/// Physical key that types the Latin letter `character` without modifiers in
+/// the foreground window's layout (`KeyI` for `c` on Dvorak). `None` when the
+/// layout has no such letter: Windows applications then match the shortcut
+/// by its virtual key, which the physical QWERTY key produces.
+pub(crate) fn shortcut_key_for_letter(character: char) -> Option<crate::mapper::key_code::KeyCode> {
+    let layout = foreground_layout()?;
+    let code = u16::try_from(u32::from(character)).ok()?;
+    // SAFETY: plain value arguments; the layout handle comes from the system.
+    let scan = unsafe { VkKeyScanExW(code, layout) };
+    let [vk, shift_state] = scan.to_le_bytes();
+    if scan == -1 || shift_state != 0 {
+        return None;
+    }
+    // SAFETY: as above.
+    let scan = unsafe { MapVirtualKeyExW(u32::from(vk), MAPVK_VK_TO_VSC, Some(layout)) };
+    (scan != 0)
+        .then(|| crate::mapper::scancode::from_native(0, scan, false))
+        .flatten()
 }
 
 /// Locale name of the layout's input language, e.g. `en-US`.

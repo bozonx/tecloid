@@ -244,9 +244,11 @@
     "string"
   ],
   "config/$defs/PasteShortcut": [
+    "auto",
     "Shift+Insert",
     "Ctrl+KeyV",
-    "Ctrl+Shift+KeyV"
+    "Ctrl+Shift+KeyV",
+    "Paste"
   ],
   "config/$defs/PasteShortcut/type": [
     "string"
@@ -299,9 +301,11 @@
     "holdOnOtherKeyPress"
   ],
   "config/$defs/TerminalPasteShortcut": [
+    "auto",
     "Shift+Insert",
     "Ctrl+KeyV",
     "Ctrl+Shift+KeyV",
+    "Paste",
     "sameAsPaste"
   ],
   "config/$defs/TerminalPasteShortcut/type": [

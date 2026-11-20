@@ -324,7 +324,7 @@ impl Default for Settings {
             trigger_chord_timeout_ms: default_trigger_chord_timeout(),
             commands_enabled: false,
             linux_wayland_text_mode: TextMode::LibeiWithClipboardFallback,
-            linux_paste_shortcut: PasteShortcut::ShiftInsert,
+            linux_paste_shortcut: PasteShortcut::Auto,
             linux_terminal_paste_shortcut: default_terminal_paste(),
             linux_ydotool_path: None,
             linux_xdotool_path: None,
@@ -332,8 +332,9 @@ impl Default for Settings {
     }
 }
 
+/// `Auto` already sends Ctrl+Shift+V to terminals.
 fn default_terminal_paste() -> Option<PasteShortcut> {
-    Some(PasteShortcut::CtrlShiftV)
+    None
 }
 
 fn default_long_hold() -> u64 {
@@ -430,11 +431,8 @@ mod tests {
             s.linux_wayland_text_mode,
             TextMode::LibeiWithClipboardFallback
         );
-        assert_eq!(s.linux_paste_shortcut, PasteShortcut::ShiftInsert);
-        assert_eq!(
-            s.linux_terminal_paste_shortcut,
-            Some(PasteShortcut::CtrlShiftV)
-        );
+        assert_eq!(s.linux_paste_shortcut, PasteShortcut::Auto);
+        assert_eq!(s.linux_terminal_paste_shortcut, None);
         assert!(s.linux_ydotool_path.is_none());
     }
 }

@@ -73,7 +73,7 @@ use reis::event::{DeviceCapability, EiEvent, EiEventConverter};
 use zbus::blocking::{Connection, Proxy};
 use zbus::zvariant::{OwnedFd, OwnedObjectPath, OwnedValue, Value};
 
-use crate::config::model::{PasteShortcut, TextMode};
+use crate::config::model::{ClipboardKeys, PasteShortcut, TextMode};
 use crate::events::{CoreEvent, TextInputFailure};
 use crate::text_input::job::TextRequest;
 
@@ -142,8 +142,8 @@ struct TextBackendConfig {
 
 static TEXT_BACKEND: Mutex<TextBackendConfig> = Mutex::new(TextBackendConfig {
     mode: TextMode::LibeiWithClipboardFallback,
-    paste: PasteShortcut::CtrlV,
-    terminal_paste: Some(PasteShortcut::ShiftInsert),
+    paste: PasteShortcut::Auto,
+    terminal_paste: None,
     ydotool_path: None,
     xdotool_path: None,
 });
@@ -221,82 +221,42 @@ pub(crate) fn key_for_char(ch: char) -> Option<(u16, Vec<u16>)> {
     ))
 }
 
-/// Resolve built-in editing strokes (Ctrl with C/V/X/Z/A/F/S/T/W) at playback
-/// time. User letter-key bindings remain physical keys; only built-in editing
-/// commands are semantic.
-pub(crate) fn builtin_clipboard_stroke(
-    stroke: &crate::mapper::action::Keystroke,
-) -> crate::mapper::action::Keystroke {
-    use crate::mapper::key_code::KeyCode as K;
-    if !stroke.mods.contains(&K::KEY_LEFTCTRL) {
-        return stroke.clone();
-    }
-    let character = match stroke.key {
-        K::KEY_C => 'c',
-        K::KEY_V => 'v',
-        K::KEY_X => 'x',
-        K::KEY_Z => 'z',
-        K::KEY_A => 'a',
-        K::KEY_F => 'f',
-        K::KEY_S => 's',
-        K::KEY_T => 't',
-        K::KEY_W => 'w',
-        _ => return stroke.clone(),
+/// evdev key that applications read as the Latin letter `character` in a
+/// shortcut: in the active layout, or in another configured layout when the
+/// active one has no such letter (Qt and GTK borrow Ctrl+C from the Latin
+/// layout on Cyrillic). `None` when the layout is unknown.
+pub(crate) fn shortcut_key_for_letter(character: char) -> Option<u16> {
+    let layout = crate::runtime_state::keyboard_layout()?;
+    let layouts = crate::keyboard_layout::shortcut_layouts();
+    let group = layout.index as usize;
+    let key = if layouts
+        .get(group)
+        .is_some_and(|(code, variant)| *code == layout.code && *variant == layout.variant)
+    {
+        let names: Vec<_> = layouts
+            .iter()
+            .map(|(code, variant)| (code.as_str(), variant.as_str()))
+            .collect();
+        shortcut_key_from_names(&names, layout.index, "", character)
+    } else {
+        shortcut_key_from_names(&[(&layout.code, &layout.variant)], 0, "", character)
     };
-    // Only plain Ctrl+C/V/X are clipboard strokes with terminal and paste
-    // variants; the other editing commands only follow the layout.
-    let clipboard = stroke.mods == [K::KEY_LEFTCTRL] && matches!(character, 'c' | 'v' | 'x');
-    let key = crate::runtime_state::keyboard_layout()
-        .and_then(|layout| {
-            let layouts = crate::keyboard_layout::shortcut_layouts();
-            let group = layout.index as usize;
-            if layouts
-                .get(group)
-                .is_some_and(|(code, variant)| *code == layout.code && *variant == layout.variant)
-            {
-                let names: Vec<_> = layouts
-                    .iter()
-                    .map(|(code, variant)| (code.as_str(), variant.as_str()))
-                    .collect();
-                shortcut_key_from_names(&names, layout.index, "", character)
-            } else {
-                shortcut_key_from_names(&[(&layout.code, &layout.variant)], 0, "", character)
-            }
-        })
-        .and_then(|key| u16::try_from(key).ok())
-        .map(K::new);
-    if !clipboard {
-        let mut result = stroke.clone();
-        if let Some(key) = key {
-            result.key = key;
-        }
-        return result;
-    }
-    let terminal = crate::active_window::TextTarget::capture().is_terminal();
-    let cfg = TEXT_BACKEND.lock().unwrap_or_else(|e| e.into_inner());
-    let shortcut = cfg.terminal_paste.filter(|_| terminal).unwrap_or(cfg.paste);
-    contextual_clipboard_stroke(stroke, terminal, shortcut, key)
+    key.and_then(|key| u16::try_from(key).ok())
 }
 
-fn contextual_clipboard_stroke(
-    stroke: &crate::mapper::action::Keystroke,
-    terminal: bool,
-    paste: PasteShortcut,
-    key: Option<crate::mapper::key_code::KeyCode>,
-) -> crate::mapper::action::Keystroke {
-    use crate::mapper::key_code::KeyCode as K;
-    let mut result = stroke.clone();
-    if let Some(key) = key {
-        result.key = key;
-    }
-    if stroke.key == K::KEY_V {
-        let (mods, key) = paste_keys(paste, Some(u32::from(result.key.code())));
-        result.mods = mods.iter().map(|key| K::new(*key as u16)).collect();
-        result.key = K::new(key as u16);
-    } else if terminal {
-        result.mods.push(K::KEY_LEFTSHIFT);
-    }
-    result
+/// Whether the focused window is a terminal, and the clipboard shortcuts
+/// the paste settings choose for it.
+pub(crate) fn focused_clipboard_keys() -> (bool, ClipboardKeys) {
+    let terminal = crate::active_window::TextTarget::capture().is_terminal();
+    let cfg = TEXT_BACKEND.lock().unwrap_or_else(|e| e.into_inner());
+    (terminal, clipboard_keys(&cfg, terminal))
+}
+
+fn clipboard_keys(cfg: &TextBackendConfig, terminal: bool) -> ClipboardKeys {
+    cfg.terminal_paste
+        .filter(|_| terminal)
+        .unwrap_or(cfg.paste)
+        .keys(terminal)
 }
 
 /// Path of the directory where we persist the restore token.
@@ -328,10 +288,7 @@ pub(crate) fn type_text(text: &str, request: TextRequest) -> Result<(), TextInpu
         .lock()
         .unwrap_or_else(|e| e.into_inner())
         .clone();
-    let paste = cfg
-        .terminal_paste
-        .filter(|_| request.is_terminal())
-        .unwrap_or(cfg.paste);
+    let paste = clipboard_keys(&cfg, request.is_terminal());
     match cfg.mode {
         TextMode::Ydotool => run_text_tool(
             cfg.ydotool_path.as_deref().unwrap_or("ydotool"),
@@ -382,8 +339,7 @@ fn run_text_tool(
 #[cfg(test)]
 mod tests {
     #[test]
-    fn builtin_clipboard_keys_follow_layout_and_terminal_paste_settings() {
-        use crate::mapper::action::parse_action;
+    fn shortcut_letters_follow_the_layout() {
         use crate::mapper::key_code::KeyCode as K;
         let shortcut = |character| shortcut_key_from_names(&[("us", "dvorak")], 0, "", character);
         assert_eq!(shortcut('c'), Some(u32::from(K::KEY_I.code())));
@@ -403,30 +359,6 @@ mod tests {
             shortcut_key_from_names(&[("ru", ""), ("us", "dvorak")], 0, "", 'x'),
             Some(u32::from(K::KEY_B.code()))
         );
-        let copy = contextual_clipboard_stroke(
-            &parse_action("Ctrl+KeyC").unwrap(),
-            true,
-            PasteShortcut::CtrlShiftV,
-            Some(K::KEY_I),
-        );
-        assert_eq!(copy.mods, [K::KEY_LEFTCTRL, K::KEY_LEFTSHIFT]);
-        assert_eq!(copy.key, K::KEY_I);
-        let paste = contextual_clipboard_stroke(
-            &parse_action("Ctrl+KeyV").unwrap(),
-            true,
-            PasteShortcut::CtrlShiftV,
-            Some(K::KEY_DOT),
-        );
-        assert_eq!(paste.mods, [K::KEY_LEFTCTRL, K::KEY_LEFTSHIFT]);
-        assert_eq!(paste.key, K::KEY_DOT);
-        let paste = contextual_clipboard_stroke(
-            &parse_action("Ctrl+KeyV").unwrap(),
-            false,
-            PasteShortcut::ShiftInsert,
-            Some(K::KEY_DOT),
-        );
-        assert_eq!(paste.mods, [K::KEY_LEFTSHIFT]);
-        assert_eq!(paste.key, K::KEY_INSERT);
     }
 
     #[test]
@@ -524,28 +456,28 @@ mod tests {
         assert_eq!(v(&[("ru", "")], 0), None);
         assert_eq!(v(&[], 0), None);
         assert_eq!(
-            paste_keys(PasteShortcut::CtrlV, Some(KEY_DOT)),
+            paste_keys(ClipboardKeys::CtrlV, Some(KEY_DOT)),
             (&[KEY_LEFTCTRL_EVDEV][..], KEY_DOT)
         );
-        assert_eq!(paste_keys(PasteShortcut::CtrlShiftV, None).1, KEY_V_EVDEV);
+        assert_eq!(paste_keys(ClipboardKeys::CtrlShiftV, None).1, KEY_V_EVDEV);
         assert_eq!(
-            paste_keys(PasteShortcut::ShiftInsert, Some(KEY_DOT)).1,
+            paste_keys(ClipboardKeys::ShiftInsert, Some(KEY_DOT)).1,
             KEY_INSERT_EVDEV
         );
     }
 
     #[test]
     fn automatic_paste_requires_a_verified_latin_key() {
-        assert!(checked_paste_keys(PasteShortcut::CtrlV, None).is_err());
-        assert!(checked_paste_keys(PasteShortcut::CtrlShiftV, None).is_err());
+        assert!(checked_paste_keys(ClipboardKeys::CtrlV, None).is_err());
+        assert!(checked_paste_keys(ClipboardKeys::CtrlShiftV, None).is_err());
         assert_eq!(
-            checked_paste_keys(PasteShortcut::ShiftInsert, None)
+            checked_paste_keys(ClipboardKeys::ShiftInsert, None)
                 .unwrap()
                 .1,
             KEY_INSERT_EVDEV
         );
         assert_eq!(
-            checked_paste_keys(PasteShortcut::CtrlV, Some(52))
+            checked_paste_keys(ClipboardKeys::CtrlV, Some(52))
                 .unwrap()
                 .1,
             52

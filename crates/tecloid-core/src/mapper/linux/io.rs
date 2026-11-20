@@ -757,7 +757,8 @@ pub(super) fn flush_out(
 /// Dispatch a resolved system action on the current OS/DE.
 fn run_sys_action(action: &SystemAction) {
     match action {
-        SystemAction::ClipboardKey(_) => {} // Emitted through the output sink.
+        // Emitted through the output sink.
+        SystemAction::Edit(_) | SystemAction::Keys(_) => {}
         SystemAction::Dbus(call) => call_dbus(call),
         SystemAction::Process(process) => super::super::commands::spawn(process.clone()),
         SystemAction::AppEvent(event) => {

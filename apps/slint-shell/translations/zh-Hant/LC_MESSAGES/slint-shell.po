@@ -2420,8 +2420,6 @@ msgstr "使用 Wayland 上設定的捷徑進行貼上：KDE 上的資料控制�
 msgid "Paste shortcut"
 msgstr "貼上快捷方式"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "傳送到目前的應用程式以貼上文字。"
 
 msgid "Paste shortcut in terminals"
 msgstr "終端機中的貼上快捷鍵"
@@ -3543,3 +3541,54 @@ msgstr "已重設儲存的權限。下次 Tecloid 輸入文字時，系統會再
 
 msgid "Open in file manager"
 msgstr "在檔案管理員中開啟"
+
+msgid "Move to previous word"
+msgstr "移到上一個詞"
+
+msgid "Move to next word"
+msgstr "移到下一個詞"
+
+msgid "Select to previous word"
+msgstr "選取到上一個詞"
+
+msgid "Select to next word"
+msgstr "選取到下一個詞"
+
+msgid "Delete previous word"
+msgstr "刪除上一個詞"
+
+msgid "Delete next word"
+msgstr "刪除下一個詞"
+
+msgid "Move to document start"
+msgstr "移到文件開頭"
+
+msgid "Move to document end"
+msgstr "移到文件結尾"
+
+msgid "Switch windows"
+msgstr "切換視窗"
+
+msgid "Tile window left"
+msgstr "視窗貼齊左側"
+
+msgid "Tile window right"
+msgstr "視窗貼齊右側"
+
+msgid "Tile window top"
+msgstr "視窗貼齊頂部"
+
+msgid "Tile window bottom"
+msgstr "視窗貼齊底部"
+
+msgid "Show clipboard history"
+msgstr "顯示剪貼簿歷史"
+
+msgid "Activate task manager entry {}"
+msgstr "啟用工作管理員第 {} 項"
+
+msgid "Paste key"
+msgstr "貼上鍵"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "傳送給目前的應用程式以貼上文字。「複製」「剪下」和「貼上」動作會使用對應的快速鍵。自動：Ctrl+V，在終端機中為 Ctrl+Shift+V。並非所有應用程式都支援貼上鍵。"

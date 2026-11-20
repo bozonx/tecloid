@@ -2593,8 +2593,6 @@ msgstr "Beillesztés a beállított parancsikonnal a Wayland-en: adatvezérlés 
 msgid "Paste shortcut"
 msgstr "Parancsikon beillesztése"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Az aktív alkalmazásnak küldi a szöveg beillesztéséhez."
 
 msgid "Paste shortcut in terminals"
 msgstr "Beillesztési billentyűparancs terminálokban"
@@ -3849,3 +3847,54 @@ msgstr "A mentett engedélyek visszaállítva. A rendszer a Tecloid következő 
 
 msgid "Open in file manager"
 msgstr "Megnyitás a fájlkezelőben"
+
+msgid "Move to previous word"
+msgstr "Ugrás az előző szóra"
+
+msgid "Move to next word"
+msgstr "Ugrás a következő szóra"
+
+msgid "Select to previous word"
+msgstr "Kijelölés az előző szóig"
+
+msgid "Select to next word"
+msgstr "Kijelölés a következő szóig"
+
+msgid "Delete previous word"
+msgstr "Előző szó törlése"
+
+msgid "Delete next word"
+msgstr "Következő szó törlése"
+
+msgid "Move to document start"
+msgstr "Ugrás a dokumentum elejére"
+
+msgid "Move to document end"
+msgstr "Ugrás a dokumentum végére"
+
+msgid "Switch windows"
+msgstr "Ablakváltás"
+
+msgid "Tile window left"
+msgstr "Ablak illesztése balra"
+
+msgid "Tile window right"
+msgstr "Ablak illesztése jobbra"
+
+msgid "Tile window top"
+msgstr "Ablak illesztése felülre"
+
+msgid "Tile window bottom"
+msgstr "Ablak illesztése alulra"
+
+msgid "Show clipboard history"
+msgstr "Vágólapelőzmények megjelenítése"
+
+msgid "Activate task manager entry {}"
+msgstr "A feladatkezelő {}. elemének aktiválása"
+
+msgid "Paste key"
+msgstr "Beillesztés billentyű"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Az aktív alkalmazásnak küldi a szöveg beillesztéséhez. A Másolás, Kivágás és Beillesztés műveletek a megfelelő billentyűparancsokat használják. Automatikus: Ctrl+V, terminálokban Ctrl+Shift+V. Nem minden alkalmazás kezeli a Beillesztés billentyűt."

@@ -2444,8 +2444,6 @@ msgstr "Wayland에 구성된 바로가기(KDE의 데이터 제어, GNOME의 클�
 msgid "Paste shortcut"
 msgstr "바로가기 붙여넣기"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "텍스트를 붙여넣기 위해 활성 앱으로 보냅니다."
 
 msgid "Paste shortcut in terminals"
 msgstr "터미널의 붙여넣기 단축키"
@@ -3600,3 +3598,54 @@ msgstr "저장된 권한이 초기화되었습니다. 다음에 Tecloid가 텍�
 
 msgid "Open in file manager"
 msgstr "파일 관리자에서 열기"
+
+msgid "Move to previous word"
+msgstr "이전 단어로 이동"
+
+msgid "Move to next word"
+msgstr "다음 단어로 이동"
+
+msgid "Select to previous word"
+msgstr "이전 단어까지 선택"
+
+msgid "Select to next word"
+msgstr "다음 단어까지 선택"
+
+msgid "Delete previous word"
+msgstr "이전 단어 삭제"
+
+msgid "Delete next word"
+msgstr "다음 단어 삭제"
+
+msgid "Move to document start"
+msgstr "문서 시작으로 이동"
+
+msgid "Move to document end"
+msgstr "문서 끝으로 이동"
+
+msgid "Switch windows"
+msgstr "창 전환"
+
+msgid "Tile window left"
+msgstr "창을 왼쪽에 배치"
+
+msgid "Tile window right"
+msgstr "창을 오른쪽에 배치"
+
+msgid "Tile window top"
+msgstr "창을 위쪽에 배치"
+
+msgid "Tile window bottom"
+msgstr "창을 아래쪽에 배치"
+
+msgid "Show clipboard history"
+msgstr "클립보드 기록 표시"
+
+msgid "Activate task manager entry {}"
+msgstr "작업 관리자 항목 {} 활성화"
+
+msgid "Paste key"
+msgstr "붙여넣기 키"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "텍스트를 붙여넣기 위해 활성 앱으로 전송됩니다. 복사, 잘라내기, 붙여넣기 동작은 해당 단축키를 사용합니다. 자동: Ctrl+V, 터미널에서는 Ctrl+Shift+V. 모든 앱이 붙여넣기 키를 지원하지는 않습니다."

@@ -132,26 +132,55 @@ pub struct CatalogEntry {
     pub name: ActionName,
 }
 
-pub const NUMBERED_SYSTEM_ACTIONS: [&str; 3] = [
+pub const NUMBERED_SYSTEM_ACTIONS: [&str; 4] = [
     "switchToDesktop",
     "switchToKeyboardLayout",
     "moveWindowToDesktop",
+    "activateTaskManagerEntry",
 ];
 
-/// System actions without a number. Clipboard operations depend on application
-/// support for dedicated keys (Linux) or control messages (Windows).
-/// on Windows `moveWindowToNextDesktop` and `moveWindowToPreviousDesktop`
-/// do not, since like `moveWindowToDesktopN` there is no public API to move
-/// another app's window between virtual desktops, and on GNOME
-/// `showDesktop` has no counterpart. See [`unsupported_on_macos`] for macOS.
-pub const PLAIN_SYSTEM_ACTIONS: [&str; 19] = [
+/// Standard application shortcuts: editing commands whose keys follow the
+/// OS, the keyboard layout and the focused window, and fixed text and
+/// window-switching chords (`mapper::shortcuts`). They act on the focused
+/// application like a key chord, so unlike desktop actions they are not an
+/// in-development feature.
+pub const SHORTCUT_SYSTEM_ACTIONS: [&str; 19] = [
     "copy",
-    "paste",
     "cut",
+    "paste",
+    "undo",
+    "redo",
+    "selectAll",
+    "find",
+    "save",
+    "newTab",
+    "closeTab",
+    "moveWordLeft",
+    "moveWordRight",
+    "selectWordLeft",
+    "selectWordRight",
+    "deleteWordBackward",
+    "deleteWordForward",
+    "moveToDocumentStart",
+    "moveToDocumentEnd",
+    "switchWindow",
+];
+
+/// Desktop actions without a number. On Windows `moveWindowToNextDesktop`
+/// and `moveWindowToPreviousDesktop` do not resolve, since like
+/// `moveWindowToDesktopN` there is no public API to move another app's
+/// window between virtual desktops; on GNOME `showDesktop`, top and bottom
+/// tiling and clipboard history have no counterpart. See
+/// [`unsupported_on_macos`] for macOS.
+pub const PLAIN_SYSTEM_ACTIONS: [&str; 21] = [
     "closeWindow",
     "minimizeWindow",
     "maximizeWindow",
     "maximizeWindowVertically",
+    "tileWindowLeft",
+    "tileWindowRight",
+    "tileWindowTop",
+    "tileWindowBottom",
     "keepWindowAbove",
     "moveWindowToNextDesktop",
     "moveWindowToPreviousDesktop",
@@ -162,14 +191,27 @@ pub const PLAIN_SYSTEM_ACTIONS: [&str; 19] = [
     "showDesktop",
     "showOverview",
     "showAppLauncher",
+    "showClipboardHistory",
     "turnOffScreen",
     "lockSession",
 ];
 
+/// Whether `sys:<id>` is a standard application shortcut
+/// ([`SHORTCUT_SYSTEM_ACTIONS`]).
+pub fn is_shortcut_system_action(id: &str) -> bool {
+    SHORTCUT_SYSTEM_ACTIONS.contains(&id)
+}
+
 /// `sys:` ids (numbered ones without their number) that macOS has no
 /// public API for. Running one there is ignored with a notice.
-const MACOS_UNSUPPORTED_SYSTEM_ACTIONS: [&str; 13] = [
+const MACOS_UNSUPPORTED_SYSTEM_ACTIONS: [&str; 19] = [
     "switchToDesktop",
+    "activateTaskManagerEntry",
+    "tileWindowLeft",
+    "tileWindowRight",
+    "tileWindowTop",
+    "tileWindowBottom",
+    "showClipboardHistory",
     "moveWindowToDesktop",
     "moveWindowToNextDesktop",
     "moveWindowToPreviousDesktop",
@@ -235,8 +277,9 @@ fn numbered(id: &str, names: &[&'static str]) -> Option<(&'static str, u32)> {
 pub fn system_action_name(id: &str) -> Option<ActionName> {
     numbered(id, &NUMBERED_SYSTEM_ACTIONS)
         .or_else(|| {
-            PLAIN_SYSTEM_ACTIONS
+            SHORTCUT_SYSTEM_ACTIONS
                 .iter()
+                .chain(&PLAIN_SYSTEM_ACTIONS)
                 .find(|known| **known == id)
                 .map(|known| (*known, 0))
         })
@@ -317,8 +360,9 @@ pub fn menu_page(app_id: &str) -> Option<(bool, u32)> {
 }
 
 pub fn system_actions() -> Vec<CatalogEntry> {
-    PLAIN_SYSTEM_ACTIONS
+    SHORTCUT_SYSTEM_ACTIONS
         .into_iter()
+        .chain(PLAIN_SYSTEM_ACTIONS)
         .map(|id| CatalogEntry {
             action: Action::System(id.into()),
             name: ActionName::System { id, n: 0 },
@@ -634,7 +678,7 @@ mod tests {
 
     #[test]
     fn catalogs_preserve_builtin_action_ids() {
-        assert_eq!(system_actions().len(), 49);
+        assert_eq!(system_actions().len(), 80);
         assert_eq!(app_actions().len(), 32);
         assert_eq!(
             system_action_name("switchToDesktop10"),

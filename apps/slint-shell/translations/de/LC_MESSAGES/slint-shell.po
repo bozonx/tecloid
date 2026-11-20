@@ -2615,8 +2615,6 @@ msgstr "Fügt mit der konfigurierten Verknüpfung auf Wayland ein: Datensteuerun
 msgid "Paste shortcut"
 msgstr "Verknüpfung einfügen"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Wird an die fokussierte App gesendet, um den Text einzufügen."
 
 msgid "Paste shortcut in terminals"
 msgstr "Einfügekürzel in Terminals"
@@ -3886,3 +3884,54 @@ msgstr "Gespeicherte Berechtigungen zurückgesetzt. Das System fragt bei der nä
 
 msgid "Open in file manager"
 msgstr "Im Dateimanager öffnen"
+
+msgid "Move to previous word"
+msgstr "Zum vorherigen Wort"
+
+msgid "Move to next word"
+msgstr "Zum nächsten Wort"
+
+msgid "Select to previous word"
+msgstr "Bis zum vorherigen Wort auswählen"
+
+msgid "Select to next word"
+msgstr "Bis zum nächsten Wort auswählen"
+
+msgid "Delete previous word"
+msgstr "Vorheriges Wort löschen"
+
+msgid "Delete next word"
+msgstr "Nächstes Wort löschen"
+
+msgid "Move to document start"
+msgstr "Zum Dokumentanfang"
+
+msgid "Move to document end"
+msgstr "Zum Dokumentende"
+
+msgid "Switch windows"
+msgstr "Fenster wechseln"
+
+msgid "Tile window left"
+msgstr "Fenster links anordnen"
+
+msgid "Tile window right"
+msgstr "Fenster rechts anordnen"
+
+msgid "Tile window top"
+msgstr "Fenster oben anordnen"
+
+msgid "Tile window bottom"
+msgstr "Fenster unten anordnen"
+
+msgid "Show clipboard history"
+msgstr "Zwischenablage-Verlauf anzeigen"
+
+msgid "Activate task manager entry {}"
+msgstr "Fensterleisteneintrag {} aktivieren"
+
+msgid "Paste key"
+msgstr "Einfügen-Taste"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Wird an die fokussierte App gesendet, um Text einzufügen. Die Aktionen Kopieren, Ausschneiden und Einfügen verwenden die passenden Tastenkürzel. Automatisch: Strg+V, in Terminals Strg+Umschalt+V. Nicht jede App unterstützt die Einfügen-Taste."

@@ -80,7 +80,7 @@ pub(super) fn development_only(value: &str) -> bool {
         | Action::Command(_)
         | Action::KdeShortcut(_)
         | Action::DesktopEntry(_) => true,
-        Action::System(_) => true,
+        Action::System(id) => !tecloid_core::config::actions::is_shortcut_system_action(&id),
         Action::App(id) => {
             id.starts_with("gameMode")
                 || id.contains("GameMode")
@@ -346,7 +346,12 @@ pub(super) fn catalog(ui: &SettingsWindow, config: &ResolvedAppConfig) -> Vec<Pi
             Action::Command(_) if enabled && in_development => PickerCategory::Commands,
             Action::Command(_) => return None,
             Action::App(_) => PickerCategory::App,
-            Action::System(_) if in_development => PickerCategory::SystemActions,
+            Action::System(id)
+                if in_development
+                    || tecloid_core::config::actions::is_shortcut_system_action(id) =>
+            {
+                PickerCategory::SystemActions
+            }
             _ => return None,
         };
         let value = entry.action.format()?;

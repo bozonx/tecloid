@@ -257,14 +257,9 @@ diagnostics report it and the mapper does not start with it.
 - **Built-in macros** (`mapper/builtin_macros.rs`) start with a verb: `goTo…`,
   `select…`, `copy…`, `cut…`, `paste…`, `replace…WithClipboard`, `insert…`,
   `duplicate…`. `builtin:` and `macro:` namespaces are independent.
-  `builtin:copy`, `cut`, `paste`, `undo`, `redo` (`Ctrl+Shift+Z`),
-  `selectAll`, `find`, `save`, `newTab` and `closeTab` are standard
-  application commands, for keymaps that should
-  work on any keyboard layout. In every built-in macro the letter keys of
-  `Ctrl+C/V/X/Z/A/F/S/T/W` steps are resolved at playback by the character they
-  type in the active layout (on QWERTZ undo is the physical `KeyY`), unlike
-  user actions, which always name physical keys. On Linux plain
-  `Ctrl+C/V/X` also follow the terminal and paste settings.
+  Their clipboard and word steps are `sys:` shortcuts (`sys:copy`,
+  `sys:selectWordLeft`, …), so they follow the OS, layout and terminal
+  windows like those actions.
 - **Naming sources.** `sys:` ids act on the desktop and are named after KDE
   Plasma's actions; `app:` ids act on Tecloid itself and are Tecloid's own
   names; `builtin:` ids are Tecloid's own names for editing macros; key
@@ -272,17 +267,34 @@ diagnostics report it and the mapper does not start with it.
   spelled out (`toggleGameMode`, `setGameModeOn`), in `sys:` it is
   whatever the Plasma action does, so a `sys:` id without `toggle` may still
   toggle.
-- **`sys:`** ids follow the KDE Plasma names of the actions (Plasma is the
+- **Standard shortcuts** are `sys:` ids too, for keymaps that work on any
+  OS and keyboard layout; user chords such as `Ctrl+KeyC` always name
+  physical keys. Editing commands — `copy`, `cut`, `paste`, `undo`, `redo`,
+  `selectAll`, `find`, `save`, `newTab`, `closeTab` — are resolved when they
+  run: the letter is the key that types it in the active layout (on Dvorak
+  copy is the physical `KeyI`, on QWERTZ undo is `KeyY`; a non-Latin layout
+  borrows it from a Latin one), redo is `Ctrl+Shift+Z` on Linux and `Ctrl+Y`
+  on Windows, and in Linux terminals copy, cut, find, `newTab` and
+  `closeTab` add Shift. On Linux `copy`, `cut` and `paste` follow
+  `linux.pasteShortcut` / `terminalPasteShortcut` (Shift+Insert also selects
+  Ctrl+Insert and Shift+Delete; `Paste` the Copy, Cut and Paste keys). Text
+  and window chords: `moveWordLeft`/`Right`, `selectWordLeft`/`Right`,
+  `deleteWordBackward`/`Forward`, `moveToDocumentStart`/`End`, and
+  `switchWindow` (Alt+Tab); they compile like key chords, so
+  `holdModifiers` applies. Unlike desktop actions, standard shortcuts are
+  not an in-development feature.
+- **`sys:`** desktop ids follow the KDE Plasma names of the actions (Plasma is the
   reference platform), and so does their meaning: an action does what the
   Plasma action of that name does, toggling included (`maximizeWindow`,
   `keepWindowAbove`, `showDesktop`, `showOverview` toggle there), and other
   platforms reproduce it. The ids: `closeWindow`, `minimizeWindow`, `maximizeWindow`,
-  `maximizeWindowVertically`, `keepWindowAbove`, `moveWindowToNextDesktop`,
+  `maximizeWindowVertically`, `tileWindowLeft`, `tileWindowRight`,
+  `tileWindowTop`, `tileWindowBottom` (KWin Quick Tile), `keepWindowAbove`, `moveWindowToNextDesktop`,
   `moveWindowToPreviousDesktop`, `moveWindowToNextScreen`,
   `moveWindowToPreviousScreen`, `switchToNextDesktop`, `switchToPreviousDesktop`,
-  `showDesktop`, `showOverview`, `showAppLauncher`, `turnOffScreen`,
+  `showDesktop`, `showOverview`, `showAppLauncher`, `showClipboardHistory`, `turnOffScreen`,
   `lockSession`, and `switchToDesktopN`, `moveWindowToDesktopN`,
-  `switchToKeyboardLayoutN` (see numbered slots below). Several map to system toggles. Platform
+  `switchToKeyboardLayoutN`, `activateTaskManagerEntryN` (N ≤ 10; see numbered slots below). Several map to system toggles. Platform
   support: [platforms.md](platforms.md).
 - **`kde:<component>/<shortcut>`**: a kglobalaccel shortcut. The component
   is the last segment of its D-Bus object path (`org_kde_powerdevil`, not
@@ -366,8 +378,8 @@ Example with every field (the application writes all of them except
     },
     "linux": {
       "textMode": "libeiWithClipboardFallback",
-      "pasteShortcut": "Ctrl+KeyV",
-      "terminalPasteShortcut": "Shift+Insert",
+      "pasteShortcut": "auto",
+      "terminalPasteShortcut": "sameAsPaste",
       "ydotoolPath": "/usr/local/bin/ydotool",
       "xdotoolPath": "/usr/local/bin/xdotool"
     }
@@ -397,8 +409,8 @@ Example with every field (the application writes all of them except
 | `gameMode.foregroundOnly` | launcher/Game Bar games count only while focused | `true` |
 | `gameMode.processes[]` | `name` pattern (not blank, no `title:`: a process has no title), `foregroundOnly` (default `true`), `exclude` (default `false`) | — |
 | `linux.textMode` | `libeiWithClipboardFallback`, `libeiOnly`, `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` | `libeiWithClipboardFallback` |
-| `linux.pasteShortcut` | `Shift+Insert`, `Ctrl+KeyV`, `Ctrl+Shift+KeyV` (modifier order irrelevant) | `Ctrl+KeyV` |
-| `linux.terminalPasteShortcut` | same values or `sameAsPaste` | `Shift+Insert` |
+| `linux.pasteShortcut` | `auto` (Ctrl+V; Ctrl+Shift+V in terminals), `Shift+Insert`, `Ctrl+KeyV`, `Ctrl+Shift+KeyV` (modifier order irrelevant), `Paste` (the Paste key) | `auto` |
+| `linux.terminalPasteShortcut` | same values or `sameAsPaste` | `sameAsPaste` |
 | `linux.ydotoolPath`, `xdotoolPath` | program path; missing = search `PATH`; empty string is an error | — |
 
 Not persisted: open editor, current page, selected layer.

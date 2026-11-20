@@ -93,14 +93,14 @@ pub(super) fn paste_text(
     session: &OwnedObjectPath,
     portal_clipboard: Option<&crate::text_input::portal_clipboard::Clipboard>,
     text: &str,
-    shortcut: PasteShortcut,
+    shortcut: ClipboardKeys,
     request: &TextRequest,
 ) -> Result<(), TextInputFailure> {
     let clipboard = prepare_clipboard(portal_clipboard, text, request)?;
     request.check()?;
     wait_for_modifiers(request)?;
     let v_key = match shortcut {
-        PasteShortcut::ShiftInsert => None,
+        ClipboardKeys::ShiftInsert | ClipboardKeys::PasteKey => None,
         _ => desktop_paste_v_key(),
     };
     let (mods, key) = checked_paste_keys(shortcut, v_key)?;

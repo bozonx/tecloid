@@ -223,14 +223,14 @@ fn builtin_and_user_macros_resolve_independently_at_every_depth() {
         builtin
             .steps
             .iter()
-            .all(|step| matches!(step.item, MacroStepItem::Stroke(_)))
+            .all(|step| matches!(step.item, MacroStepItem::Stroke(_) | MacroStepItem::System(_)))
     );
     assert_eq!(outer.steps.len(), 1 + builtin.steps.len());
     assert!(matches!(&outer.steps[0].item, MacroStepItem::Literal(text) if text == "user"));
     assert!(
         outer.steps[1..]
             .iter()
-            .all(|step| matches!(step.item, MacroStepItem::Stroke(_)))
+            .all(|step| matches!(step.item, MacroStepItem::Stroke(_) | MacroStepItem::System(_)))
     );
     for reference in ["macro:copyLine", "builtin:copyLineText"] {
         assert!(matches!(

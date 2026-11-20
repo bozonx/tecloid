@@ -26,6 +26,7 @@ with_backend! {
     pub mod engine;
     pub mod keys;
     mod output;
+    pub mod shortcuts;
     pub mod system;
     pub mod validation;
 }
@@ -35,7 +36,7 @@ mod input_guard;
 #[cfg(target_os = "linux")]
 pub mod linux;
 #[cfg(any(target_os = "windows", test))]
-mod scancode;
+pub(crate) mod scancode;
 #[cfg(target_os = "windows")]
 pub mod windows;
 

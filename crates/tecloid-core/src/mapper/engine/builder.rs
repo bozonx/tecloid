@@ -10,7 +10,7 @@ use crate::mapper::builtin_macros::BUILTIN_MACROS;
 use crate::mapper::config::{ActionSpec, MapperConfig};
 use crate::mapper::key_code::KeyCode;
 use crate::mapper::keys::code_to_key;
-use crate::mapper::system::{self, ProcessInvocation};
+use crate::mapper::system::{self, ProcessInvocation, SystemAction};
 use crate::config::actions::{Action, MAX_MACRO_DEPTH, MAX_MACRO_STEPS};
 use std::collections::{HashMap, HashSet};
 use std::time::Duration;
@@ -86,9 +86,11 @@ impl Engine {
                     let unavailable = || MacroStepItem::Unavailable(raw.trim().into());
                     let item = match Action::parse(Some(raw)) {
                         Action::Native | Action::Swallow => continue,
-                        Action::System(name) => {
-                            system::resolve(&name).map_or_else(unavailable, MacroStepItem::System)
-                        }
+                        Action::System(name) => match system::resolve(&name) {
+                            Some(SystemAction::Keys(ks)) => MacroStepItem::Stroke(ks),
+                            Some(action) => MacroStepItem::System(action),
+                            None => unavailable(),
+                        },
                         Action::KdeShortcut(id) => system::resolve_kde_shortcut(&id)
                             .map_or_else(unavailable, MacroStepItem::System),
                         Action::DesktopEntry(id) => system::resolve_desktop_entry(&id)
@@ -185,8 +187,11 @@ impl Engine {
         }
 
         let resolve = |action: &str, where_: &str| {
-            if !in_development && matches!(Action::parse(Some(action)),
-                Action::Command(_) | Action::System(_) | Action::KdeShortcut(_) | Action::DesktopEntry(_)) {
+            if !in_development && match Action::parse(Some(action)) {
+                Action::System(id) => !crate::config::actions::is_shortcut_system_action(&id),
+                Action::Command(_) | Action::KdeShortcut(_) | Action::DesktopEntry(_) => true,
+                _ => false,
+            } {
                 return None;
             }
             if !in_development
@@ -520,6 +525,8 @@ pub(super) fn resolve_action(
             }
         },
         Action::System(name) => match system::resolve(&name) {
+            // A chord compiles like one, so `holdModifiers` applies to it.
+            Some(SystemAction::Keys(ks)) => Some(CompiledAction::Stroke(ks)),
             Some(cmd) => Some(CompiledAction::System(cmd)),
             None => {
                 log::debug!("[mapper] system fn {name:?} not available on this OS/DE ({where_})");

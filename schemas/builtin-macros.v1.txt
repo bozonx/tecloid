@@ -1,15 +1,13 @@
-closeTab: Ctrl+KeyW
-copyLineText: Home | Shift+End | Ctrl+KeyC | Home
-copyToLineEnd: Shift+End | Ctrl+KeyC | End
-copyToLineStart: Shift+Home | Ctrl+KeyC | Home
-copyWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyC | ArrowLeft
-cutLine: Home | Shift+End | Ctrl+KeyX | Delete
-cutLineText: Home | Shift+End | Ctrl+KeyX
-cutToLineEnd: Shift+End | Ctrl+KeyX
-cutToLineStart: Shift+Home | Ctrl+KeyX
-cutWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyX
-duplicateLine: End | Shift+Home | Ctrl+KeyC | End | Enter | Ctrl+KeyV
-find: Ctrl+KeyF
+copyLineText: Home | Shift+End | sys:copy | Home
+copyToLineEnd: Shift+End | sys:copy | End
+copyToLineStart: Shift+Home | sys:copy | Home
+copyWord: sys:moveWordRight | sys:selectWordLeft | sys:copy | ArrowLeft
+cutLine: Home | Shift+End | sys:cut | Delete
+cutLineText: Home | Shift+End | sys:cut
+cutToLineEnd: Shift+End | sys:cut
+cutToLineStart: Shift+Home | sys:cut
+cutWord: sys:moveWordRight | sys:selectWordLeft | sys:cut
+duplicateLine: End | Shift+Home | sys:copy | End | Enter | sys:paste
 goTo5LinesDown: ArrowDown | ArrowDown | ArrowDown | ArrowDown | ArrowDown
 goTo5LinesUp: ArrowUp | ArrowUp | ArrowUp | ArrowUp | ArrowUp
 goToNextLineEnd: ArrowDown | End
@@ -19,18 +17,13 @@ goToPreviousLineStart: ArrowUp | Home
 insertEmptyLineAbove: Home | Enter | ArrowUp
 insertEmptyLineBelow: End | Enter
 insertSpaceAfterNextChar: ArrowRight | Space
-newTab: Ctrl+KeyT
-pasteOnNewLineAbove: Home | Enter | ArrowUp | Ctrl+KeyV
-pasteOnNewLineBelow: End | Enter | Ctrl+KeyV
-redo: Ctrl+Shift+KeyZ
-replaceLineTextWithClipboard: Home | Shift+End | Ctrl+KeyV
-replaceToLineEndWithClipboard: Shift+End | Ctrl+KeyV
-replaceToLineStartWithClipboard: Shift+Home | Ctrl+KeyV
-replaceWordWithClipboard: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyV
-save: Ctrl+KeyS
+pasteOnNewLineAbove: Home | Enter | ArrowUp | sys:paste
+pasteOnNewLineBelow: End | Enter | sys:paste
+replaceLineTextWithClipboard: Home | Shift+End | sys:paste
+replaceToLineEndWithClipboard: Shift+End | sys:paste
+replaceToLineStartWithClipboard: Shift+Home | sys:paste
+replaceWordWithClipboard: sys:moveWordRight | sys:selectWordLeft | sys:paste
 select5LinesDown: Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown | Shift+ArrowDown
 select5LinesUp: Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp | Shift+ArrowUp
-selectAll: Ctrl+KeyA
 selectLineText: Home | Shift+End
-selectWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft
-undo: Ctrl+KeyZ
+selectWord: sys:moveWordRight | sys:selectWordLeft

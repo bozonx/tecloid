@@ -2623,8 +2623,6 @@ msgstr "Επικόλληση με τη διαμορφωμένη συντόμευ
 msgid "Paste shortcut"
 msgstr "Επικόλληση συντόμευσης"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Στέλνεται στην ενεργή εφαρμογή για επικόλληση του κειμένου."
 
 msgid "Paste shortcut in terminals"
 msgstr "Συντόμευση επικόλλησης σε τερματικά"
@@ -3903,3 +3901,54 @@ msgstr "Έγινε επαναφορά των αποθηκευμένων αδει
 
 msgid "Open in file manager"
 msgstr "Άνοιγμα στη διαχείριση αρχείων"
+
+msgid "Move to previous word"
+msgstr "Μετάβαση στην προηγούμενη λέξη"
+
+msgid "Move to next word"
+msgstr "Μετάβαση στην επόμενη λέξη"
+
+msgid "Select to previous word"
+msgstr "Επιλογή έως την προηγούμενη λέξη"
+
+msgid "Select to next word"
+msgstr "Επιλογή έως την επόμενη λέξη"
+
+msgid "Delete previous word"
+msgstr "Διαγραφή προηγούμενης λέξης"
+
+msgid "Delete next word"
+msgstr "Διαγραφή επόμενης λέξης"
+
+msgid "Move to document start"
+msgstr "Μετάβαση στην αρχή του εγγράφου"
+
+msgid "Move to document end"
+msgstr "Μετάβαση στο τέλος του εγγράφου"
+
+msgid "Switch windows"
+msgstr "Εναλλαγή παραθύρων"
+
+msgid "Tile window left"
+msgstr "Παράθεση παραθύρου αριστερά"
+
+msgid "Tile window right"
+msgstr "Παράθεση παραθύρου δεξιά"
+
+msgid "Tile window top"
+msgstr "Παράθεση παραθύρου πάνω"
+
+msgid "Tile window bottom"
+msgstr "Παράθεση παραθύρου κάτω"
+
+msgid "Show clipboard history"
+msgstr "Εμφάνιση ιστορικού προχείρου"
+
+msgid "Activate task manager entry {}"
+msgstr "Ενεργοποίηση στοιχείου {} της διαχείρισης εργασιών"
+
+msgid "Paste key"
+msgstr "Πλήκτρο Επικόλλησης"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Στέλνεται στην ενεργή εφαρμογή για επικόλληση κειμένου. Οι ενέργειες Αντιγραφή, Αποκοπή και Επικόλληση χρησιμοποιούν τις αντίστοιχες συντομεύσεις. Αυτόματα: Ctrl+V, και Ctrl+Shift+V σε τερματικά. Δεν υποστηρίζουν όλες οι εφαρμογές το πλήκτρο Επικόλλησης."

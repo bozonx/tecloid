@@ -2566,8 +2566,6 @@ msgstr "ჩასმულია კონფიგურირებული �
 msgid "Paste shortcut"
 msgstr "მალსახმობის ჩასმა"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "ეგზავნება აქტიურ აპს ტექსტის ჩასასმელად."
 
 msgid "Paste shortcut in terminals"
 msgstr "ჩასმის მალსახმობი ტერმინალებში"
@@ -3803,3 +3801,54 @@ msgstr "შენახული ნებართვები განულ�
 
 msgid "Open in file manager"
 msgstr "ფაილურ მმართველში გახსნა"
+
+msgid "Move to previous word"
+msgstr "წინა სიტყვაზე გადასვლა"
+
+msgid "Move to next word"
+msgstr "შემდეგ სიტყვაზე გადასვლა"
+
+msgid "Select to previous word"
+msgstr "მონიშვნა წინა სიტყვამდე"
+
+msgid "Select to next word"
+msgstr "მონიშვნა შემდეგ სიტყვამდე"
+
+msgid "Delete previous word"
+msgstr "წინა სიტყვის წაშლა"
+
+msgid "Delete next word"
+msgstr "შემდეგი სიტყვის წაშლა"
+
+msgid "Move to document start"
+msgstr "დოკუმენტის დასაწყისში გადასვლა"
+
+msgid "Move to document end"
+msgstr "დოკუმენტის ბოლოში გადასვლა"
+
+msgid "Switch windows"
+msgstr "ფანჯრების გადართვა"
+
+msgid "Tile window left"
+msgstr "ფანჯრის მარცხნივ მიმაგრება"
+
+msgid "Tile window right"
+msgstr "ფანჯრის მარჯვნივ მიმაგრება"
+
+msgid "Tile window top"
+msgstr "ფანჯრის ზემოთ მიმაგრება"
+
+msgid "Tile window bottom"
+msgstr "ფანჯრის ქვემოთ მიმაგრება"
+
+msgid "Show clipboard history"
+msgstr "ბუფერის ისტორიის ჩვენება"
+
+msgid "Activate task manager entry {}"
+msgstr "ამოცანების პანელის {} ელემენტის გააქტიურება"
+
+msgid "Paste key"
+msgstr "Paste ღილაკი"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "ეგზავნება აქტიურ აპს ტექსტის ჩასასმელად. ქმედებები „კოპირება“, „ამოჭრა“ და „ჩასმა“ შესაბამის მალსახმობებს იყენებს. ავტომატური: Ctrl+V, ტერმინალებში კი Ctrl+Shift+V. Paste ღილაკს ყველა აპი არ ამუშავებს."

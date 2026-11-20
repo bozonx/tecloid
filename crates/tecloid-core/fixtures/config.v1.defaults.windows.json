@@ -54,8 +54,8 @@
     },
     "linux": {
       "textMode": "libeiWithClipboardFallback",
-      "pasteShortcut": "Ctrl+KeyV",
-      "terminalPasteShortcut": "Shift+Insert"
+      "pasteShortcut": "auto",
+      "terminalPasteShortcut": "sameAsPaste"
     }
   }
 }

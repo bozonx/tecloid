@@ -64,8 +64,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     slint_shell::bind_game_mode(&ui);
     tecloid_core::gamemode::set_settings(&document.read().settings().game_mode, true);
     let settings = ui.global::<SettingsEditor>();
-    assert_eq!(settings.get_paste_shortcut_index(), 1); // Ctrl+V
-    assert_eq!(settings.get_terminal_paste_shortcut_index(), 1); // Shift+Insert
+    assert_eq!(settings.get_paste_shortcut_index(), 0); // Automatic
+    assert_eq!(settings.get_terminal_paste_shortcut_index(), 0); // Same as in other apps
     assert!(!settings.get_in_development());
     settings.set_in_development(true);
     settings.invoke_save();
@@ -102,8 +102,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     settings.set_use_gamemoded(false);
     settings.set_text_mode_index(4);
     settings.set_ydotool_path("/usr/bin/ydotool".into());
-    settings.set_paste_shortcut_index(2);
-    settings.set_terminal_paste_shortcut_index(0);
+    settings.set_paste_shortcut_index(3); // Ctrl+Shift+V
+    settings.set_terminal_paste_shortcut_index(4); // Paste key
     settings.invoke_save_process(-1, "test-game".into(), true, false);
     settings.invoke_save();
     assert_eq!(settings.get_message().id, "");
@@ -141,7 +141,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         loaded.settings().linux_paste_shortcut,
         tecloid_core::config::model::PasteShortcut::CtrlShiftV
     );
-    assert_eq!(loaded.settings().linux_terminal_paste_shortcut, None);
+    assert_eq!(
+        loaded.settings().linux_terminal_paste_shortcut,
+        Some(tecloid_core::config::model::PasteShortcut::PasteKey)
+    );
     // Windows has no device paths: the mapper takes the whole session.
     if cfg!(target_os = "windows") {
         settings.invoke_select_device("windows:keyboard".into());

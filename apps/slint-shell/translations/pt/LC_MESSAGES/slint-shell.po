@@ -2574,8 +2574,6 @@ msgstr "Cola com o atalho configurado no Wayland: controle de dados no KDE, port
 msgid "Paste shortcut"
 msgstr "Colar atalho"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Enviado à aplicação ativa para colar o texto."
 
 msgid "Paste shortcut in terminals"
 msgstr "Atalho de colagem em terminais"
@@ -3825,3 +3823,54 @@ msgstr "Permissões guardadas repostas. O sistema voltará a pedi-las na próxim
 
 msgid "Open in file manager"
 msgstr "Abrir no gestor de ficheiros"
+
+msgid "Move to previous word"
+msgstr "Ir para a palavra anterior"
+
+msgid "Move to next word"
+msgstr "Ir para a próxima palavra"
+
+msgid "Select to previous word"
+msgstr "Selecionar até a palavra anterior"
+
+msgid "Select to next word"
+msgstr "Selecionar até a próxima palavra"
+
+msgid "Delete previous word"
+msgstr "Excluir a palavra anterior"
+
+msgid "Delete next word"
+msgstr "Excluir a próxima palavra"
+
+msgid "Move to document start"
+msgstr "Ir para o início do documento"
+
+msgid "Move to document end"
+msgstr "Ir para o fim do documento"
+
+msgid "Switch windows"
+msgstr "Alternar janelas"
+
+msgid "Tile window left"
+msgstr "Encaixar janela à esquerda"
+
+msgid "Tile window right"
+msgstr "Encaixar janela à direita"
+
+msgid "Tile window top"
+msgstr "Encaixar janela em cima"
+
+msgid "Tile window bottom"
+msgstr "Encaixar janela embaixo"
+
+msgid "Show clipboard history"
+msgstr "Mostrar histórico da área de transferência"
+
+msgid "Activate task manager entry {}"
+msgstr "Ativar o item {} do gerenciador de tarefas"
+
+msgid "Paste key"
+msgstr "Tecla Colar"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Enviado ao aplicativo em foco para colar texto. As ações Copiar, Recortar e Colar usam os atalhos correspondentes. Automático: Ctrl+V, e Ctrl+Shift+V em terminais. Nem todo aplicativo reconhece a tecla Colar."

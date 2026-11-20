@@ -696,37 +696,66 @@ impl TextMode {
     }
 }
 
-/// Shortcut that pastes clipboard text into the focused application.
+/// How Tecloid pastes clipboard text into the focused application, and
+/// which clipboard shortcuts `sys:copy`, `sys:cut` and `sys:paste` send.
 ///
-/// Stored as a key chord in action syntax (`Shift+Insert`), so the file
-/// format does not limit which shortcuts a later version may offer; this
-/// version accepts the chords listed in [`Self::ALL`].
+/// Stored as a key chord in action syntax (`Shift+Insert`) or `auto`, so the
+/// file format does not limit which shortcuts a later version may offer; this
+/// version accepts the values listed in [`Self::ALL`].
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub enum PasteShortcut {
-    /// Common in GUI apps and terminals; some terminals paste the primary selection.
-    ShiftInsert,
+    /// Ctrl+V, and Ctrl+Shift+V in terminals.
     #[default]
+    Auto,
+    /// Common in GUI apps and terminals; some terminals paste the primary
+    /// selection. Copy and cut use Ctrl+Insert and Shift+Delete.
+    ShiftInsert,
     CtrlV,
-    /// Terminal paste.
+    /// Terminal paste; copy and cut use Ctrl+Shift+C and Ctrl+Shift+X.
     CtrlShiftV,
+    /// The dedicated Paste key (`KEY_PASTE`); copy and cut use the Copy and
+    /// Cut keys. Not every application handles them.
+    PasteKey,
+}
+
+/// A paste shortcut with `Auto` resolved for one destination.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ClipboardKeys {
+    ShiftInsert,
+    CtrlV,
+    CtrlShiftV,
+    PasteKey,
 }
 
 impl PasteShortcut {
-    /// Every shortcut, in the order the settings page lists them.
-    pub const ALL: [Self; 3] = [Self::ShiftInsert, Self::CtrlV, Self::CtrlShiftV];
+    /// Every value, in the order the settings page lists them.
+    pub const ALL: [Self; 5] = [
+        Self::Auto,
+        Self::ShiftInsert,
+        Self::CtrlV,
+        Self::CtrlShiftV,
+        Self::PasteKey,
+    ];
 
-    /// Canonical chord: modifiers first, then the key.
+    const AUTO: &str = "auto";
+
+    /// Canonical spelling: `auto`, or a chord with modifiers first.
     pub fn as_str(self) -> &'static str {
         match self {
+            Self::Auto => Self::AUTO,
             Self::ShiftInsert => "Shift+Insert",
             Self::CtrlV => "Ctrl+KeyV",
             Self::CtrlShiftV => "Ctrl+Shift+KeyV",
+            Self::PasteKey => "Paste",
         }
     }
 
-    /// The shortcut a chord names, in any modifier order or spelling
-    /// (`Shift+Ctrl+KeyV`, `ControlLeft+ShiftLeft+KeyV`).
+    /// The value `value` names: `auto`, or a chord in any modifier order or
+    /// spelling (`Shift+Ctrl+KeyV`, `ControlLeft+ShiftLeft+KeyV`).
     pub fn parse(value: &str) -> Option<Self> {
+        if value == Self::AUTO {
+            return Some(Self::Auto);
+        }
         let keys = |chord: &str| {
             super::key_catalog::chord_keys(chord).map(|mut keys| {
                 keys.sort_unstable();
@@ -736,7 +765,19 @@ impl PasteShortcut {
         let wanted = keys(value)?;
         Self::ALL
             .into_iter()
+            .filter(|shortcut| *shortcut != Self::Auto)
             .find(|shortcut| keys(shortcut.as_str()).as_ref() == Some(&wanted))
+    }
+
+    /// The shortcuts to send to a terminal (`terminal`) or another window.
+    pub fn keys(self, terminal: bool) -> ClipboardKeys {
+        match self {
+            Self::Auto if terminal => ClipboardKeys::CtrlShiftV,
+            Self::Auto | Self::CtrlV => ClipboardKeys::CtrlV,
+            Self::ShiftInsert => ClipboardKeys::ShiftInsert,
+            Self::CtrlShiftV => ClipboardKeys::CtrlShiftV,
+            Self::PasteKey => ClipboardKeys::PasteKey,
+        }
     }
 }
 
@@ -900,8 +941,8 @@ impl Default for AppSettings {
             commands_keymap_ids: Vec::new(),
             game_mode: GameModeSettings::defaults_for(std::env::consts::OS),
             linux_wayland_text_mode: TextMode::LibeiWithClipboardFallback,
-            linux_paste_shortcut: PasteShortcut::CtrlV,
-            linux_terminal_paste_shortcut: Some(PasteShortcut::ShiftInsert),
+            linux_paste_shortcut: PasteShortcut::Auto,
+            linux_terminal_paste_shortcut: None,
             linux_ydotool_path: String::new(),
             linux_xdotool_path: String::new(),
         }

@@ -2560,8 +2560,6 @@ msgstr "Vloží pomocí nakonfigurované zkratky na Wayland: ovládání dat v K
 msgid "Paste shortcut"
 msgstr "Vložit zkratku"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Odesílá se aktivní aplikaci pro vložení textu."
 
 msgid "Paste shortcut in terminals"
 msgstr "Zkratka vložení v terminálech"
@@ -3796,3 +3794,54 @@ msgstr "Uložená oprávnění byla obnovena. Systém se znovu zeptá při pří
 
 msgid "Open in file manager"
 msgstr "Otevřít ve správci souborů"
+
+msgid "Move to previous word"
+msgstr "Přejít na předchozí slovo"
+
+msgid "Move to next word"
+msgstr "Přejít na další slovo"
+
+msgid "Select to previous word"
+msgstr "Vybrat po předchozí slovo"
+
+msgid "Select to next word"
+msgstr "Vybrat po další slovo"
+
+msgid "Delete previous word"
+msgstr "Smazat předchozí slovo"
+
+msgid "Delete next word"
+msgstr "Smazat další slovo"
+
+msgid "Move to document start"
+msgstr "Přejít na začátek dokumentu"
+
+msgid "Move to document end"
+msgstr "Přejít na konec dokumentu"
+
+msgid "Switch windows"
+msgstr "Přepnout okno"
+
+msgid "Tile window left"
+msgstr "Přichytit okno vlevo"
+
+msgid "Tile window right"
+msgstr "Přichytit okno vpravo"
+
+msgid "Tile window top"
+msgstr "Přichytit okno nahoru"
+
+msgid "Tile window bottom"
+msgstr "Přichytit okno dolů"
+
+msgid "Show clipboard history"
+msgstr "Zobrazit historii schránky"
+
+msgid "Activate task manager entry {}"
+msgstr "Aktivovat položku {} správce úloh"
+
+msgid "Paste key"
+msgstr "Klávesa Vložit"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Odesílá se aktivní aplikaci pro vložení textu. Akce Kopírovat, Vyjmout a Vložit používají odpovídající zkratky. Automaticky: Ctrl+V, v terminálech Ctrl+Shift+V. Ne každá aplikace podporuje klávesu Vložit."

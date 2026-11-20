@@ -706,11 +706,14 @@ pub(super) fn flush_out_with<S: EventSink, E: SideEffects>(
             }
             EngineOutput::RunSystem(action) => {
                 flush_events(sink, &mut events)?;
-                #[cfg(target_os = "linux")]
-                if let SystemAction::ClipboardKey(key) = action {
-                    let ks = super::action::Keystroke { key, mods: vec![] };
+                let ks = match &action {
+                    SystemAction::Edit(command) => Some(super::shortcuts::edit_keystroke(*command)),
+                    SystemAction::Keys(ks) => Some(ks.clone()),
+                    _ => None,
+                };
+                if let Some(ks) = ks {
                     emit_stroke_tap(sink, effects, &ks, std::time::Duration::ZERO)?;
-                    if super::action::is_copy_stroke(&ks) {
+                    if matches!(action, SystemAction::Edit(super::shortcuts::EditCommand::Copy)) {
                         crate::events::emit(crate::events::CoreEvent::CopyCommandSent);
                     }
                     continue;
@@ -813,8 +816,8 @@ mod tests {
 
         fn run_system(&mut self, action: &SystemAction) {
             let label = match action {
-                #[cfg(target_os = "linux")]
-                SystemAction::ClipboardKey(key) => format!("clipboard:{key:?}"),
+                SystemAction::Edit(command) => format!("edit:{command:?}"),
+                SystemAction::Keys(ks) => format!("keys:{ks:?}"),
                 #[cfg(target_os = "linux")]
                 SystemAction::Dbus(call) => format!("dbus:{}:{}", call.destination, call.method),
                 #[cfg(target_os = "linux")]

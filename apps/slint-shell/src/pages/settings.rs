@@ -33,12 +33,14 @@ const TAP_DECISIONS: [TapDecision; 2] = [
     TapDecision::HoldOnOtherKeyPress,
 ];
 
-/// Order of the terminal paste shortcut choices; `None` follows the main one.
-const TERMINAL_PASTE_SHORTCUTS: [Option<PasteShortcut>; 4] = [
+/// Order of the terminal paste shortcut choices; `None` follows the main
+/// one, which already covers `Auto`.
+const TERMINAL_PASTE_SHORTCUTS: [Option<PasteShortcut>; 5] = [
     None,
     Some(PasteShortcut::ShiftInsert),
     Some(PasteShortcut::CtrlV),
     Some(PasteShortcut::CtrlShiftV),
+    Some(PasteShortcut::PasteKey),
 ];
 
 fn appearance_choice(appearance: Appearance) -> AppearanceChoice {

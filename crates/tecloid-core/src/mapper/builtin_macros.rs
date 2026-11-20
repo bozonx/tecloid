@@ -1,7 +1,9 @@
 //! Built-in macros — globally available macros that resolve
 //! `builtin:<id>` at runtime regardless of the active keymap preset.
 //!
-//! Built-in and user macros have independent action namespaces.
+//! Built-in and user macros have independent action namespaces. Steps use
+//! `sys:` shortcuts for clipboard and word movement, so the macros follow
+//! the OS, the keyboard layout and terminal windows like those actions.
 
 pub struct BuiltinMacro {
     pub id: &'static str,
@@ -35,14 +37,7 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "duplicateLine",
         name: "Duplicate line",
-        steps: &[
-            "End",
-            "Shift+Home",
-            "Ctrl+KeyC",
-            "End",
-            "Enter",
-            "Ctrl+KeyV",
-        ],
+        steps: &["End", "Shift+Home", "sys:copy", "End", "Enter", "sys:paste"],
     },
     BuiltinMacro {
         id: "insertSpaceAfterNextChar",
@@ -57,27 +52,27 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "cutWord",
         name: "Cut word under cursor",
-        steps: &["Ctrl+ArrowRight", "Ctrl+Shift+ArrowLeft", "Ctrl+KeyX"],
+        steps: &["sys:moveWordRight", "sys:selectWordLeft", "sys:cut"],
     },
     BuiltinMacro {
         id: "copyWord",
         name: "Copy word under cursor",
         steps: &[
-            "Ctrl+ArrowRight",
-            "Ctrl+Shift+ArrowLeft",
-            "Ctrl+KeyC",
+            "sys:moveWordRight",
+            "sys:selectWordLeft",
+            "sys:copy",
             "ArrowLeft",
         ],
     },
     BuiltinMacro {
         id: "pasteOnNewLineAbove",
         name: "Paste on new line above",
-        steps: &["Home", "Enter", "ArrowUp", "Ctrl+KeyV"],
+        steps: &["Home", "Enter", "ArrowUp", "sys:paste"],
     },
     BuiltinMacro {
         id: "replaceWordWithClipboard",
         name: "Replace word with clipboard",
-        steps: &["Ctrl+ArrowRight", "Ctrl+Shift+ArrowLeft", "Ctrl+KeyV"],
+        steps: &["sys:moveWordRight", "sys:selectWordLeft", "sys:paste"],
     },
     BuiltinMacro {
         id: "goToNextLineStart",
@@ -103,28 +98,28 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "pasteOnNewLineBelow",
         name: "Paste on new line below",
-        steps: &["End", "Enter", "Ctrl+KeyV"],
+        steps: &["End", "Enter", "sys:paste"],
     },
     // select layer
     BuiltinMacro {
         id: "cutToLineStart",
         name: "Cut to line start",
-        steps: &["Shift+Home", "Ctrl+KeyX"],
+        steps: &["Shift+Home", "sys:cut"],
     },
     BuiltinMacro {
         id: "cutToLineEnd",
         name: "Cut to line end",
-        steps: &["Shift+End", "Ctrl+KeyX"],
+        steps: &["Shift+End", "sys:cut"],
     },
     BuiltinMacro {
         id: "cutLineText",
         name: "Cut line text",
-        steps: &["Home", "Shift+End", "Ctrl+KeyX"],
+        steps: &["Home", "Shift+End", "sys:cut"],
     },
     BuiltinMacro {
         id: "cutLine",
         name: "Cut whole line",
-        steps: &["Home", "Shift+End", "Ctrl+KeyX", "Delete"],
+        steps: &["Home", "Shift+End", "sys:cut", "Delete"],
     },
     BuiltinMacro {
         id: "select5LinesUp",
@@ -140,17 +135,17 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "copyToLineStart",
         name: "Copy to line start",
-        steps: &["Shift+Home", "Ctrl+KeyC", "Home"],
+        steps: &["Shift+Home", "sys:copy", "Home"],
     },
     BuiltinMacro {
         id: "copyToLineEnd",
         name: "Copy to line end",
-        steps: &["Shift+End", "Ctrl+KeyC", "End"],
+        steps: &["Shift+End", "sys:copy", "End"],
     },
     BuiltinMacro {
         id: "copyLineText",
         name: "Copy line text",
-        steps: &["Home", "Shift+End", "Ctrl+KeyC", "Home"],
+        steps: &["Home", "Shift+End", "sys:copy", "Home"],
     },
     BuiltinMacro {
         id: "selectLineText",
@@ -160,22 +155,22 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "selectWord",
         name: "Select word under cursor",
-        steps: &["Ctrl+ArrowRight", "Ctrl+Shift+ArrowLeft"],
+        steps: &["sys:moveWordRight", "sys:selectWordLeft"],
     },
     BuiltinMacro {
         id: "replaceToLineStartWithClipboard",
         name: "Replace to line start with clipboard",
-        steps: &["Shift+Home", "Ctrl+KeyV"],
+        steps: &["Shift+Home", "sys:paste"],
     },
     BuiltinMacro {
         id: "replaceToLineEndWithClipboard",
         name: "Replace to line end with clipboard",
-        steps: &["Shift+End", "Ctrl+KeyV"],
+        steps: &["Shift+End", "sys:paste"],
     },
     BuiltinMacro {
         id: "replaceLineTextWithClipboard",
         name: "Replace line text with clipboard",
-        steps: &["Home", "Shift+End", "Ctrl+KeyV"],
+        steps: &["Home", "Shift+End", "sys:paste"],
     },
     BuiltinMacro {
         id: "select5LinesDown",
@@ -188,42 +183,6 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
             "Shift+ArrowDown",
         ],
     },
-    // editing commands; letter keys follow the active layout at playback
-    BuiltinMacro {
-        id: "undo",
-        name: "Undo",
-        steps: &["Ctrl+KeyZ"],
-    },
-    BuiltinMacro {
-        id: "redo",
-        name: "Redo",
-        steps: &["Ctrl+Shift+KeyZ"],
-    },
-    BuiltinMacro {
-        id: "selectAll",
-        name: "Select all",
-        steps: &["Ctrl+KeyA"],
-    },
-    BuiltinMacro {
-        id: "find",
-        name: "Find",
-        steps: &["Ctrl+KeyF"],
-    },
-    BuiltinMacro {
-        id: "save",
-        name: "Save",
-        steps: &["Ctrl+KeyS"],
-    },
-    BuiltinMacro {
-        id: "newTab",
-        name: "New tab",
-        steps: &["Ctrl+KeyT"],
-    },
-    BuiltinMacro {
-        id: "closeTab",
-        name: "Close tab",
-        steps: &["Ctrl+KeyW"],
-    },
 ];
 
 #[cfg(all(test, target_os = "linux"))]
@@ -232,15 +191,16 @@ mod tests {
     use crate::mapper::action::parse_action;
 
     #[test]
-    fn all_builtin_macros_have_valid_keystrokes() {
+    fn all_builtin_macros_have_valid_steps() {
+        use crate::config::actions::{Action, is_shortcut_system_action};
         for m in BUILTIN_MACROS {
             for step in m.steps {
-                assert!(
-                    parse_action(step).is_some(),
-                    "built-in macro {} has invalid step: {}",
-                    m.id,
-                    step
-                );
+                let valid = match Action::parse(Some(step)) {
+                    // Only shortcuts: desktop actions are in development.
+                    Action::System(id) => is_shortcut_system_action(&id),
+                    _ => parse_action(step).is_some(),
+                };
+                assert!(valid, "built-in macro {} has invalid step: {}", m.id, step);
             }
         }
     }

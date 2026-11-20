@@ -2566,8 +2566,6 @@ msgstr "Zalijepi s konfiguriranim prečacem na Waylandu: kontrola podataka na KD
 msgid "Paste shortcut"
 msgstr "Zalijepi prečac"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Šalje se aktivnoj aplikaciji radi lijepljenja teksta."
 
 msgid "Paste shortcut in terminals"
 msgstr "Prečac za lijepljenje u terminalima"
@@ -3806,3 +3804,54 @@ msgstr "Spremljene dozvole su poništene. Sustav će ih ponovno zatražiti pri s
 
 msgid "Open in file manager"
 msgstr "Otvori u upravitelju datoteka"
+
+msgid "Move to previous word"
+msgstr "Prijeđi na prethodnu riječ"
+
+msgid "Move to next word"
+msgstr "Prijeđi na sljedeću riječ"
+
+msgid "Select to previous word"
+msgstr "Označi do prethodne riječi"
+
+msgid "Select to next word"
+msgstr "Označi do sljedeće riječi"
+
+msgid "Delete previous word"
+msgstr "Izbriši prethodnu riječ"
+
+msgid "Delete next word"
+msgstr "Izbriši sljedeću riječ"
+
+msgid "Move to document start"
+msgstr "Prijeđi na početak dokumenta"
+
+msgid "Move to document end"
+msgstr "Prijeđi na kraj dokumenta"
+
+msgid "Switch windows"
+msgstr "Promijeni prozor"
+
+msgid "Tile window left"
+msgstr "Smjesti prozor lijevo"
+
+msgid "Tile window right"
+msgstr "Smjesti prozor desno"
+
+msgid "Tile window top"
+msgstr "Smjesti prozor gore"
+
+msgid "Tile window bottom"
+msgstr "Smjesti prozor dolje"
+
+msgid "Show clipboard history"
+msgstr "Prikaži povijest međuspremnika"
+
+msgid "Activate task manager entry {}"
+msgstr "Aktiviraj stavku {} upravitelja zadataka"
+
+msgid "Paste key"
+msgstr "Tipka Zalijepi"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Šalje se aktivnoj aplikaciji za lijepljenje teksta. Radnje Kopiraj, Izreži i Zalijepi koriste odgovarajuće prečace. Automatski: Ctrl+V, a u terminalima Ctrl+Shift+V. Ne podržava svaka aplikacija tipku Zalijepi."

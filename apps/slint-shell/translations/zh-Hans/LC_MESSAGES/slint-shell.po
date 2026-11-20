@@ -2419,8 +2419,6 @@ msgstr "使用 Wayland 上配置的快捷方式进行粘贴：KDE 上的数据�
 msgid "Paste shortcut"
 msgstr "粘贴快捷方式"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "发送到当前应用以粘贴文本。"
 
 msgid "Paste shortcut in terminals"
 msgstr "终端中的粘贴快捷键"
@@ -3542,3 +3540,54 @@ msgstr "已重置保存的权限。下次 Tecloid 输入文本时，系统会再
 
 msgid "Open in file manager"
 msgstr "在文件管理器中打开"
+
+msgid "Move to previous word"
+msgstr "移到上一个词"
+
+msgid "Move to next word"
+msgstr "移到下一个词"
+
+msgid "Select to previous word"
+msgstr "选择到上一个词"
+
+msgid "Select to next word"
+msgstr "选择到下一个词"
+
+msgid "Delete previous word"
+msgstr "删除上一个词"
+
+msgid "Delete next word"
+msgstr "删除下一个词"
+
+msgid "Move to document start"
+msgstr "移到文档开头"
+
+msgid "Move to document end"
+msgstr "移到文档末尾"
+
+msgid "Switch windows"
+msgstr "切换窗口"
+
+msgid "Tile window left"
+msgstr "窗口贴靠左侧"
+
+msgid "Tile window right"
+msgstr "窗口贴靠右侧"
+
+msgid "Tile window top"
+msgstr "窗口贴靠顶部"
+
+msgid "Tile window bottom"
+msgstr "窗口贴靠底部"
+
+msgid "Show clipboard history"
+msgstr "显示剪贴板历史"
+
+msgid "Activate task manager entry {}"
+msgstr "激活任务管理器第 {} 项"
+
+msgid "Paste key"
+msgstr "粘贴键"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "发送给当前应用以粘贴文本。“复制”“剪切”和“粘贴”操作使用对应的快捷键。自动：Ctrl+V，在终端中为 Ctrl+Shift+V。并非所有应用都支持粘贴键。"

@@ -2600,8 +2600,6 @@ msgstr "Incolla con il collegamento configurato su Wayland: controllo dati su KD
 msgid "Paste shortcut"
 msgstr "Incolla scorciatoia"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Inviata all’app attiva per incollare il testo."
 
 msgid "Paste shortcut in terminals"
 msgstr "Scorciatoia per incollare nei terminali"
@@ -3873,3 +3871,54 @@ msgstr "Autorizzazioni salvate reimpostate. Il sistema le richiederà al prossim
 
 msgid "Open in file manager"
 msgstr "Apri nel gestore di file"
+
+msgid "Move to previous word"
+msgstr "Vai alla parola precedente"
+
+msgid "Move to next word"
+msgstr "Vai alla parola successiva"
+
+msgid "Select to previous word"
+msgstr "Seleziona fino alla parola precedente"
+
+msgid "Select to next word"
+msgstr "Seleziona fino alla parola successiva"
+
+msgid "Delete previous word"
+msgstr "Elimina la parola precedente"
+
+msgid "Delete next word"
+msgstr "Elimina la parola successiva"
+
+msgid "Move to document start"
+msgstr "Vai all’inizio del documento"
+
+msgid "Move to document end"
+msgstr "Vai alla fine del documento"
+
+msgid "Switch windows"
+msgstr "Cambia finestra"
+
+msgid "Tile window left"
+msgstr "Affianca la finestra a sinistra"
+
+msgid "Tile window right"
+msgstr "Affianca la finestra a destra"
+
+msgid "Tile window top"
+msgstr "Affianca la finestra in alto"
+
+msgid "Tile window bottom"
+msgstr "Affianca la finestra in basso"
+
+msgid "Show clipboard history"
+msgstr "Mostra la cronologia degli appunti"
+
+msgid "Activate task manager entry {}"
+msgstr "Attiva l’elemento {} del gestore attività"
+
+msgid "Paste key"
+msgstr "Tasto Incolla"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Inviato all’app attiva per incollare il testo. Le azioni Copia, Taglia e Incolla usano le scorciatoie corrispondenti. Automatico: Ctrl+V, e Ctrl+Maiusc+V nei terminali. Non tutte le app gestiscono il tasto Incolla."

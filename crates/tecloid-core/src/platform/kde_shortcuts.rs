@@ -164,7 +164,8 @@ mod tests {
         assert!(!offered("kwin", "Switch to Desktop 11"));
         assert!(!offered("kwin", "Window to Desktop 20"));
         assert!(offered("kwin", "Window Fullscreen"));
-        assert!(offered("plasmashell", "activate task manager entry 10"));
+        assert!(!offered("plasmashell", "activate task manager entry 10"));
+        assert!(!offered("kwin", "Window Quick Tile Left"));
         assert!(launched_on_demand("org_kde_konsole_desktop"));
         assert!(!launched_on_demand("kmix"));
     }

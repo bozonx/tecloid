@@ -2272,8 +2272,6 @@ msgstr "Вставляет настроенным сочетанием в Waylan
 msgid "Paste shortcut"
 msgstr "Сочетание вставки"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Отправляется активному приложению, чтобы вставить текст."
 
 msgid "Paste shortcut in terminals"
 msgstr "Сочетание вставки в терминалах"
@@ -3268,3 +3266,54 @@ msgstr "Сохранённые разрешения сброшены. Систе
 
 msgid "Open in file manager"
 msgstr "Открыть в файловом менеджере"
+
+msgid "Move to previous word"
+msgstr "Перейти к предыдущему слову"
+
+msgid "Move to next word"
+msgstr "Перейти к следующему слову"
+
+msgid "Select to previous word"
+msgstr "Выделить до предыдущего слова"
+
+msgid "Select to next word"
+msgstr "Выделить до следующего слова"
+
+msgid "Delete previous word"
+msgstr "Удалить предыдущее слово"
+
+msgid "Delete next word"
+msgstr "Удалить следующее слово"
+
+msgid "Move to document start"
+msgstr "Перейти в начало документа"
+
+msgid "Move to document end"
+msgstr "Перейти в конец документа"
+
+msgid "Switch windows"
+msgstr "Переключить окно"
+
+msgid "Tile window left"
+msgstr "Прикрепить окно слева"
+
+msgid "Tile window right"
+msgstr "Прикрепить окно справа"
+
+msgid "Tile window top"
+msgstr "Прикрепить окно сверху"
+
+msgid "Tile window bottom"
+msgstr "Прикрепить окно снизу"
+
+msgid "Show clipboard history"
+msgstr "Показать историю буфера обмена"
+
+msgid "Activate task manager entry {}"
+msgstr "Активировать задачу {} на панели задач"
+
+msgid "Paste key"
+msgstr "Клавиша Paste"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Отправляется активному приложению, чтобы вставить текст. Действия «Копировать», «Вырезать» и «Вставить» используют соответствующие сочетания. Автоматически: Ctrl+V, а в терминалах Ctrl+Shift+V. Клавишу Paste понимают не все приложения."

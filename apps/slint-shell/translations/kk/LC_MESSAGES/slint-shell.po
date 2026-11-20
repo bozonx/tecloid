@@ -2577,8 +2577,6 @@ msgstr "Wayland-те конфигурацияланған таңбашамен �
 msgid "Paste shortcut"
 msgstr "Таңбашаны қою"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Мәтінді қою үшін белсенді қолданбаға жіберіледі."
 
 msgid "Paste shortcut in terminals"
 msgstr "Терминалдардағы қою пернелер тіркесімі"
@@ -3820,3 +3818,54 @@ msgstr "Сақталған рұқсаттар қалпына келтірілд�
 
 msgid "Open in file manager"
 msgstr "Файл менеджерінде ашу"
+
+msgid "Move to previous word"
+msgstr "Алдыңғы сөзге өту"
+
+msgid "Move to next word"
+msgstr "Келесі сөзге өту"
+
+msgid "Select to previous word"
+msgstr "Алдыңғы сөзге дейін белгілеу"
+
+msgid "Select to next word"
+msgstr "Келесі сөзге дейін белгілеу"
+
+msgid "Delete previous word"
+msgstr "Алдыңғы сөзді жою"
+
+msgid "Delete next word"
+msgstr "Келесі сөзді жою"
+
+msgid "Move to document start"
+msgstr "Құжат басына өту"
+
+msgid "Move to document end"
+msgstr "Құжат соңына өту"
+
+msgid "Switch windows"
+msgstr "Терезені ауыстыру"
+
+msgid "Tile window left"
+msgstr "Терезені сол жаққа бекіту"
+
+msgid "Tile window right"
+msgstr "Терезені оң жаққа бекіту"
+
+msgid "Tile window top"
+msgstr "Терезені жоғарыға бекіту"
+
+msgid "Tile window bottom"
+msgstr "Терезені төменге бекіту"
+
+msgid "Show clipboard history"
+msgstr "Алмасу буферінің тарихын көрсету"
+
+msgid "Activate task manager entry {}"
+msgstr "Тапсырмалар панеліндегі {} элементті белсендіру"
+
+msgid "Paste key"
+msgstr "Paste пернесі"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Мәтінді кірістіру үшін белсенді қолданбаға жіберіледі. «Көшіру», «Қиып алу» және «Кірістіру» әрекеттері сәйкес пернелер тіркесімін пайдаланады. Автоматты: Ctrl+V, ал терминалдарда Ctrl+Shift+V. Paste пернесін барлық қолданба түсінбейді."

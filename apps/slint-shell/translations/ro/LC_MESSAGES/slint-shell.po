@@ -2595,8 +2595,6 @@ msgstr "Lipește cu comanda rapidă configurată pe Wayland: controlul datelor p
 msgid "Paste shortcut"
 msgstr "Lipiți comanda rapidă"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Trimisă aplicației active pentru a lipi textul."
 
 msgid "Paste shortcut in terminals"
 msgstr "Comandă rapidă de lipire în terminale"
@@ -3850,3 +3848,54 @@ msgstr "Permisiunile salvate au fost resetate. Sistemul le va solicita din nou c
 
 msgid "Open in file manager"
 msgstr "Deschide în managerul de fișiere"
+
+msgid "Move to previous word"
+msgstr "Mergi la cuvântul anterior"
+
+msgid "Move to next word"
+msgstr "Mergi la cuvântul următor"
+
+msgid "Select to previous word"
+msgstr "Selectează până la cuvântul anterior"
+
+msgid "Select to next word"
+msgstr "Selectează până la cuvântul următor"
+
+msgid "Delete previous word"
+msgstr "Șterge cuvântul anterior"
+
+msgid "Delete next word"
+msgstr "Șterge cuvântul următor"
+
+msgid "Move to document start"
+msgstr "Mergi la începutul documentului"
+
+msgid "Move to document end"
+msgstr "Mergi la sfârșitul documentului"
+
+msgid "Switch windows"
+msgstr "Comută fereastra"
+
+msgid "Tile window left"
+msgstr "Aliniază fereastra la stânga"
+
+msgid "Tile window right"
+msgstr "Aliniază fereastra la dreapta"
+
+msgid "Tile window top"
+msgstr "Aliniază fereastra sus"
+
+msgid "Tile window bottom"
+msgstr "Aliniază fereastra jos"
+
+msgid "Show clipboard history"
+msgstr "Afișează istoricul clipboardului"
+
+msgid "Activate task manager entry {}"
+msgstr "Activează elementul {} din managerul de activități"
+
+msgid "Paste key"
+msgstr "Tasta Lipire"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Trimis aplicației active pentru a lipi text. Acțiunile Copiere, Decupare și Lipire folosesc scurtăturile corespunzătoare. Automat: Ctrl+V, iar în terminale Ctrl+Shift+V. Nu toate aplicațiile acceptă tasta Lipire."

@@ -79,13 +79,22 @@ export global Locale {
         if m.id == "picker-action" && m.arg == "copy" { return @tr("Copy"); }
         if m.id == "picker-action" && m.arg == "cut" { return @tr("Cut"); }
         if m.id == "picker-action" && m.arg == "paste" { return @tr("Paste"); }
-        if m.id == "builtin-macro" && m.arg == "undo" { return @tr("Undo"); }
-        if m.id == "builtin-macro" && m.arg == "redo" { return @tr("Redo"); }
-        if m.id == "builtin-macro" && m.arg == "selectAll" { return @tr("Select all"); }
-        if m.id == "builtin-macro" && m.arg == "find" { return @tr("Find"); }
-        if m.id == "builtin-macro" && m.arg == "save" { return @tr("Save"); }
-        if m.id == "builtin-macro" && m.arg == "newTab" { return @tr("New tab"); }
-        if m.id == "builtin-macro" && m.arg == "closeTab" { return @tr("Close tab"); }
+        if m.id == "picker-action" && m.arg == "undo" { return @tr("Undo"); }
+        if m.id == "picker-action" && m.arg == "redo" { return @tr("Redo"); }
+        if m.id == "picker-action" && m.arg == "selectAll" { return @tr("Select all"); }
+        if m.id == "picker-action" && m.arg == "find" { return @tr("Find"); }
+        if m.id == "picker-action" && m.arg == "save" { return @tr("Save"); }
+        if m.id == "picker-action" && m.arg == "newTab" { return @tr("New tab"); }
+        if m.id == "picker-action" && m.arg == "closeTab" { return @tr("Close tab"); }
+        if m.id == "picker-action" && m.arg == "moveWordLeft" { return @tr("Move to previous word"); }
+        if m.id == "picker-action" && m.arg == "moveWordRight" { return @tr("Move to next word"); }
+        if m.id == "picker-action" && m.arg == "selectWordLeft" { return @tr("Select to previous word"); }
+        if m.id == "picker-action" && m.arg == "selectWordRight" { return @tr("Select to next word"); }
+        if m.id == "picker-action" && m.arg == "deleteWordBackward" { return @tr("Delete previous word"); }
+        if m.id == "picker-action" && m.arg == "deleteWordForward" { return @tr("Delete next word"); }
+        if m.id == "picker-action" && m.arg == "moveToDocumentStart" { return @tr("Move to document start"); }
+        if m.id == "picker-action" && m.arg == "moveToDocumentEnd" { return @tr("Move to document end"); }
+        if m.id == "picker-action" && m.arg == "switchWindow" { return @tr("Switch windows"); }
         if m.id == "picker-action" && m.arg == "showQuickMenu" { return @tr("Show Quick Action Menu page {}", m.count); }
         if m.id == "picker-action" && m.arg == "showEmojiMenu" { return @tr("Show Emoji & Symbols menu page {}", m.count); }
         if m.id == "picker-action" && m.arg == "showQuickMenuRecent" { return @tr("Show Quick Action Menu on the last used page"); }
@@ -100,6 +109,10 @@ export global Locale {
         if m.id == "picker-action" && m.arg == "minimizeWindow" { return @tr("Minimize window"); }
         if m.id == "picker-action" && m.arg == "maximizeWindow" { return @tr("Maximize window"); }
         if m.id == "picker-action" && m.arg == "maximizeWindowVertically" { return @tr("Maximize window vertically"); }
+        if m.id == "picker-action" && m.arg == "tileWindowLeft" { return @tr("Tile window left"); }
+        if m.id == "picker-action" && m.arg == "tileWindowRight" { return @tr("Tile window right"); }
+        if m.id == "picker-action" && m.arg == "tileWindowTop" { return @tr("Tile window top"); }
+        if m.id == "picker-action" && m.arg == "tileWindowBottom" { return @tr("Tile window bottom"); }
         if m.id == "picker-action" && m.arg == "keepWindowAbove" { return @tr("Keep window above others"); }
         if m.id == "picker-action" && m.arg == "moveWindowToNextDesktop" { return @tr("Move window to next desktop"); }
         if m.id == "picker-action" && m.arg == "moveWindowToPreviousDesktop" { return @tr("Move window to previous desktop"); }
@@ -110,11 +123,13 @@ export global Locale {
         if m.id == "picker-action" && m.arg == "showDesktop" { return @tr("Show desktop"); }
         if m.id == "picker-action" && m.arg == "showOverview" { return @tr("Window overview"); }
         if m.id == "picker-action" && m.arg == "showAppLauncher" { return @tr("Open application launcher"); }
+        if m.id == "picker-action" && m.arg == "showClipboardHistory" { return @tr("Show clipboard history"); }
         if m.id == "picker-action" && m.arg == "turnOffScreen" { return @tr("Turn off screen"); }
         if m.id == "picker-action" && m.arg == "lockSession" { return @tr("Lock screen"); }
         if m.id == "picker-action" && m.arg == "switchToDesktop" { return @tr("Switch to desktop {}", m.count); }
         if m.id == "picker-action" && m.arg == "switchToKeyboardLayout" { return @tr("Switch to keyboard layout {}", m.count); }
         if m.id == "picker-action" && m.arg == "moveWindowToDesktop" { return @tr("Move window to desktop {}", m.count); }
+        if m.id == "picker-action" && m.arg == "activateTaskManagerEntry" { return @tr("Activate task manager entry {}", m.count); }
         if m.id == "keymap-slot-empty" { return @tr("There is no keymap number {}", m.count); }
         if m.id == "library-saved" { return @tr("Keymap library updated"); }
         if m.id == "library-select" { return @tr("Select a keymap"); }

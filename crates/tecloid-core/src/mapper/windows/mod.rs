@@ -561,6 +561,8 @@ impl SideEffects for RuntimeSideEffects {
                 }
             }
             SystemAction::AppEvent(event) => super::emit_app_event(event),
+            // Emitted through the output sink.
+            SystemAction::Edit(_) | SystemAction::Keys(_) => {}
         }
     }
 

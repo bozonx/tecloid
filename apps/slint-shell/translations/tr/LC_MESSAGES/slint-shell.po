@@ -2570,8 +2570,6 @@ msgstr "Wayland'de yapılandırılmış kısayolla yapıştırır: KDE'de veri k
 msgid "Paste shortcut"
 msgstr "Kısayolu yapıştır"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Metni yapıştırmak için etkin uygulamaya gönderilir."
 
 msgid "Paste shortcut in terminals"
 msgstr "Uçbirimlerde yapıştırma kısayolu"
@@ -3816,3 +3814,54 @@ msgstr "Kayıtlı izinler sıfırlandı. Tecloid bir sonraki metin girişinde si
 
 msgid "Open in file manager"
 msgstr "Dosya yöneticisinde aç"
+
+msgid "Move to previous word"
+msgstr "Önceki sözcüğe git"
+
+msgid "Move to next word"
+msgstr "Sonraki sözcüğe git"
+
+msgid "Select to previous word"
+msgstr "Önceki sözcüğe kadar seç"
+
+msgid "Select to next word"
+msgstr "Sonraki sözcüğe kadar seç"
+
+msgid "Delete previous word"
+msgstr "Önceki sözcüğü sil"
+
+msgid "Delete next word"
+msgstr "Sonraki sözcüğü sil"
+
+msgid "Move to document start"
+msgstr "Belgenin başına git"
+
+msgid "Move to document end"
+msgstr "Belgenin sonuna git"
+
+msgid "Switch windows"
+msgstr "Pencereler arasında geç"
+
+msgid "Tile window left"
+msgstr "Pencereyi sola yerleştir"
+
+msgid "Tile window right"
+msgstr "Pencereyi sağa yerleştir"
+
+msgid "Tile window top"
+msgstr "Pencereyi üste yerleştir"
+
+msgid "Tile window bottom"
+msgstr "Pencereyi alta yerleştir"
+
+msgid "Show clipboard history"
+msgstr "Pano geçmişini göster"
+
+msgid "Activate task manager entry {}"
+msgstr "Görev yöneticisi öğesi {} etkinleştir"
+
+msgid "Paste key"
+msgstr "Yapıştır tuşu"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Metni yapıştırmak için etkin uygulamaya gönderilir. Kopyala, Kes ve Yapıştır eylemleri ilgili kısayolları kullanır. Otomatik: Ctrl+V, terminallerde Ctrl+Shift+V. Her uygulama Yapıştır tuşunu desteklemez."

@@ -88,7 +88,7 @@ impl LibeiBackend {
     pub(super) fn type_text(
         &mut self,
         text: &str,
-        clipboard_fallback: Option<PasteShortcut>,
+        clipboard_fallback: Option<ClipboardKeys>,
         request: &TextRequest,
     ) -> Result<(), TextInputFailure> {
         request.check()?;
@@ -195,7 +195,7 @@ impl LibeiBackend {
     pub(super) fn paste_text(
         &mut self,
         text: &str,
-        shortcut: PasteShortcut,
+        shortcut: ClipboardKeys,
         request: &TextRequest,
     ) -> Result<(), TextInputFailure> {
         let clipboard = prepare_clipboard(self.clipboard.as_ref(), text, request)?;

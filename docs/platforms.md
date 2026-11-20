@@ -8,7 +8,8 @@ environments compile and partly work; implemented code is not acceptance.
 | Key interception | ✅ evdev + uinput | ✅ | ✅ | ✅ | ✅ session-wide `WH_KEYBOARD_LL` + `SendInput` | ❌ stub |
 | Literal text (`text:`) | ✅ portal libei, data-control clipboard | ⚠ portal + Clipboard portal, needs extension | ⚠ backend dependent | ⚠ keyboard backend only, no clipboard paste | ✅ Unicode `SendInput` | ❌ mapper; popups only |
 | Keyboard layout | ✅ D-Bus `org.kde.keyboard` | ⚠ extension | 🚧 | 🚧 (`linux_x11.rs`) | ✅ foreground window input language | 🚧 |
-| System actions (`sys:`) | ✅ kglobalaccel, `org.kde.keyboard`, ScreenSaver | ⚠ extension, all but `showDesktop` | 🚧 | 🚧 | ✅ except virtual-desktop actions | ❌ |
+| Standard shortcuts (`sys:copy`, `sys:undo`, `sys:moveWordLeft`, …) | ✅ layout via XKB, terminals by window class | ✅ | ✅ | ✅ | ✅ layout via `VkKeyScanEx` | ❌ mapper |
+| System actions (`sys:`) | ✅ kglobalaccel, `org.kde.keyboard`, ScreenSaver | ⚠ extension; Super+Arrow / Super+N for side tiling and task entries 1–9; no `showDesktop`, top/bottom tiling, clipboard history | 🚧 | 🚧 | ✅ except virtual-desktop actions | ❌ |
 | `kde:` shortcuts | ✅ | — | — | — | — | — |
 | `xdg:` app actions | ✅ | ✅ | ✅ | ✅ | — | — |
 | Layer-shell popups (Spell) | ✅ | ❌ winit | ✅ not accepted | ❌ winit | — | — |
@@ -93,15 +94,17 @@ Clipboard paste uses Wayland data-control (`ext_data_control_manager_v1` or
 - temporary text is marked sensitive and restored ≥ 200 ms after the shortcut;
   a newer copy wins; Tecloid then owns the restored data;
 - the paste shortcut must match the destination (`pasteShortcut`,
-  `terminalPasteShortcut` by window class; embedded terminals cannot be detected).
+  `terminalPasteShortcut` by window class; embedded terminals cannot be
+  detected). `auto` sends Ctrl+V, and Ctrl+Shift+V to terminals.
 
-`sys:copy`, `sys:paste`, and `sys:cut` emit dedicated clipboard keys on Linux,
-without falling back to Ctrl+C/V/X. Applications that do not support those keys
-may ignore them. On Windows these actions post WM_COPY/WM_PASTE/WM_CUT to the
-focused control; support depends on the application. macOS has no mapper yet.
-The former `builtin:copy`, `builtin:paste`, and `builtin:cut` ids are removed;
-keymaps must replace them manually. User `Ctrl+KeyC` chords stay physical. Settings → reset text
-input permissions clears portal tokens.
+Editing `sys:` shortcuts (`copy`, `paste`, `undo`, `find`, …) pick their keys
+when they run: the letter from the active XKB layout (the layout must be
+known, which KDE reports; otherwise the QWERTY key), the terminal variant by
+window class, and for copy, cut and paste the paste settings. The Paste key
+(`pasteShortcut: Paste`) is not handled by every application. On Windows the
+letter comes from the foreground window's layout and the shortcuts are the
+Windows ones (redo `Ctrl+Y`). User `Ctrl+KeyC` chords stay physical. Settings
+→ reset text input permissions clears portal tokens.
 
 ## Windows
 
@@ -145,7 +148,9 @@ there is no desktop acceptance.
   `keyboard_layout/mod.rs`; add `mod <de>` with
   `resolve(name) -> Option<SystemAction>` in `mapper/system.rs`.
 - **System action:** a `sys:` id needs a documented API (or fixed system
-  shortcut) on at least two platforms. Add it to `PLAIN_SYSTEM_ACTIONS` in
+  shortcut) on at least two platforms. Add it to `PLAIN_SYSTEM_ACTIONS` (or
+  `SHORTCUT_SYSTEM_ACTIONS` with `mapper/shortcuts.rs` for an application
+  shortcut) in
   `config/actions.rs`, to `MACOS_UNSUPPORTED_SYSTEM_ACTIONS` if macOS lacks it,
   implement it in every capable backend of `mapper/system.rs`, add its picker
   label to `ui/i18n.slint` and every PO catalog. Desktop-specific actions belong

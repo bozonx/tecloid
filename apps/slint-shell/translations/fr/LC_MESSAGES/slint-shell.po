@@ -2616,8 +2616,6 @@ msgstr "Colle avec le raccourci configuré sur Wayland : contrôle des données 
 msgid "Paste shortcut"
 msgstr "Coller le raccourci"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Envoyé à l’application active pour coller le texte."
 
 msgid "Paste shortcut in terminals"
 msgstr "Raccourci de collage dans les terminaux"
@@ -3895,3 +3893,54 @@ msgstr "Autorisations enregistrées réinitialisées. Le système les demandera 
 
 msgid "Open in file manager"
 msgstr "Ouvrir dans le gestionnaire de fichiers"
+
+msgid "Move to previous word"
+msgstr "Aller au mot précédent"
+
+msgid "Move to next word"
+msgstr "Aller au mot suivant"
+
+msgid "Select to previous word"
+msgstr "Sélectionner jusqu’au mot précédent"
+
+msgid "Select to next word"
+msgstr "Sélectionner jusqu’au mot suivant"
+
+msgid "Delete previous word"
+msgstr "Supprimer le mot précédent"
+
+msgid "Delete next word"
+msgstr "Supprimer le mot suivant"
+
+msgid "Move to document start"
+msgstr "Aller au début du document"
+
+msgid "Move to document end"
+msgstr "Aller à la fin du document"
+
+msgid "Switch windows"
+msgstr "Changer de fenêtre"
+
+msgid "Tile window left"
+msgstr "Ancrer la fenêtre à gauche"
+
+msgid "Tile window right"
+msgstr "Ancrer la fenêtre à droite"
+
+msgid "Tile window top"
+msgstr "Ancrer la fenêtre en haut"
+
+msgid "Tile window bottom"
+msgstr "Ancrer la fenêtre en bas"
+
+msgid "Show clipboard history"
+msgstr "Afficher l’historique du presse-papiers"
+
+msgid "Activate task manager entry {}"
+msgstr "Activer l’élément {} du gestionnaire de tâches"
+
+msgid "Paste key"
+msgstr "Touche Coller"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Envoyé à l’application active pour coller du texte. Les actions Copier, Couper et Coller utilisent les raccourcis correspondants. Automatique : Ctrl+V, et Ctrl+Maj+V dans les terminaux. Toutes les applications ne gèrent pas la touche Coller."

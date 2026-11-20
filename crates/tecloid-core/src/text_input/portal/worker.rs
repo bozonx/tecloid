@@ -5,7 +5,7 @@ use super::*;
 pub(super) struct TextInjectionJob {
     pub(super) text: String,
     pub(super) mode: TextMode,
-    pub(super) paste: PasteShortcut,
+    pub(super) paste: ClipboardKeys,
     /// Dropped without a send when the worker hit a fatal error and exits.
     pub(super) done: Sender<Result<(), TextInputFailure>>,
     pub(super) request: TextRequest,
@@ -42,7 +42,7 @@ impl Worker {
         &self,
         text: &str,
         mode: TextMode,
-        paste: PasteShortcut,
+        paste: ClipboardKeys,
         request: TextRequest,
     ) -> Result<(), TextInputFailure> {
         let mut slot = self.tx.lock().unwrap_or_else(|e| e.into_inner());

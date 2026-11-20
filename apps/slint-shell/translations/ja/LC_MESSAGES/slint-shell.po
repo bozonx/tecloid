@@ -2449,8 +2449,6 @@ msgstr "Wayland の設定済みショートカット (KDE の data-control、GNO
 msgid "Paste shortcut"
 msgstr "ショートカットを貼り付け"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "テキストを貼り付けるためにアクティブなアプリへ送信されます。"
 
 msgid "Paste shortcut in terminals"
 msgstr "ターミナルでの貼り付けショートカット"
@@ -3607,3 +3605,54 @@ msgstr "保存済みの権限をリセットしました。次に Tecloid がテ
 
 msgid "Open in file manager"
 msgstr "ファイルマネージャーで開く"
+
+msgid "Move to previous word"
+msgstr "前の単語へ移動"
+
+msgid "Move to next word"
+msgstr "次の単語へ移動"
+
+msgid "Select to previous word"
+msgstr "前の単語まで選択"
+
+msgid "Select to next word"
+msgstr "次の単語まで選択"
+
+msgid "Delete previous word"
+msgstr "前の単語を削除"
+
+msgid "Delete next word"
+msgstr "次の単語を削除"
+
+msgid "Move to document start"
+msgstr "文書の先頭へ移動"
+
+msgid "Move to document end"
+msgstr "文書の末尾へ移動"
+
+msgid "Switch windows"
+msgstr "ウィンドウを切り替え"
+
+msgid "Tile window left"
+msgstr "ウィンドウを左にタイル"
+
+msgid "Tile window right"
+msgstr "ウィンドウを右にタイル"
+
+msgid "Tile window top"
+msgstr "ウィンドウを上にタイル"
+
+msgid "Tile window bottom"
+msgstr "ウィンドウを下にタイル"
+
+msgid "Show clipboard history"
+msgstr "クリップボード履歴を表示"
+
+msgid "Activate task manager entry {}"
+msgstr "タスクマネージャーの項目 {} をアクティブにする"
+
+msgid "Paste key"
+msgstr "Paste キー"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "テキストを貼り付けるためにアクティブなアプリへ送信されます。コピー、切り取り、貼り付けの各アクションは対応するショートカットを使います。自動：Ctrl+V、ターミナルでは Ctrl+Shift+V。Paste キーに対応していないアプリもあります。"

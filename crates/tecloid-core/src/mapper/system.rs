@@ -4,14 +4,19 @@
 //! DE by dispatching through `crate::platform::linux::detect()`.
 //!
 //! ```text
-//! Portable clipboard operations and actions without a portable key live here: switch to desktop / layout N,
-//! move window to desktop N, and window/shell actions that at least two
-//! platforms document (close, minimize, maximize, keep above, next/previous
+//! Standard application shortcuts (editing, text navigation, window
+//! switching; see `mapper::shortcuts`) and actions without a portable key
+//! live here: switch to desktop / layout N, move window to desktop N, task
+//! manager entry N, and window/shell actions that at least two platforms
+//! document (close, minimize, maximize, tile, keep above, next/previous
 //! desktop, next screen, show desktop, overview, application launcher,
-//! screen off, lock). Everything else is a standard key, a chord, a `kde:`
-//! global shortcut or an `xdg:` application action.
+//! clipboard history, screen off, lock). Everything else is a standard key,
+//! a chord, a `kde:` global shortcut or an `xdg:` application action.
 //!
 //! Action shapes:
+//!   * `SystemAction::Edit`    — an editing command whose keys depend on the
+//!                            focused window and layout, chosen when it runs.
+//!   * `SystemAction::Keys`    — a chord; compiled like a key chord.
 //!   * `SystemAction::Dbus`    — Linux session-bus method call. Preferred when
 //!                            the target DE exposes a DBus service: avoids
 //!                            `fork+exec` of helper binaries (qdbus, gdbus)
@@ -74,8 +79,9 @@ impl DbusCall {
 /// Resolved system-function.
 #[derive(Clone, Debug)]
 pub enum SystemAction {
-    #[cfg(target_os = "linux")]
-    ClipboardKey(super::key_code::KeyCode),
+    Edit(super::shortcuts::EditCommand),
+    /// A chord on this OS or desktop. The engine compiles it as a key chord.
+    Keys(super::action::Keystroke),
     #[cfg(target_os = "linux")]
     Dbus(DbusCall),
     #[cfg(target_os = "linux")]
@@ -97,6 +103,12 @@ impl SystemAction {
 /// action to run on this machine, or `None` if the function is not
 /// available under the current OS or desktop environment.
 pub fn resolve(name: &str) -> Option<SystemAction> {
+    if let Some(command) = super::shortcuts::EditCommand::from_id(name) {
+        return Some(SystemAction::Edit(command));
+    }
+    if let Some(keys) = super::shortcuts::fixed_keystroke(name) {
+        return Some(SystemAction::Keys(keys));
+    }
     #[cfg(target_os = "linux")]
     {
         use crate::platform::linux::detect;
@@ -104,7 +116,7 @@ pub fn resolve(name: &str) -> Option<SystemAction> {
     }
     #[cfg(target_os = "windows")]
     {
-        super::windows::system::resolve(name).map(SystemAction::Windows)
+        super::windows::system::resolve(name)
     }
 }
 
@@ -194,6 +206,8 @@ pub(crate) fn kde_runs_as_system_action(component: &str, name: &str) -> bool {
         .iter()
         .any(|(_, c, n)| *c == component && *n == name)
         || (component == "ksmserver" && name == "Lock Session")
+        || (component == "plasmashell"
+            && (1..=kde::TASK_MANAGER_ENTRIES).any(|n| kde::task_manager_entry(n) == name))
 }
 
 #[cfg(target_os = "linux")]
@@ -211,16 +225,6 @@ fn resolve_for_desktop(
         return None;
     }
 
-    use super::key_code::KeyCode;
-    let key = match name {
-        "copy" => Some(KeyCode::KEY_COPY),
-        "paste" => Some(KeyCode::KEY_PASTE),
-        "cut" => Some(KeyCode::KEY_CUT),
-        _ => None,
-    };
-    if let Some(key) = key {
-        return Some(SystemAction::ClipboardKey(key));
-    }
     use crate::platform::linux::Desktop;
     match desktop {
         Desktop::Kde => kde::resolve(name),
@@ -242,7 +246,7 @@ mod kde {
 
     /// Plain `sys:` actions KWin, Plasma and PowerDevil register as
     /// kglobalaccel shortcuts: (id, component, shortcut name).
-    pub(super) const SHORTCUT_ACTIONS: [(&str, &str, &str); 15] = [
+    pub(super) const SHORTCUT_ACTIONS: [(&str, &str, &str); 20] = [
         ("closeWindow", "kwin", "Window Close"),
         ("minimizeWindow", "kwin", "Window Minimize"),
         ("maximizeWindow", "kwin", "Window Maximize"),
@@ -258,7 +262,19 @@ mod kde {
         ("showOverview", "kwin", "Overview"),
         ("showAppLauncher", "plasmashell", "activate application launcher"),
         ("turnOffScreen", "org_kde_powerdevil", "Turn Off Screen"),
+        ("tileWindowLeft", "kwin", "Window Quick Tile Left"),
+        ("tileWindowRight", "kwin", "Window Quick Tile Right"),
+        ("tileWindowTop", "kwin", "Window Quick Tile Top"),
+        ("tileWindowBottom", "kwin", "Window Quick Tile Bottom"),
+        ("showClipboardHistory", "plasmashell", "show-on-mouse-pos"),
     ];
+
+    /// Task manager entries Plasma registers global shortcuts for.
+    pub(super) const TASK_MANAGER_ENTRIES: u32 = 10;
+
+    pub(super) fn task_manager_entry(n: u32) -> String {
+        format!("activate task manager entry {n}")
+    }
 
     pub(super) fn invoke_shortcut(component: &str, shortcut: &str) -> SystemAction {
         SystemAction::Dbus(DbusCall {
@@ -283,6 +299,10 @@ mod kde {
         }
         if let Some(n) = numbered("moveWindowToDesktop") {
             return Some(invoke_shortcut("kwin", &format!("Window to Desktop {n}")));
+        }
+        if let Some(n) = numbered("activateTaskManagerEntry") {
+            return (n <= TASK_MANAGER_ENTRIES)
+                .then(|| invoke_shortcut("plasmashell", &task_manager_entry(n)));
         }
         if let Some(n) = numbered("switchToKeyboardLayout") {
             return Some(SystemAction::Dbus(DbusCall {
@@ -402,16 +422,31 @@ mod linux_tests {
     use crate::platform::linux::Desktop;
 
     #[test]
-    fn clipboard_actions_use_dedicated_keys_on_each_desktop() {
-        use crate::mapper::key_code::KeyCode;
-        for desktop in [Desktop::Kde, Desktop::Gnome, Desktop::Sway] {
-            for (id, expected) in [("copy", KeyCode::KEY_COPY), ("paste", KeyCode::KEY_PASTE), ("cut", KeyCode::KEY_CUT)] {
-                assert!(matches!(resolve_for_desktop(id, &desktop), Some(SystemAction::ClipboardKey(key)) if key == expected));
-            }
-        }
-        for id in ["copy", "paste", "cut"] {
+    fn shortcut_actions_resolve_on_every_desktop() {
+        use super::resolve;
+        for id in crate::config::actions::SHORTCUT_SYSTEM_ACTIONS {
+            assert!(
+                matches!(resolve(id), Some(SystemAction::Edit(_) | SystemAction::Keys(_))),
+                "{id}"
+            );
             assert!(!crate::mapper::builtin_macros::BUILTIN_MACROS.iter().any(|item| item.id == id));
         }
+        let Some(SystemAction::Keys(tile)) = resolve_for_desktop("tileWindowLeft", &Desktop::Gnome)
+        else {
+            panic!("GNOME tiles with its keybinding");
+        };
+        assert_eq!(tile.mods, [crate::mapper::key_code::KeyCode::KEY_LEFTMETA]);
+        assert!(resolve_for_desktop("activateTaskManagerEntry9", &Desktop::Gnome).is_some());
+        for id in ["activateTaskManagerEntry10", "tileWindowTop", "showClipboardHistory"] {
+            assert!(resolve_for_desktop(id, &Desktop::Gnome).is_none(), "{id}");
+        }
+        let Some(SystemAction::Dbus(call)) =
+            resolve_for_desktop("activateTaskManagerEntry10", &Desktop::Kde)
+        else {
+            panic!("KDE activates task manager entries over kglobalaccel");
+        };
+        assert!(matches!(call.args.as_slice(), [DbusArg::Str(s)] if s == "activate task manager entry 10"));
+        assert!(resolve_for_desktop("activateTaskManagerEntry11", &Desktop::Kde).is_none());
     }
 
     #[test]
@@ -537,7 +572,7 @@ mod linux_tests {
             assert!(
                 matches!(
                     resolve_for_desktop(id, &Desktop::Kde),
-                    Some(SystemAction::Dbus(_) | SystemAction::ClipboardKey(_))
+                    Some(SystemAction::Dbus(_))
                 ),
                 "{id} has no KDE implementation"
             );
@@ -557,8 +592,29 @@ mod gnome {
     use super::{DbusArg, DbusCall, SystemAction};
 
     pub fn resolve(name: &str) -> Option<SystemAction> {
-        // GNOME has no "show desktop" mode.
-        if !super::is_known(name) || name == "showDesktop" {
+        // Mutter's default keybindings: the extension has no API for these.
+        let task_entry = name
+            .strip_prefix("activateTaskManagerEntry")
+            .and_then(crate::config::actions::slot_number);
+        let keys = match name {
+            "tileWindowLeft" => Some("Meta+ArrowLeft".to_owned()),
+            "tileWindowRight" => Some("Meta+ArrowRight".to_owned()),
+            _ => task_entry
+                .filter(|n| *n <= 9)
+                .map(|n| format!("Meta+Digit{n}")),
+        };
+        if let Some(keys) = keys {
+            return crate::mapper::action::parse_action(&keys).map(SystemAction::Keys);
+        }
+        // GNOME has no "show desktop" mode, top/bottom tiling or clipboard
+        // history.
+        if !super::is_known(name)
+            || task_entry.is_some()
+            || matches!(
+                name,
+                "showDesktop" | "tileWindowTop" | "tileWindowBottom" | "showClipboardHistory"
+            )
+        {
             return None;
         }
         Some(SystemAction::Dbus(DbusCall {

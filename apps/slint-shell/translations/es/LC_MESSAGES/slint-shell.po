@@ -2548,8 +2548,6 @@ msgstr "Pega con el acceso directo configurado en Wayland: control de datos en K
 msgid "Paste shortcut"
 msgstr "Pegar acceso directo"
 
-msgid "Sent to the focused app to paste the text."
-msgstr "Se envía a la aplicación activa para pegar el texto."
 
 msgid "Paste shortcut in terminals"
 msgstr "Atajo de pegado en terminales"
@@ -3808,3 +3806,54 @@ msgstr "Permisos guardados restablecidos. El sistema volverá a solicitarlos la 
 
 msgid "Open in file manager"
 msgstr "Abrir en el gestor de archivos"
+
+msgid "Move to previous word"
+msgstr "Ir a la palabra anterior"
+
+msgid "Move to next word"
+msgstr "Ir a la palabra siguiente"
+
+msgid "Select to previous word"
+msgstr "Seleccionar hasta la palabra anterior"
+
+msgid "Select to next word"
+msgstr "Seleccionar hasta la palabra siguiente"
+
+msgid "Delete previous word"
+msgstr "Eliminar la palabra anterior"
+
+msgid "Delete next word"
+msgstr "Eliminar la palabra siguiente"
+
+msgid "Move to document start"
+msgstr "Ir al inicio del documento"
+
+msgid "Move to document end"
+msgstr "Ir al final del documento"
+
+msgid "Switch windows"
+msgstr "Cambiar de ventana"
+
+msgid "Tile window left"
+msgstr "Acoplar ventana a la izquierda"
+
+msgid "Tile window right"
+msgstr "Acoplar ventana a la derecha"
+
+msgid "Tile window top"
+msgstr "Acoplar ventana arriba"
+
+msgid "Tile window bottom"
+msgstr "Acoplar ventana abajo"
+
+msgid "Show clipboard history"
+msgstr "Mostrar el historial del portapapeles"
+
+msgid "Activate task manager entry {}"
+msgstr "Activar el elemento {} del gestor de tareas"
+
+msgid "Paste key"
+msgstr "Tecla Pegar"
+
+msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
+msgstr "Se envía a la aplicación activa para pegar texto. Las acciones Copiar, Cortar y Pegar usan los atajos correspondientes. Automático: Ctrl+V, y Ctrl+Mayús+V en terminales. No todas las aplicaciones admiten la tecla Pegar."

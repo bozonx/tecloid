@@ -2,13 +2,15 @@
 //! messages to the foreground window, layouts use `WM_INPUTLANGCHANGEREQUEST`,
 //! show desktop uses the Shell's `ToggleDesktop`, lock uses
 //! `LockWorkStation`, and the remaining shell and window actions press their
-//! fixed system shortcuts (Win+Tab, Ctrl+Esc, Ctrl+Win+Arrow, …). Windows
+//! fixed system shortcuts (Win+Tab, Ctrl+Esc, Ctrl+Win+Arrow, Win+Arrow
+//! tiling, Win+N taskbar buttons, Win+V clipboard history, …). Windows
 //! has no public API to switch to virtual desktop N or to move a window to
 //! another desktop, so those ids do not resolve. Windows of elevated
 //! applications ignore all of this (UIPI) unless this app runs elevated
 //! too. Every call returns without waiting for the target.
 
 use super::super::key_code::KeyCode;
+use super::super::system::SystemAction;
 use windows::Win32::Foundation::{HWND, LPARAM, RECT, WPARAM};
 use windows::Win32::Graphics::Gdi::{
     GetMonitorInfoW, MONITOR_DEFAULTTONEAREST, MONITORINFO, MonitorFromWindow,
@@ -24,9 +26,6 @@ use windows::Win32::UI::WindowsAndMessaging::{
 pub enum WindowsAction {
     /// One-based position in the user's input language list.
     SwitchLayout(u32),
-    Copy,
-    Paste,
-    Cut,
     WindowClose,
     WindowMinimize,
     WindowMaximize,
@@ -43,17 +42,29 @@ pub enum WindowsAction {
     Lock,
 }
 
-pub fn resolve(name: &str) -> Option<WindowsAction> {
-    if let Some(n) = name
-        .strip_prefix("switchToKeyboardLayout")
-        .and_then(crate::config::actions::slot_number)
-    {
-        return Some(WindowsAction::SwitchLayout(n));
+pub fn resolve(name: &str) -> Option<SystemAction> {
+    let slot = |prefix: &str| {
+        name.strip_prefix(prefix)
+            .and_then(crate::config::actions::slot_number)
+    };
+    if let Some(n) = slot("switchToKeyboardLayout") {
+        return Some(SystemAction::Windows(WindowsAction::SwitchLayout(n)));
     }
-    Some(match name {
-        "copy" => WindowsAction::Copy,
-        "paste" => WindowsAction::Paste,
-        "cut" => WindowsAction::Cut,
+    // Fixed Windows shortcuts: Win+N opens the Nth taskbar button.
+    let keys = match name {
+        "tileWindowLeft" => Some("Meta+ArrowLeft".to_owned()),
+        "tileWindowRight" => Some("Meta+ArrowRight".to_owned()),
+        "tileWindowTop" => Some("Meta+ArrowUp".to_owned()),
+        "tileWindowBottom" => Some("Meta+ArrowDown".to_owned()),
+        "showClipboardHistory" => Some("Meta+KeyV".to_owned()),
+        _ => slot("activateTaskManagerEntry")
+            .filter(|n| *n <= 10)
+            .map(|n| format!("Meta+Digit{}", n % 10)),
+    };
+    if let Some(keys) = keys {
+        return crate::mapper::action::parse_action(&keys).map(SystemAction::Keys);
+    }
+    Some(SystemAction::Windows(match name {
         "closeWindow" => WindowsAction::WindowClose,
         "minimizeWindow" => WindowsAction::WindowMinimize,
         "maximizeWindow" => WindowsAction::WindowMaximize,
@@ -69,7 +80,7 @@ pub fn resolve(name: &str) -> Option<WindowsAction> {
         "turnOffScreen" => WindowsAction::ScreenOff,
         "lockSession" => WindowsAction::Lock,
         _ => return None,
-    })
+    }))
 }
 
 /// The foreground window when it belongs to an application, not to the
@@ -244,29 +255,6 @@ pub(super) fn run(action: WindowsAction) -> Result<(), String> {
             KeyCode::KEY_LEFT,
         ),
         WindowsAction::ShowDesktop => toggle_desktop(),
-        WindowsAction::Copy | WindowsAction::Paste | WindowsAction::Cut => {
-            use windows::Win32::UI::WindowsAndMessaging::{
-                GUITHREADINFO, GetGUIThreadInfo, GetWindowThreadProcessId,
-            };
-            let window = app_window()?;
-            let thread = unsafe { GetWindowThreadProcessId(window, None) };
-            let mut info = GUITHREADINFO {
-                cbSize: std::mem::size_of::<GUITHREADINFO>() as u32,
-                ..Default::default()
-            };
-            unsafe { GetGUIThreadInfo(thread, &mut info) }
-                .map_err(|error| format!("Focused control lookup failed: {error}"))?;
-            if info.hwndFocus.is_invalid() {
-                return Ok(());
-            }
-            let message = match action {
-                WindowsAction::Copy => 0x0301,  // WM_COPY
-                WindowsAction::Paste => 0x0302, // WM_PASTE
-                _ => 0x0300,                    // WM_CUT
-            };
-            unsafe { PostMessageW(Some(info.hwndFocus), message, WPARAM(0), LPARAM(0)) }
-                .map_err(|error| format!("Clipboard action failed: {error}"))
-        }
         WindowsAction::Lock => unsafe { windows::Win32::System::Shutdown::LockWorkStation() }
             .map_err(|error| format!("Lock failed: {error}")),
         WindowsAction::Overview => {
@@ -295,10 +283,15 @@ mod tests {
                 "{id}"
             );
         }
-        assert_eq!(
+        assert!(matches!(
             resolve("switchToKeyboardLayout3"),
-            Some(WindowsAction::SwitchLayout(3))
-        );
+            Some(SystemAction::Windows(WindowsAction::SwitchLayout(3)))
+        ));
+        assert!(matches!(
+            resolve("activateTaskManagerEntry10"),
+            Some(SystemAction::Keys(_))
+        ));
+        assert!(resolve("activateTaskManagerEntry11").is_none());
         for id in [
             "switchToKeyboardLayout0",
             "switchToKeyboardLayout11",

@@ -77,6 +77,9 @@ pub(crate) fn shortcut_layouts() -> Vec<(String, String)> {
         .clone()
 }
 
+#[cfg(target_os = "windows")]
+pub(crate) use windows::shortcut_key_for_letter;
+
 static WATCHER_STOP: AtomicBool = AtomicBool::new(false);
 static WATCHERS: Mutex<Vec<std::thread::JoinHandle<()>>> = Mutex::new(Vec::new());
 #[cfg_attr(not(target_os = "linux"), allow(dead_code))]

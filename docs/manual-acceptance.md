@@ -88,7 +88,7 @@ additional acceptance targets; an exploratory run there does not replace KDE.
   from personal keymaps.
 
 Suggested temporary assignments (create them in the editor, not by modifying
-`config.json`): F6 → `KeyB`, F7 → `builtin:selectAll`, F8 → `text:❓`,
+`config.json`): F6 → `KeyB`, F7 → `sys:selectAll`, F8 → `text:❓`,
 F9 → `text:Привет 🙂`. Also create a layer mapping J → K, a macro typing
 `one`, pausing, then typing `two`, and a command launching a harmless editor.
 Choose a spare key for the layer/tap-hold tests. macOS skips these assignments.
