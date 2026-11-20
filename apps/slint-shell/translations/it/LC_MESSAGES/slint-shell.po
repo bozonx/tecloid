@@ -3944,6 +3944,9 @@ msgstr "Riduci"
 msgid "Reset zoom"
 msgstr "Ripristina zoom"
 
+msgid "Toggle comment"
+msgstr "Commenta/decommenta"
+
 msgid "Move to line start"
 msgstr "Vai all’inizio della riga"
 

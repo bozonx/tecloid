@@ -3974,6 +3974,9 @@ msgstr "Σμίκρυνση"
 msgid "Reset zoom"
 msgstr "Επαναφορά ζουμ"
 
+msgid "Toggle comment"
+msgstr "Εναλλαγή σχολίου"
+
 msgid "Move to line start"
 msgstr "Στην αρχή της γραμμής"
 

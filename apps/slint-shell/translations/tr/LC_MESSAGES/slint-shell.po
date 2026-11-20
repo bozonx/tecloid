@@ -3887,6 +3887,9 @@ msgstr "Uzaklaştır"
 msgid "Reset zoom"
 msgstr "Yakınlaştırmayı sıfırla"
 
+msgid "Toggle comment"
+msgstr "Yorumu aç/kapat"
+
 msgid "Move to line start"
 msgstr "Satır başına git"
 

@@ -3678,6 +3678,9 @@ msgstr "縮小"
 msgid "Reset zoom"
 msgstr "ズームをリセット"
 
+msgid "Toggle comment"
+msgstr "コメントの切り替え"
+
 msgid "Move to line start"
 msgstr "行頭へ移動"
 

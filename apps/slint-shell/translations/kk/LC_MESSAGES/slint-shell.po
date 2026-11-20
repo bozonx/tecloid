@@ -3891,6 +3891,9 @@ msgstr "Кішірейту"
 msgid "Reset zoom"
 msgstr "Масштабты қалпына келтіру"
 
+msgid "Toggle comment"
+msgstr "Түсініктемені ауыстыру"
+
 msgid "Move to line start"
 msgstr "Жолдың басына"
 

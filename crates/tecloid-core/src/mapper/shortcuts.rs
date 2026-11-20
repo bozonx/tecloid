@@ -35,6 +35,7 @@ pub enum EditCommand {
     ZoomIn,
     ZoomOut,
     ZoomReset,
+    ToggleComment,
 }
 
 impl EditCommand {
@@ -57,6 +58,7 @@ impl EditCommand {
             "zoomIn" => Self::ZoomIn,
             "zoomOut" => Self::ZoomOut,
             "zoomReset" => Self::ZoomReset,
+            "toggleComment" => Self::ToggleComment,
             _ => return None,
         })
     }
@@ -79,6 +81,7 @@ impl EditCommand {
             Self::ZoomIn => &['=', '+'],
             Self::ZoomOut => &['-'],
             Self::ZoomReset => &['0'],
+            Self::ToggleComment => &['/'],
             Self::NextTab | Self::PreviousTab => &[],
         }
     }
@@ -94,10 +97,13 @@ impl EditCommand {
     fn in_terminal(self) -> InTerminal {
         match self {
             // Ctrl+Z suspends the program, Ctrl+S stops output, Ctrl+P is
-            // shell history and Ctrl+Shift+T opens a tab.
-            Self::Undo | Self::Redo | Self::Save | Self::Print | Self::ReopenClosedTab => {
-                InTerminal::Skip
-            }
+            // shell history, Ctrl+/ is readline undo and Ctrl+Shift+T opens a tab.
+            Self::Undo
+            | Self::Redo
+            | Self::Save
+            | Self::Print
+            | Self::ReopenClosedTab
+            | Self::ToggleComment => InTerminal::Skip,
             Self::Copy | Self::Cut | Self::SelectAll | Self::Find | Self::NewTab | Self::CloseTab => {
                 InTerminal::Shifted
             }
@@ -176,6 +182,7 @@ fn qwerty_key(character: char) -> K {
         '=' => K::KEY_EQUAL,
         '-' => K::KEY_MINUS,
         '0' => K::KEY_0,
+        '/' => K::KEY_SLASH,
         letter => parse_action(&format!("Key{}", letter.to_ascii_uppercase()))
             .map_or(K::KEY_RESERVED, |ks| ks.key),
     }
@@ -335,6 +342,7 @@ mod tests {
             "zoomIn",
             "zoomOut",
             "zoomReset",
+            "toggleComment",
         ] {
             assert!(EditCommand::from_id(id).is_some(), "{id}");
             assert!(crate::config::actions::system_action_name(id).is_some(), "{id}");
@@ -384,6 +392,10 @@ mod tests {
         assert_eq!(command_key(EditCommand::ZoomIn, qwertz), Some(K::KEY_RIGHTBRACE));
         assert_eq!(command_key(EditCommand::ZoomIn, unknown), Some(K::KEY_EQUAL));
         assert_eq!(command_key(EditCommand::Copy, unknown), Some(K::KEY_C));
+        // Russian borrows `/` from the Latin layout; QWERTZ has no unshifted one.
+        assert_eq!(command_key(EditCommand::ToggleComment, qwertz), Some(K::KEY_SLASH));
+        let ru = |c| (c == '/').then_some(K::KEY_SLASH);
+        assert_eq!(command_key(EditCommand::ToggleComment, ru), Some(K::KEY_SLASH));
     }
 
     #[test]
@@ -427,7 +439,7 @@ mod tests {
         assert_eq!(run(E::Redo, false, C::CtrlV), Some((ctrl_shift.clone(), K::KEY_Z)));
         assert_eq!(run(E::Undo, false, C::CtrlV), Some((ctrl.clone(), K::KEY_Z)));
         // Terminal control keys are never sent.
-        for command in [E::Undo, E::Redo, E::Save, E::Print, E::ReopenClosedTab] {
+        for command in [E::Undo, E::Redo, E::Save, E::Print, E::ReopenClosedTab, E::ToggleComment] {
             assert_eq!(run(command, true, C::CtrlShiftV), None, "{command:?}");
         }
         assert_eq!(

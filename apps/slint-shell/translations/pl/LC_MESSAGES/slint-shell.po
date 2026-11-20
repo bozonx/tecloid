@@ -3923,6 +3923,9 @@ msgstr "Pomniejsz"
 msgid "Reset zoom"
 msgstr "Resetuj powiększenie"
 
+msgid "Toggle comment"
+msgstr "Przełącz komentarz"
+
 msgid "Move to line start"
 msgstr "Na początek wiersza"
 

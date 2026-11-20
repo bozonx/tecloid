@@ -3920,6 +3920,9 @@ msgstr "Kicsinyítés"
 msgid "Reset zoom"
 msgstr "Nagyítás visszaállítása"
 
+msgid "Toggle comment"
+msgstr "Megjegyzés be/ki"
+
 msgid "Move to line start"
 msgstr "Ugrás a sor elejére"
 

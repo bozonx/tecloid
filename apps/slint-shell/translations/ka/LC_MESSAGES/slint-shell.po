@@ -3874,6 +3874,9 @@ msgstr "დაპატარავება"
 msgid "Reset zoom"
 msgstr "მასშტაბის აღდგენა"
 
+msgid "Toggle comment"
+msgstr "კომენტარის გადართვა"
+
 msgid "Move to line start"
 msgstr "ხაზის დასაწყისში"
 

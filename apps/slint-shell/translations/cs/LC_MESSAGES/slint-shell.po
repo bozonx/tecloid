@@ -3867,6 +3867,9 @@ msgstr "Oddálit"
 msgid "Reset zoom"
 msgstr "Obnovit přiblížení"
 
+msgid "Toggle comment"
+msgstr "Přepnout komentář"
+
 msgid "Move to line start"
 msgstr "Na začátek řádku"
 

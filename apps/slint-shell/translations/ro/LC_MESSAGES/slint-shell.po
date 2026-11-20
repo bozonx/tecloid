@@ -3921,6 +3921,9 @@ msgstr "Micșorare"
 msgid "Reset zoom"
 msgstr "Resetează mărirea"
 
+msgid "Toggle comment"
+msgstr "Comutați comentariul"
+
 msgid "Move to line start"
 msgstr "La începutul rândului"
 

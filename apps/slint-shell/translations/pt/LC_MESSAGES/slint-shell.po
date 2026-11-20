@@ -3896,6 +3896,9 @@ msgstr "Diminuir zoom"
 msgid "Reset zoom"
 msgstr "Repor zoom"
 
+msgid "Toggle comment"
+msgstr "Alternar comentário"
+
 msgid "Move to line start"
 msgstr "Ir para o início da linha"
 

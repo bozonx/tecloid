@@ -144,7 +144,7 @@ pub const NUMBERED_SYSTEM_ACTIONS: [&str; 4] = [
 /// window-switching chords (`mapper::shortcuts`). They act on the focused
 /// application like a key chord, so unlike desktop actions they are not an
 /// in-development feature.
-pub const SHORTCUT_SYSTEM_ACTIONS: [&str; 28] = [
+pub const SHORTCUT_SYSTEM_ACTIONS: [&str; 29] = [
     "copy",
     "cut",
     "paste",
@@ -162,6 +162,7 @@ pub const SHORTCUT_SYSTEM_ACTIONS: [&str; 28] = [
     "zoomIn",
     "zoomOut",
     "zoomReset",
+    "toggleComment",
     "moveWordLeft",
     "moveWordRight",
     "selectWordLeft",
@@ -689,7 +690,7 @@ mod tests {
 
     #[test]
     fn catalogs_preserve_builtin_action_ids() {
-        assert_eq!(system_actions().len(), 90);
+        assert_eq!(system_actions().len(), 91);
         assert_eq!(app_actions().len(), 32);
         assert_eq!(
             system_action_name("switchToDesktop10"),

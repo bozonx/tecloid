@@ -3671,6 +3671,9 @@ msgstr "축소"
 msgid "Reset zoom"
 msgstr "확대/축소 초기화"
 
+msgid "Toggle comment"
+msgstr "주석 토글"
+
 msgid "Move to line start"
 msgstr "줄 처음으로 이동"
 

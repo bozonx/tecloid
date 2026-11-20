@@ -3890,6 +3890,9 @@ msgstr "Зменшити масштаб"
 msgid "Reset zoom"
 msgstr "Скинути масштаб"
 
+msgid "Toggle comment"
+msgstr "Закоментувати/розкоментувати"
+
 msgid "Move to line start"
 msgstr "На початок рядка"
 

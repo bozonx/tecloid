@@ -3877,6 +3877,9 @@ msgstr "Smanji"
 msgid "Reset zoom"
 msgstr "Vrati zumiranje"
 
+msgid "Toggle comment"
+msgstr "Uključi/isključi komentar"
+
 msgid "Move to line start"
 msgstr "Na početak retka"
 

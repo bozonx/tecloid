@@ -272,14 +272,15 @@ diagnostics report it and the mapper does not start with it.
   physical keys. Editing commands — `copy`, `cut`, `paste`, `undo`, `redo`,
   `selectAll`, `find`, `save`, `print`, `newTab`, `closeTab`,
   `reopenClosedTab`, `nextTab`, `previousTab`, `zoomIn`, `zoomOut`,
-  `zoomReset` — are resolved when they run: the character is the key that
+  `zoomReset`, `toggleComment` (Ctrl+/, the code editors' comment
+  toggle) — are resolved when they run: the character is the key that
   types it in the active layout (on Dvorak copy is the physical `KeyI`, on
   QWERTZ undo is `KeyY`; a non-Latin layout borrows it from a Latin one),
   redo is `Ctrl+Shift+Z` on Linux and `Ctrl+Y` on Windows, tabs switch with
   Ctrl+PageDown/PageUp and zoom uses Ctrl with `=` (`+` when the layout
   has no unshifted `=`), `-` and `0`. In terminals copy, cut,
   `selectAll`, find, `newTab` and `closeTab` add Shift, while `undo`,
-  `redo`, `save`, `print` and `reopenClosedTab` do nothing (Ctrl+Z
+  `redo`, `save`, `print`, `reopenClosedTab` and `toggleComment` do nothing (Ctrl+Z
   suspends the program, Ctrl+S stops output, Ctrl+P is shell history,
   Ctrl+Shift+T opens a tab); on Windows terminals copy is Ctrl+Insert and
   tabs switch with Ctrl+Tab / Ctrl+Shift+Tab. On

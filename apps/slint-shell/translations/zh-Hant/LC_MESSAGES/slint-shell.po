@@ -3614,6 +3614,9 @@ msgstr "縮小"
 msgid "Reset zoom"
 msgstr "重設縮放"
 
+msgid "Toggle comment"
+msgstr "切換註解"
+
 msgid "Move to line start"
 msgstr "移到行首"
 

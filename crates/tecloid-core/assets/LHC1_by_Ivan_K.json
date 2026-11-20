@@ -71,7 +71,7 @@
         "KeyO": "Shift+End",
         "KeyP": "builtin:select5LinesUp",
         "BracketLeft": null,
-        "KeyA": "Ctrl+Slash",
+        "KeyA": "sys:toggleComment",
         "KeyS": "builtin:copyToLineStart",
         "KeyD": "builtin:copyToLineEnd",
         "KeyF": "builtin:selectLineText",
