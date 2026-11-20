@@ -278,6 +278,38 @@ impl Engine {
                 })
     }
 
+    /// True when the undecided layer key `key`, released at `now`, was held
+    /// together with a key its layer maps: that key is still down and went
+    /// down at least `LAYER_CHORD_OVERLAP` before this release. A quick
+    /// CapsLock+J released in the wrong order is still the layer. Only for a
+    /// tap that does not type (Ctrl+V): a typing tap (Space) rolling into the
+    /// next letter stays a tap.
+    pub(super) fn layer_chord_released_first(&self, key: KeyCode, now: Instant) -> bool {
+        /// Shorter overlaps are typing rolls.
+        const LAYER_CHORD_OVERLAP: Duration = Duration::from_millis(50);
+        let Some(pending) = self.pending.get(&key) else {
+            return false;
+        };
+        let Some(layer) = pending.rule.layer_id.as_ref() else {
+            return false;
+        };
+        matches!(pending.phase, RulePhase::WaitingDecision { .. })
+            && !pending.second_press
+            && pending.rule.tap_decision == crate::mapper::config::TapDecision::PermissiveHold
+            && !pending.rule.tap_types()
+            && self.deciding_key() == Some(key)
+            && self.decision_buffer.iter().any(|event| {
+                event.down
+                    && self.physical_down.contains(&event.key)
+                    && now.saturating_duration_since(event.at) >= LAYER_CHORD_OVERLAP
+                    && self
+                        .keymap
+                        .layer_maps
+                        .get(layer)
+                        .is_some_and(|keys| keys.contains_key(&event.key))
+            })
+    }
+
     /// True when `at` falls before the hold deadline of the undecided `key`:
     /// a press after it arrived when the key was already a hold.
     fn before_deadline(&self, key: KeyCode, at: Instant) -> bool {

@@ -337,6 +337,81 @@ fn shortcut_tap_layer_key_after_typing_still_holds_its_layer() {
     );
 }
 
+/// CapsLock+H (or Period on a Russian layout, which would type "ю") pressed
+/// quickly and released in the wrong order is still the layer, not a paste.
+#[test]
+fn shortcut_tap_layer_key_released_before_a_key_its_layer_maps_holds() {
+    use TraceEvent::*;
+    for ticks in [vec![], vec![100]] {
+        let trace = timeline(
+            paste_layer_cfg(),
+            &[
+                (KeyCode::KEY_CAPSLOCK, true, 0),
+                (KeyCode::KEY_H, true, 80),
+                (KeyCode::KEY_CAPSLOCK, false, 150),
+                (KeyCode::KEY_H, false, 170),
+            ],
+            &ticks,
+        );
+        assert_eq!(
+            trace,
+            [Press(KeyCode::KEY_LEFT, vec![]), Raw(KeyCode::KEY_LEFT, false)]
+        );
+    }
+}
+
+#[test]
+fn shortcut_tap_layer_key_rolled_into_the_next_key_still_taps() {
+    use TraceEvent::*;
+    // A short overlap is a typing roll; a key the layer leaves out is typing.
+    for (key, pressed) in [(KeyCode::KEY_H, 120), (KeyCode::KEY_1, 80)] {
+        let trace = timeline(
+            paste_layer_cfg(),
+            &[
+                (KeyCode::KEY_CAPSLOCK, true, 0),
+                (key, true, pressed),
+                (KeyCode::KEY_CAPSLOCK, false, 150),
+                (key, false, 200),
+            ],
+            &[],
+        );
+        assert_eq!(
+            trace,
+            [
+                Tap(KeyCode::KEY_V, vec![KeyCode::KEY_LEFTCTRL]),
+                Raw(key, true),
+                Raw(key, false)
+            ]
+        );
+    }
+}
+
+#[test]
+fn typing_tap_layer_key_released_first_still_types() {
+    use TraceEvent::*;
+    let trace = timeline(
+        serde_json::json!({
+            "rules": [{"key": "Space", "tapAction": "", "layerId": "nav"}],
+            "layerKeymaps": {"nav": {"keys": {"KeyH": "ArrowLeft"}}}
+        }),
+        &[
+            (KeyCode::KEY_SPACE, true, 0),
+            (KeyCode::KEY_H, true, 80),
+            (KeyCode::KEY_SPACE, false, 150),
+            (KeyCode::KEY_H, false, 170),
+        ],
+        &[],
+    );
+    assert_eq!(
+        trace,
+        [
+            Tap(KeyCode::KEY_SPACE, vec![]),
+            Raw(KeyCode::KEY_H, true),
+            Raw(KeyCode::KEY_H, false)
+        ]
+    );
+}
+
 #[test]
 fn shortcut_tap_layer_key_held_past_timeout_over_an_unmapped_key_is_a_hold() {
     use TraceEvent::*;

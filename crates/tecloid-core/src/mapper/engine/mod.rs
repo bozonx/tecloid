@@ -598,6 +598,11 @@ impl Engine {
             self.commit_hold(key, out);
             self.drain_decision_buffer(out);
         }
+        if self.layer_chord_released_first(key, now) {
+            // The buffered key replays inside the layer before it ends.
+            self.commit_hold(key, out);
+            self.drain_decision_buffer(out);
+        }
         self.long_holds.remove(&key);
         if let Some(pending) = self.pending.get(&key).cloned() {
             match pending.phase {
