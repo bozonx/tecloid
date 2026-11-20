@@ -24,6 +24,9 @@ use windows::Win32::UI::WindowsAndMessaging::{
 pub enum WindowsAction {
     /// One-based position in the user's input language list.
     SwitchLayout(u32),
+    Copy,
+    Paste,
+    Cut,
     WindowClose,
     WindowMinimize,
     WindowMaximize,
@@ -48,6 +51,9 @@ pub fn resolve(name: &str) -> Option<WindowsAction> {
         return Some(WindowsAction::SwitchLayout(n));
     }
     Some(match name {
+        "copy" => WindowsAction::Copy,
+        "paste" => WindowsAction::Paste,
+        "cut" => WindowsAction::Cut,
         "closeWindow" => WindowsAction::WindowClose,
         "minimizeWindow" => WindowsAction::WindowMinimize,
         "maximizeWindow" => WindowsAction::WindowMaximize,
@@ -238,6 +244,29 @@ pub(super) fn run(action: WindowsAction) -> Result<(), String> {
             KeyCode::KEY_LEFT,
         ),
         WindowsAction::ShowDesktop => toggle_desktop(),
+        WindowsAction::Copy | WindowsAction::Paste | WindowsAction::Cut => {
+            use windows::Win32::UI::WindowsAndMessaging::{
+                GUITHREADINFO, GetGUIThreadInfo, GetWindowThreadProcessId,
+            };
+            let window = app_window()?;
+            let thread = unsafe { GetWindowThreadProcessId(window, None) };
+            let mut info = GUITHREADINFO {
+                cbSize: std::mem::size_of::<GUITHREADINFO>() as u32,
+                ..Default::default()
+            };
+            unsafe { GetGUIThreadInfo(thread, &mut info) }
+                .map_err(|error| format!("Focused control lookup failed: {error}"))?;
+            if info.hwndFocus.is_invalid() {
+                return Ok(());
+            }
+            let message = match action {
+                WindowsAction::Copy => 0x0301,  // WM_COPY
+                WindowsAction::Paste => 0x0302, // WM_PASTE
+                _ => 0x0300,                    // WM_CUT
+            };
+            unsafe { PostMessageW(Some(info.hwndFocus), message, WPARAM(0), LPARAM(0)) }
+                .map_err(|error| format!("Clipboard action failed: {error}"))
+        }
         WindowsAction::Lock => unsafe { windows::Win32::System::Shutdown::LockWorkStation() }
             .map_err(|error| format!("Lock failed: {error}")),
         WindowsAction::Overview => {

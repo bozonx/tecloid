@@ -34,12 +34,10 @@ action app:showQuickMenuRecent
 action app:showSettings
 action app:toggleGameMode
 action builtin:closeTab
-action builtin:copy
 action builtin:copyLineText
 action builtin:copyToLineEnd
 action builtin:copyToLineStart
 action builtin:copyWord
-action builtin:cut
 action builtin:cutLine
 action builtin:cutLineText
 action builtin:cutToLineEnd
@@ -57,7 +55,6 @@ action builtin:insertEmptyLineAbove
 action builtin:insertEmptyLineBelow
 action builtin:insertSpaceAfterNextChar
 action builtin:newTab
-action builtin:paste
 action builtin:pasteOnNewLineAbove
 action builtin:pasteOnNewLineBelow
 action builtin:redo
@@ -73,6 +70,8 @@ action builtin:selectLineText
 action builtin:selectWord
 action builtin:undo
 action sys:closeWindow
+action sys:copy
+action sys:cut
 action sys:keepWindowAbove
 action sys:lockSession
 action sys:maximizeWindow
@@ -93,6 +92,7 @@ action sys:moveWindowToNextDesktop
 action sys:moveWindowToNextScreen
 action sys:moveWindowToPreviousDesktop
 action sys:moveWindowToPreviousScreen
+action sys:paste
 action sys:showAppLauncher
 action sys:showDesktop
 action sys:showOverview

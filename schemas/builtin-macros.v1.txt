@@ -1,10 +1,8 @@
 closeTab: Ctrl+KeyW
-copy: Ctrl+KeyC
 copyLineText: Home | Shift+End | Ctrl+KeyC | Home
 copyToLineEnd: Shift+End | Ctrl+KeyC | End
 copyToLineStart: Shift+Home | Ctrl+KeyC | Home
 copyWord: Ctrl+ArrowRight | Ctrl+Shift+ArrowLeft | Ctrl+KeyC | ArrowLeft
-cut: Ctrl+KeyX
 cutLine: Home | Shift+End | Ctrl+KeyX | Delete
 cutLineText: Home | Shift+End | Ctrl+KeyX
 cutToLineEnd: Shift+End | Ctrl+KeyX
@@ -22,7 +20,6 @@ insertEmptyLineAbove: Home | Enter | ArrowUp
 insertEmptyLineBelow: End | Enter
 insertSpaceAfterNextChar: ArrowRight | Space
 newTab: Ctrl+KeyT
-paste: Ctrl+KeyV
 pasteOnNewLineAbove: Home | Enter | ArrowUp | Ctrl+KeyV
 pasteOnNewLineBelow: End | Enter | Ctrl+KeyV
 redo: Ctrl+Shift+KeyZ

@@ -190,21 +190,6 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     },
     // editing commands; letter keys follow the active layout at playback
     BuiltinMacro {
-        id: "copy",
-        name: "Copy",
-        steps: &["Ctrl+KeyC"],
-    },
-    BuiltinMacro {
-        id: "cut",
-        name: "Cut",
-        steps: &["Ctrl+KeyX"],
-    },
-    BuiltinMacro {
-        id: "paste",
-        name: "Paste",
-        steps: &["Ctrl+KeyV"],
-    },
-    BuiltinMacro {
         id: "undo",
         name: "Undo",
         steps: &["Ctrl+KeyZ"],

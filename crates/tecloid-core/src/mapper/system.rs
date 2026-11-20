@@ -4,7 +4,7 @@
 //! DE by dispatching through `crate::platform::linux::detect()`.
 //!
 //! ```text
-//! Only actions a key cannot express live here: switch to desktop / layout N,
+//! Portable clipboard operations and actions without a portable key live here: switch to desktop / layout N,
 //! move window to desktop N, and window/shell actions that at least two
 //! platforms document (close, minimize, maximize, keep above, next/previous
 //! desktop, next screen, show desktop, overview, application launcher,
@@ -74,6 +74,8 @@ impl DbusCall {
 /// Resolved system-function.
 #[derive(Clone, Debug)]
 pub enum SystemAction {
+    #[cfg(target_os = "linux")]
+    ClipboardKey(super::key_code::KeyCode),
     #[cfg(target_os = "linux")]
     Dbus(DbusCall),
     #[cfg(target_os = "linux")]
@@ -209,6 +211,16 @@ fn resolve_for_desktop(
         return None;
     }
 
+    use super::key_code::KeyCode;
+    let key = match name {
+        "copy" => Some(KeyCode::KEY_COPY),
+        "paste" => Some(KeyCode::KEY_PASTE),
+        "cut" => Some(KeyCode::KEY_CUT),
+        _ => None,
+    };
+    if let Some(key) = key {
+        return Some(SystemAction::ClipboardKey(key));
+    }
     use crate::platform::linux::Desktop;
     match desktop {
         Desktop::Kde => kde::resolve(name),
@@ -390,6 +402,19 @@ mod linux_tests {
     use crate::platform::linux::Desktop;
 
     #[test]
+    fn clipboard_actions_use_dedicated_keys_on_each_desktop() {
+        use crate::mapper::key_code::KeyCode;
+        for desktop in [Desktop::Kde, Desktop::Gnome, Desktop::Sway] {
+            for (id, expected) in [("copy", KeyCode::KEY_COPY), ("paste", KeyCode::KEY_PASTE), ("cut", KeyCode::KEY_CUT)] {
+                assert!(matches!(resolve_for_desktop(id, &desktop), Some(SystemAction::ClipboardKey(key)) if key == expected));
+            }
+        }
+        for id in ["copy", "paste", "cut"] {
+            assert!(!crate::mapper::builtin_macros::BUILTIN_MACROS.iter().any(|item| item.id == id));
+        }
+    }
+
+    #[test]
     fn known_ids_match_the_kde_catalog() {
         for prefix in [
             "switchToDesktop",
@@ -512,7 +537,7 @@ mod linux_tests {
             assert!(
                 matches!(
                     resolve_for_desktop(id, &Desktop::Kde),
-                    Some(SystemAction::Dbus(_))
+                    Some(SystemAction::Dbus(_) | SystemAction::ClipboardKey(_))
                 ),
                 "{id} has no KDE implementation"
             );

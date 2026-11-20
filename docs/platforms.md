@@ -95,8 +95,12 @@ Clipboard paste uses Wayland data-control (`ext_data_control_manager_v1` or
 - the paste shortcut must match the destination (`pasteShortcut`,
   `terminalPasteShortcut` by window class; embedded terminals cannot be detected).
 
-Built-in copy/cut/paste macros use the layout positions of C/V/X and the chosen
-paste shortcut; user `Ctrl+KeyC` chords stay physical. Settings → reset text
+`sys:copy`, `sys:paste`, and `sys:cut` emit dedicated clipboard keys on Linux,
+without falling back to Ctrl+C/V/X. Applications that do not support those keys
+may ignore them. On Windows these actions post WM_COPY/WM_PASTE/WM_CUT to the
+focused control; support depends on the application. macOS has no mapper yet.
+The former `builtin:copy`, `builtin:paste`, and `builtin:cut` ids are removed;
+keymaps must replace them manually. User `Ctrl+KeyC` chords stay physical. Settings → reset text
 input permissions clears portal tokens.
 
 ## Windows

@@ -138,12 +138,16 @@ pub const NUMBERED_SYSTEM_ACTIONS: [&str; 3] = [
     "moveWindowToDesktop",
 ];
 
-/// System actions without a number. Each runs on at least two platforms;
+/// System actions without a number. Clipboard operations depend on application
+/// support for dedicated keys (Linux) or control messages (Windows).
 /// on Windows `moveWindowToNextDesktop` and `moveWindowToPreviousDesktop`
 /// do not, since like `moveWindowToDesktopN` there is no public API to move
 /// another app's window between virtual desktops, and on GNOME
 /// `showDesktop` has no counterpart. See [`unsupported_on_macos`] for macOS.
-pub const PLAIN_SYSTEM_ACTIONS: [&str; 16] = [
+pub const PLAIN_SYSTEM_ACTIONS: [&str; 19] = [
+    "copy",
+    "paste",
+    "cut",
     "closeWindow",
     "minimizeWindow",
     "maximizeWindow",
@@ -630,7 +634,7 @@ mod tests {
 
     #[test]
     fn catalogs_preserve_builtin_action_ids() {
-        assert_eq!(system_actions().len(), 46);
+        assert_eq!(system_actions().len(), 49);
         assert_eq!(app_actions().len(), 32);
         assert_eq!(
             system_action_name("switchToDesktop10"),
