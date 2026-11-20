@@ -136,7 +136,7 @@ impl MacroRunner {
                                     }
                                 }
                                 MacroStepItem::System(action) => {
-                                    out.push(EngineOutput::RunSystem(action.clone()));
+                                    out.push(virt.system_output(action.clone(), am.mod_delay));
                                     am.steps_emitted += 1;
                                     am.current_step += 1;
                                     if am.current_step < am.steps.len() {

@@ -276,10 +276,13 @@ diagnostics report it and the mapper does not start with it.
   types it in the active layout (on Dvorak copy is the physical `KeyI`, on
   QWERTZ undo is `KeyY`; a non-Latin layout borrows it from a Latin one),
   redo is `Ctrl+Shift+Z` on Linux and `Ctrl+Y` on Windows, tabs switch with
-  Ctrl+PageDown/PageUp and zoom uses Ctrl with `=`, `-` and `0`. In Linux
-  terminals copy, cut, `selectAll`, find and the tab commands add Shift,
-  while `undo`, `redo`, `save` and `reopenClosedTab` do nothing (Ctrl+Z
-  suspends the program, Ctrl+S stops output, Ctrl+Shift+T opens a tab). On
+  Ctrl+PageDown/PageUp and zoom uses Ctrl with `=` (`+` when the layout
+  has no unshifted `=`), `-` and `0`. In terminals copy, cut,
+  `selectAll`, find, `newTab` and `closeTab` add Shift, while `undo`,
+  `redo`, `save`, `print` and `reopenClosedTab` do nothing (Ctrl+Z
+  suspends the program, Ctrl+S stops output, Ctrl+P is shell history,
+  Ctrl+Shift+T opens a tab); on Windows terminals copy is Ctrl+Insert and
+  tabs switch with Ctrl+Tab / Ctrl+Shift+Tab. On
   Linux `paste` sends `linux.pasteShortcut` / `terminalPasteShortcut`
   exactly as chosen (`auto`: Ctrl+V, Ctrl+Shift+V in terminals); copy and
   cut do not depend on it. Text and window chords:

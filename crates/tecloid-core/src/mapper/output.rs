@@ -108,6 +108,7 @@ impl OutputHold {
                     | EngineOutput::RunCommand(_)
                     | EngineOutput::RunMacroCommand(_, _)
                     | EngineOutput::RunSystem(_)
+                    | EngineOutput::EditShortcut { .. }
             )
         };
         self.held.retain(key_transition);
@@ -404,6 +405,7 @@ fn trace_output(out: &EngineOutput) -> String {
         EngineOutput::ChordRelease { key, mods, .. } => format!("release {key:?} mods {mods:?}"),
         EngineOutput::ReleaseMods(mods) => format!("release mods {mods:?}"),
         EngineOutput::RunSystem(_) => "system action".into(),
+        EngineOutput::EditShortcut { command, .. } => format!("shortcut {command:?}"),
         EngineOutput::RunCommand(_) | EngineOutput::RunMacroCommand(_, _) => "command".into(),
         // Only the length: typed text may be private.
         EngineOutput::Literal(text) | EngineOutput::RunMacroText(text, _) => {
@@ -706,26 +708,27 @@ pub(super) fn flush_out_with<S: EventSink, E: SideEffects>(
             }
             EngineOutput::RunSystem(action) => {
                 flush_events(sink, &mut events)?;
-                let ks = match &action {
-                    SystemAction::Edit(command) => {
-                        let ks = super::shortcuts::edit_keystroke(*command);
-                        if ks.is_none() {
-                            // No safe shortcut in the focused window.
-                            continue;
-                        }
-                        ks
-                    }
-                    SystemAction::Keys(ks) => Some(ks.clone()),
-                    _ => None,
-                };
-                if let Some(ks) = ks {
-                    emit_stroke_tap(sink, effects, &ks, std::time::Duration::ZERO)?;
-                    if matches!(action, SystemAction::Edit(super::shortcuts::EditCommand::Copy)) {
-                        crate::events::emit(crate::events::CoreEvent::CopyCommandSent);
-                    }
+                if let SystemAction::Keys(ks) = &action {
+                    emit_stroke_tap(sink, effects, ks, Duration::ZERO)?;
                     continue;
                 }
                 effects.run_system(&action);
+            }
+            EngineOutput::EditShortcut {
+                command,
+                held,
+                mod_delay,
+            } => {
+                flush_events(sink, &mut events)?;
+                // `None`: no safe shortcut in the focused window.
+                let Some(mut ks) = super::shortcuts::edit_keystroke(command) else {
+                    continue;
+                };
+                ks.mods.retain(|m| !held.contains(m));
+                emit_stroke_tap(sink, effects, &ks, mod_delay)?;
+                if command == super::shortcuts::EditCommand::Copy {
+                    crate::events::emit(crate::events::CoreEvent::CopyCommandSent);
+                }
             }
             EngineOutput::RunCommand(command) => {
                 flush_events(sink, &mut events)?;

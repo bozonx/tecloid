@@ -225,9 +225,28 @@ pub(crate) fn key_for_char(ch: char) -> Option<(u16, Vec<u16>)> {
 /// shortcut: in the active layout, or in another configured layout when the
 /// active one has no such letter (Qt and GTK borrow Ctrl+C from the Latin
 /// layout on Cyrillic). `None` when the layout is unknown.
+/// Cached: compiling an XKB keymap reads files, and the mapper asks on
+/// every standard shortcut it sends.
 pub(crate) fn shortcut_key_for_letter(character: char) -> Option<u16> {
+    type Cache = Mutex<HashMap<(Vec<(String, String)>, String, String, u32, char), Option<u16>>>;
+    static CACHE: OnceLock<Cache> = OnceLock::new();
     let layout = crate::runtime_state::keyboard_layout()?;
     let layouts = crate::keyboard_layout::shortcut_layouts();
+    let cache_key = (
+        layouts.clone(),
+        layout.code.clone(),
+        layout.variant.clone(),
+        layout.index,
+        character,
+    );
+    let cache = CACHE.get_or_init(Default::default);
+    if let Some(key) = cache
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .get(&cache_key)
+    {
+        return *key;
+    }
     let group = layout.index as usize;
     let key = if layouts
         .get(group)
@@ -241,7 +260,14 @@ pub(crate) fn shortcut_key_for_letter(character: char) -> Option<u16> {
     } else {
         shortcut_key_from_names(&[(&layout.code, &layout.variant)], 0, "", character)
     };
-    key.and_then(|key| u16::try_from(key).ok())
+    let key = key.and_then(|key| u16::try_from(key).ok());
+    let mut cache = cache.lock().unwrap_or_else(|e| e.into_inner());
+    // Layout sets change rarely; the bound only guards against growth.
+    if cache.len() >= 256 {
+        cache.clear();
+    }
+    cache.insert(cache_key, key);
+    key
 }
 
 /// Whether the focused window is a terminal, and the clipboard shortcuts

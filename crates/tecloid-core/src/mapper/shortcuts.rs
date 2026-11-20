@@ -61,33 +61,65 @@ impl EditCommand {
         })
     }
 
-    /// Character of the Ctrl shortcut on Linux, looked up in the active
-    /// layout; `None` for shortcuts on non-character keys.
-    fn character(self) -> Option<char> {
-        Some(match self {
-            Self::Copy => 'c',
-            Self::Cut => 'x',
-            Self::Paste => 'v',
-            Self::Undo | Self::Redo => 'z',
-            Self::SelectAll => 'a',
-            Self::Find => 'f',
-            Self::Save => 's',
-            Self::Print => 'p',
-            Self::NewTab | Self::ReopenClosedTab => 't',
-            Self::CloseTab => 'w',
-            Self::ZoomIn => '=',
-            Self::ZoomOut => '-',
-            Self::ZoomReset => '0',
-            Self::NextTab | Self::PreviousTab => return None,
-        })
+    /// Characters of the Ctrl shortcut, looked up in the active layout in
+    /// this order (Ctrl+= or Ctrl++ zooms in: QWERTZ has no unshifted `=`);
+    /// the first is the US QWERTY fallback. Empty for non-character keys.
+    fn characters(self) -> &'static [char] {
+        match self {
+            Self::Copy => &['c'],
+            Self::Cut => &['x'],
+            Self::Paste => &['v'],
+            Self::Undo | Self::Redo => &['z'],
+            Self::SelectAll => &['a'],
+            Self::Find => &['f'],
+            Self::Save => &['s'],
+            Self::Print => &['p'],
+            Self::NewTab | Self::ReopenClosedTab => &['t'],
+            Self::CloseTab => &['w'],
+            Self::ZoomIn => &['=', '+'],
+            Self::ZoomOut => &['-'],
+            Self::ZoomReset => &['0'],
+            Self::NextTab | Self::PreviousTab => &[],
+        }
     }
 
     /// Whether the keys differ in terminal windows, so the focused window
     /// has to be looked up.
-    #[cfg(target_os = "linux")]
     fn depends_on_terminal(self) -> bool {
-        !matches!(self, Self::Print | Self::ZoomIn | Self::ZoomOut | Self::ZoomReset)
+        !matches!(self, Self::ZoomIn | Self::ZoomOut | Self::ZoomReset)
     }
+
+    /// How the command is sent to a terminal emulator, where Ctrl+letter
+    /// is a control character for the program running in it.
+    fn in_terminal(self) -> InTerminal {
+        match self {
+            // Ctrl+Z suspends the program, Ctrl+S stops output, Ctrl+P is
+            // shell history and Ctrl+Shift+T opens a tab.
+            Self::Undo | Self::Redo | Self::Save | Self::Print | Self::ReopenClosedTab => {
+                InTerminal::Skip
+            }
+            Self::Copy | Self::Cut | Self::SelectAll | Self::Find | Self::NewTab | Self::CloseTab => {
+                InTerminal::Shifted
+            }
+            // Ctrl+PageDown/PageUp switch tabs there too (with Shift they
+            // move the tab); paste follows its own setting on Linux.
+            Self::Paste
+            | Self::NextTab
+            | Self::PreviousTab
+            | Self::ZoomIn
+            | Self::ZoomOut
+            | Self::ZoomReset => InTerminal::Same,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum InTerminal {
+    /// Ctrl+Shift instead of Ctrl.
+    Shifted,
+    Same,
+    /// No safe shortcut: nothing is sent.
+    Skip,
 }
 
 /// Chord of a `sys:` id that is the same standard shortcut in every
@@ -122,17 +154,18 @@ pub fn edit_keystroke(command: EditCommand) -> Option<Keystroke> {
             (false, crate::config::model::ClipboardKeys::CtrlV)
         };
         linux_keystroke(command, terminal, clipboard, |character| {
-            crate::text_input::portal::shortcut_key_for_letter(character)
-                .map(K::new)
-                .unwrap_or_else(|| qwerty_key(character))
+            crate::text_input::portal::shortcut_key_for_letter(character).map(K::new)
         })
     }
     #[cfg(target_os = "windows")]
     {
-        Some(windows_keystroke(command, |character| {
-            crate::keyboard_layout::shortcut_key_for_letter(character)
-                .unwrap_or_else(|| qwerty_key(character))
-        }))
+        let terminal =
+            command.depends_on_terminal() && crate::active_window::focused_is_terminal();
+        windows_keystroke(
+            command,
+            terminal,
+            crate::keyboard_layout::shortcut_key_for_letter,
+        )
     }
 }
 
@@ -146,6 +179,20 @@ fn qwerty_key(character: char) -> K {
         letter => parse_action(&format!("Key{}", letter.to_ascii_uppercase()))
             .map_or(K::KEY_RESERVED, |ks| ks.key),
     }
+}
+
+/// Key of `characters` in the active layout (`lookup`), or the QWERTY key
+/// of the first one.
+fn layout_key(characters: &[char], lookup: impl Fn(char) -> Option<K>) -> Option<K> {
+    characters
+        .iter()
+        .find_map(|c| lookup(*c))
+        .or_else(|| characters.first().map(|c| qwerty_key(*c)))
+}
+
+/// The main key of `command`'s Ctrl shortcut.
+fn command_key(command: EditCommand, lookup: impl Fn(char) -> Option<K>) -> Option<K> {
+    layout_key(command.characters(), lookup).or_else(|| tab_key(command))
 }
 
 fn ctrl(key: K, shift: bool) -> Keystroke {
@@ -165,24 +212,30 @@ fn tab_key(command: EditCommand) -> Option<K> {
     }
 }
 
+/// Ctrl shortcut of `command` in a terminal window.
+fn terminal_ctrl(command: EditCommand, key: K) -> Option<Keystroke> {
+    match command.in_terminal() {
+        InTerminal::Shifted => Some(ctrl(key, true)),
+        InTerminal::Same => Some(ctrl(key, false)),
+        InTerminal::Skip => None,
+    }
+}
+
 /// `clipboard` is the paste setting resolved for the focused window; only
 /// paste follows it, copy and cut always use the standard shortcut.
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", test))]
 fn linux_keystroke(
     command: EditCommand,
     terminal: bool,
     clipboard: crate::config::model::ClipboardKeys,
-    character: impl Fn(char) -> K,
+    lookup: impl Fn(char) -> Option<K>,
 ) -> Option<Keystroke> {
     use crate::config::model::ClipboardKeys as C;
     use EditCommand as E;
-    let key = command
-        .character()
-        .map(&character)
-        .or_else(|| tab_key(command))?;
-    Some(match command {
+    let key = command_key(command, lookup)?;
+    if command == E::Paste {
         // An explicit paste setting is sent exactly as chosen.
-        E::Paste => match clipboard {
+        return Some(match clipboard {
             C::PasteKey => Keystroke {
                 mods: Vec::new(),
                 key: K::KEY_PASTE,
@@ -193,35 +246,41 @@ fn linux_keystroke(
             },
             C::CtrlV => ctrl(key, false),
             C::CtrlShiftV => ctrl(key, true),
-        },
-        // Ctrl+Z suspends the program, Ctrl+S stops terminal output, and
-        // Ctrl+Shift+T is the terminal's new tab: no safe shortcut there.
-        E::Undo | E::Redo | E::Save | E::ReopenClosedTab if terminal => return None,
-        E::Copy
-        | E::Cut
-        | E::SelectAll
-        | E::Find
-        | E::NewTab
-        | E::CloseTab
-        | E::NextTab
-        | E::PreviousTab => ctrl(key, terminal),
-        E::Redo | E::ReopenClosedTab => ctrl(key, true),
-        E::Undo | E::Save | E::Print | E::ZoomIn | E::ZoomOut | E::ZoomReset => {
-            ctrl(key, false)
-        }
-    })
+        });
+    }
+    if terminal {
+        return terminal_ctrl(command, key);
+    }
+    Some(ctrl(key, matches!(command, E::Redo | E::ReopenClosedTab)))
 }
 
+/// Windows Terminal and the console host copy with Ctrl+Insert (Ctrl+C
+/// without a selection interrupts the program) and switch tabs with
+/// Ctrl+Tab; redo is Ctrl+Y elsewhere.
 #[cfg(any(target_os = "windows", test))]
-fn windows_keystroke(command: EditCommand, character: impl Fn(char) -> K) -> Keystroke {
-    let key = match command {
-        EditCommand::Redo => character('y'),
-        command => match command.character() {
-            Some(c) => character(c),
-            None => tab_key(command).unwrap_or(K::KEY_RESERVED),
-        },
+fn windows_keystroke(
+    command: EditCommand,
+    terminal: bool,
+    lookup: impl Fn(char) -> Option<K>,
+) -> Option<Keystroke> {
+    use EditCommand as E;
+    if terminal {
+        return match command {
+            E::Copy => Some(Keystroke {
+                mods: vec![K::KEY_LEFTCTRL],
+                key: K::KEY_INSERT,
+            }),
+            E::NextTab => Some(ctrl(K::KEY_TAB, false)),
+            E::PreviousTab => Some(ctrl(K::KEY_TAB, true)),
+            command => terminal_ctrl(command, command_key(command, lookup)?),
+        };
+    }
+    let key = if command == E::Redo {
+        layout_key(&['y'], lookup)?
+    } else {
+        command_key(command, lookup)?
     };
-    ctrl(key, command == EditCommand::ReopenClosedTab)
+    Some(ctrl(key, command == E::ReopenClosedTab))
 }
 
 #[cfg(test)]
@@ -282,38 +341,61 @@ mod tests {
         }
     }
 
-    #[test]
-    fn windows_redo_is_ctrl_y_in_the_layout() {
-        let dvorak = |c| match c {
-            'y' => K::KEY_T,
-            _ => qwerty_key(c),
-        };
-        let redo = windows_keystroke(EditCommand::Redo, dvorak);
-        assert_eq!(chord(&redo), (vec![K::KEY_LEFTCTRL], K::KEY_T));
-        let copy = windows_keystroke(EditCommand::Copy, qwerty_key);
-        assert_eq!(chord(&copy), (vec![K::KEY_LEFTCTRL], K::KEY_C));
-        let next = windows_keystroke(EditCommand::NextTab, qwerty_key);
-        assert_eq!(chord(&next), (vec![K::KEY_LEFTCTRL], K::KEY_PAGEDOWN));
-        let reopen = windows_keystroke(EditCommand::ReopenClosedTab, qwerty_key);
-        assert_eq!(
-            chord(&reopen),
-            (vec![K::KEY_LEFTCTRL, K::KEY_LEFTSHIFT], K::KEY_T)
-        );
-        let zoom = windows_keystroke(EditCommand::ZoomIn, qwerty_key);
-        assert_eq!(chord(&zoom), (vec![K::KEY_LEFTCTRL], K::KEY_EQUAL));
+    fn qwerty(c: char) -> Option<K> {
+        Some(qwerty_key(c))
     }
 
-    #[cfg(target_os = "linux")]
+    #[test]
+    fn windows_commands_follow_layout_and_terminals() {
+        use EditCommand as E;
+        let dvorak = |c| match c {
+            'y' => Some(K::KEY_T),
+            _ => qwerty(c),
+        };
+        let run = |command, terminal| windows_keystroke(command, terminal, qwerty).map(|ks| chord(&ks));
+        let ctrl = vec![K::KEY_LEFTCTRL];
+        let ctrl_shift = vec![K::KEY_LEFTCTRL, K::KEY_LEFTSHIFT];
+        let redo = windows_keystroke(E::Redo, false, dvorak).unwrap();
+        assert_eq!(chord(&redo), (ctrl.clone(), K::KEY_T));
+        assert_eq!(run(E::Copy, false), Some((ctrl.clone(), K::KEY_C)));
+        assert_eq!(run(E::NextTab, false), Some((ctrl.clone(), K::KEY_PAGEDOWN)));
+        assert_eq!(run(E::ReopenClosedTab, false), Some((ctrl_shift.clone(), K::KEY_T)));
+        assert_eq!(run(E::ZoomIn, false), Some((ctrl.clone(), K::KEY_EQUAL)));
+        // Terminals: Ctrl+C would interrupt the program.
+        assert_eq!(run(E::Copy, true), Some((ctrl.clone(), K::KEY_INSERT)));
+        assert_eq!(run(E::Paste, true), Some((ctrl.clone(), K::KEY_V)));
+        assert_eq!(run(E::Find, true), Some((ctrl_shift.clone(), K::KEY_F)));
+        assert_eq!(run(E::NextTab, true), Some((ctrl.clone(), K::KEY_TAB)));
+        assert_eq!(run(E::PreviousTab, true), Some((ctrl_shift, K::KEY_TAB)));
+        for command in [E::Undo, E::Redo, E::Save, E::Print, E::ReopenClosedTab] {
+            assert_eq!(run(command, true), None, "{command:?}");
+        }
+    }
+
+    #[test]
+    fn zoom_in_falls_back_to_plus_without_an_unshifted_equal_sign() {
+        // QWERTZ: `=` needs Shift, `+` is the key right of `ü`.
+        let qwertz = |c| match c {
+            '=' => None,
+            '+' => Some(K::KEY_RIGHTBRACE),
+            _ => qwerty(c),
+        };
+        let unknown = |_| None;
+        assert_eq!(command_key(EditCommand::ZoomIn, qwertz), Some(K::KEY_RIGHTBRACE));
+        assert_eq!(command_key(EditCommand::ZoomIn, unknown), Some(K::KEY_EQUAL));
+        assert_eq!(command_key(EditCommand::Copy, unknown), Some(K::KEY_C));
+    }
+
     #[test]
     fn linux_commands_follow_terminal_layout_and_paste_setting() {
         use crate::config::model::ClipboardKeys as C;
         use EditCommand as E;
         let dvorak = |c| match c {
-            'c' => K::KEY_I,
-            'v' => K::KEY_DOT,
-            'f' => K::KEY_Y,
-            '=' => K::KEY_RIGHTBRACE,
-            _ => qwerty_key(c),
+            'c' => Some(K::KEY_I),
+            'v' => Some(K::KEY_DOT),
+            'f' => Some(K::KEY_Y),
+            '=' => Some(K::KEY_RIGHTBRACE),
+            _ => qwerty(c),
         };
         let run = |command, terminal, clipboard| {
             linux_keystroke(command, terminal, clipboard, dvorak).map(|ks| chord(&ks))
@@ -345,16 +427,17 @@ mod tests {
         assert_eq!(run(E::Redo, false, C::CtrlV), Some((ctrl_shift.clone(), K::KEY_Z)));
         assert_eq!(run(E::Undo, false, C::CtrlV), Some((ctrl.clone(), K::KEY_Z)));
         // Terminal control keys are never sent.
-        for command in [E::Undo, E::Redo, E::Save, E::ReopenClosedTab] {
+        for command in [E::Undo, E::Redo, E::Save, E::Print, E::ReopenClosedTab] {
             assert_eq!(run(command, true, C::CtrlShiftV), None, "{command:?}");
         }
         assert_eq!(
             run(E::SelectAll, true, C::CtrlShiftV),
             Some((ctrl_shift.clone(), K::KEY_A))
         );
+        // With Shift, terminals move the tab instead of switching to it.
         assert_eq!(
             run(E::NextTab, true, C::CtrlShiftV),
-            Some((ctrl_shift.clone(), K::KEY_PAGEDOWN))
+            Some((ctrl.clone(), K::KEY_PAGEDOWN))
         );
         assert_eq!(
             run(E::PreviousTab, false, C::CtrlV),

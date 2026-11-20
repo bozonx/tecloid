@@ -82,7 +82,7 @@
         "KeyL": "Shift+ArrowRight",
         "Semicolon": "builtin:selectWord",
         "Quote": null,
-        "KeyZ": null,
+        "KeyZ": "sys:redo",
         "KeyX": "builtin:replaceToLineStartWithClipboard",
         "KeyC": "builtin:replaceToLineEndWithClipboard",
         "KeyV": "builtin:replaceLineTextWithClipboard",

@@ -23,7 +23,7 @@ mod gnome;
 mod kwin;
 #[cfg(target_os = "linux")]
 mod linux;
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", target_os = "windows"))]
 mod terminal;
 #[cfg(target_os = "linux")]
 mod wlr;
@@ -312,6 +312,13 @@ fn stop_events() {
     linux::stop_events();
     #[cfg(target_os = "windows")]
     crate::platform::windows::stop_focus_events();
+}
+
+/// Whether the foreground window is a terminal emulator or console.
+#[cfg(target_os = "windows")]
+pub(crate) fn focused_is_terminal() -> bool {
+    crate::platform::windows::active_window(false)
+        .is_some_and(|window| terminal::is_terminal(&window))
 }
 
 fn detect_active_window() -> Option<ActiveWindow> {

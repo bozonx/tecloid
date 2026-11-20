@@ -541,7 +541,7 @@ impl Engine {
                         self.virt.oneshot.insert(key);
                     }
                     CompiledAction::System(action) => {
-                        out.push(EngineOutput::RunSystem(action));
+                        out.push(self.virt.system_output(action, self.keymap.default_mod_delay));
                         self.virt.oneshot.insert(key);
                     }
                     CompiledAction::Command(command) => {
@@ -939,7 +939,7 @@ impl Engine {
             Some(CompiledAction::Literal(text)) => out.push(EngineOutput::Literal(text.clone())),
             Some(CompiledAction::Macro(md)) => self.runner.run(md.clone(), now),
             Some(CompiledAction::System(action)) => {
-                out.push(EngineOutput::RunSystem(action.clone()))
+                out.push(self.virt.system_output(action.clone(), mod_delay))
             }
             Some(CompiledAction::Command(command)) => {
                 out.push(EngineOutput::RunCommand(command.clone()))

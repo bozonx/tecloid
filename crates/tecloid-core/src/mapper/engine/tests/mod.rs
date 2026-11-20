@@ -258,7 +258,9 @@ fn timeline(
             EngineOutput::ChordRelease { key, mods, .. } => TraceEvent::Release(key, mods),
             EngineOutput::ReleaseMods(mods) => TraceEvent::ReleaseMods(mods),
             EngineOutput::Literal(text) | EngineOutput::RunMacroText(text, _) => TraceEvent::Text(text),
-            EngineOutput::RunSystem(_) => panic!("unexpected system action"),
+            EngineOutput::RunSystem(_) | EngineOutput::EditShortcut { .. } => {
+                panic!("unexpected system action")
+            }
             EngineOutput::RunCommand(_) | EngineOutput::RunMacroCommand(_, _) => {
                 panic!("unexpected command")
             }

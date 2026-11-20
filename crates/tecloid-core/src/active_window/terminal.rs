@@ -38,6 +38,13 @@ const TERMINALS: &[&str] = &[
     "cosmicterm",
     "cosmic-term",
     "warp",
+    // Windows: Windows Terminal and console hosts.
+    "windowsterminal",
+    "openconsole",
+    "conhost",
+    "cmd",
+    "powershell",
+    "pwsh",
 ];
 
 pub(super) fn is_terminal(window: &ActiveWindow) -> bool {
@@ -49,6 +56,7 @@ pub(super) fn is_terminal(window: &ActiveWindow) -> bool {
 fn is_terminal_name(name: &str) -> bool {
     let name = name.trim().to_ascii_lowercase();
     let name = name.strip_suffix(".desktop").unwrap_or(&name);
+    let name = name.strip_suffix(".exe").unwrap_or(name);
     let last = name.rsplit('.').next().unwrap_or_default();
     TERMINALS.contains(&last) || name.contains("terminal")
 }
@@ -82,11 +90,26 @@ mod tests {
         }
         assert!(is_terminal(&window("", Some("gnome-terminal-server"))));
         assert!(is_terminal(&window("unknown", Some("foot"))));
+        for process in [
+            "WindowsTerminal.exe",
+            "cmd.exe",
+            "pwsh.exe",
+            "OpenConsole.exe",
+        ] {
+            assert!(is_terminal(&window(process, Some(process))), "{process}");
+        }
     }
 
     #[test]
     fn other_apps_are_not_terminals() {
-        for app_id in ["org.kde.kate", "firefox", "org.kde.dolphin", "code", ""] {
+        for app_id in [
+            "org.kde.kate",
+            "firefox",
+            "org.kde.dolphin",
+            "code",
+            "notepad.exe",
+            "",
+        ] {
             assert!(!is_terminal(&window(app_id, Some("kate"))), "{app_id}");
         }
     }

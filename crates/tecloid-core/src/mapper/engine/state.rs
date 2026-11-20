@@ -6,7 +6,7 @@ use super::model::{
 };
 use crate::mapper::action::Keystroke;
 use crate::mapper::key_code::KeyCode;
-use crate::mapper::system::ProcessInvocation;
+use crate::mapper::system::{ProcessInvocation, SystemAction};
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::time::{Duration, Instant};
 
@@ -152,6 +152,23 @@ impl VirtualKeys {
     /// later release): modifiers already held elsewhere are excluded.
     pub(super) fn mods_not_held(&self, mods: &[KeyCode]) -> Vec<KeyCode> {
         mods.iter().copied().filter(|m| !self.is_held(*m)).collect()
+    }
+
+    /// Output for a system action. Standard shortcuts (`sys:copy`) are
+    /// resolved only when sent, so they carry the modifiers held now, which
+    /// they must neither press nor release, like a stroke.
+    pub(super) fn system_output(&self, action: SystemAction, mod_delay: Duration) -> EngineOutput {
+        match action {
+            SystemAction::Edit(command) => EngineOutput::EditShortcut {
+                command,
+                held: [KeyCode::KEY_LEFTCTRL, KeyCode::KEY_LEFTSHIFT]
+                    .into_iter()
+                    .filter(|m| self.is_held(*m))
+                    .collect(),
+                mod_delay,
+            },
+            action => EngineOutput::RunSystem(action),
+        }
     }
 
     /// Tap `key` unless it is already held down.

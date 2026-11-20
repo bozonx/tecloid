@@ -184,6 +184,13 @@ pub enum EngineOutput {
     ReleaseMods(Vec<KeyCode>),
     /// Execute a system function (DBus call or fire-and-forget spawn).
     RunSystem(SystemAction),
+    /// Send a standard shortcut, resolved for the focused window and
+    /// layout when sent; `held` modifiers are already down and stay so.
+    EditShortcut {
+        command: crate::mapper::shortcuts::EditCommand,
+        held: Vec<KeyCode>,
+        mod_delay: Duration,
+    },
     /// Execute a shell command defined by the current keymap.
     RunCommand(ProcessInvocation),
     /// A macro command whose completion gates subsequent steps.
