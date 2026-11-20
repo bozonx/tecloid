@@ -233,7 +233,8 @@
     {
       "key": "Tab",
       "hold": {
-        "layer": "select"
+        "layer": "select",
+        "retroTapMs": 0
       }
     },
     {
@@ -241,13 +242,13 @@
       "tap": "Ctrl+KeyV",
       "hold": {
         "layer": "navigation",
-        "timeoutMs": 250
+        "timeoutMs": 250,
+        "retroTapMs": 0
       }
     },
     {
       "key": "ShiftLeft",
-      "tap": "Enter",
-      "tapDecision": "holdOnOtherKeyPress"
+      "tap": "Enter"
     },
     {
       "key": "ControlLeft",
@@ -301,8 +302,7 @@
     },
     {
       "key": "ShiftRight",
-      "tap": "text:-",
-      "tapDecision": "holdOnOtherKeyPress"
+      "tap": "text:-"
     }
   ],
   "quickMenuPages": [
