@@ -2581,9 +2581,6 @@ msgstr "Вставити ярлик"
 msgid "Paste shortcut in terminals"
 msgstr "Комбінація вставлення в терміналах"
 
-msgid "Same as in other apps"
-msgstr "Як в інших програмах"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Використовується для термінальних вікон, таких як Konsole, kitty або Alacritty. Вбудовані термінали не можуть бути виявлені класом вікна. Shift+Insert може вставити виділення миші; використовуйте Ctrl+V для інших програм, щоб уникнути цього ризику. Для старих терміналів можуть знадобитися спеціальні прив’язки швидкого доступу."
 
@@ -3866,5 +3863,35 @@ msgstr "Активувати завдання {} на панелі завдан�
 msgid "Paste key"
 msgstr "Клавіша Paste"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Надсилається активній програмі, щоб вставити текст. Дії «Копіювати», «Вирізати» й «Вставити» використовують відповідні сполучення. Автоматично: Ctrl+V, а в терміналах Ctrl+Shift+V. Клавішу Paste розуміють не всі програми."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Надсилається активному застосунку, щоб вставити текст; його також використовує дія «Вставити». Автоматично: Ctrl+V, а в терміналах Ctrl+Shift+V. Інші значення надсилаються як вибрано в усіх застосунках. Клавішу Paste розуміють не всі застосунки."
+
+msgid "Print"
+msgstr "Друк"
+
+msgid "Reopen closed tab"
+msgstr "Відновити закриту вкладку"
+
+msgid "Next tab"
+msgstr "Наступна вкладка"
+
+msgid "Previous tab"
+msgstr "Попередня вкладка"
+
+msgid "Zoom in"
+msgstr "Збільшити масштаб"
+
+msgid "Zoom out"
+msgstr "Зменшити масштаб"
+
+msgid "Reset zoom"
+msgstr "Скинути масштаб"
+
+msgid "Move to line start"
+msgstr "На початок рядка"
+
+msgid "Move to line end"
+msgstr "У кінець рядка"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Окреме сполучення вставлення для терміналів"

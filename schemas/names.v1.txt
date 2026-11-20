@@ -87,6 +87,8 @@ action sys:maximizeWindowVertically
 action sys:minimizeWindow
 action sys:moveToDocumentEnd
 action sys:moveToDocumentStart
+action sys:moveToLineEnd
+action sys:moveToLineStart
 action sys:moveWindowToDesktop1
 action sys:moveWindowToDesktop10
 action sys:moveWindowToDesktop2
@@ -105,8 +107,12 @@ action sys:moveWindowToPreviousScreen
 action sys:moveWordLeft
 action sys:moveWordRight
 action sys:newTab
+action sys:nextTab
 action sys:paste
+action sys:previousTab
+action sys:print
 action sys:redo
+action sys:reopenClosedTab
 action sys:save
 action sys:selectAll
 action sys:selectWordLeft
@@ -146,6 +152,9 @@ action sys:tileWindowRight
 action sys:tileWindowTop
 action sys:turnOffScreen
 action sys:undo
+action sys:zoomIn
+action sys:zoomOut
+action sys:zoomReset
 device windows:keyboard
 device windows:mouse
 key Accessibility

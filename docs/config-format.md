@@ -270,17 +270,23 @@ diagnostics report it and the mapper does not start with it.
 - **Standard shortcuts** are `sys:` ids too, for keymaps that work on any
   OS and keyboard layout; user chords such as `Ctrl+KeyC` always name
   physical keys. Editing commands — `copy`, `cut`, `paste`, `undo`, `redo`,
-  `selectAll`, `find`, `save`, `newTab`, `closeTab` — are resolved when they
-  run: the letter is the key that types it in the active layout (on Dvorak
-  copy is the physical `KeyI`, on QWERTZ undo is `KeyY`; a non-Latin layout
-  borrows it from a Latin one), redo is `Ctrl+Shift+Z` on Linux and `Ctrl+Y`
-  on Windows, and in Linux terminals copy, cut, find, `newTab` and
-  `closeTab` add Shift. On Linux `copy`, `cut` and `paste` follow
-  `linux.pasteShortcut` / `terminalPasteShortcut` (Shift+Insert also selects
-  Ctrl+Insert and Shift+Delete; `Paste` the Copy, Cut and Paste keys). Text
-  and window chords: `moveWordLeft`/`Right`, `selectWordLeft`/`Right`,
-  `deleteWordBackward`/`Forward`, `moveToDocumentStart`/`End`, and
-  `switchWindow` (Alt+Tab); they compile like key chords, so
+  `selectAll`, `find`, `save`, `print`, `newTab`, `closeTab`,
+  `reopenClosedTab`, `nextTab`, `previousTab`, `zoomIn`, `zoomOut`,
+  `zoomReset` — are resolved when they run: the character is the key that
+  types it in the active layout (on Dvorak copy is the physical `KeyI`, on
+  QWERTZ undo is `KeyY`; a non-Latin layout borrows it from a Latin one),
+  redo is `Ctrl+Shift+Z` on Linux and `Ctrl+Y` on Windows, tabs switch with
+  Ctrl+PageDown/PageUp and zoom uses Ctrl with `=`, `-` and `0`. In Linux
+  terminals copy, cut, `selectAll`, find and the tab commands add Shift,
+  while `undo`, `redo`, `save` and `reopenClosedTab` do nothing (Ctrl+Z
+  suspends the program, Ctrl+S stops output, Ctrl+Shift+T opens a tab). On
+  Linux `paste` sends `linux.pasteShortcut` / `terminalPasteShortcut`
+  exactly as chosen (`auto`: Ctrl+V, Ctrl+Shift+V in terminals); copy and
+  cut do not depend on it. Text and window chords:
+  `moveWordLeft`/`Right`, `selectWordLeft`/`Right`,
+  `deleteWordBackward`/`Forward`, `moveToLineStart`/`End` (Home/End),
+  `moveToDocumentStart`/`End`, and `switchWindow` (Alt+Tab); they compile
+  like key chords, so
   `holdModifiers` applies. Unlike desktop actions, standard shortcuts are
   not an in-development feature.
 - **`sys:`** desktop ids follow the KDE Plasma names of the actions (Plasma is the

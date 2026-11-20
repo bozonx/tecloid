@@ -707,7 +707,14 @@ pub(super) fn flush_out_with<S: EventSink, E: SideEffects>(
             EngineOutput::RunSystem(action) => {
                 flush_events(sink, &mut events)?;
                 let ks = match &action {
-                    SystemAction::Edit(command) => Some(super::shortcuts::edit_keystroke(*command)),
+                    SystemAction::Edit(command) => {
+                        let ks = super::shortcuts::edit_keystroke(*command);
+                        if ks.is_none() {
+                            // No safe shortcut in the focused window.
+                            continue;
+                        }
+                        ks
+                    }
                     SystemAction::Keys(ks) => Some(ks.clone()),
                     _ => None,
                 };

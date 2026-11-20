@@ -90,7 +90,8 @@ export global SettingsEditor {
     in-out property <int> text-mode-index;
     /// Same order as PasteShortcut::ALL in tecloid-core.
     in-out property <int> paste-shortcut-index;
-    /// 0 follows paste-shortcut-index, then PasteShortcut::ALL without Auto.
+    /// 0 follows paste-shortcut-index, then PasteShortcut::ALL without Auto
+    /// (TERMINAL_PASTE_SHORTCUTS).
     in-out property <int> terminal-paste-shortcut-index;
     in-out property <string> ydotool-path;
     in-out property <string> xdotool-path;
@@ -636,18 +637,28 @@ export component SettingsPage inherits PageLayout {
                                 }
                             }
                         }
-                        // Also used by the Copy, Cut and Paste actions, so shown in every typing method.
+                        // Also used by the Paste action, so shown in every typing method.
                         VerticalLayout {
                             padding: 0px; spacing: Theme.space-m;
-                            FormLabel { text: @tr("Paste shortcut"); info: @tr("Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."); }
+                            FormLabel { text: @tr("Paste shortcut"); info: @tr("Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."); }
                             // Same order as PasteShortcut::ALL in tecloid-core.
                             SelectField { accessible-label: @tr("Paste shortcut"); width: 320px; height: Theme.control-height; vertical-stretch: 0; model: [@tr("Automatic"), "Shift+Insert", "Ctrl+V", "Ctrl+Shift+V", @tr("Paste key")]; current-index: SettingsEditor.paste-shortcut-index; selected(value) => { SettingsEditor.paste-shortcut-index = self.current-index; SettingsEditor.save(); } }
                         }
-                        VerticalLayout {
+                        // Unchecked: terminals use the main shortcut (index 0).
+                        CheckBox {
+                            text: @tr("Use a separate paste shortcut in terminals");
+                            checked: SettingsEditor.terminal-paste-shortcut-index != 0;
+                            toggled => {
+                                // Start from Ctrl+Shift+V, the usual terminal paste.
+                                SettingsEditor.terminal-paste-shortcut-index = self.checked ? 3 : 0;
+                                SettingsEditor.save();
+                            }
+                        }
+                        if SettingsEditor.terminal-paste-shortcut-index != 0: VerticalLayout {
                             padding: 0px; spacing: Theme.space-m;
                             FormLabel { text: @tr("Paste shortcut in terminals"); info: @tr("Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."); }
-                            // The main shortcut, then PasteShortcut::ALL without Auto (TERMINAL_PASTE_SHORTCUTS).
-                            SelectField { accessible-label: @tr("Paste shortcut in terminals"); width: 320px; height: Theme.control-height; vertical-stretch: 0; model: [@tr("Same as in other apps"), "Shift+Insert", "Ctrl+V", "Ctrl+Shift+V", @tr("Paste key")]; current-index: SettingsEditor.terminal-paste-shortcut-index; selected(value) => { SettingsEditor.terminal-paste-shortcut-index = self.current-index; SettingsEditor.save(); } }
+                            // TERMINAL_PASTE_SHORTCUTS without its first entry (the main shortcut).
+                            SelectField { accessible-label: @tr("Paste shortcut in terminals"); width: 320px; height: Theme.control-height; vertical-stretch: 0; model: ["Shift+Insert", "Ctrl+V", "Ctrl+Shift+V", @tr("Paste key")]; current-index: SettingsEditor.terminal-paste-shortcut-index - 1; selected(value) => { SettingsEditor.terminal-paste-shortcut-index = self.current-index + 1; SettingsEditor.save(); } }
                         }
                         if SettingsEditor.text-modes[SettingsEditor.text-mode-index] == "ydotool": VerticalLayout {
                             padding: 0px; spacing: Theme.space-m;

@@ -2276,9 +2276,6 @@ msgstr "Сочетание вставки"
 msgid "Paste shortcut in terminals"
 msgstr "Сочетание вставки в терминалах"
 
-msgid "Same as in other apps"
-msgstr "Как в остальных приложениях"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Используется для окон терминалов, таких как Konsole, kitty и Alacritty. Встроенный терминал нельзя определить по классу окна. Shift+Insert может вставить выделение мышью; для других приложений используйте Ctrl+V, чтобы избежать этого риска. Старым терминалам могут понадобиться собственные привязки сочетаний."
 
@@ -3315,5 +3312,35 @@ msgstr "Активировать задачу {} на панели задач"
 msgid "Paste key"
 msgstr "Клавиша Paste"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Отправляется активному приложению, чтобы вставить текст. Действия «Копировать», «Вырезать» и «Вставить» используют соответствующие сочетания. Автоматически: Ctrl+V, а в терминалах Ctrl+Shift+V. Клавишу Paste понимают не все приложения."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Отправляется активному приложению, чтобы вставить текст; его же использует действие «Вставить». Автоматически: Ctrl+V, а в терминалах Ctrl+Shift+V. Остальные значения отправляются как выбрано во всех приложениях. Клавишу Paste понимают не все приложения."
+
+msgid "Print"
+msgstr "Печать"
+
+msgid "Reopen closed tab"
+msgstr "Вернуть закрытую вкладку"
+
+msgid "Next tab"
+msgstr "Следующая вкладка"
+
+msgid "Previous tab"
+msgstr "Предыдущая вкладка"
+
+msgid "Zoom in"
+msgstr "Увеличить масштаб"
+
+msgid "Zoom out"
+msgstr "Уменьшить масштаб"
+
+msgid "Reset zoom"
+msgstr "Сбросить масштаб"
+
+msgid "Move to line start"
+msgstr "В начало строки"
+
+msgid "Move to line end"
+msgstr "В конец строки"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Отдельное сочетание вставки для терминалов"

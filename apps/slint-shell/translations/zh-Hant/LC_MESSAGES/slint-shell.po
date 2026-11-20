@@ -2424,9 +2424,6 @@ msgstr "貼上快捷方式"
 msgid "Paste shortcut in terminals"
 msgstr "終端機中的貼上快捷鍵"
 
-msgid "Same as in other apps"
-msgstr "與其他應用程式相同"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "用於終端窗口，例如 Konsole、kitty 或 Alacritty。視窗類別無法偵測嵌入式終端。 Shift+Insert 可以貼上滑鼠選擇的內容；對其他應用程式使用 Ctrl+V 可以避免這種風險。較舊的終端可能需要自訂快捷方式綁定。"
 
@@ -3590,5 +3587,35 @@ msgstr "啟用工作管理員第 {} 項"
 msgid "Paste key"
 msgstr "貼上鍵"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "傳送給目前的應用程式以貼上文字。「複製」「剪下」和「貼上」動作會使用對應的快速鍵。自動：Ctrl+V，在終端機中為 Ctrl+Shift+V。並非所有應用程式都支援貼上鍵。"
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "傳送給目前應用程式以貼上文字；「貼上」動作也使用它。自動：Ctrl+V，終端機中為 Ctrl+Shift+V。其他值在所有應用程式中依所選傳送。並非所有應用程式都支援 Paste 鍵。"
+
+msgid "Print"
+msgstr "列印"
+
+msgid "Reopen closed tab"
+msgstr "重新開啟已關閉的分頁"
+
+msgid "Next tab"
+msgstr "下一個分頁"
+
+msgid "Previous tab"
+msgstr "上一個分頁"
+
+msgid "Zoom in"
+msgstr "放大"
+
+msgid "Zoom out"
+msgstr "縮小"
+
+msgid "Reset zoom"
+msgstr "重設縮放"
+
+msgid "Move to line start"
+msgstr "移到行首"
+
+msgid "Move to line end"
+msgstr "移到行尾"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "為終端機使用獨立的貼上快捷鍵"

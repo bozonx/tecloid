@@ -2570,9 +2570,6 @@ msgstr "Zalijepi prečac"
 msgid "Paste shortcut in terminals"
 msgstr "Prečac za lijepljenje u terminalima"
 
-msgid "Same as in other apps"
-msgstr "Kao u ostalim aplikacijama"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Koristi se za prozore terminala, kao što su Konsole, kitty ili Alacritty. Klasa prozora ne može otkriti ugrađene terminale. Shift+Insert može zalijepiti odabir miša; koristite Ctrl+V za druge aplikacije kako biste izbjegli taj rizik. Starijim terminalima možda će biti potrebna prilagođena povezivanja prečaca."
 
@@ -3853,5 +3850,35 @@ msgstr "Aktiviraj stavku {} upravitelja zadataka"
 msgid "Paste key"
 msgstr "Tipka Zalijepi"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Šalje se aktivnoj aplikaciji za lijepljenje teksta. Radnje Kopiraj, Izreži i Zalijepi koriste odgovarajuće prečace. Automatski: Ctrl+V, a u terminalima Ctrl+Shift+V. Ne podržava svaka aplikacija tipku Zalijepi."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Šalje se aktivnoj aplikaciji za lijepljenje teksta; koristi ga i radnja Zalijepi. Automatski: Ctrl+V, a u terminalima Ctrl+Shift+V. Ostale vrijednosti šalju se kako su odabrane u svim aplikacijama. Ne podržavaju sve aplikacije tipku Paste."
+
+msgid "Print"
+msgstr "Ispis"
+
+msgid "Reopen closed tab"
+msgstr "Ponovno otvori zatvorenu karticu"
+
+msgid "Next tab"
+msgstr "Sljedeća kartica"
+
+msgid "Previous tab"
+msgstr "Prethodna kartica"
+
+msgid "Zoom in"
+msgstr "Povećaj"
+
+msgid "Zoom out"
+msgstr "Smanji"
+
+msgid "Reset zoom"
+msgstr "Vrati zumiranje"
+
+msgid "Move to line start"
+msgstr "Na početak retka"
+
+msgid "Move to line end"
+msgstr "Na kraj retka"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Zaseban prečac za lijepljenje u terminalima"

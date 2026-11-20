@@ -2619,9 +2619,6 @@ msgstr "Verknüpfung einfügen"
 msgid "Paste shortcut in terminals"
 msgstr "Einfügekürzel in Terminals"
 
-msgid "Same as in other apps"
-msgstr "Wie in anderen Apps"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Wird für Terminalfenster wie Konsole, Kitty oder Alacritty verwendet. Eingebettete Terminals können nicht anhand der Fensterklasse erkannt werden. Umschalt+Einfg kann die Mausauswahl einfügen; Verwenden Sie Strg+V für andere Apps, um dieses Risiko zu vermeiden. Ältere Terminals benötigen möglicherweise benutzerdefinierte Verknüpfungsbindungen."
 
@@ -3933,5 +3930,35 @@ msgstr "Fensterleisteneintrag {} aktivieren"
 msgid "Paste key"
 msgstr "Einfügen-Taste"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Wird an die fokussierte App gesendet, um Text einzufügen. Die Aktionen Kopieren, Ausschneiden und Einfügen verwenden die passenden Tastenkürzel. Automatisch: Strg+V, in Terminals Strg+Umschalt+V. Nicht jede App unterstützt die Einfügen-Taste."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Wird an die fokussierte App gesendet, um Text einzufügen; auch die Aktion „Einfügen“ verwendet es. Automatisch: Strg+V, in Terminals Strg+Umschalt+V. Andere Werte werden in jeder App wie gewählt gesendet. Nicht jede App unterstützt die Paste-Taste."
+
+msgid "Print"
+msgstr "Drucken"
+
+msgid "Reopen closed tab"
+msgstr "Geschlossenen Tab wieder öffnen"
+
+msgid "Next tab"
+msgstr "Nächster Tab"
+
+msgid "Previous tab"
+msgstr "Vorheriger Tab"
+
+msgid "Zoom in"
+msgstr "Vergrößern"
+
+msgid "Zoom out"
+msgstr "Verkleinern"
+
+msgid "Reset zoom"
+msgstr "Zoom zurücksetzen"
+
+msgid "Move to line start"
+msgstr "Zum Zeilenanfang"
+
+msgid "Move to line end"
+msgstr "Zum Zeilenende"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Eigenes Einfügekürzel für Terminals"

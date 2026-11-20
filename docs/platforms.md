@@ -100,7 +100,8 @@ Clipboard paste uses Wayland data-control (`ext_data_control_manager_v1` or
 Editing `sys:` shortcuts (`copy`, `paste`, `undo`, `find`, …) pick their keys
 when they run: the letter from the active XKB layout (the layout must be
 known, which KDE reports; otherwise the QWERTY key), the terminal variant by
-window class, and for copy, cut and paste the paste settings. The Paste key
+window class, and for paste the paste settings (copy and cut do not depend
+on them). The Paste key
 (`pasteShortcut: Paste`) is not handled by every application. On Windows the
 letter comes from the foreground window's layout and the shortcuts are the
 Windows ones (redo `Ctrl+Y`). User `Ctrl+KeyC` chords stay physical. Settings

@@ -2574,9 +2574,6 @@ msgstr "Kısayolu yapıştır"
 msgid "Paste shortcut in terminals"
 msgstr "Uçbirimlerde yapıştırma kısayolu"
 
-msgid "Same as in other apps"
-msgstr "Diğer uygulamalardaki gibi"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Konsole, kitty veya Alacritty gibi terminal pencereleri için kullanılır. Katıştırılmış terminaller pencere sınıfına göre algılanamaz. Shift+Insert fare seçimini yapıştırabilir; Bu riskten kaçınmak için diğer uygulamalar için Ctrl+V tuşlarını kullanın. Eski terminaller özel kısayol bağlamalarına ihtiyaç duyabilir."
 
@@ -3863,5 +3860,35 @@ msgstr "Görev yöneticisi öğesi {} etkinleştir"
 msgid "Paste key"
 msgstr "Yapıştır tuşu"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Metni yapıştırmak için etkin uygulamaya gönderilir. Kopyala, Kes ve Yapıştır eylemleri ilgili kısayolları kullanır. Otomatik: Ctrl+V, terminallerde Ctrl+Shift+V. Her uygulama Yapıştır tuşunu desteklemez."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Metni yapıştırmak için etkin uygulamaya gönderilir; Yapıştır eylemi de bunu kullanır. Otomatik: Ctrl+V, terminallerde Ctrl+Shift+V. Diğer değerler her uygulamada seçildiği gibi gönderilir. Her uygulama Paste tuşunu desteklemez."
+
+msgid "Print"
+msgstr "Yazdır"
+
+msgid "Reopen closed tab"
+msgstr "Kapatılan sekmeyi yeniden aç"
+
+msgid "Next tab"
+msgstr "Sonraki sekme"
+
+msgid "Previous tab"
+msgstr "Önceki sekme"
+
+msgid "Zoom in"
+msgstr "Yakınlaştır"
+
+msgid "Zoom out"
+msgstr "Uzaklaştır"
+
+msgid "Reset zoom"
+msgstr "Yakınlaştırmayı sıfırla"
+
+msgid "Move to line start"
+msgstr "Satır başına git"
+
+msgid "Move to line end"
+msgstr "Satır sonuna git"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Terminallerde ayrı yapıştırma kısayolu kullan"

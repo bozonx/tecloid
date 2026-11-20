@@ -2604,9 +2604,6 @@ msgstr "Incolla scorciatoia"
 msgid "Paste shortcut in terminals"
 msgstr "Scorciatoia per incollare nei terminali"
 
-msgid "Same as in other apps"
-msgstr "Come nelle altre app"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Utilizzato per finestre di terminale, come Konsole, kitty o Alacritty. I terminali incorporati non possono essere rilevati dalla classe finestra. Shift+Ins può incollare la selezione del mouse; usa Ctrl+V per altre app per evitare questo rischio. I terminali più vecchi potrebbero richiedere collegamenti di scelta rapida personalizzati."
 
@@ -3920,5 +3917,35 @@ msgstr "Attiva l’elemento {} del gestore attività"
 msgid "Paste key"
 msgstr "Tasto Incolla"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Inviato all’app attiva per incollare il testo. Le azioni Copia, Taglia e Incolla usano le scorciatoie corrispondenti. Automatico: Ctrl+V, e Ctrl+Maiusc+V nei terminali. Non tutte le app gestiscono il tasto Incolla."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Inviata all’app attiva per incollare testo; la usa anche l’azione Incolla. Automatica: Ctrl+V, e Ctrl+Maiusc+V nei terminali. Gli altri valori vengono inviati così come scelti in ogni app. Non tutte le app gestiscono il tasto Incolla."
+
+msgid "Print"
+msgstr "Stampa"
+
+msgid "Reopen closed tab"
+msgstr "Riapri scheda chiusa"
+
+msgid "Next tab"
+msgstr "Scheda successiva"
+
+msgid "Previous tab"
+msgstr "Scheda precedente"
+
+msgid "Zoom in"
+msgstr "Ingrandisci"
+
+msgid "Zoom out"
+msgstr "Riduci"
+
+msgid "Reset zoom"
+msgstr "Ripristina zoom"
+
+msgid "Move to line start"
+msgstr "Vai all’inizio della riga"
+
+msgid "Move to line end"
+msgstr "Vai alla fine della riga"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Usa una scorciatoia di incolla separata nei terminali"

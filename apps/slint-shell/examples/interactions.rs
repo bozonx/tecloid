@@ -65,7 +65,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     tecloid_core::gamemode::set_settings(&document.read().settings().game_mode, true);
     let settings = ui.global::<SettingsEditor>();
     assert_eq!(settings.get_paste_shortcut_index(), 0); // Automatic
-    assert_eq!(settings.get_terminal_paste_shortcut_index(), 0); // Same as in other apps
+    assert_eq!(settings.get_terminal_paste_shortcut_index(), 0); // Unchecked: same as the main shortcut
     assert!(!settings.get_in_development());
     settings.set_in_development(true);
     settings.invoke_save();

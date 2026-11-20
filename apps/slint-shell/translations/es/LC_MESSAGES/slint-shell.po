@@ -2552,9 +2552,6 @@ msgstr "Pegar acceso directo"
 msgid "Paste shortcut in terminals"
 msgstr "Atajo de pegado en terminales"
 
-msgid "Same as in other apps"
-msgstr "Igual que en otras aplicaciones"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Se utiliza para ventanas de terminal, como Konsole, kitty o Alacritty. Los terminales integrados no se pueden detectar por clase de ventana. Mayús+Insertar puede pegar la selección del mouse; use Ctrl+V para otras aplicaciones para evitar ese riesgo. Los terminales más antiguos pueden necesitar enlaces de accesos directos personalizados."
 
@@ -3855,5 +3852,35 @@ msgstr "Activar el elemento {} del gestor de tareas"
 msgid "Paste key"
 msgstr "Tecla Pegar"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Se envía a la aplicación activa para pegar texto. Las acciones Copiar, Cortar y Pegar usan los atajos correspondientes. Automático: Ctrl+V, y Ctrl+Mayús+V en terminales. No todas las aplicaciones admiten la tecla Pegar."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Se envía a la aplicación activa para pegar texto; la acción Pegar también lo usa. Automático: Ctrl+V, y Ctrl+Mayús+V en terminales. Los demás valores se envían tal cual en todas las aplicaciones. No todas las aplicaciones admiten la tecla Pegar."
+
+msgid "Print"
+msgstr "Imprimir"
+
+msgid "Reopen closed tab"
+msgstr "Reabrir pestaña cerrada"
+
+msgid "Next tab"
+msgstr "Pestaña siguiente"
+
+msgid "Previous tab"
+msgstr "Pestaña anterior"
+
+msgid "Zoom in"
+msgstr "Acercar"
+
+msgid "Zoom out"
+msgstr "Alejar"
+
+msgid "Reset zoom"
+msgstr "Restablecer zoom"
+
+msgid "Move to line start"
+msgstr "Ir al inicio de la línea"
+
+msgid "Move to line end"
+msgstr "Ir al final de la línea"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Usar un atajo de pegado distinto en terminales"

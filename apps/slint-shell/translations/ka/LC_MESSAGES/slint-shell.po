@@ -2570,9 +2570,6 @@ msgstr "მალსახმობის ჩასმა"
 msgid "Paste shortcut in terminals"
 msgstr "ჩასმის მალსახმობი ტერმინალებში"
 
-msgid "Same as in other apps"
-msgstr "როგორც სხვა აპებში"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "გამოიყენება ტერმინალის ფანჯრებისთვის, როგორიცაა Konsole, kitty ან Alacritty. ჩაშენებული ტერმინალების აღმოჩენა შეუძლებელია ფანჯრის კლასით. Shift+Insert შეიძლება ჩასვას მაუსის არჩევანი; გამოიყენეთ Ctrl+V სხვა აპებისთვის ამ რისკის თავიდან ასაცილებლად. ძველ ტერმინალებს შეიძლება დასჭირდეთ მორგებული მალსახმობების შეკვრა."
 
@@ -3850,5 +3847,35 @@ msgstr "ამოცანების პანელის {} ელემე�
 msgid "Paste key"
 msgstr "Paste ღილაკი"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "ეგზავნება აქტიურ აპს ტექსტის ჩასასმელად. ქმედებები „კოპირება“, „ამოჭრა“ და „ჩასმა“ შესაბამის მალსახმობებს იყენებს. ავტომატური: Ctrl+V, ტერმინალებში კი Ctrl+Shift+V. Paste ღილაკს ყველა აპი არ ამუშავებს."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "იგზავნება აქტიურ აპლიკაციაში ტექსტის ჩასასმელად; მას იყენებს ქმედება „ჩასმაც“. ავტომატური: Ctrl+V, ტერმინალებში კი Ctrl+Shift+V. სხვა მნიშვნელობები ყველა აპლიკაციაში იგზავნება ისე, როგორც არჩეულია. Paste კლავიშს ყველა აპლიკაცია არ უჭერს მხარს."
+
+msgid "Print"
+msgstr "ბეჭდვა"
+
+msgid "Reopen closed tab"
+msgstr "დახურული ჩანართის ხელახლა გახსნა"
+
+msgid "Next tab"
+msgstr "შემდეგი ჩანართი"
+
+msgid "Previous tab"
+msgstr "წინა ჩანართი"
+
+msgid "Zoom in"
+msgstr "გადიდება"
+
+msgid "Zoom out"
+msgstr "დაპატარავება"
+
+msgid "Reset zoom"
+msgstr "მასშტაბის აღდგენა"
+
+msgid "Move to line start"
+msgstr "ხაზის დასაწყისში"
+
+msgid "Move to line end"
+msgstr "ხაზის ბოლოში"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "ცალკე ჩასმის მალსახმობი ტერმინალებისთვის"

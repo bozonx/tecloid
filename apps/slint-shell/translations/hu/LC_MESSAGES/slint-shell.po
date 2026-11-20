@@ -2597,9 +2597,6 @@ msgstr "Parancsikon beillesztése"
 msgid "Paste shortcut in terminals"
 msgstr "Beillesztési billentyűparancs terminálokban"
 
-msgid "Same as in other apps"
-msgstr "Ugyanaz, mint más alkalmazásokban"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Terminálablakokhoz használható, például Konsole, Kitty vagy Alakritty. A beágyazott terminálok ablakosztály szerint nem észlelhetők. A Shift+Insert billentyűkombináció beillesztheti az egér kijelölését; más alkalmazásokhoz használja a Ctrl+V billentyűkombinációt, hogy elkerülje ezt a kockázatot. A régebbi terminálokhoz egyéni parancsikon-összerendelésekre lehet szükség."
 
@@ -3896,5 +3893,35 @@ msgstr "A feladatkezelő {}. elemének aktiválása"
 msgid "Paste key"
 msgstr "Beillesztés billentyű"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Az aktív alkalmazásnak küldi a szöveg beillesztéséhez. A Másolás, Kivágás és Beillesztés műveletek a megfelelő billentyűparancsokat használják. Automatikus: Ctrl+V, terminálokban Ctrl+Shift+V. Nem minden alkalmazás kezeli a Beillesztés billentyűt."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Az aktív alkalmazásnak küldjük szöveg beillesztéséhez; a Beillesztés művelet is ezt használja. Automatikus: Ctrl+V, terminálokban Ctrl+Shift+V. A többi értéket minden alkalmazásnak a választott módon küldjük. Nem minden alkalmazás kezeli a Paste billentyűt."
+
+msgid "Print"
+msgstr "Nyomtatás"
+
+msgid "Reopen closed tab"
+msgstr "Bezárt lap újranyitása"
+
+msgid "Next tab"
+msgstr "Következő lap"
+
+msgid "Previous tab"
+msgstr "Előző lap"
+
+msgid "Zoom in"
+msgstr "Nagyítás"
+
+msgid "Zoom out"
+msgstr "Kicsinyítés"
+
+msgid "Reset zoom"
+msgstr "Nagyítás visszaállítása"
+
+msgid "Move to line start"
+msgstr "Ugrás a sor elejére"
+
+msgid "Move to line end"
+msgstr "Ugrás a sor végére"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Külön beillesztési billentyűparancs terminálokhoz"

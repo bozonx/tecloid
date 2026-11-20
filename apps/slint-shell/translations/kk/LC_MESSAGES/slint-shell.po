@@ -2581,9 +2581,6 @@ msgstr "Таңбашаны қою"
 msgid "Paste shortcut in terminals"
 msgstr "Терминалдардағы қою пернелер тіркесімі"
 
-msgid "Same as in other apps"
-msgstr "Басқа қолданбалардағыдай"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Konsole, Kitty немесе Alacritty сияқты терминалдық терезелер үшін пайдаланылады. Енгізілген терминалдарды терезе класы бойынша анықтау мүмкін емес. Shift+Insert тінтуір таңдауын қоюы мүмкін; қауіпті болдырмау үшін басқа қолданбалар үшін Ctrl+V пайдаланыңыз. Ескі терминалдарға реттелетін тіркесімдер қажет болуы мүмкін."
 
@@ -3867,5 +3864,35 @@ msgstr "Тапсырмалар панеліндегі {} элементті бе
 msgid "Paste key"
 msgstr "Paste пернесі"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Мәтінді кірістіру үшін белсенді қолданбаға жіберіледі. «Көшіру», «Қиып алу» және «Кірістіру» әрекеттері сәйкес пернелер тіркесімін пайдаланады. Автоматты: Ctrl+V, ал терминалдарда Ctrl+Shift+V. Paste пернесін барлық қолданба түсінбейді."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Мәтінді қою үшін белсенді қолданбаға жіберіледі; оны «Қою» әрекеті де пайдаланады. Автоматты: Ctrl+V, ал терминалдарда Ctrl+Shift+V. Басқа мәндер барлық қолданбаларға таңдалғандай жіберіледі. Paste пернесін барлық қолданба қолдамайды."
+
+msgid "Print"
+msgstr "Басып шығару"
+
+msgid "Reopen closed tab"
+msgstr "Жабылған қойындыны қайта ашу"
+
+msgid "Next tab"
+msgstr "Келесі қойынды"
+
+msgid "Previous tab"
+msgstr "Алдыңғы қойынды"
+
+msgid "Zoom in"
+msgstr "Үлкейту"
+
+msgid "Zoom out"
+msgstr "Кішірейту"
+
+msgid "Reset zoom"
+msgstr "Масштабты қалпына келтіру"
+
+msgid "Move to line start"
+msgstr "Жолдың басына"
+
+msgid "Move to line end"
+msgstr "Жолдың соңына"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Терминалдар үшін бөлек қою пернелер тіркесімі"

@@ -2627,9 +2627,6 @@ msgstr "Επικόλληση συντόμευσης"
 msgid "Paste shortcut in terminals"
 msgstr "Συντόμευση επικόλλησης σε τερματικά"
 
-msgid "Same as in other apps"
-msgstr "Όπως στις άλλες εφαρμογές"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Χρησιμοποιείται για παράθυρα τερματικών, όπως Konsole, kitty ή Alacritty. Τα ενσωματωμένα τερματικά δεν μπορούν να εντοπιστούν από την κλάση παραθύρου. Το Shift+Insert μπορεί να επικολλήσει την επιλογή του ποντικιού. χρησιμοποιήστε Ctrl+V για άλλες εφαρμογές για να αποφύγετε αυτόν τον κίνδυνο. Τα παλαιότερα τερματικά ενδέχεται να χρειάζονται προσαρμοσμένες συνδέσεις συντομεύσεων."
 
@@ -3950,5 +3947,35 @@ msgstr "Ενεργοποίηση στοιχείου {} της διαχείρισ
 msgid "Paste key"
 msgstr "Πλήκτρο Επικόλλησης"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Στέλνεται στην ενεργή εφαρμογή για επικόλληση κειμένου. Οι ενέργειες Αντιγραφή, Αποκοπή και Επικόλληση χρησιμοποιούν τις αντίστοιχες συντομεύσεις. Αυτόματα: Ctrl+V, και Ctrl+Shift+V σε τερματικά. Δεν υποστηρίζουν όλες οι εφαρμογές το πλήκτρο Επικόλλησης."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Αποστέλλεται στην ενεργή εφαρμογή για επικόλληση κειμένου· τη χρησιμοποιεί και η ενέργεια Επικόλληση. Αυτόματα: Ctrl+V και Ctrl+Shift+V στα τερματικά. Οι άλλες τιμές αποστέλλονται όπως επιλέχθηκαν σε κάθε εφαρμογή. Δεν υποστηρίζουν όλες οι εφαρμογές το πλήκτρο Paste."
+
+msgid "Print"
+msgstr "Εκτύπωση"
+
+msgid "Reopen closed tab"
+msgstr "Επαναφορά κλειστής καρτέλας"
+
+msgid "Next tab"
+msgstr "Επόμενη καρτέλα"
+
+msgid "Previous tab"
+msgstr "Προηγούμενη καρτέλα"
+
+msgid "Zoom in"
+msgstr "Μεγέθυνση"
+
+msgid "Zoom out"
+msgstr "Σμίκρυνση"
+
+msgid "Reset zoom"
+msgstr "Επαναφορά ζουμ"
+
+msgid "Move to line start"
+msgstr "Στην αρχή της γραμμής"
+
+msgid "Move to line end"
+msgstr "Στο τέλος της γραμμής"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Ξεχωριστή συντόμευση επικόλλησης στα τερματικά"

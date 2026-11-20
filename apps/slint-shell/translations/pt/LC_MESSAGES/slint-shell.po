@@ -2578,9 +2578,6 @@ msgstr "Colar atalho"
 msgid "Paste shortcut in terminals"
 msgstr "Atalho de colagem em terminais"
 
-msgid "Same as in other apps"
-msgstr "Igual às outras aplicações"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Usado para janelas de terminal, como Konsole, kitty ou Alacritty. Terminais incorporados não podem ser detectados por classe de janela. Shift+Insert pode colar a seleção do mouse; use Ctrl+V para outros aplicativos para evitar esse risco. Terminais mais antigos podem precisar de atalhos personalizados."
 
@@ -3872,5 +3869,35 @@ msgstr "Ativar o item {} do gerenciador de tarefas"
 msgid "Paste key"
 msgstr "Tecla Colar"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Enviado ao aplicativo em foco para colar texto. As ações Copiar, Recortar e Colar usam os atalhos correspondentes. Automático: Ctrl+V, e Ctrl+Shift+V em terminais. Nem todo aplicativo reconhece a tecla Colar."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Enviado à aplicação ativa para colar texto; a ação Colar também o usa. Automático: Ctrl+V, e Ctrl+Shift+V nos terminais. Os outros valores são enviados tal como escolhidos em todas as aplicações. Nem todas as aplicações suportam a tecla Colar."
+
+msgid "Print"
+msgstr "Imprimir"
+
+msgid "Reopen closed tab"
+msgstr "Reabrir separador fechado"
+
+msgid "Next tab"
+msgstr "Próximo separador"
+
+msgid "Previous tab"
+msgstr "Separador anterior"
+
+msgid "Zoom in"
+msgstr "Aumentar zoom"
+
+msgid "Zoom out"
+msgstr "Diminuir zoom"
+
+msgid "Reset zoom"
+msgstr "Repor zoom"
+
+msgid "Move to line start"
+msgstr "Ir para o início da linha"
+
+msgid "Move to line end"
+msgstr "Ir para o fim da linha"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Usar um atalho de colar separado nos terminais"

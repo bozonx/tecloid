@@ -2620,9 +2620,6 @@ msgstr "Coller le raccourci"
 msgid "Paste shortcut in terminals"
 msgstr "Raccourci de collage dans les terminaux"
 
-msgid "Same as in other apps"
-msgstr "Comme dans les autres applications"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Utilisé pour les fenêtres de terminal, telles que Konsole, Kitty ou Alacritty. Les terminaux intégrés ne peuvent pas être détectés par classe de fenêtre. Shift+Inser peut coller la sélection de la souris ; utilisez Ctrl+V pour d'autres applications afin d'éviter ce risque. Les terminaux plus anciens peuvent nécessiter des liaisons de raccourci personnalisées."
 
@@ -3942,5 +3939,35 @@ msgstr "Activer l’élément {} du gestionnaire de tâches"
 msgid "Paste key"
 msgstr "Touche Coller"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Envoyé à l’application active pour coller du texte. Les actions Copier, Couper et Coller utilisent les raccourcis correspondants. Automatique : Ctrl+V, et Ctrl+Maj+V dans les terminaux. Toutes les applications ne gèrent pas la touche Coller."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Envoyé à l’application active pour coller du texte ; l’action Coller l’utilise aussi. Automatique : Ctrl+V, et Ctrl+Maj+V dans les terminaux. Les autres valeurs sont envoyées telles quelles dans toutes les applications. Toutes les applications ne gèrent pas la touche Coller."
+
+msgid "Print"
+msgstr "Imprimer"
+
+msgid "Reopen closed tab"
+msgstr "Rouvrir l’onglet fermé"
+
+msgid "Next tab"
+msgstr "Onglet suivant"
+
+msgid "Previous tab"
+msgstr "Onglet précédent"
+
+msgid "Zoom in"
+msgstr "Zoom avant"
+
+msgid "Zoom out"
+msgstr "Zoom arrière"
+
+msgid "Reset zoom"
+msgstr "Réinitialiser le zoom"
+
+msgid "Move to line start"
+msgstr "Aller au début de la ligne"
+
+msgid "Move to line end"
+msgstr "Aller à la fin de la ligne"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Raccourci de collage distinct pour les terminaux"

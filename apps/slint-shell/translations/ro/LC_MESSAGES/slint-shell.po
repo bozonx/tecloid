@@ -2599,9 +2599,6 @@ msgstr "Lipiți comanda rapidă"
 msgid "Paste shortcut in terminals"
 msgstr "Comandă rapidă de lipire în terminale"
 
-msgid "Same as in other apps"
-msgstr "La fel ca în celelalte aplicații"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Folosit pentru ferestre terminale, cum ar fi Konsole, Kitty sau Alacritty. Terminalele încorporate nu pot fi detectate după clasa de ferestre. Shift+Insert poate lipi selecția mouse-ului; utilizați Ctrl+V pentru alte aplicații pentru a evita acest risc. Terminalele mai vechi pot avea nevoie de legături personalizate de comenzi rapide."
 
@@ -3897,5 +3894,35 @@ msgstr "Activează elementul {} din managerul de activități"
 msgid "Paste key"
 msgstr "Tasta Lipire"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Trimis aplicației active pentru a lipi text. Acțiunile Copiere, Decupare și Lipire folosesc scurtăturile corespunzătoare. Automat: Ctrl+V, iar în terminale Ctrl+Shift+V. Nu toate aplicațiile acceptă tasta Lipire."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Trimisă aplicației active pentru a lipi text; o folosește și acțiunea Lipește. Automat: Ctrl+V, iar în terminale Ctrl+Shift+V. Celelalte valori sunt trimise așa cum sunt alese în toate aplicațiile. Nu toate aplicațiile acceptă tasta Paste."
+
+msgid "Print"
+msgstr "Imprimare"
+
+msgid "Reopen closed tab"
+msgstr "Redeschide fila închisă"
+
+msgid "Next tab"
+msgstr "Fila următoare"
+
+msgid "Previous tab"
+msgstr "Fila anterioară"
+
+msgid "Zoom in"
+msgstr "Mărire"
+
+msgid "Zoom out"
+msgstr "Micșorare"
+
+msgid "Reset zoom"
+msgstr "Resetează mărirea"
+
+msgid "Move to line start"
+msgstr "La începutul rândului"
+
+msgid "Move to line end"
+msgstr "La sfârșitul rândului"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Folosește o scurtătură de lipire separată în terminale"

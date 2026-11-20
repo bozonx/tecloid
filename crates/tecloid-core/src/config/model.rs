@@ -697,7 +697,8 @@ impl TextMode {
 }
 
 /// How Tecloid pastes clipboard text into the focused application, and
-/// which clipboard shortcuts `sys:copy`, `sys:cut` and `sys:paste` send.
+/// the keys `sys:paste` sends. Values other than `Auto` are sent as chosen
+/// in every window; `sys:copy` and `sys:cut` do not depend on it.
 ///
 /// Stored as a key chord in action syntax (`Shift+Insert`) or `auto`, so the
 /// file format does not limit which shortcuts a later version may offer; this
@@ -708,13 +709,13 @@ pub enum PasteShortcut {
     #[default]
     Auto,
     /// Common in GUI apps and terminals; some terminals paste the primary
-    /// selection. Copy and cut use Ctrl+Insert and Shift+Delete.
+    /// selection.
     ShiftInsert,
     CtrlV,
-    /// Terminal paste; copy and cut use Ctrl+Shift+C and Ctrl+Shift+X.
+    /// Terminal paste.
     CtrlShiftV,
-    /// The dedicated Paste key (`KEY_PASTE`); copy and cut use the Copy and
-    /// Cut keys. Not every application handles them.
+    /// The dedicated Paste key (`KEY_PASTE`). Not every application
+    /// handles it.
     PasteKey,
 }
 

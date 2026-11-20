@@ -2453,9 +2453,6 @@ msgstr "ショートカットを貼り付け"
 msgid "Paste shortcut in terminals"
 msgstr "ターミナルでの貼り付けショートカット"
 
-msgid "Same as in other apps"
-msgstr "他のアプリと同じ"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Konsole、kitty、Alacritty などのターミナル ウィンドウに使用されます。組み込み端末はウィンドウクラスでは検出できません。 Shift+Insert を押すと、マウスで選択した内容を貼り付けることができます。そのリスクを回避するには、他のアプリでは Ctrl+V を使用してください。古い端末ではカスタム ショートカット バインディングが必要になる場合があります。"
 
@@ -3654,5 +3651,35 @@ msgstr "タスクマネージャーの項目 {} をアクティブにする"
 msgid "Paste key"
 msgstr "Paste キー"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "テキストを貼り付けるためにアクティブなアプリへ送信されます。コピー、切り取り、貼り付けの各アクションは対応するショートカットを使います。自動：Ctrl+V、ターミナルでは Ctrl+Shift+V。Paste キーに対応していないアプリもあります。"
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "テキストを貼り付けるためにアクティブなアプリへ送信されます。「貼り付け」アクションもこれを使います。自動: Ctrl+V、端末では Ctrl+Shift+V。その他の値はすべてのアプリで選択どおりに送信されます。Paste キーに対応していないアプリもあります。"
+
+msgid "Print"
+msgstr "印刷"
+
+msgid "Reopen closed tab"
+msgstr "閉じたタブを開き直す"
+
+msgid "Next tab"
+msgstr "次のタブ"
+
+msgid "Previous tab"
+msgstr "前のタブ"
+
+msgid "Zoom in"
+msgstr "拡大"
+
+msgid "Zoom out"
+msgstr "縮小"
+
+msgid "Reset zoom"
+msgstr "ズームをリセット"
+
+msgid "Move to line start"
+msgstr "行頭へ移動"
+
+msgid "Move to line end"
+msgstr "行末へ移動"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "端末では別の貼り付けショートカットを使う"

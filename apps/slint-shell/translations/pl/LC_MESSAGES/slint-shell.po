@@ -2598,9 +2598,6 @@ msgstr "Wklej skrót"
 msgid "Paste shortcut in terminals"
 msgstr "Skrót wklejania w terminalach"
 
-msgid "Same as in other apps"
-msgstr "Jak w innych aplikacjach"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Używany w oknach terminali, takich jak Konsole, Kitty lub Alacritty. Wbudowane terminale nie mogą zostać wykryte przez klasę okna. Shift+Insert może wkleić wybór myszy; użyj Ctrl+V w przypadku innych aplikacji, aby uniknąć tego ryzyka. Starsze terminale mogą wymagać niestandardowych powiązań skrótów."
 
@@ -3899,5 +3896,35 @@ msgstr "Aktywuj element {} menedżera zadań"
 msgid "Paste key"
 msgstr "Klawisz Wklej"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Wysyłany do aktywnej aplikacji, aby wkleić tekst. Akcje Kopiuj, Wytnij i Wklej używają odpowiednich skrótów. Automatycznie: Ctrl+V, a w terminalach Ctrl+Shift+V. Nie każda aplikacja obsługuje klawisz Wklej."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Wysyłany do aktywnej aplikacji, aby wkleić tekst; używa go też akcja Wklej. Automatycznie: Ctrl+V, a w terminalach Ctrl+Shift+V. Pozostałe wartości są wysyłane zgodnie z wyborem we wszystkich aplikacjach. Nie każda aplikacja obsługuje klawisz Paste."
+
+msgid "Print"
+msgstr "Drukuj"
+
+msgid "Reopen closed tab"
+msgstr "Przywróć zamkniętą kartę"
+
+msgid "Next tab"
+msgstr "Następna karta"
+
+msgid "Previous tab"
+msgstr "Poprzednia karta"
+
+msgid "Zoom in"
+msgstr "Powiększ"
+
+msgid "Zoom out"
+msgstr "Pomniejsz"
+
+msgid "Reset zoom"
+msgstr "Resetuj powiększenie"
+
+msgid "Move to line start"
+msgstr "Na początek wiersza"
+
+msgid "Move to line end"
+msgstr "Na koniec wiersza"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Osobny skrót wklejania w terminalach"

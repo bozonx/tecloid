@@ -2564,9 +2564,6 @@ msgstr "Vložit zkratku"
 msgid "Paste shortcut in terminals"
 msgstr "Zkratka vložení v terminálech"
 
-msgid "Same as in other apps"
-msgstr "Stejně jako v ostatních aplikacích"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Používá se pro okna terminálů, jako je Konsole, kitty nebo Alacritty. Vestavěné terminály nelze detekovat podle třídy okna. Shift+Insert může vložit výběr myší; použijte Ctrl+V pro jiné aplikace, abyste se tomuto riziku vyhnuli. Starší terminály mohou vyžadovat vlastní vazby zkratek."
 
@@ -3843,5 +3840,35 @@ msgstr "Aktivovat položku {} správce úloh"
 msgid "Paste key"
 msgstr "Klávesa Vložit"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "Odesílá se aktivní aplikaci pro vložení textu. Akce Kopírovat, Vyjmout a Vložit používají odpovídající zkratky. Automaticky: Ctrl+V, v terminálech Ctrl+Shift+V. Ne každá aplikace podporuje klávesu Vložit."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "Odesílá se aktivní aplikaci pro vložení textu; používá ji i akce Vložit. Automaticky: Ctrl+V a v terminálech Ctrl+Shift+V. Ostatní hodnoty se odesílají tak, jak jsou zvoleny, ve všech aplikacích. Klávesu Paste nepodporují všechny aplikace."
+
+msgid "Print"
+msgstr "Tisk"
+
+msgid "Reopen closed tab"
+msgstr "Znovu otevřít zavřenou kartu"
+
+msgid "Next tab"
+msgstr "Další karta"
+
+msgid "Previous tab"
+msgstr "Předchozí karta"
+
+msgid "Zoom in"
+msgstr "Přiblížit"
+
+msgid "Zoom out"
+msgstr "Oddálit"
+
+msgid "Reset zoom"
+msgstr "Obnovit přiblížení"
+
+msgid "Move to line start"
+msgstr "Na začátek řádku"
+
+msgid "Move to line end"
+msgstr "Na konec řádku"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "Samostatná zkratka vložení v terminálech"

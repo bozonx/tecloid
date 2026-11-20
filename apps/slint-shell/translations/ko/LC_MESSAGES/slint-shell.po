@@ -2448,9 +2448,6 @@ msgstr "바로가기 붙여넣기"
 msgid "Paste shortcut in terminals"
 msgstr "터미널의 붙여넣기 단축키"
 
-msgid "Same as in other apps"
-msgstr "다른 앱과 동일"
-
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
 msgstr "Konsole, kitty 또는 Alacritty와 같은 터미널 창에 사용됩니다. 내장된 터미널은 창 클래스로 감지할 수 없습니다. Shift+Insert를 누르면 마우스 선택 항목을 붙여넣을 수 있습니다. 해당 위험을 피하려면 다른 앱에 Ctrl+V를 사용하세요. 이전 터미널에는 사용자 정의 바로가기 바인딩이 필요할 수 있습니다."
 
@@ -3647,5 +3644,35 @@ msgstr "작업 관리자 항목 {} 활성화"
 msgid "Paste key"
 msgstr "붙여넣기 키"
 
-msgid "Sent to the focused app to paste text. The Copy, Cut and Paste actions use the matching shortcuts. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Not every app handles the Paste key."
-msgstr "텍스트를 붙여넣기 위해 활성 앱으로 전송됩니다. 복사, 잘라내기, 붙여넣기 동작은 해당 단축키를 사용합니다. 자동: Ctrl+V, 터미널에서는 Ctrl+Shift+V. 모든 앱이 붙여넣기 키를 지원하지는 않습니다."
+msgid "Sent to the focused app to paste text; the Paste action uses it too. Automatic: Ctrl+V, and Ctrl+Shift+V in terminals. Other values are sent as chosen in every app. Not every app handles the Paste key."
+msgstr "텍스트를 붙여넣기 위해 활성 앱에 보냅니다. 붙여넣기 동작도 이 단축키를 사용합니다. 자동: Ctrl+V, 터미널에서는 Ctrl+Shift+V. 다른 값은 모든 앱에 선택한 그대로 보냅니다. 모든 앱이 Paste 키를 지원하지는 않습니다."
+
+msgid "Print"
+msgstr "인쇄"
+
+msgid "Reopen closed tab"
+msgstr "닫은 탭 다시 열기"
+
+msgid "Next tab"
+msgstr "다음 탭"
+
+msgid "Previous tab"
+msgstr "이전 탭"
+
+msgid "Zoom in"
+msgstr "확대"
+
+msgid "Zoom out"
+msgstr "축소"
+
+msgid "Reset zoom"
+msgstr "확대/축소 초기화"
+
+msgid "Move to line start"
+msgstr "줄 처음으로 이동"
+
+msgid "Move to line end"
+msgstr "줄 끝으로 이동"
+
+msgid "Use a separate paste shortcut in terminals"
+msgstr "터미널에서 별도의 붙여넣기 단축키 사용"
