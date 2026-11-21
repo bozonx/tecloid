@@ -3350,3 +3350,6 @@ msgstr "В конец строки"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Отдельное сочетание вставки для терминалов"
+
+msgid "Late tap, ms: {}"
+msgstr "Позднее нажатие, мс: {}"

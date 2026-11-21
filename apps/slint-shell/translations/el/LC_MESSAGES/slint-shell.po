@@ -3985,3 +3985,6 @@ msgstr "Στο τέλος της γραμμής"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Ξεχωριστή συντόμευση επικόλλησης στα τερματικά"
+
+msgid "Late tap, ms: {}"
+msgstr "Καθυστερημένο πάτημα, ms: {}"

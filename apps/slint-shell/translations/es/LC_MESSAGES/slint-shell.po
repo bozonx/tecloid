@@ -3890,3 +3890,6 @@ msgstr "Ir al final de la línea"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Usar un atajo de pegado distinto en terminales"
+
+msgid "Late tap, ms: {}"
+msgstr "Pulsación tardía, ms: {}"

@@ -3885,3 +3885,6 @@ msgstr "ხაზის ბოლოში"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "ცალკე ჩასმის მალსახმობი ტერმინალებისთვის"
+
+msgid "Late tap, ms: {}"
+msgstr "დაგვიანებული დაჭერა, მწმ: {}"

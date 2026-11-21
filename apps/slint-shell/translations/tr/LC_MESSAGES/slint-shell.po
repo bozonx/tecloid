@@ -3898,3 +3898,6 @@ msgstr "Satır sonuna git"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Terminallerde ayrı yapıştırma kısayolu kullan"
+
+msgid "Late tap, ms: {}"
+msgstr "Geç dokunma, ms: {}"

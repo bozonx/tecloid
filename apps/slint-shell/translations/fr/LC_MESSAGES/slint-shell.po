@@ -3977,3 +3977,6 @@ msgstr "Aller à la fin de la ligne"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Raccourci de collage distinct pour les terminaux"
+
+msgid "Late tap, ms: {}"
+msgstr "Appui tardif, ms: {}"

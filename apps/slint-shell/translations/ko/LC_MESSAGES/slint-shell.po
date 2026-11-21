@@ -3682,3 +3682,6 @@ msgstr "줄 끝으로 이동"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "터미널에서 별도의 붙여넣기 단축키 사용"
+
+msgid "Late tap, ms: {}"
+msgstr "늦은 탭, ms: {}"

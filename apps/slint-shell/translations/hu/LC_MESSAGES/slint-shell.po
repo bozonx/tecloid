@@ -3931,3 +3931,6 @@ msgstr "Ugrás a sor végére"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Külön beillesztési billentyűparancs terminálokhoz"
+
+msgid "Late tap, ms: {}"
+msgstr "Késői koppintás, ms: {}"

@@ -3968,3 +3968,6 @@ msgstr "Zum Zeilenende"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Eigenes Einfügekürzel für Terminals"
+
+msgid "Late tap, ms: {}"
+msgstr "Später Tipp, ms: {}"

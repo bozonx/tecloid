@@ -3955,3 +3955,6 @@ msgstr "Vai alla fine della riga"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Usa una scorciatoia di incolla separata nei terminali"
+
+msgid "Late tap, ms: {}"
+msgstr "Tocco tardivo, ms: {}"

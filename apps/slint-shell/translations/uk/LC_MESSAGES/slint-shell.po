@@ -3901,3 +3901,6 @@ msgstr "У кінець рядка"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Окреме сполучення вставлення для терміналів"
+
+msgid "Late tap, ms: {}"
+msgstr "Пізнє натискання, мс: {}"

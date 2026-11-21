@@ -286,6 +286,7 @@ fn refresh(ui: &SettingsWindow, document: &Document, fields: bool) {
                 rule.double_tap_timeout_ms
             })
             .into(),
+            retro_tap: timeout_text(rule.retro_tap_ms).into(),
             enabled: rule.is_enabled(),
             swallow_tap: rule.tap_action.is_none(),
             swallow_hold: rule.hold_action.is_none(),

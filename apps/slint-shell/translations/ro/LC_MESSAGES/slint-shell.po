@@ -3932,3 +3932,6 @@ msgstr "La sfârșitul rândului"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Folosește o scurtătură de lipire separată în terminale"
+
+msgid "Late tap, ms: {}"
+msgstr "Atingere întârziată, ms: {}"

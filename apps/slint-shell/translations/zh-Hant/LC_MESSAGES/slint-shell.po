@@ -3625,3 +3625,6 @@ msgstr "移到行尾"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "為終端機使用獨立的貼上快捷鍵"
+
+msgid "Late tap, ms: {}"
+msgstr "延遲輕按，毫秒: {}"

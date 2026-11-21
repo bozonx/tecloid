@@ -3907,3 +3907,6 @@ msgstr "Ir para o fim da linha"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Usar um atalho de colar separado nos terminais"
+
+msgid "Late tap, ms: {}"
+msgstr "Toque tardio, ms: {}"

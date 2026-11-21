@@ -3888,3 +3888,6 @@ msgstr "Na kraj retka"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Zaseban prečac za lijepljenje u terminalima"
+
+msgid "Late tap, ms: {}"
+msgstr "Kasni dodir, ms: {}"

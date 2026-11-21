@@ -3902,3 +3902,6 @@ msgstr "Жолдың соңына"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Терминалдар үшін бөлек қою пернелер тіркесімі"
+
+msgid "Late tap, ms: {}"
+msgstr "Кеш басу, мс: {}"

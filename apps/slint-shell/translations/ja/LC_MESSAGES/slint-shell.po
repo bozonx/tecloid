@@ -3689,3 +3689,6 @@ msgstr "行末へ移動"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "端末では別の貼り付けショートカットを使う"
+
+msgid "Late tap, ms: {}"
+msgstr "遅延タップ（ミリ秒）: {}"

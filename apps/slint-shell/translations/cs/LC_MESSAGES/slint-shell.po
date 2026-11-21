@@ -3878,3 +3878,6 @@ msgstr "Na konec řádku"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Samostatná zkratka vložení v terminálech"
+
+msgid "Late tap, ms: {}"
+msgstr "Pozdní klepnutí, ms: {}"

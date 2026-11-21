@@ -17,7 +17,7 @@ import { Locale, Message } from "i18n.slint";
 import { RuleDialog, HoldBehavior, GameCondition, PickerCategory, HoldDetection } from "types.slint";
 import { Button, CheckBox, ComboBox } from "std-widgets.slint";
 
-export struct RuleRow { diagnostic: Message, key: string, is-chord: bool, tap: string, hold: string, long-hold: string, long-hold-timeout: string, hold-mode: HoldBehavior, double-tap: string, layer: string, has-conditions: bool, game: GameCondition, languages: string, applications: string, excluded: string, hold-timeout: string, hold-detection: HoldDetection, double-timeout: string, enabled: bool, swallow-tap: bool, swallow-hold: bool, advanced: bool, key-category: PickerCategory, tap-category: PickerCategory, hold-category: PickerCategory, double-category: PickerCategory, long-hold-category: PickerCategory }
+export struct RuleRow { diagnostic: Message, key: string, is-chord: bool, tap: string, hold: string, long-hold: string, long-hold-timeout: string, hold-mode: HoldBehavior, double-tap: string, layer: string, has-conditions: bool, game: GameCondition, languages: string, applications: string, excluded: string, hold-timeout: string, hold-detection: HoldDetection, double-timeout: string, retro-tap: string, enabled: bool, swallow-tap: bool, swallow-hold: bool, advanced: bool, key-category: PickerCategory, tap-category: PickerCategory, hold-category: PickerCategory, double-category: PickerCategory, long-hold-category: PickerCategory }
 export struct RuleLayerChoice { id: string, label: string }
 
 /// Rules of the keymap being edited.
@@ -312,13 +312,14 @@ export component RulesPage inherits PageLayout {
     accessible-label: @tr("Triggers");
     /// Advanced options of `rule` that differ from the defaults, as one line.
     pure function summary(rule: RuleRow) -> string {
-        return join(join(join(join(held-text(rule),
+        return join(join(join(join(join(held-text(rule),
             rule.hold-mode == HoldBehavior.action ? ""
                 : rule.hold-detection == HoldDetection.release ? @tr("Hold on other key release")
                 : rule.hold-detection == HoldDetection.press ? @tr("Hold on other key press") : ""),
             rule.hold-mode != HoldBehavior.action && rule.hold-timeout != "" ? @tr("Hold after {} ms", rule.hold-timeout) : ""),
             AppState.in-development && rule.hold-mode == HoldBehavior.action && rule.long-hold-timeout != "" ? @tr("Long hold after {} ms", rule.long-hold-timeout) : ""),
-            rule.double-timeout != "" ? @tr("Double tap: {} ms", rule.double-timeout) : "");
+            rule.double-timeout != "" ? @tr("Double tap: {} ms", rule.double-timeout) : ""),
+            rule.retro-tap != "" ? @tr("Late tap, ms: {}", rule.retro-tap) : "");
     }
     pure function held-text(rule: RuleRow) -> string {
         return rule.hold-mode == HoldBehavior.action ? ""

@@ -3934,3 +3934,6 @@ msgstr "Na koniec wiersza"
 
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Osobny skrót wklejania w terminalach"
+
+msgid "Late tap, ms: {}"
+msgstr "Późne dotknięcie, ms: {}"
