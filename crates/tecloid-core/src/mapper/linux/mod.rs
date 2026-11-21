@@ -389,14 +389,24 @@ fn make_wake_pipe() -> Result<(OwnedFd, OwnedFd), String> {
     Ok(unsafe { (OwnedFd::from_raw_fd(fds[0]), OwnedFd::from_raw_fd(fds[1])) })
 }
 
-fn acquire_mapper_lock() -> Result<std::fs::File, String> {
+fn acquire_mapper_locks() -> Result<[std::fs::File; 2], String> {
+    let uid = nix::unistd::Uid::effective();
+    // Use the OS account home independently of the session and development environment.
+    let account = nix::unistd::User::from_uid(uid)
+        .map_err(|error| format!("resolve mapper lock directory for UID {uid}: {error}"))?
+        .ok_or_else(|| format!("resolve mapper lock directory: unknown UID {uid}"))?;
+    if !account.dir.is_absolute() {
+        return Err(format!(
+            "resolve mapper lock directory: invalid home for UID {uid}"
+        ));
+    }
+    let account_lock = lock_mapper_file(&account.dir.join(".tecloid-mapper.lock"))?;
+    // Keep excluding an older Tecloid instance in the same runtime directory.
     let base = std::env::var_os("XDG_RUNTIME_DIR")
         .map(std::path::PathBuf::from)
         .unwrap_or_else(std::env::temp_dir);
-    let path = base.join(format!("tecloid-mapper-{}.lock", unsafe {
-        libc::geteuid()
-    }));
-    lock_mapper_file(&path)
+    let runtime_lock = lock_mapper_file(&base.join(format!("tecloid-mapper-{uid}.lock")))?;
+    Ok([account_lock, runtime_lock])
 }
 
 fn lock_mapper_file(path: &std::path::Path) -> Result<std::fs::File, String> {
@@ -408,10 +418,21 @@ fn lock_mapper_file(path: &std::path::Path) -> Result<std::fs::File, String> {
         .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC)
         .open(path)
         .map_err(|error| format!("open mapper lock {}: {error}", path.display()))?;
-    let result = unsafe { libc::flock(file.as_raw_fd(), libc::LOCK_EX | libc::LOCK_NB) };
-    if result != 0 {
-        return Err("mapper is already active in another process".into());
+    let metadata = file
+        .metadata()
+        .map_err(|error| format!("inspect mapper lock {}: {error}", path.display()))?;
+    if !metadata.is_file() || metadata.uid() != nix::unistd::Uid::effective().as_raw() {
+        return Err(format!(
+            "mapper lock {} must be a file owned by this user",
+            path.display()
+        ));
     }
+    file.try_lock().map_err(|error| match error {
+        std::fs::TryLockError::WouldBlock => "mapper is already active in another process".into(),
+        std::fs::TryLockError::Error(error) => {
+            format!("lock mapper file {}: {error}", path.display())
+        }
+    })?;
     Ok(file)
 }
 
@@ -431,7 +452,7 @@ fn run(
     if stop.load(Ordering::SeqCst) {
         return Err("mapper start cancelled".into());
     }
-    let _mapper_lock = acquire_mapper_lock()?;
+    let _mapper_locks = acquire_mapper_locks()?;
     // However the mapper ends, its queued system actions must not run later.
     let _dbus_calls = DbusCallsOwner;
     let mut cfg = cfg;

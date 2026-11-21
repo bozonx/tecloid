@@ -2,7 +2,8 @@
 //! evdev → engine → uinput path and the mapper's virtual keyboard is read back.
 //!
 //! They need `/dev/uinput` and readable `/dev/input/event*`, so they are ignored
-//! by default: `cargo test -p tecloid-core --test mapper_e2e -- --ignored`.
+//! by default. Stop any running mapper for this account before running
+//! `cargo test -p tecloid-core --test mapper_e2e -- --ignored`.
 //! Both devices are grabbed, so no test keystroke reaches the desktop session.
 #![cfg(target_os = "linux")]
 
@@ -11,7 +12,7 @@ use evdev::{
 };
 use serde_json::json;
 use std::{
-    sync::{Mutex, MutexGuard, OnceLock},
+    sync::{Mutex, MutexGuard},
     thread,
     time::{Duration, Instant, SystemTime},
 };
@@ -21,21 +22,9 @@ const MAPPER_DEVICE_NAME: &str = "Tecloid Virtual Keyboard";
 
 /// The mapper runtime is process-global: scenarios run one at a time.
 static SERIAL: Mutex<()> = Mutex::new(());
-static RUNTIME_DIR: OnceLock<tempfile::TempDir> = OnceLock::new();
 
-/// Serialize a scenario. The first call moves the cross-process mapper lock
-/// to a private runtime directory, so a mapper of a running desktop instance
-/// does not block the test (its grabbed keyboard is not ours anyway).
 fn serial() -> MutexGuard<'static, ()> {
-    let guard = SERIAL.lock().unwrap_or_else(|e| e.into_inner());
-    RUNTIME_DIR.get_or_init(|| {
-        let dir = tempfile::tempdir().unwrap();
-        // SAFETY: every scenario holds SERIAL before it touches the mapper,
-        // so no other test thread reads the environment concurrently.
-        unsafe { std::env::set_var("XDG_RUNTIME_DIR", dir.path()) };
-        dir
-    });
-    guard
+    SERIAL.lock().unwrap_or_else(|e| e.into_inner())
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

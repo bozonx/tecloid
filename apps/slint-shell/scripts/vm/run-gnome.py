@@ -115,16 +115,17 @@ def main():
     def permissions():
         vm.ssh(f"{INSTALL}/install-linux.sh permissions")
         # Preserve Ubuntu's installed extensions; enable the bridge after a fresh login.
-        script = ("from gi.repository import Gio; s=Gio.Settings.new('org.gnome.shell'); "
+        script = ("from gi.repository import Gio, GLib; s=Gio.Settings.new('org.gnome.shell'); "
                   "v=list(s.get_strv('enabled-extensions')); "
                   f"s.set_strv('enabled-extensions',list(dict.fromkeys(v+['{UUID}','ubuntu-appindicators@ubuntu.com']))); "
                   f"s.set_strv('disabled-extensions',[x for x in s.get_strv('disabled-extensions') if x!='{UUID}']); "
                   "Gio.Settings.sync()")
         if args.manual:
-            # Dynamic workspaces change the list while a window moves; use the
-            # same stable two-workspace acceptance fixture as the automated suite.
+            # Keep workspace targets stable while the operator moves windows.
             script += ("; Gio.Settings.new('org.gnome.mutter').set_boolean('dynamic-workspaces',False); "
-                       "Gio.Settings.new('org.gnome.desktop.wm.preferences').set_int('num-workspaces',2); "
+                       "Gio.Settings.new('org.gnome.desktop.wm.preferences').set_int('num-workspaces',4); "
+                       "Gio.Settings.new('org.gnome.desktop.input-sources').set_value('sources',"
+                       "GLib.Variant('a(ss)', [('xkb','us'),('xkb','ru')])); "
                        "Gio.Settings.sync()")
         vm.ssh(f"DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus python3 -c {shlex.quote(script)}")
         vm.ssh("sudo systemd-run --quiet --on-active=2 --unit=tecloid-e2e-relogin "

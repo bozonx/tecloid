@@ -42,8 +42,11 @@ class LinuxStandTests(unittest.TestCase):
             for stand, (name, filename) in manual_launcher.STANDS.items():
                 vm = root / name
                 vm.mkdir()
-                (vm / "base.qcow2").touch()
-                (vm / "vm.json").write_text(json.dumps({"ssh_key": str(key)}))
+                config = {"ssh_key": str(key)}
+                if stand == "fedora":
+                    config["base"] = "acceptance.qcow2"
+                (vm / config.get("base", "base.qcow2")).touch()
+                (vm / "vm.json").write_text(json.dumps(config))
                 packages = root / "release-artifacts"
                 packages.mkdir(exist_ok=True)
                 package = packages / filename.format(version="1.2.3")

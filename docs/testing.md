@@ -121,8 +121,9 @@ cargo test --locked -p tecloid-core --test mapper_e2e -- --ignored
 Creates a virtual "physical" keyboard via uinput, runs the mapper on it with a
 test keymap and reads its output device: passthrough, remap, chord, tap/hold,
 layer, double tap, macro with pause, stop without stuck keys, device removal.
-Both devices are grabbed, so nothing reaches the session; the mapper lock moves
-into a temp `XDG_RUNTIME_DIR`. Needs `/dev/uinput` write and `/dev/input` read.
+Both devices are grabbed, so nothing reaches the session. The test uses the
+same account-wide mapper lock as the desktop app. It needs write access to
+`/dev/uinput` and read access to `/dev/input`.
 
 ## L3: local desktop run
 
@@ -242,8 +243,9 @@ Local VM location is saved in ignored `dev-files/vm/manual.json`:
 
 You can override it with `TECLOID_VM_ROOT` or `--vm-root`. This directory contains
 `tecloid-fedora-kde/`, `tecloid-debian13-kde/` and `tecloid-ubuntu2604-gnome/`,
-each with `vm.json` and
-`base.qcow2`. Their SSH key is `~/.ssh/tecloid-vm`; package removal uses `tecloid`.
+each with `vm.json` and a base disk (`base.qcow2` by default, or the file
+selected by `base` in `vm.json`). Their SSH key is `~/.ssh/tecloid-vm`; package
+removal uses `tecloid`.
 The prepared bases are standalone frozen copies; they do not depend on the
 historical directories. Historical runs and packages remain archived and are
 not selected by the launcher.

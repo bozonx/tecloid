@@ -12,9 +12,7 @@ mod window_fit;
 mod worker;
 
 use crate::{
-    command::{
-        Command, Dispatch, Preferences, ShellCommand, Source, ThemeMode, Window, WorkerCommand,
-    },
+    command::{Dispatch, Preferences, ShellCommand, Source, ThemeMode, Window, WorkerCommand},
     document::{Document, View},
     i18n::{Language, Msg},
     ipc, metrics, pages,
@@ -459,10 +457,12 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
         // instance forward instead of failing.
         Err(error) if error.kind() == std::io::ErrorKind::AddrInUse => {
             log::info!("{error}; showing its settings window");
-            return ipc::client(&Command::Show(Window::Settings));
+            return ipc::show_existing_settings();
         }
         Err(error) => return Err(error.into()),
     };
+    #[cfg(unix)]
+    let _settings_lock = ipc::lock_settings(&StoragePaths::resolve()?)?;
     let use_spell = backend::spell_requested()?;
     let layer_shell = use_spell || backend::layer_shell_supported();
     let popup_attributes = Rc::new(Cell::new(false));

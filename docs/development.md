@@ -146,8 +146,9 @@ Every user-visible change gets an entry under `## [Unreleased]` in
 ## Troubleshooting
 
 - **Second launch opens settings instead of a new instance:** the socket is
-  taken — `tecloid quit` or set another `TECLOID_SOCKET`. A stale socket after a
-  crash is removed on the next start.
+  taken. Use `tecloid quit` to stop that instance. On Unix, use both a separate
+  `TECLOID_DEV_DIR` and a separate `TECLOID_SOCKET` to run in parallel. A stale
+  socket after a crash is removed on the next start.
 - **First build is very slow or fails in Skia:** check clang, cmake, ninja, Python.
 - **`No readable Ctrl+Alt+F11/F12 evdev devices`:** no `/dev/input` access — set
   up permissions or `TECLOID_HOTKEYS=off`.

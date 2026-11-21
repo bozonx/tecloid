@@ -44,6 +44,9 @@ const ACCEPT_POLL: Duration = Duration::from_millis(20);
 const REQUEST_TIMEOUT: Duration = Duration::from_secs(1);
 /// Read/write timeout of a client waiting for the reply.
 const CLIENT_TIMEOUT: Duration = Duration::from_secs(2);
+/// A duplicate launch can arrive before the primary instance has initialized its UI.
+#[cfg(unix)]
+const STARTUP_TIMEOUT: Duration = Duration::from_secs(10);
 #[cfg(unix)]
 type Connection = UnixStream;
 #[cfg(windows)]
@@ -187,6 +190,35 @@ fn random_token() -> std::io::Result<String> {
     Ok(bytes.iter().map(|byte| format!("{byte:02x}")).collect())
 }
 
+/// Hold this lock for the lifetime of the settings process, independently of IPC.
+#[cfg(unix)]
+pub fn lock_settings(
+    paths: &tecloid_core::storage::StoragePaths,
+) -> std::io::Result<std::fs::File> {
+    let dir = paths.settings_dir();
+    std::fs::create_dir_all(&dir)?;
+    lock_file(
+        &dir.join("settings.lock"),
+        "tecloid is already using this settings directory on another IPC endpoint",
+    )
+}
+
+#[cfg(unix)]
+fn lock_file(path: &std::path::Path, busy: &str) -> std::io::Result<std::fs::File> {
+    let mut options = std::fs::OpenOptions::new();
+    options.create(true).truncate(false).read(true).write(true);
+    use std::os::unix::fs::OpenOptionsExt;
+    options.mode(0o600).custom_flags(libc::O_NOFOLLOW);
+    let lock = options.open(path)?;
+    lock.try_lock().map_err(|error| match error {
+        std::fs::TryLockError::WouldBlock => {
+            std::io::Error::new(std::io::ErrorKind::AddrInUse, busy)
+        }
+        std::fs::TryLockError::Error(error) => error,
+    })?;
+    Ok(lock)
+}
+
 pub struct Server {
     #[cfg(unix)]
     listener: UnixListener,
@@ -213,31 +245,32 @@ impl Server {
     fn bind_path(path: PathBuf) -> std::io::Result<Self> {
         let mut lock_path = path.as_os_str().to_os_string();
         lock_path.push(".lock");
-        let lock = std::fs::OpenOptions::new()
-            .create(true)
-            .truncate(false)
-            .read(true)
-            .write(true)
-            .open(lock_path)?;
-        lock.try_lock().map_err(|error| match error {
-            std::fs::TryLockError::WouldBlock => {
-                std::io::Error::new(std::io::ErrorKind::AddrInUse, "tecloid is already running")
-            }
-            std::fs::TryLockError::Error(error) => error,
-        })?;
-        if path.exists() {
-            match UnixStream::connect(&path) {
+        let lock = lock_file(
+            std::path::Path::new(&lock_path),
+            "tecloid is already running",
+        )?;
+        use std::os::unix::fs::FileTypeExt;
+        match std::fs::symlink_metadata(&path) {
+            Ok(metadata) if metadata.file_type().is_socket() => match UnixStream::connect(&path) {
                 Ok(_) => {
                     return Err(std::io::Error::new(
                         std::io::ErrorKind::AddrInUse,
                         "tecloid is already running",
                     ));
                 }
-                Err(e) if e.kind() == std::io::ErrorKind::ConnectionRefused => {
-                    std::fs::remove_file(&path)?
+                Err(error) if error.kind() == std::io::ErrorKind::ConnectionRefused => {
+                    std::fs::remove_file(&path)?;
                 }
-                Err(e) => return Err(e),
+                Err(error) => return Err(error),
+            },
+            Ok(_) => {
+                return Err(std::io::Error::other(format!(
+                    "IPC path {} is occupied by a non-socket file",
+                    path.display()
+                )));
             }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(error) => return Err(error),
         }
         // The directory is private, so the socket is reachable only by us.
         let listener = UnixListener::bind(&path)?;
@@ -377,27 +410,66 @@ fn receive(
 /// CLI entry: forward one command to the running instance.
 pub fn client(command: &Command) -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(unix)]
-    {
-        exchange(
-            UnixStream::connect(own_socket()?)?,
-            command,
-            Source::Ipc,
-            Instant::now(),
-            std::env::var("XDG_ACTIVATION_TOKEN").ok(),
-            None,
-        )
-    }
+    return unix_client(command, None);
     #[cfg(windows)]
     {
         let auth = std::fs::read_to_string(token_path()?)?;
+        let stream = TcpStream::connect(tcp_address())?;
+        stream.set_timeout(CLIENT_TIMEOUT)?;
         exchange(
-            TcpStream::connect(tcp_address())?,
+            stream,
             command,
             Source::Ipc,
             Instant::now(),
             None,
             Some(auth.trim().to_owned()),
         )
+    }
+}
+
+pub fn show_existing_settings() -> Result<(), Box<dyn std::error::Error>> {
+    let command = Command::Show(crate::command::Window::Settings);
+    #[cfg(unix)]
+    return unix_client(&command, Some(Instant::now() + STARTUP_TIMEOUT));
+    #[cfg(windows)]
+    client(&command)
+}
+
+#[cfg(unix)]
+fn unix_client(
+    command: &Command,
+    deadline: Option<Instant>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let start = Instant::now();
+    let path = own_socket()?;
+    let stream = connect_when_ready(deadline, || UnixStream::connect(&path))?;
+    let token = std::env::var("XDG_ACTIVATION_TOKEN").ok();
+    let timeout = deadline.map_or(CLIENT_TIMEOUT, |deadline| {
+        deadline
+            .saturating_duration_since(Instant::now())
+            .max(Duration::from_millis(1))
+    });
+    stream.set_timeout(timeout)?;
+    exchange(stream, command, Source::Ipc, start, token, None)
+}
+
+#[cfg(unix)]
+fn connect_when_ready<T>(
+    deadline: Option<Instant>,
+    mut connect: impl FnMut() -> std::io::Result<T>,
+) -> std::io::Result<T> {
+    loop {
+        match connect() {
+            Err(error)
+                if matches!(
+                    error.kind(),
+                    std::io::ErrorKind::NotFound | std::io::ErrorKind::ConnectionRefused
+                ) && deadline.is_some_and(|deadline| Instant::now() < deadline) =>
+            {
+                std::thread::sleep(ACCEPT_POLL);
+            }
+            result => return result,
+        }
     }
 }
 
@@ -410,14 +482,9 @@ pub fn send(
     start: Instant,
     token: Option<String>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    exchange(
-        UnixStream::connect(socket_path(name)?)?,
-        command,
-        source,
-        start,
-        token,
-        None,
-    )
+    let stream = UnixStream::connect(socket_path(name)?)?;
+    stream.set_timeout(CLIENT_TIMEOUT)?;
+    exchange(stream, command, source, start, token, None)
 }
 
 trait Stream: Read + Write {
@@ -448,7 +515,6 @@ fn exchange(
     token: Option<String>,
     auth: Option<String>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    stream.set_timeout(CLIENT_TIMEOUT)?;
     let request = Request {
         command: command.to_string(),
         token,
@@ -571,6 +637,61 @@ mod tests {
         receive(&line("hide", None)[..], &dispatch, Endpoint::Settings, None).unwrap();
         assert_eq!(*seen.lock().unwrap(), [Command::Ping, Command::Hide]);
         assert!(receive(&b"not json\n"[..], &dispatch, Endpoint::Settings, None).is_err());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn settings_lock_excludes_another_endpoint_for_the_same_directory() {
+        let dir = tempfile::tempdir().unwrap();
+        let paths = tecloid_core::storage::StoragePaths::new(
+            dir.path().join("settings"),
+            dir.path().join("data"),
+        );
+        let first = Server::bind_path(dir.path().join("first.sock")).unwrap();
+        let lock = lock_settings(&paths).unwrap();
+        let second = Server::bind_path(dir.path().join("second.sock")).unwrap();
+        assert_eq!(
+            lock_settings(&paths).unwrap_err().kind(),
+            std::io::ErrorKind::AddrInUse,
+        );
+        drop((first, lock));
+        assert!(lock_settings(&paths).is_ok());
+        drop(second);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn duplicate_launch_retries_until_the_socket_exists() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("settings.sock");
+        let mut server = None;
+        let mut attempts = 0;
+        let deadline = Instant::now() + Duration::from_secs(1);
+        connect_when_ready(Some(deadline), || {
+            attempts += 1;
+            if attempts == 2 {
+                server = Some(Server::bind_path(path.clone())?);
+            }
+            UnixStream::connect(&path)
+        })
+        .unwrap();
+        assert_eq!(attempts, 2);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn socket_cleanup_preserves_another_endpoints_lock_file() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("first.sock");
+        let server = Server::bind_path(path.clone()).unwrap();
+        let lock_path = dir.path().join("first.sock.lock");
+        assert!(Server::bind_path(lock_path.clone()).is_err());
+        assert!(lock_path.is_file());
+        assert_eq!(
+            Server::bind_path(path).err().unwrap().kind(),
+            std::io::ErrorKind::AddrInUse,
+        );
+        drop(server);
     }
 
     #[cfg(unix)]

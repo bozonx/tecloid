@@ -38,10 +38,12 @@ def main():
     directory, filename = STANDS[args.stand]
     vm = Path(root).expanduser().resolve() / directory
     package = Path(metadata["target_directory"]) / "release-artifacts" / filename.format(version=version)
-    for path in (vm / "vm.json", vm / "base.qcow2"):
-        if not path.is_file():
-            parser.error(f"{path} missing; prepare the stand or run apps/slint-shell/scripts/release/release-linux.sh")
+    if not (vm / "vm.json").is_file():
+        parser.error(f"{vm / 'vm.json'} missing; prepare the stand")
     config = json.loads((vm / "vm.json").read_text())
+    base = vm / config.get("base", "base.qcow2")
+    if not base.is_file():
+        parser.error(f"{base} missing; prepare the stand")
     if not Path(config["ssh_key"]).expanduser().is_file():
         parser.error("VM SSH key is missing")
     if args.build:

@@ -54,9 +54,10 @@ UI, it belongs in `tecloid-core`. The core never calls Slint.
 One binary, three roles:
 
 1. **Settings process** (no arguments): tray, settings window, mapper, watchers,
-   winit popups, IPC server. One instance per `XDG_RUNTIME_DIR` (override
-   `TECLOID_SOCKET`); a second launch without arguments opens settings of the
-   running one.
+   winit popups, IPC server. A second launch without arguments opens settings
+   of the process at the same IPC endpoint. On Unix, the settings process also
+   locks its settings directory, so parallel instances require separate
+   endpoints and separate settings directories.
 2. **Spell worker** (`--spell-worker`): both layer-shell popups in a child
    process, used with `TECLOID_POPUPS=auto|spell`. The parent restarts it at most
    three times a minute and restores theme and language; the worker exits on
@@ -64,8 +65,9 @@ One binary, three roles:
 3. **CLI client** (any command): sends one command over IPC and exits.
    `--version`/`--help` need no instance.
 
-The mapper holds a cross-process lock (Windows: named mutex), so only one process
-grabs keyboards even if two instances run.
+On Linux the mapper holds an account-wide file lock across runtime directories.
+On Windows it holds a named mutex. This keeps keyboard grabs exclusive even
+when multiple settings processes run.
 
 ## IPC
 

@@ -17,6 +17,7 @@ import shutil
 import struct
 import subprocess
 import sys
+import tempfile
 import time
 
 from text_corpus import TEXT_CORPUS, TEXT_UNICODE
@@ -804,20 +805,32 @@ def cmd_second_instance(args):
     unit = "tecloid-e2e-second"
     log = WORK / "second.log"
     log.unlink(missing_ok=True)
-    systemd_run(unit, [binary()], log, ["TECLOID_SOCKET=tecloid-e2e-second", "RUST_LOG=info"])
-    try:
-        os.environ["TECLOID_SOCKET"] = "tecloid-e2e-second"
-        wait("the second instance to answer", 30, lambda: app("ping").returncode == 0)
-        time.sleep(5)
-        if virtual_keyboards() != 1:
-            fail(f"{virtual_keyboards()} mapper virtual keyboards with two instances")
-        if "already active in another process" not in log.read_text(errors="replace"):
-            fail("the second instance did not report the mapper lock; see second.log")
-    finally:
-        app("quit")
-        del os.environ["TECLOID_SOCKET"]
-        time.sleep(2)
-        subprocess.run(["systemctl", "--user", "stop", unit], capture_output=True)
+    with tempfile.TemporaryDirectory(prefix="second-", dir=WORK) as directory:
+        home = Path(directory) / "linux"
+        settings = home / ".config" / APP_ID
+        keymaps = home / ".local/share" / APP_ID / "keymaps"
+        settings.mkdir(parents=True)
+        shutil.copyfile(CONFIG_DIR / "config.json", settings / "config.json")
+        shutil.copytree(DATA_DIR / "keymaps", keymaps)
+        systemd_run(unit, [binary()], log, [
+            "TECLOID_SOCKET=tecloid-e2e-second",
+            f"TECLOID_DEV_DIR={directory}",
+            "TECLOID_HOTKEYS=off",
+            "RUST_LOG=info",
+        ])
+        try:
+            os.environ["TECLOID_SOCKET"] = "tecloid-e2e-second"
+            wait("the second instance to answer", 30, lambda: app("ping").returncode == 0)
+            time.sleep(5)
+            if virtual_keyboards() != 1:
+                fail(f"{virtual_keyboards()} mapper virtual keyboards with two instances")
+            if "already active in another process" not in log.read_text(errors="replace"):
+                fail("the second instance did not report the mapper lock; see second.log")
+        finally:
+            app("quit")
+            del os.environ["TECLOID_SOCKET"]
+            time.sleep(2)
+            subprocess.run(["systemctl", "--user", "stop", unit], capture_output=True)
     if app("ping").returncode or not mapper_running():
         fail("the first instance or its mapper stopped")
 
