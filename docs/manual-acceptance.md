@@ -212,7 +212,7 @@ Choose a spare key for the layer/tap-hold tests. macOS skips these assignments.
   is being served; record actual insertion/clipboard results, not just the indicator.
 - [ ] Test Emoji and Quick actions as winit popups: keyboard and mouse selection,
   cancellation, positioning and return of focus to the original application.
-- [ ] Use fixed workspaces (the manual stand prepares two). Repeat the window
+- [ ] Use fixed workspaces (the manual stand prepares four). Repeat the window
   move actions past the last/first workspace and verify a cycle with focus:
   `1 → 2 → 1`, and the reverse. Check desktop-switch and direct numbered actions
   separately; do not assume those have the same wrap behavior.

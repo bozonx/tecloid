@@ -114,6 +114,7 @@ show, first frame commit (not presentation), focus, first handled key.
 ## L1: mapper e2e
 
 ```sh
+# Run with the desktop mapper stopped for this account.
 cargo test --locked -p tecloid-core --test mapper_e2e -- --ignored
 ```
 
@@ -171,8 +172,9 @@ need no install commands (`install-linux.sh` is used).
 Prepare a base image once: install a distribution with Plasma 6 Wayland (cloud
 images + cloud-init work well for Fedora and Debian), then as root inside the
 guest run `prepare-linux-guest.sh tester "<public key>"` (ssh, python3, kdialog,
-passwordless sudo, SDDM/Plasma Login autologin, no screen lock or sleep, user not
-in `input`). Reboot, verify autologin, shut down and `chmod a-w base.qcow2`.
+passwordless sudo, SDDM/Plasma Login autologin, four virtual desktops, US English
+and Russian keyboard layouts, no screen lock or sleep, user not in `input`).
+Reboot, verify autologin, shut down and `chmod a-w base.qcow2`.
 Matrix: Fedora KDE (rpm), Debian 13 KDE (deb), Kubuntu (deb), openSUSE, Arch
 (tar.gz). Start with Fedora and Debian.
 
@@ -245,6 +247,8 @@ each with `vm.json` and
 The prepared bases are standalone frozen copies; they do not depend on the
 historical directories. Historical runs and packages remain archived and are
 not selected by the launcher.
+Manual Linux acceptance starts with four fixed workspaces and US English and
+Russian keyboard layouts.
 
 For another prepared stand use `run-linux.py` directly: `--vm` is the directory
 with `vm.json` and `base.qcow2`; `--package` is the application RPM, DEB or bundle
