@@ -6,6 +6,10 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- The RPM and DEB packages require Noto Color Emoji so the package manager installs the font used by the emoji grid.
+
+- System theme follows desktop color scheme updates automatically, including when the scheme first becomes available after startup.
+
 - Manual Linux VM launcher accepts `--build` to build the shared Linux release packages before starting acceptance.
 
 - Use “Rules” consistently for the rules tab and rule deletion; “Trigger” remains the key or combination field.

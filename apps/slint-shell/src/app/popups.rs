@@ -469,9 +469,6 @@ fn observe(app: &Rc<App>, window: Window) {
                         app.run_pending_action(popup, true);
                     }
                 }
-                WindowEvent::ThemeChanged(_) if window == Window::Settings => {
-                    app.apply_preferences()
-                }
                 // Slint keeps the logical size, so a larger scale can push the window off screen.
                 WindowEvent::ScaleFactorChanged { .. } if window == Window::Settings => {
                     super::post(|app| app.fit_settings())

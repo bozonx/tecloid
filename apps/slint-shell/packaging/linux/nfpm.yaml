@@ -101,10 +101,10 @@ overrides:
       - libfontconfig1
       - libfreetype6
       - libwayland-client0
+      - fonts-noto-color-emoji
     recommends:
       - xdg-desktop-portal
       - wl-clipboard
-      - fonts-noto-color-emoji
   rpm:
     depends:
       - libstdc++.so.6()(64bit)
@@ -112,6 +112,7 @@ overrides:
       - libfontconfig.so.1()(64bit)
       - libfreetype.so.6()(64bit)
       - libwayland-client.so.0()(64bit)
+      - google-noto-color-emoji-fonts
     recommends:
       - xdg-desktop-portal
       - wl-clipboard

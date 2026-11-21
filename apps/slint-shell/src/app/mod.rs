@@ -33,6 +33,9 @@ use tecloid_core::{config::model::Appearance, storage::StoragePaths};
 /// How often a running Spell worker is checked for crashes.
 const WORKER_POLL: Duration = Duration::from_secs(1);
 
+type SystemThemeTracker =
+    std::pin::Pin<Box<i_slint_core::properties::PropertyTracker<false, fn()>>>;
+
 pub(crate) struct App {
     settings: SettingsWindow,
     emoji: EmojiPopup,
@@ -48,6 +51,7 @@ pub(crate) struct App {
     popups: popups::PopupController,
     supervisor: RefCell<worker::Supervisor>,
     preferences: Cell<Preferences>,
+    system_theme: SystemThemeTracker,
     worker_watch: slint::Timer,
     mapper: mapper::MapperController,
     layer_hint: layer_hint::LayerHint,
@@ -68,17 +72,6 @@ fn post(f: impl FnOnce(&Rc<App>) + Send + 'static) {
     if let Err(error) = slint::invoke_from_event_loop(move || with_app(f)) {
         log::error!("UI dispatch: {error}");
     }
-}
-
-/// Whether the desktop prefers a dark theme; dark when unknown.
-fn system_dark(settings: &SettingsWindow) -> bool {
-    use slint::winit_030::WinitWindowAccessor;
-    settings
-        .window()
-        .with_winit_window(|window| {
-            window.theme() != Some(slint::winit_030::winit::window::Theme::Light)
-        })
-        .unwrap_or(true)
 }
 
 /// Whether `action` is a `sys:` action macOS cannot run.
@@ -215,7 +208,12 @@ impl App {
         let dark = match settings.appearance {
             Appearance::Light | Appearance::EInk => false,
             Appearance::Dark => true,
-            Appearance::System => system_dark(&self.settings),
+            Appearance::System => self.system_theme.as_ref().evaluate_as_dependency_root(|| {
+                i_slint_core::window::WindowInner::from_pub(self.settings.window())
+                    .context()
+                    .color_scheme(None)
+                    != i_slint_core::items::ColorScheme::Light
+            }),
         };
         Preferences {
             theme: if settings.in_development && settings.appearance == Appearance::EInk {
@@ -514,6 +512,12 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
         popups: Default::default(),
         supervisor: RefCell::new(worker::Supervisor::new(use_spell, layer_shell)),
         preferences: Cell::new(Preferences::default()),
+        // The portal can publish the system scheme after the first window opens.
+        system_theme: Box::pin(
+            i_slint_core::properties::PropertyTracker::new_with_dirty_handler(
+                (|| post(|app| app.apply_preferences())) as fn(),
+            ),
+        ),
         worker_watch: slint::Timer::default(),
         mapper: Default::default(),
         layer_hint: Default::default(),
