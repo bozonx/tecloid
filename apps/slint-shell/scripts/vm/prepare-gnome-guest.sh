@@ -36,6 +36,9 @@ install -d -o "$user" -g "$(id -gn "$user")" "$guest_home/.config/gnome-initial-
 : > "$guest_home/.config/gnome-initial-setup/upgrade-26.04-done"
 chown "$user:$(id -gn "$user")" "$guest_home/.config/gnome-initial-setup/upgrade-26.04-done"
 runuser -u "$user" -- dbus-run-session sh -c '
+    gsettings set org.gnome.desktop.input-sources sources "[(\"xkb\", \"us\"), (\"xkb\", \"ru\")]"
+    gsettings set org.gnome.mutter dynamic-workspaces false
+    gsettings set org.gnome.desktop.wm.preferences num-workspaces 4
     gsettings set org.gnome.desktop.session idle-delay 0
     gsettings set org.gnome.desktop.screensaver lock-enabled false
     gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0

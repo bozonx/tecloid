@@ -58,6 +58,15 @@ printf '[AC][SuspendAndShutdown]\nAutoSuspendAction=0\n[AC][Display]\nTurnOffDis
     > "$config/powerdevilrc"
 chown "$user:$(id -gn "$user")" "$config/kscreenlockerrc" "$config/powerdevilrc"
 
+# Match the workspace and keyboard setup used for manual acceptance.
+runuser -u "$user" -- env XDG_CONFIG_HOME="$config" sh -eu -c '
+    kwriteconfig6 --file kwinrc --group Desktops --key Number 4
+    kwriteconfig6 --file kwinrc --group Desktops --key Rows 1
+    kwriteconfig6 --file kxkbrc --group Layout --key Use true
+    kwriteconfig6 --file kxkbrc --group Layout --key LayoutList us,ru
+    kwriteconfig6 --file kxkbrc --group Layout --key VariantList ,
+'
+
 # A cloud image would otherwise search for a datasource on every disposable boot.
 [ -d /etc/cloud ] && touch /etc/cloud/cloud-init.disabled
 
