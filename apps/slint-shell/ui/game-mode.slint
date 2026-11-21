@@ -45,7 +45,7 @@ export component GameModeButton inherits Rectangle {
         forward-focus: menu-focus;
         menu-focus := FocusScope {
             capture-key-pressed(event) => {
-                if event.text == Key.Escape { focus.focus(); menu.close(); return accept; }
+                if event.text == Key.Escape { menu.close(); return accept; }
                 return reject;
             }
             MenuSurface {
@@ -58,7 +58,7 @@ export component GameModeButton inherits Rectangle {
                     accessible-checkable: true;
                     clicked => {
                         AppState.set-game-control(index == 0 ? GameModeControl.auto : index == 1 ? GameModeControl.on : GameModeControl.off);
-                        focus.focus(); menu.close();
+                        menu.close();
                     }
                 }
             }

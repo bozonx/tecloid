@@ -16,27 +16,110 @@ use slint::winit_030::winit::{
 };
 use std::{cell::RefCell, rc::Rc, time::Duration};
 
+thread_local! {
+    /// Last pointer position in logical window coordinates.
+    static POINTER: std::cell::Cell<(f32, f32)> = const { std::cell::Cell::new((0., 0.)) };
+    /// Control under the last click: keyboard navigation resumes from it, as in
+    /// browsers and Qt, instead of from the top of the window.
+    static ANCHOR: RefCell<ItemWeak> = RefCell::new(ItemWeak::default());
+}
+
+/// Deepest enabled focus target under `position` in the settings window. None while
+/// a popup is open: its items live in another tree and the hit would land behind it.
+fn focus_target_at(ui: &SettingsWindow, (x, y): (f32, f32)) -> Option<ItemRc> {
+    let window = WindowInner::from_pub(ui.window());
+    if window
+        .active_popups
+        .borrow()
+        .iter()
+        .any(|popup| !matches!(popup.window_kind, WindowKind::ToolTip))
+    {
+        return None;
+    }
+    window.ensure_tree_instantiated();
+    let root = ItemRc::new_root(window.component());
+    // Pre-order: a later match is nested in or stacked above an earlier one.
+    descendants(&root).into_iter().rev().find(|item| {
+        item.is_visible()
+            && item
+                .downcast::<FocusScope>()
+                .is_some_and(|scope| scope.as_pin_ref().enabled())
+            && {
+                let geometry = item.geometry();
+                let origin = item.map_to_window(geometry.origin);
+                x >= origin.x
+                    && y >= origin.y
+                    && x < origin.x + geometry.size.width
+                    && y < origin.y + geometry.size.height
+            }
+    })
+}
+
+/// The clicked control, if it can still take keyboard focus.
+fn take_anchor(ui: &SettingsWindow) -> Option<ItemRc> {
+    let item = ANCHOR.with(|anchor| std::mem::take(&mut *anchor.borrow_mut()).upgrade())?;
+    let window = WindowInner::from_pub(ui.window());
+    let root = ItemRc::new_root(window.component());
+    (item.is_visible_or_clipped_by_flickable()
+        && attached_to(&root, &item)
+        && item
+            .downcast::<FocusScope>()
+            .is_some_and(|scope| scope.as_pin_ref().enabled()))
+    .then_some(item)
+}
+
 /// Observe pointer events before Slint dispatches them. Move focus after dispatch
 /// so the click can open a popup, begin editing, or complete a drag first.
 pub(super) fn track_input_mode(ui: &SettingsWindow, event: &WindowEvent) -> bool {
     let theme = ui.global::<Theme>();
     let focus = ui.global::<KeyboardFocus>();
+    match event {
+        WindowEvent::CursorMoved { position, .. } => {
+            let scale = f64::from(ui.window().scale_factor());
+            POINTER.set(((position.x / scale) as f32, (position.y / scale) as f32));
+        }
+        WindowEvent::MouseInput {
+            state: ElementState::Pressed,
+            ..
+        } => {
+            let anchor = focus_target_at(ui, POINTER.get())
+                .map(|item| item.downgrade())
+                .unwrap_or_default();
+            ANCHOR.with(|current| *current.borrow_mut() = anchor);
+        }
+        _ => {}
+    }
     if let Some(keyboard) = navigation_input_mode(event) {
         if keyboard
             && focus.get_pointer_mode()
             && let WindowEvent::KeyboardInput { event, .. } = event
-            && activation_key(&event.logical_key)
         {
             let window = focus_window(WindowInner::from_pub(ui.window()).window_adapter());
             let window = WindowInner::from_pub(window.window());
-            return !window
-                .focus_item
-                .borrow()
-                .upgrade()
-                .is_some_and(|item| item.downcast::<TextInput>().is_some());
-        }
-        if keyboard && focus.get_pointer_mode() {
-            focus.invoke_reset_pointer_focus();
+            let editing =
+                window.focus_item.borrow().upgrade().is_some_and(|item| {
+                    item.is_visible() && item.downcast::<TextInput>().is_some()
+                });
+            // Typing in a clicked field stays in pointer mode: Space and Enter are text.
+            if editing && activation_key(&event.logical_key) {
+                return false;
+            }
+            if !editing {
+                if let Some(anchor) = take_anchor(ui) {
+                    WindowInner::from_pub(ui.window()).set_focus_item(
+                        &anchor,
+                        true,
+                        FocusReason::Programmatic,
+                    );
+                } else {
+                    focus.invoke_reset_pointer_focus();
+                }
+            }
+            focus.set_pointer_mode(false);
+            theme.set_keyboard_navigation(true);
+            // The first Enter/Space only reveals the focus: the last clicked button
+            // must not fire again. Tab and arrows move on from the revealed control.
+            return activation_key(&event.logical_key);
         }
         focus.set_pointer_mode(!keyboard);
         theme.set_keyboard_navigation(keyboard);
@@ -46,7 +129,7 @@ pub(super) fn track_input_mode(ui: &SettingsWindow, event: &WindowEvent) -> bool
         WindowEvent::MouseInput {
             state: ElementState::Released,
             ..
-        } | WindowEvent::MouseWheel { .. }
+        }
     ) || matches!(event, WindowEvent::Touch(touch) if touch.phase == TouchPhase::Ended);
     let may_close_popup = matches!(event, WindowEvent::KeyboardInput { event, .. }
         if event.state == ElementState::Pressed && event.logical_key == Key::Named(NamedKey::Escape));
@@ -102,7 +185,7 @@ pub(crate) fn navigation_input_mode(event: &WindowEvent) -> Option<bool> {
             state: ElementState::Pressed,
             ..
         } => Some(false),
-        WindowEvent::MouseWheel { .. } => Some(false),
+        // Scrolling only reveals content: it keeps the keyboard position.
         WindowEvent::Touch(touch) if touch.phase == TouchPhase::Started => Some(false),
         _ => None,
     }
@@ -660,6 +743,8 @@ pub(super) fn bind(ui: &SettingsWindow) {
         state.neighbors = state.pending.upgrade().map(|item| [item.next_focus_item().downgrade(), item.previous_focus_item().downgrade()]).unwrap_or_default();
     });
     on!(ui, focus.on_enter, state = state => |ui| {
+        // A click that opened this dialog must not pull focus back behind it.
+        ANCHOR.with(|anchor| *anchor.borrow_mut() = ItemWeak::default());
         let mut focus_state = state.borrow_mut();
         let boundary = WindowInner::from_pub(ui.window()).focus_item.borrow().clone();
         let window = WindowInner::from_pub(ui.window());
@@ -759,6 +844,24 @@ mod tests {
         assert!(navigation_key(&Key::Character(" ".into())));
         assert!(!navigation_key(&Key::Character("a".into())));
         assert!(!navigation_key(&Key::Named(NamedKey::Control)));
+    }
+
+    #[test]
+    fn scrolling_keeps_the_input_mode() {
+        use slint::winit_030::winit::event::{DeviceId, MouseScrollDelta};
+        let device_id = DeviceId::dummy();
+        let wheel = WindowEvent::MouseWheel {
+            device_id,
+            delta: MouseScrollDelta::LineDelta(0., -1.),
+            phase: TouchPhase::Moved,
+        };
+        assert_eq!(navigation_input_mode(&wheel), None);
+        let press = WindowEvent::MouseInput {
+            device_id,
+            state: ElementState::Pressed,
+            button: slint::winit_030::winit::event::MouseButton::Left,
+        };
+        assert_eq!(navigation_input_mode(&press), Some(false));
     }
 
     #[test]
