@@ -20,7 +20,11 @@ def main():
     parser.add_argument("stand", choices=STANDS)
     parser.add_argument("--vm-root", type=Path, help="directory containing the prepared Tecloid VM stands")
     parser.add_argument("--check", action="store_true", help="validate and print selected paths without booting")
+    parser.add_argument("--build", action="store_true",
+                        help="build all Linux release packages before booting (requires release build dependencies)")
     args = parser.parse_args()
+    if args.build and args.check:
+        parser.error("--build cannot be combined with --check")
     root = args.vm_root or os.environ.get("TECLOID_VM_ROOT")
     if not root:
         config = REPO / "dev-files/vm/manual.json"
@@ -34,12 +38,18 @@ def main():
     directory, filename = STANDS[args.stand]
     vm = Path(root).expanduser().resolve() / directory
     package = Path(metadata["target_directory"]) / "release-artifacts" / filename.format(version=version)
-    for path in (vm / "vm.json", vm / "base.qcow2", package):
+    for path in (vm / "vm.json", vm / "base.qcow2"):
         if not path.is_file():
             parser.error(f"{path} missing; prepare the stand or run apps/slint-shell/scripts/release/release-linux.sh")
     config = json.loads((vm / "vm.json").read_text())
     if not Path(config["ssh_key"]).expanduser().is_file():
         parser.error("VM SSH key is missing")
+    if args.build:
+        print("Building Linux release packages in the current environment…", flush=True)
+        subprocess.run([str(REPO / "apps/slint-shell/scripts/release/release-linux.sh")],
+                       cwd=REPO, check=True)
+    if not package.is_file():
+        parser.error(f"{package} missing; use --build or build packages as described in docs/release.md")
     runner = "run-gnome.py" if args.stand == "gnome" else "run-linux.py"
     command = [sys.executable, str(Path(__file__).with_name(runner)),
                "--manual", "--vm", str(vm), "--package", str(package)]

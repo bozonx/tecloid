@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Manual Linux VM launcher accepts `--build` to build the shared Linux release packages before starting acceptance.
+
 - Use “Rules” consistently for the rules tab and rule deletion; “Trigger” remains the key or combination field.
 
 - Trigger headers show an explicitly configured late-tap duration, including 0 when late tap is disabled.
