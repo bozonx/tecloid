@@ -5,6 +5,7 @@
 set -eu
 
 package=$(realpath -- "$1")
+fixtures=$(dirname "$(realpath -- "$0")")/../../../../crates/tecloid-core/fixtures
 app_id=dev.bozonx.tecloid
 if [ "$(id -u)" -ne 0 ]; then
     echo 'Run this check as root inside a disposable container.' >&2
@@ -73,14 +74,53 @@ done
 desktop-file-validate /usr/share/applications/$app_id.desktop
 validate_metainfo /usr/share/metainfo/$app_id.metainfo.xml
 
+work=$(mktemp -d)
+trap 'rm -rf -- "$work"' EXIT
 case "$package" in
-    *.deb) apt-get remove -y -qq tecloid >/dev/null ;;
+    *.deb) dpkg-query -L tecloid > "$work/manifest" ;;
+    *.rpm) rpm -ql tecloid > "$work/manifest" ;;
+esac
+# Package managers list shared directories alongside package files.
+while IFS= read -r path; do
+    if [ -L "$path" ] || [ -f "$path" ]; then
+        printf '%s\n' "$path"
+    fi
+done < "$work/manifest" > "$work/files"
+
+test_user=tecloid-smoke
+useradd -m "$test_user"
+trap 'userdel -r "$test_user"; rm -rf -- "$work"' EXIT
+test_home=$(getent passwd "$test_user" | cut -d: -f6)
+config="$test_home/.config/$app_id/config.json"
+keymap="$test_home/.local/share/$app_id/keymaps/Smoke.json"
+mkdir -p "$(dirname "$config")" "$(dirname "$keymap")"
+cp "$fixtures/config.v1.defaults.linux.json" "$config"
+cp "$fixtures/keymap.v1.json" "$keymap"
+chown -R "$test_user" "$test_home"
+sha256sum "$config" "$keymap" > "$work/user-data.sha256"
+
+case "$package" in
+    *.deb)
+        apt-get remove -y -qq tecloid >/dev/null
+        if [ "$(dpkg-query -W -f='${db:Status-Status}' tecloid 2>/dev/null || :)" = installed ]; then
+            echo 'DEB package is still installed' >&2
+            exit 1
+        fi
+        ;;
     *.rpm)
         if command -v dnf >/dev/null 2>&1; then dnf remove -y -q tecloid
         else zypper --non-interactive remove tecloid; fi
+        if rpm -q tecloid >/dev/null; then
+            echo 'RPM package is still installed' >&2
+            exit 1
+        fi
         ;;
 esac
-for path in /usr/bin/tecloid /usr/lib/udev/rules.d/60-tecloid.rules; do
-    test ! -e "$path" || { echo "Not removed: $path" >&2; exit 1; }
-done
+while IFS= read -r path; do
+    if [ -e "$path" ] || [ -L "$path" ]; then
+        echo "Not removed: $path" >&2
+        exit 1
+    fi
+done < "$work/files"
+sha256sum -c "$work/user-data.sha256"
 echo "Smoke check passed: $package"
