@@ -74,6 +74,7 @@ export component PopupMenuImpl inherits Window {
         }
 
         key-pressed(event) => {
+            if event.modifiers.control || event.modifiers.alt || event.modifiers.meta { return reject; }
             open-sub-menu-after-timeout.running = false;
 
             if event.text == Key.UpArrow {
@@ -94,7 +95,7 @@ export component PopupMenuImpl inherits Window {
                     current-highlight += 1;
                 }
                 return accept;
-            } else if event.text == Key.Return {
+            } else if event.text == Key.Return || event.text == Key.Space {
                 if current-highlight >= 0 && current-highlight < entries.length && entries[current-highlight].enabled {
                     activate(entries[current-highlight], current-highlight-y-pos, current-highlight);
                 }

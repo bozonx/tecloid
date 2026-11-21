@@ -81,7 +81,7 @@ component InlineEditor inherits FocusScope {
     key-pressed(event) => {
         if root.editing && event.text == Key.Escape { root.cancel(); root.focus(); return accept; }
         if root.editing && root.multiline && event.modifiers.control && event.text == Key.Return { if root.save() { root.focus(); } return accept; }
-        if !root.editing && (event.text == Key.Return || event.text == " ") { root.begin(); return accept; }
+        if !root.editing && !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Return || event.text == " ") { root.begin(); return accept; }
         return reject;
     }
 }

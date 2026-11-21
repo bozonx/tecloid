@@ -6,7 +6,10 @@ use i_slint_core::{
     item_tree::{ItemRc, ParentItemTraversalMode},
     window::WindowInner,
 };
-use slint::{ComponentHandle, Model, platform::Key};
+use slint::{
+    ComponentHandle, Model,
+    platform::{Key, PointerEventButton, WindowEvent},
+};
 use slint_shell::{Document, bind_document, ui::*};
 use std::{cell::Cell, rc::Rc, time::Duration};
 use support::snapshot;
@@ -172,6 +175,31 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 let before = refreshes.get();
                 key(&ui, Key::Return);
                 assert_eq!(refreshes.get(), before + 1);
+                let item = nearest_accessible_item(focused(&ui));
+                let center = item.map_to_window(item.geometry().center());
+                let position = slint::LogicalPosition::new(center.x, center.y);
+                let focus = ui.global::<KeyboardFocus>();
+                focus.set_pointer_mode(true);
+                for event in [
+                    WindowEvent::PointerPressed { position, button: PointerEventButton::Left },
+                    WindowEvent::PointerReleased { position, button: PointerEventButton::Left },
+                ] {
+                    ui.window().dispatch_event(event);
+                }
+                assert_eq!(refreshes.get(), before + 2);
+                focus.invoke_reset_pointer_focus();
+                assert_ne!(label(&ui), "Refresh");
+                key(&ui, Key::Return);
+                key(&ui, Key::Space);
+                assert_eq!(refreshes.get(), before + 2, "pointer click leaves no armed button");
+                focus.set_pointer_mode(false);
+                tab_to(&ui, "Refresh");
+                ui.window().dispatch_event(WindowEvent::KeyPressed { text: Key::Control.into() });
+                key(&ui, Key::Return);
+                ui.window().dispatch_event(WindowEvent::KeyReleased { text: Key::Control.into() });
+                assert_eq!(refreshes.get(), before + 2, "Ctrl+Enter does not activate a button");
+                key(&ui, Key::Space);
+                assert_eq!(refreshes.get(), before + 3);
                 assert!(ui.global::<DeviceDialog>().get_open());
                 assert!(ui.global::<SettingsEditor>().get_keyboard_device_path().is_empty());
                 tab_to(&ui, "Regression keyboard");
@@ -184,7 +212,28 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 assert_eq!(label(&ui), "Regression keyboard");
                 key(&ui, Key::UpArrow);
                 assert_eq!(label(&ui), "Regression keyboard", "Up stays inside the device list");
+                let mut close = Vec::new();
+                for _ in 0..80 {
+                    key(&ui, Key::Tab);
+                    if label(&ui) == "Close" && !close.contains(&focused(&ui)) {
+                        close.push(focused(&ui));
+                    }
+                }
+                assert_eq!(close.len(), 2);
+                let header = close.iter().min_by(|a, b| {
+                    let y = |item: &ItemRc| {
+                        let item = nearest_accessible_item(item.clone());
+                        item.map_to_window(item.geometry().center()).y
+                    };
+                    y(a).total_cmp(&y(b))
+                }).unwrap();
+                for _ in 0..80 {
+                    if focused(&ui) == *header { break; }
+                    key(&ui, Key::Tab);
+                }
+                assert_eq!(focused(&ui), *header);
                 key(&ui, Key::Escape);
+                assert!(!ui.global::<DeviceDialog>().get_open());
             }
             3 => {
                 assert!(!ui.global::<KeyboardFocus>().get_active());
@@ -353,6 +402,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 ui.invoke_navigate(Page::Layers, MenuKind::Emoji);
             }
             24 => {
+                tab_to(&ui, "Keymaps");
+                tab_to(&ui, "Close keymap");
+                ui.global::<LayersEditor>().set_keyboard_source(0);
+                key(&ui, Key::Escape);
+                assert_eq!(ui.global::<LayersEditor>().get_keyboard_source(), -1);
                 tab_to(&ui, "Layers");
                 key(&ui, Key::LeftArrow);
                 assert!(label(&ui).starts_with("Rules"));
@@ -388,6 +442,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 key(&ui, Key::Escape);
                 assert_eq!(label(&ui), "Language");
                 assert_eq!(ui.global::<SettingsEditor>().get_locale_index(), before);
+                for backwards in [false, true] {
+                    tab_to(&ui, "Language");
+                    key(&ui, Key::Return);
+                    key(&ui, Key::Home);
+                    key(&ui, Key::DownArrow);
+                    assert_eq!(label(&ui), "English");
+                    key(&ui, if backwards { Key::Backtab } else { Key::Tab });
+                    assert!(WindowInner::from_pub(ui.window()).active_popups.borrow().is_empty());
+                    assert_eq!(ui.global::<SettingsEditor>().get_locale_index(), before);
+                }
                 let picker = ui.global::<ActionPicker>();
                 picker.invoke_open(PickerTarget::LayerAction, 0, "KeyA".into(), false);
                 picker.invoke_select_behavior(PickerBehavior::Action);
@@ -423,7 +487,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 println!("PASS: tab-list arrows/Home/End/exit; device edges; ComboBox cancel; Search Escape; picker real focus+Enter; 1440 Tab/Shift+Tab events; device/menu Enter; segmented arrows; modal restoration; InfoTip/F1; scrolling; action categories; menu cell transfer and page reorder; active keymap selector");
                 slint::quit_event_loop().unwrap();
             }
-            _ => unreachable!(),
+            _ => {}, // The quit request may be delivered after one more timer tick.
         }
     });
     slint::run_event_loop()?;

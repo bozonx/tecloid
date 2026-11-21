@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Settings buttons release keyboard focus after pointer use. Tab and Shift+Tab reach the top navigation from keymap editors and leave drop-downs without saving a provisional value. Escape consistently cancels pending transfers and closes the device picker after clearing its search.
+
 - Mouse input and button assignments are available with In development features off. Previously selected mice and saved button assignments work in normal mode. On Linux, keyboard rules can also emit mouse clicks without capturing a physical mouse.
 - Normal mode hides experimental Quick action cells and skips game-mode rules. Experimental assignments and invalid experimental data no longer intercept keys or block mapper startup. Standard system shortcuts are available in the action picker's sidebar.
 

@@ -45,7 +45,7 @@ export component ComboBoxBase {
     public function popup-key-handler(event: KeyEvent) -> EventResult {
         if event.modifiers.control || event.modifiers.meta { return reject; }
         if event.text == Key.Escape || (event.modifiers.alt && event.text == Key.UpArrow) { root.close-popup(); return accept; }
-        if event.text == Key.Return || event.text == " " {
+        if !event.modifiers.alt && (event.text == Key.Return || event.text == " ") {
             root.select(root.highlighted-index); root.close-popup(); return accept;
         }
         // Search by typed prefix without applying a provisional option.
@@ -102,7 +102,7 @@ export component ComboBoxBase {
                 return reject;
             }
             if event.modifiers.control || event.modifiers.meta { return reject; }
-            if event.text == Key.Return || event.text == " " || event.text == Key.DownArrow || event.text == Key.UpArrow {
+            if (!event.modifiers.alt && (event.text == Key.Return || event.text == " ")) || event.text == Key.DownArrow || event.text == Key.UpArrow {
                 root.open(); return accept;
             }
             if (event.text == Key.Home) {

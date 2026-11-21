@@ -174,8 +174,8 @@ component PickerCell inherits Rectangle {
         tab-stop: root.index == ActionPicker.keyboard-item;
         focus-changed-event => { if self.has-focus { ActionPicker.keyboard-item = root.index; } }
         key-pressed(event) => {
-            if event.text == Key.Return { root.pick(); if ActionPicker.valid { ActionPicker.apply(); } return accept; }
-            if event.text == " " { root.pick(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && event.text == Key.Return { root.pick(); if ActionPicker.valid { ActionPicker.apply(); } return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && event.text == " " { root.pick(); return accept; }
             return self.navigate(event);
         }
     }
@@ -195,7 +195,7 @@ component CategoryButton inherits Rectangle {
         kind: vertical-tabs;
         tab-stop: ActionPicker.category == root.category;
         key-pressed(event) => {
-            if event.text == Key.Return || event.text == " " { root.choose(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Return || event.text == " ") { root.choose(); return accept; }
             return self.navigate(event);
         }
     }
@@ -225,7 +225,7 @@ export component PickerOverlay inherits DialogFrame {
         init => { self.focus(); }
         key-pressed(event) => {
             if ActionPicker.capturing { return accept; }
-            if event.text == Key.Return && ActionPicker.valid { ActionPicker.apply(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && event.text == Key.Return && ActionPicker.valid { ActionPicker.apply(); return accept; }
             return reject;
         }
         VerticalLayout { spacing: Theme.space-m;

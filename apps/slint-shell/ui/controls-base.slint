@@ -150,7 +150,7 @@ export component ButtonGroup inherits Rectangle {
                     enabled: root.enabled;
                     focus-changed-event => { if self.has-focus && !button.current { root.selected(index); } }
                     key-pressed(event) => {
-                        if event.text == Key.Return || event.text == " " { root.selected(index); return accept; }
+                        if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Return || event.text == " ") { root.selected(index); return accept; }
                         return self.navigate(event);
                     }
                 }
@@ -166,7 +166,7 @@ export component ButtonGroup inherits Rectangle {
                         horizontal-alignment: center;
                     }
                 }
-                touch := TouchArea { enabled: root.enabled; mouse-cursor: pointer; clicked => { button-focus.focus(); root.selected(index); } }
+                touch := TouchArea { enabled: root.enabled; mouse-cursor: pointer; clicked => { root.selected(index); } }
                 if index < root.tooltips.length && root.tooltips[index] != "": Tooltip { TooltipText { text: root.tooltips[index]; } }
             }
         }
@@ -195,7 +195,7 @@ export component InfoTip inherits Rectangle {
     forward-focus: help-focus;
     help-focus := FocusScope {
         key-pressed(event) => {
-            if event.text == Key.Return || event.text == " " { help.show(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Return || event.text == " ") { help.show(); return accept; }
             if event.text == Key.Escape { help.close(); return accept; }
             return reject;
         }
@@ -210,7 +210,7 @@ export component InfoTip inherits Rectangle {
                 accessible-role: groupbox;
                 accessible-label: root.text;
                 key-pressed(event) => {
-                    if event.text == Key.Escape || event.text == Key.Return || event.text == " " { help.close(); help-focus.focus(); return accept; }
+                    if event.text == Key.Escape || (!event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Return || event.text == " ")) { help.close(); help-focus.focus(); return accept; }
                     return reject;
                 }
                 Text { width: Theme.text-tooltip; text: root.text; color: Theme.text; font-size: Theme.font-body; wrap: word-wrap; }

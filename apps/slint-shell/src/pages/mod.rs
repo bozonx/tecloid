@@ -61,9 +61,8 @@ impl WindowInput {
         ui: &SettingsWindow,
         event: &slint::winit_030::winit::event::WindowEvent,
     ) -> bool {
-        focus::track_input_mode(ui, event);
         inline::observe(ui, event, &self.pointer);
-        picker::capture(ui, event, &self.capture)
+        picker::capture(ui, event, &self.capture) || focus::track_input_mode(ui, event)
     }
 
     fn reset_capture(&self) {

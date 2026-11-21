@@ -61,7 +61,7 @@ export component MenuItem inherits Rectangle {
         kind: menu;
         enabled: root.enabled;
         key-pressed(event) => {
-            if event.text == "\n" || event.text == " " { root.clicked(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == "\n" || event.text == " ") { root.clicked(); return accept; }
             return self.navigate(event);
         }
     }
@@ -96,6 +96,8 @@ export component DialogFrame inherits Rectangle {
     in property <bool> close-on-escape: true;
     private property <int> focus-token;
     callback close();
+    callback escape();
+    escape => { root.close(); }
     /// Focus the preferred content after the frame has taken keyboard focus.
     callback focus-content();
     background: Theme.scrim;
@@ -110,7 +112,7 @@ export component DialogFrame inherits Rectangle {
             if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Tab || event.text == Key.Backtab) {
                 KeyboardFocus.cycle(event.modifiers.shift || event.text == Key.Backtab); return accept;
             }
-            if root.close-on-escape && event.text == Key.Escape { root.close(); return accept; }
+            if root.close-on-escape && event.text == Key.Escape { root.escape(); return accept; }
             return reject;
         }
         card := Rectangle {

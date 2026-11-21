@@ -111,7 +111,7 @@ export component CheckBox {
         enabled <=> root.enabled;
 
         key-pressed(event) => {
-            if (event.text == Key.Space || event.text == Key.Return) {
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Space || event.text == Key.Return) {
                 touch-area.clicked();
                 return accept;
             }

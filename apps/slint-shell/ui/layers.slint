@@ -217,8 +217,7 @@ component KeyCap inherits Rectangle {
                 if LayersEditor.keyboard-source >= 0 { LayersEditor.swap-keys(LayersEditor.keyboard-source, root.cell.index); LayersEditor.keyboard-source = -1; }
                 return accept;
             }
-            if event.text == Key.Escape && LayersEditor.keyboard-source >= 0 { LayersEditor.keyboard-source = -1; return accept; }
-            if event.text == " " || event.text == "\n" { root.clicked(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == " " || event.text == "\n") { root.clicked(); return accept; }
             return self.navigate(event);
         }
     }
@@ -325,7 +324,7 @@ export component LayersPage inherits PageLayout {
                         kind: horizontal-tabs;
                         tab-stop: LayersEditor.selected == index;
                         key-pressed(event) => {
-                            if event.text == " " || event.text == "\n" { LayersEditor.choose(index); return accept; }
+                            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == " " || event.text == "\n") { LayersEditor.choose(index); return accept; }
                             // Alt+Left/Right: keyboard alternative to dragging the tab.
                             if event.modifiers.alt && event.text == Key.LeftArrow && index > 0 { KeyboardFocus.remember-reorder(index, index - 1); if !LayersEditor.reorder(index, index - 1) { KeyboardFocus.remember-reorder(index, index); } KeyboardFocus.restore-reorder(); return accept; }
                             if event.modifiers.alt && event.text == Key.RightArrow && index + 1 < LayersEditor.names.length { KeyboardFocus.remember-reorder(index, index + 1); if !LayersEditor.reorder(index, index + 1) { KeyboardFocus.remember-reorder(index, index); } KeyboardFocus.restore-reorder(); return accept; }

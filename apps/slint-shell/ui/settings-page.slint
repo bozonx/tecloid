@@ -367,7 +367,7 @@ export component SettingsPage inherits PageLayout {
                         kind: vertical-tabs;
                         tab-stop: SettingsEditor.tab == tab-id;
                         key-pressed(event) => {
-                            if event.text == " " || event.text == "\n" {
+                            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == " " || event.text == "\n") {
                                 SettingsEditor.tab = tab-id;
                                 content.viewport-y = 0px;
                                 return accept;

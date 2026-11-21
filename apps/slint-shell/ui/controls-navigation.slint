@@ -50,7 +50,7 @@ export component NavTab inherits Rectangle {
         kind: horizontal-tabs;
         tab-stop: root.tab-stop;
         key-pressed(event) => {
-            if event.text == " " || event.text == "\n" { root.clicked(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == " " || event.text == "\n") { root.clicked(); return accept; }
             return self.navigate(event);
         }
     }
@@ -92,7 +92,7 @@ export component NavButton inherits Rectangle {
         kind: horizontal-tabs;
         tab-stop: root.tab-stop;
         key-pressed(event) => {
-            if event.text == " " || event.text == "\n" { root.clicked(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == " " || event.text == "\n") { root.clicked(); return accept; }
             return self.navigate(event);
         }
     }

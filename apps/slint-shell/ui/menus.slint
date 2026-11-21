@@ -162,9 +162,8 @@ component HotkeyGrid inherits Rectangle {
             if event.modifiers.control && event.text.to-lowercase() == "x" { MenuEditor.mark-cell(index, false); return accept; }
             if event.modifiers.control && event.text.to-lowercase() == "c" { MenuEditor.mark-cell(index, true); return accept; }
             if event.modifiers.control && event.text.to-lowercase() == "v" { MenuEditor.drop-cell(index); return accept; }
-            if event.text == Key.Escape && MenuEditor.keyboard-source-cell >= 0 { MenuEditor.cancel-mark(); return accept; }
             if event.text == Key.Delete || event.text == Key.Backspace { MenuEditor.select-cell(index); MenuEditor.clear-cell(); return accept; }
-            if event.text == Key.Return || event.text == " " { root.activate(index); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Return || event.text == " ") { root.activate(index); return accept; }
             return self.navigate(event);
         }
         }
@@ -409,7 +408,7 @@ component EmojiButton inherits Rectangle {
         tab-stop: root.tab-stop;
         focus-changed-event => { if self.has-focus { root.focused(); } }
         key-pressed(event) => {
-            if event.text == " " || event.text == "\n" { root.pick(); return accept; }
+            if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == " " || event.text == "\n") { root.pick(); return accept; }
             return self.navigate(event);
         }
     }

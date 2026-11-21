@@ -115,8 +115,10 @@ export component DeviceDialogOverlay inherits DialogFrame {
     private property <length> content-height: DeviceChoices.offset(root.filtered, root.filtered.length) * 1px;
     title: root.mouse ? @tr("Choose a mouse") : @tr("Choose a keyboard");
     card-height: 540px;
-    // Escape first clears the search, so the list handles it.
-    close-on-escape: false;
+    escape => {
+        if root.all && root.query != "" { root.query = ""; }
+        else { root.close(); }
+    }
 
     function choose(index: int) {
         if root.enabled && index >= 0 && index < root.filtered.length { root.chosen(root.filtered[index].path); }
@@ -143,15 +145,6 @@ export component DeviceDialogOverlay inherits DialogFrame {
 
     keys := FocusScope {
         focus-on-tab-navigation: false;
-        key-pressed(event) => {
-            if root.tab == 2 {
-                if event.text == Key.Escape { root.close(); return accept; }
-                return reject;
-            }
-            if event.text == Key.Escape && root.all && root.query != "" { root.query = ""; return accept; }
-            if event.text == Key.Escape { root.close(); return accept; }
-            return reject;
-        }
         VerticalLayout { spacing: Theme.space-l;
             HorizontalLayout { alignment: start; vertical-stretch: 0;
                 ButtonGroup {
@@ -230,7 +223,7 @@ export component DeviceDialogOverlay inherits DialogFrame {
                                     tab-stop: index == root.highlighted;
                                     focus-changed-event => { if self.has-focus { root.highlighted = index; root.scroll-to-highlight(); } }
                                     key-pressed(event) => {
-                                        if event.text == Key.Return || event.text == " " { root.choose(index); return accept; }
+                                        if !event.modifiers.control && !event.modifiers.alt && !event.modifiers.meta && (event.text == Key.Return || event.text == " ") { root.choose(index); return accept; }
                                         return self.navigate(event);
                                     }
                                 }

@@ -10,6 +10,8 @@ export global KeyboardFocus {
     callback enter() -> int;
     callback is-top(int) -> bool;
     in-out property <bool> active;
+    in-out property <bool> pointer-mode;
+    callback reset-pointer-focus();
     callback cycle(bool);
     callback step(bool);
     callback focus-checked();
@@ -48,6 +50,7 @@ export component NavigationFocus inherits FocusScope {
         return reject;
     }
     capture-key-pressed(event) => {
+        if event.modifiers.control || event.modifiers.alt || event.modifiers.meta { return reject; }
         if event.text == Key.Tab || event.text == Key.Backtab || event.text == Key.LeftArrow || event.text == Key.RightArrow || event.text == Key.UpArrow || event.text == Key.DownArrow || event.text == Key.Home || event.text == Key.End || event.text == Key.Return || event.text == " " {
             Theme.keyboard-navigation = true;
         }

@@ -5,7 +5,7 @@ use i_slint_core::{
     accessibility::{AccessibleStringProperty, nearest_accessible_item},
     input::FocusReason,
     item_tree::{ItemRc, ItemWeak, ParentItemTraversalMode},
-    items::{AccessibleRole, FocusScope},
+    items::{AccessibleRole, FocusScope, TextInput},
     window::WindowAdapter,
     window::{PopupWindowLocation, WindowInner, WindowKind},
 };
@@ -16,13 +16,59 @@ use slint::winit_030::winit::{
 };
 use std::{cell::RefCell, rc::Rc, time::Duration};
 
-/// Remember whether the last input was keyboard navigation or the pointer, so
-/// focus rings appear only for keyboard users (like CSS `:focus-visible`).
-/// Typing text does not count: it keeps the current mode.
-pub(super) fn track_input_mode(ui: &SettingsWindow, event: &WindowEvent) {
+/// Observe pointer events before Slint dispatches them. Move focus after dispatch
+/// so the click can open a popup, begin editing, or complete a drag first.
+pub(super) fn track_input_mode(ui: &SettingsWindow, event: &WindowEvent) -> bool {
+    let theme = ui.global::<Theme>();
+    let focus = ui.global::<KeyboardFocus>();
     if let Some(keyboard) = navigation_input_mode(event) {
-        ui.global::<Theme>().set_keyboard_navigation(keyboard);
+        if keyboard
+            && focus.get_pointer_mode()
+            && let WindowEvent::KeyboardInput { event, .. } = event
+            && activation_key(&event.logical_key)
+        {
+            let window = focus_window(WindowInner::from_pub(ui.window()).window_adapter());
+            let window = WindowInner::from_pub(window.window());
+            return !window
+                .focus_item
+                .borrow()
+                .upgrade()
+                .is_some_and(|item| item.downcast::<TextInput>().is_some());
+        }
+        if keyboard && focus.get_pointer_mode() {
+            focus.invoke_reset_pointer_focus();
+        }
+        focus.set_pointer_mode(!keyboard);
+        theme.set_keyboard_navigation(keyboard);
     }
+    let pointer_finished = matches!(
+        event,
+        WindowEvent::MouseInput {
+            state: ElementState::Released,
+            ..
+        } | WindowEvent::MouseWheel { .. }
+    ) || matches!(event, WindowEvent::Touch(touch) if touch.phase == TouchPhase::Ended);
+    let may_close_popup = matches!(event, WindowEvent::KeyboardInput { event, .. }
+        if event.state == ElementState::Pressed && event.logical_key == Key::Named(NamedKey::Escape));
+    if focus.get_pointer_mode() && (pointer_finished || may_close_popup) {
+        let weak = ui.as_weak();
+        WindowInner::from_pub(ui.window())
+            .context()
+            .single_shot(Duration::ZERO, move || {
+                if let Some(ui) = weak.upgrade()
+                    && ui.global::<KeyboardFocus>().get_pointer_mode()
+                {
+                    WindowInner::from_pub(ui.window()).ensure_tree_instantiated();
+                    ui.global::<KeyboardFocus>().invoke_reset_pointer_focus();
+                }
+            });
+    }
+    false
+}
+
+fn activation_key(key: &Key) -> bool {
+    matches!(key, Key::Named(NamedKey::Enter | NamedKey::Space))
+        || matches!(key, Key::Character(text) if text == " ")
 }
 
 fn navigation_key(key: &Key) -> bool {
@@ -56,6 +102,7 @@ pub(crate) fn navigation_input_mode(event: &WindowEvent) -> Option<bool> {
             state: ElementState::Pressed,
             ..
         } => Some(false),
+        WindowEvent::MouseWheel { .. } => Some(false),
         WindowEvent::Touch(touch) if touch.phase == TouchPhase::Started => Some(false),
         _ => None,
     }
@@ -114,6 +161,10 @@ fn restore(ui: &SettingsWindow, state: &mut State, detached: &[i32]) {
                 .is_some_and(|item| item.is_visible_or_clipped_by_flickable())
         );
     }
+    if previous_count != state.dialogs.len() && ui.global::<KeyboardFocus>().get_pointer_mode() {
+        reset_pointer_focus(ui, state);
+        return;
+    }
     let root = ItemRc::new_root(window.component());
     if let Some(item) = target
         .and_then(|item| item.upgrade())
@@ -147,6 +198,32 @@ fn restore(ui: &SettingsWindow, state: &mut State, detached: &[i32]) {
         } else {
             window.focus_next_item();
         }
+    }
+}
+
+fn reset_pointer_focus(ui: &SettingsWindow, state: &State) {
+    let window = WindowInner::from_pub(ui.window());
+    if window
+        .active_popups
+        .borrow()
+        .iter()
+        .any(|popup| !matches!(popup.window_kind, WindowKind::ToolTip))
+        || window
+            .focus_item
+            .borrow()
+            .upgrade()
+            .is_some_and(|item| item.is_visible() && item.downcast::<TextInput>().is_some())
+    {
+        return;
+    }
+    if let Some(boundary) = state
+        .dialogs
+        .last()
+        .and_then(|dialog| dialog.boundary.upgrade())
+    {
+        window.set_focus_item(&boundary, true, FocusReason::Programmatic);
+    } else {
+        ui.invoke_focus_shortcuts();
     }
 }
 
@@ -553,6 +630,9 @@ pub(super) fn bind(ui: &SettingsWindow) {
     }));
     let focus = ui.global::<KeyboardFocus>();
     bind_navigation(&focus, ui.window());
+    on!(ui, focus.on_reset_pointer_focus, state = state => |ui| {
+        reset_pointer_focus(&ui, &state.borrow());
+    });
     on!(ui, focus.on_has_focus => |ui| {
         let window = WindowInner::from_pub(ui.window());
         window.ensure_tree_instantiated();
