@@ -3348,6 +3348,12 @@ msgstr "В начало строки"
 msgid "Move to line end"
 msgstr "В конец строки"
 
+msgid "Select to line start"
+msgstr "Выделить до начала строки"
+
+msgid "Select to line end"
+msgstr "Выделить до конца строки"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Отдельное сочетание вставки для терминалов"
 

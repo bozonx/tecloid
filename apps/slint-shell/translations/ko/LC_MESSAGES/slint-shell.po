@@ -3680,6 +3680,12 @@ msgstr "줄 처음으로 이동"
 msgid "Move to line end"
 msgstr "줄 끝으로 이동"
 
+msgid "Select to line start"
+msgstr "줄 시작까지 선택"
+
+msgid "Select to line end"
+msgstr "줄 끝까지 선택"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "터미널에서 별도의 붙여넣기 단축키 사용"
 

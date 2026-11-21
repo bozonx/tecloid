@@ -116,6 +116,8 @@ action sys:redo
 action sys:reopenClosedTab
 action sys:save
 action sys:selectAll
+action sys:selectToLineEnd
+action sys:selectToLineStart
 action sys:selectWordLeft
 action sys:selectWordRight
 action sys:showAppLauncher

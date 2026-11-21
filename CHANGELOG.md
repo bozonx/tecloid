@@ -14,6 +14,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 - New desktop action `sys:maximizeWindowHorizontally` (KDE, Windows; GNOME where Mutter exposes partial maximization), the counterpart of `maximizeWindowVertically`.
 - New desktop actions `sys:tileWindowLeft`/`Right`/`Top`/`Bottom`, `sys:activateTaskManagerEntry1`–`10` and `sys:showClipboardHistory` (KDE, Windows; side tiling and task entries 1–9 on GNOME).
 - Built-in macros that copy, cut, paste or move by words use these shortcuts, so they follow the layout and terminal windows.
+- New `sys:selectToLineStart` and `sys:selectToLineEnd` (Shift+Home/End). Built-in macros move and select within a line through `sys:moveToLineStart`/`End` and these actions instead of raw Home/End keys; the keys sent on Linux and Windows are unchanged, and the macros are ready for macOS chords (Cmd+Arrow).
 - Linux paste setting: new `auto` (default: Ctrl+V, Ctrl+Shift+V in terminals) and `Paste` (the Paste key) values; `terminalPasteShortcut` defaults to `sameAsPaste`. The setting is shown for every typing method and also selects the keys of `sys:paste`; values other than `auto` are sent exactly as chosen, and copy and cut do not depend on it. A separate terminal shortcut is behind a checkbox. Configs that store explicit values keep them.
 - The bundled LHC1 keymap uses these portable actions instead of Ctrl/Meta chords, maps `sys:redo` to Z on the select layer and uses `sys:maximizeWindowHorizontally` instead of a KDE shortcut and `sys:toggleComment` instead of `Ctrl+Slash`.
 

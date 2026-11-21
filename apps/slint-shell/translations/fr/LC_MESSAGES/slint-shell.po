@@ -3975,6 +3975,12 @@ msgstr "Aller au début de la ligne"
 msgid "Move to line end"
 msgstr "Aller à la fin de la ligne"
 
+msgid "Select to line start"
+msgstr "Sélectionner jusqu’au début de la ligne"
+
+msgid "Select to line end"
+msgstr "Sélectionner jusqu’à la fin de la ligne"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Raccourci de collage distinct pour les terminaux"
 

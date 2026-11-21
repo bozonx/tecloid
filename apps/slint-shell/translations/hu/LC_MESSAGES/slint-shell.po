@@ -3929,6 +3929,12 @@ msgstr "Ugrás a sor elejére"
 msgid "Move to line end"
 msgstr "Ugrás a sor végére"
 
+msgid "Select to line start"
+msgstr "Kijelölés a sor elejéig"
+
+msgid "Select to line end"
+msgstr "Kijelölés a sor végéig"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Külön beillesztési billentyűparancs terminálokhoz"
 

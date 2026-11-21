@@ -289,7 +289,10 @@ diagnostics report it and the mapper does not start with it.
   cut do not depend on it. Text and window chords:
   `moveWordLeft`/`Right`, `selectWordLeft`/`Right`,
   `deleteWordBackward`/`Forward`, `moveToLineStart`/`End` (Home/End),
-  `moveToDocumentStart`/`End`, and `switchWindow` (Alt+Tab); they compile
+  `selectToLineStart`/`End` (Shift+Home/End),
+  `moveToDocumentStart`/`End`, and `switchWindow` (Alt+Tab); on macOS
+  (once it has a mapper backend) Cmd replaces Ctrl in editing commands,
+  word chords use Option and line/document chords Cmd+Arrow. They compile
   like key chords, so
   `holdModifiers` applies. Unlike desktop actions, standard shortcuts are
   not an in-development feature.

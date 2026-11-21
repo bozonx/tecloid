@@ -3983,6 +3983,12 @@ msgstr "Στην αρχή της γραμμής"
 msgid "Move to line end"
 msgstr "Στο τέλος της γραμμής"
 
+msgid "Select to line start"
+msgstr "Επιλογή έως την αρχή της γραμμής"
+
+msgid "Select to line end"
+msgstr "Επιλογή έως το τέλος της γραμμής"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Ξεχωριστή συντόμευση επικόλλησης στα τερματικά"
 

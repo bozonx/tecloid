@@ -3883,6 +3883,12 @@ msgstr "ხაზის დასაწყისში"
 msgid "Move to line end"
 msgstr "ხაზის ბოლოში"
 
+msgid "Select to line start"
+msgstr "მონიშვნა ხაზის დასაწყისამდე"
+
+msgid "Select to line end"
+msgstr "მონიშვნა ხაზის ბოლომდე"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "ცალკე ჩასმის მალსახმობი ტერმინალებისთვის"
 

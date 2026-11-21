@@ -3905,6 +3905,12 @@ msgstr "Ir para o início da linha"
 msgid "Move to line end"
 msgstr "Ir para o fim da linha"
 
+msgid "Select to line start"
+msgstr "Selecionar até o início da linha"
+
+msgid "Select to line end"
+msgstr "Selecionar até o fim da linha"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Usar um atalho de colar separado nos terminais"
 

@@ -3876,6 +3876,12 @@ msgstr "Na začátek řádku"
 msgid "Move to line end"
 msgstr "Na konec řádku"
 
+msgid "Select to line start"
+msgstr "Vybrat po začátek řádku"
+
+msgid "Select to line end"
+msgstr "Vybrat po konec řádku"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Samostatná zkratka vložení v terminálech"
 

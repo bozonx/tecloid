@@ -2,8 +2,9 @@
 //! `builtin:<id>` at runtime regardless of the active keymap preset.
 //!
 //! Built-in and user macros have independent action namespaces. Steps use
-//! `sys:` shortcuts for clipboard and word movement, so the macros follow
-//! the OS, the keyboard layout and terminal windows like those actions.
+//! `sys:` shortcuts for clipboard, word and line movement, so the macros
+//! follow the OS (Cmd and Option chords on macOS), the keyboard layout and
+//! terminal windows like those actions.
 
 pub struct BuiltinMacro {
     pub id: &'static str,
@@ -17,17 +18,17 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "insertEmptyLineAbove",
         name: "Empty line above",
-        steps: &["Home", "Enter", "ArrowUp"],
+        steps: &["sys:moveToLineStart", "Enter", "ArrowUp"],
     },
     BuiltinMacro {
         id: "goToNextLineEnd",
         name: "End of next line",
-        steps: &["ArrowDown", "End"],
+        steps: &["ArrowDown", "sys:moveToLineEnd"],
     },
     BuiltinMacro {
         id: "goToPreviousLineEnd",
         name: "End of previous line",
-        steps: &["ArrowUp", "End"],
+        steps: &["ArrowUp", "sys:moveToLineEnd"],
     },
     BuiltinMacro {
         id: "goTo5LinesUp",
@@ -37,7 +38,14 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "duplicateLine",
         name: "Duplicate line",
-        steps: &["End", "Shift+Home", "sys:copy", "End", "Enter", "sys:paste"],
+        steps: &[
+            "sys:moveToLineEnd",
+            "sys:selectToLineStart",
+            "sys:copy",
+            "sys:moveToLineEnd",
+            "Enter",
+            "sys:paste",
+        ],
     },
     BuiltinMacro {
         id: "insertSpaceAfterNextChar",
@@ -47,7 +55,7 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "insertEmptyLineBelow",
         name: "Empty line below",
-        steps: &["End", "Enter"],
+        steps: &["sys:moveToLineEnd", "Enter"],
     },
     BuiltinMacro {
         id: "cutWord",
@@ -67,7 +75,7 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "pasteOnNewLineAbove",
         name: "Paste on new line above",
-        steps: &["Home", "Enter", "ArrowUp", "sys:paste"],
+        steps: &["sys:moveToLineStart", "Enter", "ArrowUp", "sys:paste"],
     },
     BuiltinMacro {
         id: "replaceWordWithClipboard",
@@ -77,12 +85,12 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "goToNextLineStart",
         name: "Start of next line",
-        steps: &["ArrowDown", "Home"],
+        steps: &["ArrowDown", "sys:moveToLineStart"],
     },
     BuiltinMacro {
         id: "goToPreviousLineStart",
         name: "Start of previous line",
-        steps: &["ArrowUp", "Home"],
+        steps: &["ArrowUp", "sys:moveToLineStart"],
     },
     BuiltinMacro {
         id: "goTo5LinesDown",
@@ -98,28 +106,33 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "pasteOnNewLineBelow",
         name: "Paste on new line below",
-        steps: &["End", "Enter", "sys:paste"],
+        steps: &["sys:moveToLineEnd", "Enter", "sys:paste"],
     },
     // select layer
     BuiltinMacro {
         id: "cutToLineStart",
         name: "Cut to line start",
-        steps: &["Shift+Home", "sys:cut"],
+        steps: &["sys:selectToLineStart", "sys:cut"],
     },
     BuiltinMacro {
         id: "cutToLineEnd",
         name: "Cut to line end",
-        steps: &["Shift+End", "sys:cut"],
+        steps: &["sys:selectToLineEnd", "sys:cut"],
     },
     BuiltinMacro {
         id: "cutLineText",
         name: "Cut line text",
-        steps: &["Home", "Shift+End", "sys:cut"],
+        steps: &["sys:moveToLineStart", "sys:selectToLineEnd", "sys:cut"],
     },
     BuiltinMacro {
         id: "cutLine",
         name: "Cut whole line",
-        steps: &["Home", "Shift+End", "sys:cut", "Delete"],
+        steps: &[
+            "sys:moveToLineStart",
+            "sys:selectToLineEnd",
+            "sys:cut",
+            "Delete",
+        ],
     },
     BuiltinMacro {
         id: "select5LinesUp",
@@ -135,22 +148,27 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "copyToLineStart",
         name: "Copy to line start",
-        steps: &["Shift+Home", "sys:copy", "Home"],
+        steps: &["sys:selectToLineStart", "sys:copy", "sys:moveToLineStart"],
     },
     BuiltinMacro {
         id: "copyToLineEnd",
         name: "Copy to line end",
-        steps: &["Shift+End", "sys:copy", "End"],
+        steps: &["sys:selectToLineEnd", "sys:copy", "sys:moveToLineEnd"],
     },
     BuiltinMacro {
         id: "copyLineText",
         name: "Copy line text",
-        steps: &["Home", "Shift+End", "sys:copy", "Home"],
+        steps: &[
+            "sys:moveToLineStart",
+            "sys:selectToLineEnd",
+            "sys:copy",
+            "sys:moveToLineStart",
+        ],
     },
     BuiltinMacro {
         id: "selectLineText",
         name: "Select line text",
-        steps: &["Home", "Shift+End"],
+        steps: &["sys:moveToLineStart", "sys:selectToLineEnd"],
     },
     BuiltinMacro {
         id: "selectWord",
@@ -160,17 +178,17 @@ pub const BUILTIN_MACROS: &[BuiltinMacro] = &[
     BuiltinMacro {
         id: "replaceToLineStartWithClipboard",
         name: "Replace to line start with clipboard",
-        steps: &["Shift+Home", "sys:paste"],
+        steps: &["sys:selectToLineStart", "sys:paste"],
     },
     BuiltinMacro {
         id: "replaceToLineEndWithClipboard",
         name: "Replace to line end with clipboard",
-        steps: &["Shift+End", "sys:paste"],
+        steps: &["sys:selectToLineEnd", "sys:paste"],
     },
     BuiltinMacro {
         id: "replaceLineTextWithClipboard",
         name: "Replace line text with clipboard",
-        steps: &["Home", "Shift+End", "sys:paste"],
+        steps: &["sys:moveToLineStart", "sys:selectToLineEnd", "sys:paste"],
     },
     BuiltinMacro {
         id: "select5LinesDown",

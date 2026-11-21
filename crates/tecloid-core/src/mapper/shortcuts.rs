@@ -131,21 +131,30 @@ enum InTerminal {
 /// Chord of a `sys:` id that is the same standard shortcut in every
 /// application on this OS.
 pub fn fixed_keystroke(id: &str) -> Option<Keystroke> {
-    let chord = match id {
-        "moveWordLeft" => "Ctrl+ArrowLeft",
-        "moveWordRight" => "Ctrl+ArrowRight",
-        "selectWordLeft" => "Ctrl+Shift+ArrowLeft",
-        "selectWordRight" => "Ctrl+Shift+ArrowRight",
-        "deleteWordBackward" => "Ctrl+Backspace",
-        "deleteWordForward" => "Ctrl+Delete",
-        "moveToLineStart" => "Home",
-        "moveToLineEnd" => "End",
-        "moveToDocumentStart" => "Ctrl+Home",
-        "moveToDocumentEnd" => "Ctrl+End",
-        "switchWindow" => "Alt+Tab",
+    parse_action(fixed_chord(id, cfg!(target_os = "macos"))?)
+}
+
+/// PC chords (Linux, Windows) or, with `macos`, the Cmd and Option chords
+/// of Cocoa text fields, where Home and End scroll instead of moving the
+/// caret.
+fn fixed_chord(id: &str, macos: bool) -> Option<&'static str> {
+    let (pc, mac) = match id {
+        "moveWordLeft" => ("Ctrl+ArrowLeft", "Alt+ArrowLeft"),
+        "moveWordRight" => ("Ctrl+ArrowRight", "Alt+ArrowRight"),
+        "selectWordLeft" => ("Ctrl+Shift+ArrowLeft", "Alt+Shift+ArrowLeft"),
+        "selectWordRight" => ("Ctrl+Shift+ArrowRight", "Alt+Shift+ArrowRight"),
+        "deleteWordBackward" => ("Ctrl+Backspace", "Alt+Backspace"),
+        "deleteWordForward" => ("Ctrl+Delete", "Alt+Delete"),
+        "moveToLineStart" => ("Home", "Meta+ArrowLeft"),
+        "moveToLineEnd" => ("End", "Meta+ArrowRight"),
+        "selectToLineStart" => ("Shift+Home", "Shift+Meta+ArrowLeft"),
+        "selectToLineEnd" => ("Shift+End", "Shift+Meta+ArrowRight"),
+        "moveToDocumentStart" => ("Ctrl+Home", "Meta+ArrowUp"),
+        "moveToDocumentEnd" => ("Ctrl+End", "Meta+ArrowDown"),
+        "switchWindow" => ("Alt+Tab", "Meta+Tab"),
         _ => return None,
     };
-    parse_action(chord)
+    Some(if macos { mac } else { pc })
 }
 
 /// The keys `command` sends now, for the focused window and active layout;
@@ -172,6 +181,11 @@ pub fn edit_keystroke(command: EditCommand) -> Option<Keystroke> {
             terminal,
             crate::keyboard_layout::shortcut_key_for_letter,
         )
+    }
+    #[cfg(target_os = "macos")]
+    {
+        // No layout lookup on macOS yet: the US QWERTY keys.
+        macos_keystroke(command, |_| None)
     }
 }
 
@@ -290,12 +304,68 @@ fn windows_keystroke(
     Some(ctrl(key, command == E::ReopenClosedTab))
 }
 
+/// Cmd shortcuts. Terminal emulators on macOS leave Cmd to the
+/// application, so they need no variants; tabs switch with Ctrl+Tab, which
+/// browsers, editors and Terminal share.
+#[cfg(any(target_os = "macos", test))]
+fn macos_keystroke(command: EditCommand, lookup: impl Fn(char) -> Option<K>) -> Option<Keystroke> {
+    use EditCommand as E;
+    let cmd = |key, shift: bool| {
+        let mut mods = vec![K::KEY_LEFTMETA];
+        if shift {
+            mods.push(K::KEY_LEFTSHIFT);
+        }
+        Keystroke { mods, key }
+    };
+    match command {
+        E::NextTab => Some(ctrl(K::KEY_TAB, false)),
+        E::PreviousTab => Some(ctrl(K::KEY_TAB, true)),
+        command => Some(cmd(
+            command_key(command, lookup)?,
+            matches!(command, E::Redo | E::ReopenClosedTab),
+        )),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     fn chord(ks: &Keystroke) -> (Vec<K>, K) {
         (ks.mods.clone(), ks.key)
+    }
+
+    #[test]
+    fn macos_uses_cmd_option_and_arrow_chords() {
+        use EditCommand as E;
+        let run = |command| macos_keystroke(command, qwerty).map(|ks| chord(&ks));
+        let cmd = vec![K::KEY_LEFTMETA];
+        let cmd_shift = vec![K::KEY_LEFTMETA, K::KEY_LEFTSHIFT];
+        assert_eq!(run(E::Copy), Some((cmd.clone(), K::KEY_C)));
+        assert_eq!(run(E::Paste), Some((cmd.clone(), K::KEY_V)));
+        assert_eq!(run(E::Redo), Some((cmd_shift.clone(), K::KEY_Z)));
+        assert_eq!(run(E::ReopenClosedTab), Some((cmd_shift, K::KEY_T)));
+        assert_eq!(run(E::ZoomIn), Some((cmd, K::KEY_EQUAL)));
+        assert_eq!(
+            run(E::PreviousTab),
+            Some((vec![K::KEY_LEFTCTRL, K::KEY_LEFTSHIFT], K::KEY_TAB))
+        );
+        let mac = |id| chord(&parse_action(fixed_chord(id, true).unwrap()).unwrap());
+        assert_eq!(mac("moveWordLeft"), (vec![K::KEY_LEFTALT], K::KEY_LEFT));
+        assert_eq!(mac("moveToLineStart"), (vec![K::KEY_LEFTMETA], K::KEY_LEFT));
+        assert_eq!(
+            mac("selectToLineEnd"),
+            (vec![K::KEY_LEFTSHIFT, K::KEY_LEFTMETA], K::KEY_RIGHT)
+        );
+        assert_eq!(mac("switchWindow"), (vec![K::KEY_LEFTMETA], K::KEY_TAB));
+    }
+
+    #[test]
+    fn line_ids_keep_pc_keys() {
+        let pc = |id| chord(&parse_action(fixed_chord(id, false).unwrap()).unwrap());
+        assert_eq!(pc("moveToLineStart"), (vec![], K::KEY_HOME));
+        assert_eq!(pc("selectToLineStart"), (vec![K::KEY_LEFTSHIFT], K::KEY_HOME));
+        assert_eq!(pc("selectToLineEnd"), (vec![K::KEY_LEFTSHIFT], K::KEY_END));
     }
 
     #[test]
@@ -309,6 +379,8 @@ mod tests {
             "deleteWordForward",
             "moveToLineStart",
             "moveToLineEnd",
+            "selectToLineStart",
+            "selectToLineEnd",
             "moveToDocumentStart",
             "moveToDocumentEnd",
             "switchWindow",

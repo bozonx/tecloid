@@ -3900,6 +3900,12 @@ msgstr "Жолдың басына"
 msgid "Move to line end"
 msgstr "Жолдың соңына"
 
+msgid "Select to line start"
+msgstr "Жол басына дейін белгілеу"
+
+msgid "Select to line end"
+msgstr "Жол соңына дейін белгілеу"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Терминалдар үшін бөлек қою пернелер тіркесімі"
 

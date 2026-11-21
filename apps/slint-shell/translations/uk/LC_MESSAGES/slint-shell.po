@@ -3899,6 +3899,12 @@ msgstr "На початок рядка"
 msgid "Move to line end"
 msgstr "У кінець рядка"
 
+msgid "Select to line start"
+msgstr "Виділити до початку рядка"
+
+msgid "Select to line end"
+msgstr "Виділити до кінця рядка"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Окреме сполучення вставлення для терміналів"
 

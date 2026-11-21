@@ -3953,6 +3953,12 @@ msgstr "Vai all’inizio della riga"
 msgid "Move to line end"
 msgstr "Vai alla fine della riga"
 
+msgid "Select to line start"
+msgstr "Seleziona fino all’inizio della riga"
+
+msgid "Select to line end"
+msgstr "Seleziona fino alla fine della riga"
+
 msgid "Use a separate paste shortcut in terminals"
 msgstr "Usa una scorciatoia di incolla separata nei terminali"
 
