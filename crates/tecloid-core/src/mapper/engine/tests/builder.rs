@@ -287,8 +287,8 @@ fn development_gate_disables_user_macros_popups_and_long_hold() {
         for key in [KeyCode::KEY_B, KeyCode::KEY_C, KeyCode::KEY_D] {
             assert_eq!(
                 matches!(
-                    engine.keymap.rules[&key][0].tap,
-                    crate::mapper::engine::model::TapMode::Action(_)
+                    engine.keymap.rules.get(&key).map(|rules| &rules[0].tap),
+                    Some(crate::mapper::engine::model::TapMode::Action(_))
                 ),
                 enabled
             );
@@ -343,15 +343,25 @@ fn stable_mode_ignores_retained_experimental_actions() {
         "rules": [
             {"key": "KeyA", "tapAction": "sys:lockSession"},
             {"key": "KeyB", "tapAction": "cmd:saved"},
-            {"key": "KeyC", "tapAction": "MouseLeft"},
-            {"key": "KeyD", "tapAction": "Ctrl+KeyC"}
-        ]
+            {"key": "KeyC", "tapAction": "Ctrl+MouseLeft"},
+            {"key": "MouseBack", "tapAction": "KeyC"},
+            {"key": "KeyD", "conditionGameMode": "off", "tapAction": "KeyE"},
+            {"key": "KeyF", "holdBehavior": "action", "longHoldAction": "KeyG"}
+        ],
+        "layerKeymaps": {"nav": {"keys": {"KeyA": "macro:saved", "MouseForward": "MouseMiddle"}}}
     })).unwrap();
-    let engine = Engine::new(&cfg);
-    for key in [KeyCode::KEY_A, KeyCode::KEY_B, KeyCode::KEY_C] {
-        assert!(!matches!(engine.keymap.rules[&key][0].tap,
+    let mut engine = Engine::new(&cfg);
+    for key in [KeyCode::KEY_A, KeyCode::KEY_B, KeyCode::KEY_D, KeyCode::KEY_F] {
+        assert!(!engine.keymap.rules.contains_key(&key), "{key:?}");
+    }
+    for key in [KeyCode::KEY_C, KeyCode::BTN_SIDE] {
+        assert!(matches!(engine.keymap.rules[&key][0].tap,
             crate::mapper::engine::model::TapMode::Action(_)));
     }
-    assert!(matches!(engine.keymap.rules[&KeyCode::KEY_D][0].tap,
-        crate::mapper::engine::model::TapMode::Action(_)));
+    assert!(!engine.keymap.layer_maps["nav"].contains_key(&KeyCode::KEY_A));
+    assert!(engine.keymap.layer_maps["nav"].contains_key(&KeyCode::BTN_EXTRA));
+    let mut out = Vec::new();
+    engine.execute_remote("sys:lockSession", &mut out);
+    engine.execute_remote("app:showQuickMenu1", &mut out);
+    assert!(out.is_empty());
 }

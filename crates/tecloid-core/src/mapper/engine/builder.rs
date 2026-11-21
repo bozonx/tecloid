@@ -187,25 +187,10 @@ impl Engine {
         }
 
         let resolve = |action: &str, where_: &str| {
-            if !in_development && match Action::parse(Some(action)) {
-                Action::System(id) => !crate::config::actions::is_shortcut_system_action(&id),
-                Action::Command(_) | Action::KdeShortcut(_) | Action::DesktopEntry(_) => true,
-                _ => false,
-            } {
-                return None;
-            }
-            if !in_development
-                && matches!(Action::parse(Some(action)), Action::App(id)
-                    if id.starts_with("showEmojiMenu") || id.starts_with("showQuickMenu") || id.contains("GameMode") || id.starts_with("gameMode"))
-            {
-                return None;
-            }
-            if !in_development && action.split('+').any(|key| key.starts_with("Mouse")) {
-                return None;
-            }
             resolve_action(action, &macros, &commands, where_)
         };
 
+        let hidden = |action: &str| !in_development && Action::parse(Some(action)).development_only();
         let mut rules = HashMap::new();
         let mut chord_rules = Vec::new();
         // Specific physical triggers take priority over side-neutral alternatives.
@@ -238,7 +223,10 @@ impl Engine {
             }
         }
         for r in &expanded_rules {
-            if !r.enabled {
+            if !r.enabled
+                || (!in_development && matches!(r.condition_game_mode,
+                    Some(crate::mapper::config::GameModeCondition::On | crate::mapper::config::GameModeCondition::Off)))
+            {
                 continue;
             }
 
@@ -285,13 +273,13 @@ impl Engine {
             }
 
             let tap = match &r.tap_action {
-                ActionSpec::Native if keys.len() > 1 => TapMode::NativeChord(keys.clone()),
-                ActionSpec::Native => TapMode::Native,
-                ActionSpec::Swallow => TapMode::Swallow,
-                ActionSpec::Action(s) => match resolve(s, &format!("tap for {}", r.key)) {
+                ActionSpec::Action(s) if !hidden(s) => match resolve(s, &format!("tap for {}", r.key)) {
                     Some(a) => TapMode::Action(a),
                     None => TapMode::Swallow,
                 },
+                ActionSpec::Native | ActionSpec::Action(_) if keys.len() > 1 => TapMode::NativeChord(keys.clone()),
+                ActionSpec::Native | ActionSpec::Action(_) => TapMode::Native,
+                ActionSpec::Swallow => TapMode::Swallow,
             };
 
             let layer_id = if r.layer_id.is_empty() || behavior != HoldBehavior::Layer {
@@ -335,7 +323,7 @@ impl Engine {
 
             let double_tap = match (keys.len(), r.double_tap_action.as_str()) {
                 (1, "") => None,
-                (1, s) => resolve(s, &format!("double-tap for {}", r.key)),
+                (1, s) if !hidden(s) => resolve(s, &format!("double-tap for {}", r.key)),
                 _ => None,
             };
 
@@ -450,7 +438,7 @@ impl Engine {
                 let def = match action.as_deref() {
                     None => CompiledAction::Swallow,
                     // An empty entry leaves the key to the base keymap.
-                    Some(s) if s.trim().is_empty() => continue,
+                    Some(s) if s.trim().is_empty() || hidden(s) => continue,
                     // An entry that does nothing here (an empty macro, a key
                     // this OS lacks) still covers the key, as a tap action
                     // does: typing the physical key instead would surprise.
@@ -465,6 +453,7 @@ impl Engine {
 
         Self {
             keymap: CompiledKeymap {
+                in_development,
                 rules,
                 chord_rules,
                 macros,

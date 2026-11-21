@@ -71,27 +71,6 @@ pub(crate) fn category_for_value(value: &str) -> PickerCategory {
     PickerCategory::OtherKeys
 }
 
-/// Whether `value` belongs to a feature shown only in development mode:
-/// macros, commands, desktop shortcuts, application actions, mouse
-/// buttons and some app actions.
-pub(super) fn development_only(value: &str) -> bool {
-    match Action::parse(Some(value)) {
-        Action::Macro(_)
-        | Action::Command(_)
-        | Action::KdeShortcut(_)
-        | Action::DesktopEntry(_) => true,
-        Action::System(id) => !tecloid_core::config::actions::is_shortcut_system_action(&id),
-        Action::App(id) => {
-            id.starts_with("gameMode")
-                || id.contains("GameMode")
-                || id.starts_with("showEmojiMenu")
-                || id.starts_with("showQuickMenu")
-        }
-        Action::Keys(_) | Action::Unknown(_) => category_for_value(value) == PickerCategory::Mouse,
-        _ => false,
-    }
-}
-
 /// Whether `ms` is a valid macro pause.
 pub fn valid_pause(ms: &str) -> bool {
     tecloid_core::config::timing::PAUSE.parse(ms).is_some()
@@ -287,6 +266,9 @@ pub(super) fn include_slot_value(
         return;
     }
     let action = Action::parse(Some(value));
+    if !config.settings.in_development && action.development_only() {
+        return;
+    }
     let (name, category) = match &action {
         Action::App(id) => (actions::app_action_name(id), PickerCategory::App),
         Action::System(id) => (
@@ -313,9 +295,6 @@ pub(super) fn catalog(ui: &SettingsWindow, config: &ResolvedAppConfig) -> Vec<Pi
     let mut items: Vec<_> = CATEGORIES
         .iter()
         .enumerate()
-        .filter(|(category, _)| {
-            in_development || KEY_CATEGORIES[*category] != PickerCategory::Mouse
-        })
         .flat_map(|(category, keys)| {
             keys.iter().map(move |key| PickerItem {
                 value: (*key).into(),
@@ -339,25 +318,19 @@ pub(super) fn catalog(ui: &SettingsWindow, config: &ResolvedAppConfig) -> Vec<Pi
     }
     let enabled = config.settings.commands_enabled();
     items.extend(actions::catalog(config).into_iter().filter_map(|entry| {
+        if !in_development && entry.action.development_only() {
+            return None;
+        }
         let category = match &entry.action {
-            Action::Macro(_) if in_development => PickerCategory::Macros,
-            Action::Macro(_) => return None,
+            Action::Macro(_) => PickerCategory::Macros,
             Action::BuiltinMacro(_) => PickerCategory::BuiltinMacros,
-            Action::Command(_) if enabled && in_development => PickerCategory::Commands,
+            Action::Command(_) if enabled => PickerCategory::Commands,
             Action::Command(_) => return None,
             Action::App(_) => PickerCategory::App,
-            Action::System(id)
-                if in_development
-                    || tecloid_core::config::actions::is_shortcut_system_action(id) =>
-            {
-                PickerCategory::SystemActions
-            }
+            Action::System(_) => PickerCategory::SystemActions,
             _ => return None,
         };
         let value = entry.action.format()?;
-        if !in_development && development_only(&value) {
-            return None;
-        }
         let notice = execution_notice(&entry.action, config);
         let label = action_label(ui, entry.name).unwrap_or_else(|| value.clone());
         Some(PickerItem {

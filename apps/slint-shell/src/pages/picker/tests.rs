@@ -335,23 +335,20 @@ fn hidden_features_cannot_be_typed_outside_development_mode() {
         initial: "macro:kept".into(),
         ..Filter::default()
     };
-    for value in [
-        "macro:other",
-        "cmd:x",
-        "kde:kwin/Close",
-        "Mouse6",
-        "sys:lockScreen",
-    ] {
+    for value in ["macro:other", "cmd:x", "kde:kwin/Close", "sys:lockScreen"] {
         assert!(!filter.admits(value), "{value}");
     }
-    assert!(!filter.admits("app:showQuickMenu"));
-    assert!(filter.admits("macro:kept"));
-    assert!(filter.admits("builtin:copyLineText"));
-    let development = Filter {
-        development: true,
+    assert!(!filter.admits("app:showQuickMenu1"));
+    assert!(filter.accepts("Mouse6", None));
+    assert!(filter.accepts("Ctrl+MouseLeft", None));
+    let trigger = Filter {
+        trigger: true,
         ..Filter::default()
     };
-    assert!(development.admits("Mouse6"));
+    assert!(trigger.admits("ControlLeft+MouseBack"));
+    assert!(!trigger.admits("MouseLeft"));
+    assert!(filter.admits("macro:kept"));
+    assert!(filter.admits("builtin:copyLineText"));
 }
 
 #[test]
@@ -396,13 +393,16 @@ fn sidebar_offers_categories_by_target() {
     let release = shown(SidebarOptions::default(), 1);
     for hidden in [
         PickerCategory::Macros,
-        PickerCategory::Mouse,
+        PickerCategory::DesktopShortcuts,
+        PickerCategory::AppActions,
         PickerCategory::Commands,
         PickerCategory::Pause,
     ] {
         assert!(!release.contains(&hidden), "{hidden:?}");
     }
     assert!(release.contains(&PickerCategory::Text));
+    assert!(release.contains(&PickerCategory::Mouse));
+    assert!(release.contains(&PickerCategory::SystemActions));
     let keys = shown(
         SidebarOptions {
             key_only: true,

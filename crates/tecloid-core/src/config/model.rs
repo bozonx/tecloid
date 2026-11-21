@@ -964,6 +964,57 @@ pub struct ResolvedAppConfig {
 }
 
 impl ResolvedAppConfig {
+    /// Project the enabled features before validating the mapper configuration.
+    /// The document keeps the original settings and bindings.
+    pub fn for_runtime(mut self) -> Self {
+        if self.settings.in_development {
+            return self;
+        }
+        let hidden = |value: &str| super::actions::Action::parse(Some(value)).development_only();
+        self.macros.clear();
+        self.commands.clear();
+        self.settings.auto_rules.clear();
+        for rule in &mut self.rules {
+            if rule
+                .condition_game_mode
+                .as_deref()
+                .is_some_and(|mode| mode != "ignore")
+            {
+                rule.enabled = Some(false);
+                rule.condition_game_mode = None;
+            }
+            let hidden_hold = rule.hold_behavior() == HoldBehavior::Action;
+            let hidden_tap = rule.tap_action.as_deref().is_some_and(hidden);
+            let hidden_double_tap = hidden(&rule.double_tap_action);
+            if hidden_hold {
+                rule.hold_behavior = Some(HoldBehavior::None);
+            }
+            rule.long_hold_action.clear();
+            rule.long_hold_timeout_ms = None;
+            if hidden_tap {
+                rule.tap_action = Some(String::new());
+            }
+            if hidden_double_tap {
+                rule.double_tap_action.clear();
+            }
+            // A now-transparent rule cannot shadow another rule for its trigger.
+            if (hidden_tap || hidden_hold || hidden_double_tap)
+                && rule.tap_action.as_deref() == Some("")
+                && rule.hold_action.as_deref() == Some("")
+                && rule.hold_behavior() == HoldBehavior::None
+                && rule.double_tap_action.is_empty()
+            {
+                rule.enabled = Some(false);
+            }
+        }
+        for map in self.layer_keymaps.values_mut() {
+            map.keys
+                .retain(|_, action| !action.as_deref().is_some_and(hidden));
+        }
+        super::menus::hide_development_actions(&mut self.quick_action_pages);
+        self
+    }
+
     /// Combine settings with a keymap, assigning its active identity and
     /// ensuring every layer has a keymap.
     pub fn from_parts(
@@ -994,6 +1045,24 @@ impl ResolvedAppConfig {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn hidden_tap_does_not_shadow_the_next_rule() {
+        let mut hidden = KeyRule::new("hidden".into(), "KeyA");
+        hidden.tap_action = Some("macro:saved".into());
+        let mut normal = KeyRule::new("normal".into(), "KeyA");
+        normal.tap_action = Some("KeyC".into());
+        let config = ResolvedAppConfig::from_parts(
+            AppSettings::default(),
+            KeymapPreset {
+                rules: vec![hidden, normal],
+                ..KeymapPreset::default()
+            },
+            None,
+        )
+        .for_runtime();
+        assert!(super::super::diagnostics::analyze_rules(&config).is_empty());
+    }
 
     #[test]
     fn used_commands_skips_orphans() {

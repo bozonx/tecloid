@@ -217,11 +217,13 @@ impl ConfiguredMenus {
             tecloid_core::storage::StoragePaths::resolve()?,
         )
         .map_err(|error| error.to_string())?;
-        Ok(Self {
-            keymap: document
-                .keymap_for_activation(id)
-                .map_err(|error| error.to_string())?,
-        })
+        let mut keymap = document
+            .keymap_for_activation(id)
+            .map_err(|error| error.to_string())?;
+        if !document.settings().in_development {
+            tecloid_core::config::menus::hide_development_actions(&mut keymap.quick_action_pages);
+        }
+        Ok(Self { keymap })
     }
 
     pub fn apply_emoji(&self, ui: &EmojiPopup) {

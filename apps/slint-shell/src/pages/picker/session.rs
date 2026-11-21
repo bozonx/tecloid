@@ -95,8 +95,6 @@ pub(super) fn sidebar(
             let key = is_key_category(category);
             let allowed = match category {
                 PickerCategory::Macros
-                | PickerCategory::Mouse
-                | PickerCategory::SystemActions
                 | PickerCategory::DesktopShortcuts
                 | PickerCategory::AppActions => options.development,
                 PickerCategory::Commands => options.development && options.commands_enabled,
@@ -111,7 +109,9 @@ pub(super) fn sidebar(
                         PickerCategory::DesktopShortcuts => {
                             count(category) > 0 || options.shortcuts_failed
                         }
-                        PickerCategory::AppActions => count(category) > 0,
+                        PickerCategory::SystemActions | PickerCategory::AppActions => {
+                            count(category) > 0
+                        }
                         _ => true,
                     }
             };
@@ -190,11 +190,13 @@ pub(super) fn open(
         rules.set_field(crate::ui::RuleDialog::None);
         rules.set_adding(false);
     }
-    load_desktop_shortcuts(ui.as_weak());
     let request = request(ui, doc, target, index, key_only);
     ui.global::<ActionPicker>()
         .set_trigger_chords(request.mode == PickerMode::Trigger);
     let config = drafts.config(doc, Some(target));
+    if config.settings.in_development && !key_only && request.mode != PickerMode::RuleHold {
+        load_desktop_shortcuts(ui.as_weak());
+    }
     let mut catalog = catalog(ui, &config);
     include_slot_value(&mut catalog, ui, &config, &value);
     // The catalog generation is read after building, so shortcuts arriving
@@ -334,7 +336,11 @@ pub(super) fn refresh(
         .catalog
         .iter()
         // Each action owns its command; existing ones are not offered.
-        .filter(|entry| entry.category != PickerCategory::Commands && filter.admits(&entry.value))
+        .filter(|entry| {
+            entry.category != PickerCategory::Commands
+                && filter.admits(&entry.value)
+                && (development || !Action::parse(Some(&entry.value)).development_only())
+        })
         .collect();
     let sidebar = sidebar(
         SidebarOptions {

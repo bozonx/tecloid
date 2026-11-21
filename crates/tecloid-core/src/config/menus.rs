@@ -17,6 +17,14 @@ use super::{
 use crate::config_document::{ConfigDocument, ConfigError};
 use std::collections::BTreeMap;
 
+/// Hide experimental cells in the popup snapshot, preserving page and cell positions.
+pub fn hide_development_actions(pages: &mut [QuickActionPage]) {
+    for page in pages {
+        page.cells
+            .retain(|_, cell| !Action::parse(Some(&cell.action)).development_only());
+    }
+}
+
 /// Set or clear a quick action, preserving a custom name.
 /// `previous_label` is the old action's catalog label in the current UI language.
 pub fn set_quick_action(

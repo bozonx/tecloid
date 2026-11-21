@@ -647,6 +647,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let n = step.get();
         match n {
             -5 => {
+                ui.global::<AppState>().set_in_development(false);
                 let position = accessible_position(&ui, i_slint_core::items::AccessibleRole::Tab, "Маппер", false);
                 for event in [slint::platform::WindowEvent::PointerPressed { position, button: slint::platform::PointerEventButton::Left }, slint::platform::WindowEvent::PointerReleased { position, button: slint::platform::PointerEventButton::Left }] { ui.window().dispatch_event(event); }
                 assert_eq!(ui.global::<SettingsEditor>().get_tab(), SettingsTab::Mapper);
@@ -657,6 +658,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 if !cfg!(target_os = "windows") {
                     // The picker is disabled where the mapper is unsupported.
                     ui.global::<AppState>().set_mapper_supported(true);
+                    accessible_position(&ui, i_slint_core::items::AccessibleRole::Combobox, "Мышь (необязательно)", false);
                     let position = accessible_position(&ui, i_slint_core::items::AccessibleRole::Combobox, "Устройство клавиатуры", false);
                     for event in [slint::platform::WindowEvent::PointerPressed { position, button: slint::platform::PointerEventButton::Left }, slint::platform::WindowEvent::PointerReleased { position, button: slint::platform::PointerEventButton::Left }] { ui.window().dispatch_event(event); }
                     assert!(ui.global::<DeviceDialog>().get_open());
@@ -680,6 +682,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     assert!(!ui.global::<DeviceDialog>().get_open());
                     ui.global::<AppState>().set_mapper_supported(false);
                 }
+                ui.global::<AppState>().set_in_development(true);
                 ui.window().set_size(slint::LogicalSize::new(1400.0, 760.0));
             }
             -1 => {

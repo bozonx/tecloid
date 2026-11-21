@@ -510,6 +510,43 @@ fn mapper_e2e_popup_hotkey_is_consumed_before_compositor() {
 
 #[test]
 #[ignore = "requires /dev/uinput and /dev/input access"]
+fn stable_mouse_output_works_without_a_selected_mouse() {
+    let _serial = serial();
+    let mut keyboard = Keyboard::new();
+    let existing: Vec<_> = evdev::enumerate().map(|(path, _)| path).collect();
+    let _mapper = Mapper::start(
+        &keyboard,
+        json!({
+            "settings": {"inDevelopment": false},
+            "rules": [{"key": "KeyA", "tapAction": "MouseLeft"}]
+        }),
+    );
+    let mut pointer = wait_until("virtual pointer", Duration::from_secs(5), || {
+        evdev::enumerate()
+            .find(|(path, device)| {
+                !existing.contains(path) && device.name() == Some("Tecloid Pointer")
+            })
+            .map(|(_, device)| device)
+    });
+    pointer.grab().unwrap();
+    pointer.set_nonblocking(true).unwrap();
+    keyboard.tap(KeyCode::KEY_A);
+    let mut keys = Vec::new();
+    wait_until("synthetic click", Duration::from_secs(2), || {
+        keys.extend(
+            pointer
+                .fetch_events()
+                .ok()?
+                .filter(is_key_change)
+                .map(|event| (KeyCode::new(event.code()), event.value() == 1)),
+        );
+        (keys.len() >= 2).then_some(())
+    });
+    assert_eq!(keys, [down(KeyCode::BTN_LEFT), up(KeyCode::BTN_LEFT)]);
+}
+
+#[test]
+#[ignore = "requires /dev/uinput and /dev/input access"]
 fn captured_mouse_orders_modifier_click_and_relays_movement_without_original_side_click() {
     let _serial = serial();
     let mut keyboard = Keyboard::new();
@@ -548,6 +585,7 @@ fn captured_mouse_orders_modifier_click_and_relays_movement_without_original_sid
         &keyboard,
         path.to_str(),
         json!({
+            "settings": {"inDevelopment": false},
             "rules":[{"key":"Space","tapAction":"Space","holdAction":"ShiftLeft"},
                      {"key":"CapsLock","layerId":"nav","tapAction":null}],
             "layerKeymaps":{"nav":{"keys":{"MouseBack":"KeyA", "MouseForward":null}}}

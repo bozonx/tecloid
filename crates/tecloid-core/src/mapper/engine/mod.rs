@@ -1066,6 +1066,9 @@ impl Engine {
     }
 
     pub fn execute_remote(&mut self, action: &str, out: &mut Vec<EngineOutput>) {
+        if !self.keymap.in_development && crate::config::actions::Action::parse(Some(action)).development_only() {
+            return;
+        }
         let resolved =
             builder::resolve_action(action, &self.keymap.macros, &self.keymap.commands, "remote");
         self.fire_action(

@@ -423,10 +423,12 @@ export component RuleDialogOverlay inherits FocusScope {
         if RulesEditor.dialog == RuleDialog.advanced: ScrollView { viewport-width: self.visible-width; vertical-stretch: 1;
             preferred-height: advanced-form.preferred-height;
             advanced-form := VerticalLayout { spacing: Theme.space-3xl; alignment: start;
+                private property <bool> long-hold: RulesEditor.hold-mode == HoldBehavior.action;
                 held-form := ResettableField {
+                    visible: AppState.in-development || !advanced-form.long-hold;
                     label: @tr("Hold key or combination");
                     info: @tr("The key or combination stays pressed until you release the trigger. Choose modifiers plus one main key, for example Ctrl+KeyC.");
-                    active: RulesEditor.hold-mode != HoldBehavior.action;
+                    active: !advanced-form.long-hold;
                     inactive-reason: @tr("Not used when holding performs a long-hold action.");
                     resettable: false;
                     ButtonGroup {
@@ -449,15 +451,16 @@ export component RuleDialogOverlay inherits FocusScope {
                 detection-form := ResettableField {
                     label: @tr("Hold detection when another key is pressed");
                     info: @tr("Overrides the default hold detection for this rule. Use release detection for typing keys and press detection for dedicated layer or modifier keys. This does not change chord detection.");
-                    active: !RulesEditor.is-chord && RulesEditor.hold-mode != HoldBehavior.action;
+                    active: !RulesEditor.is-chord && (!AppState.in-development || !advanced-form.long-hold);
                     inactive-reason: @tr("Used for single-key triggers without a long-hold action.");
                     resettable: false;
                     ComboBox { accessible-label: detection-form.label; accessible-description: detection-form.inactive-reason; enabled: detection-form.active; height: Theme.control-height; model: [@tr("Default from Settings: {}", RulesEditor.default-hold-detection == HoldDetection.press ? @tr("as soon as another key is pressed") : @tr("after another key is released")), @tr("After another key is released (better for typing)"), @tr("As soon as another key is pressed")]; current-index: RulesEditor.hold-detection == HoldDetection.release ? 1 : RulesEditor.hold-detection == HoldDetection.press ? 2 : 0; selected(value) => { RulesEditor.hold-detection = self.current-index == 1 ? HoldDetection.release : self.current-index == 2 ? HoldDetection.press : HoldDetection.inherit; } }
                 }
                 hold-form := ResettableField {
+                    visible: AppState.in-development || !advanced-form.long-hold;
                     label: @tr("Hold threshold, ms");
                     info: @tr("Released earlier, the trigger counts as a tap; held longer, as a hold. Empty uses the default from Settings: {} ms.", RulesEditor.default-hold-timeout);
-                    active: RulesEditor.hold-mode != HoldBehavior.action;
+                    active: !advanced-form.long-hold;
                     inactive-reason: @tr("Not used when holding performs a long-hold action.");
                     modified: RulesEditor.hold-timeout != "";
                     reset-tooltip: @tr("Use the default from Settings: {} ms", RulesEditor.default-hold-timeout);

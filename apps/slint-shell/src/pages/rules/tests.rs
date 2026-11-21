@@ -339,6 +339,12 @@ fn diagnostics_refresh_when_macro_and_command_dependencies_change() {
             .map(|row| row.diagnostic.id.to_string())
             .collect::<Vec<_>>()
     };
+    assert!(issues().iter().all(String::is_empty));
+    document
+        .edit(View::Settings, |config| {
+            config.update_settings(|settings| settings.in_development = true)
+        })
+        .unwrap();
     assert!(issues().iter().all(|id| !id.is_empty()));
     document
         .edit(View::Macros, |config| {

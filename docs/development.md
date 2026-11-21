@@ -175,9 +175,12 @@ With the flag off, experimental controls and entry points must be absent, not
 disabled placeholders. Experimental runtime behaviour must be inactive even if
 its settings remain enabled in a previously saved file. Keep those settings and
 keymap data intact so enabling the flag again restores them. Stable features
-must remain usable. This includes game mode, automatic keymap selection, user
-macros, commands, system/desktop actions, mouse actions, long-hold actions,
-E-ink appearance, keymap OSD and held-layer hints wherever marked experimental.
+must remain usable, including mouse support, standard system shortcuts and
+built-in macros. The flag gates game mode and rules that depend on it, automatic
+keymap selection, user macros, commands, desktop actions, long-hold actions,
+E-ink appearance, keymap OSD and held-layer hints. Assigning a key to open a
+specific or recent Emoji or Quick actions page also requires the flag. The
+built-in hotkeys and tray entries for the popups are available in either mode.
 
 Debug storage isolation serves a separate purpose: development and tests must
 not modify real user configuration or OS registrations. Debug builds use the

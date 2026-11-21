@@ -469,7 +469,9 @@ fn refresh_commands(ui: &SettingsWindow, document: &Document, state: &mut State)
         e.set_commands_loaded(false);
         e.set_command_assignments(ModelRc::default());
     }
-    if ui.get_page() != crate::ui::Page::Settings || e.get_tab() != crate::ui::SettingsTab::Commands
+    if ui.get_page() != crate::ui::Page::Settings
+        || e.get_tab() != crate::ui::SettingsTab::Commands
+        || !document.read().settings().in_development
     {
         return;
     }

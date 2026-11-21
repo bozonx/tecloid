@@ -754,17 +754,39 @@ mod tests {
     }
 
     #[test]
-    fn non_rule_errors_block_runtime_without_rewriting_the_keymap() {
-        for content in [
-            r#"{"version":1,"layers":[{"id":"nav","keys":{"KeyA":"macro:missing"}}]}"#,
-            r#"{"version":1,"macros":[{"id":"m","steps":["macro:m"]}]}"#,
-            r#"{"version":1,"quickMenuPages":[{"cells":{"KeyQ":"cmd:missing"}}]}"#,
+    fn experimental_errors_only_block_runtime_when_experimental_is_enabled() {
+        for (content, mouse_action) in [
+            (
+                r#"{"version":1,"layers":[{"id":"nav","keys":{"KeyA":"macro:missing"}}]}"#,
+                None,
+            ),
+            (
+                r#"{"version":1,"macros":[{"id":"m","steps":["macro:m"]}]}"#,
+                None,
+            ),
+            (
+                r#"{"version":1,"quickMenuPages":[{"cells":{"KeyQ":"cmd:missing","KeyW":"Ctrl+MouseLeft"}}]}"#,
+                Some("Ctrl+MouseLeft"),
+            ),
         ] {
-            let (_dir, document) = document(
+            let (_dir, mut document) = document(
                 json!({"settings":{"keymaps":{"manualKeymap":"user:Test"}}}),
                 content,
             );
             let before = document.paths().load_user_keymap("Test").unwrap();
+            let runtime = document
+                .runtime_config(&AutoSwitchContext::default())
+                .unwrap();
+            assert!(runtime.mapper.macros.is_empty());
+            let page = &runtime.keymap.quick_action_pages[0];
+            assert!(!page.cells.contains_key("KeyQ"));
+            assert_eq!(
+                page.cells.get("KeyW").map(|cell| cell.action.as_str()),
+                mouse_action
+            );
+            document
+                .update_settings(|settings| settings.in_development = true)
+                .unwrap();
             assert!(matches!(
                 document.runtime_config(&AutoSwitchContext::default()),
                 Err(ConfigError::Rules(_))

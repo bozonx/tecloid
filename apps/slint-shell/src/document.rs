@@ -406,7 +406,10 @@ impl Document {
         }
         let config = self.read();
         let id = config.active_keymap_id(&AutoSwitchContext::current())?;
-        let keymap = config.keymap_for_activation(id.as_deref())?;
+        let mut keymap = config.keymap_for_activation(id.as_deref())?;
+        if !config.settings().in_development {
+            tecloid_core::config::menus::hide_development_actions(&mut keymap.quick_action_pages);
+        }
         Ok((id, keymap))
     }
 

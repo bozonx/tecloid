@@ -1,6 +1,6 @@
 //! Typed picker requests and value restrictions.
 
-use super::catalog::{development_only, valid_pause};
+use super::catalog::valid_pause;
 use crate::{
     document::Document,
     pages::{layers, macros, rules},
@@ -138,7 +138,10 @@ impl Filter {
         if self.unavailable_keys.iter().any(|key| key == value) {
             return false;
         }
-        if !self.development && value != self.initial && development_only(value) {
+        if !self.development
+            && value != self.initial
+            && Action::parse(Some(value)).development_only()
+        {
             return false;
         }
         if self.trigger {

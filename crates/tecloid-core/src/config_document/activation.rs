@@ -25,11 +25,15 @@ impl RuntimeConfig {
     /// rule problems and dropping disabled or draft rules.
     fn build(
         settings: &AppSettings,
-        keymap: KeymapPreset,
+        mut keymap: KeymapPreset,
         keymap_id: Option<String>,
     ) -> Result<Self, ConfigError> {
         let mut config =
-            ResolvedAppConfig::from_parts(settings.clone(), keymap.clone(), keymap_id.as_deref());
+            ResolvedAppConfig::from_parts(settings.clone(), keymap.clone(), keymap_id.as_deref())
+                .for_runtime();
+        keymap
+            .quick_action_pages
+            .clone_from(&config.quick_action_pages);
         let blocking: Vec<RuleIssue> = diagnostics::analyze(&config)
             .into_iter()
             .filter(|issue| issue.code.is_error())

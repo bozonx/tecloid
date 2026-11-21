@@ -83,6 +83,22 @@ impl Action {
         }
     }
 
+    /// Whether this action requires the in-development setting.
+    pub fn development_only(&self) -> bool {
+        use super::app_action::AppAction;
+        match self {
+            Self::Macro(_) | Self::Command(_) | Self::KdeShortcut(_) | Self::DesktopEntry(_) => {
+                true
+            }
+            Self::System(id) => !is_shortcut_system_action(id),
+            Self::App(id) => matches!(
+                AppAction::parse(id),
+                Some(AppAction::ShowMenu { .. } | AppAction::GameMode(_))
+            ),
+            _ => false,
+        }
+    }
+
     /// Canonical string; `None` for [`Action::Swallow`].
     pub fn format(&self) -> Option<String> {
         Some(match self {

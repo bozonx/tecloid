@@ -248,7 +248,7 @@ fn refresh(ui: &SettingsWindow, document: &Document, fields: bool) {
             .to_string()
             .into(),
     );
-    let issues = diagnostics::analyze_rules(&config.config());
+    let issues = diagnostics::analyze_rules(&config.config().for_runtime());
     let rows = keymap
         .rules
         .iter()
@@ -360,7 +360,7 @@ fn report<T>(
     ok: Msg,
     previous: &[diagnostics::RuleIssue],
 ) -> Msg {
-    let issue = diagnostics::analyze(&document.read().config())
+    let issue = diagnostics::analyze(&document.read().config().for_runtime())
         .into_iter()
         .max_by_key(|issue| (issue.code.is_error(), !previous.contains(issue)));
     let message = match (&saved.runtime, issue) {
@@ -384,7 +384,7 @@ fn change(
     fields: bool,
     edit: impl FnOnce(&mut KeymapPreset),
 ) -> Result<(), Msg> {
-    let previous = diagnostics::analyze(&document.read().config());
+    let previous = diagnostics::analyze(&document.read().config().for_runtime());
     match document.edit(View::Rules, |config| config.update_keymap(edit)) {
         Ok(saved) => {
             refresh(ui, document, fields);
@@ -508,7 +508,7 @@ pub(super) fn choose(
     // Validate before saving so a bad value leaves the rule untouched.
     let mut candidate = document.read().keymap().rules[index].clone();
     set_property(&mut candidate, property, value)?;
-    let previous = diagnostics::analyze(&document.read().config());
+    let previous = diagnostics::analyze(&document.read().config().for_runtime());
     let saved = document
         .edit(View::Rules, |config| {
             config.edit_keymap_with_commands(command, |config| {

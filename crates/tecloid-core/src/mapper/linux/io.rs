@@ -14,7 +14,7 @@ pub(super) use super::super::output::{
 use super::super::system::{DbusArg, DbusCall, ProcessInvocation, SystemAction};
 use crate::text_input::portal;
 use evdev::uinput::VirtualDevice;
-use evdev::{Device, EventType, InputEvent, KeyCode, KeyEvent};
+use evdev::{AttributeSet, Device, EventType, InputEvent, KeyCode, KeyEvent, RelativeAxisCode};
 use std::collections::{HashMap, HashSet};
 use std::os::unix::io::{AsRawFd, BorrowedFd};
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -111,18 +111,24 @@ fn grab_mouse(mouse: &mut Device) -> Result<VirtualDevice, String> {
         // Wait for release before moving subsequent clicks to a new device.
         return Err("mouse buttons are still held".into());
     }
-    let build = || -> std::io::Result<VirtualDevice> {
-        let mut builder = VirtualDevice::builder()?
-            .name(super::VIRTUAL_POINTER_NAME)
-            .with_properties(mouse.properties())?;
-        let mut keys = mouse
-            .supported_keys()
-            .map(|keys| keys.iter().collect::<evdev::AttributeSet<KeyCode>>())
-            .unwrap_or_default();
-        for code in 0x110..=0x117 {
-            keys.insert(KeyCode::new(code));
-        }
-        builder = builder.with_keys(&keys)?;
+    let virt = virtual_pointer(Some(mouse)).map_err(|e| format!("create virtual pointer: {e}"))?;
+    mouse.grab().map_err(|e| format!("grab mouse: {e}"))?;
+    Ok(virt)
+}
+
+/// Also provide an output pointer for mouse actions when no physical mouse is captured.
+fn virtual_pointer(mouse: Option<&Device>) -> std::io::Result<VirtualDevice> {
+    let mut builder = VirtualDevice::builder()?.name(super::VIRTUAL_POINTER_NAME);
+    let mut keys = mouse
+        .and_then(Device::supported_keys)
+        .map(|keys| keys.iter().collect::<AttributeSet<KeyCode>>())
+        .unwrap_or_default();
+    for code in 0x110..=0x117 {
+        keys.insert(KeyCode::new(code));
+    }
+    builder = builder.with_keys(&keys)?;
+    if let Some(mouse) = mouse {
+        builder = builder.with_properties(mouse.properties())?;
         if let Some(axes) = mouse.supported_relative_axes() {
             builder = builder.with_relative_axes(axes)?;
         }
@@ -135,11 +141,14 @@ fn grab_mouse(mouse: &mut Device) -> Result<VirtualDevice, String> {
                 ))?;
             }
         }
-        builder.build()
-    };
-    let virt = build().map_err(|e| format!("create virtual pointer: {e}"))?;
-    mouse.grab().map_err(|e| format!("grab mouse: {e}"))?;
-    Ok(virt)
+    } else {
+        // Relative axes let libinput recognize the button-only output as a mouse.
+        let mut axes = AttributeSet::new();
+        axes.insert(RelativeAxisCode::REL_X);
+        axes.insert(RelativeAxisCode::REL_Y);
+        builder = builder.with_relative_axes(&axes)?;
+    }
+    builder.build()
 }
 
 pub(super) struct RuntimeSideEffects;
@@ -300,6 +309,13 @@ impl MultiDeviceLoopDriver {
         } else {
             None
         };
+        let mouse_output = mouse_output.or_else(|| match virtual_pointer(None) {
+            Ok(output) => Some(output),
+            Err(error) => {
+                log::warn!("[mapper] create virtual pointer for mouse actions: {error}");
+                None
+            }
+        });
         Ok(Self {
             mouse_output: Arc::new(Mutex::new(mouse_output)),
             mouse_identity: devices.get(1).map(super::DeviceIdentity::of),

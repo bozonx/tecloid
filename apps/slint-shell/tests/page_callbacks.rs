@@ -326,17 +326,20 @@ fn action_picker() -> Result<(), Box<dyn std::error::Error>> {
     assert_eq!(ui.get_page(), Page::Menus);
     ui.invoke_navigate(Page::Rules, MenuKind::Emoji);
     ui.global::<RulesEditor>().invoke_add();
-    let restricted = ui.global::<ActionPicker>();
-    restricted.set_query("Mouse".into());
-    restricted.invoke_refresh();
-    assert_eq!(restricted.get_items().row_count(), 0);
-    assert!(
-        restricted
-            .get_items()
-            .iter()
-            .all(|item| item.category != PickerCategory::Mouse)
-    );
-    restricted.invoke_dismiss_picker();
+    let stable_picker = ui.global::<ActionPicker>();
+    stable_picker.set_query("Mouse".into());
+    stable_picker.invoke_refresh();
+    let buttons: Vec<_> = stable_picker
+        .get_items()
+        .iter()
+        .map(|item| item.value)
+        .collect();
+    assert!(buttons.iter().any(|button| button == "MouseBack"));
+    assert!(buttons.iter().any(|button| button == "MouseForward"));
+    for primary in ["MouseLeft", "MouseRight", "MouseMiddle"] {
+        assert!(!buttons.iter().any(|button| button == primary));
+    }
+    stable_picker.invoke_dismiss_picker();
     let settings = ui.global::<SettingsEditor>();
     settings.set_in_development(true);
     settings.invoke_save();

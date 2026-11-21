@@ -130,7 +130,10 @@ fn layer_key_runs_the_macro_steps_in_order() {
     ];
     // User macros are an in-development feature: off by default.
     let (_dir, mut engine) = manual_engine();
-    assert_eq!(pressed(&run(&mut engine, &press_j_in_layer)), []);
+    assert_eq!(
+        pressed(&run(&mut engine, &press_j_in_layer)),
+        [KeyCode::KEY_J]
+    );
 
     let (_dir, mut engine) = engine_for(
         r#"{"version":1,"settings":{"experimental":true,"keymaps":{"manualKeymap":"user:Main"}}}"#,
