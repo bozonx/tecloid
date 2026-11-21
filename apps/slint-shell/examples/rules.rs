@@ -1,4 +1,4 @@
-//! Trigger-page regression scenario with real popup, pointer and keyboard input.
+//! Rules-page regression scenario with real popup, pointer and keyboard input.
 mod support;
 
 use i_slint_core::{
@@ -142,11 +142,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         click_control(&ui, AccessibleRole::Button, "Apply");
         assert!(!document.read().keymap().rules[0].is_enabled());
         click_control(&ui, AccessibleRole::Button, "Advanced rule options");
-        click_control(&ui, AccessibleRole::Button, "Delete trigger");
+        click_control(&ui, AccessibleRole::Button, "Delete rule");
         click_control(&ui, AccessibleRole::Button, "Delete");
         assert!(document.read().keymap().rules.is_empty());
         println!(
-            "Triggers passed: popup outside/Escape dismissal in four themes, effective suppressed hold, empty draft disable/delete"
+            "Rules passed: popup outside/Escape dismissal in four themes, effective suppressed hold, empty draft disable/delete"
         );
         slint::quit_event_loop().unwrap();
     });

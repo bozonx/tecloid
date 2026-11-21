@@ -309,7 +309,7 @@ component HoldField inherits VerticalLayout {
 }
 
 export component RulesPage inherits PageLayout {
-    accessible-label: @tr("Triggers");
+    accessible-label: @tr("Rules");
     /// Advanced options of `rule` that differ from the defaults, as one line.
     pure function summary(rule: RuleRow) -> string {
         return join(join(join(join(join(held-text(rule),
@@ -330,7 +330,7 @@ export component RulesPage inherits PageLayout {
         return first == "" ? second : second == "" ? first : first + " · " + second;
     }
     PageHeader {
-        title: @tr("Triggers");
+        title: @tr("Rules");
         info: @tr("Define how physical keys behave: tap for a key or action, hold to switch layers, or double-tap for extra shortcuts.");
         VerticalLayout { alignment: center;
             Button { text: @tr("Add rule"); primary: true; icon: @image-url("icons/plus.svg"); colorize-icon: true; clicked => { RulesEditor.add(); rule-scroll.viewport-y = 0px; } }
@@ -404,7 +404,7 @@ export component RuleDialogOverlay inherits FocusScope {
     key-pressed(event) => { if event.text == Key.Escape { RulesEditor.dialog = RuleDialog.none; RulesEditor.refresh(); return accept; } return reject; }
     if RulesEditor.dialog != RuleDialog.none && RulesEditor.dialog != RuleDialog.remove && RulesEditor.dialog != RuleDialog.layer: DialogFrame {
         title: RulesEditor.dialog == RuleDialog.key ? @tr("Choose a key or combination for the trigger")
-            : RulesEditor.dialog == RuleDialog.conditions ? @tr("Trigger conditions")
+            : RulesEditor.dialog == RuleDialog.conditions ? @tr("Conditions")
             : RulesEditor.dialog == RuleDialog.advanced ? @tr("Advanced rule options")
             : @tr("Choose action");
         card-width: RulesEditor.dialog == RuleDialog.conditions ? 680px : 560px;
@@ -513,7 +513,7 @@ export component RuleDialogOverlay inherits FocusScope {
                 text: @tr("Clear");
                 clicked => { RulesEditor.choose(""); }
             }
-            if RulesEditor.dialog == RuleDialog.advanced: VerticalLayout { alignment: center; IconButton { text: @tr("Delete trigger"); icon: @image-url("icons/trash-2.svg"); clicked => { RulesEditor.dialog = RuleDialog.remove; } } }
+            if RulesEditor.dialog == RuleDialog.advanced: VerticalLayout { alignment: center; IconButton { text: @tr("Delete rule"); icon: @image-url("icons/trash-2.svg"); clicked => { RulesEditor.dialog = RuleDialog.remove; } } }
             if RulesEditor.dialog == RuleDialog.advanced: CheckBox { text: @tr("Enabled"); checked <=> RulesEditor.enabled; }
             Rectangle { horizontal-stretch: 1; }
             Button { text: @tr("Cancel"); clicked => { RulesEditor.dialog = RuleDialog.none; RulesEditor.refresh(); } }
@@ -533,7 +533,7 @@ export component RuleDialogOverlay inherits FocusScope {
         }
     }
     if RulesEditor.dialog == RuleDialog.remove: ConfirmDialog {
-        title: @tr("Delete trigger?"); body: @tr("The trigger and all its assigned actions will be removed from the current keymap."); confirm-text: @tr("Delete");
+        title: @tr("Delete rule?"); body: @tr("This rule will be removed from the current keymap."); confirm-text: @tr("Delete");
         confirm => { RulesEditor.remove(); } cancel => { RulesEditor.dialog = RuleDialog.none; RulesEditor.refresh(); }
     }
 

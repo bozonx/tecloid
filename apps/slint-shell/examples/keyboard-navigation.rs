@@ -355,7 +355,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             24 => {
                 tab_to(&ui, "Layers");
                 key(&ui, Key::LeftArrow);
-                assert!(label(&ui).starts_with("Triggers"));
+                assert!(label(&ui).starts_with("Rules"));
                 assert_eq!(ui.get_page(), Page::Layers, "tabs use manual activation");
                 key(&ui, Key::Return);
                 assert_eq!(ui.get_page(), Page::Rules);
@@ -364,7 +364,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 ui.window().dispatch_event(slint::platform::WindowEvent::KeyPressed { text: Key::Shift.into() });
                 key(&ui, Key::Tab);
                 ui.window().dispatch_event(slint::platform::WindowEvent::KeyReleased { text: Key::Shift.into() });
-                assert!(label(&ui).starts_with("Triggers"));
+                assert!(label(&ui).starts_with("Rules"));
                 key(&ui, Key::RightArrow);
                 key(&ui, Key::Return);
                 assert_eq!(ui.get_page(), Page::Layers);
