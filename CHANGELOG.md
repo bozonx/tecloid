@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Updated Rust dependencies within the workspace version constraints.
+
 - Settings buttons release keyboard focus after pointer use. Tab and Shift+Tab reach the top navigation from keymap editors and leave drop-downs without saving a provisional value. Escape consistently cancels pending transfers and closes the device picker after clearing its search. After a click, Tab continues from the clicked control instead of the top of the window, and the first Enter or Space shows the keyboard focus without pressing the button again. Scrolling with the mouse wheel or touchpad no longer resets the keyboard position.
 
 - Mouse input and button assignments are available with In development features off. Previously selected mice and saved button assignments work in normal mode. On Linux, keyboard rules can also emit mouse clicks without capturing a physical mouse.
