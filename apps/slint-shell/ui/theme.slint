@@ -1,3 +1,6 @@
+// Bundled CBDT copy of Noto Color Emoji, renamed so it never clashes with the
+// system one: Fedora ships only the COLRv1 build, which our Skia draws blank.
+import "fonts/TecloidEmoji.ttf";
 import { Palette } from "widgets/tecloid/style-base.slint";
 import { FluentPalette as WidgetPalette } from "widgets/tecloid/styling.slint";
 
@@ -39,6 +42,8 @@ export global Theme {
     in-out property <float> text-scale: 1.0;
     /// Type roles from captions to page titles.
     out property <length> font-caption: 11px * text-scale;
+    /// Family of the bundled colour emoji font (`fonts/TecloidEmoji.ttf`).
+    out property <string> emoji-font: "Tecloid Emoji";
     out property <length> font-body: 12px * text-scale;
     out property <length> font-medium: 13px * text-scale;
     /// Window default text and subsection titles.

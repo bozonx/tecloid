@@ -11,11 +11,11 @@ are required.
 ```sh
 # Arch / Manjaro
 sudo pacman -S --needed base-devel clang cmake ninja python pkgconf \
-  fontconfig freetype2 libxkbcommon wayland noto-fonts-emoji wl-clipboard
+  fontconfig freetype2 libxkbcommon wayland wl-clipboard
 # Debian / Ubuntu
 sudo apt install build-essential clang cmake ninja-build python3 pkg-config \
   libfontconfig1-dev libfreetype-dev libxkbcommon-dev libwayland-dev \
-  fonts-noto-color-emoji wl-clipboard
+  wl-clipboard
 ```
 
 Optional tools: `cargo-deny` (`cargo install --locked cargo-deny`),
@@ -151,7 +151,9 @@ Every user-visible change gets an entry under `## [Unreleased]` in
 - **First build is very slow or fails in Skia:** check clang, cmake, ninja, Python.
 - **`No readable Ctrl+Alt+F11/F12 evdev devices`:** no `/dev/input` access — set
   up permissions or `TECLOID_HOTKEYS=off`.
-- **Monochrome or boxed emoji:** install Noto Color Emoji, use `winit-skia`.
+- **Monochrome or boxed emoji:** use `winit-skia`. The app draws emoji with the bundled
+  CBDT font `apps/slint-shell/ui/fonts/TecloidEmoji.ttf` (Noto Color Emoji renamed to
+  "Tecloid Emoji"); our Skia build draws COLRv1 emoji fonts, such as Fedora's, blank.
 - **`compositor does not advertise zwlr_layer_shell_v1`:** no layer-shell (GNOME) —
   use `TECLOID_POPUPS=auto` or `winit`.
 - **`RefCell already borrowed` panic on a page:** a `Document::read()` borrow is

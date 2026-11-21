@@ -30,7 +30,7 @@ component HintKey inherits Rectangle {
                 horizontal-stretch: 1;
                 text: root.cell.kind == Assignment.action ? root.cell.action : "";
                 color: Theme.text;
-                font-family: root.cell.emoji ? "Noto Color Emoji" : "";
+                font-family: root.cell.emoji ? Theme.emoji-font : "";
                 font-size: root.cell.emoji ? 14px : 11px;
                 font-weight: Theme.weight-medium;
                 horizontal-alignment: center;

@@ -35,7 +35,7 @@ export component PopupCell inherits Rectangle {
         width: parent.width - 16px; height: parent.height - 22px;
         text: root.content;
         color: Theme.text;
-        font-family: root.emoji ? "Noto Color Emoji" : "";
+        font-family: root.emoji ? Theme.emoji-font : "";
         // Emoji cells may hold text: shrink it with its length, down to 11px.
         font-size: !root.emoji ? 13px
             : root.length <= 2 ? 28px

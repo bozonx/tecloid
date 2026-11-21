@@ -13,7 +13,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 - Mouse input and button assignments are available with In development features off. Previously selected mice and saved button assignments work in normal mode. On Linux, keyboard rules can also emit mouse clicks without capturing a physical mouse.
 - Normal mode hides experimental Quick action cells and skips game-mode rules. Experimental assignments and invalid experimental data no longer intercept keys or block mapper startup. Standard system shortcuts are available in the action picker's sidebar.
 
-- The RPM and DEB packages require Noto Color Emoji so the package manager installs the font used by the emoji grid.
+- Colour emoji are shown on Fedora and other systems whose Noto Color Emoji is the COLRv1 build: the app bundles its own copy of Noto Color Emoji (SIL OFL 1.1) and no longer requires the system emoji font package.
 
 - System theme follows desktop color scheme updates automatically, including when the scheme first becomes available after startup.
 

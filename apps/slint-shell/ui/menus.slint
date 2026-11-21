@@ -176,7 +176,7 @@ component HotkeyGrid inherits Rectangle {
                 Image { width: 14px; height: 14px; source: @image-url("icons/grip.svg"); colorize: Theme.muted; accessible-label: @tr("Drag"); }
             }
             if root.emoji || cell.value == "": Text {
-                font-family: cell.value == "" ? "" : "Noto Color Emoji";
+                font-family: cell.value == "" ? "" : Theme.emoji-font;
                 vertical-stretch: 1;
                 text: cell.value == "" ? "＋" : cell.value;
                 color: cell.value == "" ? Theme.muted : Theme.text;
@@ -269,7 +269,7 @@ component DragPreview inherits Rectangle {
         x: 10px; y: 8px;
         width: parent.width - 20px; height: parent.height - 16px;
         text: PaletteDrag.name == "" ? PaletteDrag.value : PaletteDrag.name;
-        font-family: PaletteDrag.text-item ? "" : "Noto Color Emoji";
+        font-family: PaletteDrag.text-item ? "" : Theme.emoji-font;
         font-size: PaletteDrag.text-item ? 13px : 26px;
         color: Theme.text;
         wrap: word-wrap; overflow: elide;
@@ -397,7 +397,7 @@ component EmojiButton inherits Rectangle {
         x: root.wide ? 10px : 0px;
         width: root.wide ? parent.width - 20px : parent.width;
         text: root.item == "\u{a0}" ? "⍽" : root.item;
-        font-family: root.wide ? "" : "Noto Color Emoji";
+        font-family: root.wide ? "" : Theme.emoji-font;
         font-size: root.wide ? 13px : 20px;
         color: Theme.text;
         horizontal-alignment: root.wide ? left : center;

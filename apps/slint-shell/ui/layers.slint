@@ -81,7 +81,7 @@ component ActionText inherits HorizontalLayout {
         horizontal-stretch: 1;
         text: root.kind == Assignment.transparent ? "" : root.kind == Assignment.swallow ? @tr("Suppress") : root.action;
         color: root.kind == Assignment.action ? Theme.text : Theme.muted;
-        font-family: root.emoji ? "Noto Color Emoji" : "";
+        font-family: root.emoji ? Theme.emoji-font : "";
         font-size: root.emoji ? root.text-size + 3px : root.text-size;
         font-weight: root.kind == Assignment.transparent ? 400 : 500;
         horizontal-alignment: root.text-alignment;
