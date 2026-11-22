@@ -99,6 +99,8 @@ pub fn stop_watcher() {
             }
         }
     }
+    #[cfg(target_os = "linux")]
+    linux_gnome::clear_text_keymap();
     LAST_PUBLISHED
         .lock()
         .unwrap_or_else(|error| error.into_inner())
@@ -296,6 +298,9 @@ pub fn start_watcher() {
         macos::start_watcher();
     }
 }
+
+#[cfg(target_os = "linux")]
+pub(crate) use linux_gnome::text_keymap as gnome_text_keymap;
 
 #[cfg(target_os = "linux")]
 pub(crate) fn verified_shortcut_layouts() -> Option<Vec<(String, String)>> {

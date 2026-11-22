@@ -1,9 +1,23 @@
 //! GNOME input sources, including the actual per-window source, from the Shell bridge.
 
+use std::sync::Mutex;
 use std::time::Duration;
 
 use super::KeyboardLayoutInfo;
 use crate::platform::gnome;
+
+static TEXT_KEYMAP: Mutex<Option<gnome::TextKeymap>> = Mutex::new(None);
+
+pub(crate) fn text_keymap() -> Option<gnome::TextKeymap> {
+    TEXT_KEYMAP
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .clone()
+}
+
+fn remember_text_keymap(keymap: Option<gnome::TextKeymap>) {
+    *TEXT_KEYMAP.lock().unwrap_or_else(|e| e.into_inner()) = keymap;
+}
 
 fn info(source: gnome::InputSource) -> KeyboardLayoutInfo {
     KeyboardLayoutInfo {
@@ -17,6 +31,9 @@ fn info(source: gnome::InputSource) -> KeyboardLayoutInfo {
 }
 
 pub fn current() -> Result<Option<KeyboardLayoutInfo>, String> {
+    // Serialize the watcher's observations with explicit source switches.
+    static REFRESH: Mutex<()> = Mutex::new(());
+    let _refresh = REFRESH.lock().unwrap_or_else(|e| e.into_inner());
     let snapshot = match gnome::snapshot(false) {
         Ok(snapshot) => snapshot,
         Err(error) => {
@@ -38,6 +55,7 @@ pub fn current() -> Result<Option<KeyboardLayoutInfo>, String> {
         .find(|source| Some(source.index) == current)
         .map(info);
     if let Some(layout) = &layout {
+        remember_text_keymap(snapshot.text_keymap);
         super::publish(layout);
     } else {
         clear_layout();
@@ -46,6 +64,7 @@ pub fn current() -> Result<Option<KeyboardLayoutInfo>, String> {
 }
 
 fn clear_layout() {
+    remember_text_keymap(None);
     super::clear();
 }
 
@@ -71,6 +90,10 @@ static SIGNAL_WATCHER: super::signal_watcher::SignalWatcher =
 
 pub(super) fn interrupt_signal_watcher() {
     SIGNAL_WATCHER.stop();
+}
+
+pub(super) fn clear_text_keymap() {
+    remember_text_keymap(None);
 }
 
 const RECONNECT_DELAY: Duration = Duration::from_secs(1);
@@ -109,5 +132,6 @@ fn watch_once() -> Result<(), String> {
     if super::watcher_stop_requested() {
         return Ok(());
     }
+    clear_layout();
     Err("keyboard signal stream ended".into())
 }

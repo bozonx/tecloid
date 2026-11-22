@@ -1,6 +1,7 @@
 //! XKB keymaps: which key and level type each character.
 
 use super::*;
+use crate::platform::gnome::TextKeymap;
 
 pub(super) enum XkbContext {}
 pub(super) enum XkbKeymap {}
@@ -236,36 +237,56 @@ pub(super) struct KeycodeEntry {
 /// keysym → the key and level that type it.
 pub(super) type KeyTable = HashMap<u32, KeycodeEntry>;
 
-pub(super) type KeymapCache = Option<(String, Arc<KeyTable>)>;
-pub(super) static KEYMAP_CACHE: Mutex<KeymapCache> = Mutex::new(None);
+type KeymapCache = Option<(TextKeymap, bool, Arc<KeyTable>)>;
+static KEYMAP_CACHE: Mutex<KeymapCache> = Mutex::new(None);
 
 /// Key table of the active layout, rebuilt from its XKB name and variant.
-/// Fails when the layout is unknown (only the KDE backend reports it) or
+/// Portal keycode mode uses the verified KDE layout. Fails when it is unknown or
 /// XKB cannot compile it: guessing a layout would type wrong characters.
 pub(super) fn layout_key_table() -> Result<Arc<KeyTable>, TextInputFailure> {
     let layout = crate::runtime_state::keyboard_layout().ok_or(TextInputFailure::LayoutUnknown)?;
     let variant = crate::keyboard_layout::verified_text_variant(&layout)
         .ok_or(TextInputFailure::LayoutUnknown)?;
-    let variant = variant.trim();
-    let caps_lock = caps_lock_state()?;
-    let options = crate::keyboard_layout::xkb_options();
-    let cache_key = format!("{}\0{variant}\0{caps_lock}\0{options}", layout.code);
+    cached_key_table(
+        TextKeymap {
+            layouts: layout.code,
+            variants: variant.trim().into(),
+            options: crate::keyboard_layout::xkb_options(),
+            model: String::new(),
+            group: 0,
+        },
+        caps_lock_state()?,
+    )
+}
+
+pub(super) fn literal_key_table() -> Result<Arc<KeyTable>, TextInputFailure> {
+    use crate::platform::linux::{Desktop, Session, SessionType, detect};
+    if matches!(
+        detect(),
+        Session {
+            desktop: Desktop::Gnome,
+            session_type: SessionType::Wayland,
+            ..
+        }
+    ) {
+        let keymap =
+            crate::keyboard_layout::gnome_text_keymap().ok_or(TextInputFailure::LayoutUnknown)?;
+        cached_key_table(keymap, caps_lock_state()?)
+    } else {
+        layout_key_table()
+    }
+}
+
+fn cached_key_table(rules: TextKeymap, caps: bool) -> Result<Arc<KeyTable>, TextInputFailure> {
     let mut cache = KEYMAP_CACHE.lock().unwrap_or_else(|e| e.into_inner());
-    if let Some((key, table)) = cache.as_ref()
-        && *key == cache_key
+    if let Some((previous, previous_caps, table)) = cache.as_ref()
+        && *previous == rules
+        && *previous_caps == caps
     {
         return Ok(Arc::clone(table));
     }
-    let table = Arc::new(
-        table_from_names_with_options(
-            &layout.code,
-            (!variant.is_empty()).then_some(variant),
-            caps_lock,
-            &options,
-        )
-        .ok_or(TextInputFailure::LayoutUnknown)?,
-    );
-    *cache = Some((cache_key, Arc::clone(&table)));
+    let table = Arc::new(table_from_rules(&rules, caps).ok_or(TextInputFailure::LayoutUnknown)?);
+    *cache = Some((rules, caps, Arc::clone(&table)));
     Ok(table)
 }
 
@@ -283,23 +304,35 @@ pub(super) fn table_from_names_with_caps(
     table_from_names_with_options(layout, variant, caps, "")
 }
 
+#[cfg(test)]
 pub(super) fn table_from_names_with_options(
     layout: &str,
     variant: Option<&str>,
     caps: bool,
     options: &str,
 ) -> Option<KeyTable> {
-    let options = CString::new(options).ok()?;
-    let layout_c = CString::new(layout).ok()?;
-    let variant_c = match variant {
-        Some(variant) => Some(CString::new(variant).ok()?),
-        None => None,
-    };
+    table_from_rules(
+        &TextKeymap {
+            layouts: layout.into(),
+            variants: variant.unwrap_or_default().into(),
+            options: options.into(),
+            model: String::new(),
+            group: 0,
+        },
+        caps,
+    )
+}
+
+pub(super) fn table_from_rules(rules: &TextKeymap, caps: bool) -> Option<KeyTable> {
+    let options = CString::new(rules.options.as_str()).ok()?;
+    let layouts = CString::new(rules.layouts.as_str()).ok()?;
+    let variants = CString::new(rules.variants.as_str()).ok()?;
+    let model = CString::new(rules.model.as_str()).ok()?;
     let names = XkbRuleNames {
         rules: std::ptr::null(),
-        model: std::ptr::null(),
-        layout: layout_c.as_ptr(),
-        variant: variant_c.as_ref().map_or(std::ptr::null(), |c| c.as_ptr()),
+        model: model.as_ptr(),
+        layout: layouts.as_ptr(),
+        variant: variants.as_ptr(),
         options: options.as_ptr(),
     };
     // SAFETY: the context and keymap are checked for null and released
@@ -312,7 +345,11 @@ pub(super) fn table_from_names_with_options(
         let keymap = xkb_keymap_new_from_names(ctx, &names, 0);
         xkb_context_unref(ctx);
         if keymap.is_null() {
-            log::warn!("[text] XKB cannot compile layout {layout:?} variant {variant:?}");
+            log::warn!("[text] XKB cannot compile keymap {rules:?}");
+            return None;
+        }
+        if rules.group >= xkb_keymap_num_layouts(keymap) {
+            xkb_keymap_unref(keymap);
             return None;
         }
         let mut locked = 0;
@@ -323,6 +360,7 @@ pub(super) fn table_from_names_with_options(
                 return None;
             }
             // Caps Lock may be configured as Shift Lock; derive its actual action.
+            xkb_state_update_mask(state, 0, 0, 0, 0, 0, rules.group);
             let lock_key = (xkb_keymap_min_keycode(keymap)..=xkb_keymap_max_keycode(keymap))
                 .find(|key| matches!(xkb_state_key_get_one_sym(state, *key), 0xffe5 | 0xffe6));
             if let Some(key) = lock_key {
@@ -336,7 +374,7 @@ pub(super) fn table_from_names_with_options(
                 return None;
             }
         }
-        let table = table_from_keymap(keymap, 0, locked);
+        let table = table_from_keymap(keymap, rules.group, locked);
         xkb_keymap_unref(keymap);
         (!table.is_empty()).then_some(table)
     }

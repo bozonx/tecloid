@@ -25,6 +25,17 @@ pub(crate) struct Snapshot {
     pub external_window: Option<Value>,
     pub layouts: Vec<InputSource>,
     pub current: Option<u32>,
+    #[serde(rename = "textKeymap")]
+    pub text_keymap: Option<TextKeymap>,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+pub(crate) struct TextKeymap {
+    pub layouts: String,
+    pub variants: String,
+    pub options: String,
+    pub model: String,
+    pub group: u32,
 }
 
 #[derive(Deserialize)]
@@ -127,9 +138,24 @@ mod tests {
             parse_snapshot(r#"{"version":1,"window":null,"layouts":[],"current":null}"#).unwrap();
         assert!(snapshot.window.is_none());
         assert!(snapshot.current.is_none());
+        assert!(snapshot.text_keymap.is_none());
         assert!(
             parse_snapshot(r#"{"version":2,"window":null,"layouts":[],"current":null}"#).is_err()
         );
         assert!(parse_snapshot(r#"{"version":1}"#).is_err());
+    }
+
+    #[test]
+    fn snapshot_reads_the_optional_active_xkb_group() {
+        let snapshot = parse_snapshot(
+            r#"{"version":1,"layouts":[],"current":1,"textKeymap":{
+                "layouts":"us,ru","variants":"dvorak,","options":"caps:shiftlock",
+                "model":"pc105","group":1}}"#,
+        )
+        .unwrap();
+        let keymap = snapshot.text_keymap.unwrap();
+        assert_eq!(keymap.group, 1);
+        assert_eq!(keymap.variants, "dvorak,");
+        assert_eq!(keymap.options, "caps:shiftlock");
     }
 }

@@ -66,6 +66,10 @@ eval, shell commands or arbitrary dispatch.
   `switchToKeyboardLayout1..10`, window and shell actions, `lockSession`,
   `turnOffScreen`. `showDesktop` is unavailable.
 
+Single-character mapper actions send a key and its modifiers directly when the
+extension reports the active XKB keymap and the character is available there.
+This path works without Remote Desktop permission.
+
 Clipboard: the extension does not own the clipboard (GJS cannot implement a
 multi-MIME selection source, and binary shims are disallowed by extension review
 rules). Text uses RemoteDesktop/libei plus the Clipboard portal requested before

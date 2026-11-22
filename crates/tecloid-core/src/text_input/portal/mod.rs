@@ -212,7 +212,7 @@ pub(crate) fn key_for_char(ch: char) -> Option<(u16, Vec<u16>)> {
         return None;
     }
     modifiers_released().ok()?;
-    let table = layout_key_table().ok()?;
+    let table = literal_key_table().ok()?;
     let entry = table.get(&text_keysym(ch))?;
     let code = |key: u32| u16::try_from(key).ok();
     Some((
@@ -434,6 +434,32 @@ mod tests {
         assert_eq!(ru[&text_keysym('/')].evdev, 86);
         assert!(!has(&us, '€') && !has(&us, '±'));
         assert!(!has(&ru, '$') && !has(&ru, '€'));
+    }
+
+    #[test]
+    fn gnome_literal_keymap_uses_the_active_group_and_variant() {
+        let mut rules = crate::platform::gnome::TextKeymap {
+            layouts: "us,ru,us".into(),
+            variants: "dvorak,,".into(),
+            options: String::new(),
+            model: "pc105".into(),
+            group: 0,
+        };
+        let table = table_from_rules(&rules, false).expect("Dvorak group");
+        assert_eq!(table[&text_keysym(',')].evdev, 17);
+        assert_eq!(table[&text_keysym('.')].evdev, 18);
+        assert_eq!(table[&text_keysym('(')].evdev, 10);
+        assert_eq!(table[&text_keysym('(')].mods, [KEY_LEFTSHIFT_EVDEV]);
+
+        rules.group = 1;
+        let table = table_from_rules(&rules, false).expect("Russian group");
+        assert_eq!(table[&text_keysym('.')].evdev, 53);
+        assert_eq!(table[&text_keysym(',')].evdev, 53);
+        assert_eq!(table[&text_keysym(',')].mods, [KEY_LEFTSHIFT_EVDEV]);
+        assert!(!has(&table, 'q'));
+
+        rules.group = 3;
+        assert!(table_from_rules(&rules, false).is_none());
     }
 
     #[test]

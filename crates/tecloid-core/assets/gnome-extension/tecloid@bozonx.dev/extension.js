@@ -27,6 +27,7 @@ export default class Bridge extends Extension {
         this._focusId = global.display.connect('notify::focus-window', () => this._watchWindow());
         this._sourceId = this._sources.connect('current-source-changed', () => this._changed());
         this._listId = this._sources.connect('sources-changed', () => this._changed());
+        this._keymapId = this._sources.keyboardManager.connect('keymap-changed', () => this._changed());
         this._windowSignals = [];
         this._watchWindow();
     }
@@ -37,6 +38,7 @@ export default class Bridge extends Extension {
         global.display.disconnect(this._focusId);
         this._sources.disconnect(this._sourceId);
         this._sources.disconnect(this._listId);
+        this._sources.keyboardManager.disconnect(this._keymapId);
         this._object.unexport();
         this._object = null;
         this._sources = null;
@@ -117,8 +119,26 @@ export default class Bridge extends Extension {
                     ? null : global.display.focus_window, titles),
                 externalWindow: this._window(external, titles),
                 layouts, current: this._sources.currentSource?.index ?? null,
+                textKeymap: this._textKeymap(),
                 workspace: global.workspace_manager.get_active_workspace_index()})]);
         });
+    }
+
+    _textKeymap() {
+        const {currentSource, keyboardManager} = this._sources;
+        const layout = keyboardManager.currentLayout;
+        // Use the Shell's rules only while its XKB source is applied.
+        // An IBus engine, external keymap or group switch can change the result.
+        if (currentSource?.type !== Keyboard.INPUT_SOURCE_TYPE_XKB ||
+            !layout || layout.id !== currentSource.xkbId || keyboardManager.isExternal() ||
+            keyboardManager.displayName !== layout.displayName ||
+            keyboardManager.shortName !== layout.shortName)
+            return null;
+        const rules = keyboardManager._currentKeymap;
+        if (!rules)
+            return null;
+        const {layouts, variants, options, model} = rules;
+        return {layouts, variants, options, model: model ?? '', group: layout.groupIndex};
     }
 
     WindowsAsync(_params, invocation) {
