@@ -490,6 +490,11 @@ impl TextTarget {
         }
     }
 
+    /// Whether the focused window was found at all.
+    pub(crate) fn is_known(&self) -> bool {
+        !matches!(self, Self::Unsupported | Self::Unavailable)
+    }
+
     pub(crate) fn is_current(&self) -> bool {
         match self {
             Self::Kwin(id, _) => kwin::target_is_current(id),

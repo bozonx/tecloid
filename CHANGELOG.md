@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- On Linux, `sys:copy` sends Ctrl+Insert when the focused window cannot be determined, so it no longer interrupts a program in a terminal with Ctrl+C.
+
 - On Wayland, focusing Tecloid settings updates the active keymap. Emoji and Quick actions popups keep the keymap of the window they were opened from.
 
 - Empty, unnamed Emoji and Quick actions pages can be deleted directly when no numbered menu action is affected. Macro deletion confirmations show the macro name or explain why it is still in use.
