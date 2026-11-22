@@ -1827,8 +1827,26 @@ msgstr "Nové pravidlo"
 msgid "Now: {} (default)"
 msgstr "Nyní: {} (výchozí)"
 
-msgid "Otherwise (default)"
-msgstr "Jinak (výchozí)"
+msgid "No conditions"
+msgstr "Bez podmínek"
+
+msgid "Except windows matching {}"
+msgstr "Kromě oken odpovídajících {}"
+
+msgid "Keys unchanged"
+msgstr "Klávesy beze změny"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "Přednost před tímto pravidlem má pravidlo {} výše."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "Pravidla se kontrolují shora dolů. Použije se první povolené pravidlo, které vyhovuje."
+
+msgid "Otherwise"
+msgstr "Jinak"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Tato možnost se použije, pokud nevyhovuje žádné povolené pravidlo."
 
 msgid "Rule {}"
 msgstr "Pravidlo {}"
@@ -1851,24 +1869,11 @@ msgstr "Spouštěcí podmínky"
 msgid "No keymap"
 msgstr "Žádné Keymap"
 
-msgid "No keymap (keys as is)"
-msgstr "Žádné Keymap (klávesy tak jak jsou)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Nyní: {} (pravidlo {}: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "Pravidla se kontrolují shora dolů; první povolený, jehož podmínky se shodují, vybere Keymap. Pokud žádná neodpovídá, použije se výchozí. „Žádné Keymap“ ponechává klávesnici nezpracovanou, například v aplikaci, kde Keymap překáží."
-
 msgid "No rules"
 msgstr "Žádná pravidla"
-
-msgid "The default keymap is always used."
-msgstr "Vždy se použije výchozí Keymap."
 
 msgid "For games"
 msgstr "Na hry"
@@ -1878,12 +1883,6 @@ msgstr "Pro aplikaci"
 
 msgid "Custom rule"
 msgstr "Vlastní pravidlo"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr "Pokud neodpovídá žádné pravidlo, klávesnice funguje bez zpracování."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "Nikdy neplatí: pravidlo {} vždy odpovídá prvnímu."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr ""

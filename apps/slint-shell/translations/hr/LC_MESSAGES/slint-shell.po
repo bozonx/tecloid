@@ -1828,8 +1828,26 @@ msgstr "Novo pravilo"
 msgid "Now: {} (default)"
 msgstr "Sada: {} (zadano)"
 
-msgid "Otherwise (default)"
-msgstr "Inače (zadano)"
+msgid "No conditions"
+msgstr "Bez uvjeta"
+
+msgid "Except windows matching {}"
+msgstr "Osim prozora koji odgovaraju uzorku {}"
+
+msgid "Keys unchanged"
+msgstr "Tipke bez promjena"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "Pravilo {} iznad ima prednost pred ovim pravilom."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "Pravila se provjeravaju odozgo prema dolje. Primjenjuje se prvo omogućeno pravilo koje odgovara."
+
+msgid "Otherwise"
+msgstr "Inače"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Ova se opcija koristi ako nijedno omogućeno pravilo ne odgovara."
 
 msgid "Rule {}"
 msgstr "Pravilo {}"
@@ -1852,24 +1870,11 @@ msgstr "Uvjeti okidača"
 msgid "No keymap"
 msgstr "Nema Keymap"
 
-msgid "No keymap (keys as is)"
-msgstr "Nema Keymap (ključevi kakvi jesu)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Sada: {} (pravilo {}: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "Pravila se provjeravaju odozgo prema dolje; prvi omogućeni čiji uvjeti odgovaraju odabire Keymap. Ako ništa ne odgovara, koristi se zadana vrijednost. \"Bez Keymap\" ostavlja tipkovnicu neobrađenu, na primjer u aplikaciji gdje Keymap smeta."
-
 msgid "No rules"
 msgstr "Nema pravila"
-
-msgid "The default keymap is always used."
-msgstr "Uvijek se koristi zadani Keymap."
 
 msgid "For games"
 msgstr "Za igre"
@@ -1879,12 +1884,6 @@ msgstr "Za prijavu"
 
 msgid "Custom rule"
 msgstr "Prilagođeno pravilo"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr "Kada nijedno pravilo ne odgovara, tipkovnica radi bez obrade."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "Nikada se ne primjenjuje: pravilo {} uvijek odgovara prvo."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr ""

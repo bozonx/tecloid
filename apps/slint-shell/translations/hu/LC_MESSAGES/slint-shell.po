@@ -1847,8 +1847,26 @@ msgstr "Új szabály"
 msgid "Now: {} (default)"
 msgstr "Most: {} (alapértelmezett)"
 
-msgid "Otherwise (default)"
-msgstr "Egyébként (alapértelmezett)"
+msgid "No conditions"
+msgstr "Feltétel nélkül"
+
+msgid "Except windows matching {}"
+msgstr "A(z) {} mintának megfelelő ablakok kivételével"
+
+msgid "Keys unchanged"
+msgstr "Billentyűk változatlanul"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "A fenti {}. szabály felülírja ezt a szabályt."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "A szabályok ellenőrzése felülről lefelé történik. Az első egyező engedélyezett szabály lép életbe."
+
+msgid "Otherwise"
+msgstr "Egyébként"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Ez a beállítás érvényes, ha egyetlen engedélyezett szabály sem egyezik."
 
 msgid "Rule {}"
 msgstr "{} szabály"
@@ -1871,24 +1889,11 @@ msgstr "Kiváltó feltételek"
 msgid "No keymap"
 msgstr "Nincs Keymap"
 
-msgid "No keymap (keys as is)"
-msgstr "Nincs Keymap (a kulcsok ahogy vannak)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Most: {} ({} szabály: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "A szabályok felülről lefelé kerülnek ellenőrzésre; az első engedélyezett, akinek a feltételei megegyeznek, választja az Keymap. Ha egyik sem egyezik, a rendszer az alapértelmezettet használja. A „Nincs Keymap” feldolgozás nélkül hagyja a billentyűzetet, például egy olyan alkalmazásban, ahol az Keymap akadályozza."
-
 msgid "No rules"
 msgstr "Nincsenek szabályok"
-
-msgid "The default keymap is always used."
-msgstr "Mindig az alapértelmezett Keymap használja."
 
 msgid "For games"
 msgstr "Játékokhoz"
@@ -1898,13 +1903,6 @@ msgstr "Egy alkalmazáshoz"
 
 msgid "Custom rule"
 msgstr "Egyéni szabály"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr ""
-"Ha egyetlen szabály sem egyezik, a billentyűzet feldolgozás nélkül működik."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "Soha nem érvényes: a {} szabály mindig egyezik először."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr ""

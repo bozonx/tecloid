@@ -1837,8 +1837,26 @@ msgstr "Жаңа ереже"
 msgid "Now: {} (default)"
 msgstr "Қазір: {} (әдепкі)"
 
-msgid "Otherwise (default)"
-msgstr "Әйтпесе (әдепкі)"
+msgid "No conditions"
+msgstr "Шарттарсыз"
+
+msgid "Except windows matching {}"
+msgstr "{} үлгісіне сәйкес келетін терезелерден басқа"
+
+msgid "Keys unchanged"
+msgstr "Пернелер өзгеріссіз"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "Жоғарыдағы {} ережесі осы ережеден басым."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "Ережелер жоғарыдан төмен қарай тексеріледі. Сәйкес келетін бірінші қосылған ереже қолданылады."
+
+msgid "Otherwise"
+msgstr "Әйтпесе"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Қосылған ережелердің ешқайсысы сәйкес келмесе, осы нұсқа қолданылады."
 
 msgid "Rule {}"
 msgstr "{} ережесі"
@@ -1861,24 +1879,11 @@ msgstr "Триггер шарттары"
 msgid "No keymap"
 msgstr "Keymap жоқ"
 
-msgid "No keymap (keys as is)"
-msgstr "Keymap жоқ (кілттер бар)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Қазір: {} ({} ережесі: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "Ережелер жоғарыдан төменге қарай тексеріледі; шарттары сәйкес келетін бірінші қосылғаны Keymap таңдайды. Ешқайсысы сәйкес келмесе, әдепкі мән пайдаланылады. «Keymap жоқ» пернетақтаны өңделмеген күйде қалдырады, мысалы, Keymap кедергі болатын қолданбада."
-
 msgid "No rules"
 msgstr "Ереже жоқ"
-
-msgid "The default keymap is always used."
-msgstr "Әдепкі Keymap әрқашан пайдаланылады."
 
 msgid "For games"
 msgstr "Ойындар үшін"
@@ -1888,13 +1893,6 @@ msgstr "Өтінім үшін"
 
 msgid "Custom rule"
 msgstr "Арнаулы ереже"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr "Ешбір ереже сәйкес келмесе, пернетақта өңдеусіз жұмыс істейді."
-
-msgid "Never applies: rule {} always matches first."
-msgstr ""
-"Ешқашан қолданылмайды: {} ережесі әрқашан бірінші болып сәйкес келеді."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr ""

@@ -230,12 +230,16 @@ export global KeymapLibrary {
     pure function game-text(game: GameCondition) -> string {
         return game == GameCondition.on ? @tr("game mode on") : game == GameCondition.off ? @tr("game mode off") : "";
     }
-    public pure function rule-text(game: GameCondition, list: string) -> string {
-        if self.game-text(game) == "" && list == "" { return @tr("Always"); }
-        return self.game-text(game) != "" && list != "" ? self.game-text(game) + " · " + list : self.game-text(game) + list;
+    public pure function rule-text(game: GameCondition, list: string, excluded: string) -> string {
+        let conditions = self.game-text(game) != "" && list != "" ? self.game-text(game) + " · " + list : self.game-text(game) + list;
+        if excluded != "" {
+            let exception = @tr("Except windows matching {}", excluded);
+            return conditions == "" ? exception : conditions + "\n" + exception;
+        }
+        return conditions == "" ? @tr("No conditions") : conditions;
     }
     public pure function target-text(target: int) -> string {
-        return target >= 0 && target < self.names.length ? self.names[target] : @tr("No keymap");
+        return target >= 0 && target < self.names.length ? self.names[target] : @tr("Keys unchanged");
     }
 }
 
@@ -338,7 +342,7 @@ export component KeymapMenu inherits MenuSurface {
     }
 }
 
-/// Button choosing a library keymap or "Off" (-1).
+/// Button choosing a library keymap or passing keys through unchanged (-1).
 component TargetPicker inherits Rectangle {
     in property <int> target: -1;
     in property <bool> missing;
@@ -362,7 +366,7 @@ component TargetPicker inherits Rectangle {
     HorizontalLayout { padding-left: Theme.space-m-plus; padding-right: Theme.space-m; spacing: Theme.space-s;
         label := Text {
             horizontal-stretch: 1;
-            text: root.missing ? @tr("Keymap not found") : root.target >= 0 && root.target < root.names.length ? root.names[root.target] : @tr("No keymap");
+            text: root.missing ? @tr("Keymap not found") : root.target >= 0 && root.target < root.names.length ? root.names[root.target] : @tr("Keys unchanged");
             color: root.missing ? Theme.error : root.target < 0 ? Theme.muted : Theme.text;
             font-weight: root.target >= 0 ? 600 : 400;
             overflow: elide; vertical-alignment: center;
@@ -377,7 +381,7 @@ component TargetPicker inherits Rectangle {
         y: root.height + Theme.menu-offset;
         width: max(root.width, 220px);
         KeymapMenu {
-            MenuItem { checked: root.target == -1 && !root.missing; text: @tr("No keymap (keys as is)"); clicked => { root.choose(-1); } }
+            MenuItem { checked: root.target == -1 && !root.missing; text: @tr("Keys unchanged"); clicked => { root.choose(-1); } }
             Divider {}
             for name[index] in root.names: MenuItem { text: name; checked: root.target == index; clicked => { root.choose(index); } }
         }
@@ -391,6 +395,8 @@ component AutoRuleRow inherits Rectangle {
     in property <int> index;
     in property <int> count;
     in property <bool> matched;
+    property <string> conditions: KeymapLibrary.rule-text(root.rule.game, root.rule.list, root.rule.excluded);
+    property <string> target-name: root.rule.missing ? @tr("Keymap not found") : KeymapLibrary.target-text(root.rule.target);
     property <bool> highlighted: KeymapLibrary.highlight-target >= 0 && KeymapLibrary.highlight-target == root.rule.target;
     border-radius: Theme.radius;
     border-width: root.highlighted ? 2px : 1px;
@@ -398,7 +404,7 @@ component AutoRuleRow inherits Rectangle {
     background: root.matched ? Theme.accent.transparentize(0.88) : touch.has-hover ? Theme.hover : transparent;
     height: row.preferred-height;
     accessible-role: button;
-    accessible-label: @tr("Rule {}", root.index + 1) + ": " + KeymapLibrary.rule-text(root.rule.game, root.rule.list) + " → " + (root.rule.missing ? @tr("Keymap not found") : KeymapLibrary.target-text(root.rule.target));
+    accessible-label: @tr("Rule {}", root.index + 1) + ": " + root.target-name + ". " + root.conditions;
     accessible-action-default => { KeymapLibrary.open-rule(root.index, root.rule.target); }
     touch := TouchArea { mouse-cursor: pointer; clicked => { KeymapLibrary.open-rule(root.index, root.rule.target); } }
     row := HorizontalLayout { padding: Theme.space-m; spacing: Theme.space-s;
@@ -408,21 +414,15 @@ component AutoRuleRow inherits Rectangle {
         VerticalLayout { horizontal-stretch: 1; min-width: 0px; spacing: Theme.space-2xs;
             HorizontalLayout { spacing: Theme.space-xs; alignment: start;
                 Text {
-                    text: root.rule.missing ? @tr("Keymap not found") : KeymapLibrary.target-text(root.rule.target);
+                    text: root.target-name;
                     color: root.rule.missing ? Theme.error : root.rule.target < 0 ? Theme.muted : Theme.text;
                     font-weight: root.rule.target >= 0 ? 600 : 400;
                     overflow: elide;
                 }
             }
-            Text { text: KeymapLibrary.rule-text(root.rule.game, root.rule.list); color: Theme.muted; wrap: word-wrap; }
-            if root.rule.excluded != "": HorizontalLayout { spacing: Theme.space-xs; alignment: start;
-                VerticalLayout { alignment: center;
-                    Image { width: 14px; height: 14px; source: @image-url("icons/ban.svg"); colorize: Theme.error; }
-                }
-                Text { text: root.rule.excluded; color: Theme.muted; wrap: word-wrap; }
-            }
+            Text { text: root.conditions; color: Theme.muted; wrap: word-wrap; }
             if root.rule.enabled && root.rule.shadowed-by >= 0: Text {
-                text: @tr("Never applies: rule {} always matches first.", root.rule.shadowed-by + 1);
+                text: @tr("This rule is overridden by rule {} above.", root.rule.shadowed-by + 1);
                 color: Theme.warning; font-size: Theme.font-body; wrap: word-wrap;
             }
             if root.rule.enabled && root.rule.game == GameCondition.on && !KeymapLibrary.game-detection: Text {
@@ -450,16 +450,12 @@ component AutoRuleRow inherits Rectangle {
 }
 
 /// Shared entry point for common and custom automatic rules.
-component AddRuleButton inherits Rectangle {
+component AddRuleButton inherits IconButton {
     in property <bool> compact: false;
-    height: button.preferred-height;
-    width: button.preferred-width;
-    button := Button {
-        text: root.compact ? "" : @tr("Add rule");
-        icon: @image-url("icons/plus.svg");
-        accessible-label: @tr("Add rule");
-        clicked => { KeymapLibrary.open-rule(-1, KeymapLibrary.new-rule-target()); }
-    }
+    label: @tr("Add rule");
+    text: root.compact ? "" : root.label;
+    icon: @image-url("icons/plus.svg");
+    clicked => { KeymapLibrary.open-rule(-1, KeymapLibrary.new-rule-target()); }
 }
 
 /// Automatic mode rules shown next to the library.
@@ -468,20 +464,19 @@ component AutoRulesPanel inherits Card {
     ScrollView { width: parent.width; height: parent.height; viewport-width: self.visible-width; drag-scroll: true;
         PageContent { padding: Theme.space-l-plus; spacing: Theme.space-m-plus;
             HorizontalLayout { spacing: Theme.space-s; vertical-stretch: 0;
-                CardTitle { text: @tr("Automatic switching rules"); min-width: 0px; wrap: word-wrap; vertical-alignment: center; }
-                VerticalLayout { alignment: center;
-                    InfoTip { text: @tr("Rules are checked from top to bottom; the first enabled one whose conditions match chooses the keymap. If none matches, the default is used. “No keymap” leaves the keyboard unprocessed, for example in an application where the keymap gets in the way."); }
+                HorizontalLayout { alignment: start; horizontal-stretch: 1; spacing: Theme.space-xs;
+                    CardTitle { text: @tr("Automatic switching rules"); min-width: 0px; vertical-alignment: center; }
+                    VerticalLayout { alignment: center;
+                        InfoTip { text: @tr("Rules are checked from top to bottom. The first enabled rule that matches applies."); }
+                    }
                 }
-                Rectangle { horizontal-stretch: 1; }
-                AddRuleButton { compact: true; }
+                VerticalLayout { alignment: center;
+                    AddRuleButton { compact: true; }
+                }
             }
             VerticalLayout { spacing: Theme.space-s; alignment: start;
                 if KeymapLibrary.auto-rules.length == 0: VerticalLayout { spacing: Theme.space-m;
                     Text { text: @tr("No rules"); color: Theme.text; font-weight: Theme.weight-semibold; }
-                    Text {
-                        text: @tr("The default keymap is always used.");
-                        color: Theme.muted; wrap: word-wrap;
-                    }
                     HorizontalLayout { alignment: start;
                         AddRuleButton {}
                     }
@@ -500,15 +495,16 @@ component AutoRulesPanel inherits Card {
                 border-color: transparent;
                 background: transparent;
                 default-row := VerticalLayout { padding: Theme.space-m; spacing: Theme.space-s;
-                    Text { text: @tr("Otherwise (default)"); color: Theme.text; font-weight: Theme.weight-semibold; }
+                    HorizontalLayout { alignment: start; spacing: Theme.space-xs;
+                        Text { text: @tr("Otherwise"); color: Theme.text; font-weight: Theme.weight-semibold; vertical-alignment: center; }
+                        VerticalLayout { alignment: center;
+                            InfoTip { text: @tr("This option is used if no enabled rule matches."); }
+                        }
+                    }
                     auto-default-picker := TargetPicker {
                         target: KeymapLibrary.auto-default;
                         missing: KeymapLibrary.auto-default-missing;
                         picked(index) => { KeymapLibrary.set-auto-default(index); }
-                    }
-                    if KeymapLibrary.auto-default < 0 && !KeymapLibrary.auto-default-missing: Text {
-                        text: @tr("When no rule matches, the keyboard works without processing.");
-                        color: Theme.muted; font-size: Theme.font-body; wrap: word-wrap;
                     }
                 }
             }

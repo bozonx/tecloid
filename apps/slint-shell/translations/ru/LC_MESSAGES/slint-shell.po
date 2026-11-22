@@ -1686,8 +1686,26 @@ msgstr "Новое правило"
 msgid "Now: {} (default)"
 msgstr "Сейчас: {} (по умолчанию)"
 
-msgid "Otherwise (default)"
-msgstr "Иначе (по умолчанию)"
+msgid "No conditions"
+msgstr "Без условий"
+
+msgid "Except windows matching {}"
+msgstr "Кроме окон {}"
+
+msgid "Keys unchanged"
+msgstr "Клавиши без изменений"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "Это правило перекрыто правилом {} выше."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "Правила проверяются сверху вниз. Срабатывает первое включённое правило, которое подходит."
+
+msgid "Otherwise"
+msgstr "Иначе"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Этот вариант используется, если ни одно включённое правило не подошло."
 
 msgid "Rule {}"
 msgstr "Правило {}"
@@ -1710,20 +1728,11 @@ msgstr "Условия срабатывания триггера"
 msgid "No keymap"
 msgstr "Без Keymap"
 
-msgid "No keymap (keys as is)"
-msgstr "Без Keymap (клавиши как есть)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Сейчас: {} (правило {}: {})"
 
-msgid "Rules are checked from top to bottom; the first enabled one whose conditions match chooses the keymap. If none matches, the default is used. “No keymap” leaves the keyboard unprocessed, for example in an application where the keymap gets in the way."
-msgstr "Правила проверяются сверху вниз; первое включённое правило, условия которого выполнены, выбирает Keymap. Если ни одно не подошло, используется Keymap по умолчанию. «Без Keymap» оставляет клавиатуру без обработки — например, в приложении, где Keymap мешает."
-
 msgid "No rules"
 msgstr "Нет правил"
-
-msgid "The default keymap is always used."
-msgstr "Всегда используется Keymap по умолчанию."
 
 msgid "For games"
 msgstr "Для игр"
@@ -1733,12 +1742,6 @@ msgstr "Для приложения"
 
 msgid "Custom rule"
 msgstr "Своё правило"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr "Если ни одно правило не подошло, клавиатура работает без обработки."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "Никогда не применится: правило {} всегда срабатывает раньше."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr "Определение игрового режима выключено, поэтому правило никогда не сработает."

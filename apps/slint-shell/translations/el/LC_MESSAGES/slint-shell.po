@@ -1866,8 +1866,26 @@ msgstr "Νέος κανόνας"
 msgid "Now: {} (default)"
 msgstr "Τώρα: {} (προεπιλογή)"
 
-msgid "Otherwise (default)"
-msgstr "Διαφορετικά (προεπιλογή)"
+msgid "No conditions"
+msgstr "Χωρίς συνθήκες"
+
+msgid "Except windows matching {}"
+msgstr "Εκτός από τα παράθυρα που ταιριάζουν με {}"
+
+msgid "Keys unchanged"
+msgstr "Πλήκτρα χωρίς αλλαγές"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "Ο κανόνας {} πιο πάνω υπερισχύει αυτού του κανόνα."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "Οι κανόνες ελέγχονται από πάνω προς τα κάτω. Εφαρμόζεται ο πρώτος ενεργοποιημένος κανόνας που ταιριάζει."
+
+msgid "Otherwise"
+msgstr "Διαφορετικά"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Αυτή η επιλογή χρησιμοποιείται αν δεν ταιριάζει κανένας ενεργοποιημένος κανόνας."
 
 msgid "Rule {}"
 msgstr "Κανόνας {}"
@@ -1890,24 +1908,11 @@ msgstr "Συνθήκες ενεργοποίησης"
 msgid "No keymap"
 msgstr "Χωρίς Keymap"
 
-msgid "No keymap (keys as is)"
-msgstr "Χωρίς Keymap (πλήκτρα ως έχουν)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Τώρα: {} (κανόνας {}: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "Οι κανόνες ελέγχονται από πάνω προς τα κάτω. ο πρώτος ενεργοποιημένος του οποίου οι συνθήκες ταιριάζουν επιλέγει τη Keymap. Εάν κανένα δεν ταιριάζει, χρησιμοποιείται η προεπιλογή. Το \"No layout\" αφήνει το πληκτρολόγιο χωρίς επεξεργασία, για παράδειγμα σε μια εφαρμογή όπου η Keymap παρεμποδίζει."
-
 msgid "No rules"
 msgstr "Χωρίς κανόνες"
-
-msgid "The default keymap is always used."
-msgstr "Η προεπιλεγμένη Keymap χρησιμοποιείται πάντα."
 
 msgid "For games"
 msgstr "Για παιχνίδια"
@@ -1917,14 +1922,6 @@ msgstr "Για μια αίτηση"
 
 msgid "Custom rule"
 msgstr "Προσαρμοσμένος κανόνας"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr ""
-"Όταν κανένας κανόνας δεν ταιριάζει, το πληκτρολόγιο λειτουργεί χωρίς "
-"επεξεργασία."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "Δεν ισχύει ποτέ: ο κανόνας {} ταιριάζει πάντα πρώτος."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr ""

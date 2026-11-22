@@ -1829,8 +1829,26 @@ msgstr "Yeni kural"
 msgid "Now: {} (default)"
 msgstr "Şimdi: {} (varsayılan)"
 
-msgid "Otherwise (default)"
-msgstr "Aksi halde (varsayılan)"
+msgid "No conditions"
+msgstr "Koşul yok"
+
+msgid "Except windows matching {}"
+msgstr "{} ile eşleşen pencereler dışında"
+
+msgid "Keys unchanged"
+msgstr "Tuşlar değişmez"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "Yukarıdaki {} numaralı kural bu kuralı geçersiz kılar."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "Kurallar yukarıdan aşağıya denetlenir. Eşleşen ilk etkin kural uygulanır."
+
+msgid "Otherwise"
+msgstr "Aksi hâlde"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Etkin kurallardan hiçbiri eşleşmezse bu seçenek kullanılır."
 
 msgid "Rule {}"
 msgstr "Kural {}"
@@ -1853,24 +1871,11 @@ msgstr "Tetikleme koşulları"
 msgid "No keymap"
 msgstr "Keymap yok"
 
-msgid "No keymap (keys as is)"
-msgstr "Keymap yok (anahtarlar olduğu gibi)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Şimdi: {} (kural {}: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "Kurallar yukarıdan aşağıya doğru kontrol edilir; koşulları eşleşen ilk etkin olan Keymap seçer. Hiçbiri eşleşmezse varsayılan kullanılır. \"Keymap yok\", örneğin Keymap engel olduğu bir uygulamada klavyeyi işlenmeden bırakır."
-
 msgid "No rules"
 msgstr "Kural yok"
-
-msgid "The default keymap is always used."
-msgstr "Varsayılan Keymap her zaman kullanılır."
 
 msgid "For games"
 msgstr "Oyunlar için"
@@ -1880,12 +1885,6 @@ msgstr "Bir başvuru için"
 
 msgid "Custom rule"
 msgstr "Özel kural"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr "Hiçbir kural eşleşmediğinde klavye işlem yapılmadan çalışır."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "Hiçbir zaman uygulanmaz: {} kuralı her zaman önce eşleşir."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr "Oyun modu algılama kapalı olduğundan bu kural hiçbir zaman eşleşmez."

@@ -1831,8 +1831,26 @@ msgstr "ახალი წესი"
 msgid "Now: {} (default)"
 msgstr "ახლა: {} (ნაგულისხმევი)"
 
-msgid "Otherwise (default)"
-msgstr "წინააღმდეგ შემთხვევაში (ნაგულისხმევი)"
+msgid "No conditions"
+msgstr "პირობების გარეშე"
+
+msgid "Except windows matching {}"
+msgstr "გარდა ფანჯრებისა, რომლებიც ემთხვევა {}"
+
+msgid "Keys unchanged"
+msgstr "კლავიშები უცვლელად"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "ზემოთ მოცემულ წესს {} ამ წესზე უპირატესობა აქვს."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "წესები ზემოდან ქვემოთ მოწმდება. გამოიყენება პირველი ჩართული წესი, რომელიც ემთხვევა."
+
+msgid "Otherwise"
+msgstr "სხვა შემთხვევაში"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "ეს ვარიანტი გამოიყენება, თუ არცერთი ჩართული წესი არ ემთხვევა."
 
 msgid "Rule {}"
 msgstr "წესი {}"
@@ -1855,24 +1873,11 @@ msgstr "გამომწვევი პირობები"
 msgid "No keymap"
 msgstr "Keymap არ არის"
 
-msgid "No keymap (keys as is)"
-msgstr "Keymap არ არის (ღილაკები როგორც არის)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "ახლა: {} (წესი {}: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "წესები მოწმდება ზემოდან ქვემოდან; პირველი ჩართული, რომლის პირობები ემთხვევა, ირჩევს Keymap. თუ არცერთი არ ემთხვევა, გამოიყენება ნაგულისხმევი. „Keymap არ არის“ კლავიატურას დაუმუშავებელი ტოვებს, მაგალითად, აპლიკაციაში, სადაც Keymap ხელს უშლის."
-
 msgid "No rules"
 msgstr "არანაირი წესები"
-
-msgid "The default keymap is always used."
-msgstr "ნაგულისხმევი Keymap ყოველთვის გამოიყენება."
 
 msgid "For games"
 msgstr "თამაშებისთვის"
@@ -1882,13 +1887,6 @@ msgstr "განაცხადისთვის"
 
 msgid "Custom rule"
 msgstr "მორგებული წესი"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr ""
-"როდესაც არცერთი წესი არ ემთხვევა, კლავიატურა დამუშავების გარეშე მუშაობს."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "არასოდეს გამოიყენება: წესი {} ყოველთვის პირველ რიგში ემთხვევა."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr ""

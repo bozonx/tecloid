@@ -12,6 +12,20 @@ use tecloid_core::{
     storage::StoragePaths,
 };
 
+fn assert_saved_auto_rules(document: &Document) {
+    let current = document.read();
+    let saved = ConfigDocument::load(current.paths().clone()).expect("reload automatic rules");
+    let saved = &saved.settings().auto_rules;
+    let current = &current.settings().auto_rules;
+    assert_eq!(saved.len(), current.len());
+    // Rule IDs are assigned again on load. Compare the persisted fields in order.
+    for (saved, current) in saved.iter().zip(current) {
+        assert_eq!(saved.keymap_id, current.keymap_id);
+        assert_eq!(saved.enabled, current.enabled);
+        assert_eq!(saved.conditions, current.conditions);
+    }
+}
+
 /// Grip point and row center in window coordinates.
 fn reorder_handle(ui: &SettingsWindow, group: i32, index: i32) -> (slint::LogicalPosition, f32) {
     use i_slint_core::{
@@ -62,6 +76,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ui.global::<slint_shell::ui::AppState>()
         .set_in_development(true);
     let library = ui.global::<KeymapLibrary>();
+    slint::select_bundled_translation("en")?;
+    let rule_text = |included: &str, excluded: &str| {
+        library.invoke_rule_text(GameCondition::Any, included.into(), excluded.into())
+    };
+    assert_eq!(rule_text("", ""), "No conditions");
+    assert_eq!(rule_text("", "qemu"), "Except windows matching qemu");
+    assert_eq!(
+        rule_text("kate", "qemu"),
+        "kate\nExcept windows matching qemu"
+    );
     library.invoke_open_create(KeymapSource::Empty, 0);
     assert_eq!(library.get_dialog(), LibraryDialog::Create);
     assert!(!library.get_create_name().is_empty());
@@ -134,10 +158,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
     library.invoke_move_rule(1, 0);
     library.invoke_set_auto_default(0);
-    assert_eq!(
-        ConfigDocument::load(paths.clone())?.settings().auto_rules,
-        document.read().settings().auto_rules
-    );
+    assert_saved_auto_rules(&document);
     {
         let config = document.read();
         let settings = config.settings();
@@ -159,10 +180,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     assert_eq!(library.get_rule_apps(), "kate, terminal");
     library.invoke_delete_rule(0);
     assert_eq!(library.get_auto_rules().row_count(), 1);
-    assert_eq!(
-        ConfigDocument::load(paths.clone())?.settings().auto_rules,
-        document.read().settings().auto_rules
-    );
+    assert_saved_auto_rules(&document);
     // A game-mode rule, then a narrower one it always shadows.
     library.invoke_add_game_rule();
     library.invoke_open_rule(-1, -1);
@@ -427,8 +445,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     if std::env::var_os("TECLOID_LIBRARY_RULE_DRAG").is_some() {
         library.invoke_set_automatic(true);
+        library.invoke_set_auto_default(-1);
         for target in 0..3 {
             library.invoke_open_rule(-1, target);
+            if target == 0 {
+                library.set_rule_excluded("qemu".into());
+            }
             library.invoke_save_rule();
         }
     }
@@ -501,13 +523,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 button: slint::platform::PointerEventButton::Left,
             });
             assert_eq!(document.read().settings().auto_rules[2].id, first);
-            assert_eq!(
-                ConfigDocument::load(document.read().paths().clone())
-                    .unwrap()
-                    .settings()
-                    .auto_rules,
-                document.read().settings().auto_rules
-            );
+            assert_saved_auto_rules(&document);
             println!("Automatic rule drag-and-drop passed");
         }
         if let Some(path) = std::env::var_os("TECLOID_LIBRARY_SNAPSHOT") {

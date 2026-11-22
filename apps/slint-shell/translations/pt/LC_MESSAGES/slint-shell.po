@@ -1834,8 +1834,26 @@ msgstr "Nova regra"
 msgid "Now: {} (default)"
 msgstr "Agora: {} (padrão)"
 
-msgid "Otherwise (default)"
-msgstr "Caso contrário (padrão)"
+msgid "No conditions"
+msgstr "Sem condições"
+
+msgid "Except windows matching {}"
+msgstr "Exceto as janelas que correspondam a {}"
+
+msgid "Keys unchanged"
+msgstr "Teclas sem alterações"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "A regra {} acima tem prioridade sobre esta regra."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "As regras são verificadas de cima para baixo. Aplica-se a primeira regra ativada que corresponder."
+
+msgid "Otherwise"
+msgstr "Caso contrário"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Esta opção é usada se nenhuma regra ativada corresponder."
 
 msgid "Rule {}"
 msgstr "Regra {}"
@@ -1858,24 +1876,11 @@ msgstr "Condições de gatilho"
 msgid "No keymap"
 msgstr "Sem Keymap"
 
-msgid "No keymap (keys as is)"
-msgstr "Sem Keymap (teclas como estão)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Agora: {} (regra {}: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "As regras são verificadas de cima para baixo; o primeiro habilitado cujas condições correspondem escolhe o Keymap. Se nada corresponder, o padrão será usado. “Sem Keymap” deixa o teclado sem processamento, por exemplo, em um aplicativo onde o Keymap atrapalha."
-
 msgid "No rules"
 msgstr "Sem regras"
-
-msgid "The default keymap is always used."
-msgstr "O Keymap padrão é sempre usado."
 
 msgid "For games"
 msgstr "Para jogos"
@@ -1885,13 +1890,6 @@ msgstr "Para um aplicativo"
 
 msgid "Custom rule"
 msgstr "Regra personalizada"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr ""
-"Quando nenhuma regra corresponde, o teclado funciona sem processamento."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "Nunca se aplica: a regra {} sempre corresponde primeiro."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr ""

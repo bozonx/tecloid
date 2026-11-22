@@ -24,6 +24,14 @@ fn select_language(code: &str) {
 
 type Step = (&'static str, fn(&SettingsWindow));
 
+fn set_development(ui: &SettingsWindow, enabled: bool) {
+    let settings = ui.global::<SettingsEditor>();
+    settings.set_in_development(enabled);
+    settings.invoke_save();
+    // The standalone fixture has no app-level subscriber to update AppState.
+    ui.global::<AppState>().set_in_development(enabled);
+}
+
 /// Debug element identities are independent of translated accessibility labels.
 fn element_matches(item: &i_slint_core::item_tree::ItemRc, name: &str) -> bool {
     (0..item.element_count().unwrap_or(0)).any(|index| {
@@ -174,11 +182,15 @@ fn controls_fit(ui: &SettingsWindow, state: &str) {
             auto_default_visible,
             "automatic default picker must remain reachable"
         );
-    }
-    if state == "auto-without-development" {
         assert!(
             auto_controls && auto_rules,
             "automatic-mode controls disappeared"
+        );
+    }
+    if state == "auto-without-development" {
+        assert!(
+            !auto_controls && !auto_rules,
+            "automatic-mode controls are development-only"
         );
     }
     assert!(
@@ -259,17 +271,21 @@ const STEPS: &[Step] = &[
         ui.invoke_navigate(Page::Keymaps, MenuKind::Emoji)
     }),
     ("auto-rule-dialog", |ui| {
+        set_development(ui, true);
         ui.global::<KeymapLibrary>().invoke_set_automatic(true);
         ui.global::<KeymapLibrary>().invoke_open_rule(-1, 0);
     }),
-    ("auto-without-development", |ui| {
+    ("auto-default-scroll", |ui| {
         ui.global::<KeymapLibrary>().invoke_cancel_dialog();
-        ui.global::<AppState>().set_in_development(false);
+        ui.invoke_navigate(Page::Keymaps, MenuKind::Emoji);
+        scroll_auto_default(ui);
+    }),
+    ("auto-without-development", |ui| {
+        set_development(ui, false);
         ui.invoke_navigate(Page::Keymaps, MenuKind::Emoji);
     }),
-    ("auto-default-scroll", scroll_auto_default),
     ("settings-general", |ui| {
-        ui.global::<AppState>().set_in_development(true);
+        set_development(ui, true);
         ui.global::<KeymapLibrary>().invoke_cancel_dialog();
         ui.invoke_navigate(Page::Settings, MenuKind::Emoji);
         ui.global::<SettingsEditor>().set_tab(SettingsTab::General);

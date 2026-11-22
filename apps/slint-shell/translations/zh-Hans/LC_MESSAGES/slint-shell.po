@@ -1748,8 +1748,26 @@ msgstr "新规则"
 msgid "Now: {} (default)"
 msgstr "现在：{}（默认）"
 
-msgid "Otherwise (default)"
-msgstr "否则（默认）"
+msgid "No conditions"
+msgstr "无条件"
+
+msgid "Except windows matching {}"
+msgstr "匹配 {} 的窗口除外"
+
+msgid "Keys unchanged"
+msgstr "按键保持原样"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "上方的规则 {} 优先于此规则。"
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "规则从上到下检查。第一个匹配的已启用规则将生效。"
+
+msgid "Otherwise"
+msgstr "否则"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "没有任何已启用的规则匹配时，将使用此选项。"
 
 msgid "Rule {}"
 msgstr "规则{}"
@@ -1772,24 +1790,11 @@ msgstr "触发条件"
 msgid "No keymap"
 msgstr "无Keymap"
 
-msgid "No keymap (keys as is)"
-msgstr "无Keymap（按键按原样）"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "现在：{}（规则{}：{}）"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "从上到下检查规则；第一个启用且条件匹配的选择Keymap。如果没有匹配，则使用默认值。 “无Keymap”会使键盘未经处理，例如在Keymap妨碍的应用程序中。"
-
 msgid "No rules"
 msgstr "没有规则"
-
-msgid "The default keymap is always used."
-msgstr "始终使用默认Keymap。"
 
 msgid "For games"
 msgstr "对于游戏"
@@ -1799,12 +1804,6 @@ msgstr "对于申请"
 
 msgid "Custom rule"
 msgstr "自定义规则"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr "当没有规则匹配时，键盘不进行任何处理即可工作。"
-
-msgid "Never applies: rule {} always matches first."
-msgstr "从不应用：规则 {} 始终首先匹配。"
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr "游戏模式检测已关闭，因此该规则永远不会匹配。"

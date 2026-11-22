@@ -1847,8 +1847,26 @@ msgstr "Regulă nouă"
 msgid "Now: {} (default)"
 msgstr "Acum: {} (implicit)"
 
-msgid "Otherwise (default)"
-msgstr "În caz contrar (implicit)"
+msgid "No conditions"
+msgstr "Fără condiții"
+
+msgid "Except windows matching {}"
+msgstr "Cu excepția ferestrelor care corespund cu {}"
+
+msgid "Keys unchanged"
+msgstr "Taste neschimbate"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "Regula {} de mai sus are prioritate față de această regulă."
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "Regulile sunt verificate de sus în jos. Se aplică prima regulă activată care se potrivește."
+
+msgid "Otherwise"
+msgstr "În caz contrar"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "Această opțiune este folosită dacă nicio regulă activată nu se potrivește."
 
 msgid "Rule {}"
 msgstr "Regula {}"
@@ -1871,24 +1889,11 @@ msgstr "Condiții de declanșare"
 msgid "No keymap"
 msgstr "Fără Keymap"
 
-msgid "No keymap (keys as is)"
-msgstr "Fără Keymap (cheile așa cum sunt)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "Acum: {} (regula {}: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "Regulile sunt verificate de sus în jos; primul activat ale cărui condiții se potrivesc alege Keymap. Dacă niciuna nu se potrivește, se folosește valoarea implicită. „Fără Keymap” lasă tastatura neprocesată, de exemplu într-o aplicație în care Keymap împiedică."
-
 msgid "No rules"
 msgstr "Fara reguli"
-
-msgid "The default keymap is always used."
-msgstr "Keymap implicit este întotdeauna utilizat."
 
 msgid "For games"
 msgstr "Pentru jocuri"
@@ -1898,13 +1903,6 @@ msgstr "Pentru o aplicație"
 
 msgid "Custom rule"
 msgstr "Regulă personalizată"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr ""
-"Când nicio regulă nu se potrivește, tastatura funcționează fără procesare."
-
-msgid "Never applies: rule {} always matches first."
-msgstr "Nu se aplică niciodată: regula {} se potrivește întotdeauna prima."
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr ""

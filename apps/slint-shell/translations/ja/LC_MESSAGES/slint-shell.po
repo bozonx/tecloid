@@ -1762,8 +1762,26 @@ msgstr "新しいルール"
 msgid "Now: {} (default)"
 msgstr "現在: {} (デフォルト)"
 
-msgid "Otherwise (default)"
-msgstr "それ以外の場合 (デフォルト)"
+msgid "No conditions"
+msgstr "条件なし"
+
+msgid "Except windows matching {}"
+msgstr "{} に一致するウィンドウを除く"
+
+msgid "Keys unchanged"
+msgstr "キーをそのまま通す"
+
+msgid "This rule is overridden by rule {} above."
+msgstr "上にあるルール {} がこのルールより優先されます。"
+
+msgid "Rules are checked from top to bottom. The first enabled rule that matches applies."
+msgstr "ルールは上から順に確認されます。有効なルールのうち、最初に一致したものが適用されます。"
+
+msgid "Otherwise"
+msgstr "それ以外"
+
+msgid "This option is used if no enabled rule matches."
+msgstr "有効なルールがどれも一致しない場合に、この選択肢が使われます。"
 
 msgid "Rule {}"
 msgstr "ルール {}"
@@ -1786,24 +1804,11 @@ msgstr "トリガー条件"
 msgid "No keymap"
 msgstr "Keymapなし"
 
-msgid "No keymap (keys as is)"
-msgstr "Keymapなし (キーはそのまま)"
-
 msgid "Now: {} (rule {}: {})"
 msgstr "現在: {} (ルール {}: {})"
 
-msgid ""
-"Rules are checked from top to bottom; the first enabled one whose conditions"
-" match chooses the keymap. If none matches, the default is used. “No keymap”"
-" leaves the keyboard unprocessed, for example in an application where the "
-"keymap gets in the way."
-msgstr "ルールは上から下までチェックされます。条件が一致する最初に有効になったものがKeymapを選択します。一致するものがない場合は、デフォルトが使用されます。 「Keymapなし」では、Keymapが邪魔になるアプリケーションなどでキーボードが処理されません。"
-
 msgid "No rules"
 msgstr "ルールなし"
-
-msgid "The default keymap is always used."
-msgstr "デフォルトのKeymapが常に使用されます。"
 
 msgid "For games"
 msgstr "ゲーム用"
@@ -1813,12 +1818,6 @@ msgstr "アプリケーションの場合"
 
 msgid "Custom rule"
 msgstr "カスタムルール"
-
-msgid "When no rule matches, the keyboard works without processing."
-msgstr "一致するルールがない場合、キーボードは処理を行わずに動作します。"
-
-msgid "Never applies: rule {} always matches first."
-msgstr "決して適用されません: ルール {} が常に最初に一致します。"
 
 msgid "Game mode detection is off, so this rule never matches."
 msgstr "ゲームモード検出がオフになっているため、このルールは一致しません。"
