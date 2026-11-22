@@ -21,7 +21,7 @@ def main():
     parser.add_argument("--vm-root", type=Path, help="directory containing the prepared Tecloid VM stands")
     parser.add_argument("--check", action="store_true", help="validate and print selected paths without booting")
     parser.add_argument("--build", action="store_true",
-                        help="build all Linux release packages before booting (requires release build dependencies)")
+                        help="build all Linux release packages in an ubuntu:22.04 Docker container before booting")
     args = parser.parse_args()
     if args.build and args.check:
         parser.error("--build cannot be combined with --check")
@@ -47,8 +47,8 @@ def main():
     if not Path(config["ssh_key"]).expanduser().is_file():
         parser.error("VM SSH key is missing")
     if args.build:
-        print("Building Linux release packages in the current environment…", flush=True)
-        subprocess.run([str(REPO / "apps/slint-shell/scripts/release/release-linux.sh")],
+        print("Building Linux release packages in ubuntu:22.04 (Docker)…", flush=True)
+        subprocess.run([str(REPO / "apps/slint-shell/scripts/release/release-linux-docker.sh")],
                        cwd=REPO, check=True)
     if not package.is_file():
         parser.error(f"{package} missing; use --build or build packages as described in docs/release.md")

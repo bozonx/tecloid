@@ -86,8 +86,7 @@ apps/slint-shell/scripts/release/release-linux.sh   # all Linux artefacts → ta
 Portable Linux artefacts must be built in `ubuntu:22.04` like the workflow:
 
 ```sh
-docker run --rm -it -v "$PWD":/src -w /src ubuntu:22.04 bash
-# inside: system dependencies, rustup stable, nfpm 2.47.0, then release-linux.sh
+apps/slint-shell/scripts/release/release-linux-docker.sh   # → target/release-artifacts/
 docker run --rm -v "$PWD":/src -w /src fedora:latest \
   apps/slint-shell/scripts/release/smoke-linux-package.sh target/release-artifacts/<file>.rpm
 ```

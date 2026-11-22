@@ -222,18 +222,16 @@ python3 apps/slint-shell/scripts/vm/manual-linux.py gnome
 
 The launcher finds the current version and Cargo target directory itself, then
 selects the RPM for Fedora, DEB for Debian or application tar.gz for GNOME.
-`--build` first runs the shared `release-linux.sh` builder for all Linux release
-artifacts; a build failure stops the launcher before booting. It requires the
-release build dependencies (including nfpm) and runs in the current environment,
-without creating a container. Use the Ubuntu 22.04 build environment described
-below for portable packages; a newer host can produce incompatible binaries.
+`--build` first runs `release-linux-docker.sh`, which builds all Linux release
+artifacts in an `ubuntu:22.04` Docker container like the release workflow, so
+the binary runs on the oldest supported glibc; a build failure stops the
+launcher before booting. It needs only Docker on the host.
 Build once, then omit `--build` to reuse the same packages for Debian and GNOME.
 The builder replaces the contents of `release-artifacts/`.
-`--check` validates the paths without booting and cannot be combined with `--build`. It never silently selects a historical package. To rebuild packages after
-source changes, build in Ubuntu 22.04 as described in [release.md](release.md#building-locally)
-and put the RPM/DEB in the host Cargo `release-artifacts/` directory. Native
-host builds on a newer distribution can require a GLIBC version absent in the
-guests. A package's version alone does not prove it contains current sources.
+`--check` validates the paths without booting and cannot be combined with `--build`.
+It never silently selects a historical package. Do not put packages from
+`release-linux.sh` run on a newer host into `release-artifacts/`: they can require
+a GLIBC version absent in the guests. A package's version alone does not prove it contains current sources.
 
 Local VM location is saved in ignored `dev-files/vm/manual.json`:
 
