@@ -9,12 +9,12 @@ themeConfig:
     doc:
       - text: 'Начало работы'
         items:
-          - text: 'Обзор'
+          - text: 'О Tecloid'
             link: ''
           - text: 'Установка и запуск'
             link: 'installation'
           - text: 'Начало работы'
-            link: 'first-remap'
+            link: 'getting-started'
       - text: 'Карты клавиш'
         items:
           - text: 'Библиотека карт клавиш'
