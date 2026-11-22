@@ -53,6 +53,20 @@ pub(super) fn is_terminal(window: &ActiveWindow) -> bool {
         .any(is_terminal_name)
 }
 
+#[cfg(any(target_os = "linux", test))]
+/// Konsole and Yakuake disable their copy action without a selection, so
+/// Ctrl+Shift+C then reaches the program as Ctrl+C; their Ctrl+Insert
+/// copies a selection and does nothing otherwise.
+pub(super) fn copies_with_ctrl_insert(window: &ActiveWindow) -> bool {
+    std::iter::once(window.app_id.as_str())
+        .chain(window.process_name.as_deref())
+        .any(|name| {
+            let name = name.trim().to_ascii_lowercase();
+            let name = name.strip_suffix(".desktop").unwrap_or(&name);
+            matches!(name.rsplit('.').next(), Some("konsole" | "yakuake"))
+        })
+}
+
 fn is_terminal_name(name: &str) -> bool {
     let name = name.trim().to_ascii_lowercase();
     let name = name.strip_suffix(".desktop").unwrap_or(&name);
@@ -89,6 +103,9 @@ mod tests {
             assert!(is_terminal(&window(app_id, None)), "{app_id}");
         }
         assert!(is_terminal(&window("", Some("gnome-terminal-server"))));
+        assert!(copies_with_ctrl_insert(&window("org.kde.konsole", None)));
+        assert!(copies_with_ctrl_insert(&window("", Some("yakuake"))));
+        assert!(!copies_with_ctrl_insert(&window("kitty", Some("kitty"))));
         assert!(is_terminal(&window("unknown", Some("foot"))));
         for process in [
             "WindowsTerminal.exe",

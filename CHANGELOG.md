@@ -6,7 +6,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
-- On Linux, `sys:copy` sends Ctrl+Insert when the focused window cannot be determined, so it no longer interrupts a program in a terminal with Ctrl+C.
+- On Linux, `sys:copy` sends Ctrl+Insert in Konsole and Yakuake, where Ctrl+Shift+C without a selection interrupts the running program, and when the focused window cannot be determined.
 
 - On Wayland, focusing Tecloid settings updates the active keymap. Emoji and Quick actions popups keep the keymap of the window they were opened from.
 

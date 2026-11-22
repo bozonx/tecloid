@@ -423,6 +423,18 @@ pub fn open_windows() -> Vec<OpenWindow> {
     windows
 }
 
+/// What the focused window is, as far as standard shortcuts care.
+#[cfg(any(target_os = "linux", test))]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum FocusKind {
+    /// No window could be determined.
+    Unknown,
+    Window,
+    Terminal,
+    /// Konsole or Yakuake: copy with Ctrl+Insert.
+    KonsoleTerminal,
+}
+
 /// A text destination, captured before a popup or an asynchronous backend starts.
 #[cfg(target_os = "linux")]
 #[derive(Clone)]
@@ -482,17 +494,24 @@ impl TextTarget {
     }
 
     pub(crate) fn is_terminal(&self) -> bool {
-        match self {
-            Self::Kwin(_, window) | Self::Gnome(_, window) | Self::Cached(window) => {
-                terminal::is_terminal(window)
-            }
-            Self::Unsupported | Self::Unavailable => false,
+        self.window().is_some_and(terminal::is_terminal)
+    }
+
+    /// The kind of the focused window for standard shortcuts.
+    pub(crate) fn focus_kind(&self) -> FocusKind {
+        match self.window() {
+            None => FocusKind::Unknown,
+            Some(window) if terminal::copies_with_ctrl_insert(window) => FocusKind::KonsoleTerminal,
+            Some(window) if terminal::is_terminal(window) => FocusKind::Terminal,
+            Some(_) => FocusKind::Window,
         }
     }
 
-    /// Whether the focused window was found at all.
-    pub(crate) fn is_known(&self) -> bool {
-        !matches!(self, Self::Unsupported | Self::Unavailable)
+    fn window(&self) -> Option<&ActiveWindow> {
+        match self {
+            Self::Kwin(_, window) | Self::Gnome(_, window) | Self::Cached(window) => Some(window),
+            Self::Unsupported | Self::Unavailable => None,
+        }
     }
 
     pub(crate) fn is_current(&self) -> bool {

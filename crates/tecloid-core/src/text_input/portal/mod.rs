@@ -270,17 +270,13 @@ pub(crate) fn shortcut_key_for_letter(character: char) -> Option<u16> {
     key
 }
 
-/// Whether the focused window is a terminal, and the clipboard shortcuts
-/// the paste settings choose for it.
-/// `None` for the terminal flag when the focused window is unknown.
-pub(crate) fn focused_clipboard_keys() -> (Option<bool>, ClipboardKeys) {
+/// What the focused window is, and the clipboard shortcuts the paste
+/// settings choose for it.
+pub(crate) fn focused_clipboard_keys() -> (crate::active_window::FocusKind, ClipboardKeys) {
     let target = crate::active_window::TextTarget::capture();
     let terminal = target.is_terminal();
     let cfg = TEXT_BACKEND.lock().unwrap_or_else(|e| e.into_inner());
-    (
-        target.is_known().then_some(terminal),
-        clipboard_keys(&cfg, terminal),
-    )
+    (target.focus_kind(), clipboard_keys(&cfg, terminal))
 }
 
 fn clipboard_keys(cfg: &TextBackendConfig, terminal: bool) -> ClipboardKeys {

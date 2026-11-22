@@ -163,12 +163,15 @@ fn fixed_chord(id: &str, macos: bool) -> Option<&'static str> {
 pub fn edit_keystroke(command: EditCommand) -> Option<Keystroke> {
     #[cfg(target_os = "linux")]
     {
-        let (terminal, clipboard) = if command.depends_on_terminal() {
+        let (focus, clipboard) = if command.depends_on_terminal() {
             crate::text_input::portal::focused_clipboard_keys()
         } else {
-            (Some(false), crate::config::model::ClipboardKeys::CtrlV)
+            (
+                crate::active_window::FocusKind::Window,
+                crate::config::model::ClipboardKeys::CtrlV,
+            )
         };
-        linux_keystroke(command, terminal, clipboard, |character| {
+        linux_keystroke(command, focus, clipboard, |character| {
             crate::text_input::portal::shortcut_key_for_letter(character).map(K::new)
         })
     }
@@ -242,27 +245,29 @@ fn terminal_ctrl(command: EditCommand, key: K) -> Option<Keystroke> {
     }
 }
 
-/// `terminal` is `None` when the focused window is unknown: copy then sends
-/// Ctrl+Insert, which copies in most applications and does nothing harmful
-/// in a terminal, where Ctrl+C would interrupt the program. `clipboard` is
-/// the paste setting resolved for the focused window; only paste follows
-/// it, copy and cut otherwise use the standard shortcut.
+/// Copy sends Ctrl+Insert in Konsole (Ctrl+Shift+C without a selection
+/// interrupts the program there) and when the focused window is unknown:
+/// it copies in most applications and does nothing harmful in a terminal,
+/// where Ctrl+C would interrupt the program. `clipboard` is the paste
+/// setting resolved for the focused window; only paste follows it, copy and
+/// cut otherwise use the standard shortcut.
 #[cfg(any(target_os = "linux", test))]
 fn linux_keystroke(
     command: EditCommand,
-    terminal: Option<bool>,
+    focus: crate::active_window::FocusKind,
     clipboard: crate::config::model::ClipboardKeys,
     lookup: impl Fn(char) -> Option<K>,
 ) -> Option<Keystroke> {
     use crate::config::model::ClipboardKeys as C;
     use EditCommand as E;
-    if command == E::Copy && terminal.is_none() {
+    use crate::active_window::FocusKind as F;
+    if command == E::Copy && matches!(focus, F::Unknown | F::KonsoleTerminal) {
         return Some(Keystroke {
             mods: vec![K::KEY_LEFTCTRL],
             key: K::KEY_INSERT,
         });
     }
-    let terminal = terminal.unwrap_or(false);
+    let terminal = matches!(focus, F::Terminal | F::KonsoleTerminal);
     let key = command_key(command, lookup)?;
     if command == E::Paste {
         // An explicit paste setting is sent exactly as chosen.
@@ -491,8 +496,10 @@ mod tests {
             '=' => Some(K::KEY_RIGHTBRACE),
             _ => qwerty(c),
         };
+        use crate::active_window::FocusKind as F;
         let run = |command, terminal: bool, clipboard| {
-            linux_keystroke(command, Some(terminal), clipboard, dvorak).map(|ks| chord(&ks))
+            let focus = if terminal { F::Terminal } else { F::Window };
+            linux_keystroke(command, focus, clipboard, dvorak).map(|ks| chord(&ks))
         };
         let ctrl = vec![K::KEY_LEFTCTRL];
         let ctrl_shift = vec![K::KEY_LEFTCTRL, K::KEY_LEFTSHIFT];
@@ -505,11 +512,18 @@ mod tests {
             );
             assert_eq!(run(E::Cut, false, clipboard), Some((ctrl.clone(), K::KEY_X)));
         }
-        // An unknown window gets Ctrl+Insert for copy, never Ctrl+C.
-        let unknown =
-            |command| linux_keystroke(command, None, C::CtrlV, dvorak).map(|ks| chord(&ks));
-        assert_eq!(unknown(E::Copy), Some((ctrl.clone(), K::KEY_INSERT)));
-        assert_eq!(unknown(E::Cut), Some((ctrl.clone(), K::KEY_X)));
+        // Konsole and an unknown window get Ctrl+Insert for copy, never Ctrl+C.
+        let with = |command, focus| {
+            linux_keystroke(command, focus, C::CtrlV, dvorak).map(|ks| chord(&ks))
+        };
+        for focus in [F::Unknown, F::KonsoleTerminal] {
+            assert_eq!(with(E::Copy, focus), Some((ctrl.clone(), K::KEY_INSERT)));
+        }
+        assert_eq!(with(E::Cut, F::Unknown), Some((ctrl.clone(), K::KEY_X)));
+        assert_eq!(
+            with(E::Cut, F::KonsoleTerminal),
+            Some((ctrl_shift.clone(), K::KEY_X))
+        );
         // Paste sends the chosen keys, in terminals too.
         assert_eq!(run(E::Paste, true, C::CtrlV), Some((ctrl.clone(), K::KEY_DOT)));
         assert_eq!(

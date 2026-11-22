@@ -721,7 +721,15 @@ pub(super) fn flush_out_with<S: EventSink, E: SideEffects>(
             } => {
                 flush_events(sink, &mut events)?;
                 // `None`: no safe shortcut in the focused window.
-                let Some(mut ks) = super::shortcuts::edit_keystroke(command) else {
+                let resolved = super::shortcuts::edit_keystroke(command);
+                if trace_enabled() {
+                    log::debug!(
+                        target: TRACE,
+                        "shortcut {command:?} -> {:?} (held {held:?})",
+                        resolved.as_ref().map(|ks| (&ks.mods, ks.key)),
+                    );
+                }
+                let Some(mut ks) = resolved else {
                     continue;
                 };
                 ks.mods.retain(|m| !held.contains(m));
