@@ -37,10 +37,10 @@ themeConfig:
             link: 'advanced'
           - text: 'Решение проблем'
             link: 'troubleshooting'
-      - text: 'Left Hand Control'
+      - text: 'Встроенные Keymap'
         items:
-          - text: 'Как запомнить раскладку LHC'
-            link: 'lhc/'
+          - text: 'Left Hand Control'
+            link: 'lhc'
 
   nav:
     - text: '📖 Документация'
