@@ -267,6 +267,40 @@ pub fn page_count(keymap: &KeymapPreset, kind: MenuKind) -> usize {
     }
 }
 
+/// Whether the page holds no caption or cell assignments.
+pub fn page_is_empty(keymap: &KeymapPreset, kind: MenuKind, index: usize) -> bool {
+    match kind {
+        MenuKind::Emoji => keymap
+            .emoji_pages
+            .get(index)
+            .is_some_and(|page| page.name.is_empty() && page.cells.is_empty()),
+        MenuKind::Quick => keymap
+            .quick_action_pages
+            .get(index)
+            .is_some_and(|page| page.name.is_empty() && page.cells.is_empty()),
+    }
+}
+
+/// Whether removing this page would change the target of a numbered menu action.
+pub fn removal_affects_numbered_actions(
+    keymap: &KeymapPreset,
+    kind: MenuKind,
+    index: usize,
+) -> bool {
+    let mut affected = false;
+    let count = page_count(keymap, kind);
+    keymap.for_each_action(|_, raw| {
+        if let Action::App(id) = Action::parse(Some(raw))
+            && let Some((emoji, number)) = actions::menu_page(&id)
+            && emoji == matches!(kind, MenuKind::Emoji)
+            && (index + 1..=count).contains(&(number as usize))
+        {
+            affected = true;
+        }
+    });
+    affected
+}
+
 /// Move a page and its cells together, preserving the order of other pages.
 /// Returns whether anything moved.
 ///
@@ -683,6 +717,44 @@ mod tests {
         assert_eq!(keymap.quick_action_pages[0].cells["KeyQ"].name, "");
         clear_cell(&mut keymap, MenuKind::Quick, 0, 0);
         assert!(keymap.quick_action_pages[0].cells.is_empty());
+    }
+
+    #[test]
+    fn removing_an_empty_page_can_shift_a_numbered_action() {
+        let mut keymap = KeymapPreset::default();
+        ensure_pages(&mut keymap);
+        keymap
+            .quick_action_pages
+            .push(QuickActionPage::default_page());
+        let mut rule = KeyRule::new("r".into(), "KeyA");
+        rule.tap_action = Some("app:showQuickMenu2".into());
+        keymap.rules.push(rule);
+
+        assert!(page_is_empty(&keymap, MenuKind::Quick, 0));
+        assert!(removal_affects_numbered_actions(
+            &keymap,
+            MenuKind::Quick,
+            0
+        ));
+        assert!(removal_affects_numbered_actions(
+            &keymap,
+            MenuKind::Quick,
+            1
+        ));
+        assert!(!removal_affects_numbered_actions(
+            &keymap,
+            MenuKind::Emoji,
+            0
+        ));
+
+        keymap.rules[0].tap_action = Some("app:showQuickMenu1".into());
+        assert!(!removal_affects_numbered_actions(
+            &keymap,
+            MenuKind::Quick,
+            1
+        ));
+        rename_page(&mut keymap, MenuKind::Quick, 1, "Media");
+        assert!(!page_is_empty(&keymap, MenuKind::Quick, 1));
     }
 
     #[test]

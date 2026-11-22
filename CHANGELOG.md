@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Empty, unnamed Emoji and Quick actions pages can be deleted directly when no numbered menu action is affected. Macro deletion confirmations show the macro name or explain why it is still in use.
+
 - Confirmations in the Emoji, Quick actions and Macros editors dim the entire settings window, including the toolbar and tabs. Dialogs close on the first click outside the card, and dimming is softer in the standard light theme.
 
 - On Unix, a second launch waits for settings IPC during startup, and distinct IPC sockets cannot open the same settings directory concurrently. On Linux, the mapper is exclusive across sessions of the same account and reports system errors when its lock fails.

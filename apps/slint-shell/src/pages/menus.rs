@@ -174,8 +174,11 @@ fn refresh(ui: &SettingsWindow, keymap: &KeymapPreset, fields: bool) {
     if fields {
         e.set_page_name(names[p].clone().into());
     }
-    e.set_only_page_empty(
-        names.len() == 1 && names[0].is_empty() && cells.iter().all(|cell| cell.value.is_empty()),
+    let kind = core_kind(kind);
+    let empty = menus::page_is_empty(keymap, kind, p);
+    e.set_only_page_empty(names.len() == 1 && empty);
+    e.set_remove_page_immediately(
+        names.len() > 1 && empty && !menus::removal_affects_numbered_actions(keymap, kind, p),
     );
     let model = e.get_cells();
     if let Some(existing) = model.as_any().downcast_ref::<VecModel<MenuCell>>()
@@ -366,7 +369,7 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) -> Shared {
         Err(error) => log::error!("emoji catalog: {error}"),
     }
 
-    // Reload when the menus changed elsewhere and no edit is pending.
+    // Reload external edits when no edit is pending. Action changes can affect page deletion.
     super::autosave::subscribe(ui, document, View::Menus, &state, |ui, document, state| {
         if !state.autosave.pending()
             && state.commands.is_empty()
@@ -381,8 +384,8 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) -> Shared {
             state.keymap = keymap;
             if changed {
                 ui.global::<MenuEditor>().invoke_cancel_mark();
-                refresh(ui, &state.keymap, true);
             }
+            refresh(ui, &state.keymap, changed);
         }
     });
 

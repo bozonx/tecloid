@@ -135,6 +135,7 @@ export component SettingsWindow inherits Window {
 
     property <bool> modal-open: root.settings-quit-dialog || KeyboardFocus.active || root.confirm-discard || root.confirm-close || ActionPicker.opened || RulesEditor.dialog != RuleDialog.none || LayersEditor.dialog != LayerDialog.none || LayersEditor.delete-extra >= 0
         || KeymapLibrary.save-as-open || KeymapLibrary.dialog != LibraryDialog.none
+        || root.confirm-remove-menu-page || root.delete-macro >= 0
         || AppEntryDialog.editing || AppEntryDialog.removing || DeviceDialog.open || SettingsEditor.full-command != "";
     property <bool> show-active-banner: root.page != Page.keymaps && root.page != Page.settings
         && KeymapLibrary.active-error.id == ""

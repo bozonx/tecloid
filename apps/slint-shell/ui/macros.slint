@@ -413,7 +413,7 @@ export component MacroDialogOverlay inherits Rectangle {
         height: 100%;
         title: @tr("Delete macro?");
         confirm-enabled: MacroEditor.macros[root.delete-macro].usage.length == 0;
-        body: MacroEditor.macros[root.delete-macro].usage.length > 0 ? @tr("Remove macro references before deleting it.") : @tr("The macro will be deleted. References macro:{} will stop working.", MacroEditor.macros[root.delete-macro].id);
+        body: MacroEditor.macros[root.delete-macro].usage.length > 0 ? @tr("Remove macro references before deleting it.") : MacroEditor.macros[root.delete-macro].name;
         confirm-text: @tr("Delete");
         cancel => { root.delete-macro = -1; }
         confirm => { MacroEditor.remove(root.delete-macro); root.delete-macro = -1; }

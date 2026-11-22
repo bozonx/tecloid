@@ -55,6 +55,7 @@ export global MenuEditor {
     in property <bool> has-unsaved-changes;
     /// The menu has one page with no name and no cells: removing it does nothing.
     in property <bool> only-page-empty;
+    in property <bool> remove-page-immediately;
     callback open(MenuKind);
     callback flush-pending() -> bool;
     callback refresh();
@@ -350,7 +351,10 @@ component PageEditor inherits HorizontalLayout {
         // The only page cannot go away: removing it clears it.
         label: MenuEditor.pages.length <= 1 ? @tr("Clear page") : @tr("Delete page");
         enabled: !MenuEditor.only-page-empty;
-        clicked => { root.remove(); }
+        clicked => {
+            if MenuEditor.remove-page-immediately { MenuEditor.remove-page(); }
+            else { root.remove(); }
+        }
     } }
 }
 
