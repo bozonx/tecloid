@@ -13,7 +13,7 @@ themeConfig:
             link: ''
           - text: 'Установка и запуск'
             link: 'installation'
-          - text: 'Первое переназначение'
+          - text: 'Начало работы'
             link: 'first-remap'
       - text: 'Карты клавиш'
         items:
