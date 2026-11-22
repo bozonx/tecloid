@@ -1,10 +1,12 @@
-//! Desktop accessibility preferences (high contrast, reduced motion) that
-//! the `System` choice of the matching settings follows.
+//! Desktop accessibility preferences (high contrast, reduced motion) and the
+//! colour scheme fallback that the `System` choice of the matching settings
+//! follows.
 //!
 //! On Linux a watcher thread reads the XDG Settings portal
-//! (`org.freedesktop.appearance`: `contrast`, `reduced-motion`; on KDE also
-//! `AnimationDurationFactor` of `kdeglobals`, which Plasma's animation speed
-//! slider sets), caches the result and emits
+//! (`org.freedesktop.appearance`: `contrast`, `reduced-motion`,
+//! `color-scheme`; on KDE also `AnimationDurationFactor` and the window
+//! background of `kdeglobals`, which Plasma's animation speed slider and
+//! colour scheme set; elsewhere the GTK theme name), caches the result and emits
 //! `CoreEvent::SystemAccessibilityChanged` when it changes. Other platforms
 //! report neither preference yet.
 
@@ -15,11 +17,16 @@ use std::sync::Mutex;
 pub struct SystemAccessibility {
     pub high_contrast: bool,
     pub reduce_motion: bool,
+    /// Whether the desktop colour scheme is dark; `None` when unknown.
+    /// Portals report "no preference" for the default light GNOME theme,
+    /// so this also looks at the KDE colours and the GTK theme name.
+    pub dark: Option<bool>,
 }
 
 static CURRENT: Mutex<SystemAccessibility> = Mutex::new(SystemAccessibility {
     high_contrast: false,
     reduce_motion: false,
+    dark: None,
 });
 
 /// The latest preferences the watcher read.
@@ -59,6 +66,8 @@ mod linux {
     const SETTINGS_INTERFACE: &str = "org.freedesktop.portal.Settings";
     const APPEARANCE: &str = "org.freedesktop.appearance";
     const KDE_GLOBALS: &str = "org.kde.kdeglobals.KDE";
+    const KDE_WINDOW_COLORS: &str = "org.kde.kdeglobals.Colors:Window";
+    const GNOME_INTERFACE: &str = "org.gnome.desktop.interface";
     const RETRY_DELAY: Duration = Duration::from_secs(30);
 
     pub(super) fn start() {
@@ -99,7 +108,10 @@ mod linux {
             else {
                 continue;
             };
-            if namespace == APPEARANCE || (kde && namespace == KDE_GLOBALS) {
+            if namespace == APPEARANCE
+                || namespace == GNOME_INTERFACE
+                || (kde && namespace.starts_with("org.kde.kdeglobals"))
+            {
                 publish(read(&proxy, kde));
             }
         }
@@ -120,7 +132,58 @@ mod linux {
         SystemAccessibility {
             high_contrast,
             reduce_motion,
+            dark: dark_scheme(proxy, kde),
         }
+    }
+
+    /// The colour scheme: the portal value when it states one, else the KDE
+    /// window background or the GTK theme name.
+    fn dark_scheme(proxy: &Proxy<'_>, kde: bool) -> Option<bool> {
+        let portal = setting(proxy, APPEARANCE, "color-scheme")
+            .and_then(|value| number(&value))
+            .map(|n| n as u32);
+        match portal {
+            Some(1) => return Some(true),
+            Some(2) => return Some(false),
+            _ => {}
+        }
+        if kde
+            && let Some(dark) = setting(proxy, KDE_WINDOW_COLORS, "BackgroundNormal")
+                .and_then(|value| text(&value))
+                .and_then(|rgb| rgb_is_dark(&rgb))
+        {
+            return Some(dark);
+        }
+        setting(proxy, GNOME_INTERFACE, "gtk-theme")
+            .and_then(|value| text(&value))
+            .filter(|name| !name.trim().is_empty())
+            .map(|name| gtk_theme_is_dark(&name))
+    }
+
+    fn text(value: &Value<'_>) -> Option<String> {
+        match value {
+            Value::Value(inner) => text(inner),
+            Value::Str(text) => Some(text.to_string()),
+            _ => None,
+        }
+    }
+
+    /// `"r,g,b"` from kdeglobals; dark when the relative luminance is low.
+    fn rgb_is_dark(rgb: &str) -> Option<bool> {
+        let channels: Vec<f64> = rgb
+            .split(',')
+            .map(|part| part.trim().parse::<u8>().map(f64::from))
+            .collect::<Result<_, _>>()
+            .ok()?;
+        let [r, g, b] = channels[..] else {
+            return None;
+        };
+        Some(0.2126 * r + 0.7152 * g + 0.0722 * b < 128.0)
+    }
+
+    /// GTK themes mark dark variants in the name (`Adwaita-dark`, `Yaru-dark`).
+    fn gtk_theme_is_dark(name: &str) -> bool {
+        name.to_ascii_lowercase().contains("dark")
     }
 
     /// One portal setting; `None` when the portal or the key is missing.
@@ -158,6 +221,21 @@ mod linux {
             assert_eq!(number(&Value::Str("0".into())), Some(0.0));
             assert_eq!(number(&Value::Str("0.5".into())), Some(0.5));
             assert_eq!(number(&Value::Bool(true)), None);
+        }
+
+        #[test]
+        fn color_scheme_fallbacks() {
+            assert_eq!(rgb_is_dark("239,240,241"), Some(false));
+            assert_eq!(rgb_is_dark("32, 35, 38"), Some(true));
+            assert_eq!(rgb_is_dark("1,2"), None);
+            assert_eq!(rgb_is_dark("a,b,c"), None);
+            assert!(gtk_theme_is_dark("Adwaita-dark"));
+            assert!(gtk_theme_is_dark("Breeze-Dark"));
+            assert!(!gtk_theme_is_dark("Adwaita"));
+            assert_eq!(
+                text(&Value::Value(Box::new(Value::Str("x".into())))).as_deref(),
+                Some("x")
+            );
         }
     }
 }

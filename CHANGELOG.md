@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- On Linux, the System appearance no longer turns dark when the desktop reports no colour scheme preference (the default light GNOME theme, or no XDG portal). Tecloid then checks the KDE colour scheme and the GTK theme name, and falls back to light. This also fixes a dark layer hint under a light theme.
+
 - On Linux, `sys:copy` sends Ctrl+Insert in Konsole and Yakuake, where Ctrl+Shift+C without a selection interrupts the running program, and when the focused window cannot be determined.
 
 - On Wayland, focusing Tecloid settings updates the active keymap. Emoji and Quick actions popups keep the keymap of the window they were opened from.

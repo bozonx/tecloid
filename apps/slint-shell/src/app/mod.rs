@@ -195,7 +195,11 @@ impl App {
     fn configured_preferences(&self) -> Preferences {
         let Some(document) = self.document() else {
             return Preferences {
-                theme: ThemeMode::Dark,
+                theme: if self.system_dark() {
+                    ThemeMode::Dark
+                } else {
+                    ThemeMode::Light
+                },
                 language: Language::resolve(Default::default()),
                 ..Preferences::default()
             };
@@ -206,12 +210,7 @@ impl App {
         let dark = match settings.appearance {
             Appearance::Light | Appearance::EInk => false,
             Appearance::Dark => true,
-            Appearance::System => self.system_theme.as_ref().evaluate_as_dependency_root(|| {
-                i_slint_core::window::WindowInner::from_pub(self.settings.window())
-                    .context()
-                    .color_scheme(None)
-                    != i_slint_core::items::ColorScheme::Light
-            }),
+            Appearance::System => self.system_dark(),
         };
         Preferences {
             theme: if settings.in_development && settings.appearance == Appearance::EInk {
@@ -224,6 +223,25 @@ impl App {
             language: Language::resolve(settings.locale),
             high_contrast: settings.high_contrast.resolve(system.high_contrast),
             reduce_motion: settings.reduce_motion.resolve(system.reduce_motion),
+        }
+    }
+
+    /// Whether the desktop colour scheme is dark. Slint's portal value wins;
+    /// when it is unknown ("no preference" or no portal) the core fallback
+    /// decides, and a scheme nobody states is light.
+    fn system_dark(&self) -> bool {
+        use i_slint_core::items::ColorScheme;
+        let scheme = self.system_theme.as_ref().evaluate_as_dependency_root(|| {
+            i_slint_core::window::WindowInner::from_pub(self.settings.window())
+                .context()
+                .color_scheme(None)
+        });
+        match scheme {
+            ColorScheme::Dark => true,
+            ColorScheme::Light => false,
+            _ => tecloid_core::platform::accessibility::current()
+                .dark
+                .unwrap_or(false),
         }
     }
 
