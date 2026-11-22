@@ -33,7 +33,7 @@ themeConfig:
             link: 'quick-actions'
       - text: 'Справка'
         items:
-          - text: 'Продвинутое использование'
+          - text: 'Как работает Tecloid'
             link: 'advanced'
           - text: 'Решение проблем'
             link: 'troubleshooting'
