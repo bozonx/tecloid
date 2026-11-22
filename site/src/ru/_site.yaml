@@ -7,10 +7,40 @@ description: 'Клавиатурный маппер и автоматизаци�
 themeConfig:
   sidebar:
     doc:
-      - text: 'Документация'
+      - text: 'Начало работы'
         items:
           - text: 'Обзор'
             link: ''
+          - text: 'Установка и запуск'
+            link: 'installation'
+          - text: 'Первое переназначение'
+            link: 'first-remap'
+      - text: 'Карты клавиш'
+        items:
+          - text: 'Библиотека карт клавиш'
+            link: 'keymaps'
+          - text: 'Правила'
+            link: 'rules'
+          - text: 'Слои'
+            link: 'layers'
+          - text: 'Действия'
+            link: 'actions'
+      - text: 'Инструменты'
+        items:
+          - text: 'Эмодзи'
+            link: 'emoji'
+          - text: 'Быстрые действия'
+            link: 'quick-actions'
+      - text: 'Справка'
+        items:
+          - text: 'Продвинутое использование'
+            link: 'advanced'
+          - text: 'Решение проблем'
+            link: 'troubleshooting'
+      - text: 'Left Hand Control'
+        items:
+          - text: 'Как запомнить раскладку LHC'
+            link: 'lhc/'
 
   nav:
     - text: '📖 Документация'
