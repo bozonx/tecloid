@@ -19,7 +19,7 @@ themeConfig:
         items:
           - text: 'Библиотека карт клавиш'
             link: 'keymaps'
-          - text: 'Правила'
+          - text: 'Правила и триггеры'
             link: 'rules'
           - text: 'Слои'
             link: 'layers'
