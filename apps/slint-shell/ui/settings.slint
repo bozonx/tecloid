@@ -10,8 +10,8 @@ import { AppState } from "app-state.slint";
 import { GameModeButton } from "game-mode.slint";
 import { LayerDialogOverlay, LayersEditor, LayersPage } from "layers.slint";
 import { KeymapLibrary, LibraryDialogOverlay, LibraryPage, SaveSplitButton, KeymapMenu } from "library.slint";
-import { MacroEditor, MacrosPage } from "macros.slint";
-import { MenuEditor, MenusPage, MenuPreview } from "menus.slint";
+import { MacroDialogOverlay, MacroEditor, MacrosPage } from "macros.slint";
+import { MenuEditor, MenusPage, MenuPreview, RemovePageDialog } from "menus.slint";
 import { RuleDialogOverlay, RulesEditor, RulesPage } from "rules.slint";
 import { AppEntryDialog, AppEntryOverlay } from "conditions.slint";
 import { DragDrop, PaletteDrag } from "reorder.slint";
@@ -107,9 +107,18 @@ export component SettingsWindow inherits Window {
 
     public function focus-shortcuts() { shortcut-focus.focus(); }
 
+    private property <bool> confirm-remove-menu-page;
+    private property <bool> discard-macro-draft;
+    private property <int> delete-macro: -1;
+    private property <int> delete-macro-step: -1;
+
     public function navigate(page: Page, kind: MenuKind) {
         if !AppState.in-development && page == Page.macros { return; }
         if !InlineEditors.flush() { return; }
+        root.confirm-remove-menu-page = false;
+        root.discard-macro-draft = false;
+        root.delete-macro = -1;
+        root.delete-macro-step = -1;
         DragDrop.cancel();
         if page == Page.keymaps { KeymapLibrary.refresh(); }
         if page == Page.rules { RulesEditor.refresh(); }
@@ -283,8 +292,12 @@ export component SettingsWindow inherits Window {
                 if root.page == Page.settings: SettingsPage {}
                 if root.page == Page.rules: RulesPage {}
                 if root.page == Page.layers || root.page == Page.keyboard: LayersPage { }
-                if AppState.in-development && root.page == Page.macros: MacrosPage {}
-                if root.page == Page.menus: MenusPage {}
+                if AppState.in-development && root.page == Page.macros: MacrosPage {
+                    discard-draft <=> root.discard-macro-draft;
+                    delete-macro <=> root.delete-macro;
+                    delete-step <=> root.delete-macro-step;
+                }
+                if root.page == Page.menus: MenusPage { confirm-remove => { root.confirm-remove-menu-page = true; } }
             }
         }
     }
@@ -410,6 +423,16 @@ export component SettingsWindow inherits Window {
         }
     }
     if root.page == Page.menus && MenuEditor.preview-visible: MenuPreview { width: 100%; height: 100%; }
+    if root.page == Page.menus && root.confirm-remove-menu-page: RemovePageDialog {
+        cancel => { root.confirm-remove-menu-page = false; }
+        confirm => { MenuEditor.remove-page(); root.confirm-remove-menu-page = false; }
+    }
+    if AppState.in-development && root.page == Page.macros: MacroDialogOverlay {
+        width: 100%; height: 100%;
+        discard-draft <=> root.discard-macro-draft;
+        delete-macro <=> root.delete-macro;
+        delete-step <=> root.delete-macro-step;
+    }
     if ActionPicker.opened: PickerOverlay {}
     ToastStack {
         stack-height-limit: parent.height - 40px;

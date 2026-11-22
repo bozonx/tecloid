@@ -366,7 +366,7 @@ component MenuStatus inherits VerticalLayout {
 }
 
 /// Confirms removing the selected page, or clearing the only one.
-component RemovePageDialog inherits ConfirmDialog {
+export component RemovePageDialog inherits ConfirmDialog {
     private property <bool> only: MenuEditor.pages.length <= 1;
     width: 100%;
     height: 100%;
@@ -439,7 +439,7 @@ component EmojiButton inherits Rectangle {
 
 export component EmojiPage inherits Rectangle {
     vertical-stretch: 1;
-    private property <bool> confirming;
+    callback confirm-remove();
     // Library snippets are literal insertion text, independent of the UI language.
     private property <[string]> kaomoji: [
         "≽^•⩊•^≼",
@@ -480,7 +480,7 @@ export component EmojiPage inherits Rectangle {
                 VerticalLayout {
                     padding: Theme.space-l-plus;
                     spacing: Theme.space-l;
-                    PageEditor { remove => { root.confirming = true; } }
+                    PageEditor { remove => { root.confirm-remove(); } }
                     Divider {}
                     FieldLabel { text: @tr("Button {}", MenuEditor.cells[MenuEditor.selected-cell].key); }
                     HorizontalLayout {
@@ -577,15 +577,11 @@ export component EmojiPage inherits Rectangle {
         }
     }
     DragPreview { origin: root.absolute-position; }
-    if root.confirming: RemovePageDialog {
-        cancel => { root.confirming = false; }
-        confirm => { MenuEditor.remove-page(); root.confirming = false; }
-    }
 }
 
 export component QuickActionsPage inherits Rectangle {
     vertical-stretch: 1;
-    private property <bool> confirming;
+    callback confirm-remove();
     private property <bool> filled: MenuEditor.selected-cell >= 0 && MenuEditor.cells[MenuEditor.selected-cell].value != "";
     PageLayout {
         accessible-label: @tr("Quick actions");
@@ -625,7 +621,7 @@ export component QuickActionsPage inherits Rectangle {
                                     padding: Theme.space-l-plus;
                                     spacing: Theme.space-l;
                                     alignment: start;
-                                    PageEditor { remove => { root.confirming = true; } }
+                                    PageEditor { remove => { root.confirm-remove(); } }
                                     Divider {}
                                     if MenuEditor.status.id != "": MenuStatus {}
                                     if MenuEditor.selected-cell >= 0: HorizontalLayout {
@@ -662,10 +658,6 @@ export component QuickActionsPage inherits Rectangle {
         }
     }
     DragPreview { origin: root.absolute-position; }
-    if root.confirming: RemovePageDialog {
-        cancel => { root.confirming = false; }
-        confirm => { MenuEditor.remove-page(); root.confirming = false; }
-    }
 }
 
 export component MenuPreview inherits DialogFrame {
@@ -699,6 +691,7 @@ export component MenuPreview inherits DialogFrame {
 
 export component MenusPage inherits Rectangle {
     vertical-stretch: 1;
-    if MenuEditor.kind == MenuKind.emoji: EmojiPage { width: 100%; height: 100%; }
-    if MenuEditor.kind == MenuKind.quick: QuickActionsPage { width: 100%; height: 100%; }
+    callback confirm-remove();
+    if MenuEditor.kind == MenuKind.emoji: EmojiPage { width: 100%; height: 100%; confirm-remove => { root.confirm-remove(); } }
+    if MenuEditor.kind == MenuKind.quick: QuickActionsPage { width: 100%; height: 100%; confirm-remove => { root.confirm-remove(); } }
 }

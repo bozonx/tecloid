@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Confirmations in the Emoji, Quick actions and Macros editors dim the entire settings window, including the toolbar and tabs. Dialogs close on the first click outside the card, and dimming is softer in the standard light theme.
+
 - On Unix, a second launch waits for settings IPC during startup, and distinct IPC sockets cannot open the same settings directory concurrently. On Linux, the mapper is exclusive across sessions of the same account and reports system errors when its lock fails.
 
 - Updated Rust dependencies within the workspace version constraints.

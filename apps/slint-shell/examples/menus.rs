@@ -368,10 +368,43 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     timer.start(slint::TimerMode::SingleShot,Duration::from_millis(700),move || {
         let ui = weak.upgrade().unwrap();
         if std::env::var_os("TECLOID_MENUS_NAV").is_some() {
-            for expected in [MenuKind::Quick, MenuKind::Emoji] {
-                ui.invoke_navigate(Page::Menus, expected);
-                assert_eq!(ui.global::<MenuEditor>().get_kind(), expected);
-                assert_eq!(ui.get_page(), Page::Menus);
+            use i_slint_core::accessibility::AccessibleStringProperty::Label;
+            use slint::platform::{PointerEventButton, WindowEvent};
+
+            let click = |x, y| {
+                let position = slint::LogicalPosition::new(x, y);
+                ui.window().dispatch_event(WindowEvent::PointerMoved { position });
+                ui.window().dispatch_event(WindowEvent::PointerPressed { position, button: PointerEventButton::Left });
+                ui.window().dispatch_event(WindowEvent::PointerReleased { position, button: PointerEventButton::Left });
+            };
+            let theme = ui.global::<Theme>();
+            for (appearance, dark, high_contrast) in [("light", false, false), ("dark", true, false), ("high-contrast", false, true)] {
+                theme.set_dark(dark);
+                theme.set_high_contrast(high_contrast);
+                theme.invoke_apply();
+                for kind in [MenuKind::Quick, MenuKind::Emoji] {
+                    ui.invoke_navigate(Page::Menus, kind);
+                    let editor = ui.global::<MenuEditor>();
+                    assert_eq!(editor.get_kind(), kind);
+                    assert_eq!(ui.get_page(), Page::Menus);
+                    if editor.get_pages().row_count() == 1 {
+                        editor.invoke_add_page("Backdrop test".into());
+                    }
+                    let pages = editor.get_pages().row_count();
+                    let (x, y) = control_center(&ui, Label, "Удалить страницу");
+                    let toolbar_pixel = || {
+                        let snapshot = ui.window().take_snapshot().unwrap();
+                        snapshot.as_slice()[5 * snapshot.width() as usize + 5].r
+                    };
+                    let before = toolbar_pixel();
+                    click(x, y);
+                    assert!(toolbar_pixel() < before, "the scrim must cover the toolbar");
+                    support::snapshot(&ui, &format!("menu-delete-{kind:?}-{appearance}"));
+                    click(5.0, 5.0);
+                    assert_eq!(toolbar_pixel(), before);
+                    assert_eq!(editor.get_pages().row_count(), pages);
+                    assert_eq!(ui.get_page(), Page::Menus);
+                }
             }
         }
         if std::env::var_os("TECLOID_MENUS_SCROLL").is_some() {

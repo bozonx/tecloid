@@ -105,6 +105,8 @@ export component DialogFrame inherits Rectangle {
     FocusScope {
         accessible-role: groupbox;
         accessible-label: root.title;
+        // Let the scrim receive a press outside the card.
+        focus-on-click: false;
         focus-on-tab-navigation: false;
         init => { KeyboardFocus.save(); self.focus(); root.focus-token = KeyboardFocus.enter(); root.focus-content(); }
         key-pressed(event) => {
