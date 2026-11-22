@@ -310,7 +310,7 @@ pub(super) fn bind(ui: &SettingsWindow) {
                 let choices = ui.global::<ConditionChoices>();
                 let rows = arrange(
                     group(windows),
-                    tecloid_core::active_window::cached_active_window().as_ref(),
+                    tecloid_core::active_window::picker_active_window().as_ref(),
                 );
                 choices.set_open_windows(ModelRc::new(VecModel::from(rows)));
                 choices.set_open_windows_loading(false);

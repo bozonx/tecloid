@@ -14,8 +14,8 @@ pub struct Watchers {
 
 impl Watchers {
     /// Start every watcher. `storage` lets game mode read its persisted
-    /// settings; `ignore_own_windows` hides this process's windows from
-    /// app conditions (settings and popups must not change them while open).
+    /// settings; `ignore_own_windows` preserves the previous rule context
+    /// when transient Tecloid windows take focus.
     pub fn start(storage: Option<StoragePaths>, ignore_own_windows: bool) -> Self {
         crate::keyboard_layout::start_watcher();
         crate::gamemode::start_watcher(storage);

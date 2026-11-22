@@ -39,9 +39,10 @@ const EVENT_FALLBACK_INTERVAL: Duration = Duration::from_secs(3);
 static TITLES_FOR_SHELL: AtomicBool = AtomicBool::new(false);
 /// Game-mode process rules need window titles.
 static TITLES_FOR_GAME_MODE: AtomicBool = AtomicBool::new(false);
-/// Windows of this application do not count as the active window.
+/// Keep transient Tecloid windows out of the rule context.
 static IGNORE_OWN_WINDOWS: AtomicBool = AtomicBool::new(false);
 static ACTUAL_WINDOW: Mutex<Option<ActiveWindow>> = Mutex::new(None);
+static PICKER_WINDOW: Mutex<Option<ActiveWindow>> = Mutex::new(None);
 #[cfg(target_os = "linux")]
 static TEXT_WINDOW: Mutex<Option<ActiveWindow>> = Mutex::new(None);
 
@@ -94,11 +95,8 @@ pub(crate) fn missing_tool() -> Option<&'static str> {
     linux::missing_tool()
 }
 
-/// Whether the shell's conditions need window titles. Off by default.
-/// Skip this application's own windows (settings, popups, also those of
-/// helper processes of the same executable): while one has the focus the
-/// previous window stays active, so conditions and the application
-/// picker see the application the user works in.
+/// Preserve rule context across this application's transient windows.
+/// On Linux the settings window has its own app id and can match rules.
 pub fn ignore_own_windows(ignore: bool) {
     IGNORE_OWN_WINDOWS.store(ignore, Ordering::SeqCst);
 }
@@ -121,9 +119,49 @@ fn is_ignored(window: &ActiveWindow) -> bool {
 }
 
 fn ignored_by_policy(window: &ActiveWindow, ignore_own: bool) -> bool {
-    ignore_own && is_own_process(window.process_name.as_deref())
+    if !ignore_own {
+        return false;
+    }
+    #[cfg(target_os = "linux")]
+    {
+        if window.app_id.eq_ignore_ascii_case(crate::storage::APP_ID) {
+            return false;
+        }
+    }
+    is_own_window(&window.app_id, window.process_name.as_deref())
 }
 
+fn is_own_window(app_id: &str, process: Option<&str>) -> bool {
+    app_id.eq_ignore_ascii_case(crate::storage::APP_ID)
+        || app_id.eq_ignore_ascii_case(crate::storage::POPUP_APP_ID)
+        || is_own_process(process)
+}
+
+fn remember_focus(current: &Option<ActiveWindow>) {
+    #[cfg(target_os = "linux")]
+    remember_text_window(current);
+    if let Ok(mut actual) = ACTUAL_WINDOW.lock() {
+        *actual = current.clone();
+    }
+    if let Ok(mut picker) = PICKER_WINDOW.lock() {
+        update_picker_window(&mut picker, current.as_ref());
+    }
+}
+
+fn update_picker_window(picker: &mut Option<ActiveWindow>, current: Option<&ActiveWindow>) {
+    if let Some(window) =
+        current.filter(|window| !is_own_window(&window.app_id, window.process_name.as_deref()))
+    {
+        *picker = Some(window.clone());
+    }
+}
+
+/// The last focus context outside Tecloid, for the application picker.
+pub fn picker_active_window() -> Option<ActiveWindow> {
+    PICKER_WINDOW.lock().ok().and_then(|window| window.clone())
+}
+
+/// Whether the shell's conditions need window titles. Off by default.
 pub fn set_titles_needed(needed: bool) {
     if TITLES_FOR_SHELL.swap(needed, Ordering::SeqCst) != needed {
         wake();
@@ -234,11 +272,7 @@ pub fn start_watcher() {
                     control.refresh = false;
                 }
                 let current = detect_active_window();
-                #[cfg(target_os = "linux")]
-                remember_text_window(&current);
-                if let Ok(mut actual) = ACTUAL_WINDOW.lock() {
-                    *actual = current.clone();
-                }
+                remember_focus(&current);
                 let ignored = current.as_ref().is_some_and(is_ignored);
                 if publisher.publish(
                     current,
@@ -343,14 +377,10 @@ fn detect_active_window_with_titles(titles: bool) -> Option<ActiveWindow> {
 }
 
 /// Detect synchronously and refresh the cache (used before showing popups).
-/// An own window (see [`ignore_own_windows`]) leaves the cache as is.
+/// An ignored window (see [`ignore_own_windows`]) leaves the rule cache as is.
 pub fn detect_active_window_now() -> Option<ActiveWindow> {
     let current = detect_active_window();
-    #[cfg(target_os = "linux")]
-    remember_text_window(&current);
-    if let Ok(mut actual) = ACTUAL_WINDOW.lock() {
-        *actual = current.clone();
-    }
+    remember_focus(&current);
     if current.as_ref().is_some_and(is_ignored) {
         return cached_active_window();
     }
@@ -371,7 +401,7 @@ pub fn open_windows() -> Vec<OpenWindow> {
     windows.retain(|window| {
         (!window.app_id.is_empty() || window.process_name.is_some())
             && !(IGNORE_OWN_WINDOWS.load(Ordering::SeqCst)
-                && is_own_process(window.process_name.as_deref()))
+                && is_own_window(&window.app_id, window.process_name.as_deref()))
     });
     windows.sort_by_key(|window| {
         (
@@ -550,6 +580,74 @@ mod tests {
         assert!(publisher.publish(None, false, &cache, |event| events.push(event)));
         assert!(cache.active_window().is_none());
         assert_eq!(events.len(), 2);
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn settings_switch_rule_context_while_popups_and_picker_keep_their_context() {
+        use crate::config::auto_switch::{AutoSwitchContext, choose};
+        use crate::config::model::{AppSettings, AutoRule, KeymapConditionSet};
+
+        let qemu = ActiveWindow {
+            app_id: "qemu".into(),
+            ..Default::default()
+        };
+        let settings = ActiveWindow {
+            app_id: crate::storage::APP_ID.into(),
+            process_name: std::env::current_exe()
+                .unwrap()
+                .file_name()
+                .and_then(|name| name.to_str())
+                .map(str::to_owned),
+            ..Default::default()
+        };
+        let popup = ActiveWindow {
+            app_id: crate::storage::POPUP_APP_ID.into(),
+            ..Default::default()
+        };
+        let keymap = "user:Main".to_owned();
+        let config = AppSettings {
+            auto_rules: vec![AutoRule {
+                id: "exclude-qemu".into(),
+                enabled: true,
+                conditions: KeymapConditionSet {
+                    excluded_window_patterns: vec!["qemu".into()],
+                    ..Default::default()
+                },
+                keymap_id: Some(keymap.clone()),
+            }],
+            ..Default::default()
+        };
+        let cache = crate::runtime_state::RuntimeState::default();
+        let mut publisher = WindowPublisher::default();
+        let mut picker = None;
+        for (focused, effective, changed) in [
+            (&qemu, &qemu, true),
+            (&popup, &qemu, false),
+            (&settings, &settings, true),
+            (&popup, &settings, false),
+            (&qemu, &qemu, true),
+        ] {
+            let current = Some(focused.clone());
+            update_picker_window(&mut picker, current.as_ref());
+            assert_eq!(picker.as_ref(), Some(&qemu));
+            assert_eq!(
+                publisher.publish(current, ignored_by_policy(focused, true), &cache, |_| {}),
+                changed
+            );
+            assert_eq!(cache.active_window().as_ref(), Some(effective));
+            let choice = choose(
+                std::slice::from_ref(&keymap),
+                &config,
+                &AutoSwitchContext::from_state(&cache),
+            );
+            assert_eq!(
+                choice.keymap_id.as_ref(),
+                (effective == &settings).then_some(&keymap)
+            );
+        }
+        update_picker_window(&mut picker, None);
+        assert_eq!(picker.as_ref(), Some(&qemu));
     }
 
     #[cfg(target_os = "linux")]

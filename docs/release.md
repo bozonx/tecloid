@@ -91,6 +91,10 @@ docker run --rm -v "$PWD":/src -w /src fedora:latest \
   apps/slint-shell/scripts/release/smoke-linux-package.sh target/release-artifacts/<file>.rpm
 ```
 
+The Ubuntu 22.04 build uses `target/release-container` for its Cargo cache and
+build outputs. Keep it separate from host `target/debug` and `target/release`
+because they link against the host libraries.
+
 Smoke images: `debian:12`, `debian:13`, `ubuntu:22.04`, `ubuntu:24.04`,
 `fedora:latest`, `opensuse/tumbleweed`, `archlinux` (tar.gz).
 
