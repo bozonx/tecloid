@@ -116,6 +116,7 @@ def main():
         vm.ssh(f"{INSTALL}/install-linux.sh permissions")
         # Preserve Ubuntu's installed extensions; enable the bridge after a fresh login.
         script = ("from gi.repository import Gio, GLib; s=Gio.Settings.new('org.gnome.shell'); "
+                  "s.set_boolean('disable-user-extensions',False); "
                   "v=list(s.get_strv('enabled-extensions')); "
                   f"s.set_strv('enabled-extensions',list(dict.fromkeys(v+['{UUID}','ubuntu-appindicators@ubuntu.com']))); "
                   f"s.set_strv('disabled-extensions',[x for x in s.get_strv('disabled-extensions') if x!='{UUID}']); "
@@ -145,11 +146,12 @@ def main():
                 time.sleep(2)
         deadline = time.monotonic() + 30
         while True:
-            result = vm.ssh(f"DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus {BRIDGE}Snapshot false", check=False).strip()
-            if result:
-                return result
-            if time.monotonic() >= deadline:
-                raise StepFailed("GNOME bridge did not become available after login")
+            try:
+                return vm.ssh(f"DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus {BRIDGE}Snapshot false",
+                              timeout=10).strip()
+            except (StepFailed, subprocess.TimeoutExpired) as error:
+                if time.monotonic() >= deadline:
+                    raise StepFailed(f"GNOME bridge did not become available after login: {error}") from error
             time.sleep(0.5)
 
     def tray_recovery():
