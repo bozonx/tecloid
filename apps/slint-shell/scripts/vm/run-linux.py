@@ -391,7 +391,7 @@ def main():
     def quick_rule():
         def show():
             before = int(guest("popup-count quick t4_focused"))
-            vm.qmp.tap("e")   # tecloid:showQuickMenu1
+            vm.qmp.tap("e")   # app:showQuickMenu1
             guest(f"popup-wait quick t4_focused --after {before}")
             vm.qmp.tap("q")
             time.sleep(3)

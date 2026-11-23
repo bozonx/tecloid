@@ -81,7 +81,7 @@ E2E_LAYOUT = f'''{{
     }},
     {{
       "key": "KeyE",
-      "tap": "tecloid:showQuickMenu1"
+      "tap": "app:showQuickMenu1"
     }},
     {{
       "key": "KeyG",

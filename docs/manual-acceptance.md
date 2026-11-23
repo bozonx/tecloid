@@ -198,7 +198,7 @@ Choose a spare key for the layer/tap-hold tests. macOS skips these assignments.
 
 ### GNOME Wayland (experimental)
 
-- [ ] After the prepared session relogin, the Tecloid Shell extension is enabled
+- [ ] After the prepared session relogin, the Tecloid bridge extension is enabled
   and Tecloid appears in the application overview. Launch it from there.
 - [ ] With the AppIndicator extension enabled, the tray icon opens settings.
   Disable the tray host temporarily: settings remain reachable. Re-enable it:
@@ -220,9 +220,11 @@ Choose a spare key for the layer/tap-hold tests. macOS skips these assignments.
   A screen is a physical display; a desktop is a workspace.
 - [ ] Test GNOME keyboard-layout switching and close/minimize/maximize actions.
   `showDesktop` is unavailable: mark it N/A rather than a successful check.
-- [ ] Disable the Tecloid Shell extension, try a bridge-dependent action, and
-  verify a clear failure rather than an unrelated action. Re-enable the extension
-  (relogin if required) and verify recovery.
+- [ ] To review the user-facing error, temporarily disable **Tecloid bridge**
+  (`tecloid@bozonx.dev`) and trigger a key mapped to `sys:switchToDesktop2`
+  from workspace 1. Check that Tecloid shows a clear error. Re-enable the
+  extension and repeat. The VM suite checks the failure and recovery automatically
+  in [`gnome-bridge-lifecycle`](testing.md#automated-gnome-bridge-recovery).
 
 Dynamic GNOME workspaces add/remove entries while windows move. Test stable
 cyclic movement with a fixed workspace count; record exploratory dynamic-mode

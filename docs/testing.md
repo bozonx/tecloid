@@ -205,6 +205,15 @@ use `--previous` for that coverage.
 If portal steps fail, check `portal-deny-*.png`/`portal-consent.png` and adjust
 `portal_*` keys for the guest's xdg-desktop-portal-kde version.
 
+### Automated GNOME bridge recovery
+
+The normal run of `apps/slint-shell/scripts/vm/run-gnome.py` includes
+`gnome-bridge-lifecycle`. In the Ubuntu GNOME Wayland guest it disables
+`tecloid@bozonx.dev`, presses the mapped workspace-switch key, and checks the
+Tecloid log for a missing D-Bus method error. After enabling the extension, it
+verifies that the workspace stayed put and that the same Tecloid process can
+switch to workspace 2 and back without relogin.
+
 ### Manual KDE and GNOME acceptance
 
 Use the [manual acceptance checklist](#manual-acceptance-checklist) for the

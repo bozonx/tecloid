@@ -154,14 +154,14 @@ def main():
                     raise StepFailed(f"GNOME bridge did not become available after login: {error}") from error
             time.sleep(0.5)
 
-    def tray_recovery():
-        def wait_for(description, predicate):
-            deadline = time.monotonic() + 30
-            while not predicate():
-                if time.monotonic() >= deadline:
-                    raise StepFailed(f"timed out waiting for {description}")
-                time.sleep(0.3)
+    def wait_for(description, predicate, timeout=30):
+        deadline = time.monotonic() + timeout
+        while not predicate():
+            if time.monotonic() >= deadline:
+                raise StepFailed(f"timed out waiting for {description}")
+            time.sleep(0.3)
 
+    def tray_recovery():
         def disable_host():
             vm.ssh("gnome-extensions disable ubuntu-appindicators@ubuntu.com")
             wait_for("tray host to disappear", lambda: "false" in vm.ssh(
@@ -289,20 +289,56 @@ def main():
             time.sleep(3)
         return expect("quick-popup", "quick-ok", action=choose)
 
+    def bridge_snapshot():
+        output = vm.ssh(f"DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus {BRIDGE}Snapshot false",
+                        timeout=10)
+        return json.loads(ast.literal_eval(output.strip())[0])
+
+    def expect_system_action(key, field, expected):
+        vm.qmp.tap(key)
+        wait_for(f"key {key} to set GNOME {field} to {expected}",
+                 lambda: bridge_snapshot()[field] == expected, timeout=10)
+
     def system_actions():
         for key, field, expected in (("3", "current", 1), ("4", "current", 0),
                                      ("1", "workspace", 1), ("2", "workspace", 0)):
-            vm.qmp.tap(key)
-            deadline = time.monotonic() + 10
-            while True:
-                output = vm.ssh(f"DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus {BRIDGE}Snapshot false")
-                snapshot = json.loads(ast.literal_eval(output.strip())[0])
-                if snapshot[field] == expected:
-                    break
-                if time.monotonic() >= deadline:
-                    raise StepFailed(f"key {key}: expected {field}={expected}, got {snapshot[field]}")
-                time.sleep(0.2)
+            expect_system_action(key, field, expected)
         return "us→ru→us; workspace 1→2→1 via mapper sys: actions"
+
+    def bridge_recovery():
+        pid_command = "pgrep -u $(id -u) -x tecloid"
+        pid = vm.ssh(pid_command).strip()
+        if bridge_snapshot()["workspace"] != 0:
+            raise StepFailed("bridge recovery requires starting on workspace 1")
+        log = f"{GUEST}/app.log"
+        # Only inspect messages written after the baseline actions.
+        first_line = int(vm.ssh(f"wc -l < {log}")) + 1
+
+        def bridge_available():
+            return vm.ssh(
+                f"if DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus "
+                f"{BRIDGE}Snapshot false >/dev/null 2>&1; then echo ready; fi",
+                timeout=10).strip() == "ready"
+
+        try:
+            vm.ssh(f"gnome-extensions disable {UUID}")
+            wait_for("GNOME bridge to disappear", lambda: not bridge_available())
+            vm.qmp.tap("1")
+            wait_for("Tecloid to report the missing GNOME Action method", lambda: vm.ssh(
+                f"tail -n +{first_line} {log} | "
+                "awk '/action-failed: org[.]gnome[.]Shell[.]Action failed:.*(UnknownMethod|UnknownObject|UnknownInterface)/'"),
+                timeout=10)
+        finally:
+            vm.ssh(f"gnome-extensions enable {UUID}")
+
+        wait_for("GNOME bridge to return", bridge_available)
+        if bridge_snapshot()["workspace"] != 0:
+            raise StepFailed("workspace changed while the bridge was disabled")
+        if vm.ssh(pid_command).strip() != pid:
+            raise StepFailed("bridge recovery restarted Tecloid")
+        expect_system_action("1", "workspace", 1)
+        expect_system_action("2", "workspace", 0)
+        return "missing bridge action reported; workspace stayed on 1; same-process switch 1→2→1 recovered"
 
     def command():
         guest("command-marker reset")
@@ -353,6 +389,7 @@ def main():
                 step("layer-tap-hold", layer)
                 step("stop-restart-native", stop_keys)
                 step("system-layout-workspace", system_actions)
+                step("gnome-bridge-lifecycle", bridge_recovery)
                 step("command", command)
                 step("game-mode-on-off", game_mode)
                 step("clipboard-seed", clipboard_seed)

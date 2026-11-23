@@ -474,7 +474,7 @@ component AutoRulesPanel inherits Card {
                     AddRuleButton { compact: true; }
                 }
             }
-            VerticalLayout { spacing: Theme.space-s; alignment: start;
+            VerticalLayout { spacing: Theme.space-s; alignment: start; vertical-stretch: 1;
                 if KeymapLibrary.auto-rules.length == 0: VerticalLayout { spacing: Theme.space-m;
                     Text { text: @tr("No rules"); color: Theme.text; font-weight: Theme.weight-semibold; }
                     HorizontalLayout { alignment: start;

@@ -10,6 +10,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 - Automatic keymap switching shows exceptions directly on each rule, identifies rules overridden by earlier ones, and clarifies the fallback with an inline help icon and a “Keys unchanged” option. The add-rule button shows a plus.
 
+- The automatic switching panel keeps its title and rules at the top when the list is short.
+
 - On Linux, the System appearance no longer turns dark when the desktop reports no colour scheme preference (the default light GNOME theme, or no XDG portal). Tecloid then checks the KDE colour scheme and the GTK theme name, and falls back to light. This also fixes a dark layer hint under a light theme.
 
 - On Linux, `sys:copy` sends Ctrl+Insert in Konsole and Yakuake, where Ctrl+Shift+C without a selection interrupts the running program, and when the focused window cannot be determined.
