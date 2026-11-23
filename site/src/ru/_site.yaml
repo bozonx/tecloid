@@ -13,6 +13,8 @@ themeConfig:
             link: ''
           - text: 'Установка и поддержка операционных систем'
             link: 'installation'
+          - text: 'Поддержка дистрибутивов Linux'
+            link: 'linux-support'
           - text: 'Начало работы'
             link: 'getting-started'
       - text: 'Карты клавиш'
