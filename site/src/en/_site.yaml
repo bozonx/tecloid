@@ -2,7 +2,7 @@
 
 lang: 'en-US'
 title: 'Tecloid'
-description: 'Desktop keyboard mapper and automation for Linux (KDE Wayland) and Windows'
+description: 'Desktop keyboard mapper and automation for Linux (KDE, GNOME, Cinnamon) and Windows'
 
 themeConfig:
   sidebar:

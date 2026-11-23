@@ -2,7 +2,7 @@
 
 lang: 'ru-RU'
 title: 'Tecloid'
-description: 'Клавиатурный маппер и автоматизация для Linux (KDE Wayland) и Windows'
+description: 'Клавиатурный маппер и автоматизация для Linux (KDE, GNOME, Cinnamon) и Windows'
 
 themeConfig:
   sidebar:

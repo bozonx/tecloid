@@ -27,8 +27,8 @@ const features = [
   },
   {
     icon: 'fa6-solid:desktop',
-    title: 'KDE Wayland & Windows',
-    text: 'First-class support for Linux KDE Plasma 6 Wayland with layer-shell popups, plus Windows mapper backend.',
+    title: 'Linux & Windows',
+    text: 'First-class support for KDE Plasma 6 Wayland with layer-shell popups, GNOME and Cinnamon on X11 (Linux Mint), plus Windows mapper backend.',
   },
 ]
 </script>

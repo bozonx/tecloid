@@ -27,8 +27,8 @@ const features = [
   },
   {
     icon: 'fa6-solid:desktop',
-    title: 'KDE Wayland и Windows',
-    text: 'Нативная поддержка Linux KDE Plasma 6 Wayland с pop-up окнами layer-shell, а также бэкенд для Windows.',
+    title: 'Linux и Windows',
+    text: 'Нативная поддержка KDE Plasma 6 Wayland с pop-up окнами layer-shell, GNOME, Cinnamon на X11 (Linux Mint), а также бэкенд для Windows.',
   },
 ]
 </script>

@@ -12,7 +12,7 @@ Tecloid is a desktop keyboard mapper: it intercepts a physical keyboard, applies
 This documentation section is ready to be populated with guides and reference pages:
 
 - **Architecture and Core Concepts** — engine, device I/O, events, watchers
-- **Installation & Setup** — Linux (KDE Plasma 6 Wayland, GNOME), Windows
+- **Installation & Setup** — Linux (KDE Plasma 6 Wayland, GNOME, Cinnamon on X11), Windows
 - **Configuration & Layers** — config schema, rules, chords, auto-switch
 - **Actions & Macros** — keys, shell commands, system actions, built-ins
 - **Popups & UI** — layer-shell popups, tray integration
