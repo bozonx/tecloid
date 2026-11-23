@@ -1,22 +1,17 @@
-//! Tray icon pixels: the application icon, greyed out while the mapper is off.
+//! Tray keycap pixels for the active and paused mapper states.
 
 /// Side of the plain square drawn when the icon cannot be decoded.
 const FALLBACK_SIZE: u32 = 22;
 
 /// RGBA pixels, width and height of the tray icon.
 pub fn rgba(enabled: bool) -> (Vec<u8>, u32, u32) {
-    match decode(include_bytes!("../../assets/icon.png")) {
-        Ok((mut pixels, width, height)) => {
-            if !enabled {
-                for pixel in pixels.as_chunks_mut::<4>().0 {
-                    let grey = ((u16::from(pixel[0]) + u16::from(pixel[1]) + u16::from(pixel[2]))
-                        / 3) as u8;
-                    pixel[..3].fill(grey);
-                    pixel[3] /= 2;
-                }
-            }
-            (pixels, width, height)
-        }
+    let bytes = if enabled {
+        include_bytes!("../../assets/tray.png").as_slice()
+    } else {
+        include_bytes!("../../assets/tray-paused.png").as_slice()
+    };
+    match decode(bytes) {
+        Ok(icon) => icon,
         Err(error) => {
             log::warn!("tray icon: {error}");
             let colour: [u8; 4] = if enabled {
@@ -54,9 +49,13 @@ fn decode(bytes: &[u8]) -> Result<(Vec<u8>, u32, u32), png::DecodingError> {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn icon_decodes() {
-        let (pixels, width, height) = super::rgba(false);
-        assert_eq!(pixels.len(), (width * height * 4) as usize);
-        assert!(width >= 16);
+    fn tray_assets_decode_at_native_size() {
+        let active = super::rgba(true);
+        let paused = super::rgba(false);
+        for (pixels, width, height) in [&active, &paused] {
+            assert_eq!((*width, *height), (24, 24));
+            assert_eq!(pixels.len(), 24 * 24 * 4);
+        }
+        assert_ne!(active.0, paused.0);
     }
 }

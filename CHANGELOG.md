@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Tecloid has a new mascot-based application icon and a dedicated tray keycap with distinct active and paused states.
+
 - On Cinnamon 6.6, keyboard layout actions use Cinnamon's input-source API so the desktop keeps the selected layout active.
 - On X11, Quick Actions and Emoji popups request keyboard focus once their windows are mapped.
 
