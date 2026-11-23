@@ -138,7 +138,9 @@ impl Filter {
         if self.unavailable_keys.iter().any(|key| key == value) {
             return false;
         }
-        if !self.development
+        if !self.key_only
+            && !self.trigger
+            && !self.development
             && value != self.initial
             && Action::parse(Some(value)).development_only()
         {

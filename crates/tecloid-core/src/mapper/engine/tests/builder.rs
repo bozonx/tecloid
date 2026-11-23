@@ -346,19 +346,26 @@ fn stable_mode_ignores_retained_experimental_actions() {
             {"key": "KeyC", "tapAction": "Ctrl+MouseLeft"},
             {"key": "MouseBack", "tapAction": "KeyC"},
             {"key": "KeyD", "conditionGameMode": "off", "tapAction": "KeyE"},
-            {"key": "KeyF", "holdBehavior": "action", "longHoldAction": "KeyG"}
+            {"key": "KeyF", "holdBehavior": "action", "longHoldAction": "KeyG"},
+            {"key": "KeyG", "tapAction": "MouseBack", "holdAction": "MouseForward"},
+            {"key": "KeyH", "tapAction": "sys:switchToDesktop1"},
+            {"key": "KeyI", "tapAction": "sys:find"}
         ],
-        "layerKeymaps": {"nav": {"keys": {"KeyA": "macro:saved", "MouseForward": "MouseMiddle"}}}
+        "layerKeymaps": {"nav": {"keys": {"KeyA": "macro:saved", "KeyB": "Mouse7", "MouseForward": "MouseMiddle"}}}
     })).unwrap();
     let mut engine = Engine::new(&cfg);
-    for key in [KeyCode::KEY_A, KeyCode::KEY_B, KeyCode::KEY_D, KeyCode::KEY_F] {
+    for key in [
+        KeyCode::KEY_A, KeyCode::KEY_B, KeyCode::KEY_D, KeyCode::KEY_F,
+        KeyCode::KEY_G, KeyCode::KEY_I,
+    ] {
         assert!(!engine.keymap.rules.contains_key(&key), "{key:?}");
     }
-    for key in [KeyCode::KEY_C, KeyCode::BTN_SIDE] {
+    for key in [KeyCode::KEY_C, KeyCode::KEY_H, KeyCode::BTN_SIDE] {
         assert!(matches!(engine.keymap.rules[&key][0].tap,
             crate::mapper::engine::model::TapMode::Action(_)));
     }
     assert!(!engine.keymap.layer_maps["nav"].contains_key(&KeyCode::KEY_A));
+    assert!(!engine.keymap.layer_maps["nav"].contains_key(&KeyCode::KEY_B));
     assert!(engine.keymap.layer_maps["nav"].contains_key(&KeyCode::BTN_EXTRA));
     let mut out = Vec::new();
     engine.execute_remote("sys:lockSession", &mut out);

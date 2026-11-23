@@ -1426,6 +1426,10 @@ mod tests {
             .unwrap();
         let value: Value = serde_json::to_value(&runtime.mapper).unwrap();
         assert!(!value["rules"].as_array().unwrap().is_empty());
+        assert_eq!(
+            value["layerKeymaps"]["desktop"]["keys"]["KeyF"],
+            "sys:switchToDesktop1"
+        );
         let reparsed = keymap_file::parse(&keymap_file::serialize(document.keymap()))
             .unwrap()
             .unwrap();

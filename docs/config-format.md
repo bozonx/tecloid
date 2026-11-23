@@ -284,9 +284,9 @@ diagnostics report it and the mapper does not start with it.
   suspends the program, Ctrl+S stops output, Ctrl+P is shell history,
   Ctrl+Shift+T opens a tab); on Windows terminals copy is Ctrl+Insert and
   tabs switch with Ctrl+Tab / Ctrl+Shift+Tab. On
-  Linux `paste` sends `linux.pasteShortcut` / `terminalPasteShortcut`
-  exactly as chosen (`auto`: Ctrl+V, Ctrl+Shift+V in terminals); copy and
-  cut do not depend on it. Text and window chords:
+  Linux `paste` uses `linux.pasteShortcut` (`auto`: Ctrl+V, Ctrl+Shift+V in
+  terminals). With `experimental` enabled, `terminalPasteShortcut` can override
+  it in terminals. Copy and cut do not depend on either paste setting. Text and window chords:
   `moveWordLeft`/`Right`, `selectWordLeft`/`Right`,
   `deleteWordBackward`/`Forward`, `moveToLineStart`/`End` (Home/End),
   `selectToLineStart`/`End` (Shift+Home/End),
@@ -407,7 +407,7 @@ Example with every field (the application writes all of them except
 | `interface.highContrast`, `interface.reduceMotion` | `system` (XDG Settings portal; KDE animation speed), `on`, `off` | `system` |
 | `interface.keymapOsd` | on-screen notice when the active keymap changes | `false` |
 | `interface.layerHint` | overlay with the held layer's keys | `false` |
-| `interface.copyOsd` | on-screen notice when Tecloid sends a copy shortcut (shown on Linux) | `false` |
+| `interface.copyOsd` | on-screen notice when Tecloid sends a copy shortcut (Linux with `experimental` enabled) | `false` |
 | `interface.locale` | `auto`, `en`, `ru`, `de`, `fr`, `es`, `it`, `pt`, `pl`, `tr`, `uk`, `cs`, `hu`, `ro`, `el`, `hr`, `ka`, `kk`, `zh-Hans`, `zh-Hant`, `ja`, `ko` | `auto` |
 | `devices.keyboards`, `devices.mice` | device ids, see [Device ids](#device-ids). The list is the set of devices Tecloid grabs; the active keymap applies to all of them as to one keyboard (shared modifier, layer and tap-hold state), order has no meaning, an empty list means none is chosen. At most one of each in this version (a longer list is a load error); allowing more is a compatible widening. Per-device keymaps, if added, will be a separate field | empty |
 | `timing.tapDecision` | `permissiveHold` or `holdOnOtherKeyPress` | `permissiveHold` |
@@ -423,7 +423,7 @@ Example with every field (the application writes all of them except
 | `gameMode.processes[]` | `name` pattern (not blank, no `title:`: a process has no title), `foregroundOnly` (default `true`), `exclude` (default `false`) | — |
 | `linux.textMode` | `libeiWithClipboardFallback`, `libeiOnly`, `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` | `libeiWithClipboardFallback` |
 | `linux.pasteShortcut` | `auto` (Ctrl+V; Ctrl+Shift+V in terminals), `Shift+Insert`, `Ctrl+KeyV`, `Ctrl+Shift+KeyV` (modifier order irrelevant), `Paste` (the Paste key) | `auto` |
-| `linux.terminalPasteShortcut` | same values or `sameAsPaste` | `sameAsPaste` |
+| `linux.terminalPasteShortcut` | same values or `sameAsPaste`; only applied with `experimental` enabled | `sameAsPaste` |
 | `linux.ydotoolPath`, `xdotoolPath` | program path; missing = search `PATH`; empty string is an error | — |
 
 Not persisted: open editor, current page, selected layer.

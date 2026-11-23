@@ -232,7 +232,7 @@ pub fn spawn(
     crate::text_input::portal::set_text_backend(
         cfg.settings.linux_wayland_text_mode,
         cfg.settings.linux_paste_shortcut,
-        cfg.settings.linux_terminal_paste_shortcut,
+        cfg.settings.terminal_paste_override(),
         cfg.settings.linux_ydotool_path.as_deref(),
         cfg.settings.linux_xdotool_path.as_deref(),
     );
@@ -663,7 +663,7 @@ fn run_device(
     crate::text_input::portal::set_text_backend(
         cfg.settings.linux_wayland_text_mode,
         cfg.settings.linux_paste_shortcut,
-        cfg.settings.linux_terminal_paste_shortcut,
+        cfg.settings.terminal_paste_override(),
         cfg.settings.linux_ydotool_path.as_deref(),
         cfg.settings.linux_xdotool_path.as_deref(),
     );
@@ -795,7 +795,7 @@ fn run_loop<D: LoopDriver>(
                         crate::text_input::portal::set_text_backend(
                             next_cfg.settings.linux_wayland_text_mode,
                             next_cfg.settings.linux_paste_shortcut,
-                            next_cfg.settings.linux_terminal_paste_shortcut,
+                            next_cfg.settings.terminal_paste_override(),
                             next_cfg.settings.linux_ydotool_path.as_deref(),
                             next_cfg.settings.linux_xdotool_path.as_deref(),
                         );

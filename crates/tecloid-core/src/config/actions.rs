@@ -90,7 +90,13 @@ impl Action {
             Self::Macro(_) | Self::Command(_) | Self::KdeShortcut(_) | Self::DesktopEntry(_) => {
                 true
             }
-            Self::System(id) => !is_shortcut_system_action(id),
+            Self::System(id) => !LEFT_HAND_CONTROL_SYSTEM_ACTIONS.contains(&id.as_str()),
+            Self::Keys(keys) => keys.split('+').any(|key| {
+                matches!(
+                    key,
+                    "MouseBack" | "MouseForward" | "Mouse6" | "Mouse7" | "Mouse8"
+                )
+            }),
             Self::App(id) => matches!(
                 AppAction::parse(id),
                 Some(AppAction::ShowMenu { .. } | AppAction::GameMode(_))
@@ -155,11 +161,87 @@ pub const NUMBERED_SYSTEM_ACTIONS: [&str; 4] = [
     "activateTaskManagerEntry",
 ];
 
+// System actions available for assignment in the standard mode.
+const LEFT_HAND_CONTROL_SYSTEM_ACTIONS: &[&str] = &[
+    "activateTaskManagerEntry1",
+    "activateTaskManagerEntry10",
+    "activateTaskManagerEntry2",
+    "activateTaskManagerEntry3",
+    "activateTaskManagerEntry4",
+    "activateTaskManagerEntry5",
+    "activateTaskManagerEntry6",
+    "activateTaskManagerEntry7",
+    "activateTaskManagerEntry8",
+    "activateTaskManagerEntry9",
+    "closeWindow",
+    "copy",
+    "cut",
+    "deleteWordBackward",
+    "deleteWordForward",
+    "keepWindowAbove",
+    "maximizeWindow",
+    "maximizeWindowHorizontally",
+    "maximizeWindowVertically",
+    "minimizeWindow",
+    "moveToDocumentEnd",
+    "moveToDocumentStart",
+    "moveWindowToNextDesktop",
+    "moveWordLeft",
+    "moveWordRight",
+    "paste",
+    "redo",
+    "selectAll",
+    "selectWordLeft",
+    "selectWordRight",
+    "showAppLauncher",
+    "showClipboardHistory",
+    "showOverview",
+    "switchToDesktop1",
+    "switchToDesktop2",
+    "switchToDesktop3",
+    "switchToDesktop4",
+    "switchToKeyboardLayout1",
+    "switchToKeyboardLayout10",
+    "switchToKeyboardLayout2",
+    "switchToKeyboardLayout3",
+    "switchToKeyboardLayout4",
+    "switchToKeyboardLayout5",
+    "switchToKeyboardLayout6",
+    "switchToKeyboardLayout7",
+    "switchToKeyboardLayout8",
+    "switchToKeyboardLayout9",
+    "switchWindow",
+    "tileWindowBottom",
+    "tileWindowLeft",
+    "tileWindowRight",
+    "tileWindowTop",
+    "toggleComment",
+    "turnOffScreen",
+    "undo",
+];
+
+#[cfg(test)]
+#[test]
+fn standard_system_actions_match_left_hand_control() {
+    let bundled = super::bundled::BUNDLED
+        .iter()
+        .find(|keymap| keymap.name == "LHC1_by_Ivan_K")
+        .unwrap();
+    let assigned: std::collections::BTreeSet<_> = bundled
+        .text()
+        .split('"')
+        .filter_map(|token| token.strip_prefix("sys:"))
+        .collect();
+    assert_eq!(
+        assigned,
+        LEFT_HAND_CONTROL_SYSTEM_ACTIONS.iter().copied().collect()
+    );
+}
+
 /// Standard application shortcuts: editing commands whose keys follow the
 /// OS, the keyboard layout and the focused window, and fixed text and
 /// window-switching chords (`mapper::shortcuts`). They act on the focused
-/// application like a key chord, so unlike desktop actions they are not an
-/// in-development feature.
+/// application like a key chord.
 pub const SHORTCUT_SYSTEM_ACTIONS: [&str; 31] = [
     "copy",
     "cut",

@@ -47,7 +47,11 @@ pub(super) fn forward_core_events() -> Result<tecloid_core::events::Subscription
             let Some(document) = app.document() else {
                 return;
             };
-            if document.read().settings().copy_osd {
+            let show_hint = {
+                let config = document.read();
+                config.settings().in_development && config.settings().copy_osd
+            };
+            if show_hint {
                 let text = crate::i18n::copy_osd(app.preferences.get().language);
                 if let Err(error) = tecloid_core::platform::osd::enqueue(text) {
                     log::warn!("[osd] {error}");

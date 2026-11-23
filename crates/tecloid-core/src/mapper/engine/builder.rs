@@ -287,7 +287,11 @@ impl Engine {
             } else {
                 Some(r.layer_id.clone())
             };
-            let hold = match &r.hold_action {
+            let hold_action = match &r.hold_action {
+                ActionSpec::Action(action) if hidden(action) => &ActionSpec::Native,
+                action => action,
+            };
+            let hold = match hold_action {
                 _ if behavior == HoldBehavior::Action => HoldOutputMode::Swallow,
                 ActionSpec::Native if layer_id.is_some() || long_hold.is_some() => {
                     HoldOutputMode::Swallow
@@ -332,7 +336,7 @@ impl Engine {
             if layer_id.is_none()
                 && matches!(tap, TapMode::Native | TapMode::NativeChord(_))
                 && (matches!(hold, HoldOutputMode::Native)
-                    || (keys.len() > 1 && matches!(r.hold_action, ActionSpec::Native)))
+                    || (keys.len() > 1 && matches!(hold_action, ActionSpec::Native)))
                 && double_tap.is_none()
                 && long_hold.is_none()
             {

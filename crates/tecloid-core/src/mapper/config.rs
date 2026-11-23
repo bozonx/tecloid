@@ -183,6 +183,14 @@ pub struct Settings {
     pub linux_xdotool_path: Option<String>,
 }
 
+#[cfg(target_os = "linux")]
+impl Settings {
+    pub(super) fn terminal_paste_override(&self) -> Option<PasteShortcut> {
+        self.linux_terminal_paste_shortcut
+            .filter(|_| self.in_development.unwrap_or(true))
+    }
+}
+
 impl TryFrom<&crate::config::model::ResolvedAppConfig> for MapperConfig {
     type Error = String;
 
@@ -415,6 +423,20 @@ mod tests {
         assert!(matches!(cfg.rules[0].tap_action, ActionSpec::Action(ref s) if s == "Escape"));
         assert!(matches!(cfg.rules[0].hold_action, ActionSpec::Native));
         assert_eq!(cfg.settings.default_hold_timeout_ms, 300);
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn terminal_paste_override_requires_development_mode() {
+        let shortcut = Some(PasteShortcut::ShiftInsert);
+        let mut settings = Settings {
+            in_development: Some(false),
+            linux_terminal_paste_shortcut: shortcut,
+            ..Settings::default()
+        };
+        assert_eq!(settings.terminal_paste_override(), None);
+        settings.in_development = Some(true);
+        assert_eq!(settings.terminal_paste_override(), shortcut);
     }
 
     #[test]

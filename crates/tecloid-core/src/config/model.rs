@@ -986,6 +986,7 @@ impl ResolvedAppConfig {
             let hidden_hold = rule.hold_behavior() == HoldBehavior::Action;
             let hidden_tap = rule.tap_action.as_deref().is_some_and(hidden);
             let hidden_double_tap = hidden(&rule.double_tap_action);
+            let hidden_hold_output = rule.hold_action.as_deref().is_some_and(hidden);
             if hidden_hold {
                 rule.hold_behavior = Some(HoldBehavior::None);
             }
@@ -994,11 +995,14 @@ impl ResolvedAppConfig {
             if hidden_tap {
                 rule.tap_action = Some(String::new());
             }
+            if hidden_hold_output {
+                rule.hold_action = Some(String::new());
+            }
             if hidden_double_tap {
                 rule.double_tap_action.clear();
             }
             // A now-transparent rule cannot shadow another rule for its trigger.
-            if (hidden_tap || hidden_hold || hidden_double_tap)
+            if (hidden_tap || hidden_hold || hidden_double_tap || hidden_hold_output)
                 && rule.tap_action.as_deref() == Some("")
                 && rule.hold_action.as_deref() == Some("")
                 && rule.hold_behavior() == HoldBehavior::None

@@ -423,7 +423,7 @@ export component SettingsPage inherits PageLayout {
                         accessible-name: @tr("Main");
                         if AppState.autostart-supported: CheckBox { text: @tr("Launch on startup"); checked <=> SettingsEditor.launch-on-startup; toggled => { SettingsEditor.save(); } }
                         if AppState.in-development && AppState.is-linux: CheckBox { text: @tr("Show the Tecloid keymap name when it changes"); checked <=> SettingsEditor.keymap-osd; toggled => { SettingsEditor.save(); } }
-                        if AppState.is-linux: CheckBox { text: @tr("Show a hint when Tecloid sends a copy command"); checked <=> SettingsEditor.copy-osd; toggled => { SettingsEditor.save(); } }
+                        if AppState.in-development && AppState.is-linux: CheckBox { text: @tr("Show a hint when Tecloid sends a copy command"); checked <=> SettingsEditor.copy-osd; toggled => { SettingsEditor.save(); } }
                         if AppState.in-development && AppState.is-linux: HorizontalLayout { vertical-stretch: 0; alignment: start; spacing: Theme.space-s;
                             CheckBox { horizontal-stretch: 0; text: @tr("Show the keys of a layer while it is held"); checked <=> SettingsEditor.layer-hint; toggled => { SettingsEditor.save(); } }
                             VerticalLayout { visible: !SettingsEditor.layer-hint-available || AppState.in-development; alignment: center; InfoTip { text: SettingsEditor.layer-hint-available ? @tr("The hint appears 2 seconds after the layer activates. Pressing a layer key hides or cancels it until the trigger is released, including in game mode.") : @tr("Unavailable: build with the spell feature and use a Wayland compositor with layer-shell (KDE Plasma, Sway, Hyprland)."); } }
@@ -652,7 +652,7 @@ export component SettingsPage inherits PageLayout {
                             SelectField { accessible-label: @tr("Paste shortcut"); width: 320px; height: Theme.control-height; vertical-stretch: 0; model: [@tr("Automatic"), "Shift+Insert", "Ctrl+V", "Ctrl+Shift+V", @tr("Paste key")]; current-index: SettingsEditor.paste-shortcut-index; selected(value) => { SettingsEditor.paste-shortcut-index = self.current-index; SettingsEditor.save(); } }
                         }
                         // Unchecked: terminals use the main shortcut (index 0).
-                        CheckBox {
+                        if AppState.in-development: CheckBox {
                             text: @tr("Use a separate paste shortcut in terminals");
                             checked: SettingsEditor.terminal-paste-shortcut-index != 0;
                             toggled => {
@@ -661,7 +661,7 @@ export component SettingsPage inherits PageLayout {
                                 SettingsEditor.save();
                             }
                         }
-                        if SettingsEditor.terminal-paste-shortcut-index != 0: VerticalLayout {
+                        if AppState.in-development && SettingsEditor.terminal-paste-shortcut-index != 0: VerticalLayout {
                             padding: 0px; spacing: Theme.space-m;
                             FormLabel { text: @tr("Paste shortcut in terminals"); info: @tr("Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."); }
                             // TERMINAL_PASTE_SHORTCUTS without its first entry (the main shortcut).

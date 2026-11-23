@@ -339,7 +339,23 @@ fn hidden_features_cannot_be_typed_outside_development_mode() {
         assert!(!filter.admits(value), "{value}");
     }
     assert!(!filter.admits("app:showQuickMenu1"));
-    assert!(filter.accepts("Mouse6", None));
+    for value in [
+        "MouseBack",
+        "MouseForward",
+        "Mouse6",
+        "Mouse7",
+        "Mouse8",
+        "Ctrl+Mouse6",
+    ] {
+        assert!(!filter.accepts(value, None), "{value}");
+    }
+    assert!(filter.accepts("sys:switchToDesktop1", None));
+    assert!(!filter.accepts("sys:find", None));
+    let development = Filter {
+        development: true,
+        ..Filter::default()
+    };
+    assert!(development.accepts("Ctrl+Mouse6", None));
     assert!(filter.accepts("Ctrl+MouseLeft", None));
     let trigger = Filter {
         trigger: true,
