@@ -14,10 +14,10 @@ Tecloid полностью поддерживается в **Linux** с окру
 | Ubuntu | GNOME | ✅ Проверено, если версия GNOME Shell — 50 |
 | Debian | KDE Plasma 6 или GNOME (на выбор) | ✅ Проверено, для GNOME — если версия GNOME Shell — 50 |
 | EndeavourOS, CachyOS и другие дистрибутивы на базе Arch | KDE Plasma 6 или GNOME (на выбор) | 🟢 Должно работать |
-| KDE neon, Kubuntu 25.04 и новее | KDE Plasma 6 | 🟢 Должно работать |
+| KDE neon, TUXEDO OS, Kubuntu 25.04 и новее | KDE Plasma 6 | 🟢 Должно работать |
 | openSUSE Tumbleweed, Leap 16 | KDE Plasma 6 или GNOME (на выбор) | 🟢 Должно работать |
-| Bazzite | KDE Plasma 6 или GNOME (разные образы) | 🟢 Должно работать, рекомендуется установка из архива |
-| Kubuntu 24.04 | KDE Plasma 5 | ❌ Не поддерживается |
+| Bazzite, Fedora Atomic (Kinoite, Silverblue) | KDE Plasma 6 или GNOME (разные образы) | 🟢 Должно работать, рекомендуется установка из архива |
+| SteamOS (Steam Deck) | KDE Plasma 6 в режиме рабочего стола (X11) | 🟢 Должно работать, только в сеансе Wayland |
 | Pop!_OS | COSMIC | ❌ Не поддерживается |
 | Linux Mint | Cinnamon | ❌ Не поддерживается |
 | elementary OS | Pantheon | ❌ Не поддерживается |
@@ -38,7 +38,7 @@ Tecloid полностью поддерживается в **Linux** с окру
 
 | Дистрибутив                   | Файл      | Как установить                                                             |
 | ----------------------------- | --------- | -------------------------------------------------------------------------- |
-| Debian, Ubuntu, KDE neon      | `.deb`    | `sudo apt install ./tecloid_*.deb`                                         |
+| Debian, Ubuntu, KDE neon, TUXEDO OS | `.deb`    | `sudo apt install ./tecloid_*.deb`                                         |
 | Fedora                        | `.rpm`    | `sudo dnf install ./tecloid-*.rpm`                                         |
 | openSUSE                      | `.rpm`    | `sudo zypper install ./tecloid-*.rpm`                                      |
 | Arch, Manjaro, Bazzite и др.  | `.tar.gz` | Распакуйте архив и выполните команды ниже. Программа ставится в `~/.local` |
