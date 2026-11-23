@@ -255,7 +255,7 @@ export component PickerOverlay inherits DialogFrame {
                 if ActionPicker.text-lines > 0: TextField { accessible-label: @tr("Action:"); read-only: true; text: "text:" + ActionPicker.text-preview; }
                 if ActionPicker.text-lines > 0: Text { text: @tr("{n} line" | "{n} lines" % ActionPicker.text-lines); color: Theme.muted; vertical-alignment: center; }
                 if ActionPicker.text-lines == 0: TextField { accessible-label: ActionPicker.key-only ? @tr("Trigger key:") : @tr("Action:"); accessible-description: Locale.text(ActionPicker.error); invalid: ActionPicker.error.id != ""; text <=> ActionPicker.value; enabled: !ActionPicker.capturing; edited => { ActionPicker.touched = true; ActionPicker.capture-status = CaptureStatus.none; ActionPicker.refresh(); } }
-                Button { text: ActionPicker.capturing ? @tr("Stop") : @tr("Capture"); clicked => { ActionPicker.begin-capture(); focus.focus(); } }
+                if AppState.in-development: Button { text: ActionPicker.capturing ? @tr("Stop") : @tr("Capture"); clicked => { ActionPicker.begin-capture(); focus.focus(); } }
                 // Separate the layer option from the action input and capture.
                 if ActionPicker.layer-action && !ActionPicker.key-only: HorizontalLayout { padding: 0px; padding-left: Theme.space-m; spacing: Theme.space-l; horizontal-stretch: 0;
                     Rectangle { width: 1px; background: Theme.border; }

@@ -110,6 +110,9 @@ pub(super) fn bind(
     let input = input.clone();
     picker.on_begin_capture(move || {
         let Some(ui) = weak.upgrade() else { return };
+        if !ui.global::<crate::ui::AppState>().get_in_development() {
+            return;
+        }
         let picker = ui.global::<ActionPicker>();
         picker.set_capture_keys("".into());
         picker.set_capture_unsupported(false);

@@ -15,7 +15,9 @@ pub(in crate::pages) fn capture(
     if !picker.get_opened() || !picker.get_capturing() {
         return false;
     }
-    if let WindowEvent::Focused(false) = event {
+    if !ui.global::<crate::ui::AppState>().get_in_development()
+        || matches!(event, WindowEvent::Focused(false))
+    {
         // Releases while unfocused never arrive: drop the half-pressed keys.
         abort(&picker, capture);
         return false;

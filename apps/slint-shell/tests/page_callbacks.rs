@@ -236,6 +236,10 @@ fn conditions_dialog() -> Result<(), Box<dyn std::error::Error>> {
         })
     })?;
     ui.set_page(Page::Rules);
+    let settings = ui.global::<SettingsEditor>();
+    settings.set_in_development(true);
+    settings.invoke_save();
+    ui.global::<AppState>().set_in_development(true);
     let choices = ui.global::<ConditionChoices>();
     // Supply stable window choices; the scenario does not query the compositor.
     choices.on_refresh_open_windows(|| {});
@@ -327,6 +331,8 @@ fn action_picker() -> Result<(), Box<dyn std::error::Error>> {
     ui.invoke_navigate(Page::Rules, MenuKind::Emoji);
     ui.global::<RulesEditor>().invoke_add();
     let stable_picker = ui.global::<ActionPicker>();
+    stable_picker.invoke_begin_capture();
+    assert!(!stable_picker.get_capturing());
     stable_picker.set_query("Mouse".into());
     stable_picker.invoke_refresh();
     let buttons: Vec<_> = stable_picker
@@ -351,6 +357,10 @@ fn action_picker() -> Result<(), Box<dyn std::error::Error>> {
     let picker = ui.global::<ActionPicker>();
     assert!(picker.get_opened());
     assert!(picker.get_key_only());
+    picker.invoke_begin_capture();
+    assert!(picker.get_capturing());
+    picker.invoke_begin_capture();
+    assert!(!picker.get_capturing());
     assert_eq!(
         rules.get_dialog(),
         RuleDialog::None,

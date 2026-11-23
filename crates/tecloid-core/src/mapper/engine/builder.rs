@@ -224,6 +224,10 @@ impl Engine {
         }
         for r in &expanded_rules {
             if !r.enabled
+                || (!in_development && [&r.condition_window_patterns, &r.condition_excluded_window_patterns]
+                    .into_iter()
+                    .flatten()
+                    .any(|patterns| !patterns.is_empty()))
                 || (!in_development && matches!(r.condition_game_mode,
                     Some(crate::mapper::config::GameModeCondition::On | crate::mapper::config::GameModeCondition::Off)))
             {

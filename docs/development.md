@@ -182,7 +182,8 @@ must remain usable, including mouse support and built-in macros. System actions
 assigned in the bundled Left Hand Control keymap are available in both modes.
 Other system actions and mouse-button outputs beyond left, middle and right
 require opt-in. The flag also gates game mode and rules that depend on it,
-automatic keymap selection, user macros, commands, dynamic KDE and application
+automatic keymap selection, application-scoped trigger rules, key capture in
+the action picker, user macros, commands, dynamic KDE and application
 desktop actions, long-hold actions, E-ink appearance, keymap and copy OSDs,
 held-layer hints and the separate terminal paste shortcut. Assigning a key to
 open a specific or recent Emoji or Quick actions page also requires the flag. The

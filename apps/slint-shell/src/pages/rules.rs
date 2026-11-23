@@ -802,11 +802,14 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
         let keyboard_layouts = optional_list(&editor.get_keyboard_layouts());
         let include = optional_list(&editor.get_apps_include());
         let exclude = optional_list(&editor.get_apps_exclude());
+        let development = doc.read().settings().in_development;
         let result = change_rule(&ui, &doc, index, true, |rule| {
-            rule.condition_game_mode = game_mode;
             rule.condition_keyboard_layouts = keyboard_layouts;
-            rule.condition_window_patterns = include;
-            rule.condition_excluded_window_patterns = exclude;
+            if development {
+                rule.condition_game_mode = game_mode;
+                rule.condition_window_patterns = include;
+                rule.condition_excluded_window_patterns = exclude;
+            }
         });
         if result.is_ok() {
             editor.set_dialog(RuleDialog::None);

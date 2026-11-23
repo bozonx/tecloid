@@ -338,7 +338,7 @@ fn swallowed_tap_with_native_hold_emits_nothing() {
 
 #[test]
 fn stable_mode_ignores_retained_experimental_actions() {
-    let cfg: MapperConfig = serde_json::from_value(serde_json::json!({
+    let mut cfg: MapperConfig = serde_json::from_value(serde_json::json!({
         "settings": {"inDevelopment": false, "commandsEnabled": true},
         "rules": [
             {"key": "KeyA", "tapAction": "sys:lockSession"},
@@ -349,18 +349,21 @@ fn stable_mode_ignores_retained_experimental_actions() {
             {"key": "KeyF", "holdBehavior": "action", "longHoldAction": "KeyG"},
             {"key": "KeyG", "tapAction": "MouseBack", "holdAction": "MouseForward"},
             {"key": "KeyH", "tapAction": "sys:switchToDesktop1"},
-            {"key": "KeyI", "tapAction": "sys:find"}
+            {"key": "KeyI", "tapAction": "sys:find"},
+            {"key": "KeyJ", "conditionWindowPatterns": ["konsole"], "tapAction": "KeyA"},
+            {"key": "KeyK", "conditionExcludedWindowPatterns": ["firefox"], "tapAction": "KeyA"},
+            {"key": "KeyL", "conditionKeyboardLayouts": ["us"], "tapAction": "KeyA"}
         ],
         "layerKeymaps": {"nav": {"keys": {"KeyA": "macro:saved", "KeyB": "Mouse7", "MouseForward": "MouseMiddle"}}}
     })).unwrap();
     let mut engine = Engine::new(&cfg);
     for key in [
         KeyCode::KEY_A, KeyCode::KEY_B, KeyCode::KEY_D, KeyCode::KEY_F,
-        KeyCode::KEY_G, KeyCode::KEY_I,
+        KeyCode::KEY_G, KeyCode::KEY_I, KeyCode::KEY_J, KeyCode::KEY_K,
     ] {
         assert!(!engine.keymap.rules.contains_key(&key), "{key:?}");
     }
-    for key in [KeyCode::KEY_C, KeyCode::KEY_H, KeyCode::BTN_SIDE] {
+    for key in [KeyCode::KEY_C, KeyCode::KEY_H, KeyCode::KEY_L, KeyCode::BTN_SIDE] {
         assert!(matches!(engine.keymap.rules[&key][0].tap,
             crate::mapper::engine::model::TapMode::Action(_)));
     }
@@ -371,4 +374,10 @@ fn stable_mode_ignores_retained_experimental_actions() {
     engine.execute_remote("sys:lockSession", &mut out);
     engine.execute_remote("app:showQuickMenu1", &mut out);
     assert!(out.is_empty());
+
+    cfg.settings.in_development = Some(true);
+    let engine = Engine::new(&cfg);
+    for key in [KeyCode::KEY_J, KeyCode::KEY_K, KeyCode::KEY_L] {
+        assert!(engine.keymap.rules.contains_key(&key), "{key:?}");
+    }
 }

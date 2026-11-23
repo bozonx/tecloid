@@ -1302,6 +1302,10 @@ mod tests {
             &document,
             r#"[{"key": "KeyA", "tap": "KeyB", "when": {"excludeWindows": ["title:Secret"]}}]"#,
         );
+        assert!(!uses_titles(&document));
+        document
+            .update_settings(|settings| settings.in_development = true)
+            .unwrap();
         assert!(uses_titles(&document));
         // Disabled rules never run, so they need no titles.
         save(

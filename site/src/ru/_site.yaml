@@ -11,7 +11,7 @@ themeConfig:
         items:
           - text: 'О Tecloid'
             link: ''
-          - text: 'Установка и запуск'
+          - text: 'Установка и поддержка операционных систем'
             link: 'installation'
           - text: 'Начало работы'
             link: 'getting-started'

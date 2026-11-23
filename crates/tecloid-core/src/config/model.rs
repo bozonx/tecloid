@@ -975,6 +975,19 @@ impl ResolvedAppConfig {
         self.commands.clear();
         self.settings.auto_rules.clear();
         for rule in &mut self.rules {
+            // Removing the conditions alone would make a scoped rule global.
+            if [
+                &rule.condition_window_patterns,
+                &rule.condition_excluded_window_patterns,
+            ]
+            .into_iter()
+            .flatten()
+            .any(|patterns| !patterns.is_empty())
+            {
+                rule.enabled = Some(false);
+            }
+            rule.condition_window_patterns = None;
+            rule.condition_excluded_window_patterns = None;
             if rule
                 .condition_game_mode
                 .as_deref()

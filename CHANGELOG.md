@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Capturing a key or shortcut in the action picker and using application conditions in trigger rules now require In development. Standard mode keeps keyboard-layout conditions and skips rules scoped to applications.
+
 - Interface translations were reviewed against the Russian and English texts: missing strings translated, mistranslations and inconsistent terms fixed in all languages except Russian.
 
 - Standard mode offers the system actions assigned in the bundled Left Hand Control keymap, including its Desktop layer actions. Other system actions, mouse-button outputs beyond left, middle and right, the copy hint and the separate terminal paste shortcut require In development.

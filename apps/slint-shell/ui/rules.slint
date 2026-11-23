@@ -119,7 +119,8 @@ component ConditionsCell inherits Rectangle {
     FocusRing { focused: action-focus.has-focus; border-radius: Theme.radius; }
     in property <RuleRow> rule;
     in property <bool> enabled: true;
-    private property <bool> visible-conditions: root.rule.languages != "" || root.rule.applications != "" || root.rule.excluded != "" || (AppState.in-development && root.rule.game != GameCondition.any);
+    private property <bool> development-conditions: root.rule.applications != "" || root.rule.excluded != "" || root.rule.game != GameCondition.any;
+    private property <bool> visible-conditions: root.rule.languages != "" || (AppState.in-development && root.development-conditions);
     callback clicked();
     min-width: 0px;
     horizontal-stretch: 0;
@@ -132,12 +133,12 @@ component ConditionsCell inherits Rectangle {
         VerticalLayout { alignment: center;
             Image { width: 16px; height: 16px; source: @image-url("icons/list-filter.svg"); colorize: root.visible-conditions ? Theme.accent : Theme.muted; }
         }
-        if !root.visible-conditions: Text { text: @tr("Always"); color: Theme.muted; vertical-alignment: center; }
+        if !root.visible-conditions && !root.development-conditions: Text { text: @tr("Always"); color: Theme.muted; vertical-alignment: center; }
         if root.visible-conditions: Text { text: @tr("If:"); color: Theme.muted; vertical-alignment: center; }
         if AppState.in-development && root.rule.game != GameCondition.any: ConditionChip { icon: @image-url("icons/gamepad-2.svg"); text: root.rule.game == GameCondition.on ? @tr("Game mode on") : @tr("Game mode off"); }
         if root.rule.languages != "": ConditionChip { icon: @image-url("icons/globe.svg"); text: root.rule.languages; }
-        if root.rule.applications != "": ConditionChip { icon: @image-url("icons/app-window.svg"); text: root.rule.applications; tint: Theme.success; }
-        if root.rule.excluded != "": ConditionChip { icon: @image-url("icons/ban.svg"); text: root.rule.excluded; tint: Theme.error; }
+        if AppState.in-development && root.rule.applications != "": ConditionChip { icon: @image-url("icons/app-window.svg"); text: root.rule.applications; tint: Theme.success; }
+        if AppState.in-development && root.rule.excluded != "": ConditionChip { icon: @image-url("icons/ban.svg"); text: root.rule.excluded; tint: Theme.error; }
     }
     conditions-touch := TouchArea { enabled: root.enabled; mouse-cursor: pointer; clicked => { root.clicked(); } }
 }
@@ -353,13 +354,14 @@ export component RulesPage inherits PageLayout {
                 border-radius: Theme.radius-panel;
                 opacity: (DragDrop.dragging && DragDrop.group == DragGroups.rules && DragDrop.source == index ? Theme.dragged-opacity : 1);
 
+                private property <bool> rule-active: rule.enabled && (AppState.in-development || (rule.applications == "" && rule.excluded == "" && rule.game == GameCondition.any));
                 rule-content := VerticalLayout { min-width: 0px; padding: Theme.space-l-plus; spacing: Theme.space-m-plus;
                     rule-header := HorizontalLayout { spacing: Theme.space-s;
                         rule-drag := DragHandle { group: DragGroups.rules; index: index; count: RulesEditor.rows.length; dropped(from, to) => { RulesEditor.move(from, to); } }
                         ConditionsCell {
                             // Reserve conditions before allocating space to the optional summary.
                             min-width: min(self.preferred-width, max(0px, rule-header.width - rule-drag.preferred-width - rule-options.preferred-width - 4 * Theme.space-s - 12px));
-                            opacity: rule.enabled ? 1 : Theme.disabled-rule-opacity;
+                            opacity: rule-active ? 1 : Theme.disabled-rule-opacity;
                             enabled: rule.key != ""; rule: rule; clicked => { ConditionChoices.refresh(); RulesEditor.open-dialog(index, RuleDialog.conditions); }
                         }
                         Rectangle { horizontal-stretch: 1; min-width: 12px; }
@@ -367,7 +369,7 @@ export component RulesPage inherits PageLayout {
                             horizontal-stretch: 0; min-width: 0px; max-width: 640px; overflow: elide; vertical-alignment: center;
                             text: root.summary(rule);
                             color: Theme.muted;
-                            opacity: rule.enabled ? 1 : Theme.disabled-rule-opacity;
+                            opacity: rule-active ? 1 : Theme.disabled-rule-opacity;
                             TouchArea { enabled: rule.key != ""; mouse-cursor: pointer; clicked => { RulesEditor.open-dialog(index, RuleDialog.advanced); } }
                         }
                         rule-options := IconButton { icon: @image-url("icons/sliders-horizontal.svg"); tooltip: @tr("Advanced rule options"); clicked => { RulesEditor.open-dialog(index, RuleDialog.advanced); }
@@ -377,7 +379,7 @@ export component RulesPage inherits PageLayout {
                         }
                     }
                     // A disabled rule is dimmed but stays editable; only the options button keeps full contrast.
-                    HorizontalLayout { min-width: 0px; spacing: Theme.space-l; opacity: rule.enabled ? 1 : Theme.disabled-rule-opacity;
+                    HorizontalLayout { min-width: 0px; spacing: Theme.space-l; opacity: rule-active ? 1 : Theme.disabled-rule-opacity;
                         RuleCell { width: 180px; horizontal-stretch: 0; title: @tr("Trigger"); info: @tr("A trigger can be a single key or a combination, such as ShiftLeft+ControlLeft. The combination works in either press order and ends when any key is released."); value: rule.key; category: rule.key-category; clicked => { RulesEditor.open-dialog(index, RuleDialog.key); } }
                         Rectangle { width: 1px; background: Theme.divider; }
                         RuleCell { title: @tr("Tap action"); info: @tr("Action performed when the trigger is pressed and released quickly without holding."); value: rule.tap; category: rule.tap-category; empty-text: rule.swallow-tap ? @tr("Suppress") : @tr("Do not process"); clicked => { RulesEditor.open-dialog(index, RuleDialog.tap); } }
@@ -387,7 +389,7 @@ export component RulesPage inherits PageLayout {
                     }
                     if rule.diagnostic.id != "": Text {
                         text: Locale.text(rule.diagnostic);
-                        opacity: rule.enabled ? 1 : Theme.disabled-rule-opacity;
+                        opacity: rule-active ? 1 : Theme.disabled-rule-opacity;
                         color: NotificationCenter.is-warning(rule.diagnostic.id) ? Theme.warning : Theme.error;
                         wrap: word-wrap;
                     }
@@ -415,6 +417,7 @@ export component RuleDialogOverlay inherits FocusScope {
             preferred-height: conditions-form.preferred-height;
             conditions-form := ConditionsForm {
                 heading: @tr("If");
+                show-applications: AppState.in-development;
                 show-exclusions: true;
                 game <=> RulesEditor.game-mode; languages <=> RulesEditor.keyboard-layouts;
                 applications <=> RulesEditor.apps-include; excluded <=> RulesEditor.apps-exclude;
