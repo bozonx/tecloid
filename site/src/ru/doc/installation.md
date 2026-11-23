@@ -15,12 +15,15 @@ Tecloid полностью поддерживается в **Linux** с окру
 | Debian | KDE Plasma 6 или GNOME (на выбор) | ✅ Проверено, для GNOME — если версия GNOME Shell — 50 |
 | EndeavourOS, CachyOS и другие дистрибутивы на базе Arch | KDE Plasma 6 или GNOME (на выбор) | 🟢 Должно работать |
 | KDE neon, Kubuntu 25.04 и новее | KDE Plasma 6 | 🟢 Должно работать |
+| openSUSE Tumbleweed, Leap 16 | KDE Plasma 6 или GNOME (на выбор) | 🟢 Должно работать |
+| Bazzite | KDE Plasma 6 или GNOME (разные образы) | 🟢 Должно работать, рекомендуется установка из архива |
 | Kubuntu 24.04 | KDE Plasma 5 | ❌ Не поддерживается |
 | Pop!_OS | COSMIC | ❌ Не поддерживается |
 | Linux Mint | Cinnamon | ❌ Не поддерживается |
 | elementary OS | Pantheon | ❌ Не поддерживается |
 | Zorin OS | GNOME старой версии | ❌ Не поддерживается |
 | MX Linux | Xfce, Fluxbox (X11) | ❌ Не поддерживается, кроме редакции с KDE Plasma 6 в сеансе Wayland |
+| NixOS | на выбор | ❌ Пока не поддерживается: нет пакета Nix, установка из архива не работает |
 
 Окружения Hyprland, Sway, niri, COSMIC, LXQt и Budgie работают на Wayland, но официально не поддерживаются. Cinnamon, Xfce, MATE, i3, Openbox и другие окружения на X11 не поддерживаются.
 
@@ -35,21 +38,22 @@ Tecloid полностью поддерживается в **Linux** с окру
 
 | Дистрибутив                   | Файл      | Как установить                                                             |
 | ----------------------------- | --------- | -------------------------------------------------------------------------- |
-| Debian, Ubuntu                | `.deb`    | `sudo apt install ./tecloid_*.deb`                                         |
+| Debian, Ubuntu, KDE neon      | `.deb`    | `sudo apt install ./tecloid_*.deb`                                         |
 | Fedora                        | `.rpm`    | `sudo dnf install ./tecloid-*.rpm`                                         |
-| Manjaro и другие дистрибутивы | `.tar.gz` | Распакуйте архив и выполните команды ниже. Программа ставится в `~/.local` |
+| openSUSE                      | `.rpm`    | `sudo zypper install ./tecloid-*.rpm`                                      |
+| Arch, Manjaro, Bazzite и др.  | `.tar.gz` | Распакуйте архив и выполните команды ниже. Программа ставится в `~/.local` |
 
 
 Установка из архива:
 
 ```sh
 ./install-linux.sh               # установка в ~/.local, без sudo
-./install-linux.sh permissions   # один раз: правило udev и загрузка модуля uinput (запросит sudo)
+./install-linux.sh permissions   # один раз: доступ к клавиатурам и /dev/uinput (запросит sudo)
 ```
 
 ### Что нужно для работы
 
-- **Доступ к устройствам.** Tecloid должен читать события клавиатуры и писать в `/dev/uinput`. Пакеты `.deb` и `.rpm` настраивают этот доступ сами. При установке из архива доступ выдаёт команда `install-linux.sh permissions`. Права действуют сразу, перезаходить в систему не нужно.
+- **Доступ к устройствам.** Tecloid должен читать события клавиатуры и писать в `/dev/uinput`. Пакеты `.deb` и `.rpm` настраивают этот доступ сами. При установке из архива доступ выдаёт команда `install-linux.sh permissions`. Команда добавляет правило udev, которое даёт доступ к клавиатурам, мышам и `/dev/uinput` пользователю активного локального сеанса, и включает автозагрузку модуля ядра `uinput`. В группы пользователь не добавляется. Права действуют сразу, перезаходить в систему не нужно.
 - **Системный портал для ввода текста.** Чтобы работали действия, которые вводят текст, нужен `xdg-desktop-portal` с модулем вашей среды: `xdg-desktop-portal-kde` для KDE Plasma или `xdg-desktop-portal-gnome` для GNOME. Обычно они уже установлены.
 
 ### KDE Plasma 6
