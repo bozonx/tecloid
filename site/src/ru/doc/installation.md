@@ -24,7 +24,7 @@ Tecloid полностью поддерживается в **Linux** с окру
 
 Окружения Hyprland, Sway, niri, COSMIC, LXQt и Budgie работают на Wayland, но официально не поддерживаются. Cinnamon, Xfce, MATE, i3, Openbox и другие окружения на X11 не поддерживаются.
 
-Если вашего дистрибутива нет в таблице, но в нём есть KDE Plasma 6 или GNOME 50 на Wayland, Tecloid, скорее всего, будет работать. Если столкнётесь с проблемой, [создайте issue](https://github.com/bozonx/tecloid/issues).
+Если вашего дистрибутива нет в таблице, но в нём есть KDE Plasma 6 или GNOME 50 на Wayland, Tecloid, скорее всего, всё будет работать. Если столкнётесь с проблемой, пожалуйста [создайте issue](https://github.com/bozonx/tecloid/issues).
 
 Все файлы для установки есть на [странице релизов](https://github.com/bozonx/tecloid/releases).
 
