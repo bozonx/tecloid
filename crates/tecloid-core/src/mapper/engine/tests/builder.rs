@@ -256,16 +256,14 @@ fn builtin_and_user_macros_resolve_independently_at_every_depth() {
 }
 
 #[test]
-fn development_gate_disables_user_macros_popups_and_long_hold() {
+fn development_gate_disables_user_macros_and_long_hold() {
     for enabled in [false, true] {
         let mut cfg: MapperConfig = serde_json::from_value(serde_json::json!({
             "settings": {"inDevelopment": enabled},
             "macros": [{"id": "user", "steps": [{"action": "text:user"}]}],
             "rules": [
                 {"key": "KeyA", "longHoldAction": "text:hold"},
-                {"key": "KeyB", "tapAction": "macro:user"},
-                {"key": "KeyC", "tapAction": "app:showEmojiMenuRecent"},
-                {"key": "KeyD", "tapAction": "app:showQuickMenu1"}
+                {"key": "KeyB", "tapAction": "macro:user"}
             ]
         }))
         .unwrap();
@@ -284,15 +282,13 @@ fn development_gate_disables_user_macros_popups_and_long_hold() {
             rule.long_hold_action.clear();
         }
         let engine = Engine::new(&cfg);
-        for key in [KeyCode::KEY_B, KeyCode::KEY_C, KeyCode::KEY_D] {
-            assert_eq!(
-                matches!(
-                    engine.keymap.rules.get(&key).map(|rules| &rules[0].tap),
-                    Some(crate::mapper::engine::model::TapMode::Action(_))
-                ),
-                enabled
-            );
-        }
+        assert_eq!(
+            matches!(
+                engine.keymap.rules.get(&KeyCode::KEY_B).map(|rules| &rules[0].tap),
+                Some(crate::mapper::engine::model::TapMode::Action(_))
+            ),
+            enabled
+        );
         assert!(
             !engine.keymap.macros.is_empty(),
             "built-in macros stay available"
@@ -372,12 +368,41 @@ fn stable_mode_ignores_retained_experimental_actions() {
     assert!(engine.keymap.layer_maps["nav"].contains_key(&KeyCode::BTN_EXTRA));
     let mut out = Vec::new();
     engine.execute_remote("sys:lockSession", &mut out);
-    engine.execute_remote("app:showQuickMenu1", &mut out);
     assert!(out.is_empty());
 
     cfg.settings.in_development = Some(true);
     let engine = Engine::new(&cfg);
     for key in [KeyCode::KEY_J, KeyCode::KEY_K, KeyCode::KEY_L] {
         assert!(engine.keymap.rules.contains_key(&key), "{key:?}");
+    }
+}
+
+
+#[test]
+fn stable_bindings_open_numbered_and_recent_popup_pages() {
+    use crate::config::app_action::{AppAction, Menu};
+    use crate::mapper::system::SystemAction;
+    use std::num::NonZeroU32;
+
+    for (binding, menu, page) in [
+        ("app:showEmojiMenuRecent", Menu::Emoji, None),
+        ("app:showQuickMenuRecent", Menu::Quick, None),
+        ("app:showEmojiMenu2", Menu::Emoji, NonZeroU32::new(2)),
+        ("app:showQuickMenu3", Menu::Quick, NonZeroU32::new(3)),
+    ] {
+        let cfg = serde_json::from_value(serde_json::json!({
+            "settings": {"inDevelopment": false},
+            "rules": [{"key": "KeyA", "tapAction": binding}]
+        }))
+        .unwrap();
+        let mut engine = Engine::new(&cfg);
+        let now = Instant::now();
+        let mut out = Vec::new();
+        engine.handle_key_event(KeyCode::KEY_A, true, now, &mut out);
+        engine.handle_key_event(KeyCode::KEY_A, false, now, &mut out);
+        let expected = AppAction::ShowMenu { menu, page };
+        assert!(out.iter().any(|event| matches!(
+            event, EngineOutput::RunSystem(SystemAction::AppEvent(action)) if action == &expected
+        )), "{binding}");
     }
 }

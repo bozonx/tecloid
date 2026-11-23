@@ -97,10 +97,7 @@ impl Action {
                     "MouseBack" | "MouseForward" | "Mouse6" | "Mouse7" | "Mouse8"
                 )
             }),
-            Self::App(id) => matches!(
-                AppAction::parse(id),
-                Some(AppAction::ShowMenu { .. } | AppAction::GameMode(_))
-            ),
+            Self::App(id) => matches!(AppAction::parse(id), Some(AppAction::GameMode(_))),
             _ => false,
         }
     }

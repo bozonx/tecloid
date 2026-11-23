@@ -1,6 +1,6 @@
 # Tecloid for Linux
 
-Keyboard mapper for KDE Plasma 6 on Wayland. Before extracting, download
+Keyboard mapper for KDE Plasma 6 and GNOME on Wayland. Before extracting, download
 `SHA256SUMS` from the same release page and verify the archive with
 `sha256sum -c --ignore-missing SHA256SUMS`. Changes are listed in `CHANGELOG.md`.
 
@@ -21,7 +21,7 @@ logind or use outside an active local session, explicitly add the user to `input
 and log in again. Existing group memberships are retained. Literal text (`text:` actions) needs `xdg-desktop-portal` with
 the desktop backend (`xdg-desktop-portal-kde` on KDE).
 
-GNOME 50 (experimental): run `./install-gnome-extension.sh`, log in again,
+GNOME 50: run `./install-gnome-extension.sh`, log in again,
 then `gnome-extensions enable tecloid@bozonx.dev`. The tray needs an
 AppIndicator extension.
 

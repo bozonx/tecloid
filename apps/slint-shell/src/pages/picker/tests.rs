@@ -338,7 +338,14 @@ fn hidden_features_cannot_be_typed_outside_development_mode() {
     for value in ["macro:other", "cmd:x", "kde:kwin/Close", "sys:lockScreen"] {
         assert!(!filter.admits(value), "{value}");
     }
-    assert!(!filter.admits("app:showQuickMenu1"));
+    for value in [
+        "app:showQuickMenu1",
+        "app:showQuickMenuRecent",
+        "app:showEmojiMenu1",
+        "app:showEmojiMenuRecent",
+    ] {
+        assert!(filter.accepts(value, None), "{value}");
+    }
     for value in [
         "MouseBack",
         "MouseForward",

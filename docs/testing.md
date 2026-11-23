@@ -225,7 +225,7 @@ On the prepared local machine, from the repository root:
 python3 apps/slint-shell/scripts/vm/manual-linux.py fedora --build
 # After completing Fedora:
 python3 apps/slint-shell/scripts/vm/manual-linux.py debian
-# Experimental GNOME Wayland:
+# GNOME Wayland:
 python3 apps/slint-shell/scripts/vm/manual-linux.py gnome
 ```
 
@@ -407,7 +407,7 @@ Additionally run the checklist sections touched by the release diff:
 | Settings UI, themes, i18n, accessibility | Common: themes, languages, keyboard navigation |
 | Portal, text injection, clipboard | Linux: installation and text permission |
 | KDE system actions, layouts, `kde:`/`xdg:` | KDE Plasma 6 Wayland |
-| GNOME extension, bridge, portal or popups | GNOME Wayland (experimental) |
+| GNOME extension, bridge, portal or popups | GNOME Wayland |
 | Windows backend or portable code | Windows 11 (plus VM `--suite full`) |
 | Device handling, hotplug, suspend, DPI | Physical hardware |
 | Packaging, autostart, install paths | Lifecycle |

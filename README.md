@@ -5,8 +5,8 @@ physical keyboard, applies layers, rules, macros and commands, and emits the
 result through a virtual device. It lives in the system tray; Emoji and Quick
 action popups open from global hotkeys.
 
-Primary platform: **Linux, KDE Plasma 6 on Wayland**. GNOME Wayland is
-experimental (bundled Shell extension). Windows 11 has a mapper backend and a
+Supported platforms: **Linux, KDE Plasma 6 and GNOME on Wayland** (GNOME needs
+the bundled Shell extension). Windows 11 has a mapper backend and a
 portable build; macOS has the shell without key interception. Details:
 [platforms](docs/platforms.md).
 

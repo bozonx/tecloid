@@ -185,9 +185,9 @@ require opt-in. The flag also gates game mode and rules that depend on it,
 automatic keymap selection, application-scoped trigger rules, key capture in
 the action picker, user macros, commands, dynamic KDE and application
 desktop actions, long-hold actions, E-ink appearance, keymap and copy OSDs,
-held-layer hints and the separate terminal paste shortcut. Assigning a key to
-open a specific or recent Emoji or Quick actions page also requires the flag. The
-built-in hotkeys and tray entries for the popups are available in either mode.
+held-layer hints and the separate terminal paste shortcut. Key assignments
+for numbered and recent Emoji and Quick Actions pages, their built-in hotkeys
+and tray entries are available in both modes.
 
 Debug storage isolation serves a separate purpose: development and tests must
 not modify real user configuration or OS registrations. Debug builds use the

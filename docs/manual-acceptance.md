@@ -63,7 +63,7 @@ check. Keep completed copies, logs and screenshots outside Git.
 | Environment | Sections to run | Acceptance scope |
 | --- | --- | --- |
 | Fedora KDE + RPM; Debian KDE + DEB | Common, mapper, Linux, KDE, lifecycle | Primary: Plasma 6 Wayland; test both distributions |
-| Ubuntu GNOME + application tar.gz | Common, mapper, Linux, GNOME, lifecycle | Experimental; bundled Shell extension required |
+| Ubuntu GNOME + application tar.gz | Common, mapper, Linux, GNOME, lifecycle | Supported; bundled Shell extension required |
 | Windows 11 + portable ZIP | Common, mapper, Windows, lifecycle | Implemented Windows features; desktop actions have explicit gaps |
 | macOS | Common shell checks, macOS, supported lifecycle checks | Shell only; mapper/layers/macros are N/A |
 
@@ -196,7 +196,7 @@ Choose a spare key for the layer/tap-hold tests. macOS skips these assignments.
 - [ ] Test an existing `kde:` shortcut and an `xdg:` application action. The
   intended desktop/application operation occurs once.
 
-### GNOME Wayland (experimental)
+### GNOME Wayland
 
 - [ ] After the prepared session relogin, the Tecloid bridge extension is enabled
   and Tecloid appears in the application overview. Launch it from there.
@@ -312,6 +312,6 @@ N/A: platform capability reason:
 ```
 
 A release report must retain the gaps: e.g. one-monitor VM is not multi-monitor
-acceptance, successful shell launch is not macOS mapper acceptance, and an
-experimental GNOME run is not KDE acceptance.
+acceptance, successful shell launch is not macOS mapper acceptance, and a
+GNOME run is not KDE acceptance.
 

@@ -13,8 +13,8 @@ system tray.
 
 - The product is the Slint shell `apps/slint-shell/` on top of
   `crates/tecloid-core/`. `_old/` is an inactive archive.
-- Primary and only accepted target: **KDE Plasma 6 on Wayland**. GNOME Wayland
-  (Shell extension) is experimental, Windows has a mapper backend, macOS only the
+- Supported targets: **KDE Plasma 6 on Wayland** (primary) and **GNOME on
+  Wayland** (Shell extension). Windows has a mapper backend, macOS only the
   shell. Matrix: [`docs/platforms.md`](docs/platforms.md).
 - **Formats are frozen from 0.5.0 on.** Users of 0.5.0 and later have
   `config.json` files and keymaps on disk; never break them (see

@@ -1,7 +1,8 @@
 # Platforms
 
-**KDE Plasma 6 on Wayland is the primary and only accepted environment.** Other
-environments compile and partly work; implemented code is not acceptance.
+**KDE Plasma 6 on Wayland (primary) and GNOME on Wayland are the supported Linux
+environments.** Other environments compile and partly work; implemented code is
+not acceptance.
 
 | Concern | KDE | GNOME | Sway / Hyprland | X11 | Windows | macOS |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -44,7 +45,7 @@ popups) stays as best effort without e2e. Do not extend it: GNOME dropped the X1
 session and KDE drops it in Plasma 6.8. Reconsider only as "support desktop X",
 on concrete demand.
 
-### GNOME (experimental)
+### GNOME
 
 Requires the bundled Shell extension `tecloid@bozonx.dev`
 (`crates/tecloid-core/assets/gnome-extension/`, targets GNOME Shell 50),

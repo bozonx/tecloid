@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Key bindings can open a numbered or last-used Emoji or Quick Actions page in standard mode.
+
 - Capturing a key or shortcut in the action picker and using application conditions in trigger rules now require In development. Standard mode keeps keyboard-layout conditions and skips rules scoped to applications.
 
 - Interface translations were reviewed against the Russian and English texts: missing strings translated, mistranslations and inconsistent terms fixed in all languages except Russian.
