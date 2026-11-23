@@ -40,7 +40,7 @@ msgid "Delay: an integer from 1 to 10000 ms"
 msgstr "Καθυστέρηση: ένας ακέραιος αριθμός από 1 έως 10000 ms"
 
 msgid "Device saved: {}"
-msgstr "Αποθηκευμένη συσκευή: {}"
+msgstr "Η συσκευή αποθηκεύτηκε: {}"
 
 msgid "Emoji"
 msgstr "Emoji"
@@ -52,9 +52,7 @@ msgid "Enter non-empty text"
 msgstr "Εισαγάγετε μη κενό κείμενο"
 
 msgid "Key {} only has conditional or layer rules; edit it in the full editor"
-msgstr ""
-"Το κλειδί {} έχει μόνο κανόνες υπό όρους ή επίπεδα. επεξεργαστείτε το στον "
-"πλήρη επεξεργαστή"
+msgstr "Το πλήκτρο {} έχει μόνο κανόνες υπό συνθήκη ή κανόνες επιπέδου· επεξεργαστείτε το στον πλήρη επεξεργαστή"
 
 msgid "Keyboard"
 msgstr "Πληκτρολόγιο"
@@ -66,22 +64,22 @@ msgid "Keyboard layout"
 msgstr "Διάταξη πληκτρολογίου"
 
 msgid "Load a valid configuration before starting the mapper"
-msgstr "Φορτώστε μια έγκυρη διαμόρφωση πριν ξεκινήσετε τη χαρτογράφηση"
+msgstr "Φορτώστε μια έγκυρη διαμόρφωση πριν ξεκινήσετε τον αντιστοιχιστή"
 
 msgid "Mapper is running"
-msgstr "Το Mapper εκτελείται"
+msgstr "Ο αντιστοιχιστής εκτελείται"
 
 msgid "Mapper is running: {}"
-msgstr "Το Mapper εκτελείται: {}"
+msgstr "Ο αντιστοιχιστής εκτελείται: {}"
 
 msgid "Mapper is starting…"
-msgstr "Το Mapper ξεκινά…"
+msgstr "Ο αντιστοιχιστής ξεκινά…"
 
 msgid "Mapper is stopped"
-msgstr "Το Mapper έχει σταματήσει"
+msgstr "Ο αντιστοιχιστής έχει σταματήσει"
 
 msgid "Mapper is stopped: {}"
-msgstr "Η χαρτογράφηση έχει σταματήσει: {}"
+msgstr "Ο αντιστοιχιστής έχει σταματήσει: {}"
 
 msgid "Quick actions"
 msgstr "Γρήγορες ενέργειες"
@@ -93,7 +91,7 @@ msgid "Settings"
 msgstr "Ρυθμίσεις"
 
 msgid "Mapper on / off"
-msgstr "Ενεργοποίηση / απενεργοποίηση χαρτογράφησης"
+msgstr "Αντιστοιχιστής ενεργός / ανενεργός"
 
 msgid "Switch to desktop {n}"
 msgstr "Μετάβαση στην επιφάνεια εργασίας {n}"
@@ -102,10 +100,10 @@ msgid "Save"
 msgstr "Αποθήκευση"
 
 msgid "Changes applied, but the mapper was not updated: {}"
-msgstr "Εφαρμόστηκαν αλλαγές, αλλά η χαρτογράφηση δεν ενημερώθηκε: {}"
+msgstr "Οι αλλαγές εφαρμόστηκαν, αλλά ο αντιστοιχιστής δεν ενημερώθηκε: {}"
 
 msgid "Select a key to assign an action."
-msgstr "Επιλέξτε ένα κλειδί για να εκχωρήσετε μια ενέργεια."
+msgstr "Επιλέξτε ένα πλήκτρο για να του αναθέσετε ενέργεια."
 
 msgid "Select a keyboard device in the settings"
 msgstr "Επιλέξτε μια συσκευή πληκτρολογίου στις ρυθμίσεις"
@@ -114,20 +112,19 @@ msgid "Select a system action"
 msgstr "Επιλέξτε μια ενέργεια συστήματος"
 
 msgid "Spell popup process unavailable: {}"
-msgstr ""
-"Η διαδικασία αναδυόμενου ορθογραφικού παραθύρου δεν είναι διαθέσιμη: {}"
+msgstr "Η διεργασία αναδυόμενων παραθύρων Spell δεν είναι διαθέσιμη: {}"
 
 msgid "Spell worker is not running"
-msgstr "Ο ορθογραφικός εργάτης δεν τρέχει"
+msgstr "Η διεργασία εργασίας Spell δεν εκτελείται"
 
 msgid "Spell worker is restarting"
-msgstr "Ο ορθογραφικός εργάτης επανεκκινείται"
+msgstr "Η διεργασία εργασίας Spell επανεκκινείται"
 
 msgid "Spell worker: restart limit exceeded (3 per minute)"
-msgstr "Εργάτης ορθογραφίας: Υπέρβαση του ορίου επανεκκίνησης (3 ανά λεπτό)"
+msgstr "Διεργασία εργασίας Spell: υπέρβαση ορίου επανεκκινήσεων (3 ανά λεπτό)"
 
 msgid "Spell worker: {}"
-msgstr "Ορθογραφικός: {}"
+msgstr "Διεργασία εργασίας Spell: {}"
 
 msgid "Stop capture"
 msgstr "Διακοπή λήψης"
@@ -139,8 +136,7 @@ msgid "Text"
 msgstr "Κείμενο"
 
 msgid "The configuration changed since editing started; repeat the change"
-msgstr ""
-"Η διαμόρφωση άλλαξε από την έναρξη της επεξεργασίας. επαναλάβετε την αλλαγή"
+msgstr "Η διαμόρφωση άλλαξε από την έναρξη της επεξεργασίας· επαναλάβετε την αλλαγή"
 
 msgid "Unknown action type"
 msgstr "Άγνωστος τύπος ενέργειας"
@@ -155,7 +151,7 @@ msgid "New keymap name"
 msgstr "Νέο όνομα Keymap"
 
 msgid "Mapper"
-msgstr "Αντιστοίχιση πλήκτρων"
+msgstr "Αντιστοιχιστής"
 
 msgid "Dark"
 msgstr "Σκοτεινό"
@@ -170,7 +166,7 @@ msgid "Mouse device path"
 msgstr "Διαδρομή συσκευής ποντικιού"
 
 msgid "General"
-msgstr "Γενικός"
+msgstr "Γενικά"
 
 msgid "Appearance"
 msgstr "Εμφάνιση"
@@ -182,22 +178,22 @@ msgid "Automatic"
 msgstr "Αυτόματο"
 
 msgid "Key behavior"
-msgstr "Βασική συμπεριφορά"
+msgstr "Συμπεριφορά πλήκτρων"
 
 msgid "Game mode"
 msgstr "Λειτουργία παιχνιδιού"
 
 msgid "Use GameMode daemon"
-msgstr "Χρησιμοποιήστε τον δαίμονα GameMode"
+msgstr "Χρήση του δαίμονα GameMode"
 
 msgid "Detect fullscreen"
 msgstr "Ανίχνευση πλήρους οθόνης"
 
 msgid "ydotool path"
-msgstr "διαδρομή ydotool"
+msgstr "Διαδρομή ydotool"
 
 msgid "xdotool path"
-msgstr "διαδρομή xdotool"
+msgstr "Διαδρομή xdotool"
 
 msgid "Settings directory: {}"
 msgstr "Κατάλογος ρυθμίσεων: {}"
@@ -222,7 +218,7 @@ msgid "Remove"
 msgstr "Αφαίρεση"
 
 msgid "Move up"
-msgstr "Μετακινηθείτε προς τα πάνω"
+msgstr "Μετακίνηση προς τα πάνω"
 
 msgid "Move down"
 msgstr "Μετακίνηση προς τα κάτω"
@@ -234,7 +230,7 @@ msgid "Trigger key"
 msgstr "Πλήκτρο ενεργοποίησης"
 
 msgid "Tap action"
-msgstr "Πατήστε ενέργεια"
+msgstr "Ενέργεια με πάτημα"
 
 msgid "Layout conditions (comma separated)"
 msgstr "Συνθήκες διάταξης (χωρίζονται με κόμματα)"
@@ -246,10 +242,10 @@ msgid "App blacklist (comma separated)"
 msgstr "Μαύρη λίστα εφαρμογών (χωρισμένο με κόμμα)"
 
 msgid "Isolate"
-msgstr "Απομονώνω"
+msgstr "Απομόνωση"
 
 msgid "Hold for"
-msgstr "Κρατήστε για"
+msgstr "Κράτημα για"
 
 msgid "Swallow tap"
 msgstr "Αποκλεισμός σύντομου πατήματος"
@@ -261,14 +257,13 @@ msgid "New layer name"
 msgstr "Όνομα νέου επιπέδου"
 
 msgid "Create layer"
-msgstr "Δημιουργία στρώματος"
+msgstr "Δημιουργία επιπέδου"
 
 msgid "Rules and triggers"
-msgstr "Κανόνες και ερεθίσματα"
+msgstr "Κανόνες και εναύσματα"
 
 msgid "Define how physical keys activate layers or run actions."
-msgstr ""
-"Καθορίστε πώς τα φυσικά κλειδιά ενεργοποιούν επίπεδα ή εκτελούν ενέργειες."
+msgstr "Ορίστε πώς τα φυσικά πλήκτρα ενεργοποιούν επίπεδα ή εκτελούν ενέργειες."
 
 msgid "Add rule"
 msgstr "Προσθήκη κανόνα"
@@ -277,25 +272,25 @@ msgid "Not set"
 msgstr "Δεν έχει οριστεί"
 
 msgid "Layer (hold)"
-msgstr "Επίπεδο (κρατήστε)"
+msgstr "Επίπεδο (κράτημα)"
 
 msgid "Double-tap action"
 msgstr "Ενέργεια με διπλό πάτημα"
 
 msgid "Hold button"
-msgstr "Κρατήστε πατημένο το κουμπί"
+msgstr "Κρατημένο κουμπί"
 
 msgid "Default"
-msgstr "Αθέτηση"
+msgstr "Προεπιλογή"
 
 msgid "Advanced"
-msgstr "Προχωρημένος"
+msgstr "Για προχωρημένους"
 
 msgid "Choose key"
 msgstr "Επιλέξτε πλήκτρο"
 
 msgid "Choose layer"
-msgstr "Επιλέξτε στρώμα"
+msgstr "Επιλέξτε επίπεδο"
 
 msgid "Conditions"
 msgstr "Συνθήκες"
@@ -304,10 +299,10 @@ msgid "Advanced rule options"
 msgstr "Προηγμένες επιλογές κανόνων"
 
 msgid "Choose action"
-msgstr "Επιλέξτε δράση"
+msgstr "Επιλέξτε ενέργεια"
 
 msgid "Ignore"
-msgstr "Αγνοώ"
+msgstr "Παράβλεψη"
 
 msgid "On"
 msgstr "Ενεργό"
@@ -331,7 +326,7 @@ msgid "Layers"
 msgstr "Επίπεδα"
 
 msgid "New layer"
-msgstr "Νέο στρώμα"
+msgstr "Νέο επίπεδο"
 
 msgid "Duplicate"
 msgstr "Αντιγραφή"
@@ -340,7 +335,7 @@ msgid "Delete"
 msgstr "Διαγραφή"
 
 msgid "Extra keys"
-msgstr "Επιπλέον κλειδιά"
+msgstr "Επιπλέον πλήκτρα"
 
 msgid "Edit"
 msgstr "Επεξεργασία"
@@ -352,10 +347,10 @@ msgid "Duplicate layer"
 msgstr "Αντιγραφή επιπέδου"
 
 msgid "Edit layer key"
-msgstr "Επεξεργασία κλειδιού επιπέδου"
+msgstr "Επεξεργασία πλήκτρου επιπέδου"
 
 msgid "Name"
-msgstr "Ονομα"
+msgstr "Όνομα"
 
 msgid "Description"
 msgstr "Περιγραφή"
@@ -367,10 +362,10 @@ msgid "Swallow"
 msgstr "Αποκλεισμός"
 
 msgid "Action"
-msgstr "Δράση"
+msgstr "Ενέργεια"
 
 msgid "Action code"
-msgstr "Κωδικός δράσης"
+msgstr "Κωδικός ενέργειας"
 
 msgid "Enter a layer name"
 msgstr "Εισαγάγετε ένα όνομα επιπέδου"
@@ -382,10 +377,10 @@ msgid "Enter a keymap name"
 msgstr "Εισαγάγετε ένα όνομα Keymap"
 
 msgid "Enter a key code"
-msgstr "Εισαγάγετε έναν κωδικό κλειδιού"
+msgstr "Εισαγάγετε έναν κωδικό πλήκτρου"
 
 msgid "Native"
-msgstr "Ντόπιος"
+msgstr "Εγγενές"
 
 msgid "Layer saved"
 msgstr "Το επίπεδο αποθηκεύτηκε"
@@ -397,10 +392,10 @@ msgid "Built-in macros"
 msgstr "Ενσωματωμένες μακροεντολές"
 
 msgid "Macro ID"
-msgstr "Ταυτότητα μακροεντολής"
+msgstr "Αναγνωριστικό μακροεντολής"
 
 msgid "Copy ID"
-msgstr "Αντιγραφή ταυτότητας"
+msgstr "Αντιγραφή αναγνωριστικού"
 
 msgid "Steps"
 msgstr "Βήματα"
@@ -426,7 +421,7 @@ msgid "Pause must be between 1 and 10000 ms"
 msgstr "Η παύση πρέπει να είναι μεταξύ 1 και 10000 ms"
 
 msgid "Unknown key or shortcut in macro step"
-msgstr "Άγνωστο κλειδί ή συντόμευση στο βήμα μακροεντολής"
+msgstr "Άγνωστο πλήκτρο ή συνδυασμός στο βήμα μακροεντολής"
 
 msgid "Macro references cannot form a cycle"
 msgstr "Οι αναφορές μακροεντολών δεν μπορούν να σχηματίσουν κύκλο"
@@ -453,7 +448,7 @@ msgid "Command IDs must be unique."
 msgstr "Τα αναγνωριστικά εντολών πρέπει να είναι μοναδικά."
 
 msgid "Enter a shell command."
-msgstr "Εισαγάγετε μια εντολή φλοιού."
+msgstr "Εισαγάγετε μια εντολή κελύφους."
 
 msgid "Save as…"
 msgstr "Αποθήκευση ως…"
@@ -465,19 +460,19 @@ msgid "Please wait…"
 msgstr "Παρακαλώ περιμένετε…"
 
 msgid "Stop"
-msgstr "Στάση"
+msgstr "Διακοπή"
 
 msgid "Start"
-msgstr "Αρχή"
+msgstr "Έναρξη"
 
 msgid "Custom keymap"
 msgstr "Προσαρμοσμένη Keymap"
 
 msgid "Base keyboard"
-msgstr "Πληκτρολόγιο βάσης"
+msgstr "Βασικό πληκτρολόγιο"
 
 msgid "Copy path"
-msgstr "Διαδρομή αντιγραφής"
+msgstr "Αντιγραφή διαδρομής"
 
 msgid "In development features"
 msgstr "Λειτουργίες υπό ανάπτυξη"
@@ -488,10 +483,10 @@ msgstr ""
 "το βασικό πληκτρολόγιο."
 
 msgid "Running"
-msgstr "Τρέξιμο"
+msgstr "Εκτελείται"
 
 msgid "Stopped"
-msgstr "Σταμάτησε"
+msgstr "Σταματημένο"
 
 msgid "Keymap library updated"
 msgstr "Η βιβλιοθήκη Keymap ενημερώθηκε"
@@ -500,7 +495,7 @@ msgid "Select a keymap"
 msgstr "Επιλέξτε μια Keymap"
 
 msgid "Keymap changed on disk; select it again"
-msgstr "Η Keymap άλλαξε στο δίσκο. επιλέξτε το ξανά"
+msgstr "Η Keymap άλλαξε στον δίσκο· επιλέξτε την ξανά"
 
 msgid "Any game mode"
 msgstr "Οποιαδήποτε λειτουργία παιχνιδιού"
@@ -512,7 +507,7 @@ msgid "Game mode off"
 msgstr "Η λειτουργία παιχνιδιού είναι απενεργοποιημένη"
 
 msgid "System keyboard layouts (comma separated)"
-msgstr "Keymap συστήματος (χωρισμένα με κόμματα)"
+msgstr "Διατάξεις πληκτρολογίου συστήματος (χωρισμένες με κόμματα)"
 
 msgid "Applications (comma separated)"
 msgstr "Εφαρμογές (χωρισμένες με κόμματα)"
@@ -527,7 +522,7 @@ msgid "Editing"
 msgstr "Επεξεργασία"
 
 msgid "Activate"
-msgstr "Δραστηριοποιώ"
+msgstr "Ενεργοποίηση"
 
 msgid "Delete keymap?"
 msgstr "Διαγραφή Keymap;"
@@ -542,7 +537,7 @@ msgid "The keymap file will be deleted. This cannot be undone."
 msgstr "Το αρχείο Keymap θα διαγραφεί. Αυτό δεν μπορεί να αναιρεθεί."
 
 msgid "Duplicate…"
-msgstr "Αντίγραφο…"
+msgstr "Αντιγραφή…"
 
 msgid "Edit keymap"
 msgstr "Επεξεργασία Keymap"
@@ -557,10 +552,10 @@ msgid "Add a description…"
 msgstr "Προσθήκη περιγραφής…"
 
 msgid "Create"
-msgstr "Δημιουργώ"
+msgstr "Δημιουργία"
 
 msgid "Delete…"
-msgstr "Διαγράφω…"
+msgstr "Διαγραφή…"
 
 msgid "Description (optional)"
 msgstr "Περιγραφή (προαιρετικό)"
@@ -569,16 +564,16 @@ msgid "Discard changes"
 msgstr "Απόρριψη αλλαγών"
 
 msgid "Make active"
-msgstr "Κάντε ενεργό"
+msgstr "Ενεργοποίηση"
 
 msgid "Single: the keymap you make active works everywhere."
-msgstr "Single: η Keymap που κάνετε ενεργή λειτουργεί παντού."
+msgstr "Μία: η Keymap που ενεργοποιείτε ισχύει παντού."
 
 msgid "Not used in automatic mode"
 msgstr "Δεν χρησιμοποιείται στην αυτόματη λειτουργία"
 
 msgid "Rename…"
-msgstr "Μετονομάζω…"
+msgstr "Μετονομασία…"
 
 msgid "Save and continue"
 msgstr "Αποθήκευση και συνέχεια"
@@ -589,7 +584,7 @@ msgstr "Αποθήκευση…"
 msgid ""
 "The keymap you are editing has not been saved to the library. Its changes "
 "will be lost."
-msgstr "Η Keymap που επεξεργάζεστε δεν έχει αποθηκευτεί στη βιβλιοθήκη. Οι αλλαγές του θα χαθούν."
+msgstr "Η Keymap που επεξεργάζεστε δεν έχει αποθηκευτεί στη βιβλιοθήκη. Οι αλλαγές της θα χαθούν."
 
 msgid "The name contains characters that cannot be used in a file name."
 msgstr ""
@@ -600,10 +595,10 @@ msgid "Unsaved changes"
 msgstr "Μη αποθηκευμένες αλλαγές"
 
 msgid "You are editing “{}”, but “{}” is active."
-msgstr "Επεξεργάζεστε το \"{}\", αλλά το \"{}\" είναι ενεργό."
+msgstr "Επεξεργάζεστε το «{}», αλλά ενεργό είναι το «{}»."
 
 msgid "You are editing “{}”; no keymap is active."
-msgstr "Επεξεργάζεστε το \"{}\". καμία Keymap δεν είναι ενεργή."
+msgstr "Επεξεργάζεστε το «{}»· καμία Keymap δεν είναι ενεργή."
 
 msgid "game mode off"
 msgstr "λειτουργία παιχνιδιού απενεργοποιημένη"
@@ -615,9 +610,7 @@ msgid "{} (copy)"
 msgstr "{} (αντίγραφο)"
 
 msgid "“{}” has unsaved changes. Save them before switching?"
-msgstr ""
-"Το \"{}\" έχει μη αποθηκευμένες αλλαγές. Να τα αποθηκεύσετε πριν από την "
-"αλλαγή;"
+msgstr "Το «{}» έχει μη αποθηκευμένες αλλαγές. Να αποθηκευτούν πριν από την εναλλαγή;"
 
 msgid "Keymap mode"
 msgstr "Λειτουργία Keymap"
@@ -626,7 +619,7 @@ msgid "Create keymap"
 msgstr "Δημιουργία Keymap"
 
 msgid "Empty"
-msgstr "Αδειάζω"
+msgstr "Κενό"
 
 msgid "Empty keymap"
 msgstr "Κενή Keymap"
@@ -635,10 +628,10 @@ msgid "Previously selected: {}"
 msgstr "Προηγουμένως επιλεγμένο: {}"
 
 msgid "Current value"
-msgstr "Τρέχουσα αξία"
+msgstr "Τρέχουσα τιμή"
 
 msgid "Capture key"
-msgstr "Πλήκτρο λήψης"
+msgstr "Καταγραφή πλήκτρου"
 
 msgid "Press and release a key (including modifiers or Escape)."
 msgstr "Πατήστε και αφήστε ένα πλήκτρο (συμπεριλαμβανομένων των τροποποιητών ή του Escape)."
@@ -647,19 +640,19 @@ msgid "Press a key or shortcut, then release all keys to finish capture."
 msgstr "Πατήστε ένα πλήκτρο ή συνδυασμό και αφήστε όλα τα πλήκτρα για να ολοκληρώσετε την καταγραφή."
 
 msgid "Choose a valid key or action."
-msgstr "Επιλέξτε ένα έγκυρο κλειδί ή ενέργεια."
+msgstr "Επιλέξτε ένα έγκυρο πλήκτρο ή ενέργεια."
 
 msgid "Search keys and actions"
-msgstr "Αναζήτηση κλειδιών και ενεργειών"
+msgstr "Αναζήτηση πλήκτρων και ενεργειών"
 
 msgid "Search keys"
-msgstr "Κλειδιά αναζήτησης"
+msgstr "Αναζήτηση πλήκτρων"
 
 msgid "Hold action"
-msgstr "Κρατήστε δράση"
+msgstr "Ενέργεια με κράτημα"
 
 msgid "Macro step"
-msgstr "Μακροβήμα"
+msgstr "Βήμα μακροεντολής"
 
 msgid ""
 "You can enter a key combination using + between keys. Some keys depend on "
@@ -672,19 +665,16 @@ msgstr ""
 msgid ""
 "You can assign a key combination using + between keys. Availability of "
 "special keys depends on the keyboard and desktop environment."
-msgstr ""
-"Μπορείτε να αντιστοιχίσετε έναν συνδυασμό πλήκτρων χρησιμοποιώντας + μεταξύ "
-"των πλήκτρων. Η διαθεσιμότητα ειδικών πλήκτρων εξαρτάται από το πληκτρολόγιο"
-" και το περιβάλλον επιφάνειας εργασίας."
+msgstr "Μπορείτε να αναθέσετε συνδυασμό πλήκτρων βάζοντας + ανάμεσα στα πλήκτρα. Η διαθεσιμότητα ειδικών πλήκτρων εξαρτάται από το πληκτρολόγιο και το περιβάλλον επιφάνειας εργασίας."
 
 msgid "Behavior:"
 msgstr "Συμπεριφορά:"
 
 msgid "Action:"
-msgstr "Δράση:"
+msgstr "Ενέργεια:"
 
 msgid "Trigger key:"
-msgstr "Κλειδί ενεργοποίησης:"
+msgstr "Πλήκτρο εναύσματος:"
 
 msgid "{n} line"
 msgid_plural "{n} lines"
@@ -701,13 +691,13 @@ msgid "Control keys"
 msgstr "Πλήκτρα ελέγχου"
 
 msgid "Navigation and numpad"
-msgstr "Πλοήγηση και numpad"
+msgstr "Πλοήγηση και αριθμητικό πληκτρολόγιο"
 
 msgid "F1–F24"
 msgstr "F1–F24"
 
 msgid "Media and launch"
-msgstr "Μέσα και εκκίνηση"
+msgstr "Πολυμέσα και εκκίνηση"
 
 msgid "System and laptop"
 msgstr "Σύστημα και φορητός υπολογιστής"
@@ -716,13 +706,13 @@ msgid "Mouse"
 msgstr "Ποντίκι"
 
 msgid "Other keys"
-msgstr "Άλλα κλειδιά"
+msgstr "Άλλα πλήκτρα"
 
 msgid "Actions"
-msgstr "Δράσεις"
+msgstr "Ενέργειες"
 
 msgid "Extra button on some gaming mice"
-msgstr "Επιπλέον κουμπί σε μερικά ποντίκια gaming"
+msgstr "Επιπλέον κουμπί σε ορισμένα ποντίκια για παιχνίδια"
 
 msgid "Keys"
 msgstr "Πλήκτρα"
@@ -737,7 +727,7 @@ msgid "Pause"
 msgstr "Παύση"
 
 msgid "Literal text (text: prefix is added automatically)"
-msgstr "Κυριολεκτικό κείμενο (κείμενο: το πρόθεμα προστίθεται αυτόματα)"
+msgstr "Κυριολεκτικό κείμενο (το πρόθεμα text: προστίθεται αυτόματα)"
 
 msgid "Pause in milliseconds ({}–{})"
 msgstr "Παύση σε χιλιοστά του δευτερολέπτου ({0}–{1})"
@@ -746,10 +736,10 @@ msgid "No matching items"
 msgstr "Δεν υπάρχουν στοιχεία που να ταιριάζουν"
 
 msgid "Show Quick Action Menu page {}"
-msgstr "Εμφάνιση σελίδας μενού γρήγορης δράσης {}"
+msgstr "Εμφάνιση της σελίδας {} του μενού γρήγορων ενεργειών"
 
 msgid "Show Emoji & Symbols menu page {}"
-msgstr "Εμφάνιση της σελίδας μενού Emoji & Symbols {}"
+msgstr "Εμφάνιση της σελίδας {} του μενού Emoji και σύμβολα"
 
 msgid "Switch to desktop {}"
 msgstr "Μετάβαση στην επιφάνεια εργασίας {}"
@@ -773,7 +763,7 @@ msgid "Maximize window horizontally"
 msgstr "Οριζόντια μεγιστοποίηση παραθύρου"
 
 msgid "Keep window above others"
-msgstr "Κρατήστε το παράθυρο πάνω από άλλα"
+msgstr "Διατήρηση του παραθύρου πάνω από τα άλλα"
 
 msgid "Move window to next desktop"
 msgstr "Μετακίνηση παραθύρου στην επόμενη επιφάνεια εργασίας"
@@ -782,13 +772,13 @@ msgid "Show desktop"
 msgstr "Εμφάνιση επιφάνειας εργασίας"
 
 msgid "Window overview"
-msgstr "Επισκόπηση παραθύρου"
+msgstr "Επισκόπηση παραθύρων"
 
 msgid "Open application launcher"
-msgstr "Ανοίξτε το πρόγραμμα εκκίνησης εφαρμογών"
+msgstr "Άνοιγμα εκκινητή εφαρμογών"
 
 msgid "Turn off screen"
-msgstr "Απενεργοποιήστε την οθόνη"
+msgstr "Απενεργοποίηση οθόνης"
 
 msgid "Switch to keyboard layout {}"
 msgstr "Αλλαγή στη διάταξη πληκτρολογίου {}"
@@ -797,7 +787,7 @@ msgid "Layer"
 msgstr "Επίπεδο"
 
 msgid "Delete layer"
-msgstr "Διαγραφή στρώματος"
+msgstr "Διαγραφή επιπέδου"
 
 msgid "Create new layer"
 msgstr "Δημιουργία νέου επιπέδου"
@@ -812,7 +802,7 @@ msgid "Type to test..."
 msgstr "Πληκτρολογήστε για δοκιμή..."
 
 msgid "Ignore key"
-msgstr "Παράβλεψη κλειδιού"
+msgstr "Παράβλεψη πλήκτρου"
 
 msgid "No layers yet"
 msgstr "Δεν υπάρχουν ακόμη επίπεδα"
@@ -821,7 +811,7 @@ msgid "Left hand"
 msgstr "Αριστερό χέρι"
 
 msgid "Right hand"
-msgstr "Δεξιόστροφος"
+msgstr "Δεξί χέρι"
 
 msgid "Key"
 msgstr "Πλήκτρο"
@@ -833,24 +823,18 @@ msgid "Tecloid codes"
 msgstr "Κωδικοί Tecloid"
 
 msgid "No extra keys for this layer yet."
-msgstr "Δεν υπάρχουν ακόμη επιπλέον κλειδιά για αυτό το επίπεδο."
+msgstr "Δεν υπάρχουν ακόμη επιπλέον πλήκτρα για αυτό το επίπεδο."
 
 msgid ""
 "Mouse buttons, media keys, and other triggers outside the main keyboard "
 "grid."
-msgstr ""
-"Κουμπιά ποντικιού, πλήκτρα πολυμέσων και άλλες ενεργοποιήσεις εκτός του "
-"κύριου πλέγματος πληκτρολογίου."
+msgstr "Κουμπιά ποντικιού, πλήκτρα πολυμέσων και άλλα εναύσματα εκτός του κύριου πλέγματος του πληκτρολογίου."
 
 msgid ""
 "Display modes affect labels only — the key code stays the same. “US layout” "
 "shows standard letter labels for visual reference. “Tecloid codes” shows app-"
 "specific codes (e.g. KeyA, ArrowLeft)."
-msgstr ""
-"Οι λειτουργίες εμφάνισης επηρεάζουν μόνο τις ετικέτες — ο κωδικός κλειδιού "
-"παραμένει ίδιος. Η \"Διάταξη ΗΠΑ\" εμφανίζει τυπικές ετικέτες γραμμάτων για "
-"οπτική αναφορά. Το \"Tecloid codes\" εμφανίζει κωδικούς για συγκεκριμένες "
-"εφαρμογές (π.χ. KeyA, ArrowLeft)."
+msgstr "Οι λειτουργίες εμφάνισης επηρεάζουν μόνο τις ετικέτες — ο κωδικός πλήκτρου παραμένει ίδιος. Η «Διάταξη ΗΠΑ» δείχνει τα τυπικά γράμματα για οπτική αναφορά. Οι «Κωδικοί Tecloid» δείχνουν τους κωδικούς της εφαρμογής (π.χ. KeyA, ArrowLeft)."
 
 msgid "(copy)"
 msgstr "(αντίγραφο)"
@@ -859,7 +843,7 @@ msgid "Add page"
 msgstr "Προσθήκη σελίδας"
 
 msgid "Allow commands"
-msgstr "Επιτρέπονται εντολές"
+msgstr "Να επιτρέπονται εντολές"
 
 msgid "Animals & Nature"
 msgstr "Ζώα & Φύση"
@@ -867,17 +851,12 @@ msgstr "Ζώα & Φύση"
 msgid ""
 "Build reusable sequences from key chords, text actions, commands, or system "
 "actions. Steps run in order with the configured pause between them."
-msgstr ""
-"Δημιουργήστε επαναχρησιμοποιήσιμες ακολουθίες από συγχορδίες πλήκτρων, "
-"ενέργειες κειμένου, εντολές ή ενέργειες συστήματος. Τα βήματα εκτελούνται με"
-" τη σειρά με τη διαμορφωμένη παύση μεταξύ τους."
+msgstr "Δημιουργήστε επαναχρησιμοποιήσιμες ακολουθίες από συνδυασμούς πλήκτρων, ενέργειες κειμένου, εντολές ή ενέργειες συστήματος. Τα βήματα εκτελούνται με τη σειρά, με τη ρυθμισμένη παύση ανάμεσά τους."
 
 msgid ""
 "Built-in macros that cannot be edited. To customize, create a user macro "
 "based on one."
-msgstr ""
-"Ενσωματωμένες μακροεντολές που δεν μπορούν να επεξεργαστούν. Για προσαρμογή,"
-" δημιουργήστε μια μακροεντολή χρήστη που βασίζεται σε μία."
+msgstr "Ενσωματωμένες μακροεντολές που δεν επεξεργάζονται. Για προσαρμογή, δημιουργήστε μια μακροεντολή χρήστη με βάση μία από αυτές."
 
 msgid "Cell {}"
 msgstr "Κελί {}"
@@ -907,10 +886,10 @@ msgid "Delete step?"
 msgstr "Διαγραφή βήματος;"
 
 msgid "Disable"
-msgstr "Καθιστώ ανίκανο"
+msgstr "Απενεργοποίηση"
 
 msgid "Drag"
-msgstr "Σέρνω"
+msgstr "Μεταφορά"
 
 msgid "Emoji & Symbols"
 msgstr "Emoji & Σύμβολα"
@@ -931,9 +910,7 @@ msgid "Food & Drink"
 msgstr "Φαγητό & Ποτό"
 
 msgid "Human-readable macro name, shown in picker lists."
-msgstr ""
-"Όνομα μακροεντολής αναγνώσιμο από τον άνθρωπο, που εμφανίζεται στις λίστες "
-"επιλογής."
+msgstr "Ευανάγνωστο όνομα μακροεντολής, εμφανίζεται στις λίστες επιλογής."
 
 msgid "ID"
 msgstr "ID"
@@ -942,7 +919,7 @@ msgid "Key {}"
 msgstr "Πλήκτρο {}"
 
 msgid "Label"
-msgstr "Επιγραφή"
+msgstr "Ετικέτα"
 
 msgid "Macro name"
 msgstr "Όνομα μακροεντολής"
@@ -960,27 +937,20 @@ msgid "New macro"
 msgstr "Νέα μακροεντολή"
 
 msgid "No macros yet. Click \"New macro\" to create the first one."
-msgstr ""
-"Δεν υπάρχουν ακόμη μακροεντολές. Κάντε κλικ στο \"Νέα μακροεντολή\" για να "
-"δημιουργήσετε την πρώτη."
+msgstr "Δεν υπάρχουν ακόμη μακροεντολές. Κάντε κλικ στο «Νέα μακροεντολή» για να δημιουργήσετε την πρώτη."
 
 msgid "No steps yet. Each step — one chord or action."
-msgstr "Κανένα βήμα ακόμα. Κάθε βήμα — μία χορδή ή δράση."
+msgstr "Δεν υπάρχουν ακόμη βήματα. Κάθε βήμα είναι ένας συνδυασμός πλήκτρων ή μια ενέργεια."
 
 msgid ""
 "Opened by the app:showEmojiMenuN actions, where N is the page position: "
 "reordering pages changes which page a key opens. Each cell can hold an "
 "emoji, a UTF symbol (e.g. ≠), any other character (e.g. №), or a short "
 "phrase (e.g. \"// TODO: \")."
-msgstr ""
-"Άνοιξε από τις ενέργειες της εφαρμογής:showEmojiMenuN, όπου N είναι η θέση "
-"της σελίδας: η αναδιάταξη σελίδων αλλάζει ποια σελίδα ανοίγει ένα πλήκτρο. "
-"Κάθε κελί μπορεί να περιέχει ένα emoji, ένα σύμβολο UTF (π.χ. ≠), "
-"οποιονδήποτε άλλο χαρακτήρα (π.χ. №) ή μια σύντομη φράση (π.χ. \"// TODO: "
-"\")."
+msgstr "Ανοίγει με τις ενέργειες app:showEmojiMenuN, όπου N είναι η θέση της σελίδας: η αλλαγή σειράς των σελίδων αλλάζει ποια σελίδα ανοίγει ένα πλήκτρο. Κάθε κελί μπορεί να περιέχει ένα emoji, ένα σύμβολο UTF (π.χ. ≠), οποιονδήποτε άλλο χαρακτήρα (π.χ. №) ή μια σύντομη φράση (π.χ. «// TODO: »)."
 
 msgid "Opened by the app:showQuickMenu1...5 actions."
-msgstr "Άνοιξε από την εφαρμογή:showQuickMenu1...5 ενέργειες."
+msgstr "Ανοίγει με τις ενέργειες app:showQuickMenu1...5."
 
 msgid "Page"
 msgstr "Σελίδα"
@@ -995,7 +965,7 @@ msgid "People & Gestures"
 msgstr "Άνθρωποι & Χειρονομίες"
 
 msgid "Per-macro pause between steps. Defaults to the Settings value."
-msgstr "Παύση ανά μακροεντολή μεταξύ βημάτων. Προεπιλογή στην τιμή Ρυθμίσεις."
+msgstr "Παύση μεταξύ βημάτων για αυτήν τη μακροεντολή. Προεπιλογή: η τιμή των Ρυθμίσεων."
 
 msgid "Pick an action"
 msgstr "Επιλέξτε μια ενέργεια"
@@ -1007,25 +977,21 @@ msgid ""
 "Reusable shell commands for the current keymap. On Linux they run through sh"
 " -lc after you explicitly allow them. Shell commands run one at a time, with"
 " a 30-second limit, in your home directory."
-msgstr "Επαναχρησιμοποιήσιμες εντολές κελύφους για την τρέχουσα Keymap. Στο Linux εκτελούνται μέσω sh -lc αφού τους επιτρέψετε ρητά. Οι εντολές Shell εκτελούνται μία κάθε φορά, με όριο 30 δευτερολέπτων, στον αρχικό σας κατάλογο."
+msgstr "Επαναχρησιμοποιήσιμες εντολές κελύφους για την τρέχουσα Keymap. Στο Linux εκτελούνται μέσω sh -lc αφού τις επιτρέψετε ρητά. Οι εντολές κελύφους εκτελούνται μία κάθε φορά, με όριο 30 δευτερολέπτων, στον προσωπικό σας φάκελο."
 
 msgid "Shell commands are allowed for this version of the current keymap."
-msgstr "Οι εντολές φλοιού επιτρέπονται για αυτήν την έκδοση της τρέχουσας Keymap."
+msgstr "Οι εντολές κελύφους επιτρέπονται για αυτήν την έκδοση της τρέχουσας Keymap."
 
 msgid "Smileys & Emotion"
-msgstr "Χαμόγελα & Συγκίνηση"
+msgstr "Φατσούλες και συναισθήματα"
 
 msgid ""
 "The command will be deleted. Keys or macros that reference cmd:{} will stop "
 "working."
-msgstr ""
-"Η εντολή θα διαγραφεί. Τα κλειδιά ή οι μακροεντολές που αναφέρονται σε "
-"cmd:{} θα σταματήσουν να λειτουργούν."
+msgstr "Η εντολή θα διαγραφεί. Τα πλήκτρα ή οι μακροεντολές που αναφέρονται στο cmd:{} θα σταματήσουν να λειτουργούν."
 
 msgid "The macro will be deleted. References macro:{} will stop working."
-msgstr ""
-"Η μακροεντολή θα διαγραφεί. Μακροεντολή αναφορών: Το {} θα σταματήσει να "
-"λειτουργεί."
+msgstr "Η μακροεντολή θα διαγραφεί. Οι αναφορές macro:{} θα σταματήσουν να λειτουργούν."
 
 msgid "The page and all assigned cells on it will be deleted."
 msgstr "Η σελίδα και όλα τα εκχωρημένα κελιά σε αυτήν θα διαγραφούν."
@@ -1035,7 +1001,7 @@ msgid ""
 "especially in keymaps from other people. Approval applies to the reviewed "
 "command definitions and resets when the command set, IDs, or Linux scripts "
 "change."
-msgstr "Αυτή η Keymap περιέχει σενάρια φλοιού. Διαβάστε κάθε σενάριο πριν το επιτρέψετε, ειδικά σε Keymap από άλλα άτομα. Η έγκριση ισχύει για τους ορισμούς εντολών που έχουν ελεγχθεί και γίνεται επαναφορά όταν αλλάζουν το σύνολο εντολών, τα αναγνωριστικά ή τα σενάρια Linux."
+msgstr "Αυτή η Keymap περιέχει σενάρια κελύφους. Διαβάστε κάθε σενάριο πριν τα επιτρέψετε, ειδικά σε Keymap από άλλους. Η έγκριση ισχύει για τους ελεγμένους ορισμούς εντολών και ακυρώνεται όταν αλλάξουν το σύνολο εντολών, τα αναγνωριστικά ή τα σενάρια Linux."
 
 msgid "This step will be removed from the macro."
 msgstr "Αυτό το βήμα θα αφαιρεθεί από τη μακροεντολή."
@@ -1043,9 +1009,7 @@ msgstr "Αυτό το βήμα θα αφαιρεθεί από τη μακροε�
 msgid ""
 "Time between pressing a modifier and the main key within one step. Defaults "
 "to the Settings value."
-msgstr ""
-"Χρόνος μεταξύ του πατήματος ενός τροποποιητή και του κύριου πλήκτρου σε ένα "
-"βήμα. Προεπιλογή στην τιμή Ρυθμίσεις."
+msgstr "Χρόνος μεταξύ του πατήματος ενός τροποποιητή και του κύριου πλήκτρου μέσα σε ένα βήμα. Προεπιλογή: η τιμή των Ρυθμίσεων."
 
 msgid "Travel & Places"
 msgstr "Ταξίδια & Μέρη"
@@ -1060,19 +1024,19 @@ msgid "Texts"
 msgstr "Κείμενα"
 
 msgid "Non-breaking space"
-msgstr "Χώρος που δεν σπάει"
+msgstr "Αδιαχώριστο κενό"
 
 msgid "continue"
-msgstr "συνεχίζω"
+msgstr "συνέχισε"
 
 msgid "do all you recommended"
-msgstr "κάνε όλα όσα προτείνεις"
+msgstr "κάνε όλα όσα πρότεινες"
 
 msgid "fix the errors above"
-msgstr "διορθώστε τα παραπάνω σφάλματα"
+msgstr "διόρθωσε τα παραπάνω σφάλματα"
 
 msgid "I'll call you back later"
-msgstr "Θα σε καλέσω αργότερα"
+msgstr "Θα σε πάρω αργότερα"
 
 msgid "Thanks!"
 msgstr "Ευχαριστώ!"
@@ -1084,11 +1048,7 @@ msgid ""
 "Unique identifier used in references like macro:<id>. To bind this macro to "
 "a key, choose that action on the Layers or Rules tab. Change the ID only "
 "when nothing uses this macro."
-msgstr ""
-"Μοναδικό αναγνωριστικό που χρησιμοποιείται σε αναφορές όπως "
-"μακροεντολή:<id>. Για να συνδέσετε αυτήν τη μακροεντολή σε ένα κλειδί, "
-"επιλέξτε αυτήν την ενέργεια στην καρτέλα Επίπεδα ή Κανόνες. Αλλάξτε το "
-"αναγνωριστικό μόνο όταν τίποτα δεν χρησιμοποιεί αυτήν τη μακροεντολή."
+msgstr "Μοναδικό αναγνωριστικό που χρησιμοποιείται σε αναφορές όπως macro:<id>. Για να αναθέσετε αυτή τη μακροεντολή σε πλήκτρο, επιλέξτε την ενέργεια στην καρτέλα Επίπεδα ή Κανόνες. Αλλάξτε το αναγνωριστικό μόνο όταν τίποτα δεν χρησιμοποιεί αυτή τη μακροεντολή."
 
 msgid "Used in:"
 msgstr "Χρησιμοποιείται σε:"
@@ -1112,18 +1072,15 @@ msgid "Search layers"
 msgstr "Αναζήτηση επιπέδων"
 
 msgid "Set"
-msgstr "Σειρά"
+msgstr "Ορισμός"
 
 msgid "Start the mapper to run actions from the menus"
-msgstr "Ξεκινήστε το mapper για να εκτελούνται ενέργειες από τα μενού"
+msgstr "Ξεκινήστε τον αντιστοιχιστή για να εκτελούνται ενέργειες από τα μενού"
 
 msgid ""
 "The text was not typed: the keyboard layout lacks some of its characters, "
 "such as emoji. Choose a typing method with the clipboard."
-msgstr ""
-"Το κείμενο δεν πληκτρολογήθηκε: από τη διάταξη του πληκτρολογίου λείπουν "
-"ορισμένοι από τους χαρακτήρες του, όπως emoji. Επιλέξτε μια μέθοδο "
-"πληκτρολόγησης με το πρόχειρο."
+msgstr "Το κείμενο δεν πληκτρολογήθηκε: στη διάταξη πληκτρολογίου λείπουν ορισμένοι χαρακτήρες του, όπως τα emoji. Επιλέξτε μια μέθοδο πληκτρολόγησης που χρησιμοποιεί το πρόχειρο."
 
 msgid "The text was not typed: the active keyboard layout is unknown."
 msgstr ""
@@ -1133,9 +1090,7 @@ msgstr ""
 msgid ""
 "The text was not typed: the typing method is unavailable ({}). Restart the "
 "mapper to try again."
-msgstr ""
-"Το κείμενο δεν πληκτρολογήθηκε: η μέθοδος πληκτρολόγησης δεν είναι διαθέσιμη"
-" ({}). Επανεκκινήστε τη χαρτογράφηση για να προσπαθήσετε ξανά."
+msgstr "Το κείμενο δεν πληκτρολογήθηκε: η μέθοδος πληκτρολόγησης δεν είναι διαθέσιμη ({}). Επανεκκινήστε τον αντιστοιχιστή για να ξαναδοκιμάσετε."
 
 msgid "The text was not typed: safe clipboard access failed ({})."
 msgstr ""
@@ -1161,7 +1116,7 @@ msgid "Open for editing (unsaved)"
 msgstr "Άνοιγμα για επεξεργασία (μη αποθηκευμένο)"
 
 msgid "Open for editing"
-msgstr "Ανοίξτε για επεξεργασία"
+msgstr "Άνοιγμα για επεξεργασία"
 
 msgid "Keymap name"
 msgstr "Όνομα Keymap"
@@ -1176,19 +1131,19 @@ msgid "Applications"
 msgstr "Εφαρμογές"
 
 msgid "“{}” will be deleted. This cannot be undone."
-msgstr "Το \"{}\" θα διαγραφεί. Αυτό δεν μπορεί να αναιρεθεί."
+msgstr "Το «{}» θα διαγραφεί. Αυτό δεν μπορεί να αναιρεθεί."
 
 msgid "Reset current changes"
-msgstr "Επαναφέρετε τις τρέχουσες αλλαγές"
+msgstr "Επαναφορά τρεχουσών αλλαγών"
 
 msgid "Available"
-msgstr "Διαθέσιμος"
+msgstr "Διαθέσιμο"
 
 msgid "Unavailable"
-msgstr "Δυσεύρετος"
+msgstr "Μη διαθέσιμο"
 
 msgid "Not implemented"
-msgstr "Δεν εφαρμόζεται"
+msgstr "Δεν έχει υλοποιηθεί"
 
 msgid "No input devices were found in /dev/input."
 msgstr "Δεν βρέθηκαν συσκευές εισόδου στο /dev/input."
@@ -1206,27 +1161,25 @@ msgid "No access to /dev/uinput. Run install-linux.sh permissions or reinstall t
 msgstr "Δεν υπάρχει πρόσβαση στο /dev/uinput. Εκτελέστε install-linux.sh permissions ή επανεγκαταστήστε το πακέτο."
 
 msgid "Launch on startup"
-msgstr "Εκκίνηση κατά την εκκίνηση"
+msgstr "Εκκίνηση κατά τη σύνδεση"
 
 msgid "Start the mapper on launch"
-msgstr "Εκκινήστε το mapper κατά την εκκίνηση"
+msgstr "Εκκίνηση του αντιστοιχιστή με το άνοιγμα της εφαρμογής"
 
 msgid "No keyboard is selected, so the mapper cannot start."
-msgstr ""
-"Δεν έχει επιλεγεί κανένα πληκτρολόγιο, επομένως η αντιστοίχιση δεν μπορεί να"
-" ξεκινήσει."
+msgstr "Δεν έχει επιλεγεί πληκτρολόγιο, οπότε ο αντιστοιχιστής δεν μπορεί να ξεκινήσει."
 
 msgid "Choose a keyboard"
 msgstr "Επιλέξτε ένα πληκτρολόγιο"
 
 msgid "Getting started"
-msgstr "Ξεκινώντας"
+msgstr "Πρώτα βήματα"
 
 msgid "Keyboard selected"
 msgstr "Επιλέχθηκε το πληκτρολόγιο"
 
 msgid "Choose the keyboard to remap"
-msgstr "Επιλέξτε το πληκτρολόγιο για να αντιστοιχίσετε ξανά"
+msgstr "Επιλέξτε το πληκτρολόγιο για επαναντιστοίχιση"
 
 msgid "Change"
 msgstr "Αλλαγή"
@@ -1235,7 +1188,7 @@ msgid "Add a keymap"
 msgstr "Προσθέστε μια Keymap"
 
 msgid "Press Start at the top to apply it"
-msgstr "Πατήστε Έναρξη στο επάνω μέρος για να το εφαρμόσετε"
+msgstr "Πατήστε Έναρξη στο επάνω μέρος για να την εφαρμόσετε"
 
 msgid "No active keymap"
 msgstr "Δεν υπάρχει ενεργή Keymap"
@@ -1250,31 +1203,31 @@ msgid "Current keyboard layout in the system"
 msgstr "Τρέχουσα διάταξη πληκτρολογίου στο σύστημα"
 
 msgid "Game mode: active"
-msgstr "Λειτουργία παιχνιδιού: ενεργό"
+msgstr "Λειτουργία παιχνιδιού: ενεργή"
 
 msgid "Game mode: inactive"
-msgstr "Λειτουργία παιχνιδιού: ανενεργό"
+msgstr "Λειτουργία παιχνιδιού: ανενεργή"
 
 msgid "Active: {}"
 msgstr "Ενεργό: {}"
 
 msgid "Trigger"
-msgstr "Σκανδάλη"
+msgstr "Έναυσμα"
 
 msgid "New rule: choose a trigger"
-msgstr "Νέος κανόνας: επιλέξτε μια σκανδάλη"
+msgstr "Νέος κανόνας: επιλέξτε έναυσμα"
 
 msgid "Swallow key"
 msgstr "Αποκλεισμός πλήκτρου"
 
 msgid "Pass through"
-msgstr "Διέρχομαι"
+msgstr "Διέλευση"
 
 msgid "Double tap: {} ms"
 msgstr "Διπλό πάτημα: {} ms"
 
 msgid "Custom hold options"
-msgstr "Προσαρμοσμένες επιλογές κράτησης"
+msgstr "Προσαρμοσμένες επιλογές κρατήματος"
 
 msgid "Leave empty to use the global timing settings."
 msgstr ""
@@ -1283,16 +1236,12 @@ msgstr ""
 msgid ""
 "Temporarily releases the held key or modifier while these keys are pressed "
 "in the layer."
-msgstr ""
-"Απελευθερώνει προσωρινά το κρατημένο πλήκτρο ή τον τροποποιητή ενώ αυτά τα "
-"πλήκτρα είναι πατημένα στο στρώμα."
+msgstr "Αφήνει προσωρινά το κρατημένο πλήκτρο ή τροποποιητή όσο πατιούνται αυτά τα πλήκτρα στο επίπεδο."
 
 msgid ""
 "Defers the held action until one of these keys is pressed in the layer. "
 "Requires a hold action and a layer."
-msgstr ""
-"Αναβάλλει την ενέργεια σε αναμονή μέχρι να πατηθεί ένα από αυτά τα πλήκτρα "
-"στο επίπεδο. Απαιτεί μια ενέργεια κράτησης και ένα στρώμα."
+msgstr "Αναβάλλει την ενέργεια κρατήματος μέχρι να πατηθεί ένα από αυτά τα πλήκτρα στο επίπεδο. Απαιτεί ενέργεια κρατήματος και επίπεδο."
 
 msgid "Delete rule"
 msgstr "Διαγραφή κανόνα"
@@ -1300,9 +1249,7 @@ msgstr "Διαγραφή κανόνα"
 msgid ""
 "Clear restores normal key behavior. Swallow prevents the key from reaching "
 "the application."
-msgstr ""
-"Το Clear επαναφέρει την κανονική συμπεριφορά του κλειδιού. Το Swallow "
-"εμποδίζει το κλειδί να φτάσει στην εφαρμογή."
+msgstr "Η «Εκκαθάριση» επαναφέρει την κανονική συμπεριφορά του πλήκτρου. Ο «Αποκλεισμός» εμποδίζει το πλήκτρο να φτάσει στην εφαρμογή."
 
 msgctxt "Game mode control"
 msgid "Auto"
@@ -1329,20 +1276,18 @@ msgid "Auto: GameMode daemon active"
 msgstr "Αυτόματο: ενεργός δαίμονας GameMode"
 
 msgid "Auto: matched {}"
-msgstr "Αυτόματο: αντιστοιχισμένο {}"
+msgstr "Αυτόματο: ταιριάζει με {}"
 
 msgid "Auto: fullscreen window active"
 msgstr "Αυτόματο: ενεργό παράθυρο πλήρους οθόνης"
 
 msgid "Auto: excluded by {}"
-msgstr "Αυτόματο: εξαιρείται από το {}"
+msgstr "Αυτόματο: εξαιρείται λόγω {}"
 
 msgid ""
 "Fullscreen detection is not supported in this session. Use process rules or "
 "On/Off."
-msgstr ""
-"Ο εντοπισμός πλήρους οθόνης δεν υποστηρίζεται σε αυτήν την περίοδο "
-"λειτουργίας. Χρησιμοποιήστε κανόνες διαδικασίας ή On/Off."
+msgstr "Η ανίχνευση πλήρους οθόνης δεν υποστηρίζεται σε αυτήν τη συνεδρία. Χρησιμοποιήστε κανόνες διεργασιών ή Ενεργό/Ανενεργό."
 
 msgid "Fullscreen detection tools are missing or could not query the session."
 msgstr ""
@@ -1350,10 +1295,10 @@ msgstr ""
 "ερωτήματος για τη συνεδρία."
 
 msgid "Running processes: {0} · Active window: {1}"
-msgstr "Εκτελούμενες διαδικασίες: {0} · Ενεργό παράθυρο: {1}"
+msgstr "Διεργασίες σε εκτέλεση: {0} · Ενεργό παράθυρο: {1}"
 
 msgid "Create a layer to assign its keys."
-msgstr "Δημιουργήστε ένα επίπεδο για να εκχωρήσετε τα κλειδιά του."
+msgstr "Δημιουργήστε ένα επίπεδο για να αναθέσετε τα πλήκτρα του."
 
 msgid "Button {}"
 msgstr "Κουμπί {}"
@@ -1368,7 +1313,7 @@ msgid "E-ink"
 msgstr "E-ink"
 
 msgid "Mode"
-msgstr "Τρόπος"
+msgstr "Λειτουργία"
 
 msgid "New"
 msgstr "Νέος"
@@ -1377,13 +1322,13 @@ msgid "Auto"
 msgstr "Αυτόματο"
 
 msgid "This key assignment will be removed from the layer."
-msgstr "Αυτή η εκχώρηση κλειδιού θα αφαιρεθεί από το επίπεδο."
+msgstr "Αυτή η ανάθεση πλήκτρου θα αφαιρεθεί από το επίπεδο."
 
 msgid "Command started: {}"
 msgstr "Η εντολή ξεκίνησε: {}"
 
 msgid "Unavailable on this platform or desktop"
-msgstr "Δεν είναι διαθέσιμο σε αυτήν την πλατφόρμα ή υπολογιστή"
+msgstr "Δεν είναι διαθέσιμο σε αυτήν την πλατφόρμα ή το περιβάλλον επιφάνειας εργασίας"
 
 msgid "This action is not supported on macOS"
 msgstr "Αυτή η ενέργεια δεν υποστηρίζεται στο macOS"
@@ -1393,28 +1338,19 @@ msgstr ""
 "Εγκρίνετε εντολές στην καρτέλα Εντολές πριν εκτελέσετε αυτήν την ενέργεια"
 
 msgid "Pick the physical device whose events should be intercepted."
-msgstr ""
-"Επιλέξτε τη φυσική συσκευή της οποίας τα συμβάντα πρέπει να υποκλαπούν."
+msgstr "Επιλέξτε τη φυσική συσκευή της οποίας τα συμβάντα θα αναχαιτίζονται."
 
 msgid ""
 "Select the mouse so the mapper can see extra buttons and clicks. Pointer "
 "movement is not affected."
-msgstr ""
-"Επιλέξτε το ποντίκι ώστε ο χαρτογράφος να μπορεί να δει επιπλέον κουμπιά και"
-" κλικ. Η κίνηση του δείκτη δεν επηρεάζεται."
+msgstr "Επιλέξτε το ποντίκι ώστε ο αντιστοιχιστής να βλέπει τα επιπλέον κουμπιά και τα κλικ. Η κίνηση του δείκτη δεν επηρεάζεται."
 
 msgid ""
 "The mouse is not fully intercepted yet: a remapped extra button can emit the"
 " new action, but its native system or app action may still run. If that gets"
 " in the way, disable the native action for that button in your system, "
 "browser, or driver settings."
-msgstr ""
-"Το ποντίκι δεν έχει ακόμη υποκλαπεί πλήρως: ένα επανασχεδιασμένο επιπλέον "
-"κουμπί μπορεί να εκπέμψει τη νέα ενέργεια, αλλά η ενέργεια του εγγενούς "
-"συστήματος ή της εφαρμογής του μπορεί να συνεχίσει να εκτελείται. Εάν αυτό "
-"σας εμποδίσει, απενεργοποιήστε την εγγενή ενέργεια για αυτό το κουμπί στις "
-"ρυθμίσεις του συστήματος, του προγράμματος περιήγησης ή του προγράμματος "
-"οδήγησης."
+msgstr "Το ποντίκι δεν αναχαιτίζεται ακόμη πλήρως: ένα επαναντιστοιχισμένο επιπλέον κουμπί μπορεί να εκτελέσει τη νέα ενέργεια, αλλά η εγγενής ενέργεια του συστήματος ή της εφαρμογής μπορεί να εκτελεστεί κι αυτή. Αν αυτό σας ενοχλεί, απενεργοποιήστε την εγγενή ενέργεια του κουμπιού στις ρυθμίσεις του συστήματος, του προγράμματος περιήγησης ή του προγράμματος οδήγησης."
 
 msgid "Refresh device list"
 msgstr "Ανανέωση λίστας συσκευών"
@@ -1438,7 +1374,7 @@ msgid "Search devices"
 msgstr "Αναζήτηση συσκευών"
 
 msgid "Single"
-msgstr "Μονόκλινο"
+msgstr "Μία"
 
 msgid "{n} rule"
 msgid_plural "{n} rules"
@@ -1447,8 +1383,8 @@ msgstr[1] "{n} κανόνες"
 
 msgid "{n} layer"
 msgid_plural "{n} layers"
-msgstr[0] "{n} στρώση"
-msgstr[1] "{n} στρώσεις"
+msgstr[0] "{n} επίπεδο"
+msgstr[1] "{n} επίπεδα"
 
 msgid "{n} emoji page"
 msgid_plural "{n} emoji pages"
@@ -1457,8 +1393,8 @@ msgstr[1] "{n} σελίδες emoji"
 
 msgid "{n} action page"
 msgid_plural "{n} action pages"
-msgstr[0] "{n} σελίδα δράσης"
-msgstr[1] "{n} σελίδες δράσης"
+msgstr[0] "{n} σελίδα ενεργειών"
+msgstr[1] "{n} σελίδες ενεργειών"
 
 msgid "{n} macro"
 msgid_plural "{n} macros"
@@ -1474,50 +1410,50 @@ msgid "Main"
 msgstr "Κύριος"
 
 msgid "Saved assignment: {}"
-msgstr "Αποθηκευμένη εργασία: {}"
+msgstr "Αποθηκευμένη ανάθεση: {}"
 
 msgid "Behavior"
 msgstr "Συμπεριφορά"
 
 msgid "Inherit"
-msgstr "Κληρονομώ"
+msgstr "Κληρονόμηση"
 
 msgid "No separate action"
 msgstr "Καμία ξεχωριστή ενέργεια"
 
 msgid "Activate layer only"
-msgstr "Ενεργοποίηση μόνο στρώματος"
+msgstr "Ενεργοποίηση μόνο επιπέδου"
 
 
 msgid "Suppress"
-msgstr "Καταστέλλω"
+msgstr "Αποκλεισμός"
 
 msgid "Assign held key"
-msgstr "Εκχώρηση κλειδιού σε αναμονή"
+msgstr "Ανάθεση κρατημένου πλήκτρου"
 
 msgid "Perform action"
-msgstr "Εκτελέστε δράση"
+msgstr "Εκτέλεση ενέργειας"
 
 msgid "The key will not reach the application."
 msgstr "Το πλήκτρο δεν θα φτάσει στην εφαρμογή."
 
 msgid "Use the assignment from the lower layer or base keymap."
-msgstr "Χρησιμοποιήστε την ανάθεση από το κάτω στρώμα ή τη Keymap βάσης."
+msgstr "Χρήση της ανάθεσης από το κατώτερο επίπεδο ή τη βασική Keymap."
 
 msgid "Do not assign a separate action to this gesture."
-msgstr "Μην εκχωρήσετε ξεχωριστή ενέργεια σε αυτήν την κίνηση."
+msgstr "Να μην ανατεθεί ξεχωριστή ενέργεια σε αυτή την κίνηση."
 
 msgid "Holding activates the selected layer. The original key is not sent."
-msgstr "Το παρατεταμένο πάτημα ενεργοποιεί το επιλεγμένο επίπεδο. Το αρχικό πλήκτρο δεν αποστέλλεται."
+msgstr "Το κράτημα ενεργοποιεί το επιλεγμένο επίπεδο. Το αρχικό πλήκτρο δεν αποστέλλεται."
 
 msgid "Send the original key to the application."
-msgstr "Στείλτε το αρχικό κλειδί στην εφαρμογή."
+msgstr "Αποστολή του αρχικού πλήκτρου στην εφαρμογή."
 
 msgid "Capture shortcut"
-msgstr "Συντόμευση λήψης"
+msgstr "Καταγραφή συνδυασμού"
 
 msgid "Choose a valid trigger key."
-msgstr "Επιλέξτε ένα έγκυρο κλειδί ενεργοποίησης."
+msgstr "Επιλέξτε ένα έγκυρο πλήκτρο εναύσματος."
 
 msgid "Choose a valid action."
 msgstr "Επιλέξτε μια έγκυρη ενέργεια."
@@ -1526,35 +1462,31 @@ msgid "Empty cell"
 msgstr "Άδειο κελί"
 
 msgid "Remove the action from this menu cell."
-msgstr "Καταργήστε την ενέργεια από αυτό το κελί μενού."
+msgstr "Αφαίρεση της ενέργειας από αυτό το κελί του μενού."
 
 msgid "Edit assignment"
-msgstr "Επεξεργασία εργασίας"
+msgstr "Επεξεργασία ανάθεσης"
 
 msgid "Holding also activates the selected layer."
 msgstr "Το κράτημα ενεργοποιεί επίσης το επιλεγμένο επίπεδο."
 
 msgid "Block"
-msgstr "Φραγμός"
+msgstr "Αποκλεισμός"
 
 msgid ""
 "The key press is consumed: the system and the active application will not "
 "receive it."
-msgstr ""
-"Το πάτημα του πλήκτρου καταναλώνεται: το σύστημα και η ενεργή εφαρμογή δεν "
-"θα το λάβουν."
+msgstr "Το πάτημα του πλήκτρου αναχαιτίζεται: το σύστημα και η ενεργή εφαρμογή δεν θα το λάβουν."
 
 msgid ""
 "The key press passes through unchanged, as if no assignment were configured."
-msgstr ""
-"Το πάτημα των πλήκτρων περνά αμετάβλητο, σαν να μην έχει διαμορφωθεί καμία "
-"ανάθεση."
+msgstr "Το πάτημα του πλήκτρου περνά αμετάβλητο, σαν να μην έχει ρυθμιστεί καμία ανάθεση."
 
 msgid "Capture"
-msgstr "Σύλληψη"
+msgstr "Καταγραφή"
 
 msgid "Unchanged"
-msgstr "Αμετάβλητος"
+msgstr "Αμετάβλητο"
 
 msgid "Leave a delay empty to use the global setting."
 msgstr ""
@@ -1564,19 +1496,19 @@ msgid "Allow command execution"
 msgstr "Να επιτρέπεται η εκτέλεση εντολών"
 
 msgid "No commands are assigned."
-msgstr "Δεν εκχωρούνται εντολές."
+msgstr "Δεν έχουν ανατεθεί εντολές."
 
 msgid "Commands are disabled in Settings."
 msgstr "Οι εντολές είναι απενεργοποιημένες στις Ρυθμίσεις."
 
 msgid "Working directory (optional)"
-msgstr "Κατάλογος εργασίας (προαιρετικό)"
+msgstr "Φάκελος εργασίας (προαιρετικό)"
 
 msgid "Save keymap changes before opening another keymap."
-msgstr "Αποθηκεύστε τις αλλαγές Keymap πριν ανοίξετε μια άλλη Keymap."
+msgstr "Αποθηκεύστε τις αλλαγές της Keymap πριν ανοίξετε άλλη Keymap."
 
 msgid "No layer"
-msgstr "Χωρίς στρώμα"
+msgstr "Χωρίς επίπεδο"
 
 msgid "Layer not found"
 msgstr "Το επίπεδο δεν βρέθηκε"
@@ -1585,50 +1517,45 @@ msgid "Create new layer…"
 msgstr "Δημιουργία νέου επιπέδου…"
 
 msgid "Create “{}”"
-msgstr "Δημιουργία \"{}\""
+msgstr "Δημιουργία «{}»"
 
 msgid ""
 "A trigger can be a single key or a combination, such as "
 "ShiftLeft+ControlLeft. The combination works in either press order and ends "
 "when any key is released."
-msgstr ""
-"Μια σκανδάλη μπορεί να είναι ένα μεμονωμένο πλήκτρο ή ένας συνδυασμός, όπως "
-"ShiftLeft+ControlLeft. Ο συνδυασμός λειτουργεί με τη σειρά πατήματος και "
-"τελειώνει όταν απελευθερωθεί οποιοδήποτε πλήκτρο."
+msgstr "Ένα έναυσμα μπορεί να είναι ένα μεμονωμένο πλήκτρο ή συνδυασμός, όπως ShiftLeft+ControlLeft. Ο συνδυασμός λειτουργεί με οποιαδήποτε σειρά πατήματος και τελειώνει όταν αφεθεί οποιοδήποτε πλήκτρο."
 
 msgid "When held"
-msgstr "Όταν κρατιέται"
+msgstr "Με κράτημα"
 
 msgid ""
 "Choose a layer active until release, or an action performed once after the "
 "hold duration."
-msgstr ""
-"Επιλέξτε ένα επίπεδο ενεργό μέχρι την απελευθέρωση ή μια ενέργεια που θα "
-"εκτελεστεί μία φορά μετά τη διάρκεια αναμονής."
+msgstr "Επιλέξτε ένα επίπεδο ενεργό μέχρι να αφήσετε το πλήκτρο ή μια ενέργεια που εκτελείται μία φορά μετά τη διάρκεια κρατήματος."
 
 msgid "Nothing"
 msgstr "Τίποτα"
 
 msgid "Activate layer"
-msgstr "Ενεργοποίηση στρώματος"
+msgstr "Ενεργοποίηση επιπέδου"
 
 msgid "Run action"
-msgstr "Εκτέλεση δράσης"
+msgstr "Εκτέλεση ενέργειας"
 
 msgid "Long-hold action"
-msgstr "Μακροχρόνια δράση"
+msgstr "Ενέργεια με παρατεταμένο κράτημα"
 
 msgid "Runs once after {} s"
-msgstr "Εκτελείται μία φορά μετά το {} s"
+msgstr "Εκτελείται μία φορά μετά από {} δ"
 
 msgid "Hold another key / combination"
-msgstr "Κρατήστε ένα άλλο πλήκτρο / συνδυασμό"
+msgstr "Κράτημα άλλου πλήκτρου / συνδυασμού"
 
 msgid "Press a key or combination, then release all keys to finish capture."
 msgstr "Πατήστε ένα πλήκτρο ή συνδυασμό και αφήστε όλα τα πλήκτρα για να ολοκληρώσετε την καταγραφή."
 
 msgid "Held key: {}"
-msgstr "Κλειδί συγκράτησης: {}"
+msgstr "Κρατημένο πλήκτρο: {}"
 
 msgid "Assigned to"
 msgstr "Ανατέθηκε σε"
@@ -1646,32 +1573,31 @@ msgid "Page:"
 msgstr "Σελίδα:"
 
 msgid "Keymap “{}” created"
-msgstr "Δημιουργήθηκε η Keymap \"{}\"."
+msgstr "Η Keymap «{}» δημιουργήθηκε"
 
 msgid "Keymap “{}” saved"
-msgstr "Η Keymap \"{}\" αποθηκεύτηκε"
+msgstr "Η Keymap «{}» αποθηκεύτηκε"
 
 msgid "Keymap “{}” deleted"
-msgstr "Η Keymap \"{}\" διαγράφηκε"
+msgstr "Η Keymap «{}» διαγράφηκε"
 
 msgid "Keymap “{}” activated"
-msgstr "Η Keymap \"{}\" ενεργοποιήθηκε"
+msgstr "Η Keymap «{}» ενεργοποιήθηκε"
 
 msgid "Could not complete the action"
 msgstr "Δεν ήταν δυνατή η ολοκλήρωση της ενέργειας"
 
 msgid "Dismiss notification"
-msgstr "Παράβλεψη ειδοποίησης"
+msgstr "Κλείσιμο ειδοποίησης"
 
 msgid "Changes to keymap “{}” discarded"
-msgstr "Οι αλλαγές στη Keymap \"{}\" απορρίφθηκαν"
+msgstr "Οι αλλαγές στη Keymap «{}» απορρίφθηκαν"
 
 msgid "Popup menus are unavailable: {}"
 msgstr "Τα αναδυόμενα μενού δεν είναι διαθέσιμα: {}"
 
 msgid "Popup menus are not running. Try opening the menu again."
-msgstr ""
-"Τα αναδυόμενα μενού δεν εκτελούνται. Δοκιμάστε να ανοίξετε ξανά το μενού."
+msgstr "Τα αναδυόμενα μενού δεν εκτελούνται. Δοκιμάστε να ανοίξετε ξανά το μενού."
 
 msgid "Popup menus are restarting. Try again shortly."
 msgstr "Γίνεται επανεκκίνηση των αναδυόμενων μενού. Προσπαθήστε ξανά σύντομα."
@@ -1685,27 +1611,21 @@ msgid "Popup menu error: {}"
 msgstr "Σφάλμα αναδυόμενου μενού: {}"
 
 msgid "Choose a key or combination for the trigger"
-msgstr "Επιλέξτε ένα κλειδί ή συνδυασμό για τη σκανδάλη"
+msgstr "Επιλέξτε πλήκτρο ή συνδυασμό για το έναυσμα"
 
 msgid ""
 "Mouse buttons, media keys, and other triggers outside the main keyboard "
 "grid. Add a trigger, then choose its action, suppress it, or inherit its "
 "assignment from the lower layer."
-msgstr ""
-"Κουμπιά ποντικιού, πλήκτρα πολυμέσων και άλλες ενεργοποιήσεις εκτός του "
-"κύριου πλέγματος πληκτρολογίου. Προσθέστε έναν κανόνα ετικέτας και, στη "
-"συνέχεια, επιλέξτε τη δράση του, καταργήστε τον ή κληρονομήστε την εκχώρηση "
-"του από το κάτω επίπεδο."
+msgstr "Κουμπιά ποντικιού, πλήκτρα πολυμέσων και άλλα εναύσματα εκτός του κύριου πλέγματος του πληκτρολογίου. Προσθέστε ένα έναυσμα και επιλέξτε την ενέργειά του, αποκλείστε το ή κληρονομήστε την ανάθεσή του από το κατώτερο επίπεδο."
 
 msgid ""
 "You can enter emoji, any text, or Unicode symbols here. Drag an item from "
 "the palette onto a key to assign it."
-msgstr ""
-"Μπορείτε να εισαγάγετε emoji, οποιοδήποτε κείμενο ή σύμβολα Unicode εδώ. "
-"Σύρετε ένα στοιχείο από την παλέτα σε ένα κλειδί για να το εκχωρήσετε."
+msgstr "Εδώ μπορείτε να εισαγάγετε emoji, οποιοδήποτε κείμενο ή σύμβολα Unicode. Σύρετε ένα στοιχείο από την παλέτα σε ένα πλήκτρο για να το αναθέσετε."
 
 msgid "Accessibility"
-msgstr "Προσιτότητα"
+msgstr "Προσβασιμότητα"
 
 msgid "High contrast"
 msgstr "Υψηλή αντίθεση"
@@ -1713,49 +1633,42 @@ msgstr "Υψηλή αντίθεση"
 msgid ""
 "Pure black or white background, stronger text, borders and focus outlines. "
 "Works with the light and dark themes."
-msgstr ""
-"Καθαρό μαύρο ή άσπρο φόντο, ισχυρότερο κείμενο, περιγράμματα και "
-"περιγράμματα εστίασης. Λειτουργεί με ανοιχτά και σκοτεινά θέματα."
+msgstr "Καθαρό μαύρο ή λευκό φόντο, εντονότερο κείμενο, περιγράμματα και περιγράμματα εστίασης. Λειτουργεί με το ανοιχτό και το σκοτεινό θέμα."
 
 msgid "Reduce motion"
-msgstr "Μειώστε την κίνηση"
+msgstr "Μείωση κίνησης"
 
 msgid "Turn off highlight animations in the editor."
-msgstr ""
-"Απενεργοποιήστε τα κινούμενα σχέδια επισήμανσης στο πρόγραμμα επεξεργασίας."
+msgstr "Απενεργοποίηση των κινούμενων εφέ επισήμανσης στον επεξεργαστή."
 
 msgid ""
 "Every control can be reached with Tab and activated with Space or Enter. "
 "Interface size follows the desktop scale factor."
-msgstr ""
-"Κάθε στοιχείο ελέγχου μπορεί να επιτευχθεί με το Tab και να ενεργοποιηθεί με"
-" Space ή Enter. Το μέγεθος της διεπαφής ακολουθεί τον παράγοντα κλίμακας "
-"επιφάνειας εργασίας."
+msgstr "Κάθε στοιχείο ελέγχου είναι προσβάσιμο με Tab και ενεργοποιείται με Space ή Enter. Το μέγεθος της διεπαφής ακολουθεί την κλίμακα της επιφάνειας εργασίας."
 
 msgid "Always"
-msgstr "Πάντοτε"
+msgstr "Πάντα"
 
 msgid "Hold duration"
-msgstr "Διάρκεια αναμονής"
+msgstr "Διάρκεια κρατήματος"
 
 msgid "{} s"
-msgstr "{} s"
+msgstr "{} δ"
 
 msgid "{} s (default)"
-msgstr "{} s (προεπιλογή)"
+msgstr "{} δ (προεπιλογή)"
 
 msgid "Shell command or path to a script, e.g. playerctl play-pause"
-msgstr ""
-"Εντολή Shell ή διαδρομή προς ένα σενάριο, π.χ. playerctl αναπαραγωγή-παύση"
+msgstr "Εντολή κελύφους ή διαδρομή σεναρίου, π.χ. playerctl play-pause"
 
 msgid "Runs with sh -lc in the background; the result is not awaited."
-msgstr "Εκτελείται με sh -lc στο παρασκήνιο. το αποτέλεσμα δεν αναμένεται."
+msgstr "Εκτελείται με sh -lc στο παρασκήνιο· το αποτέλεσμα δεν αναμένεται."
 
 msgid "Choose script…"
 msgstr "Επιλέξτε σενάριο…"
 
 msgid "Working directory (optional, home by default)"
-msgstr "Κατάλογος εργασίας (προαιρετικός, αρχική σελίδα από προεπιλογή)"
+msgstr "Φάκελος εργασίας (προαιρετικός, προεπιλογή ο προσωπικός φάκελος)"
 
 msgid "Choose folder…"
 msgstr "Επιλέξτε φάκελο…"
@@ -1763,28 +1676,24 @@ msgstr "Επιλέξτε φάκελο…"
 msgid ""
 "Command execution is turned off. Turn it on in the settings to assign "
 "commands."
-msgstr ""
-"Η εκτέλεση εντολών είναι απενεργοποιημένη. Ενεργοποιήστε το στις ρυθμίσεις "
-"για να εκχωρήσετε εντολές."
+msgstr "Η εκτέλεση εντολών είναι απενεργοποιημένη. Ενεργοποιήστε την στις ρυθμίσεις για να αναθέσετε εντολές."
 
 msgid "Open command settings"
-msgstr "Ανοίξτε τις ρυθμίσεις εντολών"
+msgstr "Άνοιγμα ρυθμίσεων εντολών"
 
 msgid "The working directory does not exist."
-msgstr "Ο κατάλογος εργασίας δεν υπάρχει."
+msgstr "Ο φάκελος εργασίας δεν υπάρχει."
 
 msgid ""
 "The script file is not executable: run chmod +x on it or prefix the path "
 "with sh."
-msgstr ""
-"Το αρχείο σεναρίου δεν είναι εκτελέσιμο: εκτελέστε το chmod +x σε αυτό ή "
-"προσθέστε πρόθεμα στη διαδρομή με sh."
+msgstr "Το αρχείο σεναρίου δεν είναι εκτελέσιμο: εκτελέστε chmod +x σε αυτό ή βάλτε sh πριν από τη διαδρομή."
 
 msgid "Choose a script"
 msgstr "Επιλέξτε ένα σενάριο"
 
 msgid "Choose a working directory"
-msgstr "Επιλέξτε έναν κατάλογο εργασίας"
+msgstr "Επιλέξτε φάκελο εργασίας"
 
 msgid "Commands run with sh -lc in the background and are not awaited."
 msgstr "Οι εντολές εκτελούνται με sh -lc στο παρασκήνιο και δεν αναμένονται."
@@ -1796,34 +1705,34 @@ msgstr ""
 msgid ""
 "Commands stay off until you allow execution. Review below what your keymaps "
 "would run."
-msgstr "Οι εντολές παραμένουν απενεργοποιημένες μέχρι να επιτρέψετε την εκτέλεση. Δείτε παρακάτω ποιες θα εκτελούνται οι Keymap σας."
+msgstr "Οι εντολές μένουν απενεργοποιημένες μέχρι να επιτρέψετε την εκτέλεση. Δείτε παρακάτω τι θα εκτελούσαν οι Keymap σας."
 
 msgid "Command"
 msgstr "Εντολή"
 
 msgid "Rule {} · tap"
-msgstr "Κανόνας {} · πατήστε"
+msgstr "Κανόνας {} · πάτημα"
 
 msgid "Rule {} · hold"
-msgstr "Κανόνας {} · κρατήστε"
+msgstr "Κανόνας {} · κράτημα"
 
 msgid "Rule {} · long hold"
-msgstr "Κανόνας {} · μακρύ κράτημα"
+msgstr "Κανόνας {} · παρατεταμένο κράτημα"
 
 msgid "Rule {} · double tap"
 msgstr "Κανόνας {} · διπλό πάτημα"
 
 msgid "disabled"
-msgstr "ανάπηρος"
+msgstr "απενεργοποιημένο"
 
 msgid "Layer {}"
-msgstr "Στρώμα {}"
+msgstr "Επίπεδο {}"
 
 msgid "Macro"
 msgstr "Μακροεντολή"
 
 msgid "Quick action"
-msgstr "Γρήγορη δράση"
+msgstr "Γρήγορη ενέργεια"
 
 msgid "Show all"
 msgstr "Εμφάνιση όλων"
@@ -1832,7 +1741,7 @@ msgid "Close"
 msgstr "Κλείσιμο"
 
 msgid "Choose a key or key combination"
-msgstr "Επιλέξτε ένα συνδυασμό πλήκτρων ή πλήκτρων"
+msgstr "Επιλέξτε πλήκτρο ή συνδυασμό πλήκτρων"
 
 msgid "Examples"
 msgstr "Παραδείγματα"
@@ -1842,9 +1751,7 @@ msgstr "Προσθήκη κανόνα…"
 
 msgid ""
 "All filled conditions must match. A rule without conditions always matches."
-msgstr ""
-"Όλες οι πληρούμενες προϋποθέσεις πρέπει να ταιριάζουν. Ένας κανόνας χωρίς "
-"προϋποθέσεις ταιριάζει πάντα."
+msgstr "Όλες οι συμπληρωμένες συνθήκες πρέπει να ισχύουν. Ένας κανόνας χωρίς συνθήκες ισχύει πάντα."
 
 msgid "Automatic switching rules"
 msgstr "Κανόνες αυτόματης εναλλαγής"
@@ -1852,7 +1759,7 @@ msgstr "Κανόνες αυτόματης εναλλαγής"
 msgid ""
 "Automatic: the keymap is chosen by switching rules for the application, "
 "system language or game mode."
-msgstr "Αυτόματη: η Keymap επιλέγεται με εναλλαγή κανόνων για την εφαρμογή, τη γλώσσα συστήματος ή τη λειτουργία παιχνιδιού."
+msgstr "Αυτόματη: η Keymap επιλέγεται από κανόνες εναλλαγής ανάλογα με την εφαρμογή, τη γλώσσα συστήματος ή τη λειτουργία παιχνιδιού."
 
 msgid "Keymap"
 msgstr "Keymap"
@@ -1894,7 +1801,7 @@ msgid "Use keymap"
 msgstr "Χρήση Keymap"
 
 msgid "When"
-msgstr "Οταν"
+msgstr "Όταν"
 
 msgid "If"
 msgstr "Αν"
@@ -1903,7 +1810,7 @@ msgid "If:"
 msgstr "Αν:"
 
 msgid "Trigger conditions"
-msgstr "Συνθήκες ενεργοποίησης"
+msgstr "Συνθήκες εναύσματος"
 
 msgid "No keymap"
 msgstr "Χωρίς Keymap"
@@ -1918,18 +1825,16 @@ msgid "For games"
 msgstr "Για παιχνίδια"
 
 msgid "For an application"
-msgstr "Για μια αίτηση"
+msgstr "Για μια εφαρμογή"
 
 msgid "Custom rule"
 msgstr "Προσαρμοσμένος κανόνας"
 
 msgid "Game mode detection is off, so this rule never matches."
-msgstr ""
-"Ο εντοπισμός λειτουργίας παιχνιδιού είναι απενεργοποιημένος, επομένως αυτός "
-"ο κανόνας δεν ταιριάζει ποτέ."
+msgstr "Η ανίχνευση λειτουργίας παιχνιδιού είναι απενεργοποιημένη, οπότε αυτός ο κανόνας δεν ισχύει ποτέ."
 
 msgid "Not among the system languages: {}"
-msgstr "Όχι μεταξύ των γλωσσών συστήματος: {}"
+msgstr "Δεν περιλαμβάνεται στις γλώσσες συστήματος: {}"
 
 msgid "Rule enabled"
 msgstr "Ο κανόνας ενεργοποιήθηκε"
@@ -1960,12 +1865,12 @@ msgid "On — always"
 msgstr "Ενεργό — πάντα"
 
 msgid "Off — never"
-msgstr "Off — ποτέ"
+msgstr "Ανενεργό — ποτέ"
 
 msgid ""
 "Automatic keymap rules apply only when the keymap is chosen automatically "
 "(Keymaps page)."
-msgstr "Οι κανόνες αυτόματης Keymap ισχύουν μόνο όταν η Keymap επιλέγεται αυτόματα (σελίδα Layouts)."
+msgstr "Οι κανόνες αυτόματης Keymap ισχύουν μόνο όταν η Keymap επιλέγεται αυτόματα (σελίδα Keymap)."
 
 msgid ""
 "Borderless windows covering the screen count too. Browsers, video players "
@@ -1983,46 +1888,40 @@ msgid "Game mode is on (set manually)"
 msgstr "Η λειτουργία παιχνιδιού είναι ενεργοποιημένη (ρυθμίζεται χειροκίνητα)"
 
 msgid "Game mode turns on rules and automatic keymap rules that have a game-mode condition. Automatic keymap rules apply only when the keymap is chosen automatically (Keymaps page). Auto uses the detection sources and custom rules below; On and Off set the state manually. “Doesn't count as a game” takes priority over automatic detection and “Counts as a game”. You can also change the mode in the top bar, in the tray menu or with a key bound to a game mode action."
-msgstr "Η λειτουργία παιχνιδιού ενεργοποιεί κανόνες και κανόνες αυτόματης Keymap που έχουν συνθήκη λειτουργίας παιχνιδιού. Οι κανόνες αυτόματης Keymap ισχύουν μόνο όταν η Keymap επιλέγεται αυτόματα (σελίδα Layouts). Το Auto χρησιμοποιεί τις πηγές ανίχνευσης και τους προσαρμοσμένους κανόνες παρακάτω. Ενεργοποίηση και Απενεργοποίηση ρυθμίστε την κατάσταση χειροκίνητα. Το \"Δεν θεωρείται παιχνίδι\" έχει προτεραιότητα έναντι του αυτόματου εντοπισμού και το \"Θεωρείται παιχνίδι\". Μπορείτε επίσης να αλλάξετε τη λειτουργία στην επάνω γραμμή, στο μενού του δίσκου ή με ένα πλήκτρο συνδεδεμένο σε μια ενέργεια λειτουργίας παιχνιδιού."
+msgstr "Η λειτουργία παιχνιδιού ενεργοποιεί τους κανόνες και τους κανόνες αυτόματης Keymap που έχουν συνθήκη λειτουργίας παιχνιδιού. Οι κανόνες αυτόματης Keymap ισχύουν μόνο όταν η Keymap επιλέγεται αυτόματα (σελίδα Keymap). Η επιλογή Αυτόματο χρησιμοποιεί τις παρακάτω πηγές ανίχνευσης και τους προσαρμοσμένους κανόνες· τα Ενεργό και Ανενεργό ορίζουν την κατάσταση χειροκίνητα. Το «Δεν θεωρείται παιχνίδι» υπερισχύει της αυτόματης ανίχνευσης και του «Θεωρείται παιχνίδι». Μπορείτε επίσης να αλλάξετε τη λειτουργία από την επάνω γραμμή, το μενού της περιοχής ειδοποιήσεων ή με ένα πλήκτρο στο οποίο έχει ανατεθεί ενέργεια λειτουργίας παιχνιδιού."
 
 
 
 msgid "Game mode: always off"
-msgstr "Λειτουργία παιχνιδιού: πάντα απενεργοποιημένο"
+msgstr "Λειτουργία παιχνιδιού: πάντα ανενεργή"
 
 msgid "Game mode: always on"
-msgstr "Λειτουργία παιχνιδιού: πάντα ενεργοποιημένη"
+msgstr "Λειτουργία παιχνιδιού: πάντα ενεργή"
 
 msgid "Game mode: detect automatically"
-msgstr "Λειτουργία παιχνιδιού: εντοπισμός αυτόματα"
+msgstr "Λειτουργία παιχνιδιού: αυτόματη ανίχνευση"
 
 msgid "Toggle game mode"
 msgstr "Εναλλαγή λειτουργίας παιχνιδιού"
 
 msgid ""
 "GameMode daemon unavailable: check the gamemode package and session D-Bus."
-msgstr ""
-"Ο δαίμονας GameMode δεν είναι διαθέσιμος: ελέγξτε το πακέτο της λειτουργίας "
-"παιχνιδιού και τη συνεδρία D-Bus."
+msgstr "Ο δαίμονας GameMode δεν είναι διαθέσιμος: ελέγξτε το πακέτο gamemode και το D-Bus της συνεδρίας."
 
 msgid ""
 "Install {} to detect the active window and fullscreen windows. It is also "
 "needed for application conditions in rules."
-msgstr ""
-"Εγκαταστήστε το {} για να εντοπίσετε το ενεργό παράθυρο και τα παράθυρα "
-"πλήρους οθόνης. Απαιτείται επίσης για προϋποθέσεις εφαρμογής σε κανόνες."
+msgstr "Εγκαταστήστε το {} για να ανιχνεύονται το ενεργό παράθυρο και τα παράθυρα πλήρους οθόνης. Χρειάζεται επίσης για τις συνθήκες εφαρμογών στους κανόνες."
 
 msgid ""
 "Nothing uses game mode yet: no rule or automatic keymap rule has a game-mode"
 " condition, so turning it on changes nothing."
-msgstr "Τίποτα δεν χρησιμοποιεί ακόμα τη λειτουργία παιχνιδιού: κανένας κανόνας ή κανόνας αυτόματης Keymap δεν έχει κατάσταση λειτουργίας παιχνιδιού, επομένως η ενεργοποίησή του δεν αλλάζει τίποτα."
+msgstr "Τίποτα δεν χρησιμοποιεί ακόμη τη λειτουργία παιχνιδιού: κανένας κανόνας και κανένας κανόνας αυτόματης Keymap δεν έχει συνθήκη λειτουργίας παιχνιδιού, οπότε η ενεργοποίησή της δεν αλλάζει τίποτα."
 
 msgid ""
 "On and Off are remembered after restart. Auto keeps detecting in the "
 "background."
-msgstr ""
-"Το On και το Off απομνημονεύονται μετά την επανεκκίνηση. Η αυτόματη "
-"ανίχνευση συνεχίζει να εντοπίζει στο παρασκήνιο."
+msgstr "Τα Ενεργό και Ανενεργό διατηρούνται μετά την επανεκκίνηση. Το Αυτόματο συνεχίζει την ανίχνευση στο παρασκήνιο."
 
 msgid ""
 "Rules of the current keymap with a game-mode condition: {}. Automatic keymap"
@@ -2032,38 +1931,28 @@ msgstr "Κανόνες της τρέχουσας Keymap με συνθήκη λε
 msgid ""
 "Turns on while a game runs through gamemoderun or requests GameMode itself. "
 "In Steam set the launch options to “gamemoderun %command%”."
-msgstr ""
-"Ενεργοποιείται ενώ ένα παιχνίδι εκτελείται μέσω του gamemoderun ή ζητά από "
-"το ίδιο το GameMode. Στο Steam ρυθμίστε τις επιλογές εκκίνησης σε "
-"\"gamemoderun %command%\"."
+msgstr "Ενεργοποιείται όσο ένα παιχνίδι εκτελείται μέσω gamemoderun ή ζητά μόνο του το GameMode. Στο Steam ορίστε τις επιλογές εκκίνησης σε «gamemoderun %command%»."
 
 msgid "Game mode: on"
-msgstr "Λειτουργία παιχνιδιού: ενεργό"
+msgstr "Λειτουργία παιχνιδιού: ενεργή"
 
 msgid "Game mode: off"
-msgstr "Λειτουργία παιχνιδιού: απενεργοποιημένο"
+msgstr "Λειτουργία παιχνιδιού: ανενεργή"
 
 msgid "Active now: {}"
-msgstr "Ενεργός τώρα: {}"
+msgstr "Ενεργό τώρα: {}"
 
 msgid ""
 "Active window detection is unavailable in this session, so application "
 "conditions do not match."
-msgstr ""
-"Ο εντοπισμός ενεργού παραθύρου δεν είναι διαθέσιμος σε αυτήν την περίοδο "
-"λειτουργίας, επομένως οι συνθήκες της εφαρμογής δεν ταιριάζουν."
+msgstr "Η ανίχνευση ενεργού παραθύρου δεν είναι διαθέσιμη σε αυτήν τη συνεδρία, οπότε οι συνθήκες εφαρμογών δεν ισχύουν."
 
 msgid ""
 "An application is matched by its ID or process name: the whole name, "
 "ignoring case, with * and ? as wildcards. A window title item matches when "
 "the title contains the text. Any matching item is enough. An empty list "
 "imposes no restrictions."
-msgstr ""
-"Μια εφαρμογή αντιστοιχίζεται με το αναγνωριστικό της ή το όνομα διεργασίας: "
-"ολόκληρο το όνομα, αγνοώντας την περίπτωση, με * και ? ως μπαλαντέρ. Ένα "
-"στοιχείο τίτλου παραθύρου ταιριάζει όταν ο τίτλος περιέχει το κείμενο. "
-"Οποιοδήποτε αντίστοιχο στοιχείο είναι αρκετό. Μια κενή λίστα δεν επιβάλλει "
-"περιορισμούς."
+msgstr "Μια εφαρμογή αναγνωρίζεται από το αναγνωριστικό ή το όνομα διεργασίας της: ολόκληρο το όνομα, χωρίς διάκριση πεζών-κεφαλαίων, με * και ? ως μπαλαντέρ. Ένα στοιχείο τίτλου παραθύρου ταιριάζει όταν ο τίτλος περιέχει το κείμενο. Αρκεί ένα στοιχείο να ταιριάζει. Μια κενή λίστα δεν επιβάλλει περιορισμούς."
 
 msgid "Looking for open windows…"
 msgstr "Αναζήτηση ανοιχτών παραθύρων…"
@@ -2075,7 +1964,7 @@ msgid "Window title contains: {}"
 msgstr "Ο τίτλος του παραθύρου περιέχει: {}"
 
 msgid "Timing"
-msgstr "Συγχρονισμός"
+msgstr "Χρονισμός"
 
 msgid "Used by macros without their own value."
 msgstr "Χρησιμοποιείται από μακροεντολές χωρίς τη δική τους τιμή."
@@ -2083,41 +1972,34 @@ msgstr "Χρησιμοποιείται από μακροεντολές χωρί�
 msgid ""
 "Used by macros without their own value. How long to wait between pressing "
 "modifiers (Shift, Ctrl, …) and the main key of one step."
-msgstr ""
-"Χρησιμοποιείται από μακροεντολές χωρίς τη δική τους τιμή. Πόσος χρόνος να "
-"περιμένετε μεταξύ του πατήματος των τροποποιητών (Shift, Ctrl,…) και του "
-"κύριου πλήκτρου ενός βήματος."
+msgstr "Χρησιμοποιείται από μακροεντολές χωρίς δική τους τιμή. Πόσο να περιμένει ανάμεσα στο πάτημα των τροποποιητών (Shift, Ctrl, …) και στο κύριο πλήκτρο ενός βήματος."
 
 msgid "Rule without a trigger is saved as a draft and will be ignored."
-msgstr "Ο κανόνας χωρίς σκανδάλη αποθηκεύεται ως πρόχειρο και θα αγνοηθεί."
+msgstr "Ένας κανόνας χωρίς έναυσμα αποθηκεύεται ως πρόχειρο και θα αγνοηθεί."
 
 msgid "Trigger \"{}\" cannot be used for a rule."
-msgstr "Η σκανδάλη \"{}\" δεν μπορεί να χρησιμοποιηθεί για κανόνα."
+msgstr "Το έναυσμα «{}» δεν μπορεί να χρησιμοποιηθεί για κανόνα."
 
 msgid "Trigger \"{}\" needs key codes such as ControlLeft; “+” joins the keys of a chord and does not add a modifier."
-msgstr "Trigger \"{}\" needs key codes such as ControlLeft; “+” joins the keys of a chord and does not add a modifier."
+msgstr "Το έναυσμα «{}» χρειάζεται κωδικούς πλήκτρων όπως ControlLeft· το «+» ενώνει τα πλήκτρα ενός συνδυασμού και δεν προσθέτει τροποποιητή."
 
 msgid "Rules for trigger \"{}\" may overlap; the first matching rule wins."
-msgstr ""
-"Οι κανόνες για τη σκανδάλη \"{}\" ενδέχεται να επικαλύπτονται. ο πρώτος "
-"κανόνας αντιστοίχισης κερδίζει."
+msgstr "Οι κανόνες για το έναυσμα «{}» μπορεί να επικαλύπτονται· ισχύει ο πρώτος κανόνας που ταιριάζει."
 
 msgid "Rule for trigger \"{}\" is covered by an earlier rule and will not run."
-msgstr ""
-"Ο κανόνας για τη σκανδάλη \"{}\" καλύπτεται από προηγούμενο κανόνα και δεν "
-"θα εκτελεστεί."
+msgstr "Ο κανόνας για το έναυσμα «{}» καλύπτεται από προηγούμενο κανόνα και δεν θα εκτελεστεί."
 
 msgid "Rule \"{}\" points to a layer that no longer exists."
-msgstr "Ο κανόνας \"{}\" δείχνει ένα επίπεδο που δεν υπάρχει πλέον."
+msgstr "Ο κανόνας «{}» παραπέμπει σε επίπεδο που δεν υπάρχει πλέον."
 
 msgid "Rule \"{}\" has an invalid tap action."
-msgstr "Ο κανόνας \"{}\" έχει μη έγκυρη ενέργεια πατήματος."
+msgstr "Ο κανόνας «{}» έχει μη έγκυρη ενέργεια πατήματος."
 
 msgid "Rule \"{}\" has an invalid hold action."
-msgstr "Ο κανόνας \"{}\" έχει μη έγκυρη ενέργεια αναμονής."
+msgstr "Ο κανόνας «{}» έχει μη έγκυρη ενέργεια κρατήματος."
 
 msgid "Rule \"{}\" has an invalid double-tap action."
-msgstr "Ο κανόνας \"{}\" έχει μη έγκυρη ενέργεια με διπλό πάτημα."
+msgstr "Ο κανόνας «{}» έχει μη έγκυρη ενέργεια διπλού πατήματος."
 
 msgid "Automatic switching rule deleted"
 msgstr "Ο κανόνας αυτόματης εναλλαγής διαγράφηκε"
@@ -2134,14 +2016,13 @@ msgstr ""
 "στην επιτρεπόμενη λίστα."
 
 msgid "Any match allows the rule. An empty list allows all windows."
-msgstr ""
-"Κάθε αγώνας επιτρέπει τον κανόνα. Μια κενή λίστα επιτρέπει όλα τα παράθυρα."
+msgstr "Οποιαδήποτε αντιστοιχία επιτρέπει τον κανόνα. Μια κενή λίστα επιτρέπει όλα τα παράθυρα."
 
 msgid "Choose applications to exclude"
 msgstr "Επιλέξτε εφαρμογές για εξαίρεση"
 
 msgid "Open windows"
-msgstr "Ανοίξτε τα παράθυρα"
+msgstr "Ανοιχτά παράθυρα"
 
 msgid "Last active"
 msgstr "Τελευταία ενεργή"
@@ -2158,69 +2039,51 @@ msgstr[0] "{n} παράθυρο"
 msgstr[1] "{n} παράθυρα"
 
 msgid "Do not process"
-msgstr "Μην επεξεργάζεστε"
+msgstr "Να μην γίνεται επεξεργασία"
 
 msgid "Command name (optional)"
 msgstr "Όνομα εντολής (προαιρετικό)"
 
 msgid "Working directory (home by default)"
-msgstr "Κατάλογος εργασίας (αρχική σελίδα από προεπιλογή)"
+msgstr "Φάκελος εργασίας (προεπιλογή ο προσωπικός φάκελος)"
 
 msgid "Text to type when the action is invoked:"
-msgstr ""
-"Κείμενο που θέλετε να πληκτρολογήσετε όταν γίνεται επίκληση της ενέργειας:"
+msgstr "Κείμενο που θα πληκτρολογηθεί όταν καλείται η ενέργεια:"
 
 msgid ""
 "Enter literal text without the text: prefix. Line breaks, spaces and tabs "
 "are preserved. On Linux, text is inserted into the active application via "
 "the desktop portal; permission may be required. Text injection by the mapper"
 " is not implemented on Windows or macOS."
-msgstr ""
-"Εισαγάγετε κυριολεκτικό κείμενο χωρίς το κείμενο: πρόθεμα. Διατηρούνται "
-"διαλείμματα γραμμής, κενά και καρτέλες. Στο Linux, το κείμενο εισάγεται στην"
-" ενεργή εφαρμογή μέσω της πύλης επιφάνειας εργασίας. μπορεί να απαιτείται "
-"άδεια. Η ένεση κειμένου από τον χαρτογράφο δεν εφαρμόζεται σε Windows ή "
-"macOS."
+msgstr "Εισαγάγετε κυριολεκτικό κείμενο χωρίς το πρόθεμα text:. Οι αλλαγές γραμμής, τα κενά και οι στηλοθέτες διατηρούνται. Στο Linux, το κείμενο εισάγεται στην ενεργή εφαρμογή μέσω της πύλης επιφάνειας εργασίας· μπορεί να απαιτείται άδεια. Η εισαγωγή κειμένου από τον αντιστοιχιστή δεν έχει υλοποιηθεί σε Windows και macOS."
 
 msgid ""
 "Commands run with sh -lc in the background. The mapper does not wait for "
 "completion or collect output. An empty name uses the command itself as its "
 "label. The working directory defaults to your home folder; scripts need "
 "execute permission. Command execution must be enabled in settings."
-msgstr ""
-"Οι εντολές εκτελούνται με sh -lc στο παρασκήνιο. Ο χαρτογράφος δεν περιμένει"
-" να ολοκληρωθεί ή να συλλέξει αποτελέσματα. Ένα κενό όνομα χρησιμοποιεί την "
-"ίδια την εντολή ως ετικέτα. Ο κατάλογος εργασίας είναι προεπιλεγμένος στον "
-"αρχικό σας φάκελο. Τα σενάρια χρειάζονται άδεια εκτέλεσης. Η εκτέλεση "
-"εντολών πρέπει να είναι ενεργοποιημένη στις ρυθμίσεις."
+msgstr "Οι εντολές εκτελούνται με sh -lc στο παρασκήνιο. Ο αντιστοιχιστής δεν περιμένει την ολοκλήρωση ούτε συλλέγει την έξοδο. Με κενό όνομα, ως ετικέτα χρησιμοποιείται η ίδια η εντολή. Ο φάκελος εργασίας είναι από προεπιλογή ο προσωπικός σας φάκελος· τα σενάρια χρειάζονται δικαίωμα εκτέλεσης. Η εκτέλεση εντολών πρέπει να είναι ενεργοποιημένη στις ρυθμίσεις."
 
 msgid ""
 "Commands run with PowerShell in the background, without a console window. "
 "The mapper does not wait for completion or collect output. An empty name "
 "uses the command itself as its label. The working directory defaults to your"
 " home folder. Command execution must be enabled in settings."
-msgstr ""
-"Οι εντολές εκτελούνται με το PowerShell στο παρασκήνιο, χωρίς παράθυρο "
-"κονσόλας. Ο χαρτογράφος δεν περιμένει να ολοκληρωθεί ή να συλλέξει "
-"αποτελέσματα. Ένα κενό όνομα χρησιμοποιεί την ίδια την εντολή ως ετικέτα. Ο "
-"κατάλογος εργασίας είναι προεπιλεγμένος στον αρχικό σας φάκελο. Η εκτέλεση "
-"εντολών πρέπει να είναι ενεργοποιημένη στις ρυθμίσεις."
+msgstr "Οι εντολές εκτελούνται με το PowerShell στο παρασκήνιο, χωρίς παράθυρο κονσόλας. Ο αντιστοιχιστής δεν περιμένει την ολοκλήρωση ούτε συλλέγει την έξοδο. Με κενό όνομα, ως ετικέτα χρησιμοποιείται η ίδια η εντολή. Ο φάκελος εργασίας είναι από προεπιλογή ο προσωπικός σας φάκελος. Η εκτέλεση εντολών πρέπει να είναι ενεργοποιημένη στις ρυθμίσεις."
 
 msgid ""
 "The name is optional: an empty name uses the command itself as its label. "
 "Command execution by the mapper is not implemented on macOS."
-msgstr ""
-"Το όνομα είναι προαιρετικό: ένα κενό όνομα χρησιμοποιεί την ίδια την εντολή "
-"ως ετικέτα. Η εκτέλεση εντολών από τον χαρτογράφο δεν εφαρμόζεται στο macOS."
+msgstr "Το όνομα είναι προαιρετικό: με κενό όνομα, ως ετικέτα χρησιμοποιείται η ίδια η εντολή. Η εκτέλεση εντολών από τον αντιστοιχιστή δεν έχει υλοποιηθεί στο macOS."
 
 msgid "Triggers"
-msgstr "Ενεργοποιητές"
+msgstr "Εναύσματα"
 
 msgid "Reduce animations"
 msgstr "Μείωση κινήσεων"
 
 msgid "Add keymap: "
-msgstr "Προσθήκη Keymap:"
+msgstr "Προσθήκη Keymap: "
 
 msgid "Save (Ctrl+S)"
 msgstr "Αποθήκευση (Ctrl+S)"
@@ -2229,7 +2092,7 @@ msgid "Close keymap"
 msgstr "Κλείσιμο Keymap"
 
 msgid "Discard keymap changes?"
-msgstr "Απόρριψη αλλαγών Keymap;"
+msgstr "Απόρριψη αλλαγών της Keymap;"
 
 msgid "Unsaved changes to this keymap will be lost."
 msgstr "Οι μη αποθηκευμένες αλλαγές σε αυτήν τη Keymap θα χαθούν."
@@ -2238,40 +2101,30 @@ msgid ""
 "Unique identifier used in references like macro:<id>. To bind this macro to "
 "a key, choose that action on the Layers or Triggers tab. Change the ID only "
 "when nothing uses this macro."
-msgstr ""
-"Μοναδικό αναγνωριστικό που χρησιμοποιείται σε αναφορές όπως "
-"μακροεντολή:<id>. Για να συνδέσετε αυτήν τη μακροεντολή σε ένα κλειδί, "
-"επιλέξτε αυτήν την ενέργεια στην καρτέλα Επίπεδα ή Ενεργοποιήσεις. Αλλάξτε "
-"το αναγνωριστικό μόνο όταν τίποτα δεν χρησιμοποιεί αυτήν τη μακροεντολή."
+msgstr "Μοναδικό αναγνωριστικό που χρησιμοποιείται σε αναφορές όπως macro:<id>. Για να αναθέσετε αυτή τη μακροεντολή σε πλήκτρο, επιλέξτε την ενέργεια στην καρτέλα Επίπεδα ή Εναύσματα. Αλλάξτε το αναγνωριστικό μόνο όταν τίποτα δεν χρησιμοποιεί αυτή τη μακροεντολή."
 
 msgid "Discard"
-msgstr "Απορρίπτω"
+msgstr "Απόρριψη"
 
 msgid ""
 "Build reusable sequences of key chords, text, commands and system actions. Use a unique ID in macro:<id> references and a readable name in action lists. Assign macros on the Layers or Triggers tab; change an ID only when it is unused.\n"
 "\n"
 "The step pause applies between steps of this macro. Modifier delay is the time between pressing a modifier and the main key. Leave delays empty to use Settings defaults."
-msgstr ""
-"Δημιουργήστε επαναχρησιμοποιήσιμες ακολουθίες βασικών συγχορδιών, κειμένου, εντολών και ενεργειών συστήματος. Χρησιμοποιήστε ένα μοναδικό αναγνωριστικό σε αναφορές macro:<id> και ένα ευανάγνωστο όνομα στις λίστες ενεργειών. Αντιστοιχίστε μακροεντολές στην καρτέλα Επίπεδα ή Ενεργοποιήσεις. αλλάξτε ένα αναγνωριστικό μόνο όταν δεν χρησιμοποιείται.\n"
-"\n"
-"Η παύση βημάτων ισχύει μεταξύ των βημάτων αυτής της μακροεντολής. Καθυστέρηση τροποποιητή είναι ο χρόνος μεταξύ του πατήματος ενός τροποποιητή και του κύριου πλήκτρου. Αφήστε τις καθυστερήσεις κενές για να χρησιμοποιήσετε τις προεπιλεγμένες ρυθμίσεις."
+msgstr "Δημιουργήστε επαναχρησιμοποιήσιμες ακολουθίες από συνδυασμούς πλήκτρων, κείμενο, εντολές και ενέργειες συστήματος. Χρησιμοποιήστε μοναδικό αναγνωριστικό στις αναφορές macro:<id> και ευανάγνωστο όνομα στις λίστες ενεργειών. Αναθέστε μακροεντολές στην καρτέλα Επίπεδα ή Εναύσματα· αλλάξτε ένα αναγνωριστικό μόνο όταν δεν χρησιμοποιείται.\n\nΗ παύση μεταξύ βημάτων ισχύει ανάμεσα στα βήματα αυτής της μακροεντολής. Η καθυστέρηση τροποποιητή είναι ο χρόνος ανάμεσα στο πάτημα ενός τροποποιητή και του κύριου πλήκτρου. Αφήστε τις καθυστερήσεις κενές για να χρησιμοποιηθούν οι προεπιλογές των Ρυθμίσεων."
 
 msgid "Global defaults: step pause {} ms; modifier delay {} ms."
-msgstr ""
-"Καθολικές προεπιλογές: παύση βήματος {} ms; καθυστέρηση τροποποιητή {} ms."
+msgstr "Καθολικές προεπιλογές: παύση μεταξύ βημάτων {} ms· καθυστέρηση τροποποιητή {} ms."
 
 msgid "Keymap changed on disk"
-msgstr "Η Keymap άλλαξε στο δίσκο"
+msgstr "Η Keymap άλλαξε στον δίσκο"
 
 msgid ""
 "The file of “{}” was changed by another program after you opened it. Your "
 "edits are kept until you choose what to do."
-msgstr ""
-"Το αρχείο \"{}\" άλλαξε από άλλο πρόγραμμα αφού το ανοίξατε. Οι "
-"τροποποιήσεις σας διατηρούνται μέχρι να επιλέξετε τι θα κάνετε."
+msgstr "Το αρχείο της «{}» άλλαξε από άλλο πρόγραμμα αφού το ανοίξατε. Οι αλλαγές σας διατηρούνται μέχρι να επιλέξετε τι θα γίνει."
 
 msgid "Load from disk"
-msgstr "Φόρτωση από το δίσκο"
+msgstr "Φόρτωση από τον δίσκο"
 
 msgid "Save as new…"
 msgstr "Αποθήκευση ως νέο…"
@@ -2280,9 +2133,7 @@ msgid "Overwrite"
 msgstr "Αντικατάσταση"
 
 msgid "Show Tecloid key codes used in assignments, such as KeyA and ArrowLeft."
-msgstr ""
-"Εμφάνιση κωδικών κλειδιών Tecloid που χρησιμοποιούνται σε αναθέσεις, όπως KeyA "
-"και ArrowLeft."
+msgstr "Εμφάνιση των κωδικών πλήκτρων Tecloid που χρησιμοποιούνται στις αναθέσεις, όπως KeyA και ArrowLeft."
 
 msgid "Application"
 msgstr "Εφαρμογή"
@@ -2294,21 +2145,21 @@ msgid "Click to switch"
 msgstr "Κάντε κλικ για εναλλαγή"
 
 msgid "Match by app ID or process instead"
-msgstr "Αντιστοιχίστε με αναγνωριστικό εφαρμογής ή διαδικασία"
+msgstr "Αντιστοίχιση με αναγνωριστικό εφαρμογής ή διεργασία"
 
 msgid "Match by window title instead"
-msgstr "Αντιστοίχιση ανά τίτλο παραθύρου"
+msgstr "Αντιστοίχιση με τίτλο παραθύρου"
 
 msgid "Open now: {n} window"
 msgid_plural "Open now: {n} windows"
-msgstr[0] "Άνοιγμα τώρα: {n} παράθυρο"
-msgstr[1] "Άνοιγμα τώρα: {n} παράθυρα"
+msgstr[0] "Ανοιχτά τώρα: {n} παράθυρο"
+msgstr[1] "Ανοιχτά τώρα: {n} παράθυρα"
 
 msgid "Not open now"
 msgstr "Δεν είναι ανοιχτό τώρα"
 
 msgid "Running process"
-msgstr "Διαδικασία τρεξίματος"
+msgstr "Διεργασία σε εκτέλεση"
 
 msgid "Text the window title contains"
 msgstr "Κείμενο που περιέχει ο τίτλος του παραθύρου"
@@ -2321,55 +2172,48 @@ msgstr "Επιλέξτε από ανοιχτά παράθυρα…"
 
 msgid "Matches {n} open window"
 msgid_plural "Matches {n} open windows"
-msgstr[0] "Ταιριάζει {n} ανοιχτό παράθυρο"
+msgstr[0] "Ταιριάζει με {n} ανοιχτό παράθυρο"
 msgstr[1] "Ταιριάζει με {n} ανοιχτά παράθυρα"
 
 msgid "Matches no open window"
-msgstr "Ταιριάζει με κανένα ανοιχτό παράθυρο"
+msgstr "Δεν ταιριάζει με κανένα ανοιχτό παράθυρο"
 
 msgid "Show Quick Action Menu on the last used page"
-msgstr ""
-"Εμφάνιση του μενού γρήγορης δράσης στην τελευταία σελίδα που χρησιμοποιήθηκε"
+msgstr "Εμφάνιση του μενού γρήγορων ενεργειών στην τελευταία σελίδα που χρησιμοποιήθηκε"
 
 msgid "Show Emoji & Symbols menu on the last used page"
-msgstr ""
-"Εμφάνιση μενού Emoji & Symbols στην τελευταία σελίδα που χρησιμοποιήθηκε"
+msgstr "Εμφάνιση του μενού Emoji και σύμβολα στην τελευταία σελίδα που χρησιμοποιήθηκε"
 
 msgid "Show the settings window"
 msgstr "Εμφάνιση του παραθύρου ρυθμίσεων"
 
 msgid "Activate keymap {} (switches to Single mode)"
-msgstr "Ενεργοποίηση Keymap {} (μεταβαίνει σε λειτουργία Single)"
+msgstr "Ενεργοποίηση της Keymap {} (μεταβαίνει στη λειτουργία Μία)"
 
 msgid "There is no keymap number {}"
-msgstr "Δεν υπάρχει αριθμός Keymap {}"
+msgstr "Δεν υπάρχει Keymap με αριθμό {}"
 
 msgid "Show the Tecloid keymap name when it changes"
-msgstr "Εμφάνιση του ονόματος Keymap του αριστερού χειριστηρίου όταν αλλάζει"
+msgstr "Εμφάνιση του ονόματος της Keymap του Tecloid όταν αλλάζει"
 
 msgid "Show the keys of a layer while it is held"
-msgstr "Εμφάνιση των πλήκτρων ενός στρώματος ενώ κρατιέται"
+msgstr "Εμφάνιση των πλήκτρων ενός επιπέδου όσο κρατιέται"
 
 msgid ""
 "The hint appears 2 seconds after the layer activates. Pressing a layer key "
 "hides or cancels it until the trigger is released, including in game mode."
-msgstr ""
-"Η υπόδειξη εμφανίζεται 2 δευτερόλεπτα μετά την ενεργοποίηση του επιπέδου. Το"
-" πάτημα ενός πλήκτρου επιπέδου αποκρύπτει ή ακυρώνει μέχρι να απελευθερωθεί "
-"η σκανδάλη, συμπεριλαμβανομένης της λειτουργίας παιχνιδιού."
+msgstr "Η υπόδειξη εμφανίζεται 2 δευτερόλεπτα μετά την ενεργοποίηση του επιπέδου. Το πάτημα ενός πλήκτρου του επιπέδου την κρύβει ή την ακυρώνει μέχρι να αφεθεί το έναυσμα, και στη λειτουργία παιχνιδιού."
 
 msgid ""
 "Unavailable: build with the spell feature and use a Wayland compositor with "
 "layer-shell (KDE Plasma, Sway, Hyprland)."
-msgstr ""
-"Μη διαθέσιμο: δημιουργία με τη δυνατότητα ορθογραφίας και χρήση συνθέτη "
-"Wayland με layer-shell (KDE Plasma, Sway, Hyprland)."
+msgstr "Μη διαθέσιμο: κάντε μεταγλώττιση με τη δυνατότητα spell και χρησιμοποιήστε συνθέτη Wayland με layer-shell (KDE Plasma, Sway, Hyprland)."
 
 msgid ""
 "The app:activateKeymap1…5 actions activate the keymap at that position in "
 "this list: reordering the list changes which keymap a key activates. In Auto"
 " mode they switch to Single mode."
-msgstr "Οι ενέργειες app:activateKeymap1…5 ενεργοποιούν τη Keymap σε αυτήν τη θέση σε αυτήν τη λίστα: η αναKeymap της λίστας αλλάζει ποια Keymap ενεργοποιεί ένα πλήκτρο. Στην αυτόματη λειτουργία αλλάζουν σε λειτουργία Single."
+msgstr "Οι ενέργειες app:activateKeymap1…5 ενεργοποιούν την Keymap που βρίσκεται στη συγκεκριμένη θέση αυτής της λίστας: η αλλαγή σειράς της λίστας αλλάζει ποια Keymap ενεργοποιεί ένα πλήκτρο. Στη λειτουργία Αυτόματο μεταβαίνουν στη λειτουργία Μία."
 
 msgid "Cut"
 msgstr "Αποκοπή"
@@ -2411,37 +2255,37 @@ msgid "Remove application?"
 msgstr "Κατάργηση εφαρμογής;"
 
 msgid "“{}” will be removed from the list."
-msgstr "Το \"{}\" θα αφαιρεθεί από τη λίστα."
+msgstr "Το «{}» θα αφαιρεθεί από τη λίστα."
 
 msgid "Devices"
 msgstr "Συσκευές"
 
 msgid "Required"
-msgstr "Υποχρεούμαι"
+msgstr "Απαιτείται"
 
 msgid "Optional"
-msgstr "Προαιρετικός"
+msgstr "Προαιρετικό"
 
 msgid "Failed to start"
 msgstr "Αποτυχία εκκίνησης"
 
 msgid "Keys work as usual. Start the mapper to apply your keymaps."
-msgstr "Τα πλήκτρα λειτουργούν κανονικά. Ξεκινήστε τον χαρτογράφο για να εφαρμόσετε τις Keymap σας."
+msgstr "Τα πλήκτρα λειτουργούν κανονικά. Ξεκινήστε τον αντιστοιχιστή για να εφαρμοστούν οι Keymap σας."
 
 msgid "Select a keyboard below to start the mapper."
-msgstr "Επιλέξτε ένα πληκτρολόγιο παρακάτω για να ξεκινήσετε τη χαρτογράφηση."
+msgstr "Επιλέξτε ένα πληκτρολόγιο παρακάτω για να ξεκινήσει ο αντιστοιχιστής."
 
 msgid "Changing a device restarts the mapper."
-msgstr "Η αλλαγή μιας συσκευής επανεκκινεί τη χαρτογράφηση."
+msgstr "Η αλλαγή συσκευής επανεκκινεί τον αντιστοιχιστή."
 
 msgid "Auto: known game {}"
 msgstr "Αυτόματο: γνωστό παιχνίδι {}"
 
 msgid "Ignored in fullscreen"
-msgstr "Αγνοήθηκε σε πλήρη οθόνη"
+msgstr "Αγνοείται σε πλήρη οθόνη"
 
 msgid "Not available in this session."
-msgstr "Δεν είναι διαθέσιμο σε αυτήν την περίοδο λειτουργίας."
+msgstr "Δεν είναι διαθέσιμο σε αυτήν τη συνεδρία."
 
 msgid "Steam games"
 msgstr "Παιχνίδια στο Steam"
@@ -2449,10 +2293,7 @@ msgstr "Παιχνίδια στο Steam"
 msgid ""
 "Turns on while Steam runs a game: Steam starts every game through reaper "
 "SteamLaunch, and game windows have the ID steam_app_<number>."
-msgstr ""
-"Ενεργοποιείται ενώ το Steam εκτελεί ένα παιχνίδι: Το Steam ξεκινά κάθε "
-"παιχνίδι μέσω του reaper SteamLaunch και τα παράθυρα παιχνιδιών έχουν το "
-"αναγνωριστικό steam_app_<number>."
+msgstr "Ενεργοποιείται όσο το Steam εκτελεί ένα παιχνίδι: το Steam ξεκινά κάθε παιχνίδι μέσω του reaper SteamLaunch και τα παράθυρα παιχνιδιών έχουν αναγνωριστικό steam_app_<αριθμός>."
 
 msgid "Turns on while Steam reports a running game."
 msgstr "Ενεργοποιείται ενώ το Steam αναφέρει ένα παιχνίδι που τρέχει."
@@ -2471,31 +2312,24 @@ msgid "Gamescope sessions"
 msgstr "Συνεδρίες Gamescope"
 
 msgid "Turns on while the active window is a nested gamescope session."
-msgstr ""
-"Ενεργοποιείται ενώ το ενεργό παράθυρο είναι μια ένθετη περίοδος λειτουργίας "
-"παιχνιδιών."
+msgstr "Ενεργοποιείται όσο το ενεργό παράθυρο είναι ένθετη συνεδρία gamescope."
 
 msgid "Games from the Game Bar list"
 msgstr "Παιχνίδια από τη λίστα Game Bar"
 
 msgid "Applications of the Game category"
-msgstr "Εφαρμογές της κατηγορίας Παιχνίδι"
+msgstr "Εφαρμογές της κατηγορίας Game"
 
 msgid ""
 "Turns on while the active window belongs to an application whose .desktop "
 "file lists the Game category. Launchers are tagged as games too, so they are"
 " skipped."
-msgstr ""
-"Ενεργοποιείται ενώ το ενεργό παράθυρο ανήκει σε μια εφαρμογή της οποίας το "
-"αρχείο .desktop παραθέτει την κατηγορία Παιχνίδι. Οι εκτοξευτές "
-"επισημαίνονται επίσης ως παιχνίδια, επομένως παραλείπονται."
+msgstr "Ενεργοποιείται όσο το ενεργό παράθυρο ανήκει σε εφαρμογή της οποίας το αρχείο .desktop περιλαμβάνει την κατηγορία Game. Οι εκκινητές επισημαίνονται κι αυτοί ως παιχνίδια, οπότε παραλείπονται."
 
 msgid ""
 "Turns on while the active application declares the Games category in its "
 "Info.plist. Launchers are skipped."
-msgstr ""
-"Ενεργοποιείται ενώ η ενεργή εφαρμογή δηλώνει την κατηγορία Παιχνίδια στο "
-"Info.plist της. Οι εκτοξευτές παραλείπονται."
+msgstr "Ενεργοποιείται όσο η ενεργή εφαρμογή δηλώνει την κατηγορία Games στο Info.plist της. Οι εκκινητές παραλείπονται."
 
 msgid "Auto — according to settings"
 msgstr "Αυτόματο — σύμφωνα με τις ρυθμίσεις"
@@ -2504,23 +2338,21 @@ msgid "Blank"
 msgstr "Κενό"
 
 msgid "Assign action"
-msgstr "Ανάθεση δράσης"
+msgstr "Ανάθεση ενέργειας"
 
 msgid "Action after {} ms of holding"
-msgstr "Ενέργεια μετά από {} ms κράτησης"
+msgstr "Ενέργεια μετά από {} ms κρατήματος"
 
 msgid ""
 "These codes are specific to Tecloid, not universal keyboard codes "
 "(e.g. KeyA, ArrowLeft)."
-msgstr ""
-"Αυτοί οι κωδικοί είναι συγκεκριμένοι για το Tecloid και όχι για "
-"τους καθολικούς κωδικούς πληκτρολογίου (π.χ. KeyA, ArrowLeft)."
+msgstr "Αυτοί οι κωδικοί είναι ειδικοί του Tecloid, όχι καθολικοί κωδικοί πληκτρολογίου (π.χ. KeyA, ArrowLeft)."
 
 msgid "While its window is active"
-msgstr "Ενώ το παράθυρό του είναι ενεργό"
+msgstr "Όσο το παράθυρό της είναι ενεργό"
 
 msgid "While the process runs"
-msgstr "Ενώ εκτελείται η διαδικασία"
+msgstr "Όσο εκτελείται η διεργασία"
 
 msgid "Counts while a window of the application has the focus."
 msgstr "Μετράει ενώ ένα παράθυρο της εφαρμογής έχει την εστίαση."
@@ -2528,15 +2360,13 @@ msgstr "Μετράει ενώ ένα παράθυρο της εφαρμογής 
 msgid ""
 "Counts while a process with this name runs, even without a window or in the "
 "background."
-msgstr ""
-"Μετράει όσο εκτελείται μια διαδικασία με αυτό το όνομα, ακόμη και χωρίς "
-"παράθυρο ή στο παρασκήνιο."
+msgstr "Μετράει όσο εκτελείται μια διεργασία με αυτό το όνομα, ακόμη και χωρίς παράθυρο ή στο παρασκήνιο."
 
 msgid "Application · while its window is active"
 msgstr "Εφαρμογή · ενώ το παράθυρό της είναι ενεργό"
 
 msgid "Process · while it runs"
-msgstr "Διαδικασία · ενώ εκτελείται"
+msgstr "Διεργασία · όσο εκτελείται"
 
 msgid "No games added."
 msgstr "Δεν προστέθηκαν παιχνίδια."
@@ -2547,40 +2377,30 @@ msgid ""
 "wildcards. Steam games have the app ID steam_app_<number>; Proton games are "
 "also found by their .exe name. A window title item matches the active window"
 " whose title contains the text."
-msgstr ""
-"Η λειτουργία παιχνιδιού ενεργοποιείται ενώ οποιοδήποτε από αυτά ταιριάζει. "
-"Μια εφαρμογή αντιστοιχίζεται με το αναγνωριστικό της ή το όνομα διεργασίας: "
-"ολόκληρο το όνομα, αγνοώντας την περίπτωση, με * και ? ως μπαλαντέρ. Τα "
-"παιχνίδια Steam έχουν το αναγνωριστικό εφαρμογής steam_app_<number>. Τα "
-"παιχνίδια Proton βρίσκονται επίσης με το όνομά τους .exe. Ένα στοιχείο "
-"τίτλου παραθύρου ταιριάζει με το ενεργό παράθυρο του οποίου ο τίτλος "
-"περιέχει το κείμενο."
+msgstr "Η λειτουργία παιχνιδιού ενεργοποιείται όσο ταιριάζει οποιοδήποτε από αυτά. Μια εφαρμογή αναγνωρίζεται από το αναγνωριστικό ή το όνομα διεργασίας της: ολόκληρο το όνομα, χωρίς διάκριση πεζών-κεφαλαίων, με * και ? ως μπαλαντέρ. Τα παιχνίδια Steam έχουν αναγνωριστικό εφαρμογής steam_app_<αριθμός>· τα παιχνίδια Proton βρίσκονται και από το όνομα του .exe. Ένα στοιχείο τίτλου παραθύρου ταιριάζει με το ενεργό παράθυρο του οποίου ο τίτλος περιέχει το κείμενο."
 
 msgid ""
 "Game mode stays off while any of these matches, even if a game or another "
 "detector would turn it on."
-msgstr ""
-"Η λειτουργία παιχνιδιού παραμένει απενεργοποιημένη όσο ταιριάζει με "
-"οποιοδήποτε από αυτά τα παιχνίδια, ακόμα κι αν ένα παιχνίδι ή άλλος "
-"ανιχνευτής το ενεργοποιούσε."
+msgstr "Η λειτουργία παιχνιδιού παραμένει ανενεργή όσο ταιριάζει οποιοδήποτε από αυτά, ακόμη κι αν ένα παιχνίδι ή άλλος ανιχνευτής θα την ενεργοποιούσε."
 
 msgid "less than a minute"
 msgstr "λιγότερο από ένα λεπτό"
 
 msgid "{} min"
-msgstr "{} ελάχ"
+msgstr "{} λεπ."
 
 msgid "{} h {} min"
-msgstr "{} h {} ελάχ"
+msgstr "{} ώρ. {} λεπ."
 
 msgid "Running for {}"
-msgstr "Τρέχει για {}"
+msgstr "Εκτελείται εδώ και {}"
 
 msgid "Stopped unexpectedly"
 msgstr "Σταμάτησε απροσδόκητα"
 
 msgid "Stopped {} ago after running for {}."
-msgstr "Σταμάτησε το {} πριν μετά από εκτέλεση για {}."
+msgstr "Σταμάτησε πριν από {} μετά από {} λειτουργίας."
 
 msgid "Text input"
 msgstr "Εισαγωγή κειμένου"
@@ -2588,16 +2408,13 @@ msgstr "Εισαγωγή κειμένου"
 msgid ""
 "How text actions in rules and macros are typed. Key remapping and the emoji "
 "popup do not use it."
-msgstr ""
-"Πώς πληκτρολογούνται οι ενέργειες κειμένου σε κανόνες και μακροεντολές. Η "
-"επαναχαρτογράφηση του κλειδιού και το αναδυόμενο παράθυρο emoji δεν το "
-"χρησιμοποιούν."
+msgstr "Πώς πληκτρολογούνται οι ενέργειες κειμένου σε κανόνες και μακροεντολές. Η επαναντιστοίχιση πλήκτρων και το αναδυόμενο παράθυρο emoji δεν το χρησιμοποιούν."
 
 msgid "Typing method"
 msgstr "Μέθοδος πληκτρολόγησης"
 
 msgid "libei + clipboard fallback (recommended)"
-msgstr "εναλλακτικό libei + πρόχειρο (συνιστάται)"
+msgstr "libei + πρόχειρο ως εναλλακτική (συνιστάται)"
 
 msgid "Paste from clipboard"
 msgstr "Επικόλληση από το πρόχειρο"
@@ -2615,35 +2432,30 @@ msgid "Types only through libei using the current keyboard layout and Caps Lock 
 msgstr "Πληκτρολογεί μόνο μέσω libei χρησιμοποιώντας την τρέχουσα διάταξη πληκτρολογίου και την κατάσταση Caps Lock. Παραλείπει κείμενο με μη διαθέσιμους χαρακτήρες. Απαιτεί άδεια πύλης. Ακυρώνεται όταν αλλάζει ένας εντοπισμένος προορισμός."
 
 msgid "Types only through NotifyKeyboardKeycode using the KDE keyboard layout and readable keyboard state. Skips text with unavailable characters. Requires portal permission. Cancels when a detected destination changes."
-msgstr "Πληκτρολογεί μόνο μέσω του NotifyKeyboardKeycode χρησιμοποιώντας τη διάταξη πληκτρολογίου KDE και την κατάσταση αναγνώσιμου πληκτρολογίου. Παραλείπει κείμενο με μη διαθέσιμους χαρακτήρες. Απαιτεί άδεια πύλης. Ακυρώνεται όταν αλλάζει ένας εντοπισμένος προορισμός."
+msgstr "Πληκτρολογεί μόνο μέσω NotifyKeyboardKeycode με τη διάταξη πληκτρολογίου του KDE και την αναγνώσιμη κατάσταση πληκτρολογίου. Παραλείπει κείμενο με μη διαθέσιμους χαρακτήρες. Απαιτεί άδεια της πύλης. Ακυρώνεται όταν αλλάζει ένας εντοπισμένος προορισμός."
 
 msgid "Pastes with the configured shortcut on Wayland: data-control on KDE, Clipboard portal on GNOME. Preserves all formats within size and time limits. Tecloid then owns the restored clipboard until another app copies; quitting can clear it. A new user copy takes precedence."
-msgstr "Επικόλληση με τη διαμορφωμένη συντόμευση στο Wayland: data-control στο KDE, πύλη Clipboard στο GNOME. Διατηρεί όλες τις μορφές εντός μεγέθους και χρονικών ορίων. Στη συνέχεια, ο Tecloid κατέχει το αποκατεστημένο πρόχειρο μέχρι να αντιγράψει μια άλλη εφαρμογή. η διακοπή μπορεί να το καθαρίσει. Ένα αντίγραφο νέου χρήστη έχει προτεραιότητα."
+msgstr "Επικολλά με τον ρυθμισμένο συνδυασμό στο Wayland: data-control στο KDE, πύλη Clipboard στο GNOME. Διατηρεί όλες τις μορφές εντός ορίων μεγέθους και χρόνου. Στη συνέχεια το Tecloid κατέχει το αποκατεστημένο πρόχειρο μέχρι να αντιγράψει κάτι άλλη εφαρμογή· η έξοδος μπορεί να το αδειάσει. Μια νέα αντιγραφή από τον χρήστη έχει προτεραιότητα."
 
 msgid "Paste shortcut"
-msgstr "Επικόλληση συντόμευσης"
+msgstr "Συνδυασμός επικόλλησης"
 
 
 msgid "Paste shortcut in terminals"
-msgstr "Συντόμευση επικόλλησης σε τερματικά"
+msgstr "Συνδυασμός επικόλλησης σε τερματικά"
 
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
-msgstr "Χρησιμοποιείται για παράθυρα τερματικών, όπως Konsole, kitty ή Alacritty. Τα ενσωματωμένα τερματικά δεν μπορούν να εντοπιστούν από την κλάση παραθύρου. Το Shift+Insert μπορεί να επικολλήσει την επιλογή του ποντικιού. χρησιμοποιήστε Ctrl+V για άλλες εφαρμογές για να αποφύγετε αυτόν τον κίνδυνο. Τα παλαιότερα τερματικά ενδέχεται να χρειάζονται προσαρμοσμένες συνδέσεις συντομεύσεων."
+msgstr "Χρησιμοποιείται για παράθυρα τερματικού όπως Konsole, kitty ή Alacritty. Τα ενσωματωμένα τερματικά δεν εντοπίζονται από την κλάση παραθύρου. Το Shift+Insert μπορεί να επικολλήσει την επιλογή του ποντικιού· χρησιμοποιήστε Ctrl+V για άλλες εφαρμογές ώστε να αποφύγετε αυτόν τον κίνδυνο. Παλαιότερα τερματικά μπορεί να χρειάζονται προσαρμοσμένους συνδυασμούς."
 
 msgid ""
 "Runs \"ydotool type\" only. Needs ydotool and its ydotoold service running. "
 "Reliable for Latin text only. On an error, stops without switching methods."
-msgstr ""
-"Εκτελεί μόνο \"ydotool type\". Χρειάζεται το ydotool και η υπηρεσία του "
-"ydotoold να τρέχει. Αξιόπιστο μόνο για λατινικό κείμενο. Σε ένα σφάλμα, "
-"σταματά χωρίς εναλλαγή μεθόδων."
+msgstr "Εκτελεί μόνο «ydotool type». Χρειάζεται το ydotool και την υπηρεσία ydotoold σε λειτουργία. Αξιόπιστο μόνο για λατινικό κείμενο. Σε σφάλμα σταματά χωρίς αλλαγή μεθόδου."
 
 msgid ""
 "Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
 " On an error, stops without switching methods."
-msgstr ""
-"Εκτελεί μόνο \"τύπος xdotool\". Λειτουργεί μόνο σε συνεδρίες X11 και "
-"παράθυρα XWayland. Σε ένα σφάλμα, σταματά χωρίς εναλλαγή μεθόδων."
+msgstr "Εκτελεί μόνο «xdotool type». Λειτουργεί μόνο σε συνεδρίες X11 και παράθυρα XWayland. Σε σφάλμα σταματά χωρίς αλλαγή μεθόδου."
 
 msgid "ydotool from PATH"
 msgstr "ydotool από το PATH"
@@ -2663,27 +2475,22 @@ msgid ""
 "name. The whole name must match, case is ignored, .exe is optional. * stands"
 " for any characters and ? for one, e.g. steam_app_*. The ID is stable, so "
 "prefer it."
-msgstr ""
-"Εφαρμογή: το αναγνωριστικό εφαρμογής (αναγνωριστικό εφαρμογής Wayland ή X11 "
-"WM_CLASS) ή το όνομα της διαδικασίας. Ολόκληρο το όνομα πρέπει να ταιριάζει,"
-" η περίπτωση αγνοείται, το .exe είναι προαιρετικό. * σημαίνει οποιοιδήποτε "
-"χαρακτήρες και ? για ένα, π.χ. steam_app_*. Το ID είναι σταθερό, γι' αυτό "
-"προτιμήστε το."
+msgstr "Εφαρμογή: το αναγνωριστικό εφαρμογής (Wayland app id ή X11 WM_CLASS) ή το όνομα της διεργασίας. Πρέπει να ταιριάζει ολόκληρο το όνομα, τα πεζά-κεφαλαία αγνοούνται, το .exe είναι προαιρετικό. Το * αντιστοιχεί σε οποιουσδήποτε χαρακτήρες και το ? σε έναν, π.χ. steam_app_*. Το αναγνωριστικό είναι σταθερό, γι' αυτό προτιμήστε το."
 
 msgid "Window title: matches when the title contains the text, case is ignored. A title changes with the open tab or document, and it never matches a process without a window."
-msgstr "Τίτλος παραθύρου: ταιριάζει όταν ο τίτλος περιέχει το κείμενο, αγνοείται η περίπτωση πεζών-κεφαλαίων. Ένας τίτλος αλλάζει με την ανοιχτή καρτέλα ή έγγραφο και δεν ταιριάζει ποτέ με μια διαδικασία χωρίς παράθυρο."
+msgstr "Τίτλος παραθύρου: ταιριάζει όταν ο τίτλος περιέχει το κείμενο, τα πεζά-κεφαλαία αγνοούνται. Ο τίτλος αλλάζει με την ανοιχτή καρτέλα ή το έγγραφο και δεν ταιριάζει ποτέ με διεργασία χωρίς παράθυρο."
 
 msgid "Match by"
 msgstr "Ταίριασμα κατά"
 
 msgid "Process"
-msgstr "Διαδικασία"
+msgstr "Διεργασία"
 
 msgid "Process name, * and ? allowed"
-msgstr "Όνομα διεργασίας, * και ? επιτρέπεται"
+msgstr "Όνομα διεργασίας, επιτρέπονται * και ?"
 
 msgid "App ID, * and ? allowed"
-msgstr "Αναγνωριστικό εφαρμογής, * και ? επιτρέπεται"
+msgstr "Αναγνωριστικό εφαρμογής, επιτρέπονται * και ?"
 
 msgid ""
 "The item is compared with the names of running processes. Pick one from the "
@@ -2696,165 +2503,135 @@ msgid ""
 "Process: the executable name, as the list below shows it. The whole name "
 "must match, case is ignored, .exe is optional. * stands for any characters "
 "and ? for one."
-msgstr ""
-"Διαδικασία: το εκτελέσιμο όνομα, όπως το δείχνει η παρακάτω λίστα. Ολόκληρο "
-"το όνομα πρέπει να ταιριάζει, η περίπτωση αγνοείται, το .exe είναι "
-"προαιρετικό. * σημαίνει οποιοιδήποτε χαρακτήρες και ? για ένα."
+msgstr "Διεργασία: το όνομα του εκτελέσιμου, όπως φαίνεται στην παρακάτω λίστα. Πρέπει να ταιριάζει ολόκληρο το όνομα, τα πεζά-κεφαλαία αγνοούνται, το .exe είναι προαιρετικό. Το * αντιστοιχεί σε οποιουσδήποτε χαρακτήρες και το ? σε έναν."
 
 msgid "Matches {n} running process"
 msgid_plural "Matches {n} running processes"
-msgstr[0] "Ταιριάζει με {n} διαδικασία εκτέλεσης"
-msgstr[1] "Ταιριάζει {n} διεργασίες που εκτελούνται"
+msgstr[0] "Ταιριάζει με {n} διεργασία σε εκτέλεση"
+msgstr[1] "Ταιριάζει με {n} διεργασίες σε εκτέλεση"
 
 msgid "Matches no running process"
-msgstr "Ταιριάζει σε καμία διαδικασία εκτέλεσης"
+msgstr "Δεν ταιριάζει με καμία διεργασία σε εκτέλεση"
 
 msgid ""
 "Many applications run as “{}”, so the name matches all of them. The "
 "application ID is more precise."
-msgstr ""
-"Πολλές εφαρμογές τρέχουν ως \"{}\", επομένως το όνομα ταιριάζει με όλες. Το "
-"αναγνωριστικό εφαρμογής είναι πιο ακριβές."
+msgstr "Πολλές εφαρμογές εκτελούνται ως «{}», οπότε το όνομα ταιριάζει με όλες. Το αναγνωριστικό εφαρμογής είναι πιο ακριβές."
 
 msgid "When it counts"
-msgstr "Όταν μετράει"
+msgstr "Πότε μετράει"
 
 msgid "Window titles"
 msgstr "Τίτλοι παραθύρων"
 
 msgid "Processes of open windows"
-msgstr "Διαδικασίες ανοιχτών παραθύρων"
+msgstr "Διεργασίες ανοιχτών παραθύρων"
 
 msgid "Shared process"
-msgstr "Κοινή διαδικασία"
+msgstr "Κοινή διεργασία"
 
 msgid "Running without a window"
-msgstr "Τρέξιμο χωρίς παράθυρο"
+msgstr "Εκτελείται χωρίς παράθυρο"
 
 msgid "Type a name to find processes running without a window."
-msgstr ""
-"Πληκτρολογήστε ένα όνομα για να βρείτε διαδικασίες που εκτελούνται χωρίς "
-"παράθυρο."
+msgstr "Πληκτρολογήστε ένα όνομα για να βρείτε διεργασίες που εκτελούνται χωρίς παράθυρο."
 
 msgid "Process · while its window is active"
-msgstr "Διεργασία · ενώ το παράθυρό του είναι ενεργό"
+msgstr "Διεργασία · όσο το παράθυρό της είναι ενεργό"
 
 msgid "While the trigger is held"
-msgstr "Όσο κρατιέται η σκανδάλη"
+msgstr "Όσο κρατιέται το έναυσμα"
 
 msgid "Press key"
-msgstr "Πατήστε το πλήκτρο"
+msgstr "Πάτημα πλήκτρου"
 
 msgid ""
 "Which key stays pressed while you hold the trigger, together with the layer."
 " “Don't press” only switches the layer."
-msgstr ""
-"Ποιο πλήκτρο παραμένει πατημένο όσο κρατάτε τη σκανδάλη, μαζί με το στρώμα. "
-"Το \"Don't press\" αλλάζει μόνο το επίπεδο."
+msgstr "Ποιο πλήκτρο μένει πατημένο όσο κρατάτε το έναυσμα, μαζί με το επίπεδο. Το «Χωρίς πάτημα» αλλάζει μόνο το επίπεδο."
 
 msgid ""
 "Which key stays pressed while you hold the trigger. “Trigger itself” keeps "
 "the usual behavior of the key."
-msgstr ""
-"Ποιο πλήκτρο παραμένει πατημένο όσο κρατάτε τη σκανδάλη. Το \"Trigger same\""
-" διατηρεί τη συνήθη συμπεριφορά του κλειδιού."
+msgstr "Ποιο πλήκτρο μένει πατημένο όσο κρατάτε το έναυσμα. Το «Το ίδιο το έναυσμα» διατηρεί τη συνήθη συμπεριφορά του πλήκτρου."
 
 msgid "Trigger itself"
-msgstr "Η ίδια η σκανδάλη"
+msgstr "Το ίδιο το έναυσμα"
 
 msgid "Other key…"
-msgstr "Άλλο κλειδί…"
+msgstr "Άλλο πλήκτρο…"
 
 msgid "When to press"
 msgstr "Πότε να πατήσετε"
 
 msgid "Holds {}"
-msgstr "Κρατάει το {}"
+msgstr "Κρατά το {}"
 
 msgid "Holds nothing"
-msgstr "Δεν κρατάει τίποτα"
+msgstr "Δεν κρατά τίποτα"
 
 msgid "Hold after {} ms"
-msgstr "Κρατήστε μετά το {} ms"
+msgstr "Κράτημα μετά από {} ms"
 
 msgid "Stop mapper (restore native keyboard behavior)"
-msgstr "Διακοπή χαρτογράφησης (επαναφορά συμπεριφοράς εγγενούς πληκτρολογίου)"
+msgstr "Διακοπή αντιστοιχιστή (επαναφορά της εγγενούς συμπεριφοράς πληκτρολογίου)"
 
 msgid "Select a keyboard device in the settings to start the mapper"
-msgstr ""
-"Επιλέξτε μια συσκευή πληκτρολογίου στις ρυθμίσεις για να ξεκινήσει η "
-"χαρτογράφηση"
+msgstr "Επιλέξτε μια συσκευή πληκτρολογίου στις ρυθμίσεις για να ξεκινήσει ο αντιστοιχιστής"
 
 msgid "Start mapper to intercept keys and apply keymaps"
-msgstr "Ξεκινήστε το mapper για να παρεμποδίσει τα πλήκτρα και να εφαρμόσει Keymap"
+msgstr "Εκκίνηση του αντιστοιχιστή για αναχαίτιση πλήκτρων και εφαρμογή Keymap"
 
 msgid "Current active keymap (selected automatically by switching rules)"
-msgstr "Τρέχουσα ενεργή Keymap (επιλέγεται αυτόματα με εναλλαγή κανόνων)"
+msgstr "Τρέχουσα ενεργή Keymap (επιλέγεται αυτόματα από κανόνες εναλλαγής)"
 
 msgid "Click to change mode (Auto / On / Off)"
-msgstr ""
-"Κάντε κλικ για αλλαγή λειτουργίας (Αυτόματο / Ενεργό / Απενεργοποιημένο)"
+msgstr "Κάντε κλικ για αλλαγή λειτουργίας (Αυτόματο / Ενεργό / Ανενεργό)"
 
 msgid ""
 "The mapper intercepts keyboard input, applies layers, rules and macros, and "
 "emits output through a virtual device."
-msgstr ""
-"Ο χαρτογράφος παρεμποδίζει την είσοδο πληκτρολογίου, εφαρμόζει επίπεδα, "
-"κανόνες και μακροεντολές και εκπέμπει έξοδο μέσω μιας εικονικής συσκευής."
+msgstr "Ο αντιστοιχιστής αναχαιτίζει την είσοδο του πληκτρολογίου, εφαρμόζει επίπεδα, κανόνες και μακροεντολές και εκπέμπει το αποτέλεσμα μέσω μιας εικονικής συσκευής."
 
 msgid ""
 "Define how physical keys behave: tap for a key or action, hold to switch "
 "layers, or double-tap for extra shortcuts."
-msgstr ""
-"Καθορίστε πώς συμπεριφέρονται τα φυσικά πλήκτρα: πατήστε για ένα κλειδί ή "
-"ενέργεια, κρατήστε πατημένο για εναλλαγή επιπέδων ή πατήστε δύο φορές για "
-"επιπλέον συντομεύσεις."
+msgstr "Ορίστε πώς συμπεριφέρονται τα φυσικά πλήκτρα: πάτημα για πλήκτρο ή ενέργεια, κράτημα για αλλαγή επιπέδου, διπλό πάτημα για επιπλέον συνδυασμούς."
 
 msgid ""
 "Action performed when the trigger is pressed and released quickly without "
 "holding."
-msgstr ""
-"Η ενέργεια εκτελείται όταν η σκανδάλη πατηθεί και απελευθερωθεί γρήγορα "
-"χωρίς να κρατάτε πατημένο."
+msgstr "Ενέργεια που εκτελείται όταν το έναυσμα πατηθεί και αφεθεί γρήγορα, χωρίς κράτημα."
 
 msgid ""
 "Action performed when the trigger is pressed twice quickly within the "
 "double-tap timeout."
-msgstr ""
-"Η ενέργεια εκτελείται όταν η σκανδάλη πατηθεί δύο φορές γρήγορα εντός του "
-"χρονικού ορίου διπλού χτυπήματος."
+msgstr "Ενέργεια που εκτελείται όταν το έναυσμα πατηθεί γρήγορα δύο φορές μέσα στο διάστημα διπλού πατήματος."
 
 msgid "Show standard QWERTY letter labels for visual reference."
-msgstr "Εμφάνιση τυπικών ετικετών γραμμάτων QWERTY για οπτική αναφορά."
+msgstr "Εμφάνιση των τυπικών γραμμάτων QWERTY για οπτική αναφορά."
 
 msgid ""
 "Show internal key codes used in Tecloid keymaps (e.g. KeyA, "
 "ArrowLeft)."
-msgstr "Εμφάνιση εσωτερικών κωδικών κλειδιών που χρησιμοποιούνται στα Keymap αριστερού ελέγχου (π.χ. KeyA, ArrowLeft)."
+msgstr "Εμφάνιση των εσωτερικών κωδικών πλήκτρων που χρησιμοποιούνται στις Keymap του Tecloid (π.χ. KeyA, ArrowLeft)."
 
 msgid "Hold detection"
-msgstr "Ανίχνευση αναμονής"
+msgstr "Ανίχνευση κρατήματος"
 
 msgid "When a key becomes a hold"
-msgstr "Όταν ένα κλειδί γίνεται λαβή"
+msgstr "Πότε ένα πλήκτρο θεωρείται κρατημένο"
 
 msgid ""
 "Decides when a rule key that is still down counts as a hold if you press "
 "another key meanwhile. Applies to all rules."
-msgstr ""
-"Αποφασίζει πότε ένα πλήκτρο κανόνα που είναι ακόμα απενεργοποιημένο μετράει "
-"ως αναμονή εάν πατήσετε ένα άλλο πλήκτρο εν τω μεταξύ. Ισχύει για όλους τους"
-" κανόνες."
+msgstr "Καθορίζει πότε ένα πλήκτρο κανόνα που είναι ακόμη πατημένο θεωρείται κρατημένο αν στο μεταξύ πατήσετε άλλο πλήκτρο. Ισχύει για όλους τους κανόνες."
 
 msgid ""
 "After another key is released: the key becomes a hold once another key is "
 "pressed and released while it is down, or when the hold threshold passes. "
 "Fast rolls while typing stay taps."
-msgstr ""
-"Μετά την απελευθέρωση ενός άλλου πλήκτρου: το πλήκτρο μετατρέπεται σε "
-"αναμονή μόλις πατηθεί και αφεθεί ένα άλλο πλήκτρο ενώ είναι πατημένο ή όταν "
-"περάσει το όριο κράτησης. Γρήγορη κύλιση κατά την πληκτρολόγηση μείνετε "
-"πατήματα."
+msgstr "Αφού αφεθεί άλλο πλήκτρο: το πλήκτρο θεωρείται κρατημένο μόλις ένα άλλο πλήκτρο πατηθεί και αφεθεί ενώ αυτό είναι πατημένο, ή όταν περάσει το όριο κρατήματος. Οι γρήγορες διαδοχές κατά την πληκτρολόγηση παραμένουν πατήματα."
 
 msgid ""
 "As soon as another key is pressed: reacts faster, but fast typing can "
@@ -2864,7 +2641,7 @@ msgstr ""
 "πληκτρολόγηση μπορεί να ενεργοποιήσει το κράτημα κατά λάθος."
 
 msgid "After another key is released (recommended)"
-msgstr "Μετά την απελευθέρωση άλλου κλειδιού (συνιστάται)"
+msgstr "Αφού αφεθεί άλλο πλήκτρο (συνιστάται)"
 
 msgid "As soon as another key is pressed"
 msgstr "Μόλις πατηθεί άλλο πλήκτρο"
@@ -2877,57 +2654,42 @@ msgstr ""
 "να ορίσει τη δική του τιμή στις σύνθετες επιλογές του."
 
 msgid "Hold threshold, ms"
-msgstr "Όριο κράτησης, ms"
+msgstr "Όριο κρατήματος, ms"
 
 msgid ""
 "How long to hold a rule key before it counts as a hold: its layer or hold "
 "action. Released earlier, the key runs its tap action."
-msgstr ""
-"Πόσο καιρό να κρατήσετε ένα κλειδί κανόνα προτού μετρήσει ως αναμονή: η "
-"ενέργεια του επιπέδου ή η κράτηση. Το κλειδί που κυκλοφόρησε νωρίτερα "
-"εκτελεί τη δράση του πατήματος."
+msgstr "Πόσο πρέπει να κρατηθεί ένα πλήκτρο κανόνα για να θεωρηθεί κράτημα: το επίπεδό του ή η ενέργεια κρατήματος. Αν αφεθεί νωρίτερα, το πλήκτρο εκτελεί την ενέργεια πατήματος."
 
 msgid ""
 "Lower: layers turn on faster, but fast typing may trigger them by mistake. "
 "Higher: fewer false holds, but a longer wait. Usually 150–250 ms."
-msgstr ""
-"Κάτω: Τα επίπεδα ενεργοποιούνται πιο γρήγορα, αλλά η γρήγορη πληκτρολόγηση "
-"μπορεί να τα ενεργοποιήσει κατά λάθος. Υψηλότερο: λιγότερες ψευδείς "
-"κρατήσεις, αλλά μεγαλύτερη αναμονή. Συνήθως 150–250 ms."
+msgstr "Χαμηλότερο: τα επίπεδα ενεργοποιούνται γρηγορότερα, αλλά η γρήγορη πληκτρολόγηση μπορεί να τα ενεργοποιήσει κατά λάθος. Υψηλότερο: λιγότερα ψευδή κρατήματα, αλλά μεγαλύτερη αναμονή. Συνήθως 150–250 ms."
 
 msgid "Standard value: {} ms."
 msgstr "Τυπική τιμή: {} ms."
 
 msgid "Long hold, ms"
-msgstr "Υπομονή, κα"
+msgstr "Παρατεταμένο κράτημα, ms"
 
 msgid ""
 "How long to keep holding a rule key before its long-hold action runs once. "
 "Applies to rules whose hold runs an action instead of a layer."
-msgstr ""
-"Για πόσο καιρό πρέπει να κρατήσετε ένα κλειδί κανόνα πριν εκτελεστεί μία "
-"φορά η δράση παρατεταμένης αναμονής. Ισχύει για κανόνες των οποίων η αναμονή"
-" εκτελεί μια ενέργεια αντί για ένα επίπεδο."
+msgstr "Πόσο πρέπει να συνεχίσει να κρατιέται ένα πλήκτρο κανόνα πριν εκτελεστεί μία φορά η ενέργεια παρατεταμένου κρατήματος. Ισχύει για κανόνες των οποίων το κράτημα εκτελεί ενέργεια αντί για επίπεδο."
 
 msgid "Double-tap window, ms"
-msgstr "Διπλό πάτημα παραθύρου, ms"
+msgstr "Διάστημα διπλού πατήματος, ms"
 
 msgid ""
 "A second tap within this time after the first release counts as a double "
 "tap."
-msgstr ""
-"Ένα δεύτερο πάτημα μέσα σε αυτό το διάστημα μετά την πρώτη κυκλοφορία "
-"μετράει ως διπλό πάτημα."
+msgstr "Ένα δεύτερο πάτημα μέσα σε αυτόν τον χρόνο μετά το πρώτο άφημα θεωρείται διπλό πάτημα."
 
 msgid ""
 "A single tap on a key with a double-tap action runs only after this window "
 "ends, so a large value makes such keys feel slow. Keys without a double-tap "
 "action are not delayed."
-msgstr ""
-"Ένα απλό πάτημα σε ένα πλήκτρο με ενέργεια διπλού αγγίγματος εκτελείται μόνο"
-" μετά το τέλος αυτού του παραθύρου, επομένως μια μεγάλη τιμή κάνει τέτοια "
-"πλήκτρα να αισθάνονται αργά. Τα πλήκτρα χωρίς ενέργεια διπλού αγγίγματος δεν"
-" καθυστερούν."
+msgstr "Ένα απλό πάτημα σε πλήκτρο με ενέργεια διπλού πατήματος εκτελείται μόνο αφού λήξει αυτό το διάστημα, οπότε μια μεγάλη τιμή κάνει αυτά τα πλήκτρα να φαίνονται αργά. Τα πλήκτρα χωρίς ενέργεια διπλού πατήματος δεν καθυστερούν."
 
 msgid ""
 "Used by macros that leave the field empty. A macro can set its own value on "
@@ -2939,116 +2701,85 @@ msgstr ""
 msgid ""
 "Pause between consecutive steps of a macro. Increase it if an application "
 "misses keystrokes."
-msgstr ""
-"Παύση μεταξύ διαδοχικών βημάτων μιας μακροεντολής. Αυξήστε το εάν μια "
-"εφαρμογή δεν πληκτρολογήσει."
+msgstr "Παύση μεταξύ διαδοχικών βημάτων μιας μακροεντολής. Αυξήστε την αν μια εφαρμογή χάνει πατήματα πλήκτρων."
 
 msgid "Simultaneous presses"
-msgstr "Ταυτόχρονα πιέσεις"
+msgstr "Ταυτόχρονα πατήματα"
 
 msgid ""
 "For rules triggered by several keys pressed together, such as KeyJ+KeyK. All"
 " keys must go down within this time, in any order. Until then the first key "
 "is held back; if the combination does not complete, it is typed as usual. "
 "Modifiers are never held back."
-msgstr ""
-"Για κανόνες που ενεργοποιούνται από πολλά πλήκτρα που πιέζονται μαζί, όπως "
-"KeyJ+KeyK. Όλα τα πλήκτρα πρέπει να χαθούν μέσα σε αυτό το χρονικό διάστημα,"
-" με οποιαδήποτε σειρά. Μέχρι τότε το πρώτο κλειδί κρατιέται πίσω. εάν ο "
-"συνδυασμός δεν ολοκληρωθεί, πληκτρολογείται ως συνήθως. Οι τροποποιητές δεν "
-"συγκρατούνται ποτέ."
+msgstr "Για κανόνες που ενεργοποιούνται από πολλά πλήκτρα πατημένα μαζί, όπως KeyJ+KeyK. Όλα τα πλήκτρα πρέπει να πατηθούν μέσα σε αυτόν τον χρόνο, με οποιαδήποτε σειρά. Ως τότε το πρώτο πλήκτρο κρατιέται σε αναμονή· αν ο συνδυασμός δεν ολοκληρωθεί, πληκτρολογείται κανονικά. Οι τροποποιητές δεν κρατιούνται ποτέ σε αναμονή."
 
 msgid ""
 "Higher: the combination is easier to hit, but typing with these keys lags "
 "slightly. Applies to all rules; a rule cannot override it."
-msgstr ""
-"Υψηλότερο: ο συνδυασμός είναι πιο εύκολο να χτυπηθεί, αλλά η πληκτρολόγηση "
-"με αυτά τα πλήκτρα καθυστερεί ελαφρώς. Ισχύει για όλους τους κανόνες. ένας "
-"κανόνας δεν μπορεί να τον παρακάμψει."
+msgstr "Υψηλότερο: ο συνδυασμός πετυχαίνει ευκολότερα, αλλά η πληκτρολόγηση με αυτά τα πλήκτρα καθυστερεί ελαφρά. Ισχύει για όλους τους κανόνες· ένας κανόνας δεν μπορεί να το παρακάμψει."
 
 msgid ""
 "Wait between pressing modifiers (Shift, Ctrl, …) and the main key of a macro"
 " step. Increase it if an application receives the shortcut without its "
 "modifier. Default for macros that leave the field empty."
-msgstr ""
-"Περιμένετε ανάμεσα στο πάτημα των τροποποιητών (Shift, Ctrl,…) και του "
-"κύριου πλήκτρου ενός βήματος μακροεντολής. Αυξήστε το εάν μια εφαρμογή λάβει"
-" τη συντόμευση χωρίς τον τροποποιητή της. Προεπιλογή για μακροεντολές που "
-"αφήνουν κενό το πεδίο."
+msgstr "Αναμονή ανάμεσα στο πάτημα των τροποποιητών (Shift, Ctrl, …) και του κύριου πλήκτρου ενός βήματος μακροεντολής. Αυξήστε την αν μια εφαρμογή λαμβάνει τον συνδυασμό χωρίς τον τροποποιητή. Προεπιλογή για μακροεντολές που αφήνουν το πεδίο κενό."
 
 msgid "Enter a long hold from 100 to 60000 ms."
-msgstr "Εισαγάγετε ένα μεγάλο κράτημα από 100 έως 60000 ms."
+msgstr "Εισαγάγετε παρατεταμένο κράτημα από 100 έως 60000 ms."
 
 msgid "Long hold after {} ms"
-msgstr "Παρατεταμένη αναμονή μετά από {} ms"
+msgstr "Παρατεταμένο κράτημα μετά από {} ms"
 
 msgid ""
 "Released earlier, the trigger counts as a tap; held longer, as a hold. Empty"
 " uses the default from Settings: {} ms."
-msgstr ""
-"Κυκλοφόρησε νωρίτερα, η σκανδάλη μετράει ως πάτημα. κράτησε περισσότερο, ως "
-"λαβή. Το Empty χρησιμοποιεί την προεπιλογή από τις Ρυθμίσεις: {} ms."
+msgstr "Αν αφεθεί νωρίτερα, το έναυσμα θεωρείται πάτημα· αν κρατηθεί περισσότερο, κράτημα. Το κενό χρησιμοποιεί την προεπιλογή των Ρυθμίσεων: {} ms."
 
 msgid ""
 "How long to keep holding before the action runs. Empty uses the default from"
 " Settings: {} ms."
-msgstr ""
-"Πόσο καιρό πρέπει να κρατήσετε μέχρι να τρέξει η δράση. Το Empty "
-"χρησιμοποιεί την προεπιλογή από τις Ρυθμίσεις: {} ms."
+msgstr "Πόσο να κρατηθεί πριν εκτελεστεί η ενέργεια. Το κενό χρησιμοποιεί την προεπιλογή των Ρυθμίσεων: {} ms."
 
 msgid ""
 "Longest pause between two taps. Empty uses the default from Settings: {} ms."
-msgstr ""
-"Η μεγαλύτερη παύση μεταξύ δύο πατημάτων. Το Empty χρησιμοποιεί την "
-"προεπιλογή από τις Ρυθμίσεις: {} ms."
+msgstr "Μέγιστη παύση ανάμεσα σε δύο πατήματα. Το κενό χρησιμοποιεί την προεπιλογή των Ρυθμίσεων: {} ms."
 
 msgid "Auto: {} is not counted as a game (built-in list)"
-msgstr "Αυτόματο: Το {} δεν υπολογίζεται ως παιχνίδι (ενσωματωμένη λίστα)"
+msgstr "Αυτόματο: το {} δεν θεωρείται παιχνίδι (ενσωματωμένη λίστα)"
 
 msgid ""
 "These sources can take another application for a game, so each skips a "
 "built-in list of applications."
-msgstr ""
-"Αυτές οι πηγές μπορούν να λάβουν μια άλλη εφαρμογή για ένα παιχνίδι, "
-"επομένως κάθε μία παρακάμπτει μια ενσωματωμένη λίστα εφαρμογών."
+msgstr "Αυτές οι πηγές μπορεί να περάσουν μια άλλη εφαρμογή για παιχνίδι, οπότε η καθεμία παραλείπει μια ενσωματωμένη λίστα εφαρμογών."
 
 msgid ""
 "Turns on while a program that Windows recognized as a game (the Game Bar "
 "list) runs. Launchers are listed there too, so they are skipped."
-msgstr ""
-"Ενεργοποιείται ενώ εκτελείται ένα πρόγραμμα που τα Windows αναγνώρισαν ως "
-"παιχνίδι (η λίστα της γραμμής παιχνιδιών). Οι εκτοξευτές παρατίθενται επίσης"
-" εκεί, επομένως παραλείπονται."
+msgstr "Ενεργοποιείται όσο εκτελείται ένα πρόγραμμα που τα Windows αναγνώρισαν ως παιχνίδι (λίστα Game Bar). Εκεί εμφανίζονται και οι εκκινητές, οπότε παραλείπονται."
 
 msgid "Launchers and game tools — not counted as games"
-msgstr "Εκτοξευτές και εργαλεία παιχνιδιών — δεν υπολογίζονται ως παιχνίδια"
+msgstr "Εκκινητές και εργαλεία παιχνιδιών — δεν θεωρούνται παιχνίδια"
 
 msgid ""
 "Decides when a dual-role key counts as a hold if another key is pressed. "
 "Rules can override this default in advanced options. Chord detection is "
 "configured separately."
-msgstr ""
-"Αποφασίζει πότε ένα πλήκτρο διπλού ρόλου υπολογίζεται ως αναμονή εάν πατηθεί"
-" άλλο πλήκτρο. Οι κανόνες μπορούν να παρακάμψουν αυτήν την προεπιλογή στις "
-"σύνθετες επιλογές. Η ανίχνευση χορδών διαμορφώνεται ξεχωριστά."
+msgstr "Καθορίζει πότε ένα πλήκτρο διπλού ρόλου θεωρείται κρατημένο αν πατηθεί άλλο πλήκτρο. Οι κανόνες μπορούν να αλλάξουν αυτή την προεπιλογή στις επιλογές για προχωρημένους. Η ανίχνευση συνδυασμών ρυθμίζεται χωριστά."
 
 msgid "After another key is released (better for typing)"
-msgstr "Αφού απελευθερωθεί ένα άλλο κλειδί (καλύτερα για πληκτρολόγηση)"
+msgstr "Αφού αφεθεί άλλο πλήκτρο (καλύτερο για πληκτρολόγηση)"
 
 msgid ""
 "As soon as another key is pressed: useful for dedicated layer or modifier "
 "keys. Reacts faster, but overlapping letters while typing can trigger the "
 "hold by mistake."
-msgstr ""
-"Μόλις πατηθεί ένα άλλο πλήκτρο: χρήσιμο για αποκλειστικά πλήκτρα επιπέδου ή "
-"τροποποιητών. Αντιδρά πιο γρήγορα, αλλά τα επικαλυπτόμενα γράμματα κατά την "
-"πληκτρολόγηση μπορεί να ενεργοποιήσουν το κράτημα κατά λάθος."
+msgstr "Μόλις πατηθεί άλλο πλήκτρο: χρήσιμο για πλήκτρα που χρησιμοποιούνται μόνο για επίπεδα ή τροποποιητές. Αντιδρά γρηγορότερα, αλλά τα γράμματα που επικαλύπτονται κατά την πληκτρολόγηση μπορεί να ενεργοποιήσουν το κράτημα κατά λάθος."
 
 msgid "Default from Settings: {}"
 msgstr "Προεπιλογή από τις Ρυθμίσεις: {}"
 
 msgid "after another key is released"
-msgstr "μετά την απελευθέρωση ενός άλλου κλειδιού"
+msgstr "αφού αφεθεί άλλο πλήκτρο"
 
 msgid "as soon as another key is pressed"
 msgstr "μόλις πατηθεί άλλο πλήκτρο"
@@ -3057,49 +2788,43 @@ msgid ""
 "Overrides the default hold detection for this rule. Use release detection "
 "for typing keys and press detection for dedicated layer or modifier keys. "
 "This does not change chord detection."
-msgstr ""
-"Αντικαθιστά τον προεπιλεγμένο εντοπισμό αναμονής για αυτόν τον κανόνα. "
-"Χρησιμοποιήστε την ανίχνευση απελευθέρωσης για πλήκτρα πληκτρολόγησης και "
-"πατήστε την ανίχνευση για αποκλειστικά πλήκτρα επιπέδου ή τροποποιητών. Αυτό"
-" δεν αλλάζει την ανίχνευση χορδών."
+msgstr "Αντικαθιστά την προεπιλεγμένη ανίχνευση κρατήματος για αυτόν τον κανόνα. Χρησιμοποιήστε ανίχνευση κατά το άφημα για πλήκτρα πληκτρολόγησης και ανίχνευση κατά το πάτημα για πλήκτρα που χρησιμοποιούνται μόνο για επίπεδα ή τροποποιητές. Δεν αλλάζει την ανίχνευση συνδυασμών."
 
 msgid "Cannot list input devices: {}"
-msgstr "Δεν είναι δυνατή η λίστα συσκευών εισόδου: {}"
+msgstr "Δεν είναι δυνατή η απαρίθμηση συσκευών εισόδου: {}"
 
 msgid "Keyboard interception is not implemented on this operating system."
-msgstr ""
-"Η παρακολούθηση πληκτρολογίου δεν εφαρμόζεται σε αυτό το λειτουργικό "
-"σύστημα."
+msgstr "Η αναχαίτιση πληκτρολογίου δεν έχει υλοποιηθεί σε αυτό το λειτουργικό σύστημα."
 
 msgid "Defaults"
 msgstr "Προεπιλογές"
 
 msgid "Shared by all rules"
-msgstr "Κοινή χρήση όλων των κανόνων"
+msgstr "Κοινό για όλους τους κανόνες"
 
 msgid "Hold threshold"
-msgstr "Κρατήστε το κατώφλι"
+msgstr "Όριο κρατήματος"
 
 msgid "Long hold"
-msgstr "Μεγάλη αναμονή"
+msgstr "Παρατεταμένο κράτημα"
 
 msgid "Double-tap window"
-msgstr "Πατήστε δύο φορές το παράθυρο"
+msgstr "Διάστημα διπλού πατήματος"
 
 msgid "Reset to {} ms"
 msgstr "Επαναφορά σε {} ms"
 
 msgid "Automatic game detection"
-msgstr "Αυτόματη ανίχνευση παιχνιδιού"
+msgstr "Αυτόματη ανίχνευση παιχνιδιών"
 
 msgid "System signals"
 msgstr "Σήματα συστήματος"
 
 msgid "Launchers"
-msgstr "Εκτοξευτές"
+msgstr "Εκκινητές"
 
 msgid "Heroic games"
-msgstr "Ηρωικά παιχνίδια"
+msgstr "Παιχνίδια Heroic"
 
 msgid ""
 "Turns on while a game started by Heroic Games Launcher runs (Epic, GOG, "
@@ -3111,24 +2836,21 @@ msgstr ""
 "HEROIC_APP_NAME σε κάθε παιχνίδι που ξεκινά."
 
 msgid "Games run through umu-launcher"
-msgstr "Τα παιχνίδια τρέχουν μέσω του umu-launcher"
+msgstr "Παιχνίδια που εκτελούνται μέσω umu-launcher"
 
 msgid ""
 "Turns on while a game runs through umu-run. Heroic, Lutris, Faugus Launcher "
 "and other launchers use it to start Windows games with Proton."
-msgstr ""
-"Ενεργοποιείται ενώ ένα παιχνίδι εκτελείται μέσω του umu-run. Το Heroic, το "
-"Lutris, το Faugus Launcher και άλλοι εκτοξευτές το χρησιμοποιούν για να "
-"ξεκινήσουν παιχνίδια Windows με το Proton."
+msgstr "Ενεργοποιείται όσο ένα παιχνίδι εκτελείται μέσω umu-run. Το Heroic, το Lutris, το Faugus Launcher και άλλοι εκκινητές το χρησιμοποιούν για να ξεκινούν παιχνίδια Windows με το Proton."
 
 msgid "Guesses — can be wrong"
 msgstr "Εικασίες — μπορεί να είναι λάθος"
 
 msgid "Your rules"
-msgstr "Οι κανόνες σου"
+msgstr "Οι κανόνες σας"
 
 msgid "“Doesn't count as a game” wins over everything else, automatic detection included."
-msgstr "Το \"Δεν θεωρείται παιχνίδι\" κερδίζει πάνω από οτιδήποτε άλλο, συμπεριλαμβανομένης της αυτόματης ανίχνευσης."
+msgstr "Το «Δεν θεωρείται παιχνίδι» υπερισχύει όλων των άλλων, και της αυτόματης ανίχνευσης."
 
 
 
@@ -3142,61 +2864,51 @@ msgstr "Δεν θεωρείται παιχνίδι"
 
 
 msgid "Built-in list. To count one of these anyway, add it to Counts as a game under Your rules."
-msgstr "Ενσωματωμένη λίστα. Για να μετρήσετε ένα από αυτά ούτως ή άλλως, προσθέστε το στο «Θεωρείται παιχνίδι» στην ενότητα «Οι κανόνες σου»."
+msgstr "Ενσωματωμένη λίστα. Για να θεωρηθεί παρ' όλα αυτά κάποιο από αυτά παιχνίδι, προσθέστε το στο «Θεωρείται παιχνίδι» στην ενότητα «Οι κανόνες σας»."
 
 
 
 msgid "Hold"
-msgstr "Παρατεταμένο πάτημα"
+msgstr "Κράτημα"
 
 msgid "Tap"
 msgstr "Πάτημα"
 
 msgid "Don't press"
-msgstr "Μην πιέζετε"
+msgstr "Χωρίς πάτημα"
 
 msgid "{} — change…"
 msgstr "{} — αλλαγή…"
 
 msgid "Choose another key above to set when it is pressed."
-msgstr "Επιλέξτε ένα άλλο πλήκτρο παραπάνω για να το ρυθμίσετε όταν πατιέται."
+msgstr "Επιλέξτε άλλο πλήκτρο παραπάνω για να ορίσετε πότε θα πατιέται."
 
 msgid "Assign a double-tap action to the rule to change this window."
-msgstr ""
-"Αντιστοιχίστε μια ενέργεια με διπλό πάτημα στον κανόνα για να αλλάξετε αυτό "
-"το παράθυρο."
+msgstr "Αναθέστε στον κανόνα ενέργεια διπλού πατήματος για να αλλάξετε αυτό το διάστημα."
 
 msgid "Hold on other key release"
-msgstr "Περιμένετε την απελευθέρωση άλλου κλειδιού"
+msgstr "Κράτημα με το άφημα άλλου πλήκτρου"
 
 msgid "Hold on other key press"
-msgstr "Κρατήστε πατημένο το άλλο πλήκτρο"
+msgstr "Κράτημα με το πάτημα άλλου πλήκτρου"
 
 msgid "Reset"
 msgstr "Επαναφορά"
 
 msgid "Return all options in this dialog to their defaults"
-msgstr ""
-"Επιστρέψτε όλες τις επιλογές σε αυτό το παράθυρο διαλόγου στις προεπιλογές "
-"τους"
+msgstr "Επαναφορά όλων των επιλογών αυτού του διαλόγου στις προεπιλογές"
 
 msgid "Macro time limit"
-msgstr "Μακροχρονικό όριο"
+msgstr "Χρονικό όριο μακροεντολής"
 
 msgid ""
 "A macro still running after this time is stopped and counts as finished. A "
 "macro started while another one runs waits for it; up to 3 runs can wait, "
 "further presses are ignored."
-msgstr ""
-"Μια μακροεντολή που εξακολουθεί να εκτελείται μετά από αυτό το διάστημα "
-"σταματά και μετράει ως ολοκληρωμένη. Μια μακροεντολή ξεκίνησε ενώ μια άλλη "
-"που τρέχει την περιμένει. έως και 3 τρεξίματα μπορούν να περιμένουν, τα "
-"περαιτέρω πατήματα αγνοούνται."
+msgstr "Μια μακροεντολή που εκτελείται ακόμη μετά από αυτόν τον χρόνο σταματά και θεωρείται ολοκληρωμένη. Μια μακροεντολή που ξεκινά ενώ εκτελείται άλλη την περιμένει· μπορούν να περιμένουν έως 3 εκτελέσεις, τα επιπλέον πατήματα αγνοούνται."
 
 msgid "Global shortcuts registered in this KDE session:"
-msgstr ""
-"Καθολικές συντομεύσεις που έχουν καταχωρηθεί σε αυτήν την περίοδο "
-"λειτουργίας του KDE:"
+msgstr "Καθολικοί συνδυασμοί καταχωρημένοι σε αυτήν τη συνεδρία KDE:"
 
 msgid ""
 "The list is read from the KDE global shortcut service (kglobalaccel): KWin, "
@@ -3206,64 +2918,48 @@ msgid ""
 "Plasma version and installed applications, so Tecloid does not "
 "guarantee them. Common window and desktop actions that also work on other "
 "platforms are in System actions."
-msgstr ""
-"Η λίστα διαβάζεται από την υπηρεσία καθολικής συντόμευσης του KDE "
-"(kglobalaccel): Το KWin, το Plasma και οι εφαρμογές καταχωρούν τις ενέργειές"
-" τους εκεί. Η επιλεγμένη ενέργεια καλείται ως έχει, σαν να είχε πατηθεί η "
-"συντόμευση της, ακόμη και όταν δεν της έχουν εκχωρηθεί πλήκτρα. Ποιες "
-"ενέργειες υπάρχουν και πώς συμπεριφέρονται εξαρτώνται από την έκδοση Plasma "
-"και τις εγκατεστημένες εφαρμογές, επομένως το Tecloid δεν τις "
-"εγγυάται. Οι κοινές ενέργειες παραθύρων και επιτραπέζιων υπολογιστών που "
-"λειτουργούν και σε άλλες πλατφόρμες βρίσκονται στις Ενέργειες συστήματος."
+msgstr "Η λίστα διαβάζεται από την υπηρεσία καθολικών συνδυασμών του KDE (kglobalaccel): το KWin, το Plasma και οι εφαρμογές καταχωρούν εκεί τις ενέργειές τους. Η επιλεγμένη ενέργεια καλείται απευθείας, σαν να πατήθηκε ο συνδυασμός της, ακόμη κι αν δεν της έχουν ανατεθεί πλήκτρα. Ποιες ενέργειες υπάρχουν και πώς συμπεριφέρονται εξαρτάται από την έκδοση του Plasma και τις εγκατεστημένες εφαρμογές, γι' αυτό το Tecloid δεν τις εγγυάται. Οι συνήθεις ενέργειες παραθύρων και επιφανειών εργασίας που λειτουργούν και σε άλλες πλατφόρμες βρίσκονται στις Ενέργειες συστήματος."
 
 msgid "Hold key or combination"
-msgstr "Κρατήστε πατημένο το πλήκτρο ή συνδυασμό"
+msgstr "Κράτημα πλήκτρου ή συνδυασμού"
 
 msgid ""
 "The key or combination stays pressed until you release the trigger. Choose "
 "modifiers plus one main key, for example Ctrl+KeyC."
-msgstr ""
-"Το πλήκτρο ή ο συνδυασμός παραμένει πατημένο μέχρι να απελευθερώσετε τη "
-"σκανδάλη. Επιλέξτε τροποποιητές συν ένα κύριο κλειδί, για παράδειγμα "
-"Ctrl+KeyC."
+msgstr "Το πλήκτρο ή ο συνδυασμός μένει πατημένος μέχρι να αφήσετε το έναυσμα. Επιλέξτε τροποποιητές και ένα κύριο πλήκτρο, για παράδειγμα Ctrl+KeyC."
 
 msgid "Not used when holding performs a long-hold action."
-msgstr ""
-"Δεν χρησιμοποιείται όταν το κράτημα εκτελεί μια ενέργεια μακράς διαρκείας."
+msgstr "Δεν χρησιμοποιείται όταν το κράτημα εκτελεί ενέργεια παρατεταμένου κρατήματος."
 
 msgid "Other key or combination…"
-msgstr "Άλλο κλειδί ή συνδυασμός…"
+msgstr "Άλλο πλήκτρο ή συνδυασμός…"
 
 msgid "Hold detection when another key is pressed"
-msgstr "Κρατήστε την ανίχνευση όταν πατήσετε άλλο πλήκτρο"
+msgstr "Ανίχνευση κρατήματος όταν πατηθεί άλλο πλήκτρο"
 
 msgid "Used for single-key triggers without a long-hold action."
-msgstr ""
-"Χρησιμοποιείται για σκανδάλες με ένα κλειδί χωρίς δράση μακράς διαρκείας."
+msgstr "Χρησιμοποιείται για εναύσματα ενός πλήκτρου χωρίς ενέργεια παρατεταμένου κρατήματος."
 
 msgid "Long-hold threshold, ms"
-msgstr "Όριο μακράς διατήρησης, ms"
+msgstr "Όριο παρατεταμένου κρατήματος, ms"
 
 msgid "Used when a long-hold action is selected."
-msgstr ""
-"Χρησιμοποιείται όταν έχει επιλεγεί μια ενέργεια παρατεταμένης αναμονής."
+msgstr "Χρησιμοποιείται όταν έχει επιλεγεί ενέργεια παρατεταμένου κρατήματος."
 
 msgid "Double-tap interval, ms"
-msgstr "Διάστημα διπλού αγγίγματος, ms"
+msgstr "Διάστημα διπλού πατήματος, ms"
 
 msgid "Double-tap actions are available only for single-key triggers."
-msgstr ""
-"Οι ενέργειες με διπλό πάτημα είναι διαθέσιμες μόνο για εναύσματα με ένα "
-"κλειδί."
+msgstr "Οι ενέργειες διπλού πατήματος είναι διαθέσιμες μόνο για εναύσματα ενός πλήκτρου."
 
 msgid "Applies when a double-tap action is assigned."
-msgstr "Ισχύει όταν έχει εκχωρηθεί μια ενέργεια με διπλό πάτημα."
+msgstr "Ισχύει όταν έχει ανατεθεί ενέργεια διπλού πατήματος."
 
 msgid "Delete trigger"
-msgstr "Διαγραφή ενεργοποίησης"
+msgstr "Διαγραφή εναύσματος"
 
 msgid "Delete trigger?"
-msgstr "Διαγραφή ενεργοποίησης;"
+msgstr "Διαγραφή εναύσματος;"
 
 msgid ""
 "The trigger and all its assigned actions will be removed from the current "
@@ -3271,46 +2967,46 @@ msgid ""
 msgstr "Το έναυσμα και όλες οι ενέργειες που του έχουν ανατεθεί θα αφαιρεθούν από την τρέχουσα Keymap."
 
 msgid "Reset {} to default"
-msgstr "Επαναφέρετε το {} στις προεπιλογές"
+msgstr "Επαναφορά του {} στην προεπιλογή"
 
 msgid "Holding activates layer: {}"
 msgstr "Το κράτημα ενεργοποιεί το επίπεδο: {}"
 
 msgid "Holding performs a long-hold action."
-msgstr "Το κράτημα εκτελεί μια ενέργεια μακράς διαρκείας."
+msgstr "Το κράτημα εκτελεί ενέργεια παρατεταμένου κρατήματος."
 
 msgid "Holding keeps a key or combination pressed."
-msgstr "Κρατώντας κρατάτε πατημένο ένα πλήκτρο ή συνδυασμό."
+msgstr "Το κράτημα διατηρεί πατημένο ένα πλήκτρο ή συνδυασμό."
 
 msgid "Paths"
-msgstr "Μονοπάτια"
+msgstr "Διαδρομές"
 
 msgid "Unknown layer key at \"{}\"."
-msgstr "Άγνωστο πλήκτρο επιπέδου στο \"{}\"."
+msgstr "Άγνωστο πλήκτρο επιπέδου στο «{}»."
 
 msgid "Invalid layer action at \"{}\"."
-msgstr "Μη έγκυρη ενέργεια επιπέδου στο \"{}\"."
+msgstr "Μη έγκυρη ενέργεια επιπέδου στο «{}»."
 
 msgid "Invalid macro at \"{}\"."
-msgstr "Μη έγκυρη μακροεντολή στο \"{}\"."
+msgstr "Μη έγκυρη μακροεντολή στο «{}»."
 
 msgid "Invalid menu action at \"{}\"."
-msgstr "Μη έγκυρη ενέργεια μενού στο \"{}\"."
+msgstr "Μη έγκυρη ενέργεια μενού στο «{}»."
 
 msgid "Invalid timing at \"{}\"."
-msgstr "Μη έγκυρος χρονισμός στο \"{}\"."
+msgstr "Μη έγκυρος χρονισμός στο «{}»."
 
 msgid "Invalid window condition at \"{}\"."
-msgstr "Μη έγκυρη συνθήκη παραθύρου στο \"{}\"."
+msgstr "Μη έγκυρη συνθήκη παραθύρου στο «{}»."
 
 msgid "Unsupported rule combination at \"{}\"."
-msgstr "Μη υποστηριζόμενος συνδυασμός κανόνων στο \"{}\"."
+msgstr "Μη υποστηριζόμενος συνδυασμός κανόνων στο «{}»."
 
 msgid "Invalid macro step at \"{}\"."
-msgstr "Μη έγκυρο βήμα μακροεντολής στο \"{}\"."
+msgstr "Μη έγκυρο βήμα μακροεντολής στο «{}»."
 
 msgid "Macro call cycle at \"{}\"."
-msgstr "Κύκλος κλήσης μακροεντολών στο \"{}\"."
+msgstr "Κύκλος κλήσεων μακροεντολών στο «{}»."
 
 msgid "A timing value is outside the range shown in Settings."
 msgstr ""
@@ -3318,23 +3014,17 @@ msgstr ""
 "Ρυθμίσεις."
 
 msgid "Keep modifiers held until the layer is released"
-msgstr ""
-"Κρατήστε τους τροποποιητές σε αναμονή μέχρι να απελευθερωθεί το επίπεδο"
+msgstr "Διατήρηση των τροποποιητών πατημένων μέχρι να αφεθεί το επίπεδο"
 
 msgid ""
 "For a combination such as Alt+Tab: Alt stays pressed while you press the key"
 " again and is released together with the layer key, so the window switcher "
 "stays open."
-msgstr ""
-"Για έναν συνδυασμό όπως το Alt+Tab: Το Alt παραμένει πατημένο ενώ πατάτε "
-"ξανά το πλήκτρο και απελευθερώνεται μαζί με το πλήκτρο στρώματος, οπότε ο "
-"διακόπτης παραθύρου παραμένει ανοιχτός."
+msgstr "Για συνδυασμό όπως Alt+Tab: το Alt μένει πατημένο όσο πατάτε ξανά το πλήκτρο και αφήνεται μαζί με το πλήκτρο του επιπέδου, ώστε ο εναλλάκτης παραθύρων να μένει ανοιχτός."
 
 msgid ""
 "Cannot list input devices. Check device access and see the application log."
-msgstr ""
-"Δεν είναι δυνατή η λίστα συσκευών εισόδου. Ελέγξτε την πρόσβαση της συσκευής"
-" και δείτε το αρχείο καταγραφής της εφαρμογής."
+msgstr "Δεν είναι δυνατή η απαρίθμηση συσκευών εισόδου. Ελέγξτε την πρόσβαση στις συσκευές και δείτε το αρχείο καταγραφής της εφαρμογής."
 
 msgid ""
 "Configuration is unavailable. Check the configuration files and see the "
@@ -3354,9 +3044,7 @@ msgstr "Το αναδυόμενο μενού απέτυχε. Δοκιμάστε 
 msgid ""
 "The text was not typed: the typing method is unavailable. Restart the mapper"
 " to try again."
-msgstr ""
-"Το κείμενο δεν πληκτρολογήθηκε: η μέθοδος πληκτρολόγησης δεν είναι "
-"διαθέσιμη. Επανεκκινήστε τη χαρτογράφηση για να προσπαθήσετε ξανά."
+msgstr "Το κείμενο δεν πληκτρολογήθηκε: η μέθοδος πληκτρολόγησης δεν είναι διαθέσιμη. Επανεκκινήστε τον αντιστοιχιστή για να ξαναδοκιμάσετε."
 
 msgid ""
 "The text was not typed: safe clipboard access failed. See the application "
@@ -3375,23 +3063,19 @@ msgid "Changes saved, but the mapper is still using the previous settings. Resta
 msgstr "Οι αλλαγές αποθηκεύτηκαν, αλλά ο αντιστοιχιστής εξακολουθεί να χρησιμοποιεί τις προηγούμενες ρυθμίσεις. Επανεκκινήστε τον αντιστοιχιστή."
 
 msgid "The operation failed. See the application log."
-msgstr "Η επέμβαση απέτυχε. Δείτε το αρχείο καταγραφής της εφαρμογής."
+msgstr "Η λειτουργία απέτυχε. Δείτε το αρχείο καταγραφής της εφαρμογής."
 
 msgid "The action failed. See the application log."
 msgstr "Η ενέργεια απέτυχε. Δείτε το αρχείο καταγραφής της εφαρμογής."
 
 msgid "Cannot start the mapper. See the application log."
-msgstr "Δεν είναι δυνατή η εκκίνηση του mapper. Λεπτομέρειες στο αρχείο καταγραφής της εφαρμογής."
+msgstr "Δεν είναι δυνατή η εκκίνηση του αντιστοιχιστή. Δείτε το αρχείο καταγραφής της εφαρμογής."
 
 msgid "Mapper is running, but an error occurred. See the application log."
-msgstr ""
-"Το Mapper εκτελείται, αλλά παρουσιάστηκε σφάλμα. Δείτε το αρχείο καταγραφής "
-"της εφαρμογής."
+msgstr "Ο αντιστοιχιστής εκτελείται, αλλά παρουσιάστηκε σφάλμα. Δείτε το αρχείο καταγραφής της εφαρμογής."
 
 msgid "Mapper stopped because of an error. See the application log."
-msgstr ""
-"Το Mapper σταμάτησε λόγω σφάλματος. Δείτε το αρχείο καταγραφής της "
-"εφαρμογής."
+msgstr "Ο αντιστοιχιστής σταμάτησε λόγω σφάλματος. Δείτε το αρχείο καταγραφής της εφαρμογής."
 
 msgid ""
 "Cannot read or save the configuration. Check file access and see the "
@@ -3453,13 +3137,13 @@ msgid "Move 5 lines up"
 msgstr "5 γραμμές πάνω"
 
 msgid "Duplicate line"
-msgstr "Διπλότυπη γραμμή"
+msgstr "Διπλασιασμός γραμμής"
 
 msgid "Space after next character"
 msgstr "Κενό μετά τον επόμενο χαρακτήρα"
 
 msgid "Empty line below"
-msgstr "Κενή γραμμή παρακάτω"
+msgstr "Κενή γραμμή από κάτω"
 
 msgid "Cut word under cursor"
 msgstr "Αποκοπή λέξης κάτω από τον δρομέα"
@@ -3498,7 +3182,7 @@ msgid "Cut whole line"
 msgstr "Αποκοπή ολόκληρης γραμμής"
 
 msgid "Select 5 lines up"
-msgstr "Επιλέξτε 5 γραμμές επάνω"
+msgstr "Επιλογή 5 γραμμών προς τα πάνω"
 
 msgid "Copy to line start"
 msgstr "Αντιγραφή έως την αρχή της γραμμής"
@@ -3525,10 +3209,10 @@ msgid "Replace line text with clipboard"
 msgstr "Αντικατάσταση κειμένου γραμμής με το πρόχειρο"
 
 msgid "Select 5 lines down"
-msgstr "Επιλέξτε 5 γραμμές προς τα κάτω"
+msgstr "Επιλογή 5 γραμμών προς τα κάτω"
 
 msgid "Remove trigger"
-msgstr "Αφαιρέστε τη σκανδάλη"
+msgstr "Αφαίρεση εναύσματος"
 
 msgid "Refresh list"
 msgstr "Ανανέωση λίστας"
@@ -3552,20 +3236,16 @@ msgid "Cancel (Esc)"
 msgstr "Ακύρωση (Esc)"
 
 msgid "Use the default from Settings: {} ms"
-msgstr "Χρησιμοποιήστε την προεπιλογή από τις Ρυθμίσεις: {} ms"
+msgstr "Χρήση της προεπιλογής των Ρυθμίσεων: {} ms"
 
 msgid ""
 "Opened by the app:showQuickMenuN actions, where N is the page position: "
 "reordering pages changes which page a key opens. Each cell can hold any "
 "action: a shortcut, macro, shell command or system action."
-msgstr ""
-"Ανοίγεται από τις ενέργειες app:showQuickMenuN, όπου N είναι η θέση σελίδας:"
-" η αναδιάταξη σελίδων αλλάζει ποια σελίδα ανοίγει ένα πλήκτρο. Κάθε κελί "
-"μπορεί να κρατήσει οποιαδήποτε ενέργεια: συντόμευση, μακροεντολή, εντολή "
-"φλοιού ή ενέργεια συστήματος."
+msgstr "Ανοίγει με τις ενέργειες app:showQuickMenuN, όπου N είναι η θέση της σελίδας: η αλλαγή σειράς των σελίδων αλλάζει ποια σελίδα ανοίγει ένα πλήκτρο. Κάθε κελί μπορεί να περιέχει οποιαδήποτε ενέργεια: συνδυασμό πλήκτρων, μακροεντολή, εντολή κελύφους ή ενέργεια συστήματος."
 
 msgid "In the popup, click a cell or press its key: the cells follow the keyboard rows Q–T, A–G and Z–B. PgUp/PgDn switch pages; digits open a page by its number."
-msgstr "Στο αναδυόμενο παράθυρο, κάντε κλικ σε ένα κελί ή πατήστε το πλήκτρο του: τα κελιά ακολουθούν τις σειρές του πληκτρολογίου Q–T, A–G και Z–B. Τα PgUp/PgDn αλλάζουν σελίδες. ψηφία ανοίγουν μια σελίδα με τον αριθμό της."
+msgstr "Στο αναδυόμενο παράθυρο, κάντε κλικ σε ένα κελί ή πατήστε το πλήκτρο του: τα κελιά ακολουθούν τις σειρές του πληκτρολογίου Q–T, A–G και Z–B. Τα PgUp/PgDn αλλάζουν σελίδα· τα ψηφία ανοίγουν μια σελίδα με τον αριθμό της."
 
 msgid "Waiting for keyboard"
 msgstr "Αναμονή για πληκτρολόγιο"
@@ -3590,7 +3270,7 @@ msgid "All devices"
 msgstr "Όλες οι συσκευές"
 
 msgid "Detected automatically from what each device reports, so the list may be incomplete. If your device is missing, look under All devices."
-msgstr "Εντοπίστηκαν αυτόματα με βάση τις δυνατότητες των συσκευών, οπότε η λίστα μπορεί να είναι ελλιπής. Αν λείπει η συσκευή σας, δείτε στην καρτέλα «Όλες οι συσκευές»."
+msgstr "Εντοπίζονται αυτόματα με βάση όσα αναφέρει κάθε συσκευή, οπότε η λίστα μπορεί να είναι ελλιπής. Αν λείπει η συσκευή σας, δείτε στην καρτέλα «Όλες οι συσκευές»."
 
 msgid "No devices found"
 msgstr "Δεν βρέθηκαν συσκευές"
@@ -3608,13 +3288,13 @@ msgid "Device path, e.g. /dev/input/by-id/…"
 msgstr "Διαδρομή συσκευής, π.χ. /dev/input/by-id/…"
 
 msgid "Intercept all keyboards"
-msgstr "Υποκλοπή όλων των πληκτρολογίων"
+msgstr "Αναχαίτιση όλων των πληκτρολογίων"
 
 msgid "Intercept buttons of all mice"
-msgstr "Υποκλοπή κουμπιών όλων των ποντικιών"
+msgstr "Αναχαίτιση των κουμπιών όλων των ποντικιών"
 
 msgid "Windows does not tell input devices apart, so all of them are intercepted."
-msgstr "Τα Windows δεν ξεχωρίζουν τις συσκευές εισόδου, οπότε υποκλέπτονται όλες."
+msgstr "Τα Windows δεν ξεχωρίζουν τις συσκευές εισόδου, οπότε αναχαιτίζονται όλες."
 
 msgid "Connected: {}"
 msgstr "Συνδεδεμένο: {}"
@@ -3665,7 +3345,7 @@ msgid "Configure triggers"
 msgstr "Ρύθμιση εναυσμάτων"
 
 msgid "Mouse buttons, media keys, and other triggers outside the main keyboard grid. Add a trigger and choose its action or suppress it. Delete its row to inherit the assignment from the lower layer or base keymap."
-msgstr "Κουμπιά ποντικιού, πλήκτρα πολυμέσων και άλλα εναύσματα εκτός του κύριου πλέγματος. Προσθέστε ένα έναυσμα και επιλέξτε την ενέργεια ή την καταστολή του. Διαγράψτε τη γραμμή του για να κληρονομήσετε την ανάθεση από το κατώτερο επίπεδο ή τη βασική Keymap."
+msgstr "Κουμπιά ποντικιού, πλήκτρα πολυμέσων και άλλα εναύσματα εκτός του κύριου πλέγματος του πληκτρολογίου. Προσθέστε ένα έναυσμα και επιλέξτε την ενέργειά του ή αποκλείστε το. Διαγράψτε τη γραμμή του για να κληρονομηθεί η ανάθεση από το κατώτερο επίπεδο ή τη βασική Keymap."
 
 msgid "Choose one key. Some keys depend on keyboard hardware and may be ignored by the system."
 msgstr "Επιλέξτε ένα πλήκτρο. Ορισμένα πλήκτρα εξαρτώνται από το υλικό του πληκτρολογίου και μπορεί να αγνοούνται από το σύστημα."
@@ -3719,7 +3399,7 @@ msgid "This layer already has a row for this key."
 msgstr "Αυτό το επίπεδο έχει ήδη γραμμή για αυτό το πλήκτρο."
 
 msgid "Remove trigger: {}"
-msgstr "Αφαίρεση ενεργοποιητή: {}"
+msgstr "Αφαίρεση εναύσματος: {}"
 
 msgid "Layer:"
 msgstr "Επίπεδο:"
@@ -3876,10 +3556,10 @@ msgid "Late tap, ms"
 msgstr "Καθυστερημένο πάτημα, ms"
 
 msgid "Holding activates the layer as usual. Released within this time with nothing pressed, clicked or scrolled meanwhile, the trigger still runs its tap. 0 turns it off. Empty uses twice the hold threshold: {} ms."
-msgstr "Το κράτημα ενεργοποιεί το επίπεδο ως συνήθως. Αν ο ενεργοποιητής αφεθεί μέσα σε αυτόν τον χρόνο χωρίς να πατηθεί, να γίνει κλικ ή κύλιση σε κάτι, εκτελείται παρ’ όλα αυτά το πάτημα. Το 0 το απενεργοποιεί. Κενό χρησιμοποιεί το διπλάσιο του ορίου κρατήματος: {} ms."
+msgstr "Το κράτημα ενεργοποιεί το επίπεδο ως συνήθως. Αν το έναυσμα αφεθεί μέσα σε αυτόν τον χρόνο χωρίς να πατηθεί, να γίνει κλικ ή κύλιση σε κάτι, εκτελείται παρ' όλα αυτά η ενέργεια πατήματος. Το 0 το απενεργοποιεί. Το κενό χρησιμοποιεί το διπλάσιο του ορίου κρατήματος: {} ms."
 
 msgid "Used for single-key triggers that activate a layer."
-msgstr "Χρησιμοποιείται για ενεργοποιητές ενός πλήκτρου που ενεργοποιούν επίπεδο."
+msgstr "Χρησιμοποιείται για εναύσματα ενός πλήκτρου που ενεργοποιούν επίπεδο."
 
 msgid "Use twice the hold threshold: {} ms"
 msgstr "Χρήση του διπλάσιου του ορίου κρατήματος: {} ms"

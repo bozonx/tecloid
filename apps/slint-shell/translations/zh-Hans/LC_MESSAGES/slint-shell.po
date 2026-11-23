@@ -50,13 +50,13 @@ msgid "Enter non-empty text"
 msgstr "输入非空文本"
 
 msgid "Key {} only has conditional or layer rules; edit it in the full editor"
-msgstr "密钥{}仅具有条件或层规则；在完整编辑器中编辑它"
+msgstr "按键 {} 只有条件规则或层规则；请在完整编辑器中编辑"
 
 msgid "Keyboard"
 msgstr "键盘"
 
 msgid "Keyboard device"
-msgstr "键盘装置"
+msgstr "键盘设备"
 
 msgid "Keyboard layout"
 msgstr "键盘布局"
@@ -71,7 +71,7 @@ msgid "Mapper is running: {}"
 msgstr "映射器正在运行：{}"
 
 msgid "Mapper is starting…"
-msgstr "映射器正在启动..."
+msgstr "映射器正在启动…"
 
 msgid "Mapper is stopped"
 msgstr "映射器已停止"
@@ -80,7 +80,7 @@ msgid "Mapper is stopped: {}"
 msgstr "映射器已停止：{}"
 
 msgid "Quick actions"
-msgstr "快速行动"
+msgstr "快捷操作"
 
 msgid "Quit"
 msgstr "退出"
@@ -110,22 +110,22 @@ msgid "Select a system action"
 msgstr "选择系统操作"
 
 msgid "Spell popup process unavailable: {}"
-msgstr "拼写弹出进程不可用：{}"
+msgstr "Spell 弹出窗口进程不可用：{}"
 
 msgid "Spell worker is not running"
-msgstr "法术工作者没有运行"
+msgstr "Spell 工作进程未运行"
 
 msgid "Spell worker is restarting"
-msgstr "法术工作人员正在重新启动"
+msgstr "Spell 工作进程正在重启"
 
 msgid "Spell worker: restart limit exceeded (3 per minute)"
-msgstr "法术工作者：超出重新启动限制（每分钟 3 次）"
+msgstr "Spell 工作进程：超出重启次数限制（每分钟 3 次）"
 
 msgid "Spell worker: {}"
-msgstr "法术工作者：{}"
+msgstr "Spell 工作进程：{}"
 
 msgid "Stop capture"
-msgstr "停止捕捉"
+msgstr "停止捕获"
 
 msgid "System"
 msgstr "系统"
@@ -134,10 +134,10 @@ msgid "Text"
 msgstr "文本"
 
 msgid "The configuration changed since editing started; repeat the change"
-msgstr "自编辑开始以来配置发生了变化；重复更改"
+msgstr "开始编辑后配置已发生变化；请重新进行更改"
 
 msgid "Unknown action type"
-msgstr "未知的动作类型"
+msgstr "未知的操作类型"
 
 msgid "Tecloid"
 msgstr "Tecloid"
@@ -146,10 +146,10 @@ msgid "Keymaps"
 msgstr "Keymap"
 
 msgid "New keymap name"
-msgstr "新Keymap名称"
+msgstr "新 Keymap 名称"
 
 msgid "Mapper"
-msgstr "按键映射"
+msgstr "映射器"
 
 msgid "Dark"
 msgstr "深色"
@@ -164,19 +164,19 @@ msgid "Mouse device path"
 msgstr "鼠标设备路径"
 
 msgid "General"
-msgstr "一般的"
+msgstr "常规"
 
 msgid "Appearance"
-msgstr "外貌"
+msgstr "外观"
 
 msgid "Language"
 msgstr "语言"
 
 msgid "Automatic"
-msgstr "自动的"
+msgstr "自动"
 
 msgid "Key behavior"
-msgstr "关键行为"
+msgstr "按键行为"
 
 msgid "Game mode"
 msgstr "游戏模式"
@@ -188,16 +188,16 @@ msgid "Detect fullscreen"
 msgstr "检测全屏"
 
 msgid "ydotool path"
-msgstr "ydotool路径"
+msgstr "ydotool 路径"
 
 msgid "xdotool path"
-msgstr "xdotool路径"
+msgstr "xdotool 路径"
 
 msgid "Settings directory: {}"
-msgstr "设置目录： {}"
+msgstr "设置目录：{}"
 
 msgid "Keymaps directory: {}"
-msgstr "Keymap目录： {}"
+msgstr "Keymap 目录：{}"
 
 msgid "Save settings"
 msgstr "保存设置"
@@ -206,7 +206,7 @@ msgid "Settings saved"
 msgstr "设置已保存"
 
 msgid "Enter a timeout from 50 to 1000 milliseconds"
-msgstr "输入 50 到 1000 毫秒的超时"
+msgstr "请输入 50 到 1000 毫秒之间的超时"
 
 msgid "Rules"
 msgstr "规则"
@@ -227,13 +227,13 @@ msgid "Trigger key"
 msgstr "触发键"
 
 msgid "Tap action"
-msgstr "点击动作"
+msgstr "点按操作"
 
 msgid "Layout conditions (comma separated)"
 msgstr "布局条件（逗号分隔）"
 
 msgid "App whitelist (comma separated)"
-msgstr "应用程序白名单（逗号分隔）"
+msgstr "应用白名单（逗号分隔）"
 
 msgid "App blacklist (comma separated)"
 msgstr "应用黑名单（逗号分隔）"
@@ -242,7 +242,7 @@ msgid "Isolate"
 msgstr "隔离"
 
 msgid "Hold for"
-msgstr "保持"
+msgstr "按住时长"
 
 msgid "Swallow tap"
 msgstr "屏蔽短按"
@@ -251,16 +251,16 @@ msgid "Swallow hold"
 msgstr "屏蔽长按"
 
 msgid "New layer name"
-msgstr "新图层名称"
+msgstr "新层名称"
 
 msgid "Create layer"
-msgstr "创建图层"
+msgstr "创建层"
 
 msgid "Rules and triggers"
 msgstr "规则和触发器"
 
 msgid "Define how physical keys activate layers or run actions."
-msgstr "定义物理键如何激活层或运行操作。"
+msgstr "定义物理按键如何激活层或执行操作。"
 
 msgid "Add rule"
 msgstr "添加规则"
@@ -275,7 +275,7 @@ msgid "Double-tap action"
 msgstr "双击操作"
 
 msgid "Hold button"
-msgstr "保持按钮"
+msgstr "按住的按钮"
 
 msgid "Default"
 msgstr "默认"
@@ -287,16 +287,16 @@ msgid "Choose key"
 msgstr "选择按键"
 
 msgid "Choose layer"
-msgstr "选择图层"
+msgstr "选择层"
 
 msgid "Conditions"
-msgstr "状况"
+msgstr "条件"
 
 msgid "Advanced rule options"
 msgstr "高级规则选项"
 
 msgid "Choose action"
-msgstr "选择行动"
+msgstr "选择操作"
 
 msgid "Ignore"
 msgstr "忽略"
@@ -317,13 +317,13 @@ msgid "Delete rule?"
 msgstr "删除规则？"
 
 msgid "This rule will be removed from the current keymap."
-msgstr "该规则将从当前Keymap中删除。"
+msgstr "该规则将从当前 Keymap 中删除。"
 
 msgid "Layers"
 msgstr "层"
 
 msgid "New layer"
-msgstr "新图层"
+msgstr "新建层"
 
 msgid "Duplicate"
 msgstr "复制"
@@ -338,49 +338,49 @@ msgid "Edit"
 msgstr "编辑"
 
 msgid "Rename layer"
-msgstr "重命名图层"
+msgstr "重命名层"
 
 msgid "Duplicate layer"
-msgstr "复制图层"
+msgstr "复制层"
 
 msgid "Edit layer key"
-msgstr "编辑图层键"
+msgstr "编辑层按键"
 
 msgid "Name"
-msgstr "姓名"
+msgstr "名称"
 
 msgid "Description"
 msgstr "描述"
 
 msgid "Transparent"
-msgstr "透明的"
+msgstr "透明"
 
 msgid "Swallow"
 msgstr "屏蔽"
 
 msgid "Action"
-msgstr "行动"
+msgstr "操作"
 
 msgid "Action code"
 msgstr "动作代码"
 
 msgid "Enter a layer name"
-msgstr "输入图层名称"
+msgstr "输入层名称"
 
 msgid "A layer with this name already exists."
-msgstr "具有此名称的图层已存在。"
+msgstr "已存在同名的层。"
 
 msgid "Enter a keymap name"
-msgstr "输入Keymap名称"
+msgstr "输入 Keymap 名称"
 
 msgid "Enter a key code"
-msgstr "输入密钥代码"
+msgstr "输入按键代码"
 
 msgid "Native"
 msgstr "原生动作"
 
 msgid "Layer saved"
-msgstr "图层已保存"
+msgstr "层已保存"
 
 msgid "Macros"
 msgstr "宏"
@@ -392,7 +392,7 @@ msgid "Macro ID"
 msgstr "宏ID"
 
 msgid "Copy ID"
-msgstr "复制身份证件"
+msgstr "复制 ID"
 
 msgid "Steps"
 msgstr "步骤"
@@ -446,10 +446,10 @@ msgid "Enter a shell command."
 msgstr "输入 shell 命令。"
 
 msgid "Save as…"
-msgstr "另存为..."
+msgstr "另存为…"
 
 msgid "Save keymap as…"
-msgstr "将Keymap另存为..."
+msgstr "将 Keymap 另存为…"
 
 msgid "Please wait…"
 msgstr "请稍等…"
@@ -461,7 +461,7 @@ msgid "Start"
 msgstr "开始"
 
 msgid "Custom keymap"
-msgstr "自定义Keymap"
+msgstr "自定义 Keymap"
 
 msgid "Base keyboard"
 msgstr "基础键盘"
@@ -473,22 +473,22 @@ msgid "In development features"
 msgstr "开发中的功能"
 
 msgid "Create a layer to assign its keys, or edit the base keyboard."
-msgstr "创建一个图层来分配其按键，或编辑基本键盘。"
+msgstr "创建一个层来分配其按键，或编辑基础键盘。"
 
 msgid "Running"
-msgstr "跑步"
+msgstr "运行中"
 
 msgid "Stopped"
 msgstr "已停止"
 
 msgid "Keymap library updated"
-msgstr "Keymap库已更新"
+msgstr "Keymap 库已更新"
 
 msgid "Select a keymap"
-msgstr "选择Keymap"
+msgstr "选择 Keymap"
 
 msgid "Keymap changed on disk; select it again"
-msgstr "磁盘Keymap发生变化；再次选择它"
+msgstr "磁盘上的 Keymap 已更改；请重新选择"
 
 msgid "Any game mode"
 msgstr "任何游戏模式"
@@ -500,52 +500,52 @@ msgid "Game mode off"
 msgstr "游戏模式关闭"
 
 msgid "System keyboard layouts (comma separated)"
-msgstr "系统Keymap（逗号分隔）"
+msgstr "系统键盘布局（逗号分隔）"
 
 msgid "Applications (comma separated)"
-msgstr "应用程序（逗号分隔）"
+msgstr "应用（逗号分隔）"
 
 msgid "Active"
-msgstr "积极的"
+msgstr "活动"
 
 msgid "Editing · unsaved"
-msgstr "正在编辑·未保存"
+msgstr "编辑中 · 未保存"
 
 msgid "Editing"
-msgstr "编辑"
+msgstr "编辑中"
 
 msgid "Activate"
 msgstr "激活"
 
 msgid "Delete keymap?"
-msgstr "删除Keymap？"
+msgstr "删除 Keymap？"
 
 msgid "Keymap details"
-msgstr "Keymap细节"
+msgstr "Keymap 详情"
 
 msgid "Do not use when"
-msgstr "请勿使用时"
+msgstr "以下情况不使用"
 
 msgid "The keymap file will be deleted. This cannot be undone."
-msgstr "Keymap文件将被删除。此操作无法撤消。"
+msgstr "Keymap 文件将被删除。此操作无法撤消。"
 
 msgid "Duplicate…"
 msgstr "复制…"
 
 msgid "Edit keymap"
-msgstr "编辑Keymap"
+msgstr "编辑 Keymap"
 
 msgid "New keymap"
-msgstr "新Keymap"
+msgstr "新建 Keymap"
 
 msgid "A keymap with this name already exists."
-msgstr "具有此名称的Keymap已存在。"
+msgstr "已存在同名的 Keymap。"
 
 msgid "Add a description…"
-msgstr "添加描述..."
+msgstr "添加描述…"
 
 msgid "Create"
-msgstr "创造"
+msgstr "创建"
 
 msgid "Delete…"
 msgstr "删除…"
@@ -560,13 +560,13 @@ msgid "Make active"
 msgstr "激活"
 
 msgid "Single: the keymap you make active works everywhere."
-msgstr "单一：您激活的Keymap在任何地方都有效。"
+msgstr "单一：您激活的 Keymap 在所有地方生效。"
 
 msgid "Not used in automatic mode"
 msgstr "自动模式下不使用"
 
 msgid "Rename…"
-msgstr "重命名..."
+msgstr "重命名…"
 
 msgid "Save and continue"
 msgstr "保存并继续"
@@ -577,7 +577,7 @@ msgstr "保存…"
 msgid ""
 "The keymap you are editing has not been saved to the library. Its changes "
 "will be lost."
-msgstr "您正在编辑的Keymap尚未保存到库中。它的更改将会丢失。"
+msgstr "您正在编辑的 Keymap 尚未保存到库中。其更改将会丢失。"
 
 msgid "The name contains characters that cannot be used in a file name."
 msgstr "该名称包含不能在文件名中使用的字符。"
@@ -589,7 +589,7 @@ msgid "You are editing “{}”, but “{}” is active."
 msgstr "您正在编辑“{}”，但“{}”处于活动状态。"
 
 msgid "You are editing “{}”; no keymap is active."
-msgstr "您正在编辑“{}”；没有Keymap处于活动状态。"
+msgstr "您正在编辑“{}”；没有活动的 Keymap。"
 
 msgid "game mode off"
 msgstr "游戏模式关闭"
@@ -601,19 +601,19 @@ msgid "{} (copy)"
 msgstr "{}（副本）"
 
 msgid "“{}” has unsaved changes. Save them before switching?"
-msgstr "“{}”有未保存的更改。在切换之前保存它们？"
+msgstr "“{}”有未保存的更改。切换前保存吗？"
 
 msgid "Keymap mode"
-msgstr "Keymap方式"
+msgstr "Keymap 模式"
 
 msgid "Create keymap"
-msgstr "创建Keymap"
+msgstr "创建 Keymap"
 
 msgid "Empty"
-msgstr "空的"
+msgstr "空"
 
 msgid "Empty keymap"
-msgstr "空Keymap"
+msgstr "空 Keymap"
 
 msgid "Previously selected: {}"
 msgstr "先前选择：{}"
@@ -622,7 +622,7 @@ msgid "Current value"
 msgstr "当前值"
 
 msgid "Capture key"
-msgstr "捕获键"
+msgstr "捕获按键"
 
 msgid "Press and release a key (including modifiers or Escape)."
 msgstr "按下并松开一个按键（包括修饰键或 Escape）。"
@@ -631,16 +631,16 @@ msgid "Press a key or shortcut, then release all keys to finish capture."
 msgstr "按下按键或组合键，然后松开所有按键以完成捕获。"
 
 msgid "Choose a valid key or action."
-msgstr "选择有效的键或操作。"
+msgstr "请选择有效的按键或操作。"
 
 msgid "Search keys and actions"
-msgstr "搜索键和操作"
+msgstr "搜索按键和操作"
 
 msgid "Search keys"
-msgstr "搜索键"
+msgstr "搜索按键"
 
 msgid "Hold action"
-msgstr "保持动作"
+msgstr "按住操作"
 
 msgid "Macro step"
 msgstr "宏步骤"
@@ -648,7 +648,7 @@ msgstr "宏步骤"
 msgid ""
 "You can enter a key combination using + between keys. Some keys depend on "
 "keyboard hardware and may be ignored by the system."
-msgstr "您可以使用键之间的 + 输入组合键。某些按键取决于键盘硬件，可能会被系统忽略。"
+msgstr "您可以在按键之间用 + 输入组合键。某些按键取决于键盘硬件，可能会被系统忽略。"
 
 msgid ""
 "You can assign a key combination using + between keys. Availability of "
@@ -659,7 +659,7 @@ msgid "Behavior:"
 msgstr "行为："
 
 msgid "Action:"
-msgstr "行动："
+msgstr "操作："
 
 msgid "Trigger key:"
 msgstr "触发键："
@@ -684,22 +684,22 @@ msgid "F1–F24"
 msgstr "F1–F24"
 
 msgid "Media and launch"
-msgstr "媒体和发布"
+msgstr "媒体和启动"
 
 msgid "System and laptop"
 msgstr "系统和笔记本电脑"
 
 msgid "Mouse"
-msgstr "老鼠"
+msgstr "鼠标"
 
 msgid "Other keys"
 msgstr "其他按键"
 
 msgid "Actions"
-msgstr "行动"
+msgstr "操作"
 
 msgid "Extra button on some gaming mice"
-msgstr "某些游戏鼠标上有额外的按钮"
+msgstr "某些游戏鼠标上的额外按钮"
 
 msgid "Keys"
 msgstr "按键"
@@ -714,19 +714,19 @@ msgid "Pause"
 msgstr "暂停"
 
 msgid "Literal text (text: prefix is added automatically)"
-msgstr "文字文本（文本：自动添加前缀）"
+msgstr "文本（自动添加 text: 前缀）"
 
 msgid "Pause in milliseconds ({}–{})"
-msgstr "暂停以毫秒为单位 ({0}–{1})"
+msgstr "暂停时长（毫秒，{0}–{1}）"
 
 msgid "No matching items"
 msgstr "没有匹配的项目"
 
 msgid "Show Quick Action Menu page {}"
-msgstr "显示快速操作菜单页面 {}"
+msgstr "显示快捷操作菜单第 {} 页"
 
 msgid "Show Emoji & Symbols menu page {}"
-msgstr "显示表情符号和符号菜单页面 {}"
+msgstr "显示“表情符号和符号”菜单第 {} 页"
 
 msgid "Switch to desktop {}"
 msgstr "切换到桌面 {}"
@@ -750,7 +750,7 @@ msgid "Maximize window horizontally"
 msgstr "水平最大化窗口"
 
 msgid "Keep window above others"
-msgstr "将窗户放在其他窗户上方"
+msgstr "窗口置顶"
 
 msgid "Move window to next desktop"
 msgstr "将窗口移到下一个桌面"
@@ -774,25 +774,25 @@ msgid "Layer"
 msgstr "层"
 
 msgid "Delete layer"
-msgstr "删除图层"
+msgstr "删除层"
 
 msgid "Create new layer"
-msgstr "创建新图层"
+msgstr "创建新层"
 
 msgid "Layer description"
-msgstr "图层描述"
+msgstr "层描述"
 
 msgid "Add description"
 msgstr "添加描述"
 
 msgid "Type to test..."
-msgstr "键入要测试..."
+msgstr "输入以测试..."
 
 msgid "Ignore key"
-msgstr "忽略键"
+msgstr "忽略按键"
 
 msgid "No layers yet"
-msgstr "还没有图层"
+msgstr "还没有层"
 
 msgid "Left hand"
 msgstr "左手"
@@ -807,10 +807,10 @@ msgid "US layout"
 msgstr "美国布局"
 
 msgid "Tecloid codes"
-msgstr "大型强子对撞机代码"
+msgstr "Tecloid 代码"
 
 msgid "No extra keys for this layer yet."
-msgstr "该层还没有额外的键。"
+msgstr "该层还没有额外按键。"
 
 msgid ""
 "Mouse buttons, media keys, and other triggers outside the main keyboard "
@@ -821,12 +821,10 @@ msgid ""
 "Display modes affect labels only — the key code stays the same. “US layout” "
 "shows standard letter labels for visual reference. “Tecloid codes” shows app-"
 "specific codes (e.g. KeyA, ArrowLeft)."
-msgstr ""
-"显示模式仅影响标签 - 键码保持不变。 “美国布局”显示标准字母标签以供视觉参考。 “Tecloid 代码”显示应用程序特定的代码（例如 "
-"KeyA、ArrowLeft）。"
+msgstr "显示模式只影响标签——按键代码保持不变。“美国布局”显示标准字母标签作为参考。“Tecloid 代码”显示应用专用代码（例如 KeyA、ArrowLeft）。"
 
 msgid "(copy)"
-msgstr "（复制）"
+msgstr "（副本）"
 
 msgid "Add page"
 msgstr "添加页面"
@@ -840,12 +838,12 @@ msgstr "动物与自然"
 msgid ""
 "Build reusable sequences from key chords, text actions, commands, or system "
 "actions. Steps run in order with the configured pause between them."
-msgstr "从关键和弦、文本操作、命令或系统操作构建可重复使用的序列。步骤按顺序运行，并在步骤之间配置配置的暂停。"
+msgstr "用组合键、文本操作、命令或系统操作创建可重复使用的序列。各步骤按顺序执行，步骤之间有设定的暂停。"
 
 msgid ""
 "Built-in macros that cannot be edited. To customize, create a user macro "
 "based on one."
-msgstr "无法编辑的内置宏。要进行自定义，请基于一个用户宏创建一个。"
+msgstr "无法编辑的内置宏。如需自定义，请基于其中一个创建用户宏。"
 
 msgid "Cell {}"
 msgstr "单元格 {}"
@@ -854,7 +852,7 @@ msgid "Command name"
 msgstr "命令名称"
 
 msgid "Create based on"
-msgstr "创建基于"
+msgstr "基于以下创建"
 
 msgid "Delete macro"
 msgstr "删除宏"
@@ -878,13 +876,13 @@ msgid "Disable"
 msgstr "禁用"
 
 msgid "Drag"
-msgstr "拖"
+msgstr "拖动"
 
 msgid "Emoji & Symbols"
 msgstr "表情符号和符号"
 
 msgid "Emoji Symbols"
-msgstr "表情符号"
+msgstr "表情符号字符"
 
 msgid "Emoji, symbol, or any text"
 msgstr "表情符号、符号或任何文本"
@@ -899,7 +897,7 @@ msgid "Food & Drink"
 msgstr "食品和饮料"
 
 msgid "Human-readable macro name, shown in picker lists."
-msgstr "人类可读的宏名称，显示在选择器列表中。"
+msgstr "易读的宏名称，显示在选择列表中。"
 
 msgid "ID"
 msgstr "ID"
@@ -914,7 +912,7 @@ msgid "Macro name"
 msgstr "宏名称"
 
 msgid "Modifier delay"
-msgstr "修改器延迟"
+msgstr "修饰键延迟"
 
 msgid "Move page left"
 msgstr "向左移动页面"
@@ -926,52 +924,50 @@ msgid "New macro"
 msgstr "新宏"
 
 msgid "No macros yet. Click \"New macro\" to create the first one."
-msgstr "还没有宏。单击“新宏”创建第一个宏。"
+msgstr "还没有宏。点击“新宏”创建第一个。"
 
 msgid "No steps yet. Each step — one chord or action."
-msgstr "还没有步骤。每一步——一个和弦或一个动作。"
+msgstr "还没有步骤。每个步骤是一个组合键或一个操作。"
 
 msgid ""
 "Opened by the app:showEmojiMenuN actions, where N is the page position: "
 "reordering pages changes which page a key opens. Each cell can hold an "
 "emoji, a UTF symbol (e.g. ≠), any other character (e.g. №), or a short "
 "phrase (e.g. \"// TODO: \")."
-msgstr ""
-"由应用程序打开：showEmojiMenuN 操作，其中 N 是页面位置：重新排序页面会更改按键打开的页面。每个单元格可以包含表情符号、UTF "
-"符号（例如 ≠）、任何其他字符（例如 №）或短语（例如“// TODO:”）。"
+msgstr "由 app:showEmojiMenuN 操作打开，其中 N 是页面位置：重新排序页面会改变按键打开的页面。每个单元格可以包含表情符号、UTF 符号（例如 ≠）、任何其他字符（例如 №）或短语（例如“// TODO: ”）。"
 
 msgid "Opened by the app:showQuickMenu1...5 actions."
-msgstr "由应用程序打开：showQuickMenu1...5 操作。"
+msgstr "由 app:showQuickMenu1...5 操作打开。"
 
 msgid "Page"
-msgstr "页"
+msgstr "页面"
 
 msgid "Pause (ms)"
 msgstr "暂停（毫秒）"
 
 msgid "Pause between steps"
-msgstr "步骤之间暂停"
+msgstr "步骤间暂停"
 
 msgid "People & Gestures"
 msgstr "人物与手势"
 
 msgid "Per-macro pause between steps. Defaults to the Settings value."
-msgstr "每个宏步骤之间的暂停。默认为设置值。"
+msgstr "此宏的步骤间暂停。默认使用“设置”中的值。"
 
 msgid "Pick an action"
-msgstr "选择一个动作"
+msgstr "选择操作"
 
 msgid "Quick Actions"
-msgstr "快速行动"
+msgstr "快捷操作"
 
 msgid ""
 "Reusable shell commands for the current keymap. On Linux they run through sh"
 " -lc after you explicitly allow them. Shell commands run one at a time, with"
 " a 30-second limit, in your home directory."
-msgstr "当前Keymap的可重用 shell 命令。在 Linux 上，它们在您明确允许后通过 sh -lc 运行。 Shell 命令在您的主目录中一次运行一个，时间限制为 30 秒。"
+msgstr "当前 Keymap 的可复用 shell 命令。在 Linux 上，经您明确允许后通过 sh -lc 运行。Shell 命令在您的主目录中逐个运行，每个限时 30 秒。"
 
 msgid "Shell commands are allowed for this version of the current keymap."
-msgstr "此版本的当前Keymap允许使用 Shell 命令。"
+msgstr "当前 Keymap 的此版本已允许 shell 命令。"
 
 msgid "Smileys & Emotion"
 msgstr "表情与情感"
@@ -982,7 +978,7 @@ msgid ""
 msgstr "该命令将被删除。引用 cmd:{} 的按键或宏将停止工作。"
 
 msgid "The macro will be deleted. References macro:{} will stop working."
-msgstr "该宏将被删除。引用宏：{} 将停止工作。"
+msgstr "该宏将被删除。macro:{} 引用将失效。"
 
 msgid "The page and all assigned cells on it will be deleted."
 msgstr "该页面及其上所有指定的单元格都将被删除。"
@@ -992,7 +988,7 @@ msgid ""
 "especially in keymaps from other people. Approval applies to the reviewed "
 "command definitions and resets when the command set, IDs, or Linux scripts "
 "change."
-msgstr "该Keymap包含 shell 脚本。在允许之前阅读每个脚本，尤其是其他人的Keymap。批准适用于已审核的命令定义，并在命令集、ID 或 Linux 脚本更改时重置。"
+msgstr "该 Keymap 包含 shell 脚本。允许前请阅读每个脚本，尤其是来自他人的 Keymap。批准仅针对已审核的命令定义，当命令集、ID 或 Linux 脚本更改时会重置。"
 
 msgid "This step will be removed from the macro."
 msgstr "此步骤将从宏中删除。"
@@ -1000,7 +996,7 @@ msgstr "此步骤将从宏中删除。"
 msgid ""
 "Time between pressing a modifier and the main key within one step. Defaults "
 "to the Settings value."
-msgstr "在一步内按下修饰键和主键之间的时间。默认为设置值。"
+msgstr "同一步骤中按下修饰键与主键之间的时间。默认使用“设置”中的值。"
 
 msgid "Travel & Places"
 msgstr "旅行与地点"
@@ -1021,13 +1017,13 @@ msgid "continue"
 msgstr "继续"
 
 msgid "do all you recommended"
-msgstr "做你推荐的一切"
+msgstr "照你建议的全部做"
 
 msgid "fix the errors above"
 msgstr "修复上面的错误"
 
 msgid "I'll call you back later"
-msgstr "我稍后给你回电话"
+msgstr "我稍后回电话给你"
 
 msgid "Thanks!"
 msgstr "谢谢！"
@@ -1039,8 +1035,7 @@ msgid ""
 "Unique identifier used in references like macro:<id>. To bind this macro to "
 "a key, choose that action on the Layers or Rules tab. Change the ID only "
 "when nothing uses this macro."
-msgstr ""
-"引用中使用的唯一标识符，例如宏：<id>。要将此宏绑定到某个键，请在“层”或“规则”选项卡上选择该操作。仅当没有任何内容使用此宏时才更改 ID。"
+msgstr "在 macro:<id> 等引用中使用的唯一标识符。要将此宏绑定到按键，请在“层”或“规则”选项卡上选择该操作。仅当没有任何地方使用此宏时才更改 ID。"
 
 msgid "Used in:"
 msgstr "用于："
@@ -1049,22 +1044,22 @@ msgid "User macros"
 msgstr "用户宏"
 
 msgid "Work & Objects"
-msgstr "作品与物品"
+msgstr "工作与物品"
 
 msgid "e.g. Next Track"
-msgstr "例如下一曲目"
+msgstr "例如：下一曲"
 
 msgid "ms"
-msgstr "多发性硬化症"
+msgstr "毫秒"
 
 msgid "Rule saved"
 msgstr "规则已保存"
 
 msgid "Search layers"
-msgstr "搜索图层"
+msgstr "搜索层"
 
 msgid "Set"
-msgstr "放"
+msgstr "设置"
 
 msgid "Start the mapper to run actions from the menus"
 msgstr "启动映射器以从菜单运行操作"
@@ -1072,7 +1067,7 @@ msgstr "启动映射器以从菜单运行操作"
 msgid ""
 "The text was not typed: the keyboard layout lacks some of its characters, "
 "such as emoji. Choose a typing method with the clipboard."
-msgstr "未输入文本：键盘布局缺少某些字符，例如表情符号。使用剪贴板选择打字方法。"
+msgstr "未输入文本：键盘布局缺少其中某些字符，例如表情符号。请选择使用剪贴板的输入方式。"
 
 msgid "The text was not typed: the active keyboard layout is unknown."
 msgstr "未输入文本：活动键盘布局未知。"
@@ -1080,16 +1075,16 @@ msgstr "未输入文本：活动键盘布局未知。"
 msgid ""
 "The text was not typed: the typing method is unavailable ({}). Restart the "
 "mapper to try again."
-msgstr "文本未输入：输入方法不可用 ({})。重新启动映射器以重试。"
+msgstr "未输入文本：输入方式不可用（{}）。请重启映射器后重试。"
 
 msgid "The text was not typed: safe clipboard access failed ({})."
 msgstr "未输入文本：安全剪贴板访问失败 ({})。"
 
 msgid "The text was not typed: {}"
-msgstr "未输入文字：{}"
+msgstr "未输入文本：{}"
 
 msgid "The keymap file is empty"
-msgstr "Keymap文件为空"
+msgstr "Keymap 文件为空"
 
 msgid "↑"
 msgstr "↑"
@@ -1098,16 +1093,16 @@ msgid "↓"
 msgstr "↓"
 
 msgid "Does not matter"
-msgstr "不要紧"
+msgstr "无所谓"
 
 msgid "Open for editing (unsaved)"
-msgstr "打开进行编辑（未保存）"
+msgstr "打开编辑（未保存）"
 
 msgid "Open for editing"
-msgstr "打开进行编辑"
+msgstr "打开编辑"
 
 msgid "Keymap name"
-msgstr "Keymap名称"
+msgstr "Keymap 名称"
 
 msgid "System languages"
 msgstr "系统语言"
@@ -1116,7 +1111,7 @@ msgid "No system languages detected"
 msgstr "未检测到系统语言"
 
 msgid "Applications"
-msgstr "应用领域"
+msgstr "应用"
 
 msgid "“{}” will be deleted. This cannot be undone."
 msgstr "“{}”将被删除。此操作无法撤消。"
@@ -1125,13 +1120,13 @@ msgid "Reset current changes"
 msgstr "重置当前更改"
 
 msgid "Available"
-msgstr "可用的"
+msgstr "可用"
 
 msgid "Unavailable"
 msgstr "不可用"
 
 msgid "Not implemented"
-msgstr "未实施"
+msgstr "未实现"
 
 msgid "No input devices were found in /dev/input."
 msgstr "/dev/input 中未找到输入设备。"
@@ -1149,10 +1144,10 @@ msgid "No access to /dev/uinput. Run install-linux.sh permissions or reinstall t
 msgstr "无法访问 /dev/uinput。请运行 install-linux.sh permissions 或重新安装软件包。"
 
 msgid "Launch on startup"
-msgstr "启动时启动"
+msgstr "登录时启动"
 
 msgid "Start the mapper on launch"
-msgstr "在启动时启动映射器"
+msgstr "应用启动时启动映射器"
 
 msgid "No keyboard is selected, so the mapper cannot start."
 msgstr "未选择键盘，因此映射器无法启动。"
@@ -1170,37 +1165,37 @@ msgid "Choose the keyboard to remap"
 msgstr "选择要重新映射的键盘"
 
 msgid "Change"
-msgstr "改变"
+msgstr "更改"
 
 msgid "Add a keymap"
-msgstr "添加Keymap"
+msgstr "添加 Keymap"
 
 msgid "Press Start at the top to apply it"
-msgstr "按顶部的“开始”应用它"
+msgstr "点击顶部的“开始”以应用"
 
 msgid "No active keymap"
-msgstr "无活动Keymap"
+msgstr "没有活动的 Keymap"
 
 msgid "Current active keymap (automatic)"
-msgstr "当前活动Keymap（自动）"
+msgstr "当前活动的 Keymap（自动）"
 
 msgid "Current active keymap — click to switch"
-msgstr "当前活动Keymap-点击切换"
+msgstr "当前活动的 Keymap — 点击切换"
 
 msgid "Current keyboard layout in the system"
 msgstr "系统中当前的键盘布局"
 
 msgid "Game mode: active"
-msgstr "游戏模式：主动"
+msgstr "游戏模式：已激活"
 
 msgid "Game mode: inactive"
 msgstr "游戏模式：未激活"
 
 msgid "Active: {}"
-msgstr "主动：{}"
+msgstr "活动：{}"
 
 msgid "Trigger"
-msgstr "扳机"
+msgstr "触发器"
 
 msgid "New rule: choose a trigger"
 msgstr "新规则：选择触发器"
@@ -1209,26 +1204,26 @@ msgid "Swallow key"
 msgstr "屏蔽按键"
 
 msgid "Pass through"
-msgstr "通过"
+msgstr "放行"
 
 msgid "Double tap: {} ms"
 msgstr "双击：{} 毫秒"
 
 msgid "Custom hold options"
-msgstr "自定义保留选项"
+msgstr "自定义按住选项"
 
 msgid "Leave empty to use the global timing settings."
-msgstr "留空以使用全局计时设置。"
+msgstr "留空则使用全局时间设置。"
 
 msgid ""
 "Temporarily releases the held key or modifier while these keys are pressed "
 "in the layer."
-msgstr "在图层中按下这些键时，暂时释放按住的键或修改键。"
+msgstr "在层中按下这些键时，暂时释放按住的键或修饰键。"
 
 msgid ""
 "Defers the held action until one of these keys is pressed in the layer. "
 "Requires a hold action and a layer."
-msgstr "推迟保持的操作，直到在层中按下这些键之一。需要保持动作和一层。"
+msgstr "推迟按住操作，直到在层中按下这些键之一。需要按住操作和层。"
 
 msgid "Delete rule"
 msgstr "删除规则"
@@ -1236,7 +1231,7 @@ msgstr "删除规则"
 msgid ""
 "Clear restores normal key behavior. Swallow prevents the key from reaching "
 "the application."
-msgstr "清除可恢复正常的按键行为。 Swallow 会阻止密钥到达应用程序。"
+msgstr "“清除”恢复正常按键行为。“屏蔽”阻止按键到达应用。"
 
 msgctxt "Game mode control"
 msgid "Auto"
@@ -1263,7 +1258,7 @@ msgid "Auto: GameMode daemon active"
 msgstr "自动：GameMode 守护进程处于活动状态"
 
 msgid "Auto: matched {}"
-msgstr "自动：匹配{}"
+msgstr "自动：匹配 {}"
 
 msgid "Auto: fullscreen window active"
 msgstr "自动：全屏窗口处于活动状态"
@@ -1274,16 +1269,16 @@ msgstr "自动：被 {} 排除"
 msgid ""
 "Fullscreen detection is not supported in this session. Use process rules or "
 "On/Off."
-msgstr "此会话不支持全屏检测。使用流程规则或开/关。"
+msgstr "此会话不支持全屏检测。请使用进程规则或开/关。"
 
 msgid "Fullscreen detection tools are missing or could not query the session."
 msgstr "全屏检测工具丢失或无法查询会话。"
 
 msgid "Running processes: {0} · Active window: {1}"
-msgstr "运行进程： {0} · 活动窗口： {1}"
+msgstr "正在运行的进程：{0} · 活动窗口：{1}"
 
 msgid "Create a layer to assign its keys."
-msgstr "创建一个图层来分配其键。"
+msgstr "创建一个层来分配其按键。"
 
 msgid "Button {}"
 msgstr "按钮 {}"
@@ -1301,41 +1296,40 @@ msgid "Mode"
 msgstr "模式"
 
 msgid "New"
-msgstr "新的"
+msgstr "新建"
 
 msgid "Auto"
 msgstr "自动"
 
 msgid "This key assignment will be removed from the layer."
-msgstr "该键分配将从层中删除。"
+msgstr "该按键分配将从层中删除。"
 
 msgid "Command started: {}"
-msgstr "命令启动：{}"
+msgstr "命令已启动：{}"
 
 msgid "Unavailable on this platform or desktop"
-msgstr "在此平台或桌面上不可用"
+msgstr "在此平台或桌面环境中不可用"
 
 msgid "This action is not supported on macOS"
 msgstr "macOS 不支持此操作"
 
 msgid "Approve commands on the Commands tab before running this action"
-msgstr "在运行此操作之前批准“命令”选项卡上的命令"
+msgstr "运行此操作前，请在“命令”选项卡上批准命令"
 
 msgid "Pick the physical device whose events should be intercepted."
-msgstr "选择应拦截其事件的物理设备。"
+msgstr "选择要拦截其事件的物理设备。"
 
 msgid ""
 "Select the mouse so the mapper can see extra buttons and clicks. Pointer "
 "movement is not affected."
-msgstr "选择鼠标，以便映射者可以看到额外的按钮和点击。指针移动不受影响。"
+msgstr "选择鼠标，使映射器能看到额外按钮和点击。指针移动不受影响。"
 
 msgid ""
 "The mouse is not fully intercepted yet: a remapped extra button can emit the"
 " new action, but its native system or app action may still run. If that gets"
 " in the way, disable the native action for that button in your system, "
 "browser, or driver settings."
-msgstr ""
-"鼠标尚未完全拦截：重新映射的额外按钮可以发出新操作，但其本机系统或应用程序操作可能仍会运行。如果出现问题，请在系统、浏览器或驱动程序设置中禁用该按钮的本机操作。"
+msgstr "鼠标尚未被完全拦截：重新映射的额外按钮可以发出新操作，但其原有的系统或应用操作仍可能执行。如有影响，请在系统、浏览器或驱动程序设置中禁用该按钮的原有操作。"
 
 msgid "Refresh device list"
 msgstr "刷新设备列表"
@@ -1359,7 +1353,7 @@ msgid "Search devices"
 msgstr "搜索设备"
 
 msgid "Single"
-msgstr "单身的"
+msgstr "单一"
 
 msgid "{n} rule"
 msgid_plural "{n} rules"
@@ -1367,7 +1361,7 @@ msgstr[0] "{n} 条规则"
 
 msgid "{n} layer"
 msgid_plural "{n} layers"
-msgstr[0] "{n}层"
+msgstr[0] "{n} 个层"
 
 msgid "{n} emoji page"
 msgid_plural "{n} emoji pages"
@@ -1386,10 +1380,10 @@ msgid_plural "{n} commands"
 msgstr[0] "{n} 个命令"
 
 msgid "Main"
-msgstr "主要的"
+msgstr "主"
 
 msgid "Saved assignment: {}"
-msgstr "保存的作业：{}"
+msgstr "已保存的分配：{}"
 
 msgid "Behavior"
 msgstr "行为"
@@ -1398,38 +1392,38 @@ msgid "Inherit"
 msgstr "继承"
 
 msgid "No separate action"
-msgstr "没有单独的行动"
+msgstr "无单独操作"
 
 msgid "Activate layer only"
-msgstr "仅激活图层"
+msgstr "仅激活层"
 
 
 msgid "Suppress"
-msgstr "压制"
+msgstr "屏蔽"
 
 msgid "Assign held key"
-msgstr "分配保持键"
+msgstr "分配按住的键"
 
 msgid "Perform action"
-msgstr "执行动作"
+msgstr "执行操作"
 
 msgid "The key will not reach the application."
-msgstr "密钥不会到达应用程序。"
+msgstr "该按键不会到达应用。"
 
 msgid "Use the assignment from the lower layer or base keymap."
-msgstr "使用下层或基本Keymap中的分配。"
+msgstr "使用下层或基础 Keymap 中的分配。"
 
 msgid "Do not assign a separate action to this gesture."
 msgstr "不要为此手势分配单独的操作。"
 
 msgid "Holding activates the selected layer. The original key is not sent."
-msgstr "按住会激活选定的图层。原始密钥未发送。"
+msgstr "按住会激活所选层。不会发送原始按键。"
 
 msgid "Send the original key to the application."
-msgstr "将原始密钥发送到应用程序。"
+msgstr "将原始按键发送到应用。"
 
 msgid "Capture shortcut"
-msgstr "捕获快捷方式"
+msgstr "捕获快捷键"
 
 msgid "Choose a valid trigger key."
 msgstr "选择有效的触发键。"
@@ -1441,25 +1435,25 @@ msgid "Empty cell"
 msgstr "空单元格"
 
 msgid "Remove the action from this menu cell."
-msgstr "从此菜单单元中删除操作。"
+msgstr "从此菜单单元格中删除操作。"
 
 msgid "Edit assignment"
-msgstr "编辑作业"
+msgstr "编辑分配"
 
 msgid "Holding also activates the selected layer."
-msgstr "按住也会激活选定的图层。"
+msgstr "按住也会激活所选层。"
 
 msgid "Block"
-msgstr "堵塞"
+msgstr "屏蔽"
 
 msgid ""
 "The key press is consumed: the system and the active application will not "
 "receive it."
-msgstr "按键被消耗：系统和活动应用程序将不会接收到它。"
+msgstr "按键被拦截：系统和活动应用都不会收到。"
 
 msgid ""
 "The key press passes through unchanged, as if no assignment were configured."
-msgstr "按键按原样通过，就好像没有配置分配一样。"
+msgstr "按键原样通过，就像没有配置分配一样。"
 
 msgid "Capture"
 msgstr "捕获"
@@ -1474,25 +1468,25 @@ msgid "Allow command execution"
 msgstr "允许命令执行"
 
 msgid "No commands are assigned."
-msgstr "没有分配命令。"
+msgstr "未分配命令。"
 
 msgid "Commands are disabled in Settings."
-msgstr "命令在“设置”中被禁用。"
+msgstr "命令已在“设置”中禁用。"
 
 msgid "Working directory (optional)"
 msgstr "工作目录（可选）"
 
 msgid "Save keymap changes before opening another keymap."
-msgstr "在打开另一个Keymap之前保存Keymap更改。"
+msgstr "打开另一个 Keymap 之前，请先保存 Keymap 的更改。"
 
 msgid "No layer"
 msgstr "无层"
 
 msgid "Layer not found"
-msgstr "未找到图层"
+msgstr "未找到层"
 
 msgid "Create new layer…"
-msgstr "创建新层..."
+msgstr "创建新层…"
 
 msgid "Create “{}”"
 msgstr "创建“{}”"
@@ -1501,30 +1495,30 @@ msgid ""
 "A trigger can be a single key or a combination, such as "
 "ShiftLeft+ControlLeft. The combination works in either press order and ends "
 "when any key is released."
-msgstr "触发器可以是单个键或组合键，例如 ShiftLeft+ControlLeft。该组合按任一按下顺序起作用，并在释放任意键时结束。"
+msgstr "触发器可以是单个按键或组合键，例如 ShiftLeft+ControlLeft。组合键与按下顺序无关，松开任意键即结束。"
 
 msgid "When held"
-msgstr "举行时"
+msgstr "按住时"
 
 msgid ""
 "Choose a layer active until release, or an action performed once after the "
 "hold duration."
-msgstr "选择释放前处于活动状态的图层，或在保持持续时间后执行一次的操作。"
+msgstr "选择在松开前保持激活的层，或在按住时长后执行一次的操作。"
 
 msgid "Nothing"
-msgstr "没有什么"
+msgstr "无"
 
 msgid "Activate layer"
 msgstr "激活层"
 
 msgid "Run action"
-msgstr "奔跑动作"
+msgstr "执行操作"
 
 msgid "Long-hold action"
 msgstr "长按动作"
 
 msgid "Runs once after {} s"
-msgstr "{} 后运行一次"
+msgstr "{} 秒后执行一次"
 
 msgid "Hold another key / combination"
 msgstr "按住另一个键/组合键"
@@ -1533,7 +1527,7 @@ msgid "Press a key or combination, then release all keys to finish capture."
 msgstr "按下按键或组合键，然后松开所有按键以完成捕获。"
 
 msgid "Held key: {}"
-msgstr "保持键：{}"
+msgstr "按住的键：{}"
 
 msgid "Assigned to"
 msgstr "分配给"
@@ -1548,10 +1542,10 @@ msgid "Preview page"
 msgstr "预览页面"
 
 msgid "Page:"
-msgstr "页："
+msgstr "页面："
 
 msgid "Keymap “{}” created"
-msgstr "创建Keymap“{}”"
+msgstr "已创建 Keymap“{}”"
 
 msgid "Keymap “{}” saved"
 msgstr "Keymap“{}”已保存"
@@ -1569,36 +1563,36 @@ msgid "Dismiss notification"
 msgstr "关闭通知"
 
 msgid "Changes to keymap “{}” discarded"
-msgstr "放弃对Keymap“{}”的更改"
+msgstr "已放弃对 Keymap“{}”的更改"
 
 msgid "Popup menus are unavailable: {}"
 msgstr "弹出菜单不可用：{}"
 
 msgid "Popup menus are not running. Try opening the menu again."
-msgstr "弹出菜单未运行。尝试再次打开菜单。"
+msgstr "弹出菜单未运行。请尝试重新打开菜单。"
 
 msgid "Popup menus are restarting. Try again shortly."
-msgstr "弹出菜单正在重新启动。稍后再试。"
+msgstr "弹出菜单正在重启。请稍后再试。"
 
 msgid "Popup menus could not recover. Restart the application."
-msgstr "弹出菜单无法恢复。重新启动应用程序。"
+msgstr "弹出菜单无法恢复。请重启应用。"
 
 msgid "Popup menu error: {}"
 msgstr "弹出菜单错误：{}"
 
 msgid "Choose a key or combination for the trigger"
-msgstr "选择触发器的按键或组合"
+msgstr "选择触发器的按键或组合键"
 
 msgid ""
 "Mouse buttons, media keys, and other triggers outside the main keyboard "
 "grid. Add a trigger, then choose its action, suppress it, or inherit its "
 "assignment from the lower layer."
-msgstr "主键盘网格之外的鼠标按钮、媒体键和其他触发器。添加触发器，然后选择其操作、抑制它或从下层继承其分配。"
+msgstr "主键盘网格之外的鼠标按钮、媒体键和其他触发器。添加触发器，然后选择其操作、屏蔽它或从下层继承其分配。"
 
 msgid ""
 "You can enter emoji, any text, or Unicode symbols here. Drag an item from "
 "the palette onto a key to assign it."
-msgstr "您可以在此处输入表情符号、任何文本或 Unicode 符号。将项目从调色板拖到某个键上以对其进行分配。"
+msgstr "您可以在此输入表情符号、任意文本或 Unicode 符号。将调色板中的项目拖到按键上即可分配。"
 
 msgid "Accessibility"
 msgstr "无障碍"
@@ -1609,50 +1603,50 @@ msgstr "高对比度"
 msgid ""
 "Pure black or white background, stronger text, borders and focus outlines. "
 "Works with the light and dark themes."
-msgstr "纯黑色或白色背景，更强的文字、边框和焦点轮廓。适用于浅色和深色主题。"
+msgstr "纯黑或纯白背景，文字、边框和焦点轮廓更醒目。适用于浅色和深色主题。"
 
 msgid "Reduce motion"
-msgstr "减少运动"
+msgstr "减少动效"
 
 msgid "Turn off highlight animations in the editor."
-msgstr "关闭编辑器中的突出显示动画。"
+msgstr "关闭编辑器中的高亮动画。"
 
 msgid ""
 "Every control can be reached with Tab and activated with Space or Enter. "
 "Interface size follows the desktop scale factor."
-msgstr "每个控件都可以通过 Tab 访问并通过 Space 或 Enter 激活。界面大小遵循桌面比例因子。"
+msgstr "所有控件都可以用 Tab 键访问，并用空格键或回车键激活。界面大小跟随桌面缩放比例。"
 
 msgid "Always"
 msgstr "总是"
 
 msgid "Hold duration"
-msgstr "保持时间"
+msgstr "按住时长"
 
 msgid "{} s"
-msgstr "{} s"
+msgstr "{} 秒"
 
 msgid "{} s (default)"
-msgstr "{}（默认）"
+msgstr "{} 秒（默认）"
 
 msgid "Shell command or path to a script, e.g. playerctl play-pause"
-msgstr "Shell 命令或脚本路径，例如playerctl 播放暂停"
+msgstr "Shell 命令或脚本路径，例如 playerctl play-pause"
 
 msgid "Runs with sh -lc in the background; the result is not awaited."
-msgstr "在后台以 sh -lc 运行；没有等待结果。"
+msgstr "在后台通过 sh -lc 运行；不等待结果。"
 
 msgid "Choose script…"
-msgstr "选择脚本..."
+msgstr "选择脚本…"
 
 msgid "Working directory (optional, home by default)"
-msgstr "工作目录（可选，默认为 home）"
+msgstr "工作目录（可选，默认为主目录）"
 
 msgid "Choose folder…"
-msgstr "选择文件夹..."
+msgstr "选择文件夹…"
 
 msgid ""
 "Command execution is turned off. Turn it on in the settings to assign "
 "commands."
-msgstr "命令执行已关闭。在设置中将其打开以分配命令。"
+msgstr "命令执行已关闭。请在设置中开启以分配命令。"
 
 msgid "Open command settings"
 msgstr "打开命令设置"
@@ -1663,7 +1657,7 @@ msgstr "工作目录不存在。"
 msgid ""
 "The script file is not executable: run chmod +x on it or prefix the path "
 "with sh."
-msgstr "该脚本文件不可执行：对其运行 chmod +x 或在路径前添加 sh 前缀。"
+msgstr "脚本文件不可执行：请对其运行 chmod +x，或在路径前加上 sh。"
 
 msgid "Choose a script"
 msgstr "选择脚本"
@@ -1672,42 +1666,42 @@ msgid "Choose a working directory"
 msgstr "选择工作目录"
 
 msgid "Commands run with sh -lc in the background and are not awaited."
-msgstr "命令在后台使用 sh -lc 运行，并且不等待。"
+msgstr "命令通过 sh -lc 在后台运行，不等待其完成。"
 
 msgid "Commands run with PowerShell in the background and are not awaited."
-msgstr "命令在后台使用 PowerShell 运行，并且不会等待。"
+msgstr "命令通过 PowerShell 在后台运行，不等待其完成。"
 
 msgid ""
 "Commands stay off until you allow execution. Review below what your keymaps "
 "would run."
-msgstr "命令保持关闭状态，直到您允许执行为止。请在下面查看您的Keymap将运行的内容。"
+msgstr "在您允许执行之前，命令保持关闭。请在下方查看您的 Keymap 将会运行的内容。"
 
 msgid "Command"
 msgstr "命令"
 
 msgid "Rule {} · tap"
-msgstr "规则{}·水龙头"
+msgstr "规则 {} · 点按"
 
 msgid "Rule {} · hold"
-msgstr "规则 {} · 保留"
+msgstr "规则 {} · 按住"
 
 msgid "Rule {} · long hold"
-msgstr "规则 {} · 长期持有"
+msgstr "规则 {} · 长按"
 
 msgid "Rule {} · double tap"
 msgstr "规则 {} · 双击"
 
 msgid "disabled"
-msgstr "残疾人"
+msgstr "已禁用"
 
 msgid "Layer {}"
-msgstr "层{}"
+msgstr "层 {}"
 
 msgid "Macro"
 msgstr "宏"
 
 msgid "Quick action"
-msgstr "快速行动"
+msgstr "快捷操作"
 
 msgid "Show all"
 msgstr "显示全部"
@@ -1722,7 +1716,7 @@ msgid "Examples"
 msgstr "示例"
 
 msgid "Add rule…"
-msgstr "添加规则..."
+msgstr "添加规则…"
 
 msgid ""
 "All filled conditions must match. A rule without conditions always matches."
@@ -1734,13 +1728,13 @@ msgstr "自动切换规则"
 msgid ""
 "Automatic: the keymap is chosen by switching rules for the application, "
 "system language or game mode."
-msgstr "自动：通过应用程序、系统语言或游戏模式的切换规则来选择Keymap。"
+msgstr "自动：根据应用、系统语言或游戏模式的切换规则来选择 Keymap。"
 
 msgid "Keymap"
 msgstr "Keymap"
 
 msgid "Keymap not found"
-msgstr "未找到Keymap"
+msgstr "未找到 Keymap"
 
 msgid "New rule"
 msgstr "新规则"
@@ -1770,13 +1764,13 @@ msgid "This option is used if no enabled rule matches."
 msgstr "没有任何已启用的规则匹配时，将使用此选项。"
 
 msgid "Rule {}"
-msgstr "规则{}"
+msgstr "规则 {}"
 
 msgid "Use keymap"
-msgstr "使用Keymap"
+msgstr "使用 Keymap"
 
 msgid "When"
-msgstr "什么时候"
+msgstr "当"
 
 msgid "If"
 msgstr "如果"
@@ -1785,22 +1779,22 @@ msgid "If:"
 msgstr "如果："
 
 msgid "Trigger conditions"
-msgstr "触发条件"
+msgstr "触发器条件"
 
 msgid "No keymap"
-msgstr "无Keymap"
+msgstr "无 Keymap"
 
 msgid "Now: {} (rule {}: {})"
-msgstr "现在：{}（规则{}：{}）"
+msgstr "现在：{}（规则 {}：{}）"
 
 msgid "No rules"
 msgstr "没有规则"
 
 msgid "For games"
-msgstr "对于游戏"
+msgstr "用于游戏"
 
 msgid "For an application"
-msgstr "对于申请"
+msgstr "用于应用"
 
 msgid "Custom rule"
 msgstr "自定义规则"
@@ -1815,17 +1809,17 @@ msgid "Rule enabled"
 msgstr "规则已启用"
 
 msgid "Automatic mode will use no keymap by default."
-msgstr "自动模式默认不使用Keymap。"
+msgstr "自动模式默认不使用任何 Keymap。"
 
 msgid "Delete rule {}?"
-msgstr "删除规则{}？"
+msgstr "删除规则 {}？"
 
 msgid "The rule will be deleted. This cannot be undone."
 msgstr "该规则将被删除。此操作无法撤消。"
 
 msgid "Its {n} automatic rule will be deleted too."
 msgid_plural "Its {n} automatic rules will be deleted too."
-msgstr[0] "它的 {n} 个自动规则也将被删除。"
+msgstr[0] "它的 {n} 条自动规则也将被删除。"
 
 msgid "In {n} rule"
 msgid_plural "In {n} rules"
@@ -1835,7 +1829,7 @@ msgid "Auto — detect games"
 msgstr "自动 — 检测游戏"
 
 msgid "On — always"
-msgstr "开启——始终"
+msgstr "开启 — 始终"
 
 msgid "Off — never"
 msgstr "关闭 — 从不"
@@ -1843,21 +1837,21 @@ msgstr "关闭 — 从不"
 msgid ""
 "Automatic keymap rules apply only when the keymap is chosen automatically "
 "(Keymaps page)."
-msgstr "仅当自动选择Keymap（Keymap页面）时，自动Keymap规则才适用。"
+msgstr "仅当 Keymap 为自动选择时（Keymap 页面），自动 Keymap 规则才生效。"
 
 msgid ""
 "Borderless windows covering the screen count too. Browsers, video players "
 "and presentations are ignored."
-msgstr "覆盖屏幕的无边框窗口也很重要。浏览器、视频播放器和演示文稿将被忽略。"
+msgstr "覆盖整个屏幕的无边框窗口也算在内。浏览器、视频播放器和演示文稿会被忽略。"
 
 msgid "Game mode is off (set manually)"
-msgstr "游戏模式关闭（手动设置）"
+msgstr "游戏模式已关闭（手动设置）"
 
 msgid "Game mode is on (set manually)"
 msgstr "游戏模式已开启（手动设置）"
 
 msgid "Game mode turns on rules and automatic keymap rules that have a game-mode condition. Automatic keymap rules apply only when the keymap is chosen automatically (Keymaps page). Auto uses the detection sources and custom rules below; On and Off set the state manually. “Doesn't count as a game” takes priority over automatic detection and “Counts as a game”. You can also change the mode in the top bar, in the tray menu or with a key bound to a game mode action."
-msgstr "游戏模式打开具有游戏模式条件的规则和自动Keymap规则。仅当自动选择Keymap（Keymap页面）时，自动Keymap规则才适用。自动使用以下检测源和自定义规则； On 和Off 手动设置状态。 “不视为游戏”优先于自动检测和“视为游戏”。您还可以在顶部栏中、托盘菜单中或使用绑定到游戏模式操作的按键来更改模式。"
+msgstr "游戏模式会启用带有游戏模式条件的规则和自动 Keymap 规则。仅当 Keymap 为自动选择时（Keymap 页面），自动 Keymap 规则才生效。“自动”使用下方的检测来源和自定义规则；“开”和“关”手动设置状态。“不算游戏”优先于自动检测和“算作游戏”。您也可以在顶部栏、托盘菜单中或通过绑定了游戏模式操作的按键更改模式。"
 
 
 
@@ -1875,60 +1869,56 @@ msgstr "切换游戏模式"
 
 msgid ""
 "GameMode daemon unavailable: check the gamemode package and session D-Bus."
-msgstr "GameMode 守护进程不可用：检查游戏模式包和会话 D-Bus。"
+msgstr "GameMode 守护进程不可用：请检查 gamemode 软件包和会话 D-Bus。"
 
 msgid ""
 "Install {} to detect the active window and fullscreen windows. It is also "
 "needed for application conditions in rules."
-msgstr "安装 {} 来检测活动窗口和全屏窗口。规则中的应用条件也需要它。"
+msgstr "安装 {} 以检测活动窗口和全屏窗口。规则中的应用条件也需要它。"
 
 msgid ""
 "Nothing uses game mode yet: no rule or automatic keymap rule has a game-mode"
 " condition, so turning it on changes nothing."
-msgstr "目前还没有任何东西使用游戏模式：没有规则或自动Keymap规则具有游戏模式条件，因此打开它不会改变任何情况。"
+msgstr "目前还没有任何地方使用游戏模式：没有规则或自动 Keymap 规则带有游戏模式条件，因此开启它不会有任何变化。"
 
 msgid ""
 "On and Off are remembered after restart. Auto keeps detecting in the "
 "background."
-msgstr "重启后会记住 On 和 Off。自动在后台持续检测。"
+msgstr "“开”和“关”在重启后会保留。“自动”在后台持续检测。"
 
 msgid ""
 "Rules of the current keymap with a game-mode condition: {}. Automatic keymap"
 " rules with a game-mode condition: {}."
-msgstr "具有游戏模式条件的当前Keymap的规则：{}。具有游戏模式条件的自动Keymap规则：{}。"
+msgstr "当前 Keymap 中带游戏模式条件的规则：{}。带游戏模式条件的自动 Keymap 规则：{}。"
 
 msgid ""
 "Turns on while a game runs through gamemoderun or requests GameMode itself. "
 "In Steam set the launch options to “gamemoderun %command%”."
-msgstr ""
-"当游戏通过 gamemoderun 运行或请求 GameMode 本身时打开。在 Steam 中将启动选项设置为“gamemoderun "
-"%command%”。"
+msgstr "当游戏通过 gamemoderun 运行或自行请求 GameMode 时开启。在 Steam 中将启动选项设为“gamemoderun %command%”。"
 
 msgid "Game mode: on"
 msgstr "游戏模式：开"
 
 msgid "Game mode: off"
-msgstr "游戏模式：关闭"
+msgstr "游戏模式：关"
 
 msgid "Active now: {}"
-msgstr "现在活跃：{}"
+msgstr "当前活动：{}"
 
 msgid ""
 "Active window detection is unavailable in this session, so application "
 "conditions do not match."
-msgstr "活动窗口检测在此会话中不可用，因此应用程序条件不匹配。"
+msgstr "此会话无法检测活动窗口，因此应用条件不会匹配。"
 
 msgid ""
 "An application is matched by its ID or process name: the whole name, "
 "ignoring case, with * and ? as wildcards. A window title item matches when "
 "the title contains the text. Any matching item is enough. An empty list "
 "imposes no restrictions."
-msgstr ""
-"应用程序通过其 ID 或进程名称进行匹配：整个名称，忽略大小写，带有 * 和 "
-"?作为通配符。当标题包含文本时，窗口标题项匹配。任何匹配的项目就足够了。空列表不施加任何限制。"
+msgstr "应用按其 ID 或进程名称匹配：完整名称，不区分大小写，可用 * 和 ? 作为通配符。当标题包含该文本时，窗口标题项即匹配。任一项匹配即可。空列表表示没有限制。"
 
 msgid "Looking for open windows…"
-msgstr "寻找打开的窗户..."
+msgstr "正在查找打开的窗口…"
 
 msgid "No open windows found"
 msgstr "未找到打开的窗口"
@@ -1940,36 +1930,36 @@ msgid "Timing"
 msgstr "时间设置"
 
 msgid "Used by macros without their own value."
-msgstr "由宏使用，没有自己的价值。"
+msgstr "供没有自身取值的宏使用。"
 
 msgid ""
 "Used by macros without their own value. How long to wait between pressing "
 "modifiers (Shift, Ctrl, …) and the main key of one step."
-msgstr "由宏使用，没有自己的价值。按修饰符（Shift、Ctrl、...）和一步的主键之间要等待多长时间。"
+msgstr "供没有自身取值的宏使用。在一个步骤中按下修饰键（Shift、Ctrl…）与主键之间的等待时间。"
 
 msgid "Rule without a trigger is saved as a draft and will be ignored."
-msgstr "没有触发器的规则将保存为草稿并将被忽略。"
+msgstr "没有触发器的规则将另存为草稿并被忽略。"
 
 msgid "Trigger \"{}\" cannot be used for a rule."
 msgstr "触发器“{}”不能用于规则。"
 
 msgid "Trigger \"{}\" needs key codes such as ControlLeft; “+” joins the keys of a chord and does not add a modifier."
-msgstr "Trigger \"{}\" needs key codes such as ControlLeft; “+” joins the keys of a chord and does not add a modifier."
+msgstr "触发器“{}”需要 ControlLeft 之类的按键代码；“+”用于连接组合键中的按键，不会添加修饰键。"
 
 msgid "Rules for trigger \"{}\" may overlap; the first matching rule wins."
-msgstr "触发“{}”的规则可能会重叠；第一个匹配规则获胜。"
+msgstr "触发器“{}”的规则可能重叠；以第一个匹配的规则为准。"
 
 msgid "Rule for trigger \"{}\" is covered by an earlier rule and will not run."
-msgstr "触发器“{}”的规则已被较早的规则覆盖，因此不会运行。"
+msgstr "触发器“{}”的规则已被前面的规则覆盖，不会运行。"
 
 msgid "Rule \"{}\" points to a layer that no longer exists."
 msgstr "规则“{}”指向不再存在的层。"
 
 msgid "Rule \"{}\" has an invalid tap action."
-msgstr "规则“{}”具有无效的点击操作。"
+msgstr "规则“{}”的点按操作无效。"
 
 msgid "Rule \"{}\" has an invalid hold action."
-msgstr "规则“{}”具有无效的保留操作。"
+msgstr "规则“{}”的按住操作无效。"
 
 msgid "Rule \"{}\" has an invalid double-tap action."
 msgstr "规则“{}”具有无效的双击操作。"
@@ -1978,10 +1968,10 @@ msgid "Automatic switching rule deleted"
 msgstr "自动切换规则已删除"
 
 msgid "Only in applications"
-msgstr "仅在应用程序中"
+msgstr "仅在应用中"
 
 msgid "Except applications"
-msgstr "申请除外"
+msgstr "应用除外"
 
 msgid "A match blocks the rule, even if the window is in the allowed list."
 msgstr "即使窗口位于允许列表中，匹配也会阻止规则。"
@@ -1993,13 +1983,13 @@ msgid "Choose applications to exclude"
 msgstr "选择要排除的应用程序"
 
 msgid "Open windows"
-msgstr "打开窗户"
+msgstr "打开的窗口"
 
 msgid "Last active"
-msgstr "最后活跃"
+msgstr "最近活动"
 
 msgid "Nothing is excluded."
-msgstr "没有什么是被排除的。"
+msgstr "没有排除任何内容。"
 
 msgid "No restrictions: the rule works in every window."
 msgstr "无限制：该规则适用于每个窗口。"
@@ -2015,7 +2005,7 @@ msgid "Command name (optional)"
 msgstr "命令名称（可选）"
 
 msgid "Working directory (home by default)"
-msgstr "工作目录（默认为 home）"
+msgstr "工作目录（默认为主目录）"
 
 msgid "Text to type when the action is invoked:"
 msgstr "调用操作时要输入的文本："
@@ -2025,9 +2015,7 @@ msgid ""
 "are preserved. On Linux, text is inserted into the active application via "
 "the desktop portal; permission may be required. Text injection by the mapper"
 " is not implemented on Windows or macOS."
-msgstr ""
-"输入不带文本：前缀的文字文本。换行符、空格和制表符将被保留。在 Linux 上，文本通过桌面门户插入到活动应用程序中；可能需要许可。映射器的文本注入未在"
-" Windows 或 macOS 上实现。"
+msgstr "输入不带 text: 前缀的原样文本。换行、空格和制表符会被保留。在 Linux 上，文本通过桌面门户插入到活动应用中；可能需要授权。Windows 和 macOS 上尚未实现映射器的文本输入。"
 
 msgid ""
 "Commands run with sh -lc in the background. The mapper does not wait for "
@@ -2050,7 +2038,7 @@ msgstr ""
 msgid ""
 "The name is optional: an empty name uses the command itself as its label. "
 "Command execution by the mapper is not implemented on macOS."
-msgstr "该名称是可选的：空名称使用命令本身作为其标签。 macOS 上未实现映射器执行命令。"
+msgstr "名称为可选：名称为空时以命令本身作为标签。macOS 上尚未实现映射器执行命令。"
 
 msgid "Triggers"
 msgstr "触发器"
@@ -2059,61 +2047,57 @@ msgid "Reduce animations"
 msgstr "减少动画"
 
 msgid "Add keymap: "
-msgstr "添加Keymap："
+msgstr "添加 Keymap："
 
 msgid "Save (Ctrl+S)"
 msgstr "保存 (Ctrl+S)"
 
 msgid "Close keymap"
-msgstr "关闭Keymap"
+msgstr "关闭 Keymap"
 
 msgid "Discard keymap changes?"
-msgstr "放弃Keymap更改？"
+msgstr "放弃 Keymap 更改？"
 
 msgid "Unsaved changes to this keymap will be lost."
-msgstr "对此Keymap未保存的更改将会丢失。"
+msgstr "此 Keymap 中未保存的更改将会丢失。"
 
 msgid ""
 "Unique identifier used in references like macro:<id>. To bind this macro to "
 "a key, choose that action on the Layers or Triggers tab. Change the ID only "
 "when nothing uses this macro."
-msgstr ""
-"引用中使用的唯一标识符，例如宏：<id>。要将此宏绑定到某个键，请在“层”或“触发器”选项卡上选择该操作。仅当没有任何内容使用此宏时才更改 ID。"
+msgstr "在 macro:<id> 等引用中使用的唯一标识符。要将此宏绑定到按键，请在“层”或“触发器”选项卡上选择该操作。仅当没有任何地方使用此宏时才更改 ID。"
 
 msgid "Discard"
-msgstr "丢弃"
+msgstr "放弃"
 
 msgid ""
 "Build reusable sequences of key chords, text, commands and system actions. Use a unique ID in macro:<id> references and a readable name in action lists. Assign macros on the Layers or Triggers tab; change an ID only when it is unused.\n"
 "\n"
 "The step pause applies between steps of this macro. Modifier delay is the time between pressing a modifier and the main key. Leave delays empty to use Settings defaults."
-msgstr ""
-"构建可重复使用的关键和弦、文本、命令和系统操作序列。在宏：<id> 引用中使用唯一 ID，在操作列表中使用可读名称。在“层”或“触发器”选项卡上分配宏；仅在未使用时更改 ID。\n"
-"\n"
-"步骤暂停适用于该宏的步骤之间。修改器延迟是按下修改器和主键之间的时间。将延迟留空以使用设置默认值。"
+msgstr "用组合键、文本、命令和系统操作创建可重复使用的序列。在 macro:<id> 引用中使用唯一 ID，在操作列表中使用易读的名称。在“层”或“触发器”选项卡上分配宏；仅当 ID 未被使用时才更改它。\n\n步骤间暂停作用于此宏的各步骤之间。修饰键延迟是按下修饰键与主键之间的时间。延迟留空则使用“设置”中的默认值。"
 
 msgid "Global defaults: step pause {} ms; modifier delay {} ms."
-msgstr "全局默认：步进暂停 {} ms；修改器延迟 {} 毫秒。"
+msgstr "全局默认值：步骤间暂停 {} 毫秒；修饰键延迟 {} 毫秒。"
 
 msgid "Keymap changed on disk"
-msgstr "磁盘上的Keymap已更改"
+msgstr "磁盘上的 Keymap 已更改"
 
 msgid ""
 "The file of “{}” was changed by another program after you opened it. Your "
 "edits are kept until you choose what to do."
-msgstr "“{}”文件在您打开后被另一个程序更改。您的编辑会一直保留，直到您选择要执行的操作为止。"
+msgstr "“{}”的文件在您打开后被其他程序修改。在您决定如何处理之前，您的编辑会被保留。"
 
 msgid "Load from disk"
 msgstr "从磁盘加载"
 
 msgid "Save as new…"
-msgstr "另存为新..."
+msgstr "另存为新的…"
 
 msgid "Overwrite"
 msgstr "覆盖"
 
 msgid "Show Tecloid key codes used in assignments, such as KeyA and ArrowLeft."
-msgstr "显示作业中使用的 Tecloid 键代码，例如 KeyA 和 ArrowLeft。"
+msgstr "显示分配中使用的 Tecloid 按键代码，例如 KeyA 和 ArrowLeft。"
 
 msgid "Application"
 msgstr "应用"
@@ -2125,20 +2109,20 @@ msgid "Click to switch"
 msgstr "点击切换"
 
 msgid "Match by app ID or process instead"
-msgstr "按应用 ID 或进程进行匹配"
+msgstr "改为按应用 ID 或进程匹配"
 
 msgid "Match by window title instead"
 msgstr "改为按窗口标题匹配"
 
 msgid "Open now: {n} window"
 msgid_plural "Open now: {n} windows"
-msgstr[0] "现已开放：{n}个窗口"
+msgstr[0] "当前打开：{n} 个窗口"
 
 msgid "Not open now"
-msgstr "现在不开放"
+msgstr "当前未打开"
 
 msgid "Running process"
-msgstr "运行过程"
+msgstr "正在运行的进程"
 
 msgid "Text the window title contains"
 msgstr "窗口标题包含的文本"
@@ -2147,14 +2131,14 @@ msgid "Already in the list"
 msgstr "已经在列表中"
 
 msgid "Choose from open windows…"
-msgstr "从打开的窗口中选择..."
+msgstr "从打开的窗口中选择…"
 
 msgid "Matches {n} open window"
 msgid_plural "Matches {n} open windows"
 msgstr[0] "匹配 {n} 个打开的窗口"
 
 msgid "Matches no open window"
-msgstr "匹配没有打开的窗口"
+msgstr "没有匹配的打开窗口"
 
 msgid "Show Quick Action Menu on the last used page"
 msgstr "在上次使用的页面上显示快速操作菜单"
@@ -2166,32 +2150,32 @@ msgid "Show the settings window"
 msgstr "显示设置窗口"
 
 msgid "Activate keymap {} (switches to Single mode)"
-msgstr "激活Keymap {}（切换到单模式）"
+msgstr "激活 Keymap {}（切换到单一模式）"
 
 msgid "There is no keymap number {}"
-msgstr "没有Keymap编号 {}"
+msgstr "不存在编号为 {} 的 Keymap"
 
 msgid "Show the Tecloid keymap name when it changes"
-msgstr "更改时显示左侧控件Keymap名称"
+msgstr "Tecloid Keymap 名称变化时显示"
 
 msgid "Show the keys of a layer while it is held"
-msgstr "按住图层时显示该图层的关键点"
+msgstr "按住层时显示该层的按键"
 
 msgid ""
 "The hint appears 2 seconds after the layer activates. Pressing a layer key "
 "hides or cancels it until the trigger is released, including in game mode."
-msgstr "图层激活后 2 秒出现提示。按图层键会隐藏或取消它，直到释放触发器为止，包括在游戏模式下。"
+msgstr "层激活 2 秒后出现提示。按下层中的按键会隐藏或取消提示，直到松开触发器，游戏模式下也一样。"
 
 msgid ""
 "Unavailable: build with the spell feature and use a Wayland compositor with "
 "layer-shell (KDE Plasma, Sway, Hyprland)."
-msgstr "不可用：使用拼写功能构建并使用具有层壳的 Wayland 合成器（KDE Plasma、Sway、Hyprland）。"
+msgstr "不可用：请启用 spell 功能构建，并使用支持 layer-shell 的 Wayland 合成器（KDE Plasma、Sway、Hyprland）。"
 
 msgid ""
 "The app:activateKeymap1…5 actions activate the keymap at that position in "
 "this list: reordering the list changes which keymap a key activates. In Auto"
 " mode they switch to Single mode."
-msgstr "app:activateKeymap1…5 操作激活此列表中该位置的Keymap：重新排序列表会更改按键激活的Keymap。在自动模式下，它们切换到单模式。"
+msgstr "app:activateKeymap1…5 操作会激活此列表中对应位置的 Keymap：重新排序列表会改变按键激活的 Keymap。在自动模式下，它们会切换到单一模式。"
 
 msgid "Cut"
 msgstr "剪切"
@@ -2224,13 +2208,13 @@ msgid "Clear search"
 msgstr "清除搜索"
 
 msgid "Add application"
-msgstr "添加应用程序"
+msgstr "添加应用"
 
 msgid "Edit application"
-msgstr "编辑申请"
+msgstr "编辑应用"
 
 msgid "Remove application?"
-msgstr "删除应用程序？"
+msgstr "移除应用？"
 
 msgid "“{}” will be removed from the list."
 msgstr "“{}”将从列表中删除。"
@@ -2239,25 +2223,25 @@ msgid "Devices"
 msgstr "设备"
 
 msgid "Required"
-msgstr "必需的"
+msgstr "必需"
 
 msgid "Optional"
-msgstr "选修的"
+msgstr "可选"
 
 msgid "Failed to start"
 msgstr "启动失败"
 
 msgid "Keys work as usual. Start the mapper to apply your keymaps."
-msgstr "按键照常工作。启动映射器以应用您的Keymap。"
+msgstr "按键照常工作。启动映射器以应用您的 Keymap。"
 
 msgid "Select a keyboard below to start the mapper."
-msgstr "选择下面的键盘来启动映射器。"
+msgstr "在下方选择一个键盘以启动映射器。"
 
 msgid "Changing a device restarts the mapper."
 msgstr "更改设备会重新启动映射器。"
 
 msgid "Auto: known game {}"
-msgstr "汽车：已知游戏{}"
+msgstr "自动：已知游戏 {}"
 
 msgid "Ignored in fullscreen"
 msgstr "全屏时忽略"
@@ -2266,85 +2250,83 @@ msgid "Not available in this session."
 msgstr "在此会话中不可用。"
 
 msgid "Steam games"
-msgstr "蒸汽游戏"
+msgstr "Steam 游戏"
 
 msgid ""
 "Turns on while Steam runs a game: Steam starts every game through reaper "
 "SteamLaunch, and game windows have the ID steam_app_<number>."
-msgstr ""
-"Steam 运行游戏时打开：Steam 通过 reaper SteamLaunch 启动每个游戏，游戏窗口的 ID 为 "
-"steam_app_<number>。"
+msgstr "Steam 运行游戏时开启：Steam 通过 reaper SteamLaunch 启动每个游戏，游戏窗口的 ID 为 steam_app_<编号>。"
 
 msgid "Turns on while Steam reports a running game."
-msgstr "当 Steam 报告正在运行的游戏时亮起。"
+msgstr "Steam 报告有游戏在运行时开启。"
 
 msgid "Lutris games"
-msgstr "卢特里斯游戏"
+msgstr "Lutris 游戏"
 
 msgid ""
 "Turns on while a game started by Lutris runs: Lutris starts every game "
 "through lutris-wrapper."
-msgstr "当 Lutris 启动的游戏运行时打开：Lutris 通过 lutris-wrapper 启动每个游戏。"
+msgstr "由 Lutris 启动的游戏运行时开启：Lutris 通过 lutris-wrapper 启动每个游戏。"
 
 msgid "Gamescope sessions"
-msgstr "游戏范围会议"
+msgstr "Gamescope 会话"
 
 msgid "Turns on while the active window is a nested gamescope session."
 msgstr "当活动窗口是嵌套的 gamescope 会话时打开。"
 
 msgid "Games from the Game Bar list"
-msgstr "游戏栏列表中的游戏"
+msgstr "Game Bar 列表中的游戏"
 
 msgid "Applications of the Game category"
-msgstr "游戏类别的应用"
+msgstr "Game 类别的应用"
 
 msgid ""
 "Turns on while the active window belongs to an application whose .desktop "
 "file lists the Game category. Launchers are tagged as games too, so they are"
 " skipped."
-msgstr "当活动窗口属于其 .desktop 文件列出游戏类别的应用程序时打开。启动器也被标记为游戏，因此会被跳过。"
+msgstr "当活动窗口属于其 .desktop 文件列有 Game 类别的应用时开启。启动器也被标记为游戏，因此会被跳过。"
 
 msgid ""
 "Turns on while the active application declares the Games category in its "
 "Info.plist. Launchers are skipped."
-msgstr "当活动应用程序在其 Info.plist 中声明游戏类别时打开。启动器被跳过。"
+msgstr "当活动应用在其 Info.plist 中声明 Games 类别时开启。启动器会被跳过。"
 
 msgid "Auto — according to settings"
 msgstr "自动 — 根据设置"
 
 msgid "Blank"
-msgstr "空白的"
+msgstr "空白"
 
 msgid "Assign action"
-msgstr "分配动作"
+msgstr "分配操作"
 
 msgid "Action after {} ms of holding"
-msgstr "按住 {} 毫秒后的动作"
+msgstr "按住 {} 毫秒后的操作"
 
 msgid ""
 "These codes are specific to Tecloid, not universal keyboard codes "
 "(e.g. KeyA, ArrowLeft)."
-msgstr "这些代码特定于左手控制，而不是通用键盘代码（例如 KeyA、ArrowLeft）。"
+msgstr "这些代码是 Tecloid 专用的，而不是通用键盘代码（例如 KeyA、ArrowLeft）。"
 
 msgid "While its window is active"
-msgstr "当其窗口处于活动状态时"
+msgstr "在其窗口处于活动状态时"
 
 msgid "While the process runs"
-msgstr "当进程运行时"
+msgstr "在进程运行时"
 
 msgid "Counts while a window of the application has the focus."
-msgstr "当应用程序的窗口获得焦点时进行计数。"
+msgstr "应用的窗口获得焦点时计入。"
 
 msgid ""
 "Counts while a process with this name runs, even without a window or in the "
 "background."
-msgstr "当具有此名称的进程运行时进行计数，即使没有窗口或在后台也是如此。"
+msgstr "具有此名称的进程运行时计入，即使没有窗口或在后台。"
 
 msgid "Application · while its window is active"
-msgstr "应用程序 · 当其窗口处于活动状态时"
+msgstr "应用 · 其窗口处于活动状态时"
 
 msgid "Process · while it runs"
-msgstr "进程·运行时"
+msgstr "进程 · 运行时"
 
 msgid "No games added."
 msgstr "没有添加游戏。"
@@ -2355,15 +2337,12 @@ msgid ""
 "wildcards. Steam games have the app ID steam_app_<number>; Proton games are "
 "also found by their .exe name. A window title item matches the active window"
 " whose title contains the text."
-msgstr ""
-"当这些比赛中的任何一场比赛时，游戏模式都会打开。应用程序通过其 ID 或进程名称进行匹配：整个名称，忽略大小写，带有 * 和 ?作为通配符。 Steam"
-" 游戏的应用程序 ID 为 steam_app_<number>； Proton 游戏也可通过其 .exe "
-"名称找到。窗口标题项与标题包含文本的活动窗口相匹配。"
+msgstr "只要其中任一项匹配，游戏模式就会开启。应用按其 ID 或进程名称匹配：完整名称，不区分大小写，可用 * 和 ? 作为通配符。Steam 游戏的应用 ID 为 steam_app_<编号>；Proton 游戏也可按其 .exe 名称找到。窗口标题项匹配标题包含该文本的活动窗口。"
 
 msgid ""
 "Game mode stays off while any of these matches, even if a game or another "
 "detector would turn it on."
-msgstr "当任何这些匹配时，游戏模式都会保持关闭状态，即使游戏或另一个探测器将其打开。"
+msgstr "只要其中任一项匹配，游戏模式就保持关闭，即使游戏或其他检测器会将其开启。"
 
 msgid "less than a minute"
 msgstr "不到一分钟"
@@ -2375,13 +2354,13 @@ msgid "{} h {} min"
 msgstr "{} 小时 {} 分钟"
 
 msgid "Running for {}"
-msgstr "为{}运行"
+msgstr "已运行 {}"
 
 msgid "Stopped unexpectedly"
 msgstr "意外停止"
 
 msgid "Stopped {} ago after running for {}."
-msgstr "在运行 {} 后停止了 {}。"
+msgstr "运行 {} 后，于 {} 前停止。"
 
 msgid "Text input"
 msgstr "文字输入"
@@ -2389,13 +2368,13 @@ msgstr "文字输入"
 msgid ""
 "How text actions in rules and macros are typed. Key remapping and the emoji "
 "popup do not use it."
-msgstr "如何键入规则和宏中的文本操作。按键重新映射和表情符号弹出窗口不使用它。"
+msgstr "规则和宏中的文本操作如何输入。按键重映射和表情符号弹窗不使用此设置。"
 
 msgid "Typing method"
-msgstr "打字方法"
+msgstr "输入方式"
 
 msgid "libei + clipboard fallback (recommended)"
-msgstr "libei + 剪贴板回退（推荐）"
+msgstr "libei + 剪贴板后备（推荐）"
 
 msgid "Paste from clipboard"
 msgstr "从剪贴板粘贴"
@@ -2407,39 +2386,39 @@ msgid "xdotool"
 msgstr "xdotool"
 
 msgid "Types with the current keyboard layout, or pastes the whole text when a character is unavailable. Paste requires Wayland, clipboard access and a supported paste shortcut. A large or slow clipboard can prevent paste. Cancels when a detected destination changes."
-msgstr "使用当前键盘布局进行输入，或者在字符不可用时粘贴整个文本。粘贴需要 Wayland、剪贴板访问权限和受支持的粘贴快捷方式。大的或慢的剪贴板会阻止粘贴。当检测到的目的地发生变化时取消。"
+msgstr "使用当前键盘布局输入，或在某个字符无法输入时粘贴整段文本。粘贴需要 Wayland、剪贴板访问权限和受支持的粘贴快捷键。剪贴板过大或过慢可能导致无法粘贴。检测到的目标发生变化时会取消。"
 
 msgid "Types only through libei using the current keyboard layout and Caps Lock state. Skips text with unavailable characters. Requires portal permission. Cancels when a detected destination changes."
-msgstr "仅使用当前键盘布局和大写锁定状态通过 libei 进行键入。跳过含有不可用字符的文本。需要门户许可。当检测到的目的地发生变化时取消。"
+msgstr "仅通过 libei，使用当前键盘布局和大写锁定状态输入。跳过含有无法输入字符的文本。需要门户授权。检测到的目标发生变化时会取消。"
 
 msgid "Types only through NotifyKeyboardKeycode using the KDE keyboard layout and readable keyboard state. Skips text with unavailable characters. Requires portal permission. Cancels when a detected destination changes."
-msgstr "仅使用 KDE 键盘布局和可读键盘状态通过 NotifyKeyboardKeycode 进行键入。跳过含有不可用字符的文本。需要门户许可。当检测到的目的地发生变化时取消。"
+msgstr "仅通过 NotifyKeyboardKeycode，使用 KDE 键盘布局和可读取的键盘状态输入。跳过含有无法输入字符的文本。需要门户授权。检测到的目标发生变化时会取消。"
 
 msgid "Pastes with the configured shortcut on Wayland: data-control on KDE, Clipboard portal on GNOME. Preserves all formats within size and time limits. Tecloid then owns the restored clipboard until another app copies; quitting can clear it. A new user copy takes precedence."
-msgstr "使用 Wayland 上配置的快捷方式进行粘贴：KDE 上的数据控制、GNOME 上的剪贴板门户。在大小和时间限制内保留所有格式。然后 Tecloid 拥有恢复的剪贴板，直到另一个应用程序复制；退出可以清除它。新用户副本优先。"
+msgstr "在 Wayland 上使用配置的快捷键粘贴：KDE 上使用 data-control，GNOME 上使用剪贴板门户。在大小和时间限制内保留所有格式。之后 Tecloid 将持有恢复的剪贴板，直到其他应用复制内容；退出时可能会清空它。用户的新复制优先。"
 
 msgid "Paste shortcut"
-msgstr "粘贴快捷方式"
+msgstr "粘贴快捷键"
 
 
 msgid "Paste shortcut in terminals"
 msgstr "终端中的粘贴快捷键"
 
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
-msgstr "用于终端窗口，例如 Konsole、kitty 或 Alacritty。窗口类别无法检测嵌入式终端。 Shift+Insert 可以粘贴鼠标选择的内容；对其他应用程序使用 Ctrl+V 可以避免这种风险。较旧的终端可能需要自定义快捷方式绑定。"
+msgstr "用于 Konsole、kitty 或 Alacritty 等终端窗口。无法通过窗口类识别嵌入式终端。Shift+Insert 可能会粘贴鼠标选区；其他应用请使用 Ctrl+V 以避免此风险。较旧的终端可能需要自定义快捷键绑定。"
 
 msgid ""
 "Runs \"ydotool type\" only. Needs ydotool and its ydotoold service running. "
 "Reliable for Latin text only. On an error, stops without switching methods."
-msgstr "仅运行“ydotool 类型”。需要运行 ydotool 及其 ydotoold 服务。仅对拉丁文本可靠。出现错误时，停止而不切换方法。"
+msgstr "仅运行“ydotool type”。需要 ydotool 及正在运行的 ydotoold 服务。仅对拉丁文本可靠。出错时停止，不会切换方式。"
 
 msgid ""
 "Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
 " On an error, stops without switching methods."
-msgstr "仅运行“xdotool type”。仅适用于 X11 会话和 XWayland 窗口。出现错误时，停止而不切换方法。"
+msgstr "仅运行“xdotool type”。仅适用于 X11 会话和 XWayland 窗口。出错时停止，不会切换方式。"
 
 msgid "ydotool from PATH"
-msgstr "路径中的 ydotool"
+msgstr "来自 PATH 的 ydotool"
 
 msgid "xdotool from PATH"
 msgstr "来自 PATH 的 xdotool"
@@ -2454,9 +2433,7 @@ msgid ""
 "name. The whole name must match, case is ignored, .exe is optional. * stands"
 " for any characters and ? for one, e.g. steam_app_*. The ID is stable, so "
 "prefer it."
-msgstr ""
-"应用程序：应用程序 ID（Wayland 应用程序 ID 或 X11 WM_CLASS）或进程名称。整个名称必须匹配，忽略大小写，.exe 是可选的。 "
-"* 代表任意字符，?其一，例如steam_app_*。 ID稳定，所以更喜欢。"
+msgstr "应用：应用 ID（Wayland app id 或 X11 WM_CLASS）或进程名称。必须匹配完整名称，不区分大小写，.exe 可省略。* 代表任意字符，? 代表单个字符，例如 steam_app_*。ID 稳定，因此优先使用它。"
 
 msgid "Window title: matches when the title contains the text, case is ignored. A title changes with the open tab or document, and it never matches a process without a window."
 msgstr "窗口标题：当标题包含文本时匹配，忽略大小写。标题会随着打开的选项卡或文档而变化，并且它永远不会与没有窗口的进程匹配。"
@@ -2468,10 +2445,10 @@ msgid "Process"
 msgstr "过程"
 
 msgid "Process name, * and ? allowed"
-msgstr "进程名称、* 和 ?允许"
+msgstr "进程名称，允许使用 * 和 ?"
 
 msgid "App ID, * and ? allowed"
-msgstr "应用程序 ID、* 和 ?允许"
+msgstr "应用 ID，允许使用 * 和 ?"
 
 msgid ""
 "The item is compared with the names of running processes. Pick one from the "
@@ -2482,22 +2459,22 @@ msgid ""
 "Process: the executable name, as the list below shows it. The whole name "
 "must match, case is ignored, .exe is optional. * stands for any characters "
 "and ? for one."
-msgstr "进程：可执行文件名称，如下列表所示。整个名称必须匹配，忽略大小写，.exe 是可选的。 * 代表任意字符，?其一。"
+msgstr "进程：可执行文件名称，如下方列表所示。必须匹配完整名称，不区分大小写，.exe 可省略。* 代表任意字符，? 代表单个字符。"
 
 msgid "Matches {n} running process"
 msgid_plural "Matches {n} running processes"
-msgstr[0] "匹配{n}个正在运行的进程"
+msgstr[0] "匹配 {n} 个正在运行的进程"
 
 msgid "Matches no running process"
-msgstr "匹配没有正在运行的进程"
+msgstr "没有匹配的正在运行的进程"
 
 msgid ""
 "Many applications run as “{}”, so the name matches all of them. The "
 "application ID is more precise."
-msgstr "许多应用程序以“{}”运行，因此名称与所有应用程序都匹配。应用程序ID更加精确。"
+msgstr "许多应用都以“{}”运行，因此该名称会匹配所有这些应用。应用 ID 更精确。"
 
 msgid "When it counts"
-msgstr "当它重要时"
+msgstr "何时计入"
 
 msgid "Window titles"
 msgstr "窗口标题"
@@ -2506,62 +2483,62 @@ msgid "Processes of open windows"
 msgstr "打开窗口的进程"
 
 msgid "Shared process"
-msgstr "共享流程"
+msgstr "共享进程"
 
 msgid "Running without a window"
-msgstr "没有窗户的情况下运行"
+msgstr "无窗口运行"
 
 msgid "Type a name to find processes running without a window."
 msgstr "键入名称以查找在没有窗口的情况下运行的进程。"
 
 msgid "Process · while its window is active"
-msgstr "窗口处于活动状态时进行处理"
+msgstr "进程 · 其窗口处于活动状态时"
 
 msgid "While the trigger is held"
-msgstr "当扣动扳机时"
+msgstr "按住触发器期间"
 
 msgid "Press key"
-msgstr "按键"
+msgstr "按下按键"
 
 msgid ""
 "Which key stays pressed while you hold the trigger, together with the layer."
 " “Don't press” only switches the layer."
-msgstr "按住扳机时哪个键与图层一起保持按下状态。 “不要按”仅切换图层。"
+msgstr "按住触发器时，与层一起保持按下的按键。“不按”只切换层。"
 
 msgid ""
 "Which key stays pressed while you hold the trigger. “Trigger itself” keeps "
 "the usual behavior of the key."
-msgstr "按住扳机时哪个键保持按下状态。 “触发器本身”保持了按键的通常行为。"
+msgstr "按住触发器时保持按下的按键。“触发器本身”保持该按键的常规行为。"
 
 msgid "Trigger itself"
-msgstr "触发本身"
+msgstr "触发器本身"
 
 msgid "Other key…"
-msgstr "其他关键..."
+msgstr "其他按键…"
 
 msgid "When to press"
-msgstr "何时按"
+msgstr "何时按下"
 
 msgid "Holds {}"
-msgstr "持有{}"
+msgstr "按住 {}"
 
 msgid "Holds nothing"
-msgstr "什么也没有"
+msgstr "不按住任何键"
 
 msgid "Hold after {} ms"
-msgstr "{} 毫秒后保持"
+msgstr "{} 毫秒后按住"
 
 msgid "Stop mapper (restore native keyboard behavior)"
-msgstr "停止映射器（恢复本机键盘行为）"
+msgstr "停止映射器（恢复键盘原有行为）"
 
 msgid "Select a keyboard device in the settings to start the mapper"
 msgstr "在设置中选择键盘设备以启动映射器"
 
 msgid "Start mapper to intercept keys and apply keymaps"
-msgstr "启动映射器来拦截键并应用Keymap"
+msgstr "启动映射器以拦截按键并应用 Keymap"
 
 msgid "Current active keymap (selected automatically by switching rules)"
-msgstr "当前活动Keymap（通过切换规则自动选择）"
+msgstr "当前活动的 Keymap（由切换规则自动选择）"
 
 msgid "Click to change mode (Auto / On / Off)"
 msgstr "单击以更改模式（自动/开/关）"
@@ -2569,52 +2546,52 @@ msgstr "单击以更改模式（自动/开/关）"
 msgid ""
 "The mapper intercepts keyboard input, applies layers, rules and macros, and "
 "emits output through a virtual device."
-msgstr "映射器拦截键盘输入，应用图层、规则和宏，并通过虚拟设备发出输出。"
+msgstr "映射器拦截键盘输入，应用层、规则和宏，并通过虚拟设备输出结果。"
 
 msgid ""
 "Define how physical keys behave: tap for a key or action, hold to switch "
 "layers, or double-tap for extra shortcuts."
-msgstr "定义物理键的行为方式：点击键或操作，按住以切换层，或双击以获取额外的快捷键。"
+msgstr "定义物理按键的行为：点按触发按键或操作，按住切换层，双击触发额外快捷键。"
 
 msgid ""
 "Action performed when the trigger is pressed and released quickly without "
 "holding."
-msgstr "不按住扳机而快速按下并释放时执行的操作。"
+msgstr "快速按下并松开触发器（不按住）时执行的操作。"
 
 msgid ""
 "Action performed when the trigger is pressed twice quickly within the "
 "double-tap timeout."
-msgstr "在双击超时时间内快速按下扳机两次时执行的操作。"
+msgstr "在双击间隔内快速按两次触发器时执行的操作。"
 
 msgid "Show standard QWERTY letter labels for visual reference."
-msgstr "显示标准 QWERTY 字母标签以供视觉参考。"
+msgstr "显示标准 QWERTY 字母标签作为参考。"
 
 msgid ""
 "Show internal key codes used in Tecloid keymaps (e.g. KeyA, "
 "ArrowLeft)."
-msgstr "显示左手控制Keymap中使用的内部键代码（例如 KeyA、ArrowLeft）。"
+msgstr "显示 Tecloid Keymap 中使用的内部按键代码（例如 KeyA、ArrowLeft）。"
 
 msgid "Hold detection"
-msgstr "保持检测"
+msgstr "按住检测"
 
 msgid "When a key becomes a hold"
-msgstr "当某个键变成按住键时"
+msgstr "按键何时算作按住"
 
 msgid ""
 "Decides when a rule key that is still down counts as a hold if you press "
 "another key meanwhile. Applies to all rules."
-msgstr "决定如果您同时按下另一个键，仍处于按下状态的规则键何时计为保持。适用于所有规则。"
+msgstr "决定仍处于按下状态的规则按键在您同时按下另一个键时何时算作按住。适用于所有规则。"
 
 msgid ""
 "After another key is released: the key becomes a hold once another key is "
 "pressed and released while it is down, or when the hold threshold passes. "
 "Fast rolls while typing stay taps."
-msgstr "释放另一个键后：按下另一个键并在按下时释放该键，或者超过保持阈值时，该键将变为保持状态。敲击时快速滚动。"
+msgstr "松开另一个键后：在该键按下期间另一个键被按下并松开，或超过按住阈值时，该键算作按住。打字时的快速连按仍算作点按。"
 
 msgid ""
 "As soon as another key is pressed: reacts faster, but fast typing can "
 "trigger the hold by mistake."
-msgstr "一旦按下另一个键：反应速度更快，但快速打字可能会错误地触发保持。"
+msgstr "按下另一个键时立即判定：反应更快，但快速打字可能误触发按住。"
 
 msgid "After another key is released (recommended)"
 msgstr "释放另一个键后（推荐）"
@@ -2625,81 +2602,79 @@ msgstr "一旦按下另一个键"
 msgid ""
 "Used by rules that leave the field empty. A rule can set its own value in "
 "its advanced options."
-msgstr "由将该字段留空的规则使用。规则可以在其高级选项中设置自己的值。"
+msgstr "供将该字段留空的规则使用。规则可以在其高级选项中设置自己的值。"
 
 msgid "Hold threshold, ms"
-msgstr "保持阈值，毫秒"
+msgstr "按住阈值，毫秒"
 
 msgid ""
 "How long to hold a rule key before it counts as a hold: its layer or hold "
 "action. Released earlier, the key runs its tap action."
-msgstr "在算作保持之前保持规则键多长时间：其层或保持操作。该键较早发布，可执行轻按操作。"
+msgstr "规则按键需要按住多久才算作按住：触发其层或按住操作。提前松开则执行点按操作。"
 
 msgid ""
 "Lower: layers turn on faster, but fast typing may trigger them by mistake. "
 "Higher: fewer false holds, but a longer wait. Usually 150–250 ms."
-msgstr "较低：图层打开速度更快，但快速打字可能会错误地触发它们。更高：错误保持更少，但等待时间更长。通常为 150–250 毫秒。"
+msgstr "较低：层开启更快，但快速打字可能误触发。较高：误判更少，但等待更久。通常为 150–250 毫秒。"
 
 msgid "Standard value: {} ms."
 msgstr "标准值：{} 毫秒。"
 
 msgid "Long hold, ms"
-msgstr "长按，女士"
+msgstr "长按，毫秒"
 
 msgid ""
 "How long to keep holding a rule key before its long-hold action runs once. "
 "Applies to rules whose hold runs an action instead of a layer."
-msgstr "在其长按操作运行一次之前，要保持按住规则键多长时间。适用于其持有运行操作而不是层的规则。"
+msgstr "规则按键需要继续按住多久，其长按操作才会执行一次。适用于按住时执行操作而非切换层的规则。"
 
 msgid "Double-tap window, ms"
-msgstr "双击窗口，毫秒"
+msgstr "双击间隔，毫秒"
 
 msgid ""
 "A second tap within this time after the first release counts as a double "
 "tap."
-msgstr "第一次释放后这段时间内的第二次点击算作双击。"
+msgstr "第一次松开后在此时间内的第二次点按算作双击。"
 
 msgid ""
 "A single tap on a key with a double-tap action runs only after this window "
 "ends, so a large value makes such keys feel slow. Keys without a double-tap "
 "action are not delayed."
-msgstr "单击带有双击操作的按键仅在此窗口结束后运行，因此较大的值会使此类按键感觉很慢。没有双击操作的按键不会延迟。"
+msgstr "带有双击操作的按键，单击只会在此间隔结束后执行，因此数值过大会让这类按键反应迟缓。没有双击操作的按键不受影响。"
 
 msgid ""
 "Used by macros that leave the field empty. A macro can set its own value on "
 "the Macros page."
-msgstr "由将该字段留空的宏使用。宏可以在宏页面上设置自己的值。"
+msgstr "供将该字段留空的宏使用。宏可以在“宏”页面设置自己的值。"
 
 msgid ""
 "Pause between consecutive steps of a macro. Increase it if an application "
 "misses keystrokes."
-msgstr "在宏的连续步骤之间暂停。如果应用程序错过击键，请增加它。"
+msgstr "宏连续步骤之间的暂停。如果应用漏掉按键，请增大此值。"
 
 msgid "Simultaneous presses"
-msgstr "同步压力机"
+msgstr "同时按下"
 
 msgid ""
 "For rules triggered by several keys pressed together, such as KeyJ+KeyK. All"
 " keys must go down within this time, in any order. Until then the first key "
 "is held back; if the combination does not complete, it is typed as usual. "
 "Modifiers are never held back."
-msgstr ""
-"对于同时按下多个按键触发的规则，例如KeyJ+KeyK。所有钥匙都必须在这段时间内以任何顺序按下。在此之前，第一个键将被保留；如果组合未完成，则照常输入。修改者永远不会被阻止。"
+msgstr "适用于由多个同时按下的按键触发的规则，例如 KeyJ+KeyK。所有按键必须在此时间内按下，顺序不限。在此之前第一个按键会被暂扣；如果组合未完成，则照常输入。修饰键从不被暂扣。"
 
 msgid ""
 "Higher: the combination is easier to hit, but typing with these keys lags "
 "slightly. Applies to all rules; a rule cannot override it."
-msgstr "更高：该组合更容易击中，但使用这些键打字会稍微滞后。适用于所有规则；规则不能覆盖它。"
+msgstr "较高：更容易按出组合，但用这些键打字会略有延迟。适用于所有规则；规则无法覆盖。"
 
 msgid ""
 "Wait between pressing modifiers (Shift, Ctrl, …) and the main key of a macro"
 " step. Increase it if an application receives the shortcut without its "
 "modifier. Default for macros that leave the field empty."
-msgstr ""
-"在按下修饰键（Shift、Ctrl、...）和宏步骤的主键之间等待。如果应用程序收到不带修饰符的快捷方式，请增加它。将该字段留空的宏的默认值。"
+msgstr "宏步骤中按下修饰键（Shift、Ctrl…）与主键之间的等待时间。如果应用收到的快捷键缺少修饰键，请增大此值。用作将该字段留空的宏的默认值。"
 
 msgid "Enter a long hold from 100 to 60000 ms."
-msgstr "输入 100 到 60000 毫秒的长时间保持。"
+msgstr "请输入 100 到 60000 毫秒之间的长按时间。"
 
 msgid "Long hold after {} ms"
 msgstr "{} 毫秒后长按"
@@ -2707,16 +2682,16 @@ msgstr "{} 毫秒后长按"
 msgid ""
 "Released earlier, the trigger counts as a tap; held longer, as a hold. Empty"
 " uses the default from Settings: {} ms."
-msgstr "较早发布时，触发器算作一次点击；保持更长时间，作为保持。空使用设置中的默认值：{} ms。"
+msgstr "提前松开时触发器算作点按；按住更久则算作按住。留空则使用“设置”中的默认值：{} 毫秒。"
 
 msgid ""
 "How long to keep holding before the action runs. Empty uses the default from"
 " Settings: {} ms."
-msgstr "动作开始之前要保持多长时间。空使用设置中的默认值：{} ms。"
+msgstr "执行操作前需要按住多久。留空则使用“设置”中的默认值：{} 毫秒。"
 
 msgid ""
 "Longest pause between two taps. Empty uses the default from Settings: {} ms."
-msgstr "两次点击之间的最长停顿时间。空使用设置中的默认值：{} ms。"
+msgstr "两次点按之间的最长间隔。留空则使用“设置”中的默认值：{} 毫秒。"
 
 msgid "Auto: {} is not counted as a game (built-in list)"
 msgstr "自动：{} 不算游戏（内置列表）"
@@ -2724,12 +2699,12 @@ msgstr "自动：{} 不算游戏（内置列表）"
 msgid ""
 "These sources can take another application for a game, so each skips a "
 "built-in list of applications."
-msgstr "这些源可以将另一个应用程序用于游戏，因此每个源都会跳过内置的应用程序列表。"
+msgstr "这些来源可能会把其他应用误认为游戏，因此每个来源都会跳过一份内置应用列表。"
 
 msgid ""
 "Turns on while a program that Windows recognized as a game (the Game Bar "
 "list) runs. Launchers are listed there too, so they are skipped."
-msgstr "当 Windows 识别为游戏的程序（游戏栏列表）运行时打开。启动器也列在那里，因此它们被跳过。"
+msgstr "当 Windows 识别为游戏的程序（Game Bar 列表）运行时开启。启动器也在该列表中，因此会被跳过。"
 
 msgid "Launchers and game tools — not counted as games"
 msgstr "启动器和游戏工具——不算作游戏"
@@ -2738,7 +2713,7 @@ msgid ""
 "Decides when a dual-role key counts as a hold if another key is pressed. "
 "Rules can override this default in advanced options. Chord detection is "
 "configured separately."
-msgstr "决定如果按下另一个键，双角色键何时计为保持。规则可以覆盖高级选项中的此默认值。和弦检测是单独配置的。"
+msgstr "决定按下另一个键时，双功能按键何时算作按住。规则可以在高级选项中覆盖此默认值。组合键检测单独配置。"
 
 msgid "After another key is released (better for typing)"
 msgstr "释放另一个键后（更适合打字）"
@@ -2747,10 +2722,10 @@ msgid ""
 "As soon as another key is pressed: useful for dedicated layer or modifier "
 "keys. Reacts faster, but overlapping letters while typing can trigger the "
 "hold by mistake."
-msgstr "一旦按下另一个键：对于专用图层或修饰键很有用。反应速度更快，但打字时字母重叠可能会错误地触发保留。"
+msgstr "按下另一个键时立即判定：适用于专用的层键或修饰键。反应更快，但打字时字母重叠可能误触发按住。"
 
 msgid "Default from Settings: {}"
-msgstr "默认设置：{}"
+msgstr "“设置”中的默认值：{}"
 
 msgid "after another key is released"
 msgstr "释放另一个键后"
@@ -2762,7 +2737,7 @@ msgid ""
 "Overrides the default hold detection for this rule. Use release detection "
 "for typing keys and press detection for dedicated layer or modifier keys. "
 "This does not change chord detection."
-msgstr "覆盖此规则的默认保留检测。使用释放检测来键入按键，使用按下检测来检测专用层或修饰键。这不会改变和弦检测。"
+msgstr "覆盖此规则的默认按住检测。打字用的按键请使用松开检测，专用层键或修饰键请使用按下检测。这不会改变组合键检测。"
 
 msgid "Cannot list input devices: {}"
 msgstr "无法列出输入设备：{}"
@@ -2783,22 +2758,22 @@ msgid "Long hold"
 msgstr "长按"
 
 msgid "Double-tap window"
-msgstr "双击窗口"
+msgstr "双击间隔"
 
 msgid "Reset to {} ms"
 msgstr "重置为 {} 毫秒"
 
 msgid "Automatic game detection"
-msgstr "自动游戏检测"
+msgstr "自动检测游戏"
 
 msgid "System signals"
 msgstr "系统信号"
 
 msgid "Launchers"
-msgstr "发射器"
+msgstr "启动器"
 
 msgid "Heroic games"
-msgstr "英雄游戏"
+msgstr "Heroic 游戏"
 
 msgid ""
 "Turns on while a game started by Heroic Games Launcher runs (Epic, GOG, "
@@ -2809,36 +2784,34 @@ msgstr ""
 "HEROIC_APP_NAME 传递给它启动的每个游戏。"
 
 msgid "Games run through umu-launcher"
-msgstr "游戏通过umu-launcher运行"
+msgstr "通过 umu-launcher 运行的游戏"
 
 msgid ""
 "Turns on while a game runs through umu-run. Heroic, Lutris, Faugus Launcher "
 "and other launchers use it to start Windows games with Proton."
-msgstr ""
-"当游戏通过umu-run运行时打开。 Heroic、Lutris、Faugus Launcher 和其他启动器使用它来通过 Proton 启动 "
-"Windows 游戏。"
+msgstr "当游戏通过 umu-run 运行时开启。Heroic、Lutris、Faugus Launcher 等启动器用它来通过 Proton 启动 Windows 游戏。"
 
 msgid "Guesses — can be wrong"
-msgstr "猜测——可能是错误的"
+msgstr "推测 — 可能有误"
 
 msgid "Your rules"
-msgstr "你的规则"
+msgstr "您的规则"
 
 msgid "“Doesn't count as a game” wins over everything else, automatic detection included."
-msgstr "“不视为游戏”胜过一切，包括自动检测。"
+msgstr "“不算游戏”优先于其他所有设置，包括自动检测。"
 
 
 
 msgid "Counts as a game"
-msgstr "视为游戏"
+msgstr "算作游戏"
 
 
 msgid "Doesn't count as a game"
-msgstr "不视为游戏"
+msgstr "不算游戏"
 
 
 msgid "Built-in list. To count one of these anyway, add it to Counts as a game under Your rules."
-msgstr "内置列表。若仍要将其中某一项视为游戏，请将其添加到“你的规则”下的“视为游戏”中。"
+msgstr "内置列表。若仍要将其中某项算作游戏，请在“您的规则”下将其添加到“算作游戏”。"
 
 
 
@@ -2849,22 +2822,22 @@ msgid "Tap"
 msgstr "点按"
 
 msgid "Don't press"
-msgstr "不要按"
+msgstr "不按"
 
 msgid "{} — change…"
-msgstr "{}——改变……"
+msgstr "{} — 更改…"
 
 msgid "Choose another key above to set when it is pressed."
-msgstr "选择上面的另一个键来设置按下该键的时间。"
+msgstr "在上方选择另一个按键以设置其按下时机。"
 
 msgid "Assign a double-tap action to the rule to change this window."
-msgstr "将双击操作分配给规则以更改此窗口。"
+msgstr "为规则分配双击操作后才能更改此间隔。"
 
 msgid "Hold on other key release"
-msgstr "按住其他键释放"
+msgstr "在其他键松开时判定按住"
 
 msgid "Hold on other key press"
-msgstr "按住其他按键"
+msgstr "在其他键按下时判定按住"
 
 msgid "Reset"
 msgstr "重置"
@@ -2879,10 +2852,10 @@ msgid ""
 "A macro still running after this time is stopped and counts as finished. A "
 "macro started while another one runs waits for it; up to 3 runs can wait, "
 "further presses are ignored."
-msgstr "在此时间后仍在运行的宏已停止并算作已完成。一个宏启动，另一个宏运行等待；最多可以等待 3 次运行，进一步按下将被忽略。"
+msgstr "超过此时间仍在运行的宏会被停止并视为已完成。在另一个宏运行时启动的宏会等待其结束；最多可排队 3 次运行，更多的按下将被忽略。"
 
 msgid "Global shortcuts registered in this KDE session:"
-msgstr "在此 KDE 会话中注册的全局快捷方式："
+msgstr "在此 KDE 会话中注册的全局快捷键："
 
 msgid ""
 "The list is read from the KDE global shortcut service (kglobalaccel): KWin, "
@@ -2892,10 +2865,7 @@ msgid ""
 "Plasma version and installed applications, so Tecloid does not "
 "guarantee them. Common window and desktop actions that also work on other "
 "platforms are in System actions."
-msgstr ""
-"该列表是从 KDE 全局快捷方式服务 (kglobalaccel) 读取的：KWin、Plasma "
-"和应用程序在那里注册它们的操作。所选操作按原样调用，就像按下其快捷键一样，即使没有为其分配任何键。存在哪些操作以及它们的行为方式取决于 Plasma "
-"版本和安装的应用程序，因此 Tecloid 不保证它们。也适用于其他平台的常见窗口和桌面操作位于系统操作中。"
+msgstr "该列表读取自 KDE 全局快捷键服务（kglobalaccel）：KWin、Plasma 和应用会在其中注册各自的操作。所选操作会被直接调用，就像按下了它的快捷键一样，即使它没有分配任何按键。有哪些操作以及它们的行为取决于 Plasma 版本和已安装的应用，因此 Tecloid 无法保证。也适用于其他平台的常见窗口和桌面操作位于“系统操作”中。"
 
 msgid "Hold key or combination"
 msgstr "按住按键或组合键"
@@ -2903,25 +2873,25 @@ msgstr "按住按键或组合键"
 msgid ""
 "The key or combination stays pressed until you release the trigger. Choose "
 "modifiers plus one main key, for example Ctrl+KeyC."
-msgstr "该按键或组合键将保持按下状态，直到您松开扳机。选择修饰符加一个主键，例如 Ctrl+KeyC。"
+msgstr "在松开触发器之前，该按键或组合键保持按下。请选择修饰键加一个主键，例如 Ctrl+KeyC。"
 
 msgid "Not used when holding performs a long-hold action."
 msgstr "当按住执行长按操作时不使用。"
 
 msgid "Other key or combination…"
-msgstr "其他按键或组合..."
+msgstr "其他按键或组合键…"
 
 msgid "Hold detection when another key is pressed"
-msgstr "按下另一个键时保持检测"
+msgstr "按下另一个键时的按住检测"
 
 msgid "Used for single-key triggers without a long-hold action."
-msgstr "用于无需长按操作的单键触发器。"
+msgstr "用于没有长按操作的单键触发器。"
 
 msgid "Long-hold threshold, ms"
-msgstr "长时间保持阈值，毫秒"
+msgstr "长按阈值，毫秒"
 
 msgid "Used when a long-hold action is selected."
-msgstr "当选择长按操作时使用。"
+msgstr "选择长按操作时使用。"
 
 msgid "Double-tap interval, ms"
 msgstr "双击间隔，毫秒"
@@ -2930,7 +2900,7 @@ msgid "Double-tap actions are available only for single-key triggers."
 msgstr "双击操作仅适用于单键触发器。"
 
 msgid "Applies when a double-tap action is assigned."
-msgstr "当指定双击操作时适用。"
+msgstr "已分配双击操作时生效。"
 
 msgid "Delete trigger"
 msgstr "删除触发器"
@@ -2950,19 +2920,19 @@ msgid "Holding activates layer: {}"
 msgstr "按住激活层：{}"
 
 msgid "Holding performs a long-hold action."
-msgstr "Hold 执行长按动作。"
+msgstr "按住会执行长按操作。"
 
 msgid "Holding keeps a key or combination pressed."
-msgstr "按住可保持按下某个键或组合键。"
+msgstr "按住会让某个按键或组合键保持按下。"
 
 msgid "Paths"
 msgstr "路径"
 
 msgid "Unknown layer key at \"{}\"."
-msgstr "“{}”处的未知层密钥。"
+msgstr "“{}”处的层按键未知。"
 
 msgid "Invalid layer action at \"{}\"."
-msgstr "“{}”处的图层操作无效。"
+msgstr "“{}”处的层操作无效。"
 
 msgid "Invalid macro at \"{}\"."
 msgstr "“{}”处的宏无效。"
@@ -2971,89 +2941,89 @@ msgid "Invalid menu action at \"{}\"."
 msgstr "“{}”处的菜单操作无效。"
 
 msgid "Invalid timing at \"{}\"."
-msgstr "“{}”的计时无效。"
+msgstr "“{}”处的时间设置无效。"
 
 msgid "Invalid window condition at \"{}\"."
 msgstr "“{}”处的窗口条件无效。"
 
 msgid "Unsupported rule combination at \"{}\"."
-msgstr "“{}”处不支持的规则组合。"
+msgstr "“{}”处的规则组合不受支持。"
 
 msgid "Invalid macro step at \"{}\"."
 msgstr "“{}”处的宏步骤无效。"
 
 msgid "Macro call cycle at \"{}\"."
-msgstr "宏调用周期为“{}”。"
+msgstr "“{}”处存在宏调用循环。"
 
 msgid "A timing value is outside the range shown in Settings."
-msgstr "计时值超出了“设置”中显示的范围。"
+msgstr "时间值超出“设置”中显示的范围。"
 
 msgid "Keep modifiers held until the layer is released"
-msgstr "保持修改器不变，直到图层被释放"
+msgstr "保持修饰键按下，直到松开层"
 
 msgid ""
 "For a combination such as Alt+Tab: Alt stays pressed while you press the key"
 " again and is released together with the layer key, so the window switcher "
 "stays open."
-msgstr "对于 Alt+Tab 等组合：再次按下该键时 Alt 保持按下状态，并与图层键一起释放，因此窗口切换器保持打开状态。"
+msgstr "对于 Alt+Tab 这类组合：再次按下该键时 Alt 保持按下，并与层键一起松开，因此窗口切换器会保持打开。"
 
 msgid ""
 "Cannot list input devices. Check device access and see the application log."
-msgstr "无法列出输入设备。检查设备访问并查看应用程序日志。"
+msgstr "无法列出输入设备。请检查设备访问权限并查看应用日志。"
 
 msgid ""
 "Configuration is unavailable. Check the configuration files and see the "
 "application log."
-msgstr "配置不可用。检查配置文件并查看应用程序日志。"
+msgstr "配置不可用。请检查配置文件并查看应用日志。"
 
 msgid "Popup menus are unavailable. Try opening the menu again."
-msgstr "弹出菜单不可用。尝试再次打开菜单。"
+msgstr "弹出菜单不可用。请尝试重新打开菜单。"
 
 msgid "Popup menu failed. Try opening the menu again."
-msgstr "弹出菜单失败。尝试再次打开菜单。"
+msgstr "弹出菜单出错。请尝试重新打开菜单。"
 
 msgid ""
 "The text was not typed: the typing method is unavailable. Restart the mapper"
 " to try again."
-msgstr "文本未输入：输入方法不可用。重新启动映射器以重试。"
+msgstr "未输入文本：输入方式不可用。请重启映射器后重试。"
 
 msgid ""
 "The text was not typed: safe clipboard access failed. See the application "
 "log."
-msgstr "未输入文本：安全剪贴板访问失败。请参阅应用程序日志。"
+msgstr "未输入文本：安全访问剪贴板失败。请查看应用日志。"
 
 msgid ""
 "The text was not typed: the input tool failed. See the application log."
-msgstr "未输入文本：输入工具失败。请参阅应用程序日志。"
+msgstr "未输入文本：输入工具出错。请查看应用日志。"
 
 msgid "Changes saved, but the mapper is still using the previous settings. Restart the mapper."
 msgstr "更改已保存，但映射器仍在使用之前的设置。请重启映射器。"
 
 msgid "The operation failed. See the application log."
-msgstr "操作失败。请参阅应用程序日志。"
+msgstr "操作失败。请查看应用日志。"
 
 msgid "The action failed. See the application log."
-msgstr "行动失败了。请参阅应用程序日志。"
+msgstr "操作失败。请查看应用日志。"
 
 msgid "Cannot start the mapper. See the application log."
-msgstr "无法启动映射器。详情请见应用日志。"
+msgstr "无法启动映射器。请查看应用日志。"
 
 msgid "Mapper is running, but an error occurred. See the application log."
-msgstr "映射器正在运行，但发生错误。请参阅应用程序日志。"
+msgstr "映射器正在运行，但发生了错误。请查看应用日志。"
 
 msgid "Mapper stopped because of an error. See the application log."
-msgstr "映射器因错误而停止。请参阅应用程序日志。"
+msgstr "映射器因错误而停止。请查看应用日志。"
 
 msgid ""
 "Cannot read or save the configuration. Check file access and see the "
 "application log."
-msgstr "无法读取或保存配置。检查文件访问并查看应用程序日志。"
+msgstr "无法读取或保存配置。请检查文件访问权限并查看应用日志。"
 
 msgid "Cannot parse the configuration file. See the application log."
-msgstr "无法解析配置文件。请参阅应用程序日志。"
+msgstr "无法解析配置文件。请查看应用日志。"
 
 msgid "The configuration contains invalid values. See the application log."
-msgstr "配置包含无效值。请参阅应用程序日志。"
+msgstr "配置包含无效值。请查看应用日志。"
 
 msgid "The action has invalid syntax."
 msgstr "该操作的语法无效。"
@@ -3071,11 +3041,11 @@ msgid "Unknown system action."
 msgstr "未知的系统操作。"
 
 msgid "Unknown application action."
-msgstr "未知的应用程序操作。"
+msgstr "未知的应用操作。"
 
 msgid ""
 "Unknown action type. It may come from a newer version of the application."
-msgstr "未知的操作类型。它可能来自应用程序的较新版本。"
+msgstr "未知的操作类型。它可能来自更新版本的应用。"
 
 msgid "Keymap: {}"
 msgstr "Keymap：{}"
@@ -3096,13 +3066,13 @@ msgid "Move 5 lines up"
 msgstr "上移 5 行"
 
 msgid "Duplicate line"
-msgstr "重复行"
+msgstr "复制当前行"
 
 msgid "Space after next character"
 msgstr "在下一个字符后加空格"
 
 msgid "Empty line below"
-msgstr "下面空行"
+msgstr "下方插入空行"
 
 msgid "Cut word under cursor"
 msgstr "剪切光标处的单词"
@@ -3141,7 +3111,7 @@ msgid "Cut whole line"
 msgstr "剪切整行"
 
 msgid "Select 5 lines up"
-msgstr "选择5行"
+msgstr "向上选择 5 行"
 
 msgid "Copy to line start"
 msgstr "复制到行首"
@@ -3168,10 +3138,10 @@ msgid "Replace line text with clipboard"
 msgstr "用剪贴板替换行文本"
 
 msgid "Select 5 lines down"
-msgstr "选择向下 5 行"
+msgstr "向下选择 5 行"
 
 msgid "Remove trigger"
-msgstr "移除扳机"
+msgstr "移除触发器"
 
 msgid "Refresh list"
 msgstr "刷新列表"
@@ -3195,18 +3165,16 @@ msgid "Cancel (Esc)"
 msgstr "取消 (Esc)"
 
 msgid "Use the default from Settings: {} ms"
-msgstr "使用设置中的默认值：{} ms"
+msgstr "使用“设置”中的默认值：{} 毫秒"
 
 msgid ""
 "Opened by the app:showQuickMenuN actions, where N is the page position: "
 "reordering pages changes which page a key opens. Each cell can hold any "
 "action: a shortcut, macro, shell command or system action."
-msgstr ""
-"由应用程序打开：showQuickMenuN 操作，其中 N "
-"是页面位置：重新排序页面会更改按键打开的页面。每个单元格可以保存任何操作：快捷方式、宏、shell 命令或系统操作。"
+msgstr "由 app:showQuickMenuN 操作打开，其中 N 是页面位置：重新排序页面会改变按键打开的页面。每个单元格可以包含任意操作：快捷键、宏、shell 命令或系统操作。"
 
 msgid "In the popup, click a cell or press its key: the cells follow the keyboard rows Q–T, A–G and Z–B. PgUp/PgDn switch pages; digits open a page by its number."
-msgstr "在弹出窗口中，单击一个单元格或按其键：单元格遵循键盘行 Q–T、A–G 和 Z–B。 PgUp/PgDn切换页面；数字通过页码打开一页。"
+msgstr "在弹出窗口中，点击单元格或按下其对应按键：单元格对应键盘的 Q–T、A–G 和 Z–B 行。PgUp/PgDn 切换页面；数字键按页码打开页面。"
 
 msgid "Waiting for keyboard"
 msgstr "等待键盘"
@@ -3231,7 +3199,7 @@ msgid "All devices"
 msgstr "所有设备"
 
 msgid "Detected automatically from what each device reports, so the list may be incomplete. If your device is missing, look under All devices."
-msgstr "根据设备报告的功能自动识别，因此列表可能不完整。如果找不到你的设备，请查看“所有设备”。"
+msgstr "根据各设备报告的信息自动识别，因此列表可能不完整。如果找不到您的设备，请查看“所有设备”。"
 
 msgid "No devices found"
 msgstr "未找到设备"
@@ -3279,7 +3247,7 @@ msgid "Games that launchers or the system report count only while their window i
 msgstr "启动器或系统报告的游戏仅在其窗口处于活动状态时计入，因此切换到浏览器会关闭游戏模式。Windows 上的 Steam 不会说明哪个程序是游戏，因此其游戏始终计入。"
 
 msgid "Cannot load this keymap. See the application log."
-msgstr "无法加载此Keymap。请查看应用程序日志。"
+msgstr "无法加载此 Keymap。请查看应用日志。"
 
 msgid "Scroll horizontally"
 msgstr "水平滚动"
@@ -3306,7 +3274,7 @@ msgid "Configure triggers"
 msgstr "配置触发器"
 
 msgid "Mouse buttons, media keys, and other triggers outside the main keyboard grid. Add a trigger and choose its action or suppress it. Delete its row to inherit the assignment from the lower layer or base keymap."
-msgstr "主键盘网格之外的鼠标按钮、媒体键及其他触发器。添加触发器并选择动作或屏蔽。删除该行可继承下层或基本Keymap的分配。"
+msgstr "主键盘网格之外的鼠标按钮、媒体键和其他触发器。添加触发器并选择其操作或屏蔽它。删除其所在行即可继承下层或基础 Keymap 的分配。"
 
 msgid "Choose one key. Some keys depend on keyboard hardware and may be ignored by the system."
 msgstr "请选择一个按键。某些按键取决于键盘硬件，可能会被系统忽略。"
@@ -3348,10 +3316,10 @@ msgid "ID changes update references automatically. Nested macros keep their dela
 msgstr "更改ID会自动更新引用。嵌套宏保留各自的延迟。命令必须成功完成后才会开始下一步。暂停、文本输入和命令均计入宏的超时时间。"
 
 msgid "Save keymap changes before quitting?"
-msgstr "退出前保存Keymap更改吗？"
+msgstr "退出前保存 Keymap 的更改吗？"
 
 msgid "Cannot switch keymap. The mapper is still using the previous keymap."
-msgstr "无法切换Keymap。映射器仍在使用之前的Keymap。"
+msgstr "无法切换 Keymap。映射器仍在使用之前的 Keymap。"
 
 msgid "This key is on the layer keyboard. Assign it there."
 msgstr "此键位于层键盘上，请在那里分配。"
@@ -3420,10 +3388,10 @@ msgid "Activated by:"
 msgstr "激活此层的触发器："
 
 msgid "Delete layer “{}”?"
-msgstr "删除图层“{}”？"
+msgstr "删除层“{}”？"
 
 msgid "Its key assignments will be deleted. Rules that hold this layer will stop activating it."
-msgstr "其按键分配将被删除。按住此图层的规则将不再激活它。"
+msgstr "其按键分配将被删除。按住此层的规则将不再激活它。"
 
 msgid "Delete extra key “{}”?"
 msgstr "删除额外按键“{}”？"
@@ -3493,7 +3461,7 @@ msgid "Clipboard access is unavailable. Reset text input permissions in Settings
 msgstr "剪贴板访问不可用。在“设置”中重置文本输入权限，并在同意对话框中允许剪贴板访问。"
 
 msgid "No clipboard text transfer was observed. Check the paste shortcut for the destination app, including embedded terminals."
-msgstr "没有观察到剪贴板文本传输。检查目标应用程序的粘贴快捷方式，包括嵌入式终端。"
+msgstr "未检测到通过剪贴板的文本传输。请检查目标应用的粘贴快捷键，包括嵌入式终端。"
 
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "剪贴板被标记为敏感。在粘贴文本之前复制另一个项目，以便保留密码管理器所有权。"
@@ -3532,7 +3500,7 @@ msgid "Text input permissions"
 msgstr "文本输入权限"
 
 msgid "If you denied the system request or text input stopped working, reset saved permissions. The system will ask again the next time Tecloid enters text."
-msgstr "如果你拒绝了系统请求，或文本输入停止工作，请重置已保存的权限。下次 Tecloid 输入文本时，系统会再次请求授权。"
+msgstr "如果您拒绝了系统请求，或文本输入停止工作，请重置已保存的权限。下次 Tecloid 输入文本时，系统会再次请求授权。"
 
 msgid "Saved permissions reset. The system will ask again the next time Tecloid enters text."
 msgstr "已重置保存的权限。下次 Tecloid 输入文本时，系统会再次请求授权。"

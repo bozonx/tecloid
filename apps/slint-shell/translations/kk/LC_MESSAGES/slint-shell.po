@@ -25,8 +25,8 @@ msgstr "Азайту"
 
 msgid "Configuration loaded: {n} rule"
 msgid_plural "Configuration loaded: {n} rules"
-msgstr[0] "Жүктелген конфигурация: {n} ереже"
-msgstr[1] "Жүктелген конфигурация: {n} ереже"
+msgstr[0] "Конфигурация жүктелді: {n} ереже"
+msgstr[1] "Конфигурация жүктелді: {n} ереже"
 
 msgid "Configuration saved: {n} rule"
 msgid_plural "Configuration saved: {n} rules"
@@ -52,9 +52,7 @@ msgid "Enter non-empty text"
 msgstr "Бос емес мәтінді енгізіңіз"
 
 msgid "Key {} only has conditional or layer rules; edit it in the full editor"
-msgstr ""
-"{} кілтінде тек шартты немесе қабат ережелері бар; оны толық редакторда "
-"өңдеңіз"
+msgstr "{} пернесінде тек шартты немесе қабат ережелері бар; оны толық редакторда өңдеңіз"
 
 msgid "Keyboard"
 msgstr "Пернетақта"
@@ -66,22 +64,22 @@ msgid "Keyboard layout"
 msgstr "Пернетақта орналасуы"
 
 msgid "Load a valid configuration before starting the mapper"
-msgstr "Салғышты іске қоспас бұрын жарамды конфигурацияны жүктеңіз"
+msgstr "Мапперді іске қоспас бұрын жарамды конфигурацияны жүктеңіз"
 
 msgid "Mapper is running"
-msgstr "Mapper жұмыс істейді"
+msgstr "Маппер жұмыс істеп тұр"
 
 msgid "Mapper is running: {}"
 msgstr "Маппер жұмыс істеп тұр: {}"
 
 msgid "Mapper is starting…"
-msgstr "Mapper іске қосылуда…"
+msgstr "Маппер іске қосылуда…"
 
 msgid "Mapper is stopped"
-msgstr "Карталаушы тоқтатылды"
+msgstr "Маппер тоқтатылды"
 
 msgid "Mapper is stopped: {}"
-msgstr "Карталаушы тоқтатылды: {}"
+msgstr "Маппер тоқтатылды: {}"
 
 msgid "Quick actions"
 msgstr "Жылдам әрекеттер"
@@ -96,40 +94,40 @@ msgid "Mapper on / off"
 msgstr "Маппер қосу / өшіру"
 
 msgid "Switch to desktop {n}"
-msgstr "{n} жұмыс үстеліне ауысыңыз"
+msgstr "{n} жұмыс үстеліне ауысу"
 
 msgid "Save"
 msgstr "Сақтау"
 
 msgid "Changes applied, but the mapper was not updated: {}"
-msgstr "Өзгерістер қолданылды, бірақ карта жасаушы жаңартылмады: {}"
+msgstr "Өзгерістер қолданылды, бірақ маппер жаңартылмады: {}"
 
 msgid "Select a key to assign an action."
 msgstr "Әрекетті тағайындау үшін пернені таңдаңыз."
 
 msgid "Select a keyboard device in the settings"
-msgstr "Параметрлерден пернетақта құрылғысын таңдаңыз"
+msgstr "Баптауларда пернетақта құрылғысын таңдаңыз"
 
 msgid "Select a system action"
 msgstr "Жүйе әрекетін таңдаңыз"
 
 msgid "Spell popup process unavailable: {}"
-msgstr "Емле қалқымалы процесі қолжетімсіз: {}"
+msgstr "Spell қалқымалы терезелер процесі қолжетімсіз: {}"
 
 msgid "Spell worker is not running"
-msgstr "Емле жұмысы жұмыс істемейді"
+msgstr "Spell жұмыс процесі іске қосылмаған"
 
 msgid "Spell worker is restarting"
-msgstr "Емле жұмысшысы қайта іске қосылуда"
+msgstr "Spell жұмыс процесі қайта іске қосылуда"
 
 msgid "Spell worker: restart limit exceeded (3 per minute)"
-msgstr "Емле қызметкері: қайта қосу шегінен асты (минутына 3)"
+msgstr "Spell жұмыс процесі: қайта іске қосу шегінен асты (минутына 3)"
 
 msgid "Spell worker: {}"
-msgstr "Емле жұмысшысы: {}"
+msgstr "Spell жұмыс процесі: {}"
 
 msgid "Stop capture"
-msgstr "Түсіруді тоқтату"
+msgstr "Жазып алуды тоқтату"
 
 msgid "System"
 msgstr "Жүйе"
@@ -153,7 +151,7 @@ msgid "New keymap name"
 msgstr "Жаңа Keymap атауы"
 
 msgid "Mapper"
-msgstr "Пернелерді қайта тағайындау"
+msgstr "Маппер"
 
 msgid "Dark"
 msgstr "Күңгірт"
@@ -180,13 +178,13 @@ msgid "Automatic"
 msgstr "Автоматты"
 
 msgid "Key behavior"
-msgstr "Негізгі мінез-құлық"
+msgstr "Пернелер әрекеті"
 
 msgid "Game mode"
 msgstr "Ойын режимі"
 
 msgid "Use GameMode daemon"
-msgstr "GameMode демонын пайдаланыңыз"
+msgstr "GameMode демонын пайдалану"
 
 msgid "Detect fullscreen"
 msgstr "Толық экранды анықтау"
@@ -198,16 +196,16 @@ msgid "xdotool path"
 msgstr "xdotool жолы"
 
 msgid "Settings directory: {}"
-msgstr "Параметрлер каталогы: {}"
+msgstr "Баптаулар каталогы: {}"
 
 msgid "Keymaps directory: {}"
 msgstr "Keymap каталогы: {}"
 
 msgid "Save settings"
-msgstr "Параметрлерді сақтау"
+msgstr "Баптауларды сақтау"
 
 msgid "Settings saved"
-msgstr "Параметрлер сақталды"
+msgstr "Баптаулар сақталды"
 
 msgid "Enter a timeout from 50 to 1000 milliseconds"
 msgstr "50-ден 1000 миллисекундқа дейінгі күту уақытын енгізіңіз"
@@ -219,19 +217,19 @@ msgid "Remove"
 msgstr "Алып тастау"
 
 msgid "Move up"
-msgstr "Жоғары жылжытыңыз"
+msgstr "Жоғары жылжыту"
 
 msgid "Move down"
-msgstr "Төмен жылжытыңыз"
+msgstr "Төмен жылжыту"
 
 msgid "Enabled"
-msgstr "Қосылған"
+msgstr "Қосулы"
 
 msgid "Trigger key"
 msgstr "Триггер пернесі"
 
 msgid "Tap action"
-msgstr "Әрекетті түртіңіз"
+msgstr "Басу әрекеті"
 
 msgid "Layout conditions (comma separated)"
 msgstr "Орналасу шарттары (үтірмен бөлінген)"
@@ -246,7 +244,7 @@ msgid "Isolate"
 msgstr "Оқшаулау"
 
 msgid "Hold for"
-msgstr "Ұстаңыз"
+msgstr "Ұстап тұру уақыты"
 
 msgid "Swallow tap"
 msgstr "Қысқа басуды бұғаттау"
@@ -264,9 +262,7 @@ msgid "Rules and triggers"
 msgstr "Ережелер мен триггерлер"
 
 msgid "Define how physical keys activate layers or run actions."
-msgstr ""
-"Физикалық кілттердің қабаттарды белсендіру немесе әрекеттерді орындау жолын "
-"анықтаңыз."
+msgstr "Физикалық пернелердің қабаттарды қалай іске қосатынын немесе әрекеттерді орындайтынын анықтаңыз."
 
 msgid "Add rule"
 msgstr "Ереже қосу"
@@ -281,7 +277,7 @@ msgid "Double-tap action"
 msgstr "Екі рет түрту әрекеті"
 
 msgid "Hold button"
-msgstr "Түймені басып тұрыңыз"
+msgstr "Ұсталатын түйме"
 
 msgid "Default"
 msgstr "Әдепкі"
@@ -323,7 +319,7 @@ msgid "Delete rule?"
 msgstr "Ережені жою керек пе?"
 
 msgid "This rule will be removed from the current keymap."
-msgstr "Бұл ереже ағымдағы Keymapдан жойылады."
+msgstr "Бұл ереже ағымдағы Keymap-тан жойылады."
 
 msgid "Layers"
 msgstr "Қабаттар"
@@ -332,13 +328,13 @@ msgid "New layer"
 msgstr "Жаңа қабат"
 
 msgid "Duplicate"
-msgstr "Көшіру"
+msgstr "Қайталау"
 
 msgid "Delete"
 msgstr "Жою"
 
 msgid "Extra keys"
-msgstr "Қосымша кілттер"
+msgstr "Қосымша пернелер"
 
 msgid "Edit"
 msgstr "Өңдеу"
@@ -347,13 +343,13 @@ msgid "Rename layer"
 msgstr "Қабат атын өзгерту"
 
 msgid "Duplicate layer"
-msgstr "Қабатты көшіру"
+msgstr "Қабатты қайталау"
 
 msgid "Edit layer key"
 msgstr "Қабат пернесін өңдеу"
 
 msgid "Name"
-msgstr "Аты"
+msgstr "Атауы"
 
 msgid "Description"
 msgstr "Сипаттама"
@@ -383,7 +379,7 @@ msgid "Enter a key code"
 msgstr "Перне кодын енгізіңіз"
 
 msgid "Native"
-msgstr "Әдеттегі әрекет"
+msgstr "Табиғи әрекет"
 
 msgid "Layer saved"
 msgstr "Қабат сақталды"
@@ -395,27 +391,25 @@ msgid "Built-in macros"
 msgstr "Кірістірілген макростар"
 
 msgid "Macro ID"
-msgstr "Макрос идентификаторы"
+msgstr "Макрос ID"
 
 msgid "Copy ID"
-msgstr "Идентификаторды көшіру"
+msgstr "ID көшіру"
 
 msgid "Steps"
 msgstr "Қадамдар"
 
 msgid "Add step"
-msgstr "Қадам қосыңыз"
+msgstr "Қадам қосу"
 
 msgid "Add pause"
 msgstr "Үзіліс қосу"
 
 msgid "Macro ID must contain 1–64 letters, digits, underscores or hyphens"
-msgstr ""
-"Макрос идентификаторында 1-64 әріп, цифр, астын сызу немесе сызықша болуы "
-"керек"
+msgstr "Макрос ID 1–64 әріп, цифр, астыңғы сызық немесе дефистен тұруы керек"
 
 msgid "Macro ID is already in use"
-msgstr "Макрос идентификаторы бұрыннан қолданыста"
+msgstr "Макрос ID бұрыннан қолданылуда"
 
 msgid "Macro delays must be between 0 and 2000 ms"
 msgstr "Макрос кідірістері 0 мен 2000 мс аралығында болуы керек"
@@ -424,13 +418,13 @@ msgid "Pause must be between 1 and 10000 ms"
 msgstr "Үзіліс 1 мен 10000 мс аралығында болуы керек"
 
 msgid "Unknown key or shortcut in macro step"
-msgstr "Макрос қадамындағы белгісіз перне немесе төте жол"
+msgstr "Макрос қадамында белгісіз перне немесе пернелер тіркесімі"
 
 msgid "Macro references cannot form a cycle"
-msgstr "Макросілтемелер цикл құра алмайды"
+msgstr "Макростарға сілтемелер цикл құра алмайды"
 
 msgid "Commands"
-msgstr "Командалар"
+msgstr "Пәрмендер"
 
 msgid "Add"
 msgstr "Қосу"
@@ -445,31 +439,31 @@ msgid "Emoji cells accept at most 100 Unicode code points."
 msgstr "Эмодзи ұяшықтары ең көбі 100 Unicode код нүктесін қабылдайды."
 
 msgid "Command ID: 1–64 letters, digits, underscores or hyphens."
-msgstr "Пәрмен идентификаторы: 1–64 әріп, сандар, астын сызу немесе сызықша."
+msgstr "Пәрмен ID: 1–64 әріп, цифр, астыңғы сызық немесе дефис."
 
 msgid "Command IDs must be unique."
-msgstr "Пәрмен идентификаторлары бірегей болуы керек."
+msgstr "Пәрмен ID-лары бірегей болуы керек."
 
 msgid "Enter a shell command."
-msgstr "Қабық пәрменін енгізіңіз."
+msgstr "Shell пәрменін енгізіңіз."
 
 msgid "Save as…"
 msgstr "Басқаша сақтау…"
 
 msgid "Save keymap as…"
-msgstr "Keymap сақтау…"
+msgstr "Keymap-ты басқаша сақтау…"
 
 msgid "Please wait…"
 msgstr "Күте тұрыңыз…"
 
 msgid "Stop"
-msgstr "Тоқта"
+msgstr "Тоқтату"
 
 msgid "Start"
-msgstr "Бастау"
+msgstr "Іске қосу"
 
 msgid "Custom keymap"
-msgstr "Арнаулы Keymap"
+msgstr "Өз Keymap-ы"
 
 msgid "Base keyboard"
 msgstr "Негізгі пернетақта"
@@ -486,10 +480,10 @@ msgstr ""
 "өңдеңіз."
 
 msgid "Running"
-msgstr "Жүгіру"
+msgstr "Жұмыс істеп тұр"
 
 msgid "Stopped"
-msgstr "Тоқтады"
+msgstr "Тоқтатылды"
 
 msgid "Keymap library updated"
 msgstr "Keymap кітапханасы жаңартылды"
@@ -498,7 +492,7 @@ msgid "Select a keymap"
 msgstr "Keymap таңдаңыз"
 
 msgid "Keymap changed on disk; select it again"
-msgstr "Дискідегі Keymap өзгертілді; оны қайтадан таңдаңыз"
+msgstr "Keymap дискіде өзгерді; оны қайта таңдаңыз"
 
 msgid "Any game mode"
 msgstr "Кез келген ойын режимі"
@@ -510,7 +504,7 @@ msgid "Game mode off"
 msgstr "Ойын режимі өшірулі"
 
 msgid "System keyboard layouts (comma separated)"
-msgstr "Жүйе Keymap (үтірмен бөлінген)"
+msgstr "Жүйенің пернетақта орналасулары (үтірмен бөлінген)"
 
 msgid "Applications (comma separated)"
 msgstr "Қолданбалар (үтірмен бөлінген)"
@@ -534,13 +528,13 @@ msgid "Keymap details"
 msgstr "Keymap мәліметтері"
 
 msgid "Do not use when"
-msgstr "Қашан қолданбаңыз"
+msgstr "Мына жағдайда пайдаланбау"
 
 msgid "The keymap file will be deleted. This cannot be undone."
 msgstr "Keymap файлы жойылады. Бұл әрекетті қайтару мүмкін емес."
 
 msgid "Duplicate…"
-msgstr "Көшірме…"
+msgstr "Қайталау…"
 
 msgid "Edit keymap"
 msgstr "Keymap өңдеу"
@@ -564,13 +558,13 @@ msgid "Description (optional)"
 msgstr "Сипаттама (міндетті емес)"
 
 msgid "Discard changes"
-msgstr "Өзгерістерді алып тастаңыз"
+msgstr "Өзгерістерден бас тарту"
 
 msgid "Make active"
 msgstr "Белсенді ету"
 
 msgid "Single: the keymap you make active works everywhere."
-msgstr "Жалғыз: белсенді жасаған Keymap барлық жерде жұмыс істейді."
+msgstr "Жалғыз: белсенді еткен Keymap барлық жерде жұмыс істейді."
 
 msgid "Not used in automatic mode"
 msgstr "Автоматты режимде пайдаланылмайды"
@@ -596,10 +590,10 @@ msgid "Unsaved changes"
 msgstr "Сақталмаған өзгертулер"
 
 msgid "You are editing “{}”, but “{}” is active."
-msgstr "Сіз “{}” өңдеп жатырсыз, бірақ “{}” белсенді."
+msgstr "Сіз «{}» өңдеп жатырсыз, бірақ «{}» белсенді."
 
 msgid "You are editing “{}”; no keymap is active."
-msgstr "Сіз “{}” өңдеп жатырсыз; ешбір Keymap белсенді емес."
+msgstr "Сіз «{}» өңдеп жатырсыз; ешбір Keymap белсенді емес."
 
 msgid "game mode off"
 msgstr "ойын режимі өшірулі"
@@ -611,8 +605,7 @@ msgid "{} (copy)"
 msgstr "{} (көшірме)"
 
 msgid "“{}” has unsaved changes. Save them before switching?"
-msgstr ""
-"“{}” сақталмаған өзгертулері бар. Ауыстыру алдында оларды сақтау керек пе?"
+msgstr "«{}» ішінде сақталмаған өзгерістер бар. Ауыстыру алдында сақтау керек пе?"
 
 msgid "Keymap mode"
 msgstr "Keymap режимі"
@@ -633,7 +626,7 @@ msgid "Current value"
 msgstr "Ағымдағы мән"
 
 msgid "Capture key"
-msgstr "Түсіру кілті"
+msgstr "Пернені жазып алу"
 
 msgid "Press and release a key (including modifiers or Escape)."
 msgstr "Пернені басып, жіберіңіз (модификаторлар немесе Escape қоса)."
@@ -642,19 +635,19 @@ msgid "Press a key or shortcut, then release all keys to finish capture."
 msgstr "Пернені немесе тіркесімді басып, түсіруді аяқтау үшін барлық пернелерді жіберіңіз."
 
 msgid "Choose a valid key or action."
-msgstr "Жарамды кілтті немесе әрекетті таңдаңыз."
+msgstr "Жарамды перне немесе әрекет таңдаңыз."
 
 msgid "Search keys and actions"
-msgstr "Іздеу пернелері мен әрекеттері"
+msgstr "Пернелер мен әрекеттерді іздеу"
 
 msgid "Search keys"
-msgstr "Іздеу пернелері"
+msgstr "Пернелерді іздеу"
 
 msgid "Hold action"
-msgstr "Әрекетті ұстаныңыз"
+msgstr "Ұстап тұру әрекеті"
 
 msgid "Macro step"
-msgstr "Макро қадам"
+msgstr "Макрос қадамы"
 
 msgid ""
 "You can enter a key combination using + between keys. Some keys depend on "
@@ -666,18 +659,16 @@ msgstr ""
 msgid ""
 "You can assign a key combination using + between keys. Availability of "
 "special keys depends on the keyboard and desktop environment."
-msgstr ""
-"Пернелер арасында + арқылы пернелер тіркесімін тағайындауға болады. Арнайы "
-"пернелердің болуы пернетақта мен жұмыс үстелінің ортасына байланысты."
+msgstr "Пернелер арасына + қойып, пернелер тіркесімін тағайындауға болады. Арнайы пернелердің болуы пернетақта мен жұмыс үстелі ортасына байланысты."
 
 msgid "Behavior:"
-msgstr "Мінез-құлық:"
+msgstr "Әрекет түрі:"
 
 msgid "Action:"
 msgstr "Әрекет:"
 
 msgid "Trigger key:"
-msgstr "Триггер кілті:"
+msgstr "Триггер пернесі:"
 
 msgid "{n} line"
 msgid_plural "{n} lines"
@@ -709,13 +700,13 @@ msgid "Mouse"
 msgstr "Тінтуір"
 
 msgid "Other keys"
-msgstr "Басқа кілттер"
+msgstr "Басқа пернелер"
 
 msgid "Actions"
 msgstr "Әрекеттер"
 
 msgid "Extra button on some gaming mice"
-msgstr "Кейбір ойын тышқандарындағы қосымша түйме"
+msgstr "Кейбір ойын тінтуірлеріндегі қосымша түйме"
 
 msgid "Keys"
 msgstr "Пернелер"
@@ -724,13 +715,13 @@ msgid "System actions"
 msgstr "Жүйе әрекеттері"
 
 msgid "KDE shortcuts"
-msgstr "KDE таңбашалары"
+msgstr "KDE пернелер тіркесімдері"
 
 msgid "Pause"
 msgstr "Кідірту"
 
 msgid "Literal text (text: prefix is added automatically)"
-msgstr "Тура мәтін (мәтін: префикс автоматты түрде қосылады)"
+msgstr "Тура мәтін (text: префиксі автоматты түрде қосылады)"
 
 msgid "Pause in milliseconds ({}–{})"
 msgstr "Миллисекундтарда үзіліс ({0}–{1})"
@@ -742,13 +733,13 @@ msgid "Show Quick Action Menu page {}"
 msgstr "Жылдам әрекет мәзірінің {} бетін көрсету"
 
 msgid "Show Emoji & Symbols menu page {}"
-msgstr "Эмодзилер мен таңбалар мәзір бетін көрсету {}"
+msgstr "Эмодзилер мен таңбалар мәзірінің {} бетін көрсету"
 
 msgid "Switch to desktop {}"
-msgstr "{} жұмыс үстеліне ауысыңыз"
+msgstr "{} жұмыс үстеліне ауысу"
 
 msgid "Move window to desktop {}"
-msgstr "Терезені {} жұмыс үстеліне жылжытыңыз"
+msgstr "Терезені {} жұмыс үстеліне жылжыту"
 
 msgid "Close window"
 msgstr "Терезені жабу"
@@ -766,7 +757,7 @@ msgid "Maximize window horizontally"
 msgstr "Терезені көлденеңінен үлкейту"
 
 msgid "Keep window above others"
-msgstr "Терезені басқалардан жоғары ұстаңыз"
+msgstr "Терезені басқалардан жоғары ұстау"
 
 msgid "Move window to next desktop"
 msgstr "Терезені келесі жұмыс үстеліне жылжыту"
@@ -775,16 +766,16 @@ msgid "Show desktop"
 msgstr "Жұмыс үстелін көрсету"
 
 msgid "Window overview"
-msgstr "Терезеге шолу"
+msgstr "Терезелерге шолу"
 
 msgid "Open application launcher"
-msgstr "Қолданбаны іске қосу құралын ашыңыз"
+msgstr "Қолданбаларды іске қосу мәзірін ашу"
 
 msgid "Turn off screen"
-msgstr "Экранды өшіріңіз"
+msgstr "Экранды өшіру"
 
 msgid "Switch to keyboard layout {}"
-msgstr "Пернетақта жаймасын {} ауыстыру"
+msgstr "{} пернетақта орналасуына ауысу"
 
 msgid "Layer"
 msgstr "Қабат"
@@ -793,7 +784,7 @@ msgid "Delete layer"
 msgstr "Қабатты жою"
 
 msgid "Create new layer"
-msgstr "Жаңа қабат жасаңыз"
+msgstr "Жаңа қабат жасау"
 
 msgid "Layer description"
 msgstr "Қабат сипаттамасы"
@@ -826,7 +817,7 @@ msgid "Tecloid codes"
 msgstr "Tecloid кодтары"
 
 msgid "No extra keys for this layer yet."
-msgstr "Бұл қабат үшін қосымша кілттер әлі жоқ."
+msgstr "Бұл қабат үшін қосымша пернелер әлі жоқ."
 
 msgid ""
 "Mouse buttons, media keys, and other triggers outside the main keyboard "
@@ -839,11 +830,7 @@ msgid ""
 "Display modes affect labels only — the key code stays the same. “US layout” "
 "shows standard letter labels for visual reference. “Tecloid codes” shows app-"
 "specific codes (e.g. KeyA, ArrowLeft)."
-msgstr ""
-"Дисплей режимдері тек белгілерге әсер етеді — кілт коды өзгеріссіз қалады. "
-"«АҚШ орналасуы» көрнекі анықтама үшін стандартты әріп белгілерін көрсетеді. "
-"«Tecloid кодтары» қолданбаға арналған кодтарды көрсетеді (мысалы, KeyA, Left "
-"Arrow)."
+msgstr "Көрсету режимдері тек белгілерге әсер етеді — перне коды өзгермейді. «АҚШ орналасуы» бағдар үшін стандартты әріп белгілерін көрсетеді. «Tecloid кодтары» қолданбаның өз кодтарын көрсетеді (мысалы, KeyA, ArrowLeft)."
 
 msgid "(copy)"
 msgstr "(көшірме)"
@@ -860,17 +847,12 @@ msgstr "Жануарлар және табиғат"
 msgid ""
 "Build reusable sequences from key chords, text actions, commands, or system "
 "actions. Steps run in order with the configured pause between them."
-msgstr ""
-"Негізгі аккордтардан, мәтіндік әрекеттерден, пәрмендерден немесе жүйе "
-"әрекеттерінен қайта пайдалануға болатын тізбектерді құрастырыңыз. Қадамдар "
-"олардың арасындағы конфигурацияланған үзіліспен ретімен орындалады."
+msgstr "Пернелер тіркесімдерінен, мәтіндік әрекеттерден, пәрмендерден немесе жүйе әрекеттерінен қайта қолданылатын тізбектер жасаңыз. Қадамдар арасында бапталған үзіліспен ретімен орындалады."
 
 msgid ""
 "Built-in macros that cannot be edited. To customize, create a user macro "
 "based on one."
-msgstr ""
-"Өңдеу мүмкін емес кіріктірілген макростар. Теңшеу үшін біреуіне негізделген "
-"пайдаланушы макросын жасаңыз."
+msgstr "Өңдеуге болмайтын кірістірілген макростар. Өзгерту үшін солардың біреуі негізінде пайдаланушы макросын жасаңыз."
 
 msgid "Cell {}"
 msgstr "{} ұяшығы"
@@ -879,7 +861,7 @@ msgid "Command name"
 msgstr "Пәрмен аты"
 
 msgid "Create based on"
-msgstr "негізінде жасау"
+msgstr "Негізінде жасау"
 
 msgid "Delete macro"
 msgstr "Макросты жою"
@@ -903,7 +885,7 @@ msgid "Disable"
 msgstr "Өшіру"
 
 msgid "Drag"
-msgstr "сүйреңіз"
+msgstr "Сүйреу"
 
 msgid "Emoji & Symbols"
 msgstr "Эмодзилер және таңбалар"
@@ -924,7 +906,7 @@ msgid "Food & Drink"
 msgstr "Тамақ және сусын"
 
 msgid "Human-readable macro name, shown in picker lists."
-msgstr "Таңдау тізімдерінде көрсетілген адам оқи алатын макрос атауы."
+msgstr "Таңдау тізімдерінде көрсетілетін оқуға ыңғайлы макрос атауы."
 
 msgid "ID"
 msgstr "ID"
@@ -942,10 +924,10 @@ msgid "Modifier delay"
 msgstr "Модификатордың кешігуі"
 
 msgid "Move page left"
-msgstr "Бетті солға жылжытыңыз"
+msgstr "Бетті солға жылжыту"
 
 msgid "Move page right"
-msgstr "Бетті оңға жылжытыңыз"
+msgstr "Бетті оңға жылжыту"
 
 msgid "New macro"
 msgstr "Жаңа макрос"
@@ -955,21 +937,17 @@ msgstr ""
 "Әзірге макростар жоқ. Біріншісін жасау үшін «Жаңа макрос» түймесін басыңыз."
 
 msgid "No steps yet. Each step — one chord or action."
-msgstr "Әзірге қадамдар жоқ. Әрбір қадам — бір аккорд немесе әрекет."
+msgstr "Әзірге қадамдар жоқ. Әр қадам — бір пернелер тіркесімі немесе әрекет."
 
 msgid ""
 "Opened by the app:showEmojiMenuN actions, where N is the page position: "
 "reordering pages changes which page a key opens. Each cell can hold an "
 "emoji, a UTF symbol (e.g. ≠), any other character (e.g. №), or a short "
 "phrase (e.g. \"// TODO: \")."
-msgstr ""
-"Қолданба арқылы ашылған:showEmojiMenuN әрекеттері, мұндағы N - бет орны: "
-"беттердің ретін өзгерту перне қай бетті ашатынын өзгертеді. Әрбір ұяшықта "
-"эмодзи, UTF таңбасы (мысалы, ≠), кез келген басқа таңба (мысалы, №) немесе "
-"қысқа фразалар (мысалы, \"// TODO: \") болуы мүмкін."
+msgstr "app:showEmojiMenuN әрекеттері арқылы ашылады, мұндағы N — беттің орны: беттердің ретін өзгерту перне қай бетті ашатынын өзгертеді. Әр ұяшықта эмодзи, UTF таңбасы (мысалы, ≠), кез келген басқа таңба (мысалы, №) немесе қысқа фраза (мысалы, «// TODO: ») болуы мүмкін."
 
 msgid "Opened by the app:showQuickMenu1...5 actions."
-msgstr "Қолданба арқылы ашылған:showQuickMenu1...5 әрекет."
+msgstr "app:showQuickMenu1...5 әрекеттері арқылы ашылады."
 
 msgid "Page"
 msgstr "Бет"
@@ -984,7 +962,7 @@ msgid "People & Gestures"
 msgstr "Адамдар және қимылдар"
 
 msgid "Per-macro pause between steps. Defaults to the Settings value."
-msgstr "Қадамдар арасындағы макрос үшін үзіліс. Параметрлер мәніне әдепкі."
+msgstr "Осы макрос қадамдары арасындағы үзіліс. Әдепкі бойынша — баптаулардағы мән."
 
 msgid "Pick an action"
 msgstr "Әрекетті таңдаңыз"
@@ -996,11 +974,10 @@ msgid ""
 "Reusable shell commands for the current keymap. On Linux they run through sh"
 " -lc after you explicitly allow them. Shell commands run one at a time, with"
 " a 30-second limit, in your home directory."
-msgstr "Ағымдағы Keymap үшін қайта пайдалануға болатын қабық командалары. Linux жүйесінде олар сіз оларға нақты рұқсат бергеннен кейін sh -lc арқылы жұмыс істейді. Shell пәрмендері үй каталогында 30 секундтық шектеумен бір уақытта орындалады."
+msgstr "Ағымдағы Keymap үшін қайта қолданылатын shell пәрмендері. Linux жүйесінде олар сіз нақты рұқсат бергеннен кейін sh -lc арқылы іске қосылады. Shell пәрмендері үй каталогыңызда 30 секундтық шектеумен бір-бірден орындалады."
 
 msgid "Shell commands are allowed for this version of the current keymap."
-msgstr ""
-"Ағымдағы Keymap осы нұсқасы үшін Shell пәрмендеріне рұқсат етілген."
+msgstr "Ағымдағы Keymap-тың осы нұсқасы үшін shell пәрмендеріне рұқсат етілген."
 
 msgid "Smileys & Emotion"
 msgstr "Смайликтер және эмоциялар"
@@ -1013,7 +990,7 @@ msgstr ""
 "тоқтатады."
 
 msgid "The macro will be deleted. References macro:{} will stop working."
-msgstr "Макрос жойылады. Анықтамалар макросы: {} жұмысын тоқтатады."
+msgstr "Макрос жойылады. macro:{} сілтемелері жұмысын тоқтатады."
 
 msgid "The page and all assigned cells on it will be deleted."
 msgstr "Бет және ондағы барлық тағайындалған ұяшықтар жойылады."
@@ -1023,7 +1000,7 @@ msgid ""
 "especially in keymaps from other people. Approval applies to the reviewed "
 "command definitions and resets when the command set, IDs, or Linux scripts "
 "change."
-msgstr "Бұл Keymap қабық сценарийлері бар. Оларға рұқсат бермес бұрын әрбір сценарийді оқыңыз, әсіресе басқа адамдардан жасалған Keymap. Бекіту пәрмендер жиыны, идентификаторлар немесе Linux сценарийлері өзгерген кезде қаралған пәрмен анықтамаларына және қалпына келтіруге қолданылады."
+msgstr "Бұл Keymap shell скрипттерін қамтиды. Рұқсат бермес бұрын әр скриптті оқыңыз, әсіресе басқа адамдардан алынған Keymap-тарда. Рұқсат тексерілген пәрмен анықтамаларына қолданылады және пәрмендер жиыны, ID немесе Linux скрипттері өзгергенде қалпына келтіріледі."
 
 msgid "This step will be removed from the macro."
 msgstr "Бұл қадам макростан жойылады."
@@ -1031,9 +1008,7 @@ msgstr "Бұл қадам макростан жойылады."
 msgid ""
 "Time between pressing a modifier and the main key within one step. Defaults "
 "to the Settings value."
-msgstr ""
-"Бір қадам ішінде модификатор мен негізгі пернені басу арасындағы уақыт. "
-"Параметрлер мәніне әдепкі."
+msgstr "Бір қадам ішінде модификатор мен негізгі пернені басу арасындағы уақыт. Әдепкі бойынша — баптаулардағы мән."
 
 msgid "Travel & Places"
 msgstr "Саяхат және орындар"
@@ -1048,19 +1023,19 @@ msgid "Texts"
 msgstr "Мәтіндер"
 
 msgid "Non-breaking space"
-msgstr "Үзілмейтін кеңістік"
+msgstr "Үзілмейтін бос орын"
 
 msgid "continue"
-msgstr "жалғастыру"
+msgstr "жалғастыр"
 
 msgid "do all you recommended"
-msgstr "сіз ұсынғанның бәрін жасаңыз"
+msgstr "ұсынғаныңның бәрін жаса"
 
 msgid "fix the errors above"
-msgstr "жоғарыдағы қателерді түзетіңіз"
+msgstr "жоғарыдағы қателерді түзет"
 
 msgid "I'll call you back later"
-msgstr "Мен сізге кейінірек хабарласамын"
+msgstr "Кейінірек хабарласамын"
 
 msgid "Thanks!"
 msgstr "Рахмет!"
@@ -1072,11 +1047,7 @@ msgid ""
 "Unique identifier used in references like macro:<id>. To bind this macro to "
 "a key, choose that action on the Layers or Rules tab. Change the ID only "
 "when nothing uses this macro."
-msgstr ""
-"Макрос:<id> сияқты сілтемелерде қолданылатын бірегей идентификатор. Бұл "
-"макросты пернеге байланыстыру үшін «Қабаттар» немесе «Ережелер» қойындысында"
-" сол әрекетті таңдаңыз. Бұл макросты ештеңе пайдаланбаған кезде ғана "
-"идентификаторды өзгертіңіз."
+msgstr "macro:<id> сияқты сілтемелерде қолданылатын бірегей идентификатор. Бұл макросты пернеге тағайындау үшін «Қабаттар» немесе «Ережелер» қойындысында осы әрекетті таңдаңыз. ID-ны тек бұл макросты ештеңе пайдаланбаған кезде ғана өзгертіңіз."
 
 msgid "Used in:"
 msgstr "Қолданылады:"
@@ -1088,10 +1059,10 @@ msgid "Work & Objects"
 msgstr "Жұмыс және объектілер"
 
 msgid "e.g. Next Track"
-msgstr "мысалы Келесі трек"
+msgstr "мысалы, Келесі трек"
 
 msgid "ms"
-msgstr "Ханым"
+msgstr "мс"
 
 msgid "Rule saved"
 msgstr "Ереже сақталды"
@@ -1103,14 +1074,12 @@ msgid "Set"
 msgstr "Орнату"
 
 msgid "Start the mapper to run actions from the menus"
-msgstr "Мәзірлерден әрекеттерді орындау үшін картаны іске қосыңыз"
+msgstr "Мәзірлерден әрекеттерді орындау үшін мапперді іске қосыңыз"
 
 msgid ""
 "The text was not typed: the keyboard layout lacks some of its characters, "
 "such as emoji. Choose a typing method with the clipboard."
-msgstr ""
-"Мәтін терілмеді: пернетақта орналасуында эмодзи сияқты кейбір таңбалар жоқ. "
-"Алмасу буферімен теру әдісін таңдаңыз."
+msgstr "Мәтін терілмеді: пернетақта орналасуында эмодзи сияқты кейбір таңбалар жоқ. Алмасу буферін пайдаланатын теру әдісін таңдаңыз."
 
 msgid "The text was not typed: the active keyboard layout is unknown."
 msgstr "Мәтін терілмеді: белсенді пернетақта орналасуы белгісіз."
@@ -1118,9 +1087,7 @@ msgstr "Мәтін терілмеді: белсенді пернетақта о�
 msgid ""
 "The text was not typed: the typing method is unavailable ({}). Restart the "
 "mapper to try again."
-msgstr ""
-"Мәтін терілмеді: теру әдісі қолжетімсіз ({}). Әрекетті қайталау үшін картаны"
-" қайта іске қосыңыз."
+msgstr "Мәтін терілмеді: теру әдісі қолжетімсіз ({}). Қайталау үшін мапперді қайта іске қосыңыз."
 
 msgid "The text was not typed: safe clipboard access failed ({})."
 msgstr "Мәтін терілмеді: алмасу буферіне қауіпсіз кіру мүмкін болмады ({})."
@@ -1138,13 +1105,13 @@ msgid "↓"
 msgstr "↓"
 
 msgid "Does not matter"
-msgstr "Ештене етпейді"
+msgstr "Маңызды емес"
 
 msgid "Open for editing (unsaved)"
-msgstr "Өңдеу үшін ашық (сақталмады)"
+msgstr "Өңдеу үшін ашу (сақталмаған)"
 
 msgid "Open for editing"
-msgstr "Өңдеу үшін ашық"
+msgstr "Өңдеу үшін ашу"
 
 msgid "Keymap name"
 msgstr "Keymap атауы"
@@ -1159,10 +1126,10 @@ msgid "Applications"
 msgstr "Қолданбалар"
 
 msgid "“{}” will be deleted. This cannot be undone."
-msgstr "“{}” жойылады. Бұл әрекетті қайтару мүмкін емес."
+msgstr "«{}» жойылады. Бұл әрекетті қайтару мүмкін емес."
 
 msgid "Reset current changes"
-msgstr "Ағымдағы өзгерістерді қалпына келтіріңіз"
+msgstr "Ағымдағы өзгерістерді қалпына келтіру"
 
 msgid "Available"
 msgstr "Қол жетімді"
@@ -1171,7 +1138,7 @@ msgid "Unavailable"
 msgstr "Қолжетімсіз"
 
 msgid "Not implemented"
-msgstr "Орындалмаған"
+msgstr "Іске асырылмаған"
 
 msgid "No input devices were found in /dev/input."
 msgstr "/dev/input ішінде енгізу құрылғылары табылмады."
@@ -1189,14 +1156,13 @@ msgid "No access to /dev/uinput. Run install-linux.sh permissions or reinstall t
 msgstr "/dev/uinput қатынауы жоқ. install-linux.sh permissions орындаңыз немесе буманы қайта орнатыңыз."
 
 msgid "Launch on startup"
-msgstr "Іске қосу кезінде іске қосыңыз"
+msgstr "Жүйеге кіргенде іске қосу"
 
 msgid "Start the mapper on launch"
-msgstr "Іске қосу кезінде картаны іске қосыңыз"
+msgstr "Қолданба ашылғанда мапперді іске қосу"
 
 msgid "No keyboard is selected, so the mapper cannot start."
-msgstr ""
-"Ешбір пернетақта таңдалмаған, сондықтан карта жасаушы іске қосылмайды."
+msgstr "Ешбір пернетақта таңдалмаған, сондықтан маппер іске қосыла алмайды."
 
 msgid "Choose a keyboard"
 msgstr "Пернетақтаны таңдаңыз"
@@ -1208,7 +1174,7 @@ msgid "Keyboard selected"
 msgstr "Пернетақта таңдалды"
 
 msgid "Choose the keyboard to remap"
-msgstr "Қайта салыстыру үшін пернетақтаны таңдаңыз"
+msgstr "Қайта тағайындалатын пернетақтаны таңдаңыз"
 
 msgid "Change"
 msgstr "Өзгерту"
@@ -1217,7 +1183,7 @@ msgid "Add a keymap"
 msgstr "Keymap қосыңыз"
 
 msgid "Press Start at the top to apply it"
-msgstr "Оны қолдану үшін жоғарғы жағындағы Бастау түймесін басыңыз"
+msgstr "Қолдану үшін жоғарыдағы «Іске қосу» түймесін басыңыз"
 
 msgid "No active keymap"
 msgstr "Белсенді Keymap жоқ"
@@ -1250,16 +1216,16 @@ msgid "Swallow key"
 msgstr "Пернені бұғаттау"
 
 msgid "Pass through"
-msgstr "Өтіңіз"
+msgstr "Өткізу"
 
 msgid "Double tap: {} ms"
-msgstr "Екі рет түрту: {} мс"
+msgstr "Екі рет басу: {} мс"
 
 msgid "Custom hold options"
-msgstr "Арнайы ұстау опциялары"
+msgstr "Ұстап тұрудың жеке баптаулары"
 
 msgid "Leave empty to use the global timing settings."
-msgstr "Ғаламдық уақыт параметрлерін пайдалану үшін бос қалдырыңыз."
+msgstr "Ғаламдық уақыт баптауларын пайдалану үшін бос қалдырыңыз."
 
 msgid ""
 "Temporarily releases the held key or modifier while these keys are pressed "
@@ -1271,9 +1237,7 @@ msgstr ""
 msgid ""
 "Defers the held action until one of these keys is pressed in the layer. "
 "Requires a hold action and a layer."
-msgstr ""
-"Осы пернелердің бірі қабатта басылғанша ұсталған әрекетті кейінге қалдырады."
-" Ұстау әрекеті мен қабатты қажет етеді."
+msgstr "Қабатта осы пернелердің бірі басылғанша ұстап тұру әрекетін кейінге қалдырады. Ұстап тұру әрекеті мен қабат қажет."
 
 msgid "Delete rule"
 msgstr "Ережені жою"
@@ -1281,9 +1245,7 @@ msgstr "Ережені жою"
 msgid ""
 "Clear restores normal key behavior. Swallow prevents the key from reaching "
 "the application."
-msgstr ""
-"Clear қалыпты кілт әрекетін қалпына келтіреді. Қарлығаш кілттің қолданбаға "
-"жетуіне жол бермейді."
+msgstr "«Тазалау» перненің қалыпты әрекетін қалпына келтіреді. «Бұғаттау» перненің қолданбаға жетуіне жол бермейді."
 
 msgctxt "Game mode control"
 msgid "Auto"
@@ -1310,13 +1272,13 @@ msgid "Auto: GameMode daemon active"
 msgstr "Автоматты: GameMode демоны белсенді"
 
 msgid "Auto: matched {}"
-msgstr "Автоматты: сәйкес {}"
+msgstr "Автоматты: {} сәйкес келеді"
 
 msgid "Auto: fullscreen window active"
 msgstr "Автоматты: толық экран терезесі белсенді"
 
 msgid "Auto: excluded by {}"
-msgstr "Автоматты: {} шығарған"
+msgstr "Автоматты: {} бойынша шығарылды"
 
 msgid ""
 "Fullscreen detection is not supported in this session. Use process rules or "
@@ -1332,7 +1294,7 @@ msgid "Running processes: {0} · Active window: {1}"
 msgstr "Орындалатын процестер: {0} · Белсенді терезе: {1}"
 
 msgid "Create a layer to assign its keys."
-msgstr "Оның кілттерін тағайындау үшін қабат жасаңыз."
+msgstr "Пернелерін тағайындау үшін қабат жасаңыз."
 
 msgid "Button {}"
 msgstr "{} түймесі"
@@ -1356,13 +1318,13 @@ msgid "Auto"
 msgstr "Автоматты"
 
 msgid "This key assignment will be removed from the layer."
-msgstr "Бұл кілт тағайындау қабаттан жойылады."
+msgstr "Бұл перне тағайындауы қабаттан жойылады."
 
 msgid "Command started: {}"
 msgstr "Пәрмен басталды: {}"
 
 msgid "Unavailable on this platform or desktop"
-msgstr "Бұл платформада немесе жұмыс үстелінде қолжетімсіз"
+msgstr "Бұл платформада немесе жұмыс үстелі ортасында қолжетімсіз"
 
 msgid "This action is not supported on macOS"
 msgstr "Бұл әрекетке macOS жүйесінде қолдау көрсетілмейді"
@@ -1377,20 +1339,14 @@ msgstr "Оқиғалары ұсталуы керек физикалық құры
 msgid ""
 "Select the mouse so the mapper can see extra buttons and clicks. Pointer "
 "movement is not affected."
-msgstr ""
-"Тінтуірді таңдаңыз, сонда карта жасаушы қосымша түймелерді және шертулерді "
-"көре алады. Көрсеткіш қозғалысына әсер етпейді."
+msgstr "Маппер қосымша түймелер мен шертулерді көруі үшін тінтуірді таңдаңыз. Көрсеткіш қозғалысына әсер етпейді."
 
 msgid ""
 "The mouse is not fully intercepted yet: a remapped extra button can emit the"
 " new action, but its native system or app action may still run. If that gets"
 " in the way, disable the native action for that button in your system, "
 "browser, or driver settings."
-msgstr ""
-"Тінтуір әлі толық ұсталмаған: қайта көрсетілген қосымша түйме жаңа әрекетті "
-"шығаруы мүмкін, бірақ оның жергілікті жүйесі немесе қолданба әрекеті әлі де "
-"іске қосылуы мүмкін. Егер бұл кедергі келтірсе, жүйеде, шолғышта немесе "
-"драйвер параметрлерінде сол түйме үшін жергілікті әрекетті өшіріңіз."
+msgstr "Тінтуір әлі толық ұсталмайды: қайта тағайындалған қосымша түйме жаңа әрекетті орындай алады, бірақ оның жүйедегі немесе қолданбадағы төл әрекеті де орындалуы мүмкін. Бұл кедергі келтірсе, сол түйменің төл әрекетін жүйе, браузер немесе драйвер баптауларында өшіріңіз."
 
 msgid "Refresh device list"
 msgstr "Құрылғылар тізімін жаңарту"
@@ -1414,7 +1370,7 @@ msgid "Search devices"
 msgstr "Құрылғыларды іздеу"
 
 msgid "Single"
-msgstr "Бойдақ"
+msgstr "Жалғыз"
 
 msgid "{n} rule"
 msgid_plural "{n} rules"
@@ -1443,33 +1399,33 @@ msgstr[1] "{n} макрос"
 
 msgid "{n} command"
 msgid_plural "{n} commands"
-msgstr[0] "{n} команда"
-msgstr[1] "{n} команда"
+msgstr[0] "{n} пәрмен"
+msgstr[1] "{n} пәрмен"
 
 msgid "Main"
 msgstr "Негізгі"
 
 msgid "Saved assignment: {}"
-msgstr "Сақталған тапсырма: {}"
+msgstr "Сақталған тағайындау: {}"
 
 msgid "Behavior"
 msgstr "Мінез-құлық"
 
 msgid "Inherit"
-msgstr "Мұрагерлік"
+msgstr "Мұраға алу"
 
 msgid "No separate action"
 msgstr "Бөлек әрекет жоқ"
 
 msgid "Activate layer only"
-msgstr "Тек қабатты белсендіріңіз"
+msgstr "Тек қабатты іске қосу"
 
 
 msgid "Suppress"
-msgstr "Басу"
+msgstr "Бұғаттау"
 
 msgid "Assign held key"
-msgstr "Ұстап тұрған кілтті тағайындаңыз"
+msgstr "Ұсталатын пернені тағайындау"
 
 msgid "Perform action"
 msgstr "Әрекетті орындау"
@@ -1478,23 +1434,22 @@ msgid "The key will not reach the application."
 msgstr "Перне қолданбаға жетпейді."
 
 msgid "Use the assignment from the lower layer or base keymap."
-msgstr "Тапсырманы төменгі қабаттан немесе негізгі Keymapдан пайдаланыңыз."
+msgstr "Төменгі қабаттың немесе негізгі Keymap-тың тағайындауын пайдалану."
 
 msgid "Do not assign a separate action to this gesture."
-msgstr "Бұл қимылға бөлек әрекетті тағайындамаңыз."
+msgstr "Бұл қимылға бөлек әрекет тағайындамау."
 
 msgid "Holding activates the selected layer. The original key is not sent."
-msgstr ""
-"Ұстап тұру таңдалған қабатты белсендіреді. Түпнұсқа кілт жіберілмейді."
+msgstr "Ұстап тұру таңдалған қабатты іске қосады. Бастапқы перне жіберілмейді."
 
 msgid "Send the original key to the application."
-msgstr "Түпнұсқа кілтті қолданбаға жіберіңіз."
+msgstr "Бастапқы пернені қолданбаға жіберу."
 
 msgid "Capture shortcut"
-msgstr "Түсіру таңбашасы"
+msgstr "Пернелер тіркесімін жазып алу"
 
 msgid "Choose a valid trigger key."
-msgstr "Жарамды триггер кілтін таңдаңыз."
+msgstr "Жарамды триггер пернесін таңдаңыз."
 
 msgid "Choose a valid action."
 msgstr "Жарамды әрекетті таңдаңыз."
@@ -1503,50 +1458,49 @@ msgid "Empty cell"
 msgstr "Бос ұяшық"
 
 msgid "Remove the action from this menu cell."
-msgstr "Осы мәзір ұяшығынан әрекетті жойыңыз."
+msgstr "Осы мәзір ұяшығынан әрекетті алып тастау."
 
 msgid "Edit assignment"
-msgstr "Тапсырманы өңдеу"
+msgstr "Тағайындауды өңдеу"
 
 msgid "Holding also activates the selected layer."
 msgstr "Ұстап тұру таңдалған қабатты белсендіреді."
 
 msgid "Block"
-msgstr "Блоктау"
+msgstr "Бұғаттау"
 
 msgid ""
 "The key press is consumed: the system and the active application will not "
 "receive it."
-msgstr "Пернені басу жұмсалады: жүйе және белсенді қолданба оны қабылдамайды."
+msgstr "Перне басу ұсталады: жүйе мен белсенді қолданба оны алмайды."
 
 msgid ""
 "The key press passes through unchanged, as if no assignment were configured."
-msgstr ""
-"Пернені басу ешбір тағайындау конфигурацияланбаған сияқты өзгеріссіз өтеді."
+msgstr "Перне басу ешбір тағайындау бапталмағандай өзгеріссіз өтеді."
 
 msgid "Capture"
-msgstr "Түсіру"
+msgstr "Жазып алу"
 
 msgid "Unchanged"
 msgstr "Өзгермеген"
 
 msgid "Leave a delay empty to use the global setting."
-msgstr "Жаһандық параметрді пайдалану үшін кідірісті бос қалдырыңыз."
+msgstr "Ғаламдық баптауды пайдалану үшін кідірісті бос қалдырыңыз."
 
 msgid "Allow command execution"
 msgstr "Пәрменді орындауға рұқсат ету"
 
 msgid "No commands are assigned."
-msgstr "Ешқандай команда тағайындалмайды."
+msgstr "Ешқандай пәрмен тағайындалмаған."
 
 msgid "Commands are disabled in Settings."
-msgstr "Пәрмендер \"Параметрлер\" бөлімінде өшірілген."
+msgstr "Пәрмендер «Баптаулар» бөлімінде өшірілген."
 
 msgid "Working directory (optional)"
 msgstr "Жұмыс каталогы (міндетті емес)"
 
 msgid "Save keymap changes before opening another keymap."
-msgstr "Басқа Keymapді ашпас бұрын Keymap өзгерістерін сақтаңыз."
+msgstr "Басқа Keymap-ты ашпас бұрын Keymap өзгерістерін сақтаңыз."
 
 msgid "No layer"
 msgstr "Қабат жоқ"
@@ -1564,10 +1518,7 @@ msgid ""
 "A trigger can be a single key or a combination, such as "
 "ShiftLeft+ControlLeft. The combination works in either press order and ends "
 "when any key is released."
-msgstr ""
-"Триггер жалғыз перне немесе ShiftLeft+ControlLeft сияқты комбинация болуы "
-"мүмкін. Комбинация не басу ретімен жұмыс істейді және кез келген перне "
-"босатылған кезде аяқталады."
+msgstr "Триггер жалғыз перне немесе ShiftLeft+ControlLeft сияқты тіркесім болуы мүмкін. Тіркесім кез келген басу ретімен жұмыс істейді және кез келген перне жіберілгенде аяқталады."
 
 msgid "When held"
 msgstr "Ұстаған кезде"
@@ -1575,9 +1526,7 @@ msgstr "Ұстаған кезде"
 msgid ""
 "Choose a layer active until release, or an action performed once after the "
 "hold duration."
-msgstr ""
-"Шығарылғанға дейін белсенді қабатты немесе ұстау ұзақтығынан кейін бір рет "
-"орындалатын әрекетті таңдаңыз."
+msgstr "Перне жіберілгенге дейін белсенді болатын қабатты немесе ұстап тұру уақытынан кейін бір рет орындалатын әрекетті таңдаңыз."
 
 msgid "Nothing"
 msgstr "Ештеңе"
@@ -1589,22 +1538,22 @@ msgid "Run action"
 msgstr "Әрекетті орындау"
 
 msgid "Long-hold action"
-msgstr "Ұзақ ұстау әрекеті"
+msgstr "Ұзақ ұстап тұру әрекеті"
 
 msgid "Runs once after {} s"
-msgstr "{} с кейін бір рет іске қосылады"
+msgstr "{} с өткен соң бір рет орындалады"
 
 msgid "Hold another key / combination"
-msgstr "Басқа пернені/комбинацияны басып тұрыңыз"
+msgstr "Басқа перне / тіркесімді ұстап тұру"
 
 msgid "Press a key or combination, then release all keys to finish capture."
 msgstr "Пернені немесе тіркесімді басып, түсіруді аяқтау үшін барлық пернелерді жіберіңіз."
 
 msgid "Held key: {}"
-msgstr "Ұстап тұрған перне: {}"
+msgstr "Ұсталған перне: {}"
 
 msgid "Assigned to"
-msgstr "Тағайындалған"
+msgstr "Тағайындалған жері"
 
 msgid "Languages"
 msgstr "Тілдер"
@@ -1619,31 +1568,31 @@ msgid "Page:"
 msgstr "Бет:"
 
 msgid "Keymap “{}” created"
-msgstr "\"{}\" Keymap құрылды"
+msgstr "«{}» Keymap-ы жасалды"
 
 msgid "Keymap “{}” saved"
-msgstr "\"{}\" Keymapы сақталды"
+msgstr "«{}» Keymap-ы сақталды"
 
 msgid "Keymap “{}” deleted"
-msgstr "\"{}\" Keymapы жойылды"
+msgstr "«{}» Keymap-ы жойылды"
 
 msgid "Keymap “{}” activated"
-msgstr "\"{}\" Keymapы іске қосылды"
+msgstr "«{}» Keymap-ы іске қосылды"
 
 msgid "Could not complete the action"
 msgstr "Әрекетті аяқтау мүмкін болмады"
 
 msgid "Dismiss notification"
-msgstr "Хабарламаны қабылдамау"
+msgstr "Хабарламаны жабу"
 
 msgid "Changes to keymap “{}” discarded"
-msgstr "\"{}\" Keymap өзгерістері жойылды"
+msgstr "«{}» Keymap-ының өзгерістерінен бас тартылды"
 
 msgid "Popup menus are unavailable: {}"
 msgstr "Қалқымалы мәзірлер қолжетімді емес: {}"
 
 msgid "Popup menus are not running. Try opening the menu again."
-msgstr "Қалқымалы мәзірлер іске қосылмайды. Мәзірді қайта ашып көріңіз."
+msgstr "Қалқымалы мәзірлер іске қосылмаған. Мәзірді қайта ашып көріңіз."
 
 msgid "Popup menus are restarting. Try again shortly."
 msgstr ""
@@ -1664,20 +1613,15 @@ msgid ""
 "Mouse buttons, media keys, and other triggers outside the main keyboard "
 "grid. Add a trigger, then choose its action, suppress it, or inherit its "
 "assignment from the lower layer."
-msgstr ""
-"Тінтуір түймелері, медиа пернелері және негізгі пернетақта торынан тыс басқа"
-" триггерлер. Триггерді қосыңыз, содан кейін оның әрекетін таңдаңыз, оны "
-"басыңыз немесе оның тағайындалуын төменгі қабаттан мұраға алыңыз."
+msgstr "Тінтуір түймелері, медиа пернелері және негізгі пернетақта торынан тыс басқа триггерлер. Триггер қосып, оның әрекетін таңдаңыз, оны бұғаттаңыз немесе тағайындауын төменгі қабаттан мұраға алыңыз."
 
 msgid ""
 "You can enter emoji, any text, or Unicode symbols here. Drag an item from "
 "the palette onto a key to assign it."
-msgstr ""
-"Мұнда эмодзилерді, кез келген мәтінді немесе Юникод символдарын енгізуге "
-"болады. Элементті палитрадан оны тағайындау үшін пернеге сүйреңіз."
+msgstr "Мұнда эмодзи, кез келген мәтін немесе Юникод таңбаларын енгізуге болады. Тағайындау үшін элементті палитрадан пернеге сүйреңіз."
 
 msgid "Accessibility"
-msgstr "Қол жетімділік"
+msgstr "Арнайы мүмкіндіктер"
 
 msgid "High contrast"
 msgstr "Жоғары контраст"
@@ -1685,29 +1629,24 @@ msgstr "Жоғары контраст"
 msgid ""
 "Pure black or white background, stronger text, borders and focus outlines. "
 "Works with the light and dark themes."
-msgstr ""
-"Таза қара немесе ақ фон, күштірек мәтін, жиектер және фокус контурлары. Ашық"
-" және қараңғы тақырыптармен жұмыс істейді."
+msgstr "Таза қара немесе ақ фон, анығырақ мәтін, жиектер мен фокус контурлары. Ашық және күңгірт тақырыптармен жұмыс істейді."
 
 msgid "Reduce motion"
-msgstr "Қозғалысты азайтыңыз"
+msgstr "Қозғалысты азайту"
 
 msgid "Turn off highlight animations in the editor."
-msgstr "Редактордағы ерекшеленген анимацияларды өшіріңіз."
+msgstr "Редактордағы ерекшелеу анимацияларын өшіру."
 
 msgid ""
 "Every control can be reached with Tab and activated with Space or Enter. "
 "Interface size follows the desktop scale factor."
-msgstr ""
-"Әрбір басқару элементіне Tab арқылы қол жеткізуге болады және бос орын "
-"немесе Enter арқылы белсендіруге болады. Интерфейс өлшемі жұмыс үстелі "
-"масштабының факторына сәйкес келеді."
+msgstr "Әр басқару элементіне Tab арқылы өтуге және бос орын пернесімен немесе Enter арқылы іске қосуға болады. Интерфейс өлшемі жұмыс үстелінің масштабына сәйкес келеді."
 
 msgid "Always"
 msgstr "Әрқашан"
 
 msgid "Hold duration"
-msgstr "Ұстау ұзақтығы"
+msgstr "Ұстап тұру уақыты"
 
 msgid "{} s"
 msgstr "{} с"
@@ -1716,16 +1655,16 @@ msgid "{} s (default)"
 msgstr "{} с (әдепкі)"
 
 msgid "Shell command or path to a script, e.g. playerctl play-pause"
-msgstr "Shell пәрмені немесе сценарийге жол, мысалы. playerctl ойнату-кідірту"
+msgstr "Shell пәрмені немесе скрипт жолы, мысалы, playerctl play-pause"
 
 msgid "Runs with sh -lc in the background; the result is not awaited."
-msgstr "Фонда sh -lc көмегімен жұмыс істейді; нәтиже күтілмейді."
+msgstr "Фонда sh -lc арқылы орындалады; нәтиже күтілмейді."
 
 msgid "Choose script…"
-msgstr "Сценарий таңдау…"
+msgstr "Скрипт таңдау…"
 
 msgid "Working directory (optional, home by default)"
-msgstr "Жұмыс каталогы (міндетті емес, әдепкі бойынша үй)"
+msgstr "Жұмыс каталогы (міндетті емес, әдепкі бойынша үй каталогы)"
 
 msgid "Choose folder…"
 msgstr "Қалтаны таңдау…"
@@ -1733,12 +1672,10 @@ msgstr "Қалтаны таңдау…"
 msgid ""
 "Command execution is turned off. Turn it on in the settings to assign "
 "commands."
-msgstr ""
-"Пәрменді орындау өшірілген. Пәрмендерді тағайындау үшін оны параметрлерде "
-"қосыңыз."
+msgstr "Пәрмендерді орындау өшірілген. Пәрмендерді тағайындау үшін оны баптауларда қосыңыз."
 
 msgid "Open command settings"
-msgstr "Пәрмен параметрлерін ашыңыз"
+msgstr "Пәрмен баптауларын ашу"
 
 msgid "The working directory does not exist."
 msgstr "Жұмыс каталогы жоқ."
@@ -1746,12 +1683,10 @@ msgstr "Жұмыс каталогы жоқ."
 msgid ""
 "The script file is not executable: run chmod +x on it or prefix the path "
 "with sh."
-msgstr ""
-"Сценарий файлы орындалмайды: оған chmod +x іске қосыңыз немесе жолға sh "
-"префиксін қойыңыз."
+msgstr "Скрипт файлы орындалмайтын: оған chmod +x орындаңыз немесе жолдың алдына sh қойыңыз."
 
 msgid "Choose a script"
-msgstr "Сценарий таңдаңыз"
+msgstr "Скрипт таңдаңыз"
 
 msgid "Choose a working directory"
 msgstr "Жұмыс каталогын таңдаңыз"
@@ -1767,31 +1702,31 @@ msgstr ""
 msgid ""
 "Commands stay off until you allow execution. Review below what your keymaps "
 "would run."
-msgstr "Сіз орындауға рұқсат бермейінше пәрмендер өшірулі болады. Keymap қандай болатынын төменде қарап шығыңыз."
+msgstr "Орындауға рұқсат бергенше пәрмендер өшірулі қалады. Төменде Keymap-тарыңыз нені іске қосатынын қарап шығыңыз."
 
 msgid "Command"
 msgstr "Пәрмен"
 
 msgid "Rule {} · tap"
-msgstr "{} ережесі · түртіңіз"
+msgstr "{} ережесі · басу"
 
 msgid "Rule {} · hold"
-msgstr "{} ережесі · ұстап тұрыңыз"
+msgstr "{} ережесі · ұстап тұру"
 
 msgid "Rule {} · long hold"
-msgstr "{} ережесі · ұзақ ұстау"
+msgstr "{} ережесі · ұзақ ұстап тұру"
 
 msgid "Rule {} · double tap"
-msgstr "{} ережесі · екі рет түрту"
+msgstr "{} ережесі · екі рет басу"
 
 msgid "disabled"
-msgstr "мүгедек"
+msgstr "өшірулі"
 
 msgid "Layer {}"
 msgstr "{} қабаты"
 
 msgid "Macro"
-msgstr "Макро"
+msgstr "Макрос"
 
 msgid "Quick action"
 msgstr "Жылдам әрекет"
@@ -1823,7 +1758,7 @@ msgstr "Автоматты ауыстыру ережелері"
 msgid ""
 "Automatic: the keymap is chosen by switching rules for the application, "
 "system language or game mode."
-msgstr "Автоматты: Keymap қолданба, жүйе тілі немесе ойын режимі ережелерін ауыстыру арқылы таңдалады."
+msgstr "Автоматты: Keymap қолданбаға, жүйе тіліне немесе ойын режиміне қарай ауыстыру ережелерімен таңдалады."
 
 msgid "Keymap"
 msgstr "Keymap"
@@ -1862,7 +1797,7 @@ msgid "Rule {}"
 msgstr "{} ережесі"
 
 msgid "Use keymap"
-msgstr "Keymap пайдаланыңыз"
+msgstr "Keymap пайдалану"
 
 msgid "When"
 msgstr "Қашан"
@@ -1889,7 +1824,7 @@ msgid "For games"
 msgstr "Ойындар үшін"
 
 msgid "For an application"
-msgstr "Өтінім үшін"
+msgstr "Қолданба үшін"
 
 msgid "Custom rule"
 msgstr "Арнаулы ереже"
@@ -1905,7 +1840,7 @@ msgid "Rule enabled"
 msgstr "Ереже қосылды"
 
 msgid "Automatic mode will use no keymap by default."
-msgstr "Автоматты режим әдепкі бойынша Keymapді пайдаланбайды."
+msgstr "Автоматты режимде әдепкі бойынша ешбір Keymap пайдаланылмайды."
 
 msgid "Delete rule {}?"
 msgstr "{} ережесін жою керек пе?"
@@ -1930,12 +1865,12 @@ msgid "On — always"
 msgstr "Қосулы — әрқашан"
 
 msgid "Off — never"
-msgstr "Өшірулі – ешқашан"
+msgstr "Өшірулі — ешқашан"
 
 msgid ""
 "Automatic keymap rules apply only when the keymap is chosen automatically "
 "(Keymaps page)."
-msgstr "Автоматты Keymap ережелері Keymap автоматты түрде таңдалғанда ғана қолданылады (Keymap беті)."
+msgstr "Автоматты Keymap ережелері Keymap автоматты түрде таңдалғанда ғана қолданылады («Keymap-тар» беті)."
 
 msgid ""
 "Borderless windows covering the screen count too. Browsers, video players "
@@ -1951,7 +1886,7 @@ msgid "Game mode is on (set manually)"
 msgstr "Ойын режимі қосулы (қолмен орнату)"
 
 msgid "Game mode turns on rules and automatic keymap rules that have a game-mode condition. Automatic keymap rules apply only when the keymap is chosen automatically (Keymaps page). Auto uses the detection sources and custom rules below; On and Off set the state manually. “Doesn't count as a game” takes priority over automatic detection and “Counts as a game”. You can also change the mode in the top bar, in the tray menu or with a key bound to a game mode action."
-msgstr "Ойын режимі ойын режимі шарты бар ережелер мен автоматты Keymap ережелерін қосады. Автоматты Keymap ережелері Keymap автоматты түрде таңдалғанда ғана қолданылады (Keymap беті). Auto төменде анықтау көздерін және пайдаланушы ережелерін пайдаланады; Қосулы және Өшіру күйін қолмен орнатыңыз. «Ойын болып саналмайды» автоматты анықтауға және «Ойын болып саналады» қарағанда басымдылыққа ие. Сондай-ақ режимді жоғарғы жолақта, науа мәзірінде немесе ойын режимінің әрекетіне байланыстырылған перне арқылы өзгертуге болады."
+msgstr "Ойын режимі ойын режимі шарты бар ережелер мен автоматты Keymap ережелерін қосады. Автоматты Keymap ережелері Keymap автоматты түрде таңдалғанда ғана қолданылады («Keymap-тар» беті). «Автоматты» төмендегі анықтау көздері мен жеке ережелерді пайдаланады; «Қосулы» және «Өшірулі» күйді қолмен орнатады. «Ойын болып саналмайды» автоматты анықтау мен «Ойын болып саналады» алдында басым. Режимді жоғарғы панельде, жүйелік науа мәзірінде немесе ойын режимі әрекеті тағайындалған пернемен де өзгертуге болады."
 
 
 
@@ -1965,20 +1900,16 @@ msgid "Game mode: detect automatically"
 msgstr "Ойын режимі: автоматты түрде анықтау"
 
 msgid "Toggle game mode"
-msgstr "Ойын режимін ауыстырып қосу"
+msgstr "Ойын режимін қосу/өшіру"
 
 msgid ""
 "GameMode daemon unavailable: check the gamemode package and session D-Bus."
-msgstr ""
-"GameMode демоны қолжетімсіз: ойын режимі пакетін және D-Bus сеансын "
-"тексеріңіз."
+msgstr "GameMode демоны қолжетімсіз: gamemode пакетін және сеанстың D-Bus-ын тексеріңіз."
 
 msgid ""
 "Install {} to detect the active window and fullscreen windows. It is also "
 "needed for application conditions in rules."
-msgstr ""
-"Белсенді терезе мен толық экранды терезелерді анықтау үшін {} орнатыңыз. Ол "
-"ережелердегі қолдану шарттары үшін де қажет."
+msgstr "Белсенді терезе мен толық экранды терезелерді анықтау үшін {} орнатыңыз. Ол ережелердегі қолданба шарттары үшін де қажет."
 
 msgid ""
 "Nothing uses game mode yet: no rule or automatic keymap rule has a game-mode"
@@ -1988,22 +1919,17 @@ msgstr "Ойын режимін әлі ештеңе пайдаланбайды: 
 msgid ""
 "On and Off are remembered after restart. Auto keeps detecting in the "
 "background."
-msgstr ""
-"Қосу және Өшіру қайта іске қосқаннан кейін есте сақталады. Автоматты фондық "
-"режимде анықтауды жалғастырады."
+msgstr "«Қосулы» және «Өшірулі» қайта іске қосқаннан кейін есте сақталады. «Автоматты» фонда анықтауды жалғастырады."
 
 msgid ""
 "Rules of the current keymap with a game-mode condition: {}. Automatic keymap"
 " rules with a game-mode condition: {}."
-msgstr "Ойын режимі шартымен ағымдағы Keymap ережелері: {}. Ойын режимінің шарты бар автоматты Keymap ережелері: {}."
+msgstr "Ағымдағы Keymap-тың ойын режимі шарты бар ережелері: {}. Ойын режимі шарты бар автоматты Keymap ережелері: {}."
 
 msgid ""
 "Turns on while a game runs through gamemoderun or requests GameMode itself. "
 "In Steam set the launch options to “gamemoderun %command%”."
-msgstr ""
-"Ойын gamemoderun арқылы іске қосылғанда немесе GameMode режимінің өзін "
-"сұрағанда қосылады. Steam жүйесінде іске қосу опцияларын «gamemoderun "
-"%command%» етіп орнатыңыз."
+msgstr "Ойын gamemoderun арқылы орындалғанда немесе GameMode-ты өзі сұрағанда қосылады. Steam-де іске қосу опцияларын «gamemoderun %command%» етіп орнатыңыз."
 
 msgid "Game mode: on"
 msgstr "Ойын режимі: қосулы"
@@ -2026,11 +1952,7 @@ msgid ""
 "ignoring case, with * and ? as wildcards. A window title item matches when "
 "the title contains the text. Any matching item is enough. An empty list "
 "imposes no restrictions."
-msgstr ""
-"Қолданба оның идентификаторы немесе процесс атауы бойынша сәйкестендіріледі:"
-" регистрді елемей, * және ? қойылмалы таңбалар ретінде. Терезе тақырыбының "
-"элементі тақырып мәтінді қамтитын кезде сәйкес келеді. Кез келген сәйкес "
-"элемент жеткілікті. Бос тізім ешқандай шектеулер қоймайды."
+msgstr "Қолданба ID немесе процесс атауы бойынша анықталады: толық атауы, регистрді ескермей, * және ? қойылмалы таңбалар ретінде. Терезе тақырыбы элементі тақырыпта мәтін болғанда сәйкес келеді. Бір сәйкес элемент жеткілікті. Бос тізім ешқандай шектеу қоймайды."
 
 msgid "Looking for open windows…"
 msgstr "Ашық терезелер ізделуде…"
@@ -2042,47 +1964,42 @@ msgid "Window title contains: {}"
 msgstr "Терезе тақырыбы мыналарды қамтиды: {}"
 
 msgid "Timing"
-msgstr "Уақыт"
+msgstr "Уақыт баптаулары"
 
 msgid "Used by macros without their own value."
-msgstr "Макростар өз мәнінсіз пайдаланылады."
+msgstr "Өз мәні жоқ макростар пайдаланады."
 
 msgid ""
 "Used by macros without their own value. How long to wait between pressing "
 "modifiers (Shift, Ctrl, …) and the main key of one step."
-msgstr ""
-"Макростар өз мәнінсіз пайдаланылады. Модификаторларды (Shift, Ctrl, …) және "
-"бір қадамның негізгі пернесін басу арасында қанша уақыт күту керек."
+msgstr "Өз мәні жоқ макростар пайдаланады. Модификаторларды (Shift, Ctrl, …) басу мен бір қадамның негізгі пернесі арасында қанша күту керек."
 
 msgid "Rule without a trigger is saved as a draft and will be ignored."
 msgstr "Триггерсіз ереже нобай ретінде сақталады және еленбейді."
 
 msgid "Trigger \"{}\" cannot be used for a rule."
-msgstr "\"{}\" триггерін ереже үшін пайдалану мүмкін емес."
+msgstr "«{}» триггерін ереже үшін пайдалану мүмкін емес."
 
 msgid "Trigger \"{}\" needs key codes such as ControlLeft; “+” joins the keys of a chord and does not add a modifier."
-msgstr "Trigger \"{}\" needs key codes such as ControlLeft; “+” joins the keys of a chord and does not add a modifier."
+msgstr "«{}» триггеріне ControlLeft сияқты перне кодтары қажет; «+» тіркесімнің пернелерін біріктіреді және модификатор қоспайды."
 
 msgid "Rules for trigger \"{}\" may overlap; the first matching rule wins."
-msgstr ""
-"\"{}\" триггерінің ережелері бір-біріне сәйкес келуі мүмкін; бірінші сәйкес "
-"келетін ереже жеңеді."
+msgstr "«{}» триггерінің ережелері қиылысуы мүмкін; бірінші сәйкес ереже орындалады."
 
 msgid "Rule for trigger \"{}\" is covered by an earlier rule and will not run."
-msgstr ""
-"\"{}\" триггерінің ережесі бұрынғы ережемен қамтылған және іске қосылмайды."
+msgstr "«{}» триггерінің ережесі алдыңғы ережемен жабылған және орындалмайды."
 
 msgid "Rule \"{}\" points to a layer that no longer exists."
-msgstr "\"{}\" ережесі енді жоқ қабатты көрсетеді."
+msgstr "«{}» ережесі енді жоқ қабатқа сілтейді."
 
 msgid "Rule \"{}\" has an invalid tap action."
-msgstr "\"{}\" ережесінде жарамсыз түрту әрекеті бар."
+msgstr "«{}» ережесінде басу әрекеті жарамсыз."
 
 msgid "Rule \"{}\" has an invalid hold action."
-msgstr "\"{}\" ережесінде жарамсыз ұстау әрекеті бар."
+msgstr "«{}» ережесінде ұстап тұру әрекеті жарамсыз."
 
 msgid "Rule \"{}\" has an invalid double-tap action."
-msgstr "\"{}\" ережесінде екі рет түрту әрекеті жарамсыз."
+msgstr "«{}» ережесінде екі рет басу әрекеті жарамсыз."
 
 msgid "Automatic switching rule deleted"
 msgstr "Автоматты ауысу ережесі жойылды"
@@ -2094,24 +2011,22 @@ msgid "Except applications"
 msgstr "Қолданбалардан басқа"
 
 msgid "A match blocks the rule, even if the window is in the allowed list."
-msgstr "Терезе рұқсат етілген тізімде болса да, сәйкестік ережені блоктайды."
+msgstr "Терезе рұқсат етілгендер тізімінде болса да, сәйкестік ережені бұғаттайды."
 
 msgid "Any match allows the rule. An empty list allows all windows."
-msgstr ""
-"Кез келген сәйкестік ережеге мүмкіндік береді. Бос тізім барлық терезелерге "
-"рұқсат береді."
+msgstr "Кез келген сәйкестік ережеге рұқсат береді. Бос тізім барлық терезелерге рұқсат береді."
 
 msgid "Choose applications to exclude"
 msgstr "Шығарылатын қолданбаларды таңдаңыз"
 
 msgid "Open windows"
-msgstr "Терезелерді ашыңыз"
+msgstr "Ашық терезелер"
 
 msgid "Last active"
 msgstr "Соңғы белсенді"
 
 msgid "Nothing is excluded."
-msgstr "Ештеңе жоққа шығарылмайды."
+msgstr "Ештеңе шығарылмаған."
 
 msgid "No restrictions: the rule works in every window."
 msgstr "Ешқандай шектеулер жоқ: ереже әрбір терезеде жұмыс істейді."
@@ -2122,13 +2037,13 @@ msgstr[0] "{n} терезе"
 msgstr[1] "{n} терезе"
 
 msgid "Do not process"
-msgstr "Өңдемеңіз"
+msgstr "Өңдемеу"
 
 msgid "Command name (optional)"
 msgstr "Пәрмен атауы (міндетті емес)"
 
 msgid "Working directory (home by default)"
-msgstr "Жұмыс каталогы (әдепкі бойынша үй)"
+msgstr "Жұмыс каталогы (әдепкі бойынша үй каталогы)"
 
 msgid "Text to type when the action is invoked:"
 msgstr "Әрекет шақырылғанда терілетін мәтін:"
@@ -2138,41 +2053,26 @@ msgid ""
 "are preserved. On Linux, text is inserted into the active application via "
 "the desktop portal; permission may be required. Text injection by the mapper"
 " is not implemented on Windows or macOS."
-msgstr ""
-"Мәтінсіз тура мәтінді енгізіңіз: префикс. Жол үзілімдері, бос орындар және "
-"қойындылар сақталады. Linux жүйесінде мәтін жұмыс үстелі порталы арқылы "
-"белсенді қолданбаға енгізіледі; рұқсат қажет болуы мүмкін. Маппер арқылы "
-"мәтінді енгізу Windows немесе macOS жүйесінде іске асырылмайды."
+msgstr "Тура мәтінді text: префиксінсіз енгізіңіз. Жол үзілімдері, бос орындар мен табуляциялар сақталады. Linux жүйесінде мәтін белсенді қолданбаға жұмыс үстелі порталы арқылы енгізіледі; рұқсат қажет болуы мүмкін. Маппердің мәтін енгізуі Windows және macOS жүйелерінде іске асырылмаған."
 
 msgid ""
 "Commands run with sh -lc in the background. The mapper does not wait for "
 "completion or collect output. An empty name uses the command itself as its "
 "label. The working directory defaults to your home folder; scripts need "
 "execute permission. Command execution must be enabled in settings."
-msgstr ""
-"Пәрмендер фондық режимде sh -lc арқылы орындалады. Карталаушы аяқталуды "
-"күтпейді немесе нәтижені жинамайды. Бос атау пәрменнің өзін белгі ретінде "
-"пайдаланады. Жұмыс каталогы әдепкі бойынша бастапқы қалтаға; сценарийлерді "
-"орындауға рұқсат қажет. Пәрменді орындау параметрлерде қосулы болуы керек."
+msgstr "Пәрмендер фонда sh -lc арқылы орындалады. Маппер аяқталуын күтпейді және шығысты жинамайды. Атау бос болса, белгі ретінде пәрменнің өзі қолданылады. Жұмыс каталогы әдепкі бойынша үй қалтаңыз; скрипттерге орындау рұқсаты қажет. Пәрмендерді орындау баптауларда қосулы болуы керек."
 
 msgid ""
 "Commands run with PowerShell in the background, without a console window. "
 "The mapper does not wait for completion or collect output. An empty name "
 "uses the command itself as its label. The working directory defaults to your"
 " home folder. Command execution must be enabled in settings."
-msgstr ""
-"Пәрмендер PowerShell көмегімен фондық режимде консоль терезесінсіз "
-"орындалады. Карталаушы аяқталуды күтпейді немесе нәтижені жинамайды. Бос "
-"атау пәрменнің өзін белгі ретінде пайдаланады. Жұмыс каталогы бастапқы "
-"қалтаға әдепкі болып табылады. Пәрменді орындау параметрлерде қосулы болуы "
-"керек."
+msgstr "Пәрмендер фонда PowerShell арқылы, консоль терезесінсіз орындалады. Маппер аяқталуын күтпейді және шығысты жинамайды. Атау бос болса, белгі ретінде пәрменнің өзі қолданылады. Жұмыс каталогы әдепкі бойынша үй қалтаңыз. Пәрмендерді орындау баптауларда қосулы болуы керек."
 
 msgid ""
 "The name is optional: an empty name uses the command itself as its label. "
 "Command execution by the mapper is not implemented on macOS."
-msgstr ""
-"Атау міндетті емес: бос атау пәрменнің өзін белгі ретінде пайдаланады. "
-"Маппердің пәрменді орындауы macOS жүйесінде іске асырылмайды."
+msgstr "Атау міндетті емес: атау бос болса, белгі ретінде пәрменнің өзі қолданылады. Маппердің пәрмен орындауы macOS жүйесінде іске асырылмаған."
 
 msgid "Triggers"
 msgstr "Триггерлер"
@@ -2181,55 +2081,45 @@ msgid "Reduce animations"
 msgstr "Анимацияны азайту"
 
 msgid "Add keymap: "
-msgstr "Keymap қосу:"
+msgstr "Keymap қосу: "
 
 msgid "Save (Ctrl+S)"
 msgstr "Сақтау (Ctrl+S)"
 
 msgid "Close keymap"
-msgstr "Keymap жабу"
+msgstr "Keymap-ты жабу"
 
 msgid "Discard keymap changes?"
 msgstr "Keymap өзгерістерінен бас тарту керек пе?"
 
 msgid "Unsaved changes to this keymap will be lost."
-msgstr "Бұл Keymapға сақталмаған өзгертулер жойылады."
+msgstr "Бұл Keymap-тағы сақталмаған өзгерістер жоғалады."
 
 msgid ""
 "Unique identifier used in references like macro:<id>. To bind this macro to "
 "a key, choose that action on the Layers or Triggers tab. Change the ID only "
 "when nothing uses this macro."
-msgstr ""
-"Макрос:<id> сияқты сілтемелерде қолданылатын бірегей идентификатор. Бұл "
-"макросты пернеге байланыстыру үшін «Қабаттар» немесе «Триггерлер» "
-"қойындысында сол әрекетті таңдаңыз. Бұл макросты ештеңе пайдаланбаған кезде "
-"ғана идентификаторды өзгертіңіз."
+msgstr "macro:<id> сияқты сілтемелерде қолданылатын бірегей идентификатор. Бұл макросты пернеге тағайындау үшін «Қабаттар» немесе «Триггерлер» қойындысында осы әрекетті таңдаңыз. ID-ны тек бұл макросты ештеңе пайдаланбаған кезде ғана өзгертіңіз."
 
 msgid "Discard"
-msgstr "Жою"
+msgstr "Бас тарту"
 
 msgid ""
 "Build reusable sequences of key chords, text, commands and system actions. Use a unique ID in macro:<id> references and a readable name in action lists. Assign macros on the Layers or Triggers tab; change an ID only when it is unused.\n"
 "\n"
 "The step pause applies between steps of this macro. Modifier delay is the time between pressing a modifier and the main key. Leave delays empty to use Settings defaults."
-msgstr ""
-"Негізгі аккордтардың, мәтіннің, пәрмендердің және жүйе әрекеттерінің қайта пайдалануға болатын тізбегін құрастырыңыз. Макрос:<id> сілтемелерінде бірегей идентификаторды және әрекеттер тізімдерінде оқылатын атауды пайдаланыңыз. Қабаттар немесе Триггерлер қойындысында макростарды тағайындау; идентификаторды ол пайдаланылмаған кезде ғана өзгертіңіз.\n"
-"\n"
-"Қадам кідірісі осы макростың қадамдары арасында қолданылады. Модификатордың кешігуі - модификатор мен негізгі пернені басу арасындағы уақыт. Параметрлердің әдепкі параметрлерін пайдалану үшін кідірістерді бос қалдырыңыз."
+msgstr "Пернелер тіркесімдерінен, мәтіннен, пәрмендерден және жүйе әрекеттерінен қайта қолданылатын тізбектер жасаңыз. macro:<id> сілтемелерінде бірегей ID, ал әрекеттер тізімдерінде оқуға ыңғайлы атау қолданыңыз. Макростарды «Қабаттар» немесе «Триггерлер» қойындысында тағайындаңыз; ID-ны тек ол пайдаланылмаған кезде ғана өзгертіңіз.\n\nҚадамдар арасындағы үзіліс осы макростың қадамдары арасында қолданылады. Модификатор кідірісі — модификатор мен негізгі пернені басу арасындағы уақыт. Баптаулардағы әдепкі мәндерді пайдалану үшін кідірістерді бос қалдырыңыз."
 
 msgid "Global defaults: step pause {} ms; modifier delay {} ms."
-msgstr ""
-"Ғаламдық әдепкі мәндер: қадамдық үзіліс {} мс; модификатордың кешігуі {} мс."
+msgstr "Ғаламдық әдепкі мәндер: қадамдар арасындағы үзіліс {} мс; модификатор кідірісі {} мс."
 
 msgid "Keymap changed on disk"
-msgstr "Дискідегі Keymap өзгертілді"
+msgstr "Keymap дискіде өзгерді"
 
 msgid ""
 "The file of “{}” was changed by another program after you opened it. Your "
 "edits are kept until you choose what to do."
-msgstr ""
-"«{}» файлын ашқаннан кейін басқа бағдарлама өзгертті. Өзгертулеріңіз не "
-"істеу керектігін таңдамайынша сақталады."
+msgstr "«{}» файлын сіз ашқаннан кейін басқа бағдарлама өзгертті. Не істейтініңізді таңдағанша өзгертулеріңіз сақталады."
 
 msgid "Load from disk"
 msgstr "Дискіден жүктеу"
@@ -2241,9 +2131,7 @@ msgid "Overwrite"
 msgstr "Үстіне жазу"
 
 msgid "Show Tecloid key codes used in assignments, such as KeyA and ArrowLeft."
-msgstr ""
-"KeyA және ArrowLeft сияқты тапсырмаларда пайдаланылатын Tecloid кілт кодтарын "
-"көрсетіңіз."
+msgstr "Тағайындауларда қолданылатын KeyA және ArrowLeft сияқты Tecloid перне кодтарын көрсету."
 
 msgid "Application"
 msgstr "Қолданба"
@@ -2255,31 +2143,30 @@ msgid "Click to switch"
 msgstr "Ауыстыру үшін басыңыз"
 
 msgid "Match by app ID or process instead"
-msgstr ""
-"Оның орнына қолданба идентификаторы немесе процесс бойынша сәйкестендіріңіз"
+msgstr "Орнына қолданба ID немесе процесс бойынша сәйкестендіру"
 
 msgid "Match by window title instead"
-msgstr "Оның орнына терезе тақырыбы бойынша сәйкестендіріңіз"
+msgstr "Орнына терезе тақырыбы бойынша сәйкестендіру"
 
 msgid "Open now: {n} window"
 msgid_plural "Open now: {n} windows"
-msgstr[0] "Қазір ашу: {n} терезе"
+msgstr[0] "Қазір ашық: {n} терезе"
 msgstr[1] "Қазір ашық: {n} терезе"
 
 msgid "Not open now"
-msgstr "Қазір ашылмайды"
+msgstr "Қазір ашық емес"
 
 msgid "Running process"
-msgstr "Іске қосу процесі"
+msgstr "Жұмыс істеп тұрған процесс"
 
 msgid "Text the window title contains"
-msgstr "Терезе тақырыбын қамтитын мәтін"
+msgstr "Терезе тақырыбындағы мәтін"
 
 msgid "Already in the list"
 msgstr "Тізімде бар"
 
 msgid "Choose from open windows…"
-msgstr "Ашық терезелерден таңдаңыз…"
+msgstr "Ашық терезелерден таңдау…"
 
 msgid "Matches {n} open window"
 msgid_plural "Matches {n} open windows"
@@ -2287,49 +2174,44 @@ msgstr[0] "{n} ашық терезеге сәйкес келеді"
 msgstr[1] "{n} ашық терезеге сәйкес келеді"
 
 msgid "Matches no open window"
-msgstr "Ашық терезеге сәйкес келмейді"
+msgstr "Ешбір ашық терезеге сәйкес келмейді"
 
 msgid "Show Quick Action Menu on the last used page"
-msgstr "Соңғы пайдаланылған бетте Жылдам әрекет мәзірін көрсету"
+msgstr "Жылдам әрекеттер мәзірін соңғы пайдаланылған бетте көрсету"
 
 msgid "Show Emoji & Symbols menu on the last used page"
 msgstr "Соңғы пайдаланылған бетте Эмодзилер мен таңбалар мәзірін көрсету"
 
 msgid "Show the settings window"
-msgstr "Параметрлер терезесін көрсетіңіз"
+msgstr "Баптаулар терезесін көрсету"
 
 msgid "Activate keymap {} (switches to Single mode)"
-msgstr "{} Keymapын белсендіру (Бір реттік режимге ауысады)"
+msgstr "{} Keymap-ын іске қосу («Жалғыз» режиміне ауысады)"
 
 msgid "There is no keymap number {}"
-msgstr "{} Keymap нөмірі жоқ"
+msgstr "{} нөмірлі Keymap жоқ"
 
 msgid "Show the Tecloid keymap name when it changes"
-msgstr "Сол қолмен басқару Keymap атауы өзгерген кезде көрсетіңіз"
+msgstr "Tecloid Keymap-ының атауын ол өзгергенде көрсету"
 
 msgid "Show the keys of a layer while it is held"
-msgstr "Қабатты ұстап тұрғанда оның пернелерін көрсетіңіз"
+msgstr "Қабатты ұстап тұрғанда оның пернелерін көрсету"
 
 msgid ""
 "The hint appears 2 seconds after the layer activates. Pressing a layer key "
 "hides or cancels it until the trigger is released, including in game mode."
-msgstr ""
-"Анықтама қабат белсендірілгеннен кейін 2 секундтан кейін пайда болады. Қабат"
-" пернесін басу оны триггер босатылғанша жасырады немесе болдырмайды, соның "
-"ішінде ойын режимінде."
+msgstr "Кеңес қабат іске қосылғаннан кейін 2 секундтан соң пайда болады. Қабат пернесін басу оны триггер жіберілгенше жасырады немесе болдырмайды, ойын режимінде де."
 
 msgid ""
 "Unavailable: build with the spell feature and use a Wayland compositor with "
 "layer-shell (KDE Plasma, Sway, Hyprland)."
-msgstr ""
-"Қолжетімсіз: емле мүмкіндігімен құрастырыңыз және қабат қабаты бар Wayland "
-"құрастырушысын пайдаланыңыз (KDE Plasma, Sway, Hyprland)."
+msgstr "Қолжетімсіз: spell мүмкіндігімен құрастырыңыз және layer-shell қолдайтын Wayland композиторын пайдаланыңыз (KDE Plasma, Sway, Hyprland)."
 
 msgid ""
 "The app:activateKeymap1…5 actions activate the keymap at that position in "
 "this list: reordering the list changes which keymap a key activates. In Auto"
 " mode they switch to Single mode."
-msgstr "Қолданба:activateLayout1…5 әрекеттері осы тізімдегі сол орындағы Keymap белсендіреді: тізімнің ретін өзгерту перненің қай Keymap белсендіретінін өзгертеді. Автоматты режимде олар жалғыз режимге ауысады."
+msgstr "app:activateKeymap1…5 әрекеттері осы тізімнің сол орнындағы Keymap-ты іске қосады: тізім ретін өзгерту перне қай Keymap-ты іске қосатынын өзгертеді. «Автоматты» режимде олар «Жалғыз» режиміне ауыстырады."
 
 msgid "Cut"
 msgstr "Қиып алу"
@@ -2353,10 +2235,10 @@ msgid "Find"
 msgstr "Табу"
 
 msgid "New tab"
-msgstr "Жаңа бет"
+msgstr "Жаңа қойынды"
 
 msgid "Close tab"
-msgstr "Бетті жабу"
+msgstr "Қойындыны жабу"
 
 msgid "Clear search"
 msgstr "Іздеуді тазалау"
@@ -2380,22 +2262,22 @@ msgid "Required"
 msgstr "Міндетті"
 
 msgid "Optional"
-msgstr "Қосымша"
+msgstr "Міндетті емес"
 
 msgid "Failed to start"
 msgstr "Бастау сәтсіз аяқталды"
 
 msgid "Keys work as usual. Start the mapper to apply your keymaps."
-msgstr "Пернелер әдеттегідей жұмыс істейді. Keymap қолдану үшін мапперді іске қосыңыз."
+msgstr "Пернелер әдеттегідей жұмыс істейді. Keymap-тарыңызды қолдану үшін мапперді іске қосыңыз."
 
 msgid "Select a keyboard below to start the mapper."
-msgstr "Мапперді бастау үшін төмендегі пернетақтаны таңдаңыз."
+msgstr "Мапперді іске қосу үшін төменнен пернетақтаны таңдаңыз."
 
 msgid "Changing a device restarts the mapper."
-msgstr "Құрылғыны өзгерту картаны қайта іске қосады."
+msgstr "Құрылғыны ауыстыру мапперді қайта іске қосады."
 
 msgid "Auto: known game {}"
-msgstr "Авто: белгілі ойын {}"
+msgstr "Автоматты: белгілі ойын {}"
 
 msgid "Ignored in fullscreen"
 msgstr "Толық экранда еленбейді"
@@ -2409,10 +2291,7 @@ msgstr "Steam ойындары"
 msgid ""
 "Turns on while Steam runs a game: Steam starts every game through reaper "
 "SteamLaunch, and game windows have the ID steam_app_<number>."
-msgstr ""
-"Steam ойынды іске қосқан кезде қосылады: Steam әр ойынды SteamLaunch реапері"
-" арқылы бастайды және ойын терезелерінде steam_app_<number> идентификаторы "
-"болады."
+msgstr "Steam ойынды іске қосқанда қосылады: Steam әр ойынды reaper SteamLaunch арқылы бастайды, ал ойын терезелерінің ID-ы steam_app_<нөмір> болады."
 
 msgid "Turns on while Steam reports a running game."
 msgstr "Steam орындалып жатқан ойын туралы хабарлағанда қосылады."
@@ -2423,40 +2302,33 @@ msgstr "Lutris ойындары"
 msgid ""
 "Turns on while a game started by Lutris runs: Lutris starts every game "
 "through lutris-wrapper."
-msgstr ""
-"Lutris бастаған ойын іске қосылғанда қосылады: Лутрис әрбір ойынды lutris-"
-"wrapper арқылы бастайды."
+msgstr "Lutris бастаған ойын жұмыс істеп тұрғанда қосылады: Lutris әр ойынды lutris-wrapper арқылы бастайды."
 
 msgid "Gamescope sessions"
 msgstr "Gamescope сеанстары"
 
 msgid "Turns on while the active window is a nested gamescope session."
-msgstr "Белсенді терезе кірістірілген gamecope сеансы болған кезде қосылады."
+msgstr "Белсенді терезе кірістірілген gamescope сеансы болғанда қосылады."
 
 msgid "Games from the Game Bar list"
-msgstr "Ойындар тақтасындағы ойындар"
+msgstr "Game Bar тізіміндегі ойындар"
 
 msgid "Applications of the Game category"
-msgstr "Ойын категориясының қолданбалары"
+msgstr "Game санатындағы қолданбалар"
 
 msgid ""
 "Turns on while the active window belongs to an application whose .desktop "
 "file lists the Game category. Launchers are tagged as games too, so they are"
 " skipped."
-msgstr ""
-"Белсенді терезе .desktop файлында Ойын санатын тізімдейтін қолданбаға "
-"тиесілі болғанда қосылады. Іске қосу құрылғылары да ойындар ретінде "
-"белгіленеді, сондықтан олар өткізіліп жіберіледі."
+msgstr "Белсенді терезе .desktop файлында Game санаты көрсетілген қолданбаға тиесілі болғанда қосылады. Іске қосқыштар да ойын ретінде белгіленеді, сондықтан олар өткізіп жіберіледі."
 
 msgid ""
 "Turns on while the active application declares the Games category in its "
 "Info.plist. Launchers are skipped."
-msgstr ""
-"Белсенді қолданба Info.plist ішінде Ойындар санатын жариялаған кезде "
-"қосылады. Іске қосу құрылғылары өткізіп жіберілді."
+msgstr "Белсенді қолданба Info.plist ішінде Games санатын көрсеткенде қосылады. Іске қосқыштар өткізіп жіберіледі."
 
 msgid "Auto — according to settings"
-msgstr "Авто — параметрлерге сәйкес"
+msgstr "Автоматты — баптауларға сәйкес"
 
 msgid "Blank"
 msgstr "Бос"
@@ -2465,14 +2337,12 @@ msgid "Assign action"
 msgstr "Әрекетті тағайындау"
 
 msgid "Action after {} ms of holding"
-msgstr "{} мс ұстаудан кейінгі әрекет"
+msgstr "{} мс ұстап тұрғаннан кейінгі әрекет"
 
 msgid ""
 "These codes are specific to Tecloid, not universal keyboard codes "
 "(e.g. KeyA, ArrowLeft)."
-msgstr ""
-"Бұл кодтар әмбебап пернетақта кодтары емес (мысалы, KeyA, Left Left) емес, "
-"сол қолмен басқаруға арналған."
+msgstr "Бұл кодтар әмбебап пернетақта кодтары емес, Tecloid-қа тән кодтар (мысалы, KeyA, ArrowLeft)."
 
 msgid "While its window is active"
 msgstr "Оның терезесі белсенді болған кезде"
@@ -2481,14 +2351,12 @@ msgid "While the process runs"
 msgstr "Процесс орындалып жатқанда"
 
 msgid "Counts while a window of the application has the focus."
-msgstr "Қолданбаның терезесінде фокус болған кезде санайды."
+msgstr "Қолданба терезесі фокуста тұрғанда есептеледі."
 
 msgid ""
 "Counts while a process with this name runs, even without a window or in the "
 "background."
-msgstr ""
-"Терезесіз немесе фондық режимде осы аты бар процесс орындалған кезде "
-"санайды."
+msgstr "Осы атаулы процесс жұмыс істеп тұрғанда есептеледі, тіпті терезесіз немесе фонда болса да."
 
 msgid "Application · while its window is active"
 msgstr "Қолданба · оның терезесі белсенді болған кезде"
@@ -2505,20 +2373,12 @@ msgid ""
 "wildcards. Steam games have the app ID steam_app_<number>; Proton games are "
 "also found by their .exe name. A window title item matches the active window"
 " whose title contains the text."
-msgstr ""
-"Ойын режимі осы сәйкестіктердің кез келгені орындалған кезде қосылады. "
-"Қолданба оның идентификаторы немесе процесс атауы бойынша сәйкестендіріледі:"
-" регистрді елемей, * және ? қойылмалы таңбалар ретінде. Steam ойындарында "
-"steam_app_<number> қолданба идентификаторы бар; Протон ойындары .exe "
-"атауымен де кездеседі. Терезе тақырыбының элементі тақырыбы мәтінді қамтитын"
-" белсенді терезеге сәйкес келеді."
+msgstr "Осылардың кез келгені сәйкес келгенде ойын режимі қосылады. Қолданба ID немесе процесс атауы бойынша анықталады: толық атауы, регистрді ескермей, * және ? қойылмалы таңбалар ретінде. Steam ойындарының қолданба ID-ы steam_app_<нөмір>; Proton ойындары .exe атауымен де табылады. Терезе тақырыбы элементі тақырыбында мәтін бар белсенді терезеге сәйкес келеді."
 
 msgid ""
 "Game mode stays off while any of these matches, even if a game or another "
 "detector would turn it on."
-msgstr ""
-"Ойын режимі осы сәйкестіктердің кез келгені кезінде, тіпті ойын немесе басқа"
-" детектор оны қосатын болса да, өшірулі болады."
+msgstr "Осылардың кез келгені сәйкес келгенде, ойын немесе басқа детектор қосқысы келсе де, ойын режимі өшірулі қалады."
 
 msgid "less than a minute"
 msgstr "минуттан аз"
@@ -2530,13 +2390,13 @@ msgid "{} h {} min"
 msgstr "{} сағ {} мин"
 
 msgid "Running for {}"
-msgstr "{} үшін іске қосу"
+msgstr "{} бойы жұмыс істеп тұр"
 
 msgid "Stopped unexpectedly"
 msgstr "Күтпеген жерден тоқтады"
 
 msgid "Stopped {} ago after running for {}."
-msgstr "{} үшін іске қосылғаннан кейін {} бұрын тоқтатылды."
+msgstr "{} жұмыс істегеннен кейін {} бұрын тоқтады."
 
 msgid "Text input"
 msgstr "Мәтін енгізу"
@@ -2544,15 +2404,13 @@ msgstr "Мәтін енгізу"
 msgid ""
 "How text actions in rules and macros are typed. Key remapping and the emoji "
 "popup do not use it."
-msgstr ""
-"Ережелер мен макростардағы мәтін әрекеттері қалай теріледі. Кілтті қайта "
-"құру және эмодзи қалқымалы терезесі оны пайдаланбайды."
+msgstr "Ережелер мен макростардағы мәтіндік әрекеттер қалай терілетіні. Пернелерді қайта тағайындау мен эмодзи қалқымалы терезесі мұны пайдаланбайды."
 
 msgid "Typing method"
 msgstr "Теру әдісі"
 
 msgid "libei + clipboard fallback (recommended)"
-msgstr "libei + алмасу буферінің резерві (ұсынылады)"
+msgstr "libei + қосалқы ретінде алмасу буфері (ұсынылады)"
 
 msgid "Paste from clipboard"
 msgstr "Буферден қою"
@@ -2564,44 +2422,39 @@ msgid "xdotool"
 msgstr "xdotool"
 
 msgid "Types with the current keyboard layout, or pastes the whole text when a character is unavailable. Paste requires Wayland, clipboard access and a supported paste shortcut. A large or slow clipboard can prevent paste. Cancels when a detected destination changes."
-msgstr "Ағымдағы пернетақта орналасуымен тереді немесе таңба қолжетімсіз болғанда бүкіл мәтінді қояды. Қою үшін Wayland, алмасу буферіне кіру және қолдау көрсетілетін қою таңбашасы қажет. Үлкен немесе баяу алмасу буфері қоюды болдырмайды. Анықталған межелі орын өзгерген кезде бас тартады."
+msgstr "Ағымдағы пернетақта орналасуымен тереді немесе қандай да бір таңба жоқ болса, бүкіл мәтінді қояды. Қою үшін Wayland, алмасу буферіне қатынау және қолдау көрсетілетін қою тіркесімі қажет. Үлкен немесе баяу алмасу буфері қоюға кедергі келтіруі мүмкін. Анықталған мақсат өзгерсе, тоқтатылады."
 
 msgid "Types only through libei using the current keyboard layout and Caps Lock state. Skips text with unavailable characters. Requires portal permission. Cancels when a detected destination changes."
-msgstr "Ағымдағы пернетақта орналасуын және Caps Lock күйін пайдаланып тек libei арқылы тереді. Қолжетімсіз таңбалары бар мәтінді өткізіп жібереді. Портал рұқсатын талап етеді. Анықталған межелі орын өзгерген кезде бас тартады."
+msgstr "Тек libei арқылы ағымдағы пернетақта орналасуы мен Caps Lock күйін пайдаланып тереді. Қолжетімсіз таңбалары бар мәтінді өткізіп жібереді. Портал рұқсаты қажет. Анықталған мақсат өзгерсе, тоқтатылады."
 
 msgid "Types only through NotifyKeyboardKeycode using the KDE keyboard layout and readable keyboard state. Skips text with unavailable characters. Requires portal permission. Cancels when a detected destination changes."
-msgstr "KDE пернетақта орналасуын және оқылатын пернетақта күйін пайдаланып тек NotifyKeyboardKeycode арқылы тереді. Қолжетімсіз таңбалары бар мәтінді өткізіп жібереді. Портал рұқсатын талап етеді. Анықталған межелі орын өзгерген кезде бас тартады."
+msgstr "Тек NotifyKeyboardKeycode арқылы KDE пернетақта орналасуы мен оқылған пернетақта күйін пайдаланып тереді. Қолжетімсіз таңбалары бар мәтінді өткізіп жібереді. Портал рұқсаты қажет. Анықталған мақсат өзгерсе, тоқтатылады."
 
 msgid "Pastes with the configured shortcut on Wayland: data-control on KDE, Clipboard portal on GNOME. Preserves all formats within size and time limits. Tecloid then owns the restored clipboard until another app copies; quitting can clear it. A new user copy takes precedence."
-msgstr "Wayland-те конфигурацияланған таңбашамен қояды: KDE-де деректерді басқару, GNOME-да алмасу буфері порталы. Барлық пішімдерді өлшем мен уақыт шегінде сақтайды. Содан кейін Tecloid қалпына келтірілген алмасу буферін басқа қолданба көшіргенше иеленеді; шығу оны тазартуы мүмкін. Жаңа пайдаланушы көшірмесі басымдыққа ие."
+msgstr "Wayland-те бапталған тіркесіммен қояды: KDE-де data-control, GNOME-да Clipboard порталы. Өлшем мен уақыт шегінде барлық пішімдерді сақтайды. Содан кейін басқа қолданба бірдеңе көшіргенше қалпына келтірілген алмасу буфері Tecloid-қа тиесілі болады; шығу оны тазалауы мүмкін. Пайдаланушының жаңа көшіруі басым."
 
 msgid "Paste shortcut"
-msgstr "Таңбашаны қою"
+msgstr "Қою тіркесімі"
 
 
 msgid "Paste shortcut in terminals"
 msgstr "Терминалдардағы қою пернелер тіркесімі"
 
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
-msgstr "Konsole, Kitty немесе Alacritty сияқты терминалдық терезелер үшін пайдаланылады. Енгізілген терминалдарды терезе класы бойынша анықтау мүмкін емес. Shift+Insert тінтуір таңдауын қоюы мүмкін; қауіпті болдырмау үшін басқа қолданбалар үшін Ctrl+V пайдаланыңыз. Ескі терминалдарға реттелетін тіркесімдер қажет болуы мүмкін."
+msgstr "Konsole, kitty немесе Alacritty сияқты терминал терезелері үшін қолданылады. Кірістірілген терминалдарды терезе класы бойынша анықтау мүмкін емес. Shift+Insert тінтуірмен белгіленгенді қоюы мүмкін; бұл қауіпті болдырмау үшін басқа қолданбаларда Ctrl+V пайдаланыңыз. Ескі терминалдарға жеке тіркесімдер қажет болуы мүмкін."
 
 msgid ""
 "Runs \"ydotool type\" only. Needs ydotool and its ydotoold service running. "
 "Reliable for Latin text only. On an error, stops without switching methods."
-msgstr ""
-"Тек \"ydotool түрін\" іске қосады. ydotool және оның ydotoold қызметін іске "
-"қосу қажет. Тек латын мәтіні үшін сенімді. Қатеде әдістерді ауыстырмай "
-"тоқтайды."
+msgstr "Тек «ydotool type» іске қосады. ydotool және іске қосылған ydotoold қызметі қажет. Тек латын мәтіні үшін сенімді. Қате болса, әдісті ауыстырмай тоқтайды."
 
 msgid ""
 "Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
 " On an error, stops without switching methods."
-msgstr ""
-"Тек \"xdotool түрін\" іске қосады. Тек X11 сеанстарында және XWayland "
-"терезелерінде жұмыс істейді. Қатеде әдістерді ауыстырмай тоқтайды."
+msgstr "Тек «xdotool type» іске қосады. Тек X11 сеанстарында және XWayland терезелерінде жұмыс істейді. Қате болса, әдісті ауыстырмай тоқтайды."
 
 msgid "ydotool from PATH"
-msgstr "PATH ұсынған ydotool"
+msgstr "PATH ішінен ydotool"
 
 msgid "xdotool from PATH"
 msgstr "PATH ішінен xdotool"
@@ -2618,18 +2471,13 @@ msgid ""
 "name. The whole name must match, case is ignored, .exe is optional. * stands"
 " for any characters and ? for one, e.g. steam_app_*. The ID is stable, so "
 "prefer it."
-msgstr ""
-"Қолданба: қолданба идентификаторы (Wayland қолданба идентификаторы немесе "
-"X11 WM_CLASS) немесе процесс атауы. Бүкіл атау сәйкес болуы керек, регистр "
-"еленбейді, .exe міндетті емес. * кез келген таңбаны білдіреді және ? біреуі "
-"үшін, мысалы. steam_app_*. Идентификатор тұрақты, сондықтан оған артықшылық "
-"беріңіз."
+msgstr "Қолданба: қолданба ID-ы (Wayland app id немесе X11 WM_CLASS) немесе процесс атауы. Толық атау сәйкес келуі керек, регистр ескерілмейді, .exe міндетті емес. * кез келген таңбаларды, ? бір таңбаны білдіреді, мысалы, steam_app_*. ID тұрақты, сондықтан соны таңдаған жөн."
 
 msgid "Window title: matches when the title contains the text, case is ignored. A title changes with the open tab or document, and it never matches a process without a window."
 msgstr "Терезе тақырыбы: тақырып мәтінді қамтитын кезде сәйкес келеді, регистр еленбейді. Тақырып ашық қойындымен немесе құжатпен өзгереді және ол ешқашан терезесіз процеске сәйкес келмейді."
 
 msgid "Match by"
-msgstr "Сәйкестендіру"
+msgstr "Сәйкестендіру негізі"
 
 msgid "Process"
 msgstr "Процесс"
@@ -2651,18 +2499,15 @@ msgid ""
 "Process: the executable name, as the list below shows it. The whole name "
 "must match, case is ignored, .exe is optional. * stands for any characters "
 "and ? for one."
-msgstr ""
-"Процесс: төмендегі тізімде көрсетілгендей орындалатын файл атауы. Бүкіл атау"
-" сәйкес болуы керек, регистр еленбейді, .exe міндетті емес. * кез келген "
-"таңбаны білдіреді және ? біреуі үшін."
+msgstr "Процесс: төмендегі тізімде көрсетілгендей орындалатын файл атауы. Толық атау сәйкес келуі керек, регистр ескерілмейді, .exe міндетті емес. * кез келген таңбаларды, ? бір таңбаны білдіреді."
 
 msgid "Matches {n} running process"
 msgid_plural "Matches {n} running processes"
-msgstr[0] "{n} орындалатын процеске сәйкес келеді"
-msgstr[1] "{n} орындалатын процеске сәйкес келеді"
+msgstr[0] "{n} жұмыс істеп тұрған процеске сәйкес келеді"
+msgstr[1] "{n} жұмыс істеп тұрған процеске сәйкес келеді"
 
 msgid "Matches no running process"
-msgstr "Ешқандай орындалатын процеске сәйкес келмейді"
+msgstr "Жұмыс істеп тұрған ешбір процеске сәйкес келмейді"
 
 msgid ""
 "Many applications run as “{}”, so the name matches all of them. The "
@@ -2672,7 +2517,7 @@ msgstr ""
 "барлығына сәйкес келеді. Қолданба идентификаторы дәлірек."
 
 msgid "When it counts"
-msgstr "Ол есептегенде"
+msgstr "Қашан есептеледі"
 
 msgid "Window titles"
 msgstr "Терезе тақырыптары"
@@ -2684,7 +2529,7 @@ msgid "Shared process"
 msgstr "Ортақ процесс"
 
 msgid "Running without a window"
-msgstr "Терезесіз жүгіру"
+msgstr "Терезесіз жұмыс істейді"
 
 msgid "Type a name to find processes running without a window."
 msgstr "Терезесіз орындалатын процестерді табу үшін атауды теріңіз."
@@ -2696,201 +2541,159 @@ msgid "While the trigger is held"
 msgstr "Триггер ұсталып тұрғанда"
 
 msgid "Press key"
-msgstr "пернесін басыңыз"
+msgstr "Пернені басу"
 
 msgid ""
 "Which key stays pressed while you hold the trigger, together with the layer."
 " “Don't press” only switches the layer."
-msgstr ""
-"Триггерді қабатпен бірге ұстап тұрғанда қай перне басылады. «Баспау» тек "
-"қабатты ауыстырады."
+msgstr "Триггерді ұстап тұрғанда қабатпен бірге қай перне басулы тұрады. «Баспау» тек қабатты ауыстырады."
 
 msgid ""
 "Which key stays pressed while you hold the trigger. “Trigger itself” keeps "
 "the usual behavior of the key."
-msgstr ""
-"Триггерді ұстап тұрғанда қай перне басылады. «Триггердің өзі» кілттің "
-"әдеттегі әрекетін сақтайды."
+msgstr "Триггерді ұстап тұрғанда қай перне басулы тұрады. «Триггердің өзі» перненің әдеттегі әрекетін сақтайды."
 
 msgid "Trigger itself"
-msgstr "Өзін іске қосыңыз"
+msgstr "Триггердің өзі"
 
 msgid "Other key…"
-msgstr "Басқа кілт…"
+msgstr "Басқа перне…"
 
 msgid "When to press"
 msgstr "Қашан басу керек"
 
 msgid "Holds {}"
-msgstr "{} ұстайды"
+msgstr "{} ұстап тұрады"
 
 msgid "Holds nothing"
-msgstr "Ештеңені ұстамайды"
+msgstr "Ештеңе ұстамайды"
 
 msgid "Hold after {} ms"
-msgstr "{} мс кейін ұстаңыз"
+msgstr "{} мс кейін ұстап тұру"
 
 msgid "Stop mapper (restore native keyboard behavior)"
-msgstr "Мапперді тоқтату (негізгі пернетақта әрекетін қалпына келтіру)"
+msgstr "Мапперді тоқтату (пернетақтаның төл әрекетін қалпына келтіру)"
 
 msgid "Select a keyboard device in the settings to start the mapper"
-msgstr "Мапперді бастау үшін параметрлерден пернетақта құрылғысын таңдаңыз"
+msgstr "Мапперді іске қосу үшін баптауларда пернетақта құрылғысын таңдаңыз"
 
 msgid "Start mapper to intercept keys and apply keymaps"
-msgstr "Пернелерді ұстап алу және Keymapдерды қолдану үшін мапперді іске қосыңыз"
+msgstr "Пернелерді ұстап алу және Keymap-тарды қолдану үшін мапперді іске қосыңыз"
 
 msgid "Current active keymap (selected automatically by switching rules)"
-msgstr ""
-"Ағымдағы белсенді Keymap (ережелерді ауыстыру арқылы автоматты түрде "
-"таңдалады)"
+msgstr "Ағымдағы белсенді Keymap (ауыстыру ережелерімен автоматты түрде таңдалған)"
 
 msgid "Click to change mode (Auto / On / Off)"
-msgstr "Режимді өзгерту үшін басыңыз (Авто / Қосу / Өшіру)"
+msgstr "Режимді өзгерту үшін басыңыз (Автоматты / Қосулы / Өшірулі)"
 
 msgid ""
 "The mapper intercepts keyboard input, applies layers, rules and macros, and "
 "emits output through a virtual device."
-msgstr ""
-"Маппер пернетақтадан енгізуді тоқтатады, қабаттарды, ережелерді және "
-"макростарды қолданады және виртуалды құрылғы арқылы шығысты шығарады."
+msgstr "Маппер пернетақтадан енгізуді ұстап алады, қабаттарды, ережелерді және макростарды қолданады және нәтижені виртуалды құрылғы арқылы шығарады."
 
 msgid ""
 "Define how physical keys behave: tap for a key or action, hold to switch "
 "layers, or double-tap for extra shortcuts."
-msgstr ""
-"Физикалық пернелердің әрекетін анықтаңыз: перне немесе әрекет үшін түртіңіз,"
-" қабаттарды ауыстыру үшін ұстап тұрыңыз немесе қосымша төте жолдар үшін екі "
-"рет түртіңіз."
+msgstr "Физикалық пернелердің әрекетін анықтаңыз: перне не әрекет үшін басу, қабат ауыстыру үшін ұстап тұру немесе қосымша тіркесімдер үшін екі рет басу."
 
 msgid ""
 "Action performed when the trigger is pressed and released quickly without "
 "holding."
-msgstr ""
-"Триггер басылғанда және ұстамай тез босатылған кезде орындалатын әрекет."
+msgstr "Триггер ұстап тұрмай жылдам басылып жіберілгенде орындалатын әрекет."
 
 msgid ""
 "Action performed when the trigger is pressed twice quickly within the "
 "double-tap timeout."
-msgstr ""
-"Екі рет түрту күту уақыты ішінде триггер екі рет жылдам басылғанда "
-"орындалатын әрекет."
+msgstr "Триггер екі рет басу аралығында екі рет жылдам басылғанда орындалатын әрекет."
 
 msgid "Show standard QWERTY letter labels for visual reference."
-msgstr "Көрнекі анықтама үшін стандартты QWERTY әріп белгілерін көрсетіңіз."
+msgstr "Бағдар үшін стандартты QWERTY әріптерін көрсету."
 
 msgid ""
 "Show internal key codes used in Tecloid keymaps (e.g. KeyA, "
 "ArrowLeft)."
-msgstr ""
-"Сол қолмен басқару Keymapдерінде пайдаланылатын ішкі кілт кодтарын көрсету "
-"(мысалы, KeyA, Left Arrow)."
+msgstr "Tecloid Keymap-тарында қолданылатын ішкі перне кодтарын көрсету (мысалы, KeyA, ArrowLeft)."
 
 msgid "Hold detection"
-msgstr "Анықтауды ұстау"
+msgstr "Ұстап тұруды анықтау"
 
 msgid "When a key becomes a hold"
-msgstr "Перне басып тұруға ауысқанда"
+msgstr "Перне қашан ұстап тұрылған деп саналады"
 
 msgid ""
 "Decides when a rule key that is still down counts as a hold if you press "
 "another key meanwhile. Applies to all rules."
-msgstr ""
-"Осы уақытта басқа пернені бассаңыз, әлі төмен тұрған ереже пернесі ұстап "
-"тұру ретінде есептелетінін шешеді. Барлық ережелерге қолданылады."
+msgstr "Әлі басулы тұрған ереже пернесі, осы уақытта басқа пернені бассаңыз, қашан ұстап тұру деп саналатынын анықтайды. Барлық ережелерге қолданылады."
 
 msgid ""
 "After another key is released: the key becomes a hold once another key is "
 "pressed and released while it is down, or when the hold threshold passes. "
 "Fast rolls while typing stay taps."
-msgstr ""
-"Басқа пернені босатқаннан кейін: басқа перне басылғанда және ол төмен "
-"тұрғанда немесе ұстап тұру шегінен өткенде босатылған кезде перне ұстап "
-"тұруға айналады. Теру кезінде жылдам орамдар."
+msgstr "Басқа перне жіберілгеннен кейін: перне басулы тұрғанда басқа перне басылып жіберілсе немесе ұстап тұру шегі өтсе, ол ұстап тұру деп саналады. Теру кезіндегі жылдам қабаттасулар басу болып қала береді."
 
 msgid ""
 "As soon as another key is pressed: reacts faster, but fast typing can "
 "trigger the hold by mistake."
-msgstr ""
-"Басқа пернені басқаннан кейін: жылдамырақ әрекет етеді, бірақ жылдам теру "
-"қателікпен ұстап тұруды тудыруы мүмкін."
+msgstr "Басқа перне басылған бойда: жылдамырақ әрекет етеді, бірақ жылдам теру ұстап тұруды қателесіп іске қосуы мүмкін."
 
 msgid "After another key is released (recommended)"
-msgstr "Басқа кілт босатылғаннан кейін (ұсынылады)"
+msgstr "Басқа перне жіберілгеннен кейін (ұсынылады)"
 
 msgid "As soon as another key is pressed"
-msgstr "Басқа перне басылғаннан кейін"
+msgstr "Басқа перне басылған бойда"
 
 msgid ""
 "Used by rules that leave the field empty. A rule can set its own value in "
 "its advanced options."
-msgstr ""
-"Өрісті бос қалдыратын ережелер арқылы пайдаланылады. Ереже өзінің қосымша "
-"опцияларында өз мәнін орната алады."
+msgstr "Өрісті бос қалдыратын ережелер пайдаланады. Ереже өз мәнін кеңейтілген опцияларында орната алады."
 
 msgid "Hold threshold, ms"
-msgstr "Шекті ұстап тұру, мс"
+msgstr "Ұстап тұру шегі, мс"
 
 msgid ""
 "How long to hold a rule key before it counts as a hold: its layer or hold "
 "action. Released earlier, the key runs its tap action."
-msgstr ""
-"Ереже пернесін ұстап тұруға дейін қанша уақыт ұстау керек: оның қабаты "
-"немесе ұстап тұру әрекеті. Бұрын шығарылған перне түрту әрекетін орындайды."
+msgstr "Ереже пернесі ұстап тұру деп саналуы үшін оны қанша ұстау керек: оның қабаты немесе ұстап тұру әрекеті. Ертерек жіберілсе, перне басу әрекетін орындайды."
 
 msgid ""
 "Lower: layers turn on faster, but fast typing may trigger them by mistake. "
 "Higher: fewer false holds, but a longer wait. Usually 150–250 ms."
-msgstr ""
-"Төменгі: қабаттар жылдамырақ қосылады, бірақ жылдам теру қателікпен оларды "
-"іске қосуы мүмкін. Жоғарырақ: жалған ұстаулар аз, бірақ ұзағырақ күту. "
-"Әдетте 150–250 мс."
+msgstr "Төменірек: қабаттар тезірек қосылады, бірақ жылдам теру оларды қателесіп іске қосуы мүмкін. Жоғарырақ: жалған ұстап тұру азаяды, бірақ күту ұзарады. Әдетте 150–250 мс."
 
 msgid "Standard value: {} ms."
 msgstr "Стандартты мән: {} мс."
 
 msgid "Long hold, ms"
-msgstr "Ұзақ күтіңіз, ханым"
+msgstr "Ұзақ ұстап тұру, мс"
 
 msgid ""
 "How long to keep holding a rule key before its long-hold action runs once. "
 "Applies to rules whose hold runs an action instead of a layer."
-msgstr ""
-"Ұзақ ұстау әрекеті бір рет орындалмай тұрып, ереже пернесін қанша уақыт "
-"ұстау керек. Ұстауы қабаттың орнына әрекетті орындайтын ережелерге "
-"қолданылады."
+msgstr "Ұзақ ұстап тұру әрекеті бір рет орындалуы үшін ереже пернесін тағы қанша ұстап тұру керек. Ұстап тұруы қабаттың орнына әрекет орындайтын ережелерге қолданылады."
 
 msgid "Double-tap window, ms"
-msgstr "Терезені екі рет түрту, мс"
+msgstr "Екі рет басу аралығы, мс"
 
 msgid ""
 "A second tap within this time after the first release counts as a double "
 "tap."
-msgstr ""
-"Бірінші шығарылымнан кейінгі осы уақыт ішінде екінші рет түрту екі рет түрту"
-" ретінде есептеледі."
+msgstr "Бірінші жіберуден кейін осы уақыт ішіндегі екінші басу екі рет басу деп саналады."
 
 msgid ""
 "A single tap on a key with a double-tap action runs only after this window "
 "ends, so a large value makes such keys feel slow. Keys without a double-tap "
 "action are not delayed."
-msgstr ""
-"Екі рет түрту әрекеті бар пернені бір рет түрту осы терезе аяқталғаннан "
-"кейін ғана орындалады, сондықтан үлкен мән мұндай пернелерді баяу сезінеді. "
-"Екі рет түрту әрекеті жоқ пернелер кешіктірілмейді."
+msgstr "Екі рет басу әрекеті бар пернені бір рет басу осы аралық біткеннен кейін ғана орындалады, сондықтан үлкен мән мұндай пернелерді баяу етеді. Екі рет басу әрекеті жоқ пернелер кешіктірілмейді."
 
 msgid ""
 "Used by macros that leave the field empty. A macro can set its own value on "
 "the Macros page."
-msgstr ""
-"Өрісті бос қалдыратын макростар пайдаланылады. Макрос Макростар бетінде өз "
-"мәнін орната алады."
+msgstr "Өрісті бос қалдыратын макростар пайдаланады. Макрос өз мәнін «Макростар» бетінде орната алады."
 
 msgid ""
 "Pause between consecutive steps of a macro. Increase it if an application "
 "misses keystrokes."
-msgstr ""
-"Макростың дәйекті қадамдары арасындағы үзіліс. Қолданба пернелерді басуларды"
-" өткізіп алмаса, оны арттырыңыз."
+msgstr "Макростың кезекті қадамдары арасындағы үзіліс. Қолданба перне басуларын өткізіп алса, оны арттырыңыз."
 
 msgid "Simultaneous presses"
 msgstr "Бір мезгілде басу"
@@ -2900,53 +2703,38 @@ msgid ""
 " keys must go down within this time, in any order. Until then the first key "
 "is held back; if the combination does not complete, it is typed as usual. "
 "Modifiers are never held back."
-msgstr ""
-"KeyJ+KeyK сияқты бірге басылған бірнеше пернелер арқылы іске қосылатын "
-"ережелер үшін. Барлық кілттер осы уақыт ішінде кез келген ретпен төмен түсуі"
-" керек. Осы уақытқа дейін бірінші кілт ұсталады; комбинация аяқталмаса, "
-"әдеттегідей теріледі. Модификаторлар ешқашан ұсталмайды."
+msgstr "KeyJ+KeyK сияқты бірге басылған бірнеше пернемен іске қосылатын ережелер үшін. Барлық пернелер осы уақыт ішінде кез келген ретпен басылуы керек. Оған дейін бірінші перне ұсталып тұрады; тіркесім аяқталмаса, ол әдеттегідей теріледі. Модификаторлар ешқашан ұсталмайды."
 
 msgid ""
 "Higher: the combination is easier to hit, but typing with these keys lags "
 "slightly. Applies to all rules; a rule cannot override it."
-msgstr ""
-"Жоғарырақ: комбинацияны басу оңайырақ, бірақ бұл пернелермен теру сәл артта "
-"қалады. Барлық ережелерге қолданылады; ереже оны жоққа шығара алмайды."
+msgstr "Жоғарырақ: тіркесімді басу оңайырақ, бірақ бұл пернелермен теру сәл кешігеді. Барлық ережелерге қолданылады; ереже оны өзгерте алмайды."
 
 msgid ""
 "Wait between pressing modifiers (Shift, Ctrl, …) and the main key of a macro"
 " step. Increase it if an application receives the shortcut without its "
 "modifier. Default for macros that leave the field empty."
-msgstr ""
-"Модификаторларды (Shift, Ctrl, …) және макрос қадамының негізгі пернесін "
-"басу арасында күтіңіз. Қолданба таңбашаны өзгерткішсіз қабылдаса, оны "
-"арттырыңыз. Өрісті бос қалдыратын макростар үшін әдепкі."
+msgstr "Модификаторларды (Shift, Ctrl, …) басу мен макрос қадамының негізгі пернесі арасындағы күту. Қолданба тіркесімді модификаторсыз алса, оны арттырыңыз. Өрісті бос қалдыратын макростар үшін әдепкі мән."
 
 msgid "Enter a long hold from 100 to 60000 ms."
-msgstr "100-ден 60000 мс-ге дейінгі ұзақ ұстауды енгізіңіз."
+msgstr "100-ден 60000 мс-ге дейінгі ұзақ ұстап тұру мәнін енгізіңіз."
 
 msgid "Long hold after {} ms"
-msgstr "{} мс-ден кейін ұзақ ұстау"
+msgstr "{} мс кейін ұзақ ұстап тұру"
 
 msgid ""
 "Released earlier, the trigger counts as a tap; held longer, as a hold. Empty"
 " uses the default from Settings: {} ms."
-msgstr ""
-"Бұрын шығарылған триггер түрту ретінде есептеледі; ұзақ, ұстағыш ретінде "
-"ұсталды. Empty параметрі Параметрлерден әдепкі мәнді пайдаланады: {} мс."
+msgstr "Ертерек жіберілсе, триггер басу деп, ұзағырақ ұсталса — ұстап тұру деп саналады. Бос болса, баптаулардағы әдепкі мән қолданылады: {} мс."
 
 msgid ""
 "How long to keep holding before the action runs. Empty uses the default from"
 " Settings: {} ms."
-msgstr ""
-"Әрекет орындалмай тұрып қанша уақыт ұстау керек. Empty параметрі "
-"Параметрлерден әдепкі мәнді пайдаланады: {} мс."
+msgstr "Әрекет орындалғанша қанша ұстап тұру керек. Бос болса, баптаулардағы әдепкі мән қолданылады: {} мс."
 
 msgid ""
 "Longest pause between two taps. Empty uses the default from Settings: {} ms."
-msgstr ""
-"Екі түрту арасындағы ең ұзақ үзіліс. Empty параметрі Параметрлерден әдепкі "
-"мәнді пайдаланады: {} мс."
+msgstr "Екі басу арасындағы ең ұзақ үзіліс. Бос болса, баптаулардағы әдепкі мән қолданылады: {} мс."
 
 msgid "Auto: {} is not counted as a game (built-in list)"
 msgstr "Автоматты: {} ойын ретінде есептелмейді (кіріктірілген тізім)"
@@ -2954,60 +2742,45 @@ msgstr "Автоматты: {} ойын ретінде есептелмейді 
 msgid ""
 "These sources can take another application for a game, so each skips a "
 "built-in list of applications."
-msgstr ""
-"Бұл көздер ойынға арналған басқа қолданбаны қабылдай алады, сондықтан "
-"әрқайсысы қосымшалардың кірістірілген тізімін өткізіп жібереді."
+msgstr "Бұл көздер басқа қолданбаны ойын деп қабылдауы мүмкін, сондықтан әрқайсысы кірістірілген қолданбалар тізімін өткізіп жібереді."
 
 msgid ""
 "Turns on while a program that Windows recognized as a game (the Game Bar "
 "list) runs. Launchers are listed there too, so they are skipped."
-msgstr ""
-"Windows жүйесі ойын ретінде танылған бағдарлама (ойын тақтасының тізімі) "
-"іске қосылғанда қосылады. Іске қосу құрылғылары да сол жерде берілген, "
-"сондықтан олар өткізіліп жіберіледі."
+msgstr "Windows ойын деп таныған бағдарлама (Game Bar тізімі) жұмыс істеп тұрғанда қосылады. Іске қосқыштар да сонда көрсетілген, сондықтан олар өткізіп жіберіледі."
 
 msgid "Launchers and game tools — not counted as games"
-msgstr "Іске қосу құрылғылары мен ойын құралдары — ойын ретінде есептелмейді"
+msgstr "Іске қосқыштар мен ойын құралдары — ойын болып саналмайды"
 
 msgid ""
 "Decides when a dual-role key counts as a hold if another key is pressed. "
 "Rules can override this default in advanced options. Chord detection is "
 "configured separately."
-msgstr ""
-"Басқа перне басылғанда, қос рөлді перне күту ретінде есептелетінін шешеді. "
-"Ережелер осы әдепкі параметрді қосымша опцияларда қайта анықтай алады. "
-"Аккордты анықтау бөлек конфигурацияланады."
+msgstr "Басқа перне басылғанда, екі рөлді перне қашан ұстап тұру деп саналатынын анықтайды. Ережелер бұл әдепкі мәнді кеңейтілген опцияларда өзгерте алады. Тіркесімдерді анықтау бөлек бапталады."
 
 msgid "After another key is released (better for typing)"
-msgstr "Басқа кілт босатылғаннан кейін (теру үшін жақсырақ)"
+msgstr "Басқа перне жіберілгеннен кейін (теру үшін жақсырақ)"
 
 msgid ""
 "As soon as another key is pressed: useful for dedicated layer or modifier "
 "keys. Reacts faster, but overlapping letters while typing can trigger the "
 "hold by mistake."
-msgstr ""
-"Басқа перне басылғаннан кейін: бөлінген қабат немесе модификатор пернелері "
-"үшін пайдалы. Тезірек әрекет етеді, бірақ теру кезінде қабаттасатын әріптер "
-"қателікпен ұстап тұруды тудыруы мүмкін."
+msgstr "Басқа перне басылған бойда: тек қабат немесе модификатор ретінде қолданылатын пернелер үшін пайдалы. Жылдамырақ әрекет етеді, бірақ теру кезінде әріптердің қабаттасуы ұстап тұруды қателесіп іске қосуы мүмкін."
 
 msgid "Default from Settings: {}"
-msgstr "Параметрлерден әдепкі: {}"
+msgstr "Баптаулардағы әдепкі: {}"
 
 msgid "after another key is released"
-msgstr "басқа кілт босатылғаннан кейін"
+msgstr "басқа перне жіберілгеннен кейін"
 
 msgid "as soon as another key is pressed"
-msgstr "басқа перне басылғаннан кейін"
+msgstr "басқа перне басылған бойда"
 
 msgid ""
 "Overrides the default hold detection for this rule. Use release detection "
 "for typing keys and press detection for dedicated layer or modifier keys. "
 "This does not change chord detection."
-msgstr ""
-"Осы ереже үшін әдепкі ұстауды анықтауды қайта анықтайды. Пернелерді теру "
-"үшін босатуды анықтауды пайдаланыңыз және бөлінген қабат немесе модификатор "
-"пернелері үшін басыңызды анықтауды пайдаланыңыз. Бұл аккордты анықтауды "
-"өзгертпейді."
+msgstr "Осы ереже үшін ұстап тұруды анықтаудың әдепкі мәнін ауыстырады. Теру пернелері үшін жібергенде анықтауды, ал тек қабат немесе модификатор ретінде қолданылатын пернелер үшін басқанда анықтауды пайдаланыңыз. Бұл тіркесімдерді анықтауды өзгертпейді."
 
 msgid "Cannot list input devices: {}"
 msgstr "Енгізу құрылғыларын тізімдеу мүмкін емес: {}"
@@ -3019,60 +2792,54 @@ msgid "Defaults"
 msgstr "Әдепкі"
 
 msgid "Shared by all rules"
-msgstr "Барлық ережелер бойынша ортақ"
+msgstr "Барлық ережелерге ортақ"
 
 msgid "Hold threshold"
-msgstr "Шекті ұстаңыз"
+msgstr "Ұстап тұру шегі"
 
 msgid "Long hold"
-msgstr "Ұзақ ұстау"
+msgstr "Ұзақ ұстап тұру"
 
 msgid "Double-tap window"
-msgstr "Терезені екі рет түртіңіз"
+msgstr "Екі рет басу аралығы"
 
 msgid "Reset to {} ms"
-msgstr "{} мс қалпына келтіріңіз"
+msgstr "{} мс мәніне қайтару"
 
 msgid "Automatic game detection"
-msgstr "Ойынды автоматты түрде анықтау"
+msgstr "Ойындарды автоматты түрде анықтау"
 
 msgid "System signals"
 msgstr "Жүйелік сигналдар"
 
 msgid "Launchers"
-msgstr "Іске қосу құрылғылары"
+msgstr "Іске қосқыштар"
 
 msgid "Heroic games"
-msgstr "Батырлық ойындар"
+msgstr "Heroic ойындары"
 
 msgid ""
 "Turns on while a game started by Heroic Games Launcher runs (Epic, GOG, "
 "Amazon and added games): Heroic passes HEROIC_APP_NAME to every game it "
 "starts."
-msgstr ""
-"Heroic Games Launcher іске қосатын ойын іске қосылғанда қосылады (Epic, GOG,"
-" Amazon және қосылған ойындар): Heroic HEROIC_APP_NAME қолданбасын әрбір "
-"басталған ойынға жібереді."
+msgstr "Heroic Games Launcher іске қосқан ойын (Epic, GOG, Amazon және қосылған ойындар) жұмыс істеп тұрғанда қосылады: Heroic өзі іске қосатын әр ойынға HEROIC_APP_NAME береді."
 
 msgid "Games run through umu-launcher"
-msgstr "Ойындар umu-launcher арқылы өтеді"
+msgstr "umu-launcher арқылы іске қосылған ойындар"
 
 msgid ""
 "Turns on while a game runs through umu-run. Heroic, Lutris, Faugus Launcher "
 "and other launchers use it to start Windows games with Proton."
-msgstr ""
-"Ойын umu-run арқылы өтіп жатқанда қосылады. Heroic, Lutris, Faugus Launcher "
-"және басқа іске қосу құрылғылары оны Windows ойындарын Proton көмегімен "
-"бастау үшін пайдаланады."
+msgstr "Ойын umu-run арқылы жұмыс істеп тұрғанда қосылады. Heroic, Lutris, Faugus Launcher және басқа іске қосқыштар Windows ойындарын Proton арқылы іске қосу үшін соны пайдаланады."
 
 msgid "Guesses — can be wrong"
-msgstr "Болжамдар - қате болуы мүмкін"
+msgstr "Болжамдар — қате болуы мүмкін"
 
 msgid "Your rules"
 msgstr "Сіздің ережелеріңіз"
 
 msgid "“Doesn't count as a game” wins over everything else, automatic detection included."
-msgstr "«Ойын болып саналмайды» басқалардың бәрін жеңеді, автоматты анықтау кіреді."
+msgstr "«Ойын болып саналмайды» басқаның бәрінен басым, автоматты анықтаудан да."
 
 
 
@@ -3096,46 +2863,40 @@ msgid "Tap"
 msgstr "Басу"
 
 msgid "Don't press"
-msgstr "Баспаңыз"
+msgstr "Баспау"
 
 msgid "{} — change…"
 msgstr "{} — өзгерту…"
 
 msgid "Choose another key above to set when it is pressed."
-msgstr "Басылған кезде орнату үшін жоғарыдан басқа пернені таңдаңыз."
+msgstr "Қашан басылатынын орнату үшін жоғарыдан басқа перне таңдаңыз."
 
 msgid "Assign a double-tap action to the rule to change this window."
-msgstr ""
-"Бұл терезені өзгерту үшін ережеге екі рет түрту әрекетін тағайындаңыз."
+msgstr "Бұл аралықты өзгерту үшін ережеге екі рет басу әрекетін тағайындаңыз."
 
 msgid "Hold on other key release"
-msgstr "Басқа пернені босатуды ұстап тұрыңыз"
+msgstr "Басқа перне жіберілгенде ұстап тұру"
 
 msgid "Hold on other key press"
-msgstr "Басқа пернені басып тұрыңыз"
+msgstr "Басқа перне басылғанда ұстап тұру"
 
 msgid "Reset"
 msgstr "Қалпына келтіру"
 
 msgid "Return all options in this dialog to their defaults"
-msgstr ""
-"Осы тілқатысу терезесіндегі барлық опцияларды әдепкі параметрлеріне "
-"қайтарыңыз"
+msgstr "Осы диалогтағы барлық опцияларды әдепкі мәндеріне қайтару"
 
 msgid "Macro time limit"
-msgstr "Макроуақыт шегі"
+msgstr "Макрос уақыт шегі"
 
 msgid ""
 "A macro still running after this time is stopped and counts as finished. A "
 "macro started while another one runs waits for it; up to 3 runs can wait, "
 "further presses are ignored."
-msgstr ""
-"Осы уақыттан кейін жұмыс істеп тұрған макрос тоқтатылады және аяқталды деп "
-"есептеледі. Макрос басталды, ал екіншісі оны күтеді; 3 жүгіруге дейін күте "
-"алады, одан әрі басулар еленбейді."
+msgstr "Осы уақыттан кейін әлі жұмыс істеп тұрған макрос тоқтатылады және аяқталды деп саналады. Басқа макрос жұмыс істеп тұрғанда іске қосылған макрос оны күтеді; 3 іске қосуға дейін күте алады, одан кейінгі басулар еленбейді."
 
 msgid "Global shortcuts registered in this KDE session:"
-msgstr "Осы KDE сеансында тіркелген ғаламдық таңбашалар:"
+msgstr "Осы KDE сеансында тіркелген ғаламдық пернелер тіркесімдері:"
 
 msgid ""
 "The list is read from the KDE global shortcut service (kglobalaccel): KWin, "
@@ -3145,52 +2906,42 @@ msgid ""
 "Plasma version and installed applications, so Tecloid does not "
 "guarantee them. Common window and desktop actions that also work on other "
 "platforms are in System actions."
-msgstr ""
-"Тізім KDE жаһандық таңбаша қызметінен (kglobalaccel) оқылады: KWin, Plasma "
-"және қолданбалар сол жерде өз әрекеттерін тіркейді. Таңдалған әрекет оған "
-"пернелер тағайындалмаса да, оның таңбашасы басылғандай, сол күйінде "
-"шақырылады. Қандай әрекеттер бар және олардың әрекеті Плазма нұсқасына және "
-"орнатылған қолданбаларға байланысты, сондықтан Сол қолмен басқару оларға "
-"кепілдік бермейді. Басқа платформаларда да жұмыс істейтін жалпы терезе және "
-"жұмыс үстелі әрекеттері Жүйе әрекеттерінде болады."
+msgstr "Тізім KDE ғаламдық тіркесімдер қызметінен (kglobalaccel) оқылады: KWin, Plasma және қолданбалар өз әрекеттерін сонда тіркейді. Таңдалған әрекет тікелей шақырылады, оған пернелер тағайындалмаса да, тіркесімі басылғандай. Қандай әрекеттер бар екені және олардың әрекеті Plasma нұсқасы мен орнатылған қолданбаларға байланысты, сондықтан Tecloid оларға кепілдік бермейді. Басқа платформаларда да жұмыс істейтін жалпы терезе және жұмыс үстелі әрекеттері «Жүйе әрекеттері» бөлімінде."
 
 msgid "Hold key or combination"
-msgstr "Пернені немесе комбинацияны басып тұрыңыз"
+msgstr "Пернені немесе тіркесімді ұстап тұру"
 
 msgid ""
 "The key or combination stays pressed until you release the trigger. Choose "
 "modifiers plus one main key, for example Ctrl+KeyC."
-msgstr ""
-"Сіз триггерді босатқанша перне немесе комбинация басылады. Модификаторларды "
-"және бір негізгі пернені таңдаңыз, мысалы Ctrl+KeyC."
+msgstr "Триггерді жібергенше перне немесе тіркесім басулы тұрады. Модификаторлар мен бір негізгі пернені таңдаңыз, мысалы, Ctrl+KeyC."
 
 msgid "Not used when holding performs a long-hold action."
-msgstr "Ұзақ ұстау әрекетін орындаған кезде қолданылмайды."
+msgstr "Ұстап тұру ұзақ ұстап тұру әрекетін орындағанда қолданылмайды."
 
 msgid "Other key or combination…"
-msgstr "Басқа перне немесе комбинация…"
+msgstr "Басқа перне немесе тіркесім…"
 
 msgid "Hold detection when another key is pressed"
-msgstr "Басқа перне басылған кезде анықтауды ұстап тұрыңыз"
+msgstr "Басқа перне басылғанда ұстап тұруды анықтау"
 
 msgid "Used for single-key triggers without a long-hold action."
-msgstr "Ұзақ ұстау әрекетінсіз бір пернелік триггерлер үшін пайдаланылады."
+msgstr "Ұзақ ұстап тұру әрекеті жоқ бір пернелі триггерлер үшін қолданылады."
 
 msgid "Long-hold threshold, ms"
-msgstr "Ұзақ ұстау шегі, мс"
+msgstr "Ұзақ ұстап тұру шегі, мс"
 
 msgid "Used when a long-hold action is selected."
-msgstr "Ұзақ ұстау әрекеті таңдалғанда пайдаланылады."
+msgstr "Ұзақ ұстап тұру әрекеті таңдалғанда қолданылады."
 
 msgid "Double-tap interval, ms"
-msgstr "Екі рет түрту аралығы, мс"
+msgstr "Екі рет басу аралығы, мс"
 
 msgid "Double-tap actions are available only for single-key triggers."
-msgstr ""
-"Екі рет түрту әрекеттері тек бір пернелік триггерлер үшін қол жетімді."
+msgstr "Екі рет басу әрекеттері тек бір пернелі триггерлер үшін қолжетімді."
 
 msgid "Applies when a double-tap action is assigned."
-msgstr "Екі рет түрту әрекеті тағайындалғанда қолданылады."
+msgstr "Екі рет басу әрекеті тағайындалғанда қолданылады."
 
 msgid "Delete trigger"
 msgstr "Триггерді жою"
@@ -3201,90 +2952,81 @@ msgstr "Триггерді жою керек пе?"
 msgid ""
 "The trigger and all its assigned actions will be removed from the current "
 "keymap."
-msgstr "Триггер және оның барлық тағайындалған әрекеттері ағымдағы Keymap жойылады."
+msgstr "Триггер және оған тағайындалған барлық әрекеттер ағымдағы Keymap-тан жойылады."
 
 msgid "Reset {} to default"
-msgstr "{} стандартын қалпына келтіріңіз"
+msgstr "{} әдепкі мәнге қайтару"
 
 msgid "Holding activates layer: {}"
-msgstr "Ұстап тұру келесі қабатты белсендіреді: {}"
+msgstr "Ұстап тұру қабатты іске қосады: {}"
 
 msgid "Holding performs a long-hold action."
-msgstr "Холдинг ұзақ ұстау әрекетін орындайды."
+msgstr "Ұстап тұру ұзақ ұстап тұру әрекетін орындайды."
 
 msgid "Holding keeps a key or combination pressed."
-msgstr "Ұстап тұру пернені немесе комбинацияны басып тұрады."
+msgstr "Ұстап тұру пернені немесе тіркесімді басулы ұстайды."
 
 msgid "Paths"
 msgstr "Жолдар"
 
 msgid "Unknown layer key at \"{}\"."
-msgstr "\"{}\" жеріндегі белгісіз қабат кілті."
+msgstr "«{}» ішінде белгісіз қабат пернесі."
 
 msgid "Invalid layer action at \"{}\"."
-msgstr "\"{}\" бойынша жарамсыз қабат әрекеті."
+msgstr "«{}» ішінде жарамсыз қабат әрекеті."
 
 msgid "Invalid macro at \"{}\"."
-msgstr "\"{}\" мекенжайында жарамсыз макрос."
+msgstr "«{}» ішінде жарамсыз макрос."
 
 msgid "Invalid menu action at \"{}\"."
-msgstr "\"{}\" мәзіріндегі жарамсыз әрекет."
+msgstr "«{}» ішінде жарамсыз мәзір әрекеті."
 
 msgid "Invalid timing at \"{}\"."
-msgstr "\"{}\" уақытында жарамсыз."
+msgstr "«{}» ішінде жарамсыз уақыт баптауы."
 
 msgid "Invalid window condition at \"{}\"."
-msgstr "\"{}\" мекенжайындағы терезе шарты жарамсыз."
+msgstr "«{}» ішінде жарамсыз терезе шарты."
 
 msgid "Unsupported rule combination at \"{}\"."
-msgstr "\"{}\" бойынша қолдау көрсетілмейтін ереже комбинациясы."
+msgstr "«{}» ішінде қолдау көрсетілмейтін ережелер тіркесімі."
 
 msgid "Invalid macro step at \"{}\"."
-msgstr "\"{}\" макрос қадамы жарамсыз."
+msgstr "«{}» ішінде жарамсыз макрос қадамы."
 
 msgid "Macro call cycle at \"{}\"."
-msgstr "\"{}\" бойынша макроқоңыраулар циклі."
+msgstr "«{}» ішінде макрос шақыруларының циклі."
 
 msgid "A timing value is outside the range shown in Settings."
-msgstr "Уақыт мәні Параметрлерде көрсетілген ауқымнан тыс."
+msgstr "Уақыт мәні баптауларда көрсетілген ауқымнан тыс."
 
 msgid "Keep modifiers held until the layer is released"
-msgstr "Модификаторларды қабат босатылғанша ұстаңыз"
+msgstr "Модификаторларды қабат жіберілгенше басулы ұстау"
 
 msgid ""
 "For a combination such as Alt+Tab: Alt stays pressed while you press the key"
 " again and is released together with the layer key, so the window switcher "
 "stays open."
-msgstr ""
-"Alt+Tab сияқты комбинация үшін: пернені қайта басқанда Alt пернесі басылып "
-"қалады және қабат пернесімен бірге босатылады, осылайша терезе ауыстырғышы "
-"ашық қалады."
+msgstr "Alt+Tab сияқты тіркесім үшін: пернені қайта басқанда Alt басулы қалады және қабат пернесімен бірге жіберіледі, сондықтан терезе ауыстырғышы ашық қалады."
 
 msgid ""
 "Cannot list input devices. Check device access and see the application log."
-msgstr ""
-"Енгізу құрылғыларын тізімдеу мүмкін емес. Құрылғыға кіру мүмкіндігін "
-"тексеріңіз және қолданбалар журналын қараңыз."
+msgstr "Енгізу құрылғыларының тізімін алу мүмкін емес. Құрылғыларға қатынауды тексеріп, қолданба журналын қараңыз."
 
 msgid ""
 "Configuration is unavailable. Check the configuration files and see the "
 "application log."
-msgstr ""
-"Конфигурация қолжетімсіз. Конфигурация файлдарын тексеріңіз және қолданбалар"
-" журналын қараңыз."
+msgstr "Конфигурация қолжетімсіз. Конфигурация файлдарын тексеріп, қолданба журналын қараңыз."
 
 msgid "Popup menus are unavailable. Try opening the menu again."
 msgstr "Қалқымалы мәзірлер қолжетімді емес. Мәзірді қайта ашып көріңіз."
 
 msgid "Popup menu failed. Try opening the menu again."
-msgstr "Қалқымалы мәзір орындалмады. Мәзірді қайта ашып көріңіз."
+msgstr "Қалқымалы мәзір қатемен аяқталды. Мәзірді қайта ашып көріңіз."
 
 msgid ""
 "The text was not typed: the typing method is unavailable. Restart the mapper"
 " to try again."
-msgstr ""
-"Мәтін терілмеді: теру әдісі қолжетімді емес. Әрекетті қайталау үшін картаны "
-"қайта іске қосыңыз."
+msgstr "Мәтін терілмеді: теру әдісі қолжетімсіз. Қайталау үшін мапперді қайта іске қосыңыз."
 
 msgid ""
 "The text was not typed: safe clipboard access failed. See the application "
@@ -3299,7 +3041,7 @@ msgstr ""
 "Мәтін терілмеді: енгізу құралы сәтсіз аяқталды. Қолданба журналын қараңыз."
 
 msgid "Changes saved, but the mapper is still using the previous settings. Restart the mapper."
-msgstr "Өзгерістер сақталды, бірақ сәйкестендіргіш бұрынғы параметрлерді пайдаланып жатыр. Сәйкестендіргішті қайта іске қосыңыз."
+msgstr "Өзгерістер сақталды, бірақ маппер әлі бұрынғы баптауларды пайдаланып жатыр. Мапперді қайта іске қосыңыз."
 
 msgid "The operation failed. See the application log."
 msgstr "Операция сәтсіз аяқталды. Қолданба журналын қараңыз."
@@ -3308,21 +3050,18 @@ msgid "The action failed. See the application log."
 msgstr "Әрекет орындалмады. Қолданба журналын қараңыз."
 
 msgid "Cannot start the mapper. See the application log."
-msgstr "Мапперді іске қосу мүмкін емес. Толығырақ қолданба журналында."
+msgstr "Мапперді іске қосу мүмкін емес. Қолданба журналын қараңыз."
 
 msgid "Mapper is running, but an error occurred. See the application log."
-msgstr ""
-"Mapper жұмыс істейді, бірақ қате орын алды. Қолданба журналын қараңыз."
+msgstr "Маппер жұмыс істеп тұр, бірақ қате орын алды. Қолданба журналын қараңыз."
 
 msgid "Mapper stopped because of an error. See the application log."
-msgstr "Mapper қатеге байланысты тоқтады. Қолданба журналын қараңыз."
+msgstr "Маппер қатеге байланысты тоқтады. Қолданба журналын қараңыз."
 
 msgid ""
 "Cannot read or save the configuration. Check file access and see the "
 "application log."
-msgstr ""
-"Конфигурацияны оқу немесе сақтау мүмкін емес. Файлға кіруді тексеріңіз және "
-"қолданбалар журналын қараңыз."
+msgstr "Конфигурацияны оқу немесе сақтау мүмкін емес. Файлдарға қатынауды тексеріп, қолданба журналын қараңыз."
 
 msgid "Cannot parse the configuration file. See the application log."
 msgstr "Конфигурация файлын талдау мүмкін емес. Қолданба журналын қараңыз."
@@ -3334,7 +3073,7 @@ msgid "The action has invalid syntax."
 msgstr "Әрекетте жарамсыз синтаксис бар."
 
 msgid "Pauses can only be used in macro steps."
-msgstr "Кідіртулерді тек макрос қадамдарында пайдалануға болады."
+msgstr "Үзілістерді тек макрос қадамдарында қолдануға болады."
 
 msgid "The selected macro no longer exists."
 msgstr "Таңдалған макрос енді жоқ."
@@ -3371,13 +3110,13 @@ msgid "Move 5 lines up"
 msgstr "5 жол жоғары"
 
 msgid "Duplicate line"
-msgstr "Қайталанатын жол"
+msgstr "Жолды қайталау"
 
 msgid "Space after next character"
 msgstr "Келесі таңбадан кейін бос орын"
 
 msgid "Empty line below"
-msgstr "Төмендегі бос жол"
+msgstr "Төменде бос жол"
 
 msgid "Cut word under cursor"
 msgstr "Курсор астындағы сөзді қиып алу"
@@ -3416,7 +3155,7 @@ msgid "Cut whole line"
 msgstr "Бүкіл жолды қиып алу"
 
 msgid "Select 5 lines up"
-msgstr "Жоғарыдан 5 жолды таңдаңыз"
+msgstr "5 жолды жоғары қарай ерекшелеу"
 
 msgid "Copy to line start"
 msgstr "Жол басына дейін көшіру"
@@ -3443,10 +3182,10 @@ msgid "Replace line text with clipboard"
 msgstr "Жол мәтінін алмасу буферімен ауыстыру"
 
 msgid "Select 5 lines down"
-msgstr "5 жолды төменнен таңдаңыз"
+msgstr "5 жолды төмен қарай ерекшелеу"
 
 msgid "Remove trigger"
-msgstr "Триггерді алып тастаңыз"
+msgstr "Триггерді алып тастау"
 
 msgid "Refresh list"
 msgstr "Тізімді жаңарту"
@@ -3470,20 +3209,16 @@ msgid "Cancel (Esc)"
 msgstr "Бас тарту (Esc)"
 
 msgid "Use the default from Settings: {} ms"
-msgstr "Параметрлерден әдепкі параметрді пайдаланыңыз: {} мс"
+msgstr "Баптаулардағы әдепкі мәнді пайдалану: {} мс"
 
 msgid ""
 "Opened by the app:showQuickMenuN actions, where N is the page position: "
 "reordering pages changes which page a key opens. Each cell can hold any "
 "action: a shortcut, macro, shell command or system action."
-msgstr ""
-"Қолданба арқылы ашылған:showQuickMenuN әрекеттері, мұндағы N - бет орны: "
-"беттердің ретін өзгерту перне қай бетті ашатынын өзгертеді. Әрбір ұяшық кез "
-"келген әрекетті сақтай алады: төте жол, макрос, қабық командасы немесе жүйе "
-"әрекеті."
+msgstr "app:showQuickMenuN әрекеттері арқылы ашылады, мұндағы N — беттің орны: беттердің ретін өзгерту перне қай бетті ашатынын өзгертеді. Әр ұяшықта кез келген әрекет болуы мүмкін: пернелер тіркесімі, макрос, shell пәрмені немесе жүйе әрекеті."
 
 msgid "In the popup, click a cell or press its key: the cells follow the keyboard rows Q–T, A–G and Z–B. PgUp/PgDn switch pages; digits open a page by its number."
-msgstr "Қалқымалы терезеде ұяшықты нұқыңыз немесе оның пернесін басыңыз: ұяшықтар Q–T, A–G және Z–B пернетақта жолдарының артынан жүреді. PgUp/PgDn беттерді ауыстырады; сандар бетті оның нөмірі бойынша ашады."
+msgstr "Қалқымалы терезеде ұяшықты басыңыз немесе оның пернесін басыңыз: ұяшықтар Q–T, A–G және Z–B пернетақта қатарларына сәйкес орналасқан. PgUp/PgDn беттерді ауыстырады; сандар бетті нөмірі бойынша ашады."
 
 msgid "Waiting for keyboard"
 msgstr "Пернетақтаны күтуде"
@@ -3556,7 +3291,7 @@ msgid "Games that launchers or the system report count only while their window i
 msgstr "Іске қосқыштар немесе жүйе хабарлайтын ойындар тек терезесі белсенді кезде ескеріледі, сондықтан браузерге ауысу ойын режимін өшіреді. Windows жүйесіндегі Steam қай бағдарлама ойын екенін айтпайды, сондықтан оның ойындары әрқашан ескеріледі."
 
 msgid "Cannot load this keymap. See the application log."
-msgstr "Бұл Keymapді жүктеу мүмкін болмады. Қолданба журналын қараңыз."
+msgstr "Бұл Keymap-ты жүктеу мүмкін болмады. Қолданба журналын қараңыз."
 
 msgid "Scroll horizontally"
 msgstr "Көлденең айналдыру"
@@ -3583,7 +3318,7 @@ msgid "Configure triggers"
 msgstr "Триггерлерді баптау"
 
 msgid "Mouse buttons, media keys, and other triggers outside the main keyboard grid. Add a trigger and choose its action or suppress it. Delete its row to inherit the assignment from the lower layer or base keymap."
-msgstr "Негізгі пернетақта торынан тыс тінтуір түймелері, медиа пернелер және басқа триггерлер. Триггер қосып, әрекетті не басуды таңдаңыз. Төменгі қабаттың немесе негізгі Keymapдің тағайындауын мұралау үшін оның жолын жойыңыз."
+msgstr "Тінтуір түймелері, медиа пернелері және негізгі пернетақта торынан тыс басқа триггерлер. Триггер қосып, оның әрекетін таңдаңыз немесе оны бұғаттаңыз. Төменгі қабаттың немесе негізгі Keymap-тың тағайындауын мұраға алу үшін оның жолын жойыңыз."
 
 msgid "Choose one key. Some keys depend on keyboard hardware and may be ignored by the system."
 msgstr "Бір пернені таңдаңыз. Кейбір пернелер пернетақта жабдығына байланысты және жүйе оларды елемеуі мүмкін."
@@ -3628,7 +3363,7 @@ msgid "Save keymap changes before quitting?"
 msgstr "Шығу алдында Keymap өзгерістерін сақтау керек пе?"
 
 msgid "Cannot switch keymap. The mapper is still using the previous keymap."
-msgstr "Жайманы ауыстыру мүмкін емес. Пернелерді қайта тағайындау бұрынғы Keymapді қолдануды жалғастыруда."
+msgstr "Keymap-ты ауыстыру мүмкін емес. Маппер әлі бұрынғы Keymap-ты пайдаланып жатыр."
 
 msgid "This key is on the layer keyboard. Assign it there."
 msgstr "Бұл перне қабат пернетақтасында бар. Оны сонда тағайындаңыз."

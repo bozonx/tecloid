@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Interface translations were reviewed against the Russian and English texts: missing strings translated, mistranslations and inconsistent terms fixed in all languages except Russian.
+
 - Standard mode offers the system actions assigned in the bundled Left Hand Control keymap, including its Desktop layer actions. Other system actions, mouse-button outputs beyond left, middle and right, the copy hint and the separate terminal paste shortcut require In development.
 
 - On GNOME Wayland with the Tecloid Shell extension, single-character mapper actions such as `text:.` and `text:(` can send keys from the active XKB layout without Remote Desktop permission.

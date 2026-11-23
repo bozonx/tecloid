@@ -12,16 +12,16 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
 msgid "Action saved"
-msgstr "Дія збережена"
+msgstr "Дію збережено"
 
 msgid "Cancel"
 msgstr "Скасувати"
 
 msgid "Increase"
-msgstr "Збільшення"
+msgstr "Збільшити"
 
 msgid "Decrease"
-msgstr "Зниження"
+msgstr "Зменшити"
 
 msgid "Configuration loaded: {n} rule"
 msgid_plural "Configuration loaded: {n} rules"
@@ -69,19 +69,19 @@ msgid "Load a valid configuration before starting the mapper"
 msgstr "Завантажте коректну конфігурацію перед запуском мапера"
 
 msgid "Mapper is running"
-msgstr "Mapper запущено"
+msgstr "Мапер працює"
 
 msgid "Mapper is running: {}"
-msgstr "Mapper працює: {}"
+msgstr "Мапер працює: {}"
 
 msgid "Mapper is starting…"
-msgstr "Mapper запускається…"
+msgstr "Мапер запускається…"
 
 msgid "Mapper is stopped"
-msgstr "Mapper зупинено"
+msgstr "Мапер зупинено"
 
 msgid "Mapper is stopped: {}"
-msgstr "Mapper зупинено: {}"
+msgstr "Мапер зупинено: {}"
 
 msgid "Quick actions"
 msgstr "Швидкі дії"
@@ -93,7 +93,7 @@ msgid "Settings"
 msgstr "Налаштування"
 
 msgid "Mapper on / off"
-msgstr "Мапер увімк / вимк"
+msgstr "Мапер увімк./вимк."
 
 msgid "Switch to desktop {n}"
 msgstr "Перейти на робочий стіл {n}"
@@ -108,37 +108,37 @@ msgid "Select a key to assign an action."
 msgstr "Виберіть клавішу, щоб призначити дію."
 
 msgid "Select a keyboard device in the settings"
-msgstr "Виберіть пристрій клавіатури в налаштуваннях"
+msgstr "Виберіть клавіатурний пристрій у налаштуваннях"
 
 msgid "Select a system action"
-msgstr "Виберіть дію системи"
+msgstr "Виберіть системну дію"
 
 msgid "Spell popup process unavailable: {}"
-msgstr "Процес спливаючого вікна заклинання недоступний: {}"
+msgstr "Процес спливних вікон Spell недоступний: {}"
 
 msgid "Spell worker is not running"
-msgstr "Spell worker не запущено"
+msgstr "Робочий процес Spell не запущено"
 
 msgid "Spell worker is restarting"
-msgstr "Spell worker перезапускається"
+msgstr "Робочий процес Spell перезапускається"
 
 msgid "Spell worker: restart limit exceeded (3 per minute)"
-msgstr "Заклинання: перевищено ліміт перезапуску (3 за хвилину)"
+msgstr "Робочий процес Spell: перевищено ліміт перезапусків (3 за хвилину)"
 
 msgid "Spell worker: {}"
-msgstr "Заклинання: {}"
+msgstr "Робочий процес Spell: {}"
 
 msgid "Stop capture"
 msgstr "Зупинити захоплення"
 
 msgid "System"
-msgstr "система"
+msgstr "Система"
 
 msgid "Text"
-msgstr "текст"
+msgstr "Текст"
 
 msgid "The configuration changed since editing started; repeat the change"
-msgstr "Конфігурація змінилася з початку редагування; повторити зміну"
+msgstr "Конфігурація змінилася з початку редагування; повторіть зміну"
 
 msgid "Unknown action type"
 msgstr "Невідомий тип дії"
@@ -153,7 +153,7 @@ msgid "New keymap name"
 msgstr "Нова назва Keymap"
 
 msgid "Mapper"
-msgstr "Перепризначення"
+msgstr "Мапер"
 
 msgid "Dark"
 msgstr "Темна"
@@ -168,7 +168,7 @@ msgid "Mouse device path"
 msgstr "Шлях пристрою миші"
 
 msgid "General"
-msgstr "Загальний"
+msgstr "Загальне"
 
 msgid "Appearance"
 msgstr "Зовнішній вигляд"
@@ -177,25 +177,25 @@ msgid "Language"
 msgstr "Мова"
 
 msgid "Automatic"
-msgstr "Автоматичний"
+msgstr "Автоматично"
 
 msgid "Key behavior"
 msgstr "Поведінка клавіш"
 
 msgid "Game mode"
-msgstr "Режим гри"
+msgstr "Ігровий режим"
 
 msgid "Use GameMode daemon"
-msgstr "Використовуйте демон GameMode"
+msgstr "Використовувати демон GameMode"
 
 msgid "Detect fullscreen"
-msgstr "Визначити повноекранний режим"
+msgstr "Визначати повноекранний режим"
 
 msgid "ydotool path"
-msgstr "шлях ydotool"
+msgstr "Шлях до ydotool"
 
 msgid "xdotool path"
-msgstr "шлях xdotool"
+msgstr "Шлях до xdotool"
 
 msgid "Settings directory: {}"
 msgstr "Каталог налаштувань: {}"
@@ -210,19 +210,19 @@ msgid "Settings saved"
 msgstr "Налаштування збережено"
 
 msgid "Enter a timeout from 50 to 1000 milliseconds"
-msgstr "Введіть час очікування від 50 до 1000 мілісекунд"
+msgstr "Введіть тайм-аут від 50 до 1000 мілісекунд"
 
 msgid "Rules"
-msgstr "правила"
+msgstr "Правила"
 
 msgid "Remove"
 msgstr "Вилучити"
 
 msgid "Move up"
-msgstr "Рухатися вгору"
+msgstr "Перемістити вгору"
 
 msgid "Move down"
-msgstr "Рухатися вниз"
+msgstr "Перемістити вниз"
 
 msgid "Enabled"
 msgstr "Увімкнено"
@@ -231,22 +231,22 @@ msgid "Trigger key"
 msgstr "Клавіша тригера"
 
 msgid "Tap action"
-msgstr "Натисніть дію"
+msgstr "Дія при натисканні"
 
 msgid "Layout conditions (comma separated)"
-msgstr "Умови макета (розділені комами)"
+msgstr "Умови розкладки (через кому)"
 
 msgid "App whitelist (comma separated)"
-msgstr "Білий список програм (розділені комами)"
+msgstr "Білий список програм (через кому)"
 
 msgid "App blacklist (comma separated)"
-msgstr "Чорний список програм (розділені комами)"
+msgstr "Чорний список програм (через кому)"
 
 msgid "Isolate"
 msgstr "Ізолювати"
 
 msgid "Hold for"
-msgstr "Зачекайте"
+msgstr "Утримувати"
 
 msgid "Swallow tap"
 msgstr "Подавити натискання"
@@ -267,25 +267,25 @@ msgid "Define how physical keys activate layers or run actions."
 msgstr "Визначте, як фізичні клавіші активують шари або запускають дії."
 
 msgid "Add rule"
-msgstr "Додайте правило"
+msgstr "Додати правило"
 
 msgid "Not set"
 msgstr "Не встановлено"
 
 msgid "Layer (hold)"
-msgstr "Шар (утримувати)"
+msgstr "Шар (утримання)"
 
 msgid "Double-tap action"
-msgstr "Подвійне торкання"
+msgstr "Дія при подвійному натисканні"
 
 msgid "Hold button"
-msgstr "Кнопка утримання"
+msgstr "Утримувана кнопка"
 
 msgid "Default"
 msgstr "За замовчуванням"
 
 msgid "Advanced"
-msgstr "Додатково"
+msgstr "Розширені"
 
 msgid "Choose key"
 msgstr "Виберіть клавішу"
@@ -354,7 +354,7 @@ msgid "Name"
 msgstr "Ім'я"
 
 msgid "Description"
-msgstr "опис"
+msgstr "Опис"
 
 msgid "Transparent"
 msgstr "Прозорий"
@@ -381,7 +381,7 @@ msgid "Enter a key code"
 msgstr "Введіть код клавіші"
 
 msgid "Native"
-msgstr "Звичайна дія"
+msgstr "Нативна дія"
 
 msgid "Layer saved"
 msgstr "Шар збережено"
@@ -393,10 +393,10 @@ msgid "Built-in macros"
 msgstr "Вбудовані макроси"
 
 msgid "Macro ID"
-msgstr "Ідентифікатор макросу"
+msgstr "ID макросу"
 
 msgid "Copy ID"
-msgstr "Копіювати ідентифікатор"
+msgstr "Копіювати ID"
 
 msgid "Steps"
 msgstr "Кроки"
@@ -405,24 +405,22 @@ msgid "Add step"
 msgstr "Додати крок"
 
 msgid "Add pause"
-msgstr "Додайте паузу"
+msgstr "Додати паузу"
 
 msgid "Macro ID must contain 1–64 letters, digits, underscores or hyphens"
-msgstr ""
-"Ідентифікатор макросу має містити 1–64 літери, цифри, підкреслення або "
-"дефіси"
+msgstr "ID макросу має містити 1–64 літери, цифри, підкреслення або дефіси"
 
 msgid "Macro ID is already in use"
-msgstr "Ідентифікатор макросу вже використовується"
+msgstr "ID макросу вже використовується"
 
 msgid "Macro delays must be between 0 and 2000 ms"
-msgstr "Макрозатримки мають бути від 0 до 2000 мс"
+msgstr "Затримки макросу мають бути від 0 до 2000 мс"
 
 msgid "Pause must be between 1 and 10000 ms"
 msgstr "Пауза має бути від 1 до 10000 мс"
 
 msgid "Unknown key or shortcut in macro step"
-msgstr "Невідома клавіша або ярлик на кроці макросу"
+msgstr "Невідома клавіша або комбінація в кроці макросу"
 
 msgid "Macro references cannot form a cycle"
 msgstr "Посилання на макроси не можуть утворювати цикл"
@@ -440,13 +438,13 @@ msgid "Page name"
 msgstr "Назва сторінки"
 
 msgid "Emoji cells accept at most 100 Unicode code points."
-msgstr "Комірка емодзі вміщує не більше 100 кодових точок Unicode."
+msgstr "Клітинка емодзі вміщує не більше 100 кодових точок Unicode."
 
 msgid "Command ID: 1–64 letters, digits, underscores or hyphens."
-msgstr "Ідентифікатор команди: 1–64 літери, цифри, підкреслення або дефіси."
+msgstr "ID команди: 1–64 літери, цифри, підкреслення або дефіси."
 
 msgid "Command IDs must be unique."
-msgstr "Ідентифікатори команд мають бути унікальними."
+msgstr "ID команд мають бути унікальними."
 
 msgid "Enter a shell command."
 msgstr "Введіть команду оболонки."
@@ -461,13 +459,13 @@ msgid "Please wait…"
 msgstr "Будь ласка, зачекайте…"
 
 msgid "Stop"
-msgstr "СТІЙ"
+msgstr "Зупинити"
 
 msgid "Start"
-msgstr "старт"
+msgstr "Запустити"
 
 msgid "Custom keymap"
-msgstr "Нестандартний Keymap"
+msgstr "Власний Keymap"
 
 msgid "Base keyboard"
 msgstr "Базова клавіатура"
@@ -484,10 +482,10 @@ msgstr ""
 "клавіатуру."
 
 msgid "Running"
-msgstr "Біг"
+msgstr "Працює"
 
 msgid "Stopped"
-msgstr "Зупинився"
+msgstr "Зупинено"
 
 msgid "Keymap library updated"
 msgstr "Оновлено бібліотеку Keymap"
@@ -496,22 +494,22 @@ msgid "Select a keymap"
 msgstr "Виберіть Keymap"
 
 msgid "Keymap changed on disk; select it again"
-msgstr "Keymap змінена на диску; виберіть його знову"
+msgstr "Keymap змінено на диску; виберіть його знову"
 
 msgid "Any game mode"
-msgstr "Будь-який режим гри"
+msgstr "Будь-який ігровий режим"
 
 msgid "Game mode on"
 msgstr "Ігровий режим увімкнено"
 
 msgid "Game mode off"
-msgstr "Режим гри вимкнено"
+msgstr "Ігровий режим вимкнено"
 
 msgid "System keyboard layouts (comma separated)"
-msgstr "Keymap системи (розділені комами)"
+msgstr "Розкладки клавіатури системи (через кому)"
 
 msgid "Applications (comma separated)"
-msgstr "Додатки (через кому)"
+msgstr "Програми (через кому)"
 
 msgid "Active"
 msgstr "Активний"
@@ -523,13 +521,13 @@ msgid "Editing"
 msgstr "Редагування"
 
 msgid "Activate"
-msgstr "активувати"
+msgstr "Активувати"
 
 msgid "Delete keymap?"
 msgstr "Видалити Keymap?"
 
 msgid "Keymap details"
-msgstr "Деталі Keymap"
+msgstr "Властивості Keymap"
 
 msgid "Do not use when"
 msgstr "Не використовуйте, коли"
@@ -550,7 +548,7 @@ msgid "A keymap with this name already exists."
 msgstr "Keymap із такою назвою вже існує."
 
 msgid "Add a description…"
-msgstr "Додайте опис…"
+msgstr "Додати опис…"
 
 msgid "Create"
 msgstr "Створити"
@@ -565,10 +563,10 @@ msgid "Discard changes"
 msgstr "Скасувати зміни"
 
 msgid "Make active"
-msgstr "Зробіть активним"
+msgstr "Зробити активним"
 
 msgid "Single: the keymap you make active works everywhere."
-msgstr "Один: Keymap, який ви активуєте, працює скрізь."
+msgstr "Один: Keymap, який ви зробили активним, працює всюди."
 
 msgid "Not used in automatic mode"
 msgstr "В автоматичному режимі не використовується"
@@ -597,7 +595,7 @@ msgid "You are editing “{}”, but “{}” is active."
 msgstr "Ви редагуєте «{}», але «{}» активний."
 
 msgid "You are editing “{}”; no keymap is active."
-msgstr "Ви редагуєте “{}”; жоден Keymap не активний."
+msgstr "Ви редагуєте «{}»; жоден Keymap не активний."
 
 msgid "game mode off"
 msgstr "режим гри вимкнено"
@@ -609,7 +607,7 @@ msgid "{} (copy)"
 msgstr "{} (копія)"
 
 msgid "“{}” has unsaved changes. Save them before switching?"
-msgstr "“{}” має незбережені зміни. Зберегти їх перед переходом?"
+msgstr "«{}» має незбережені зміни. Зберегти їх перед перемиканням?"
 
 msgid "Keymap mode"
 msgstr "Режим Keymap"
@@ -639,16 +637,16 @@ msgid "Press a key or shortcut, then release all keys to finish capture."
 msgstr "Натисніть клавішу або комбінацію, потім відпустіть усі клавіші для завершення захоплення."
 
 msgid "Choose a valid key or action."
-msgstr "Виберіть дійсну клавішу або дію."
+msgstr "Виберіть коректну клавішу або дію."
 
 msgid "Search keys and actions"
-msgstr "Клавіші пошуку та дії"
+msgstr "Пошук клавіш і дій"
 
 msgid "Search keys"
 msgstr "Пошук клавіш"
 
 msgid "Hold action"
-msgstr "Тримайте дію"
+msgstr "Дія при утриманні"
 
 msgid "Macro step"
 msgstr "Крок макросу"
@@ -679,7 +677,7 @@ msgstr "Клавіша тригера:"
 msgid "{n} line"
 msgid_plural "{n} lines"
 msgstr[0] "{n} рядок"
-msgstr[1] "{n} лінії"
+msgstr[1] "{n} рядки"
 msgstr[2] "{n} рядків"
 
 msgid "Modifiers"
@@ -689,7 +687,7 @@ msgid "Letters, digits and symbols"
 msgstr "Букви, цифри та символи"
 
 msgid "Control keys"
-msgstr "Клавіші управління"
+msgstr "Клавіші керування"
 
 msgid "Navigation and numpad"
 msgstr "Навігація та цифрова клавіатура"
@@ -704,7 +702,7 @@ msgid "System and laptop"
 msgstr "Система і ноутбук"
 
 msgid "Mouse"
-msgstr "миша"
+msgstr "Миша"
 
 msgid "Other keys"
 msgstr "Інші клавіші"
@@ -728,7 +726,7 @@ msgid "Pause"
 msgstr "Пауза"
 
 msgid "Literal text (text: prefix is added automatically)"
-msgstr "Дослівний текст (текст: префікс додається автоматично)"
+msgstr "Дослівний текст (префікс text: додається автоматично)"
 
 msgid "Pause in milliseconds ({}–{})"
 msgstr "Пауза в мілісекундах ({0}–{1})"
@@ -737,10 +735,10 @@ msgid "No matching items"
 msgstr "Немає відповідних елементів"
 
 msgid "Show Quick Action Menu page {}"
-msgstr "Показати сторінку меню швидких дій {}"
+msgstr "Показати сторінку {} меню швидких дій"
 
 msgid "Show Emoji & Symbols menu page {}"
-msgstr "Показати сторінку меню Emoji & Symbols {}"
+msgstr "Показати сторінку {} меню «Емодзі та символи»"
 
 msgid "Switch to desktop {}"
 msgstr "Перейти на робочий стіл {}"
@@ -764,7 +762,7 @@ msgid "Maximize window horizontally"
 msgstr "Розгорнути вікно по горизонталі"
 
 msgid "Keep window above others"
-msgstr "Тримайте вікно над іншими"
+msgstr "Тримати вікно над іншими"
 
 msgid "Move window to next desktop"
 msgstr "Перемістити вікно на наступний робочий стіл"
@@ -773,16 +771,16 @@ msgid "Show desktop"
 msgstr "Показати робочий стіл"
 
 msgid "Window overview"
-msgstr "Огляд вікна"
+msgstr "Огляд вікон"
 
 msgid "Open application launcher"
-msgstr "Відкрийте панель запуску програм"
+msgstr "Відкрити меню запуску програм"
 
 msgid "Turn off screen"
-msgstr "Вимкніть екран"
+msgstr "Вимкнути екран"
 
 msgid "Switch to keyboard layout {}"
-msgstr "Перемкнути розкладку клавіатури на {}"
+msgstr "Перемкнути на розкладку {}"
 
 msgid "Layer"
 msgstr "Шар"
@@ -791,16 +789,16 @@ msgid "Delete layer"
 msgstr "Видалити шар"
 
 msgid "Create new layer"
-msgstr "Створіть новий шар"
+msgstr "Створити новий шар"
 
 msgid "Layer description"
 msgstr "Опис шару"
 
 msgid "Add description"
-msgstr "Додайте опис"
+msgstr "Додати опис"
 
 msgid "Type to test..."
-msgstr "Введіть для перевірки..."
+msgstr "Друкуйте для перевірки..."
 
 msgid "Ignore key"
 msgstr "Ігнорувати клавішу"
@@ -818,10 +816,10 @@ msgid "Key"
 msgstr "Клавіша"
 
 msgid "US layout"
-msgstr "Макет США"
+msgstr "Розкладка США"
 
 msgid "Tecloid codes"
-msgstr "коди Tecloid"
+msgstr "Коди Tecloid"
 
 msgid "No extra keys for this layer yet."
 msgstr "Для цього шару ще немає додаткових клавіш."
@@ -837,11 +835,7 @@ msgid ""
 "Display modes affect labels only — the key code stays the same. “US layout” "
 "shows standard letter labels for visual reference. “Tecloid codes” shows app-"
 "specific codes (e.g. KeyA, ArrowLeft)."
-msgstr ""
-"Режими відображення впливають лише на мітки — код клавіші залишається "
-"незмінним. «Розклад США» показує стандартні написи літер для візуального "
-"ознайомлення. «Коди Tecloid» показує коди для певних програм (наприклад, KeyA, "
-"ArrowLeft)."
+msgstr "Режими відображення змінюють лише підписи — код клавіші залишається тим самим. «Розкладка США» показує стандартні літери для орієнтування. «Коди Tecloid» показує коди, специфічні для застосунку (наприклад, KeyA, ArrowLeft)."
 
 msgid "(copy)"
 msgstr "(копія)"
@@ -858,20 +852,15 @@ msgstr "Тварини та природа"
 msgid ""
 "Build reusable sequences from key chords, text actions, commands, or system "
 "actions. Steps run in order with the configured pause between them."
-msgstr ""
-"Створюйте багаторазові послідовності з ключових акордів, текстових дій, "
-"команд або системних дій. Кроки виконуються по порядку з налаштованою паузою"
-" між ними."
+msgstr "Створюйте послідовності для повторного використання з комбінацій клавіш, текстових дій, команд або системних дій. Кроки виконуються по черзі з налаштованою паузою між ними."
 
 msgid ""
 "Built-in macros that cannot be edited. To customize, create a user macro "
 "based on one."
-msgstr ""
-"Вбудовані макроси, які не можна редагувати. Щоб налаштувати, створіть макрос"
-" користувача на основі одного."
+msgstr "Вбудовані макроси, які не можна редагувати. Щоб змінити, створіть власний макрос на основі одного з них."
 
 msgid "Cell {}"
-msgstr "Комірка {}"
+msgstr "Клітинка {}"
 
 msgid "Command name"
 msgstr "Назва команди"
@@ -907,7 +896,7 @@ msgid "Emoji & Symbols"
 msgstr "Емодзі та символи"
 
 msgid "Emoji Symbols"
-msgstr "Символи Emoji"
+msgstr "Символи емодзі"
 
 msgid "Emoji, symbol, or any text"
 msgstr "Емодзі, символ або будь-який текст"
@@ -916,13 +905,13 @@ msgid "Empty step — pick an action or remove it."
 msgstr "Порожній крок — виберіть дію або видаліть її."
 
 msgid "Fix the existing macro errors first"
-msgstr "Спочатку виправте існуючі помилки макросу"
+msgstr "Спочатку виправте наявні помилки макросів"
 
 msgid "Food & Drink"
 msgstr "Їжа та напої"
 
 msgid "Human-readable macro name, shown in picker lists."
-msgstr "Зрозуміле ім’я макросу, що відображається в списках вибору."
+msgstr "Зрозуміла назва макросу, що показується у списках вибору."
 
 msgid "ID"
 msgstr "ID"
@@ -943,7 +932,7 @@ msgid "Move page left"
 msgstr "Перемістити сторінку вліво"
 
 msgid "Move page right"
-msgstr "Перемістити сторінку праворуч"
+msgstr "Перемістити сторінку вправо"
 
 msgid "New macro"
 msgstr "Новий макрос"
@@ -952,21 +941,17 @@ msgid "No macros yet. Click \"New macro\" to create the first one."
 msgstr "Ще немає макросів. Натисніть «Новий макрос», щоб створити перший."
 
 msgid "No steps yet. Each step — one chord or action."
-msgstr "Ще немає кроків. Кожен крок — один акорд або дія."
+msgstr "Ще немає кроків. Кожен крок — одна комбінація клавіш або дія."
 
 msgid ""
 "Opened by the app:showEmojiMenuN actions, where N is the page position: "
 "reordering pages changes which page a key opens. Each cell can hold an "
 "emoji, a UTF symbol (e.g. ≠), any other character (e.g. №), or a short "
 "phrase (e.g. \"// TODO: \")."
-msgstr ""
-"Відкривається за допомогою дій app:showEmojiMenuN, де N – позиція сторінки: "
-"зміна порядку сторінок змінює сторінку, яку відкриває клавіша. Кожна "
-"клітинка може містити емодзі, символ UTF (наприклад, ≠), будь-який інший "
-"символ (наприклад, №) або коротку фразу (наприклад, \"// TODO: \")."
+msgstr "Відкривається діями app:showEmojiMenuN, де N — позиція сторінки: зміна порядку сторінок змінює, яку сторінку відкриває клавіша. Кожна клітинка може містити емодзі, символ UTF (наприклад, ≠), будь-який інший символ (наприклад, №) або коротку фразу (наприклад, «// TODO: »)."
 
 msgid "Opened by the app:showQuickMenu1...5 actions."
-msgstr "Відкрито програмою:showQuickMenu1...5 дії."
+msgstr "Відкривається діями app:showQuickMenu1...5."
 
 msgid "Page"
 msgstr "Сторінка"
@@ -981,7 +966,7 @@ msgid "People & Gestures"
 msgstr "Люди та жести"
 
 msgid "Per-macro pause between steps. Defaults to the Settings value."
-msgstr "Пауза на макрос між кроками. За замовчуванням значення параметрів."
+msgstr "Пауза між кроками для цього макросу. За замовчуванням — значення з налаштувань."
 
 msgid "Pick an action"
 msgstr "Виберіть дію"
@@ -993,7 +978,7 @@ msgid ""
 "Reusable shell commands for the current keymap. On Linux they run through sh"
 " -lc after you explicitly allow them. Shell commands run one at a time, with"
 " a 30-second limit, in your home directory."
-msgstr "Повторно використовувані команди оболонки для поточного Keymap. У Linux вони запускаються через sh -lc після того, як ви явно дозволили їх. Команди оболонки виконуються по черзі з обмеженням у 30 секунд у вашому домашньому каталозі."
+msgstr "Команди оболонки для повторного використання в поточному Keymap. У Linux вони запускаються через sh -lc після того, як ви явно їх дозволите. Команди оболонки виконуються по одній, з обмеженням 30 секунд, у вашому домашньому каталозі."
 
 msgid "Shell commands are allowed for this version of the current keymap."
 msgstr "Команди оболонки дозволені для цієї версії поточного Keymap."
@@ -1004,12 +989,10 @@ msgstr "Смайлики та емоції"
 msgid ""
 "The command will be deleted. Keys or macros that reference cmd:{} will stop "
 "working."
-msgstr ""
-"Команда буде видалена. Ключі або макроси, які посилаються на cmd:{}, "
-"перестануть працювати."
+msgstr "Команду буде видалено. Клавіші або макроси, що посилаються на cmd:{}, перестануть працювати."
 
 msgid "The macro will be deleted. References macro:{} will stop working."
-msgstr "Макрос буде видалено. Макрос посилань: {} перестане працювати."
+msgstr "Макрос буде видалено. Посилання macro:{} перестануть працювати."
 
 msgid "The page and all assigned cells on it will be deleted."
 msgstr "Сторінка та всі призначені клітинки на ній будуть видалені."
@@ -1019,7 +1002,7 @@ msgid ""
 "especially in keymaps from other people. Approval applies to the reviewed "
 "command definitions and resets when the command set, IDs, or Linux scripts "
 "change."
-msgstr "Цей Keymap містить сценарії оболонки. Прочитайте кожен сценарій, перш ніж дозволити їх, особливо в Keymap інших людей. Схвалення застосовується до перевірених визначень команд і скидається, коли змінюється набір команд, ідентифікатори або сценарії Linux."
+msgstr "Цей Keymap містить скрипти оболонки. Прочитайте кожен скрипт перед дозволом, особливо в Keymap від інших людей. Дозвіл стосується перевірених визначень команд і скидається, коли змінюється набір команд, ID або Linux-скрипти."
 
 msgid "This step will be removed from the macro."
 msgstr "Цей крок буде видалено з макросу."
@@ -1027,9 +1010,7 @@ msgstr "Цей крок буде видалено з макросу."
 msgid ""
 "Time between pressing a modifier and the main key within one step. Defaults "
 "to the Settings value."
-msgstr ""
-"Час між натисканням модифікатора та головної клавіші в межах одного кроку. "
-"За замовчуванням значення параметрів."
+msgstr "Час між натисканням модифікатора й основної клавіші в межах одного кроку. За замовчуванням — значення з налаштувань."
 
 msgid "Travel & Places"
 msgstr "Подорожі та місця"
@@ -1044,22 +1025,22 @@ msgid "Texts"
 msgstr "Тексти"
 
 msgid "Non-breaking space"
-msgstr "Нерозривний простір"
+msgstr "Нерозривний пробіл"
 
 msgid "continue"
-msgstr "продовжувати"
+msgstr "продовжуй"
 
 msgid "do all you recommended"
-msgstr "робити все, що ти рекомендував"
+msgstr "зроби все, що ти порадив"
 
 msgid "fix the errors above"
-msgstr "виправте помилки вище"
+msgstr "виправ помилки вище"
 
 msgid "I'll call you back later"
-msgstr "Я передзвоню тобі пізніше"
+msgstr "Я передзвоню пізніше"
 
 msgid "Thanks!"
-msgstr "дякую"
+msgstr "Дякую!"
 
 msgid "OK, got it 👍"
 msgstr "Добре, зрозуміло 👍"
@@ -1068,11 +1049,7 @@ msgid ""
 "Unique identifier used in references like macro:<id>. To bind this macro to "
 "a key, choose that action on the Layers or Rules tab. Change the ID only "
 "when nothing uses this macro."
-msgstr ""
-"Унікальний ідентифікатор, який використовується в посиланнях, таких як "
-"macro:<id>. Щоб прив’язати цей макрос до ключа, виберіть цю дію на вкладці "
-"«Шари» або «Правила». Змінюйте ідентифікатор лише тоді, коли ніщо не "
-"використовує цей макрос."
+msgstr "Унікальний ідентифікатор, що використовується в посиланнях на кшталт macro:<id>. Щоб призначити цей макрос клавіші, виберіть цю дію на вкладці «Шари» або «Правила». Змінюйте ID лише тоді, коли цей макрос ніде не використовується."
 
 msgid "Used in:"
 msgstr "Використовується в:"
@@ -1087,7 +1064,7 @@ msgid "e.g. Next Track"
 msgstr "напр. Наступний трек"
 
 msgid "ms"
-msgstr "РС"
+msgstr "мс"
 
 msgid "Rule saved"
 msgstr "Правило збережено"
@@ -1096,33 +1073,29 @@ msgid "Search layers"
 msgstr "Пошук шарів"
 
 msgid "Set"
-msgstr "встановити"
+msgstr "Встановити"
 
 msgid "Start the mapper to run actions from the menus"
-msgstr "Запустіть програму відображення, щоб виконати дії з меню"
+msgstr "Запустіть мапер, щоб виконувати дії з меню"
 
 msgid ""
 "The text was not typed: the keyboard layout lacks some of its characters, "
 "such as emoji. Choose a typing method with the clipboard."
-msgstr ""
-"Текст не набирався: на розкладці клавіатури відсутні деякі його символи, "
-"наприклад емодзі. Виберіть метод введення з буфера обміну."
+msgstr "Текст не введено: у розкладці клавіатури бракує деяких його символів, наприклад емодзі. Виберіть метод введення з буфером обміну."
 
 msgid "The text was not typed: the active keyboard layout is unknown."
-msgstr "Текст не набраний: активна розкладка клавіатури невідома."
+msgstr "Текст не введено: активна розкладка клавіатури невідома."
 
 msgid ""
 "The text was not typed: the typing method is unavailable ({}). Restart the "
 "mapper to try again."
-msgstr ""
-"Текст не набраний: метод набору недоступний ({}). Перезапустіть програму "
-"картографування, щоб повторити спробу."
+msgstr "Текст не введено: метод введення недоступний ({}). Перезапустіть мапер, щоб спробувати знову."
 
 msgid "The text was not typed: safe clipboard access failed ({})."
-msgstr "Текст не введено: безпечний доступ до буфера обміну не вдалося ({})."
+msgstr "Текст не введено: не вдалося безпечно отримати доступ до буфера обміну ({})."
 
 msgid "The text was not typed: {}"
-msgstr "Текст не набирався: {}"
+msgstr "Текст не введено: {}"
 
 msgid "The keymap file is empty"
 msgstr "Файл Keymap порожній"
@@ -1140,7 +1113,7 @@ msgid "Open for editing (unsaved)"
 msgstr "Відкрити для редагування (незбережено)"
 
 msgid "Open for editing"
-msgstr "Відкритий для редагування"
+msgstr "Відкрити для редагування"
 
 msgid "Keymap name"
 msgstr "Назва Keymap"
@@ -1152,19 +1125,19 @@ msgid "No system languages detected"
 msgstr "Системні мови не виявлено"
 
 msgid "Applications"
-msgstr "Додатки"
+msgstr "Програми"
 
 msgid "“{}” will be deleted. This cannot be undone."
-msgstr "“{}” буде видалено. Це неможливо скасувати."
+msgstr "«{}» буде видалено. Цю дію неможливо скасувати."
 
 msgid "Reset current changes"
 msgstr "Скинути поточні зміни"
 
 msgid "Available"
-msgstr "в наявності"
+msgstr "Доступно"
 
 msgid "Unavailable"
-msgstr "Недоступний"
+msgstr "Недоступно"
 
 msgid "Not implemented"
 msgstr "Не реалізовано"
@@ -1185,14 +1158,13 @@ msgid "No access to /dev/uinput. Run install-linux.sh permissions or reinstall t
 msgstr "Немає доступу до /dev/uinput. Виконайте install-linux.sh permissions або перевстановіть пакет."
 
 msgid "Launch on startup"
-msgstr "Запуск під час запуску"
+msgstr "Запускати під час входу в систему"
 
 msgid "Start the mapper on launch"
-msgstr "Запускати мапер під час запуску"
+msgstr "Запускати мапер під час старту застосунку"
 
 msgid "No keyboard is selected, so the mapper cannot start."
-msgstr ""
-"Не вибрано жодної клавіатури, тому програму відображення не можна запустити."
+msgstr "Клавіатуру не вибрано, тому мапер не може запуститися."
 
 msgid "Choose a keyboard"
 msgstr "Виберіть клавіатуру"
@@ -1204,16 +1176,16 @@ msgid "Keyboard selected"
 msgstr "Вибрана клавіатура"
 
 msgid "Choose the keyboard to remap"
-msgstr "Виберіть клавіатуру для переналаштування"
+msgstr "Виберіть клавіатуру для перепризначення"
 
 msgid "Change"
-msgstr "Зміна"
+msgstr "Змінити"
 
 msgid "Add a keymap"
 msgstr "Додайте Keymap"
 
 msgid "Press Start at the top to apply it"
-msgstr "Натисніть «Пуск» угорі, щоб застосувати його"
+msgstr "Натисніть «Запустити» вгорі, щоб застосувати його"
 
 msgid "No active keymap"
 msgstr "Немає активного Keymap"
@@ -1228,10 +1200,10 @@ msgid "Current keyboard layout in the system"
 msgstr "Поточна розкладка клавіатури в системі"
 
 msgid "Game mode: active"
-msgstr "Режим гри: активний"
+msgstr "Ігровий режим: активний"
 
 msgid "Game mode: inactive"
-msgstr "Режим гри: неактивний"
+msgstr "Ігровий режим: неактивний"
 
 msgid "Active: {}"
 msgstr "Активний: {}"
@@ -1246,13 +1218,13 @@ msgid "Swallow key"
 msgstr "Подавити клавішу"
 
 msgid "Pass through"
-msgstr "Пройти"
+msgstr "Пропустити"
 
 msgid "Double tap: {} ms"
-msgstr "Подвійний дотик: {} мс"
+msgstr "Подвійне натискання: {} мс"
 
 msgid "Custom hold options"
-msgstr "Спеціальні параметри утримання"
+msgstr "Власні параметри утримання"
 
 msgid "Leave empty to use the global timing settings."
 msgstr ""
@@ -1268,9 +1240,7 @@ msgstr ""
 msgid ""
 "Defers the held action until one of these keys is pressed in the layer. "
 "Requires a hold action and a layer."
-msgstr ""
-"Відкладає утримувану дію, доки не буде натиснуто одну з цих клавіш у шарі. "
-"Потрібна дія утримання та шар."
+msgstr "Відкладає дію утримання, доки в шарі не буде натиснуто одну з цих клавіш. Потрібні дія утримання та шар."
 
 msgid "Delete rule"
 msgstr "Видалити правило"
@@ -1278,9 +1248,7 @@ msgstr "Видалити правило"
 msgid ""
 "Clear restores normal key behavior. Swallow prevents the key from reaching "
 "the application."
-msgstr ""
-"Clear відновлює нормальну роботу клавіш. Swallow запобігає доступу ключа до "
-"програми."
+msgstr "«Очистити» повертає звичайну поведінку клавіші. «Подавити» не дає клавіші дійти до програми."
 
 msgctxt "Game mode control"
 msgid "Auto"
@@ -1301,30 +1269,27 @@ msgid "Auto: detection unavailable"
 msgstr "Авто: виявлення недоступне"
 
 msgid "Auto: game mode inactive"
-msgstr "Авто: режим гри неактивний"
+msgstr "Авто: ігровий режим неактивний"
 
 msgid "Auto: GameMode daemon active"
 msgstr "Авто: демон GameMode активний"
 
 msgid "Auto: matched {}"
-msgstr "Авто: відповідність {}"
+msgstr "Авто: збіг із {}"
 
 msgid "Auto: fullscreen window active"
 msgstr "Авто: повноекранне вікно активне"
 
 msgid "Auto: excluded by {}"
-msgstr "Авто: виключено {}"
+msgstr "Авто: виключено правилом {}"
 
 msgid ""
 "Fullscreen detection is not supported in this session. Use process rules or "
 "On/Off."
-msgstr ""
-"Повноекранне виявлення не підтримується в цьому сеансі. Використовуйте "
-"правила процесу або Увімк./Вимк."
+msgstr "Визначення повноекранного режиму не підтримується в цьому сеансі. Використовуйте правила процесів або Увімк./Вимк."
 
 msgid "Fullscreen detection tools are missing or could not query the session."
-msgstr ""
-"Інструменти повноекранного виявлення відсутні або не можуть запитати сеанс."
+msgstr "Інструменти визначення повноекранного режиму відсутні або не змогли опитати сеанс."
 
 msgid "Running processes: {0} · Active window: {1}"
 msgstr "Запущені процеси: {0} · Активне вікно: {1}"
@@ -1348,7 +1313,7 @@ msgid "Mode"
 msgstr "Режим"
 
 msgid "New"
-msgstr "новий"
+msgstr "Новий"
 
 msgid "Auto"
 msgstr "Автоматично"
@@ -1357,10 +1322,10 @@ msgid "This key assignment will be removed from the layer."
 msgstr "Це призначення клавіші буде видалено з шару."
 
 msgid "Command started: {}"
-msgstr "Команда розпочата: {}"
+msgstr "Команду запущено: {}"
 
 msgid "Unavailable on this platform or desktop"
-msgstr "Недоступно на цій платформі чи робочому столі"
+msgstr "Недоступно на цій платформі або в цьому робочому середовищі"
 
 msgid "This action is not supported on macOS"
 msgstr "Ця дія не підтримується в macOS"
@@ -1374,26 +1339,20 @@ msgstr "Виберіть фізичний пристрій, події яког�
 msgid ""
 "Select the mouse so the mapper can see extra buttons and clicks. Pointer "
 "movement is not affected."
-msgstr ""
-"Виберіть мишу, щоб картограф міг побачити додаткові кнопки та клацання. Рух "
-"покажчика не впливає."
+msgstr "Виберіть мишу, щоб мапер бачив додаткові кнопки та клацання. Рух покажчика не змінюється."
 
 msgid ""
 "The mouse is not fully intercepted yet: a remapped extra button can emit the"
 " new action, but its native system or app action may still run. If that gets"
 " in the way, disable the native action for that button in your system, "
 "browser, or driver settings."
-msgstr ""
-"Миша ще не повністю перехоплена: переназначена додаткова кнопка може "
-"виконувати нову дію, але її рідна системна або програма дія може все ще "
-"виконуватися. Якщо це заважає, вимкніть власну дію для цієї кнопки в "
-"налаштуваннях системи, браузера чи драйвера."
+msgstr "Миша ще не перехоплюється повністю: перепризначена додаткова кнопка може виконати нову дію, але її рідна дія системи чи програми також може спрацювати. Якщо це заважає, вимкніть рідну дію цієї кнопки в налаштуваннях системи, браузера або драйвера."
 
 msgid "Refresh device list"
 msgstr "Оновити список пристроїв"
 
 msgid "Mouse (optional)"
-msgstr "миша (необов'язково)"
+msgstr "Миша (необов'язково)"
 
 msgid "Not selected"
 msgstr "Не вибрано"
@@ -1411,7 +1370,7 @@ msgid "Search devices"
 msgstr "Пошук пристроїв"
 
 msgid "Single"
-msgstr "неодружений"
+msgstr "Один"
 
 msgid "{n} rule"
 msgid_plural "{n} rules"
@@ -1428,14 +1387,14 @@ msgstr[2] "{n} шарів"
 msgid "{n} emoji page"
 msgid_plural "{n} emoji pages"
 msgstr[0] "{n} сторінка емодзі"
-msgstr[1] "{n} сторінки emoji"
-msgstr[2] "{n} сторінок emoji"
+msgstr[1] "{n} сторінки емодзі"
+msgstr[2] "{n} сторінок емодзі"
 
 msgid "{n} action page"
 msgid_plural "{n} action pages"
-msgstr[0] "{n} сторінка дії"
-msgstr[1] "{n} сторінки дії"
-msgstr[2] "{n} сторінок дії"
+msgstr[0] "{n} сторінка дій"
+msgstr[1] "{n} сторінки дій"
+msgstr[2] "{n} сторінок дій"
 
 msgid "{n} macro"
 msgid_plural "{n} macros"
@@ -1453,7 +1412,7 @@ msgid "Main"
 msgstr "Головна"
 
 msgid "Saved assignment: {}"
-msgstr "Збережене завдання: {}"
+msgstr "Збережене призначення: {}"
 
 msgid "Behavior"
 msgstr "Поведінка"
@@ -1469,7 +1428,7 @@ msgstr "Активувати лише шар"
 
 
 msgid "Suppress"
-msgstr "Придушити"
+msgstr "Подавити"
 
 msgid "Assign held key"
 msgstr "Призначити утримувану клавішу"
@@ -1481,22 +1440,22 @@ msgid "The key will not reach the application."
 msgstr "Клавіша не потрапить до програми."
 
 msgid "Use the assignment from the lower layer or base keymap."
-msgstr "Використовуйте призначення з нижнього шару або базового Keymap."
+msgstr "Використовувати призначення з нижнього шару або базового Keymap."
 
 msgid "Do not assign a separate action to this gesture."
-msgstr "Не призначайте цьому жесту окрему дію."
+msgstr "Не призначати цьому жесту окрему дію."
 
 msgid "Holding activates the selected layer. The original key is not sent."
-msgstr "Утримання активує вибраний шар. Оригінальний ключ не надсилається."
+msgstr "Утримання активує вибраний шар. Оригінальна клавіша не надсилається."
 
 msgid "Send the original key to the application."
-msgstr "Надішліть оригінальний ключ до програми."
+msgstr "Надіслати оригінальну клавішу програмі."
 
 msgid "Capture shortcut"
-msgstr "Ярлик захоплення"
+msgstr "Захопити комбінацію"
 
 msgid "Choose a valid trigger key."
-msgstr "Виберіть дійсний ключ тригера."
+msgstr "Виберіть коректну клавішу тригера."
 
 msgid "Choose a valid action."
 msgstr "Виберіть дійсну дію."
@@ -1505,10 +1464,10 @@ msgid "Empty cell"
 msgstr "Порожня клітинка"
 
 msgid "Remove the action from this menu cell."
-msgstr "Видаліть дію з цієї клітинки меню."
+msgstr "Видалити дію з цієї клітинки меню."
 
 msgid "Edit assignment"
-msgstr "Редагувати завдання"
+msgstr "Редагувати призначення"
 
 msgid "Holding also activates the selected layer."
 msgstr "Утримання також активує вибраний шар."
@@ -1519,9 +1478,7 @@ msgstr "Блокувати"
 msgid ""
 "The key press is consumed: the system and the active application will not "
 "receive it."
-msgstr ""
-"Натискання клавіші витрачається: система та активна програма не отримають "
-"її."
+msgstr "Натискання клавіші перехоплюється: система й активна програма його не отримають."
 
 msgid ""
 "The key press passes through unchanged, as if no assignment were configured."
@@ -1529,7 +1486,7 @@ msgstr ""
 "Натискання клавіші проходить без змін, ніби призначення не було налаштовано."
 
 msgid "Capture"
-msgstr "захоплення"
+msgstr "Захопити"
 
 msgid "Unchanged"
 msgstr "Без змін"
@@ -1539,10 +1496,10 @@ msgstr ""
 "Залиште затримку порожньою, щоб використовувати глобальні налаштування."
 
 msgid "Allow command execution"
-msgstr "Дозволити виконання команди"
+msgstr "Дозволити виконання команд"
 
 msgid "No commands are assigned."
-msgstr "Жодні команди не призначені."
+msgstr "Команди не призначено."
 
 msgid "Commands are disabled in Settings."
 msgstr "Команди вимкнено в налаштуваннях."
@@ -1575,17 +1532,15 @@ msgstr ""
 "закінчується, коли будь-яка клавіша відпущена."
 
 msgid "When held"
-msgstr "При проведенні"
+msgstr "При утриманні"
 
 msgid ""
 "Choose a layer active until release, or an action performed once after the "
 "hold duration."
-msgstr ""
-"Виберіть шар, активний до звільнення, або дію, виконану один раз після "
-"тривалості утримання."
+msgstr "Виберіть шар, активний до відпускання, або дію, що виконується один раз після тривалості утримання."
 
 msgid "Nothing"
-msgstr "нічого"
+msgstr "Нічого"
 
 msgid "Activate layer"
 msgstr "Активувати шар"
@@ -1594,13 +1549,13 @@ msgid "Run action"
 msgstr "Запустити дію"
 
 msgid "Long-hold action"
-msgstr "Тривала дія"
+msgstr "Дія при довгому утриманні"
 
 msgid "Runs once after {} s"
-msgstr "Запускається один раз після {} s"
+msgstr "Виконується один раз через {} с"
 
 msgid "Hold another key / combination"
-msgstr "Утримуйте іншу клавішу / комбінацію"
+msgstr "Утримувати іншу клавішу / комбінацію"
 
 msgid "Press a key or combination, then release all keys to finish capture."
 msgstr "Натисніть клавішу або комбінацію, потім відпустіть усі клавіші для завершення захоплення."
@@ -1609,7 +1564,7 @@ msgid "Held key: {}"
 msgstr "Утримувана клавіша: {}"
 
 msgid "Assigned to"
-msgstr "Призначено"
+msgstr "Призначено для"
 
 msgid "Languages"
 msgstr "Мови"
@@ -1621,25 +1576,25 @@ msgid "Preview page"
 msgstr "Попередній перегляд сторінки"
 
 msgid "Page:"
-msgstr "сторінка:"
+msgstr "Сторінка:"
 
 msgid "Keymap “{}” created"
-msgstr "Створено Keymap “{}”."
+msgstr "Keymap «{}» створено"
 
 msgid "Keymap “{}” saved"
-msgstr "Keymap “{}” збережено"
+msgstr "Keymap «{}» збережено"
 
 msgid "Keymap “{}” deleted"
 msgstr "Keymap «{}» видалено"
 
 msgid "Keymap “{}” activated"
-msgstr "Keymap «{}» активований"
+msgstr "Keymap «{}» активовано"
 
 msgid "Could not complete the action"
 msgstr "Не вдалося завершити дію"
 
 msgid "Dismiss notification"
-msgstr "Відхилити сповіщення"
+msgstr "Закрити сповіщення"
 
 msgid "Changes to keymap “{}” discarded"
 msgstr "Зміни в Keymap «{}» скасовано"
@@ -1648,7 +1603,7 @@ msgid "Popup menus are unavailable: {}"
 msgstr "Спливаючі меню недоступні: {}"
 
 msgid "Popup menus are not running. Try opening the menu again."
-msgstr "Спливаючі меню не працюють. Спробуйте знову відкрити меню."
+msgstr "Спливні меню не запущено. Спробуйте відкрити меню ще раз."
 
 msgid "Popup menus are restarting. Try again shortly."
 msgstr "Спливаючі меню перезапускаються. Повторіть спробу незабаром."
@@ -1666,10 +1621,7 @@ msgid ""
 "Mouse buttons, media keys, and other triggers outside the main keyboard "
 "grid. Add a trigger, then choose its action, suppress it, or inherit its "
 "assignment from the lower layer."
-msgstr ""
-"Кнопки миші, мультимедійні клавіші та інші тригери поза основною сіткою "
-"клавіатури. Додайте тригер, а потім виберіть його дію, придушіть його або "
-"успадкуйте його призначення з нижчого рівня."
+msgstr "Кнопки миші, мультимедійні клавіші та інші тригери поза основною сіткою клавіатури. Додайте тригер, потім виберіть його дію, подавіть його або успадкуйте його призначення з нижнього шару."
 
 msgid ""
 "You can enter emoji, any text, or Unicode symbols here. Drag an item from "
@@ -1687,23 +1639,18 @@ msgstr "Високий контраст"
 msgid ""
 "Pure black or white background, stronger text, borders and focus outlines. "
 "Works with the light and dark themes."
-msgstr ""
-"Чистий чорний або білий фон, сильніший текст, рамки та фокусні контури. "
-"Працює зі світлою і темною темами."
+msgstr "Чисто чорне або біле тло, контрастніший текст, рамки та контури фокуса. Працює зі світлою і темною темами."
 
 msgid "Reduce motion"
 msgstr "Зменшити рух"
 
 msgid "Turn off highlight animations in the editor."
-msgstr "Вимкніть анімацію підсвічування в редакторі."
+msgstr "Вимкнути анімацію підсвічування в редакторі."
 
 msgid ""
 "Every control can be reached with Tab and activated with Space or Enter. "
 "Interface size follows the desktop scale factor."
-msgstr ""
-"Кожен елемент керування можна відкрити за допомогою Tab і активувати за "
-"допомогою пробілу або Enter. Розмір інтерфейсу відповідає коефіцієнту "
-"масштабування робочого столу."
+msgstr "До кожного елемента керування можна перейти клавішею Tab і активувати його пробілом або Enter. Розмір інтерфейсу відповідає масштабу робочого столу."
 
 msgid "Always"
 msgstr "Завжди"
@@ -1715,33 +1662,30 @@ msgid "{} s"
 msgstr "{} с"
 
 msgid "{} s (default)"
-msgstr "{} s (за замовчуванням)"
+msgstr "{} с (за замовчуванням)"
 
 msgid "Shell command or path to a script, e.g. playerctl play-pause"
-msgstr ""
-"Команда оболонки або шлях до сценарію, напр. playerctl відтворення-пауза"
+msgstr "Команда оболонки або шлях до скрипту, наприклад playerctl play-pause"
 
 msgid "Runs with sh -lc in the background; the result is not awaited."
-msgstr "Працює з sh -lc у фоновому режимі; результат не очікується."
+msgstr "Виконується через sh -lc у фоні; результат не очікується."
 
 msgid "Choose script…"
-msgstr "Виберіть сценарій…"
+msgstr "Вибрати скрипт…"
 
 msgid "Working directory (optional, home by default)"
-msgstr "Робочий каталог (необов'язково, домашній за замовчуванням)"
+msgstr "Робочий каталог (необов'язково, за замовчуванням домашній)"
 
 msgid "Choose folder…"
-msgstr "Виберіть папку…"
+msgstr "Вибрати теку…"
 
 msgid ""
 "Command execution is turned off. Turn it on in the settings to assign "
 "commands."
-msgstr ""
-"Виконання команд вимкнено. Увімкніть його в налаштуваннях, щоб призначити "
-"команди."
+msgstr "Виконання команд вимкнено. Увімкніть його в налаштуваннях, щоб призначати команди."
 
 msgid "Open command settings"
-msgstr "Відкрийте параметри команди"
+msgstr "Відкрити налаштування команд"
 
 msgid "The working directory does not exist."
 msgstr "Робочий каталог не існує."
@@ -1749,41 +1693,39 @@ msgstr "Робочий каталог не існує."
 msgid ""
 "The script file is not executable: run chmod +x on it or prefix the path "
 "with sh."
-msgstr ""
-"Файл сценарію не є виконуваним: запустіть для нього chmod +x або додайте до "
-"шляху префікс sh."
+msgstr "Файл скрипту не є виконуваним: виконайте для нього chmod +x або додайте sh перед шляхом."
 
 msgid "Choose a script"
-msgstr "Виберіть сценарій"
+msgstr "Виберіть скрипт"
 
 msgid "Choose a working directory"
 msgstr "Виберіть робочий каталог"
 
 msgid "Commands run with sh -lc in the background and are not awaited."
-msgstr "Команди виконуються з sh -lc у фоновому режимі та не очікуються."
+msgstr "Команди виконуються через sh -lc у фоні й не очікуються."
 
 msgid "Commands run with PowerShell in the background and are not awaited."
-msgstr "Команди виконуються з PowerShell у фоновому режимі та не очікуються."
+msgstr "Команди виконуються через PowerShell у фоні й не очікуються."
 
 msgid ""
 "Commands stay off until you allow execution. Review below what your keymaps "
 "would run."
-msgstr "Команди залишаються вимкненими, доки ви не дозволите виконання. Перегляньте нижче, які Keymap будуть працювати."
+msgstr "Команди залишаються вимкненими, доки ви не дозволите їх виконання. Перегляньте нижче, що запускали б ваші Keymap."
 
 msgid "Command"
 msgstr "Команда"
 
 msgid "Rule {} · tap"
-msgstr "Правило {} · кран"
+msgstr "Правило {} · натискання"
 
 msgid "Rule {} · hold"
-msgstr "Правило {} · дотримуватися"
+msgstr "Правило {} · утримання"
 
 msgid "Rule {} · long hold"
 msgstr "Правило {} · довге утримання"
 
 msgid "Rule {} · double tap"
-msgstr "Правило {} · подвійний дотик"
+msgstr "Правило {} · подвійне натискання"
 
 msgid "disabled"
 msgstr "вимкнено"
@@ -1792,7 +1734,7 @@ msgid "Layer {}"
 msgstr "Шар {}"
 
 msgid "Macro"
-msgstr "макрос"
+msgstr "Макрос"
 
 msgid "Quick action"
 msgstr "Швидка дія"
@@ -1814,8 +1756,7 @@ msgstr "Додати правило…"
 
 msgid ""
 "All filled conditions must match. A rule without conditions always matches."
-msgstr ""
-"Всі заповнені умови повинні відповідати. Правило без умов завжди збігається."
+msgstr "Усі заповнені умови мають виконуватися. Правило без умов виконується завжди."
 
 msgid "Automatic switching rules"
 msgstr "Правила автоматичного перемикання"
@@ -1823,7 +1764,7 @@ msgstr "Правила автоматичного перемикання"
 msgid ""
 "Automatic: the keymap is chosen by switching rules for the application, "
 "system language or game mode."
-msgstr "Автоматично: Keymap вибирається шляхом перемикання правил програми, мови системи або режиму гри."
+msgstr "Автоматично: Keymap вибирається правилами перемикання залежно від програми, мови системи або ігрового режиму."
 
 msgid "Keymap"
 msgstr "Keymap"
@@ -1862,7 +1803,7 @@ msgid "Rule {}"
 msgstr "Правило {}"
 
 msgid "Use keymap"
-msgstr "Використовуйте Keymap"
+msgstr "Використати Keymap"
 
 msgid "When"
 msgstr "Коли"
@@ -1874,7 +1815,7 @@ msgid "If:"
 msgstr "Якщо:"
 
 msgid "Trigger conditions"
-msgstr "Умови запуску"
+msgstr "Умови тригера"
 
 msgid "No keymap"
 msgstr "Без Keymap"
@@ -1889,17 +1830,16 @@ msgid "For games"
 msgstr "Для ігор"
 
 msgid "For an application"
-msgstr "Для заявки"
+msgstr "Для програми"
 
 msgid "Custom rule"
 msgstr "Спеціальне правило"
 
 msgid "Game mode detection is off, so this rule never matches."
-msgstr ""
-"Виявлення ігрового режиму вимкнено, тому це правило ніколи не збігається."
+msgstr "Визначення ігрового режиму вимкнено, тому це правило ніколи не спрацює."
 
 msgid "Not among the system languages: {}"
-msgstr "Серед системних мов немає: {}"
+msgstr "Немає серед мов системи: {}"
 
 msgid "Rule enabled"
 msgstr "Правило ввімкнено"
@@ -1915,13 +1855,13 @@ msgstr "Правило буде видалено. Це неможливо ска
 
 msgid "Its {n} automatic rule will be deleted too."
 msgid_plural "Its {n} automatic rules will be deleted too."
-msgstr[0] "Його {n} автоматичне правило також буде видалено."
-msgstr[1] "Його {n} автоматичні правила також буде видалено."
-msgstr[2] "Його {n} автоматичних правил також буде видалено."
+msgstr[0] "Також буде видалено {n} його автоматичне правило."
+msgstr[1] "Також буде видалено {n} його автоматичні правила."
+msgstr[2] "Також буде видалено {n} його автоматичних правил."
 
 msgid "In {n} rule"
 msgid_plural "In {n} rules"
-msgstr[0] "В {n} правил"
+msgstr[0] "У {n} правилі"
 msgstr[1] "У {n} правилах"
 msgstr[2] "У {n} правилах"
 
@@ -1937,7 +1877,7 @@ msgstr "Вимкнено — ніколи"
 msgid ""
 "Automatic keymap rules apply only when the keymap is chosen automatically "
 "(Keymaps page)."
-msgstr "Правила автоматичного Keymap застосовуються лише тоді, коли Keymap вибрано автоматично (сторінка Keymap)."
+msgstr "Правила автоматичного Keymap діють лише тоді, коли Keymap вибирається автоматично (сторінка Keymap)."
 
 msgid ""
 "Borderless windows covering the screen count too. Browsers, video players "
@@ -1947,27 +1887,27 @@ msgstr ""
 "відеоплеєри та презентації ігноруються."
 
 msgid "Game mode is off (set manually)"
-msgstr "Режим гри вимкнено (встановлюється вручну)"
+msgstr "Ігровий режим вимкнено (встановлено вручну)"
 
 msgid "Game mode is on (set manually)"
-msgstr "Ігровий режим увімкнено (встановлюється вручну)"
+msgstr "Ігровий режим увімкнено (встановлено вручну)"
 
 msgid "Game mode turns on rules and automatic keymap rules that have a game-mode condition. Automatic keymap rules apply only when the keymap is chosen automatically (Keymaps page). Auto uses the detection sources and custom rules below; On and Off set the state manually. “Doesn't count as a game” takes priority over automatic detection and “Counts as a game”. You can also change the mode in the top bar, in the tray menu or with a key bound to a game mode action."
-msgstr "Ігровий режим вмикає правила та автоматичні правила компонування, які мають умову ігрового режиму. Правила автоматичного Keymap застосовуються лише тоді, коли Keymap вибрано автоматично (сторінка Keymap). Авто використовує наведені нижче джерела виявлення та спеціальні правила; Увімкнення та вимкнення встановлюють стан вручну. «Не вважається грою» має пріоритет над автоматичним виявленням і «Вважається грою». Ви також можете змінити режим у верхній панелі, у меню трея або за допомогою клавіші, прив’язаної до дії режиму гри."
+msgstr "Ігровий режим вмикає правила та правила автоматичного Keymap, що мають умову ігрового режиму. Правила автоматичного Keymap діють лише тоді, коли Keymap вибирається автоматично (сторінка Keymap). Авто використовує наведені нижче джерела визначення та власні правила; Увімк. і Вимк. задають стан вручну. «Не вважається грою» має пріоритет над автоматичним визначенням і «Вважається грою». Режим також можна змінити у верхній панелі, у меню трею або клавішею з призначеною дією ігрового режиму."
 
 
 
 msgid "Game mode: always off"
-msgstr "Режим гри: завжди вимкнено"
+msgstr "Ігровий режим: завжди вимкнено"
 
 msgid "Game mode: always on"
-msgstr "Режим гри: завжди ввімкнено"
+msgstr "Ігровий режим: завжди ввімкнено"
 
 msgid "Game mode: detect automatically"
-msgstr "Ігровий режим: визначення автоматично"
+msgstr "Ігровий режим: визначати автоматично"
 
 msgid "Toggle game mode"
-msgstr "Перемкнути режим гри"
+msgstr "Перемкнути ігровий режим"
 
 msgid ""
 "GameMode daemon unavailable: check the gamemode package and session D-Bus."
@@ -1976,9 +1916,7 @@ msgstr "Демон GameMode недоступний: перевірте паке�
 msgid ""
 "Install {} to detect the active window and fullscreen windows. It is also "
 "needed for application conditions in rules."
-msgstr ""
-"Встановіть {} для визначення активного вікна та повноекранних вікон. Це "
-"також необхідно для умов застосування в правилах."
+msgstr "Установіть {}, щоб визначати активне вікно та повноекранні вікна. Це також потрібно для умов програм у правилах."
 
 msgid ""
 "Nothing uses game mode yet: no rule or automatic keymap rule has a game-mode"
@@ -1988,27 +1926,23 @@ msgstr "Ніщо ще не використовує ігровий режим: �
 msgid ""
 "On and Off are remembered after restart. Auto keeps detecting in the "
 "background."
-msgstr ""
-"Увімкнення та вимкнення запам'ятовуються після перезапуску. Автоматичне "
-"визначення у фоновому режимі."
+msgstr "Увімк. і Вимк. запам'ятовуються після перезапуску. Авто продовжує визначення у фоні."
 
 msgid ""
 "Rules of the current keymap with a game-mode condition: {}. Automatic keymap"
 " rules with a game-mode condition: {}."
-msgstr "Правила поточної Keymap з умовою ігрового режиму: {}. Автоматичні правила компонування з умовою ігрового режиму: {}."
+msgstr "Правила поточного Keymap з умовою ігрового режиму: {}. Правила автоматичного Keymap з умовою ігрового режиму: {}."
 
 msgid ""
 "Turns on while a game runs through gamemoderun or requests GameMode itself. "
 "In Steam set the launch options to “gamemoderun %command%”."
-msgstr ""
-"Вмикається, коли гра запускається через gamemoderun або запитує сам "
-"GameMode. У Steam встановіть параметри запуску на «gamemoderun %command%»."
+msgstr "Вмикається, коли гру запущено через gamemoderun або вона сама запитує GameMode. У Steam задайте параметри запуску «gamemoderun %command%»."
 
 msgid "Game mode: on"
-msgstr "Ігровий режим: увімк"
+msgstr "Ігровий режим: увімк."
 
 msgid "Game mode: off"
-msgstr "Режим гри: вимкнено"
+msgstr "Ігровий режим: вимк."
 
 msgid "Active now: {}"
 msgstr "Зараз активний: {}"
@@ -2016,23 +1950,17 @@ msgstr "Зараз активний: {}"
 msgid ""
 "Active window detection is unavailable in this session, so application "
 "conditions do not match."
-msgstr ""
-"Активне виявлення вікна недоступне в цьому сеансі, тому умови програми не "
-"збігаються."
+msgstr "Визначення активного вікна недоступне в цьому сеансі, тому умови програм не спрацьовують."
 
 msgid ""
 "An application is matched by its ID or process name: the whole name, "
 "ignoring case, with * and ? as wildcards. A window title item matches when "
 "the title contains the text. Any matching item is enough. An empty list "
 "imposes no restrictions."
-msgstr ""
-"Додатку відповідає ідентифікатор або ім’я процесу: повне ім’я, без "
-"урахування регістру, з * і ? як символи підстановки. Елемент заголовка вікна"
-" відповідає, якщо заголовок містить текст. Досить будь-якого відповідного "
-"предмета. Порожній список не накладає жодних обмежень."
+msgstr "Програма визначається за ID або іменем процесу: повне ім'я, без урахування регістру, з * і ? як шаблонами. Елемент заголовка вікна спрацьовує, якщо заголовок містить текст. Достатньо одного збігу. Порожній список не накладає обмежень."
 
 msgid "Looking for open windows…"
-msgstr "Шукаємо відкриті вікна…"
+msgstr "Пошук відкритих вікон…"
 
 msgid "No open windows found"
 msgstr "Відкритих вікон не знайдено"
@@ -2057,41 +1985,37 @@ msgid "Rule without a trigger is saved as a draft and will be ignored."
 msgstr "Правило без тригера зберігається як чернетка та ігноруватиметься."
 
 msgid "Trigger \"{}\" cannot be used for a rule."
-msgstr "Тригер \"{}\" не можна використовувати для правила."
+msgstr "Тригер «{}» не можна використати для правила."
 
 msgid "Trigger \"{}\" needs key codes such as ControlLeft; “+” joins the keys of a chord and does not add a modifier."
-msgstr "Trigger \"{}\" needs key codes such as ControlLeft; “+” joins the keys of a chord and does not add a modifier."
+msgstr "Тригеру «{}» потрібні коди клавіш, наприклад ControlLeft; «+» об'єднує клавіші комбінації і не додає модифікатор."
 
 msgid "Rules for trigger \"{}\" may overlap; the first matching rule wins."
-msgstr ""
-"Правила для тригера \"{}\" можуть збігатися; виграє перше відповідне "
-"правило."
+msgstr "Правила для тригера «{}» можуть перетинатися; спрацьовує перше відповідне правило."
 
 msgid "Rule for trigger \"{}\" is covered by an earlier rule and will not run."
-msgstr ""
-"Правило для тригера \"{}\" регулюється попереднім правилом і не "
-"виконуватиметься."
+msgstr "Правило для тригера «{}» перекрите попереднім правилом і не виконуватиметься."
 
 msgid "Rule \"{}\" points to a layer that no longer exists."
-msgstr "Правило \"{}\" вказує на шар, якого більше не існує."
+msgstr "Правило «{}» посилається на шар, якого більше не існує."
 
 msgid "Rule \"{}\" has an invalid tap action."
-msgstr "Правило \"{}\" містить недійсну дію дотику."
+msgstr "Правило «{}» містить недійсну дію натискання."
 
 msgid "Rule \"{}\" has an invalid hold action."
-msgstr "Правило \"{}\" має недійсну дію утримання."
+msgstr "Правило «{}» містить недійсну дію утримання."
 
 msgid "Rule \"{}\" has an invalid double-tap action."
-msgstr "Правило \"{}\" містить недійсну дію подвійного торкання."
+msgstr "Правило «{}» містить недійсну дію подвійного натискання."
 
 msgid "Automatic switching rule deleted"
 msgstr "Правило автоматичного перемикання видалено"
 
 msgid "Only in applications"
-msgstr "Тільки в додатках"
+msgstr "Лише в програмах"
 
 msgid "Except applications"
-msgstr "Крім додатків"
+msgstr "Крім програм"
 
 msgid "A match blocks the rule, even if the window is in the allowed list."
 msgstr "Збіг блокує правило, навіть якщо вікно входить до списку дозволених."
@@ -2105,10 +2029,10 @@ msgid "Choose applications to exclude"
 msgstr "Виберіть програми, які потрібно виключити"
 
 msgid "Open windows"
-msgstr "Відчинені вікна"
+msgstr "Відкриті вікна"
 
 msgid "Last active"
-msgstr "Останній активний"
+msgstr "Останнє активне"
 
 msgid "Nothing is excluded."
 msgstr "Нічого не виключено."
@@ -2139,41 +2063,26 @@ msgid ""
 "are preserved. On Linux, text is inserted into the active application via "
 "the desktop portal; permission may be required. Text injection by the mapper"
 " is not implemented on Windows or macOS."
-msgstr ""
-"Введіть дослівний текст без префікса text:. Розриви рядків, пробіли та "
-"табуляції зберігаються. У Linux текст вставляється в активну програму через "
-"портал робочого столу; може знадобитися дозвіл. Вставлення тексту програмою "
-"відображення не реалізовано в Windows або macOS."
+msgstr "Введіть дослівний текст без префікса text:. Розриви рядків, пробіли та табуляції зберігаються. У Linux текст вставляється в активну програму через портал робочого середовища; може знадобитися дозвіл. Введення тексту мапером не реалізовано у Windows і macOS."
 
 msgid ""
 "Commands run with sh -lc in the background. The mapper does not wait for "
 "completion or collect output. An empty name uses the command itself as its "
 "label. The working directory defaults to your home folder; scripts need "
 "execute permission. Command execution must be enabled in settings."
-msgstr ""
-"Команди виконуються за допомогою sh -lc у фоновому режимі. Картограф не "
-"чекає завершення або збирає вихідні дані. Порожня назва використовує саму "
-"команду як мітку. Робочим каталогом за замовчуванням є ваша домашня папка; "
-"сценаріям потрібен дозвіл на виконання. У налаштуваннях має бути включено "
-"виконання команд."
+msgstr "Команди виконуються через sh -lc у фоні. Мапер не чекає завершення і не збирає вивід. Якщо назва порожня, підписом слугує сама команда. Робочий каталог за замовчуванням — ваша домашня тека; скриптам потрібен дозвіл на виконання. Виконання команд має бути ввімкнене в налаштуваннях."
 
 msgid ""
 "Commands run with PowerShell in the background, without a console window. "
 "The mapper does not wait for completion or collect output. An empty name "
 "uses the command itself as its label. The working directory defaults to your"
 " home folder. Command execution must be enabled in settings."
-msgstr ""
-"Команди виконуються з PowerShell у фоновому режимі, без вікна консолі. "
-"Картограф не чекає завершення або збирає вихідні дані. Порожня назва "
-"використовує саму команду як мітку. Робочим каталогом за замовчуванням є "
-"ваша домашня папка. У налаштуваннях має бути включено виконання команд."
+msgstr "Команди виконуються через PowerShell у фоні, без вікна консолі. Мапер не чекає завершення і не збирає вивід. Якщо назва порожня, підписом слугує сама команда. Робочий каталог за замовчуванням — ваша домашня тека. Виконання команд має бути ввімкнене в налаштуваннях."
 
 msgid ""
 "The name is optional: an empty name uses the command itself as its label. "
 "Command execution by the mapper is not implemented on macOS."
-msgstr ""
-"Ім’я необов’язкове: порожнє ім’я використовує саму команду як мітку. "
-"Виконання команд картографом не реалізовано в macOS."
+msgstr "Назва необов'язкова: якщо вона порожня, підписом слугує сама команда. Виконання команд мапером не реалізовано в macOS."
 
 msgid "Triggers"
 msgstr "Тригери"
@@ -2182,7 +2091,7 @@ msgid "Reduce animations"
 msgstr "Без анімацій"
 
 msgid "Add keymap: "
-msgstr "Додати Keymap:"
+msgstr "Додати Keymap: "
 
 msgid "Save (Ctrl+S)"
 msgstr "Зберегти (Ctrl+S)"
@@ -2200,11 +2109,7 @@ msgid ""
 "Unique identifier used in references like macro:<id>. To bind this macro to "
 "a key, choose that action on the Layers or Triggers tab. Change the ID only "
 "when nothing uses this macro."
-msgstr ""
-"Унікальний ідентифікатор, який використовується в посиланнях, таких як "
-"macro:<id>. Щоб прив’язати цей макрос до ключа, виберіть цю дію на вкладці "
-"«Шари» або «Тригери». Змінюйте ідентифікатор лише тоді, коли ніщо не "
-"використовує цей макрос."
+msgstr "Унікальний ідентифікатор, що використовується в посиланнях на кшталт macro:<id>. Щоб призначити цей макрос клавіші, виберіть цю дію на вкладці «Шари» або «Тригери». Змінюйте ID лише тоді, коли цей макрос ніде не використовується."
 
 msgid "Discard"
 msgstr "Відкинути"
@@ -2213,25 +2118,18 @@ msgid ""
 "Build reusable sequences of key chords, text, commands and system actions. Use a unique ID in macro:<id> references and a readable name in action lists. Assign macros on the Layers or Triggers tab; change an ID only when it is unused.\n"
 "\n"
 "The step pause applies between steps of this macro. Modifier delay is the time between pressing a modifier and the main key. Leave delays empty to use Settings defaults."
-msgstr ""
-"Створюйте багаторазові послідовності ключових акордів, тексту, команд і системних дій. Використовуйте унікальний ідентифікатор у посиланнях на макрос:<id> і зрозумілу назву в списках дій. Призначте макроси на вкладці «Шари» або «Тригери»; змінювати ідентифікатор лише тоді, коли він не використовується.\n"
-"\n"
-"Пауза кроків застосовується між кроками цього макросу. Затримка модифікатора — це час між натисканням модифікатора та основною клавішею. Залиште затримки порожніми, щоб використовувати налаштування за замовчуванням."
+msgstr "Створюйте послідовності для повторного використання з комбінацій клавіш, тексту, команд і системних дій. Використовуйте унікальний ID у посиланнях macro:<id> і зрозумілу назву в списках дій. Призначайте макроси на вкладці «Шари» або «Тригери»; змінюйте ID лише тоді, коли він не використовується.\n\nПауза між кроками діє між кроками цього макросу. Затримка модифікатора — це час між натисканням модифікатора й основної клавіші. Залиште затримки порожніми, щоб використати значення за замовчуванням із налаштувань."
 
 msgid "Global defaults: step pause {} ms; modifier delay {} ms."
-msgstr ""
-"Глобальні значення за замовчуванням: крок паузи {} мс; затримка модифікатора"
-" {} мс."
+msgstr "Глобальні значення за замовчуванням: пауза між кроками {} мс; затримка модифікатора {} мс."
 
 msgid "Keymap changed on disk"
-msgstr "На диску змінено Keymap"
+msgstr "Keymap змінено на диску"
 
 msgid ""
 "The file of “{}” was changed by another program after you opened it. Your "
 "edits are kept until you choose what to do."
-msgstr ""
-"Файл “{}” був змінений іншою програмою після його відкриття. Ваші зміни "
-"зберігаються, доки ви не виберете, що робити."
+msgstr "Файл «{}» змінила інша програма після того, як ви його відкрили. Ваші зміни зберігаються, доки ви не виберете, що робити."
 
 msgid "Load from disk"
 msgstr "Завантажити з диска"
@@ -2248,19 +2146,19 @@ msgstr ""
 "KeyA та ArrowLeft."
 
 msgid "Application"
-msgstr "застосування"
+msgstr "Програма"
 
 msgid "Window title"
 msgstr "Заголовок вікна"
 
 msgid "Click to switch"
-msgstr "Натисніть, щоб переключитися"
+msgstr "Натисніть, щоб перемкнути"
 
 msgid "Match by app ID or process instead"
-msgstr "Зіставте натомість ідентифікатор програми або процес"
+msgstr "Зіставляти за ID програми або процесом"
 
 msgid "Match by window title instead"
-msgstr "Натомість збіг за назвою вікна"
+msgstr "Зіставляти за заголовком вікна"
 
 msgid "Open now: {n} window"
 msgid_plural "Open now: {n} windows"
@@ -2290,7 +2188,7 @@ msgstr[1] "Відповідає {n} відкритим вікнам"
 msgstr[2] "Відповідає {n} відкритим вікнам"
 
 msgid "Matches no open window"
-msgstr "Не відповідає відкритому вікну"
+msgstr "Не відповідає жодному відкритому вікну"
 
 msgid "Show Quick Action Menu on the last used page"
 msgstr "Показати меню швидких дій на останній використаній сторінці"
@@ -2302,13 +2200,13 @@ msgid "Show the settings window"
 msgstr "Показати вікно налаштувань"
 
 msgid "Activate keymap {} (switches to Single mode)"
-msgstr "Активувати Keymap {} (перемикається в одиночний режим)"
+msgstr "Активувати Keymap {} (перемикає в режим «Один»)"
 
 msgid "There is no keymap number {}"
-msgstr "Немає номера Keymap {}"
+msgstr "Немає Keymap з номером {}"
 
 msgid "Show the Tecloid keymap name when it changes"
-msgstr "Показувати назву Keymap керування лівою рукою, коли вона змінюється"
+msgstr "Показувати назву Keymap Tecloid під час його зміни"
 
 msgid "Show the keys of a layer while it is held"
 msgstr "Показувати клавіші шару під час його утримання"
@@ -2324,15 +2222,13 @@ msgstr ""
 msgid ""
 "Unavailable: build with the spell feature and use a Wayland compositor with "
 "layer-shell (KDE Plasma, Sway, Hyprland)."
-msgstr ""
-"Недоступно: створюйте за допомогою функції заклинань і використовуйте "
-"композитор Wayland із шаровою оболонкою (KDE Plasma, Sway, Hyprland)."
+msgstr "Недоступно: зберіть із функцією spell і використовуйте композитор Wayland із layer-shell (KDE Plasma, Sway, Hyprland)."
 
 msgid ""
 "The app:activateKeymap1…5 actions activate the keymap at that position in "
 "this list: reordering the list changes which keymap a key activates. In Auto"
 " mode they switch to Single mode."
-msgstr "Дії app:activateKeymap1…5 активують Keymap у цій позиції в цьому списку: зміна порядку списку змінює Keymap, який активує клавіша. В автоматичному режимі вони перемикаються в одиночний режим."
+msgstr "Дії app:activateKeymap1…5 активують Keymap на цій позиції списку: зміна порядку списку змінює, який Keymap активує клавіша. В автоматичному режимі вони перемикають у режим «Один»."
 
 msgid "Cut"
 msgstr "Вирізати"
@@ -2365,37 +2261,37 @@ msgid "Clear search"
 msgstr "Очистити пошук"
 
 msgid "Add application"
-msgstr "Додати додаток"
+msgstr "Додати програму"
 
 msgid "Edit application"
-msgstr "Редагувати заявку"
+msgstr "Редагувати програму"
 
 msgid "Remove application?"
 msgstr "Видалити програму?"
 
 msgid "“{}” will be removed from the list."
-msgstr "“{}” буде видалено зі списку."
+msgstr "«{}» буде видалено зі списку."
 
 msgid "Devices"
 msgstr "Пристрої"
 
 msgid "Required"
-msgstr "Обов'язковий"
+msgstr "Обов'язково"
 
 msgid "Optional"
-msgstr "Додатково"
+msgstr "Необов'язково"
 
 msgid "Failed to start"
 msgstr "Не вдалося запустити"
 
 msgid "Keys work as usual. Start the mapper to apply your keymaps."
-msgstr "Клавіші працюють як зазвичай. Запустіть мапер, щоб застосувати Keymap."
+msgstr "Клавіші працюють як зазвичай. Запустіть мапер, щоб застосувати ваші Keymap."
 
 msgid "Select a keyboard below to start the mapper."
 msgstr "Виберіть клавіатуру нижче, щоб запустити мапер."
 
 msgid "Changing a device restarts the mapper."
-msgstr "Зміна пристрою перезапускає програму відображення."
+msgstr "Зміна пристрою перезапускає мапер."
 
 msgid "Auto: known game {}"
 msgstr "Авто: відома гра {}"
@@ -2412,56 +2308,47 @@ msgstr "Ігри Steam"
 msgid ""
 "Turns on while Steam runs a game: Steam starts every game through reaper "
 "SteamLaunch, and game windows have the ID steam_app_<number>."
-msgstr ""
-"Вмикається, коли Steam запускає гру: Steam запускає кожну гру через Reaper "
-"SteamLaunch, а вікна гри мають ідентифікатор steam_app_<номер>."
+msgstr "Вмикається, коли Steam запускає гру: Steam запускає кожну гру через reaper SteamLaunch, а вікна ігор мають ідентифікатор steam_app_<номер>."
 
 msgid "Turns on while Steam reports a running game."
 msgstr "Вмикається, коли Steam повідомляє про запущену гру."
 
 msgid "Lutris games"
-msgstr "Ігри Лутріс"
+msgstr "Ігри Lutris"
 
 msgid ""
 "Turns on while a game started by Lutris runs: Lutris starts every game "
 "through lutris-wrapper."
-msgstr ""
-"Вмикається під час запуску гри, розпочатої Лутрісом: Лутріс запускає кожну "
-"гру через lutris-wrapper."
+msgstr "Вмикається, поки працює гра, запущена через Lutris: Lutris запускає кожну гру через lutris-wrapper."
 
 msgid "Gamescope sessions"
 msgstr "Сеанси Gamescope"
 
 msgid "Turns on while the active window is a nested gamescope session."
-msgstr "Вмикається, коли активне вікно є вкладеним сеансом Gamescope."
+msgstr "Вмикається, коли активне вікно є вкладеним сеансом gamescope."
 
 msgid "Games from the Game Bar list"
-msgstr "Ігри зі списку ігрової панелі"
+msgstr "Ігри зі списку Game Bar"
 
 msgid "Applications of the Game category"
-msgstr "Додатки категорії Ігри"
+msgstr "Програми категорії Game"
 
 msgid ""
 "Turns on while the active window belongs to an application whose .desktop "
 "file lists the Game category. Launchers are tagged as games too, so they are"
 " skipped."
-msgstr ""
-"Вмикається, коли активне вікно належить програмі, у файлі .desktop якої "
-"перелічено категорію гри. Лаунчери також позначені як ігри, тому їх "
-"пропускають."
+msgstr "Вмикається, коли активне вікно належить програмі, у файлі .desktop якої вказано категорію Game. Лаунчери теж позначені як ігри, тому їх пропускають."
 
 msgid ""
 "Turns on while the active application declares the Games category in its "
 "Info.plist. Launchers are skipped."
-msgstr ""
-"Вмикається, коли активна програма оголошує категорію ігор у своєму "
-"Info.plist. Лаунчери пропускаються."
+msgstr "Вмикається, коли активна програма вказує категорію Games у своєму Info.plist. Лаунчери пропускаються."
 
 msgid "Auto — according to settings"
 msgstr "Авто — відповідно до налаштувань"
 
 msgid "Blank"
-msgstr "Пустий"
+msgstr "Порожньо"
 
 msgid "Assign action"
 msgstr "Призначити дію"
@@ -2472,31 +2359,27 @@ msgstr "Дія після {} мс утримання"
 msgid ""
 "These codes are specific to Tecloid, not universal keyboard codes "
 "(e.g. KeyA, ArrowLeft)."
-msgstr ""
-"Ці коди є специфічними для керування лівою рукою, а не універсальними кодами"
-" клавіатури (наприклад, KeyA, ArrowLeft)."
+msgstr "Ці коди є специфічними для Tecloid, а не універсальними кодами клавіатури (наприклад, KeyA, ArrowLeft)."
 
 msgid "While its window is active"
-msgstr "Поки його вікно активне"
+msgstr "Поки її вікно активне"
 
 msgid "While the process runs"
-msgstr "Поки йде процес"
+msgstr "Поки процес працює"
 
 msgid "Counts while a window of the application has the focus."
-msgstr "Враховується, поки вікно програми має фокус."
+msgstr "Враховується, поки вікно програми у фокусі."
 
 msgid ""
 "Counts while a process with this name runs, even without a window or in the "
 "background."
-msgstr ""
-"Враховується під час виконання процесу з такою назвою, навіть без вікна або "
-"у фоновому режимі."
+msgstr "Враховується, поки працює процес із цим іменем, навіть без вікна або у фоні."
 
 msgid "Application · while its window is active"
 msgstr "Програма · поки її вікно активне"
 
 msgid "Process · while it runs"
-msgstr "Процес · під час виконання"
+msgstr "Процес · поки працює"
 
 msgid "No games added."
 msgstr "Ігор не додано."
@@ -2507,19 +2390,12 @@ msgid ""
 "wildcards. Steam games have the app ID steam_app_<number>; Proton games are "
 "also found by their .exe name. A window title item matches the active window"
 " whose title contains the text."
-msgstr ""
-"Ігровий режим вмикається під час будь-якого з цих матчів. Додатку відповідає"
-" ідентифікатор або ім’я процесу: повне ім’я, без урахування регістру, з * і "
-"? як символи підстановки. Ігри Steam мають ідентифікатор програми "
-"steam_app_<номер>; Ігри Proton також можна знайти за назвою .exe. Елемент "
-"заголовка вікна відповідає активному вікну, заголовок якого містить текст."
+msgstr "Ігровий режим вмикається, поки збігається будь-який із цих елементів. Програма визначається за ID або іменем процесу: повне ім'я, без урахування регістру, з * і ? як шаблонами. Ігри Steam мають ID програми steam_app_<номер>; ігри Proton також знаходяться за іменем .exe. Елемент заголовка вікна збігається з активним вікном, заголовок якого містить текст."
 
 msgid ""
 "Game mode stays off while any of these matches, even if a game or another "
 "detector would turn it on."
-msgstr ""
-"Ігровий режим залишається вимкненим під час будь-якого з цих матчів, навіть "
-"якщо гра чи інший детектор увімкнуть його."
+msgstr "Ігровий режим лишається вимкненим, поки збігається будь-який із цих елементів, навіть якщо гра чи інший детектор увімкнули б його."
 
 msgid "less than a minute"
 msgstr "менше хвилини"
@@ -2528,16 +2404,16 @@ msgid "{} min"
 msgstr "{} хв"
 
 msgid "{} h {} min"
-msgstr "{} h {} хв"
+msgstr "{} год {} хв"
 
 msgid "Running for {}"
-msgstr "Біг за {}"
+msgstr "Працює вже {}"
 
 msgid "Stopped unexpectedly"
 msgstr "Зупинився несподівано"
 
 msgid "Stopped {} ago after running for {}."
-msgstr "Зупинено {} тому після запуску для {}."
+msgstr "Зупинено {} тому після {} роботи."
 
 msgid "Text input"
 msgstr "Введення тексту"
@@ -2545,15 +2421,13 @@ msgstr "Введення тексту"
 msgid ""
 "How text actions in rules and macros are typed. Key remapping and the emoji "
 "popup do not use it."
-msgstr ""
-"Як набираються текстові дії в правилах і макросах. Перепризначення клавіш і "
-"спливаюче вікно емодзі не використовують його."
+msgstr "Як вводяться текстові дії в правилах і макросах. Перепризначення клавіш і спливне вікно емодзі цього не використовують."
 
 msgid "Typing method"
-msgstr "Метод набору тексту"
+msgstr "Метод введення"
 
 msgid "libei + clipboard fallback (recommended)"
-msgstr "libei + буфер обміну (рекомендовано)"
+msgstr "libei + буфер обміну як запасний варіант (рекомендовано)"
 
 msgid "Paste from clipboard"
 msgstr "Вставити з буфера обміну"
@@ -2565,41 +2439,36 @@ msgid "xdotool"
 msgstr "xdotool"
 
 msgid "Types with the current keyboard layout, or pastes the whole text when a character is unavailable. Paste requires Wayland, clipboard access and a supported paste shortcut. A large or slow clipboard can prevent paste. Cancels when a detected destination changes."
-msgstr "Вводить текст із поточною розкладкою клавіатури або вставляє весь текст, якщо символ недоступний. Для вставлення потрібен Wayland, доступ до буфера обміну та підтримуваний ярлик для вставлення. Великий або повільний буфер обміну може перешкодити вставці. Скасовується, коли виявлений пункт призначення змінюється."
+msgstr "Друкує з поточною розкладкою клавіатури або вставляє весь текст, якщо якогось символу немає. Для вставлення потрібні Wayland, доступ до буфера обміну та підтримувана комбінація вставлення. Великий або повільний буфер обміну може завадити вставленню. Скасовується, якщо змінюється визначене місце призначення."
 
 msgid "Types only through libei using the current keyboard layout and Caps Lock state. Skips text with unavailable characters. Requires portal permission. Cancels when a detected destination changes."
-msgstr "Вводить лише через libei, використовуючи поточну розкладку клавіатури та режим Caps Lock. Пропускає текст із недоступними символами. Потрібен дозвіл порталу. Скасовується, коли виявлений пункт призначення змінюється."
+msgstr "Друкує лише через libei з поточною розкладкою клавіатури та станом Caps Lock. Пропускає текст із недоступними символами. Потрібен дозвіл порталу. Скасовується, якщо змінюється визначене місце призначення."
 
 msgid "Types only through NotifyKeyboardKeycode using the KDE keyboard layout and readable keyboard state. Skips text with unavailable characters. Requires portal permission. Cancels when a detected destination changes."
-msgstr "Вводить лише через NotifyKeyboardKeycode, використовуючи розкладку клавіатури KDE та стан читабельної клавіатури. Пропускає текст із недоступними символами. Потрібен дозвіл порталу. Скасовується, коли виявлений пункт призначення змінюється."
+msgstr "Друкує лише через NotifyKeyboardKeycode з розкладкою клавіатури KDE та прочитаним станом клавіатури. Пропускає текст із недоступними символами. Потрібен дозвіл порталу. Скасовується, якщо змінюється визначене місце призначення."
 
 msgid "Pastes with the configured shortcut on Wayland: data-control on KDE, Clipboard portal on GNOME. Preserves all formats within size and time limits. Tecloid then owns the restored clipboard until another app copies; quitting can clear it. A new user copy takes precedence."
-msgstr "Вставляє з налаштованим ярликом у Wayland: керування даними в KDE, портал буфера обміну в GNOME. Зберігає всі формати в межах розміру та часу. Тоді Tecloid володіє відновленим буфером обміну, доки інша програма не скопіює; вихід може очистити це. Нова копія користувача має пріоритет."
+msgstr "Вставляє налаштованою комбінацією у Wayland: data-control у KDE, портал Clipboard у GNOME. Зберігає всі формати в межах обмежень розміру й часу. Після цього Tecloid володіє відновленим буфером обміну, доки інша програма щось не скопіює; вихід може його очистити. Нове копіювання користувачем має пріоритет."
 
 msgid "Paste shortcut"
-msgstr "Вставити ярлик"
+msgstr "Комбінація вставлення"
 
 
 msgid "Paste shortcut in terminals"
 msgstr "Комбінація вставлення в терміналах"
 
 msgid "Used for terminal windows, such as Konsole, kitty or Alacritty. Embedded terminals cannot be detected by window class. Shift+Insert may paste the mouse selection; use Ctrl+V for other apps to avoid that risk. Older terminals may need custom shortcut bindings."
-msgstr "Використовується для термінальних вікон, таких як Konsole, kitty або Alacritty. Вбудовані термінали не можуть бути виявлені класом вікна. Shift+Insert може вставити виділення миші; використовуйте Ctrl+V для інших програм, щоб уникнути цього ризику. Для старих терміналів можуть знадобитися спеціальні прив’язки швидкого доступу."
+msgstr "Використовується для вікон терміналів, як-от Konsole, kitty або Alacritty. Вбудовані термінали неможливо визначити за класом вікна. Shift+Insert може вставити виділення мишею; щоб уникнути цього, для інших програм використовуйте Ctrl+V. Старим терміналам можуть знадобитися власні комбінації."
 
 msgid ""
 "Runs \"ydotool type\" only. Needs ydotool and its ydotoold service running. "
 "Reliable for Latin text only. On an error, stops without switching methods."
-msgstr ""
-"Запускає лише \"ydotool type\". Потрібен запущений ydotool і його служба "
-"ydotoold. Надійно лише для латинських текстів. При помилці зупиняється без "
-"перемикання методів."
+msgstr "Запускає лише «ydotool type». Потрібні ydotool і запущена служба ydotoold. Надійно лише для латинського тексту. У разі помилки зупиняється без зміни методу."
 
 msgid ""
 "Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
 " On an error, stops without switching methods."
-msgstr ""
-"Запускає лише \"тип xdotool\". Працює лише в сесіях X11 і вікнах XWayland. "
-"При помилці зупиняється без перемикання методів."
+msgstr "Запускає лише «xdotool type». Працює лише в сеансах X11 і вікнах XWayland. У разі помилки зупиняється без зміни методу."
 
 msgid "ydotool from PATH"
 msgstr "ydotool із PATH"
@@ -2619,26 +2488,22 @@ msgid ""
 "name. The whole name must match, case is ignored, .exe is optional. * stands"
 " for any characters and ? for one, e.g. steam_app_*. The ID is stable, so "
 "prefer it."
-msgstr ""
-"Програма: ідентифікатор програми (ідентифікатор програми Wayland або X11 "
-"WM_CLASS) або назва процесу. Повна назва має збігатися, регістр ігнорується,"
-" .exe необов’язковий. * означає будь-які символи та ? для одного, напр. "
-"steam_app_*. Ідентифікатор стабільний, тому віддайте перевагу йому."
+msgstr "Програма: ID програми (Wayland app id або X11 WM_CLASS) або ім'я процесу. Має збігатися повне ім'я, регістр ігнорується, .exe необов'язковий. * означає будь-які символи, ? — один символ, наприклад steam_app_*. ID стабільний, тому віддавайте йому перевагу."
 
 msgid "Window title: matches when the title contains the text, case is ignored. A title changes with the open tab or document, and it never matches a process without a window."
 msgstr "Заголовок вікна: відповідає, якщо заголовок містить текст, регістр ігнорується. Заголовок змінюється разом із відкритою вкладкою чи документом і ніколи не відповідає процесу без вікна."
 
 msgid "Match by"
-msgstr "Зіставте за"
+msgstr "Зіставляти за"
 
 msgid "Process"
-msgstr "процес"
+msgstr "Процес"
 
 msgid "Process name, * and ? allowed"
-msgstr "Назва процесу, * і ? дозволено"
+msgstr "Ім'я процесу, дозволено * і ?"
 
 msgid "App ID, * and ? allowed"
-msgstr "Ідентифікатор програми, * і ? дозволено"
+msgstr "ID програми, дозволено * і ?"
 
 msgid ""
 "The item is compared with the names of running processes. Pick one from the "
@@ -2651,10 +2516,7 @@ msgid ""
 "Process: the executable name, as the list below shows it. The whole name "
 "must match, case is ignored, .exe is optional. * stands for any characters "
 "and ? for one."
-msgstr ""
-"Процес: ім'я виконуваного файлу, як показано в списку нижче. Повна назва має"
-" збігатися, регістр ігнорується, .exe необов’язковий. * означає будь-які "
-"символи та ? для одного."
+msgstr "Процес: ім'я виконуваного файлу, як у списку нижче. Має збігатися повне ім'я, регістр ігнорується, .exe необов'язковий. * означає будь-які символи, ? — один символ."
 
 msgid "Matches {n} running process"
 msgid_plural "Matches {n} running processes"
@@ -2673,7 +2535,7 @@ msgstr ""
 "Ідентифікатор програми більш точний."
 
 msgid "When it counts"
-msgstr "Коли це має значення"
+msgstr "Коли враховується"
 
 msgid "Window titles"
 msgstr "Заголовки вікон"
@@ -2685,16 +2547,16 @@ msgid "Shared process"
 msgstr "Спільний процес"
 
 msgid "Running without a window"
-msgstr "Біг без вікна"
+msgstr "Працює без вікна"
 
 msgid "Type a name to find processes running without a window."
 msgstr "Введіть назву, щоб знайти процеси, що працюють без вікна."
 
 msgid "Process · while its window is active"
-msgstr "Процес ·, поки його вікно активне"
+msgstr "Процес · поки його вікно активне"
 
 msgid "While the trigger is held"
-msgstr "Поки спусковий гачок утримується"
+msgstr "Поки тригер утримується"
 
 msgid "Press key"
 msgstr "Натисніть клавішу"
@@ -2702,16 +2564,12 @@ msgstr "Натисніть клавішу"
 msgid ""
 "Which key stays pressed while you hold the trigger, together with the layer."
 " “Don't press” only switches the layer."
-msgstr ""
-"Яка клавіша залишається натиснутою, поки ви утримуєте тригер разом із шаром."
-" «Не натискати» лише перемикає шар."
+msgstr "Яка клавіша залишається натиснутою, поки ви утримуєте тригер, разом із шаром. «Не натискати» лише перемикає шар."
 
 msgid ""
 "Which key stays pressed while you hold the trigger. “Trigger itself” keeps "
 "the usual behavior of the key."
-msgstr ""
-"Яка клавіша залишається натиснутою, поки ви утримуєте курок. «Сам тригер» "
-"зберігає звичайну поведінку ключа."
+msgstr "Яка клавіша залишається натиснутою, поки ви утримуєте тригер. «Сам тригер» зберігає звичайну поведінку клавіші."
 
 msgid "Trigger itself"
 msgstr "Сам тригер"
@@ -2729,15 +2587,13 @@ msgid "Holds nothing"
 msgstr "Нічого не тримає"
 
 msgid "Hold after {} ms"
-msgstr "Утримуйте після {} мс"
+msgstr "Утримувати через {} мс"
 
 msgid "Stop mapper (restore native keyboard behavior)"
-msgstr "Зупинити програму відображення (відновити рідну поведінку клавіатури)"
+msgstr "Зупинити мапер (відновити рідну поведінку клавіатури)"
 
 msgid "Select a keyboard device in the settings to start the mapper"
-msgstr ""
-"Виберіть пристрій клавіатури в налаштуваннях, щоб запустити програму "
-"відображення"
+msgstr "Виберіть клавіатурний пристрій у налаштуваннях, щоб запустити мапер"
 
 msgid "Start mapper to intercept keys and apply keymaps"
 msgstr "Запустіть мапер, щоб перехоплювати клавіші та застосовувати Keymap"
@@ -2752,62 +2608,47 @@ msgstr "Натисніть, щоб змінити режим (Авто / Уві�
 msgid ""
 "The mapper intercepts keyboard input, applies layers, rules and macros, and "
 "emits output through a virtual device."
-msgstr ""
-"Картограф перехоплює введення з клавіатури, застосовує шари, правила та "
-"макроси та видає вихідні дані через віртуальний пристрій."
+msgstr "Мапер перехоплює введення з клавіатури, застосовує шари, правила й макроси та виводить результат через віртуальний пристрій."
 
 msgid ""
 "Define how physical keys behave: tap for a key or action, hold to switch "
 "layers, or double-tap for extra shortcuts."
-msgstr ""
-"Визначте, як поводяться фізичні клавіші: торкніться, щоб вибрати клавішу чи "
-"дію, утримуйте, щоб переключити шари, або двічі торкніться, щоб отримати "
-"додаткові комбінації клавіш."
+msgstr "Визначте поведінку фізичних клавіш: натискання — клавіша чи дія, утримання — перемикання шарів, подвійне натискання — додаткові комбінації."
 
 msgid ""
 "Action performed when the trigger is pressed and released quickly without "
 "holding."
-msgstr ""
-"Дія виконується при швидкому натисканні та відпусканні курка без утримання."
+msgstr "Дія, що виконується, коли тригер швидко натиснули й відпустили без утримання."
 
 msgid ""
 "Action performed when the trigger is pressed twice quickly within the "
 "double-tap timeout."
-msgstr ""
-"Дія, яка виконується, якщо тригер швидко натиснути двічі протягом часу "
-"очікування подвійного торкання."
+msgstr "Дія, що виконується, коли тригер швидко натиснули двічі в межах інтервалу подвійного натискання."
 
 msgid "Show standard QWERTY letter labels for visual reference."
-msgstr "Показати стандартні літерні мітки QWERTY для наочності."
+msgstr "Показувати стандартні літери QWERTY для орієнтування."
 
 msgid ""
 "Show internal key codes used in Tecloid keymaps (e.g. KeyA, "
 "ArrowLeft)."
-msgstr ""
-"Показати внутрішні коди клавіш, які використовуються в Keymap керування "
-"лівою рукою (наприклад, KeyA, ArrowLeft)."
+msgstr "Показувати внутрішні коди клавіш, що використовуються в Keymap Tecloid (наприклад, KeyA, ArrowLeft)."
 
 msgid "Hold detection"
 msgstr "Виявлення утримання"
 
 msgid "When a key becomes a hold"
-msgstr "Коли клавіша переходить в утримання"
+msgstr "Коли клавіша вважається утримуваною"
 
 msgid ""
 "Decides when a rule key that is still down counts as a hold if you press "
 "another key meanwhile. Applies to all rules."
-msgstr ""
-"Вирішує, коли клавіша правила, яка все ще натиснута, вважається утриманням, "
-"якщо ви тим часом натискаєте іншу клавішу. Застосовується до всіх правил."
+msgstr "Визначає, коли ще натиснута клавіша правила вважається утриманням, якщо тим часом ви натиснете іншу клавішу. Діє для всіх правил."
 
 msgid ""
 "After another key is released: the key becomes a hold once another key is "
 "pressed and released while it is down, or when the hold threshold passes. "
 "Fast rolls while typing stay taps."
-msgstr ""
-"Після відпускання іншої клавіші: клавіша стає утримуваною, коли інша клавіша"
-" натиснута та відпущена, коли вона натиснута, або коли перевищено поріг "
-"утримання. Швидкі рулони під час введення залишаються кранами."
+msgstr "Після відпускання іншої клавіші: клавіша вважається утримуваною, щойно іншу клавішу натиснуто й відпущено, поки вона натиснута, або коли минув поріг утримання. Швидкі накладання під час друку залишаються натисканнями."
 
 msgid ""
 "As soon as another key is pressed: reacts faster, but fast typing can "
@@ -2817,10 +2658,10 @@ msgstr ""
 "помилково викликати утримання."
 
 msgid "After another key is released (recommended)"
-msgstr "Після відпускання іншого ключа (рекомендовано)"
+msgstr "Після відпускання іншої клавіші (рекомендовано)"
 
 msgid "As soon as another key is pressed"
-msgstr "Як тільки буде натиснута інша клавіша"
+msgstr "Щойно натиснуто іншу клавішу"
 
 msgid ""
 "Used by rules that leave the field empty. A rule can set its own value in "
@@ -2835,10 +2676,7 @@ msgstr "Поріг утримання, мс"
 msgid ""
 "How long to hold a rule key before it counts as a hold: its layer or hold "
 "action. Released earlier, the key runs its tap action."
-msgstr ""
-"Як довго утримувати ключ правила, перш ніж він вважатиметься утриманням: "
-"його шар або дія утримання. Випущена раніше, клавіша виконує свою дію "
-"натискання."
+msgstr "Скільки утримувати клавішу правила, щоб це вважалося утриманням: її шар або дія утримання. Якщо відпустити раніше, клавіша виконає дію натискання."
 
 msgid ""
 "Lower: layers turn on faster, but fast typing may trigger them by mistake. "
@@ -2857,43 +2695,31 @@ msgstr "Тривале утримання, мс"
 msgid ""
 "How long to keep holding a rule key before its long-hold action runs once. "
 "Applies to rules whose hold runs an action instead of a layer."
-msgstr ""
-"Скільки часу потрібно утримувати клавішу правила, перш ніж її довготривале "
-"утримання буде виконано один раз. Застосовується до правил, утримання яких "
-"запускає дію замість шару."
+msgstr "Скільки ще утримувати клавішу правила, щоб її дія довгого утримання виконалася один раз. Діє для правил, утримання яких запускає дію замість шару."
 
 msgid "Double-tap window, ms"
-msgstr "Двічі торкніться вікна, мс"
+msgstr "Інтервал подвійного натискання, мс"
 
 msgid ""
 "A second tap within this time after the first release counts as a double "
 "tap."
-msgstr ""
-"Друге торкання протягом цього часу після першого відпускання вважається "
-"подвійним торканням."
+msgstr "Друге натискання протягом цього часу після першого відпускання вважається подвійним натисканням."
 
 msgid ""
 "A single tap on a key with a double-tap action runs only after this window "
 "ends, so a large value makes such keys feel slow. Keys without a double-tap "
 "action are not delayed."
-msgstr ""
-"Одноразове натискання на клавішу з подвійним натисканням виконується лише "
-"після завершення цього вікна, тому велике значення робить такі клавіші "
-"повільними. Клавіші без подвійного натискання не затримуються."
+msgstr "Одиночне натискання клавіші з дією подвійного натискання виконується лише після завершення цього інтервалу, тому велике значення робить такі клавіші повільними. Клавіші без дії подвійного натискання не затримуються."
 
 msgid ""
 "Used by macros that leave the field empty. A macro can set its own value on "
 "the Macros page."
-msgstr ""
-"Використовується макросами, які залишають поле порожнім. Макрос може "
-"встановити власне значення на сторінці макросів."
+msgstr "Використовується макросами, що залишають поле порожнім. Макрос може задати власне значення на сторінці «Макроси»."
 
 msgid ""
 "Pause between consecutive steps of a macro. Increase it if an application "
 "misses keystrokes."
-msgstr ""
-"Пауза між послідовними кроками макросу. Збільште його, якщо програма "
-"пропускає натискання клавіш."
+msgstr "Пауза між послідовними кроками макросу. Збільште її, якщо програма пропускає натискання клавіш."
 
 msgid "Simultaneous presses"
 msgstr "Одночасні натискання"
@@ -2903,28 +2729,18 @@ msgid ""
 " keys must go down within this time, in any order. Until then the first key "
 "is held back; if the combination does not complete, it is typed as usual. "
 "Modifiers are never held back."
-msgstr ""
-"Для правил, які запускаються кількома клавішами, натиснутими разом, "
-"наприклад KeyJ+KeyK. Протягом цього часу всі ключі повинні бути спущені в "
-"будь-якому порядку. До того часу перший ключ утримується; якщо комбінація не"
-" завершується, вона набирається як зазвичай. Модифікатори ніколи не "
-"стримуються."
+msgstr "Для правил, що спрацьовують від кількох одночасно натиснутих клавіш, наприклад KeyJ+KeyK. Усі клавіші мають бути натиснуті протягом цього часу, у будь-якому порядку. До того перша клавіша затримується; якщо комбінацію не завершено, вона вводиться як зазвичай. Модифікатори ніколи не затримуються."
 
 msgid ""
 "Higher: the combination is easier to hit, but typing with these keys lags "
 "slightly. Applies to all rules; a rule cannot override it."
-msgstr ""
-"Вищий: комбінацію легше набрати, але набір цими клавішами трохи відстає. "
-"Застосовується до всіх правил; правило не може його перевизначити."
+msgstr "Більше: комбінацію легше натиснути, але друк цими клавішами трохи запізнюється. Діє для всіх правил; правило не може це змінити."
 
 msgid ""
 "Wait between pressing modifiers (Shift, Ctrl, …) and the main key of a macro"
 " step. Increase it if an application receives the shortcut without its "
 "modifier. Default for macros that leave the field empty."
-msgstr ""
-"Зачекайте між натисканням модифікаторів (Shift, Ctrl, …) і основною клавішею"
-" кроку макросу. Збільште його, якщо програма отримує ярлик без його "
-"модифікатора. Типове значення для макросів, які залишають поле порожнім."
+msgstr "Очікування між натисканням модифікаторів (Shift, Ctrl, …) і основної клавіші кроку макросу. Збільште його, якщо програма отримує комбінацію без модифікатора. Значення за замовчуванням для макросів, що залишають поле порожнім."
 
 msgid "Enter a long hold from 100 to 60000 ms."
 msgstr "Введіть тривале утримання від 100 до 60000 мс."
@@ -2935,22 +2751,16 @@ msgstr "Тривале утримання після {} мс"
 msgid ""
 "Released earlier, the trigger counts as a tap; held longer, as a hold. Empty"
 " uses the default from Settings: {} ms."
-msgstr ""
-"Випущений раніше, тригер зараховується як натискання; тримав довше, як "
-"тримав. Empty використовує значення за замовчуванням із налаштувань: {} мс."
+msgstr "Якщо відпустити раніше, тригер вважається натисканням; якщо утримувати довше — утриманням. Порожнє поле означає значення з налаштувань: {} мс."
 
 msgid ""
 "How long to keep holding before the action runs. Empty uses the default from"
 " Settings: {} ms."
-msgstr ""
-"Як довго утримувати, перш ніж дія почнеться. Empty використовує значення за "
-"замовчуванням із налаштувань: {} мс."
+msgstr "Скільки утримувати, перш ніж дія виконається. Порожнє поле означає значення з налаштувань: {} мс."
 
 msgid ""
 "Longest pause between two taps. Empty uses the default from Settings: {} ms."
-msgstr ""
-"Найдовша пауза між двома натисканнями. Empty використовує значення за "
-"замовчуванням із налаштувань: {} мс."
+msgstr "Найдовша пауза між двома натисканнями. Порожнє поле означає значення з налаштувань: {} мс."
 
 msgid "Auto: {} is not counted as a game (built-in list)"
 msgstr "Авто: {} не вважається грою (вбудований список)"
@@ -2958,16 +2768,12 @@ msgstr "Авто: {} не вважається грою (вбудований с
 msgid ""
 "These sources can take another application for a game, so each skips a "
 "built-in list of applications."
-msgstr ""
-"Ці джерела можуть приймати іншу програму для гри, тому кожне пропускає "
-"вбудований список програм."
+msgstr "Ці джерела можуть сприйняти іншу програму за гру, тому кожне з них пропускає вбудований список програм."
 
 msgid ""
 "Turns on while a program that Windows recognized as a game (the Game Bar "
 "list) runs. Launchers are listed there too, so they are skipped."
-msgstr ""
-"Вмикається під час роботи програми, яку Windows розпізнала як гру (список "
-"панелі ігор). Пускові установки також вказані там, тому їх пропускають."
+msgstr "Вмикається, поки працює програма, яку Windows розпізнала як гру (список Game Bar). Лаунчери теж там перелічені, тому їх пропускають."
 
 msgid "Launchers and game tools — not counted as games"
 msgstr "Лаунчери та ігрові інструменти — не враховуються як ігри"
@@ -2976,10 +2782,7 @@ msgid ""
 "Decides when a dual-role key counts as a hold if another key is pressed. "
 "Rules can override this default in advanced options. Chord detection is "
 "configured separately."
-msgstr ""
-"Вирішує, коли подвійна клавіша вважається утриманням, якщо натиснуто іншу "
-"клавішу. Правила можуть замінити це значення за умовчанням у розширених "
-"параметрах. Розпізнавання акордів налаштовується окремо."
+msgstr "Визначає, коли клавіша з подвійною роллю вважається утримуваною, якщо натиснуто іншу клавішу. Правила можуть змінити це значення в розширених параметрах. Визначення комбінацій налаштовується окремо."
 
 msgid "After another key is released (better for typing)"
 msgstr "Після відпускання іншої клавіші (краще для введення)"
@@ -2988,28 +2791,22 @@ msgid ""
 "As soon as another key is pressed: useful for dedicated layer or modifier "
 "keys. Reacts faster, but overlapping letters while typing can trigger the "
 "hold by mistake."
-msgstr ""
-"Щойно натиснуто іншу клавішу: корисно для виділених клавіш шару або "
-"модифікатора. Реагує швидше, але накладання букв під час введення може "
-"викликати помилкове утримання."
+msgstr "Щойно натиснуто іншу клавішу: корисно для клавіш, призначених лише для шарів або модифікаторів. Реагує швидше, але накладання літер під час друку може помилково спричинити утримання."
 
 msgid "Default from Settings: {}"
-msgstr "За замовчуванням у налаштуваннях: {}"
+msgstr "За замовчуванням із налаштувань: {}"
 
 msgid "after another key is released"
-msgstr "після відпускання іншого ключа"
+msgstr "після відпускання іншої клавіші"
 
 msgid "as soon as another key is pressed"
-msgstr "як тільки буде натиснута інша клавіша"
+msgstr "щойно натиснуто іншу клавішу"
 
 msgid ""
 "Overrides the default hold detection for this rule. Use release detection "
 "for typing keys and press detection for dedicated layer or modifier keys. "
 "This does not change chord detection."
-msgstr ""
-"Замінює виявлення утримання за умовчанням для цього правила. Використовуйте "
-"виявлення звільнення для введення клавіш і виявлення натискання для "
-"виділених клавіш шару або модифікатора. Це не змінює виявлення акордів."
+msgstr "Перевизначає типове визначення утримання для цього правила. Використовуйте визначення під час відпускання для клавіш друку і під час натискання — для клавіш, призначених лише для шарів або модифікаторів. Визначення комбінацій це не змінює."
 
 msgid "Cannot list input devices: {}"
 msgstr "Неможливо перерахувати пристрої введення: {}"
@@ -3021,31 +2818,31 @@ msgid "Defaults"
 msgstr "За замовчуванням"
 
 msgid "Shared by all rules"
-msgstr "Спільне за всіма правилами"
+msgstr "Спільне для всіх правил"
 
 msgid "Hold threshold"
-msgstr "Тримайте поріг"
+msgstr "Поріг утримання"
 
 msgid "Long hold"
 msgstr "Тривале утримання"
 
 msgid "Double-tap window"
-msgstr "Двічі торкніться вікна"
+msgstr "Інтервал подвійного натискання"
 
 msgid "Reset to {} ms"
 msgstr "Скинути до {} мс"
 
 msgid "Automatic game detection"
-msgstr "Автоматичне визначення гри"
+msgstr "Автоматичне визначення ігор"
 
 msgid "System signals"
 msgstr "Системні сигнали"
 
 msgid "Launchers"
-msgstr "Пускові установки"
+msgstr "Лаунчери"
 
 msgid "Heroic games"
-msgstr "Героїчні ігри"
+msgstr "Ігри Heroic"
 
 msgid ""
 "Turns on while a game started by Heroic Games Launcher runs (Epic, GOG, "
@@ -3074,7 +2871,7 @@ msgid "Your rules"
 msgstr "Ваші правила"
 
 msgid "“Doesn't count as a game” wins over everything else, automatic detection included."
-msgstr "«Не вважається грою» перемагає над усім іншим, включаючи автоматичне виявлення."
+msgstr "«Не вважається грою» має пріоритет над усім іншим, зокрема над автоматичним визначенням."
 
 
 
@@ -3098,22 +2895,22 @@ msgid "Tap"
 msgstr "Натискання"
 
 msgid "Don't press"
-msgstr "Не тисніть"
+msgstr "Не натискати"
 
 msgid "{} — change…"
 msgstr "{} — змінити…"
 
 msgid "Choose another key above to set when it is pressed."
-msgstr "Виберіть іншу клавішу вище, щоб налаштувати час її натискання."
+msgstr "Виберіть іншу клавішу вище, щоб задати, коли її натискати."
 
 msgid "Assign a double-tap action to the rule to change this window."
-msgstr "Призначте дію подвійного дотику до правила, щоб змінити це вікно."
+msgstr "Призначте правилу дію подвійного натискання, щоб змінити цей інтервал."
 
 msgid "Hold on other key release"
-msgstr "Утримуйте іншу клавішу"
+msgstr "Утримання після відпускання іншої клавіші"
 
 msgid "Hold on other key press"
-msgstr "Утримуйте іншу клавішу"
+msgstr "Утримання після натискання іншої клавіші"
 
 msgid "Reset"
 msgstr "Скинути"
@@ -3123,19 +2920,16 @@ msgstr ""
 "Повернути всі параметри в цьому діалоговому вікні до стандартних значень"
 
 msgid "Macro time limit"
-msgstr "Макрос обмеження часу"
+msgstr "Обмеження часу макросу"
 
 msgid ""
 "A macro still running after this time is stopped and counts as finished. A "
 "macro started while another one runs waits for it; up to 3 runs can wait, "
 "further presses are ignored."
-msgstr ""
-"Макрос, який продовжує працювати після цього часу, зупиняється та вважається"
-" завершеним. Запущений макрос, а інший виконується, очікує його; можна "
-"чекати до 3 запусків, подальші натискання ігноруються."
+msgstr "Макрос, який усе ще працює після цього часу, зупиняється й вважається завершеним. Макрос, запущений під час роботи іншого, чекає на нього; чекати можуть до 3 запусків, подальші натискання ігноруються."
 
 msgid "Global shortcuts registered in this KDE session:"
-msgstr "Глобальні ярлики, зареєстровані в цьому сеансі KDE:"
+msgstr "Глобальні комбінації клавіш, зареєстровані в цьому сеансі KDE:"
 
 msgid ""
 "The list is read from the KDE global shortcut service (kglobalaccel): KWin, "
@@ -3145,24 +2939,15 @@ msgid ""
 "Plasma version and installed applications, so Tecloid does not "
 "guarantee them. Common window and desktop actions that also work on other "
 "platforms are in System actions."
-msgstr ""
-"Список читається з глобальної служби швидкого доступу KDE (kglobalaccel): "
-"там реєструють свої дії KWin, Plasma та програми. Вибрана дія викликається "
-"як є, як якщо б її ярлик було натиснуто, навіть якщо їй не призначено жодної"
-" клавіші. Які існують дії та як вони поводяться, залежить від версії Плазми "
-"та встановлених програм, тому Tecloid не гарантує їх виконання. "
-"Загальні дії вікон і робочого столу, які також працюють на інших платформах,"
-" знаходяться в системних діях."
+msgstr "Список читається зі служби глобальних комбінацій KDE (kglobalaccel): KWin, Plasma та програми реєструють там свої дії. Вибрана дія викликається напряму, ніби натиснуто її комбінацію, навіть якщо їй не призначено клавіш. Які дії існують і як вони поводяться, залежить від версії Plasma та встановлених програм, тому Tecloid їх не гарантує. Звичайні дії з вікнами й робочими столами, що працюють і на інших платформах, є в розділі «Системні дії»."
 
 msgid "Hold key or combination"
-msgstr "Утримуйте клавішу або комбінацію"
+msgstr "Утримувати клавішу або комбінацію"
 
 msgid ""
 "The key or combination stays pressed until you release the trigger. Choose "
 "modifiers plus one main key, for example Ctrl+KeyC."
-msgstr ""
-"Клавіша або комбінація залишається натиснутою, доки ви не відпустите курок. "
-"Виберіть модифікатори плюс одну головну клавішу, наприклад Ctrl+KeyC."
+msgstr "Клавіша або комбінація залишається натиснутою, доки ви не відпустите тригер. Виберіть модифікатори й одну основну клавішу, наприклад Ctrl+KeyC."
 
 msgid "Not used when holding performs a long-hold action."
 msgstr "Не використовується, коли утримання виконує дію тривалого утримання."
@@ -3187,10 +2972,10 @@ msgid "Double-tap interval, ms"
 msgstr "Інтервал подвійного натискання, мс"
 
 msgid "Double-tap actions are available only for single-key triggers."
-msgstr "Дії подвійним дотиком доступні лише для одноклавішних тригерів."
+msgstr "Дії подвійного натискання доступні лише для одноклавішних тригерів."
 
 msgid "Applies when a double-tap action is assigned."
-msgstr "Застосовується, коли призначено дію подвійного дотику."
+msgstr "Застосовується, коли призначено дію подвійного натискання."
 
 msgid "Delete trigger"
 msgstr "Видалити тригер"
@@ -3204,7 +2989,7 @@ msgid ""
 msgstr "Тригер і всі призначені йому дії буде видалено з поточного Keymap."
 
 msgid "Reset {} to default"
-msgstr "Скинути {} до замовчування"
+msgstr "Скинути {} до значення за замовчуванням"
 
 msgid "Holding activates layer: {}"
 msgstr "Утримання активує шар: {}"
@@ -3213,43 +2998,43 @@ msgid "Holding performs a long-hold action."
 msgstr "Утримання виконує дію тривалого утримання."
 
 msgid "Holding keeps a key or combination pressed."
-msgstr "Утримуючи клавішу або комбінацію, вона залишається натиснутою."
+msgstr "Утримання тримає клавішу або комбінацію натиснутою."
 
 msgid "Paths"
 msgstr "Шляхи"
 
 msgid "Unknown layer key at \"{}\"."
-msgstr "Невідома клавіша шару в \"{}\"."
+msgstr "Невідома клавіша шару в «{}»."
 
 msgid "Invalid layer action at \"{}\"."
-msgstr "Недійсна дія шару на \"{}\"."
+msgstr "Недійсна дія шару в «{}»."
 
 msgid "Invalid macro at \"{}\"."
-msgstr "Недійсний макрос у \"{}\"."
+msgstr "Недійсний макрос у «{}»."
 
 msgid "Invalid menu action at \"{}\"."
-msgstr "Недійсна дія меню на \"{}\"."
+msgstr "Недійсна дія меню в «{}»."
 
 msgid "Invalid timing at \"{}\"."
-msgstr "Недійсний час на \"{}\"."
+msgstr "Недійсні таймінги в «{}»."
 
 msgid "Invalid window condition at \"{}\"."
-msgstr "Недійсний стан вікна в \"{}\"."
+msgstr "Недійсна умова вікна в «{}»."
 
 msgid "Unsupported rule combination at \"{}\"."
-msgstr "Непідтримувана комбінація правил у \"{}\"."
+msgstr "Непідтримувана комбінація правил у «{}»."
 
 msgid "Invalid macro step at \"{}\"."
-msgstr "Недійсний крок макросу на \"{}\"."
+msgstr "Недійсний крок макросу в «{}»."
 
 msgid "Macro call cycle at \"{}\"."
-msgstr "Цикл виклику макросу на «{}»."
+msgstr "Цикл викликів макросів у «{}»."
 
 msgid "A timing value is outside the range shown in Settings."
 msgstr "Значення часу виходить за межі діапазону, указаного в налаштуваннях."
 
 msgid "Keep modifiers held until the layer is released"
-msgstr "Утримуйте модифікатори, доки шар не буде звільнено"
+msgstr "Утримувати модифікатори, доки шар не буде відпущено"
 
 msgid ""
 "For a combination such as Alt+Tab: Alt stays pressed while you press the key"
@@ -3262,9 +3047,7 @@ msgstr ""
 
 msgid ""
 "Cannot list input devices. Check device access and see the application log."
-msgstr ""
-"Неможливо створити список пристроїв введення. Перевірте доступ до пристрою "
-"та перегляньте журнал програми."
+msgstr "Не вдалося отримати список пристроїв введення. Перевірте доступ до пристроїв і перегляньте журнал програми."
 
 msgid ""
 "Configuration is unavailable. Check the configuration files and see the "
@@ -3282,40 +3065,34 @@ msgstr "Помилка спливаючого меню. Спробуйте зн�
 msgid ""
 "The text was not typed: the typing method is unavailable. Restart the mapper"
 " to try again."
-msgstr ""
-"Текст не набраний: метод набору недоступний. Перезапустіть програму "
-"картографування, щоб повторити спробу."
+msgstr "Текст не введено: метод введення недоступний. Перезапустіть мапер, щоб спробувати знову."
 
 msgid ""
 "The text was not typed: safe clipboard access failed. See the application "
 "log."
-msgstr ""
-"Текст не введено: не вдалося отримати безпечний доступ до буфера обміну. "
-"Перегляньте журнал заявок."
+msgstr "Текст не введено: не вдалося безпечно отримати доступ до буфера обміну. Перегляньте журнал програми."
 
 msgid ""
 "The text was not typed: the input tool failed. See the application log."
-msgstr ""
-"Текст не було набрано: не вдалося ввести інструмент. Перегляньте журнал "
-"заявок."
+msgstr "Текст не введено: помилка інструмента введення. Перегляньте журнал програми."
 
 msgid "Changes saved, but the mapper is still using the previous settings. Restart the mapper."
 msgstr "Зміни збережено, але мапер продовжує використовувати попередні налаштування. Перезапустіть мапер."
 
 msgid "The operation failed. See the application log."
-msgstr "Операція не вдалася. Перегляньте журнал заявок."
+msgstr "Операція не вдалася. Перегляньте журнал програми."
 
 msgid "The action failed. See the application log."
-msgstr "Дія не вдалася. Перегляньте журнал заявок."
+msgstr "Дія не вдалася. Перегляньте журнал програми."
 
 msgid "Cannot start the mapper. See the application log."
-msgstr "Не вдалося запустити мапер. Подробиці в журналі застосунку."
+msgstr "Не вдалося запустити мапер. Перегляньте журнал програми."
 
 msgid "Mapper is running, but an error occurred. See the application log."
-msgstr "Mapper працює, але сталася помилка. Перегляньте журнал заявок."
+msgstr "Мапер працює, але сталася помилка. Перегляньте журнал програми."
 
 msgid "Mapper stopped because of an error. See the application log."
-msgstr "Mapper зупинено через помилку. Перегляньте журнал заявок."
+msgstr "Мапер зупинився через помилку. Перегляньте журнал програми."
 
 msgid ""
 "Cannot read or save the configuration. Check file access and see the "
@@ -3325,11 +3102,10 @@ msgstr ""
 "та перегляньте журнал програми."
 
 msgid "Cannot parse the configuration file. See the application log."
-msgstr ""
-"Неможливо проаналізувати файл конфігурації. Перегляньте журнал заявок."
+msgstr "Не вдалося розібрати файл конфігурації. Перегляньте журнал програми."
 
 msgid "The configuration contains invalid values. See the application log."
-msgstr "Конфігурація містить недійсні значення. Перегляньте журнал заявок."
+msgstr "Конфігурація містить недійсні значення. Перегляньте журнал програми."
 
 msgid "The action has invalid syntax."
 msgstr "Дія має недійсний синтаксис."
@@ -3351,7 +3127,7 @@ msgstr "Невідома дія програми."
 
 msgid ""
 "Unknown action type. It may come from a newer version of the application."
-msgstr "Невідомий тип дії. Це може бути з новішої версії програми."
+msgstr "Невідомий тип дії. Можливо, він із новішої версії програми."
 
 msgid "Keymap: {}"
 msgstr "Keymap: {}"
@@ -3372,7 +3148,7 @@ msgid "Move 5 lines up"
 msgstr "Вгору на 5 рядків"
 
 msgid "Duplicate line"
-msgstr "Дубльований рядок"
+msgstr "Дублювати рядок"
 
 msgid "Space after next character"
 msgstr "Пробіл після наступного символу"
@@ -3417,7 +3193,7 @@ msgid "Cut whole line"
 msgstr "Вирізати рядок повністю"
 
 msgid "Select 5 lines up"
-msgstr "Виберіть 5 рядків"
+msgstr "Виділити 5 рядків угору"
 
 msgid "Copy to line start"
 msgstr "Копіювати до початку рядка"
@@ -3444,16 +3220,16 @@ msgid "Replace line text with clipboard"
 msgstr "Замінити текст рядка з буфера обміну"
 
 msgid "Select 5 lines down"
-msgstr "Виберіть 5 рядків вниз"
+msgstr "Виділити 5 рядків униз"
 
 msgid "Remove trigger"
-msgstr "Зніміть тригер"
+msgstr "Видалити тригер"
 
 msgid "Refresh list"
 msgstr "Оновити список"
 
 msgid "Remove item"
-msgstr "Видалити товар"
+msgstr "Видалити елемент"
 
 msgid "Save as or reset changes"
 msgstr "Зберегти як або скинути зміни"
@@ -3471,19 +3247,16 @@ msgid "Cancel (Esc)"
 msgstr "Скасувати (Esc)"
 
 msgid "Use the default from Settings: {} ms"
-msgstr "Використовуйте значення за замовчуванням із налаштувань: {} мс"
+msgstr "Використати значення за замовчуванням із налаштувань: {} мс"
 
 msgid ""
 "Opened by the app:showQuickMenuN actions, where N is the page position: "
 "reordering pages changes which page a key opens. Each cell can hold any "
 "action: a shortcut, macro, shell command or system action."
-msgstr ""
-"Відкривається діями app:showQuickMenuN, де N – позиція сторінки: зміна "
-"порядку сторінок змінює сторінку, яку відкриває клавіша. Кожна комірка може "
-"містити будь-яку дію: ярлик, макрос, команду оболонки або системну дію."
+msgstr "Відкривається діями app:showQuickMenuN, де N — позиція сторінки: зміна порядку сторінок змінює, яку сторінку відкриває клавіша. Кожна клітинка може містити будь-яку дію: комбінацію клавіш, макрос, команду оболонки або системну дію."
 
 msgid "In the popup, click a cell or press its key: the cells follow the keyboard rows Q–T, A–G and Z–B. PgUp/PgDn switch pages; digits open a page by its number."
-msgstr "У спливаючому вікні клацніть клітинку або натисніть її клавішу: клітинки слідують за рядками Q–T, A–G і Z–B. PgUp/PgDn перемикає сторінки; цифри відкривають сторінку за її номером."
+msgstr "У спливному вікні клацніть клітинку або натисніть її клавішу: клітинки відповідають рядам клавіатури Q–T, A–G і Z–B. PgUp/PgDn перемикають сторінки; цифри відкривають сторінку за номером."
 
 msgid "Waiting for keyboard"
 msgstr "Очікування клавіатури"
@@ -3556,7 +3329,7 @@ msgid "Games that launchers or the system report count only while their window i
 msgstr "Ігри, про які повідомляють лаунчери або система, враховуються лише поки їхнє вікно активне, тож перехід у браузер вимикає ігровий режим. Steam у Windows не повідомляє, яка програма є грою, тому його ігри враховуються завжди."
 
 msgid "Cannot load this keymap. See the application log."
-msgstr "Не вдалося завантажити цю Keymap. Докладніше — у журналі застосунку."
+msgstr "Не вдалося завантажити цей Keymap. Перегляньте журнал програми."
 
 msgid "Scroll horizontally"
 msgstr "Прокручування по горизонталі"
@@ -3583,7 +3356,7 @@ msgid "Configure triggers"
 msgstr "Налаштувати тригери"
 
 msgid "Mouse buttons, media keys, and other triggers outside the main keyboard grid. Add a trigger and choose its action or suppress it. Delete its row to inherit the assignment from the lower layer or base keymap."
-msgstr "Кнопки миші, мультимедійні клавіші та інші тригери поза основною сіткою клавіатури. Додайте тригер і призначте дію або пригнічення. Видаліть рядок, щоб успадкувати призначення з нижнього шару або базової Keymap."
+msgstr "Кнопки миші, мультимедійні клавіші та інші тригери поза основною сіткою клавіатури. Додайте тригер і виберіть його дію або подавіть його. Видаліть його рядок, щоб успадкувати призначення з нижнього шару або базового Keymap."
 
 msgid "Choose one key. Some keys depend on keyboard hardware and may be ignored by the system."
 msgstr "Виберіть одну клавішу. Деякі клавіші залежать від обладнання клавіатури й можуть ігноруватися системою."
@@ -3628,7 +3401,7 @@ msgid "Save keymap changes before quitting?"
 msgstr "Зберегти зміни Keymap перед виходом?"
 
 msgid "Cannot switch keymap. The mapper is still using the previous keymap."
-msgstr "Не вдалося перемкнути Keymap. Мапер продовжує використовувати попередню Keymap."
+msgstr "Не вдалося перемкнути Keymap. Мапер і далі використовує попередній Keymap."
 
 msgid "This key is on the layer keyboard. Assign it there."
 msgstr "Ця клавіша є на клавіатурі шару. Призначте її там."
@@ -3770,7 +3543,7 @@ msgid "Clipboard access is unavailable. Reset text input permissions in Settings
 msgstr "Доступ до буфера обміну недоступний. Скиньте дозволи на введення тексту в налаштуваннях і дозвольте доступ до буфера обміну в діалоговому вікні згоди."
 
 msgid "No clipboard text transfer was observed. Check the paste shortcut for the destination app, including embedded terminals."
-msgstr "Перенесення тексту буфера обміну не спостерігалося. Перевірте ярлик вставки для цільової програми, включаючи вбудовані термінали."
+msgstr "Передавання тексту через буфер обміну не виявлено. Перевірте комбінацію вставлення для цільової програми, зокрема для вбудованих терміналів."
 
 msgid "The clipboard is marked sensitive. Copy another item before pasting text so password-manager ownership is preserved."
 msgstr "Буфер обміну позначено як конфіденційний. Скопіюйте інший елемент перед вставленням тексту, щоб зберегти право власності на менеджер паролів."
