@@ -104,6 +104,10 @@ overrides:
     recommends:
       - xdg-desktop-portal
       - wl-clipboard
+      # X11 desktops (Cinnamon): text, window conditions, screen off.
+      - xdotool
+      - x11-utils
+      - x11-xserver-utils
   rpm:
     depends:
       - libstdc++.so.6()(64bit)
@@ -114,6 +118,9 @@ overrides:
     recommends:
       - xdg-desktop-portal
       - wl-clipboard
+      - xdotool
+      - xprop
+      - xset
 
 rpm:
   group: Applications/System

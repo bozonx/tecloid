@@ -316,7 +316,16 @@ pub(crate) fn type_text(text: &str, request: TextRequest) -> Result<(), TextInpu
         .unwrap_or_else(|e| e.into_inner())
         .clone();
     let paste = clipboard_keys(&cfg, request.is_terminal());
-    match cfg.mode {
+    // X11 desktops have no RemoteDesktop portal (libei) or data-control
+    // clipboard; xdotool types through XTEST, borrowing a spare keycode
+    // for characters the layout lacks.
+    let mode = match cfg.mode {
+        TextMode::LibeiWithClipboardFallback | TextMode::LibeiOnly if x11_session() => {
+            TextMode::Xdotool
+        }
+        mode => mode,
+    };
+    match mode {
         TextMode::Ydotool => run_text_tool(
             cfg.ydotool_path.as_deref().unwrap_or("ydotool"),
             &["type", "--escape=0", "--", text],
@@ -334,6 +343,13 @@ pub(crate) fn type_text(text: &str, request: TextRequest) -> Result<(), TextInpu
         }
         TextMode::Keycode | TextMode::Clipboard => PORTAL.type_text(text, cfg.mode, paste, request),
     }
+}
+
+fn x11_session() -> bool {
+    matches!(
+        crate::platform::linux::detect().session_type,
+        crate::platform::linux::SessionType::X11
+    )
 }
 
 /// Run a typing tool with a deadline that grows with the text, so a hung

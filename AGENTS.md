@@ -13,9 +13,9 @@ system tray.
 
 - The product is the Slint shell `apps/slint-shell/` on top of
   `crates/tecloid-core/`. `_old/` is an inactive archive.
-- Supported targets: **KDE Plasma 6 on Wayland** (primary) and **GNOME on
-  Wayland** (Shell extension). Windows has a mapper backend, macOS only the
-  shell. Matrix: [`docs/platforms.md`](docs/platforms.md).
+- Supported targets: **KDE Plasma 6 on Wayland** (primary), **GNOME on
+  Wayland** (Shell extension) and **Cinnamon on X11** (Linux Mint; generic X11
+  backends). Windows has a mapper backend, macOS only the shell. Matrix: [`docs/platforms.md`](docs/platforms.md).
 - **Formats are frozen from 0.5.0 on.** Users of 0.5.0 and later have
   `config.json` files and keymaps on disk; never break them (see
   [Compatibility contract](#compatibility-contract)). 0.4.0 had no users; its
@@ -95,6 +95,7 @@ Full description: [`docs/architecture.md`](docs/architecture.md).
 | Mapper behaviour, key handling, system actions | `crates/tecloid-core/src/mapper/` |
 | Text injection | `crates/tecloid-core/src/text_input/` |
 | OS/DE detection or watcher | `crates/tecloid-core/src/platform/`, `keyboard_layout/`, `gamemode/`, `active_window/` |
+| X11 (EWMH, XKB) | `crates/tecloid-core/src/platform/x11.rs`, `keyboard_layout/linux_x11.rs` |
 | GNOME Shell side | `crates/tecloid-core/assets/gnome-extension/` |
 | Settings page | `apps/slint-shell/src/pages/<page>.rs` + `ui/<page>.slint` |
 | Popup content or keys | `apps/slint-shell/src/popup_model.rs`, `ui/popup-*.slint` |
@@ -197,7 +198,7 @@ Report the exact commands you ran and their results. If something could not run
 - Changing a default that affects input behaviour.
 - Adding a dependency or bumping Slint / `spell-framework` / `i-slint-core`.
 - `cargo release --execute` or pushing `v*` tags.
-- Extending X11 support or touching `_old/`.
+- Touching `_old/`.
 
 **Never**
 - Read or write the real user config from debug builds or tests (use

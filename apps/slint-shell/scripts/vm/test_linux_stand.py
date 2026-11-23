@@ -25,12 +25,18 @@ def module(name, filename):
 guest = module("linux_guest", "linux-guest.py")
 linux = module("linux_runner", "run-linux.py")
 gnome = module("gnome_runner", "run-gnome.py")
+cinnamon = module("cinnamon_runner", "run-cinnamon.py")
 windows = module("windows_runner_keymap", "run-windows.py")
 matrix_runner = module("linux_matrix", "run-linux-matrix.py")
 receiver_probe = module("receiver_probe", "check-linux-receiver.py")
 
 
 manual_launcher = module("manual_linux", "manual-linux.py")
+
+
+def guest_shared_checks():
+    from manual_acceptance import MANUAL_CHECKS
+    return MANUAL_CHECKS
 
 
 class LinuxStandTests(unittest.TestCase):
@@ -68,10 +74,24 @@ class LinuxStandTests(unittest.TestCase):
                         contextlib.redirect_stdout(output):
                     manual_launcher.main()
                 command = boot.call_args.args[1]
-                self.assertEqual(Path(command[1]).name, "run-gnome.py" if stand == "gnome" else "run-linux.py")
+                runner = {"gnome": "run-gnome.py", "cinnamon": "run-cinnamon.py"}.get(stand, "run-linux.py")
+                self.assertEqual(Path(command[1]).name, runner)
                 self.assertIn("--manual", command)
-                self.assertEqual("--popup-mode" in command, stand != "gnome")
+                self.assertEqual("--popup-mode" in command, stand not in ("gnome", "cinnamon"))
 
+
+    def test_cinnamon_checklist_keeps_shared_checks_and_ends_with_removal(self):
+        names = [name for name, _ in cinnamon.CINNAMON_MANUAL_CHECKS]
+        self.assertEqual(names[-1], "removal")
+        self.assertTrue({name for name, _ in guest_shared_checks()} <= set(names))
+        self.assertIn("x11-window-actions", names)
+
+    def test_x11_layouts_parse_xprop_rules_names(self):
+        with patch.object(guest, "xprop_root",
+                          return_value='"evdev", "pc105", "us,ru", ",", "grp:alt_shift_toggle"'):
+            self.assertEqual(guest.x11_layouts(), "us,ru")
+        with patch.object(guest, "xprop_root", return_value=""):
+            self.assertEqual(guest.x11_layouts(), "")
 
     def test_gnome_manual_checklist_keeps_skipped_checks_incomplete(self):
         report = Report()

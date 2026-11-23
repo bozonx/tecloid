@@ -20,6 +20,8 @@ reis = "0.6.1"
 wayland-client.workspace = true
 wayland-protocols = { workspace = true, features = ["client", "staging"] }
 wayland-protocols-wlr = { version = "0.3", features = ["client"] }
+# Already in the tree through winit; EWMH window actions and the XKB group on X11.
+x11rb = { version = "0.13.2", features = ["xkb"] }
 zbus.workspace = true
 
 [target.'cfg(target_os = "windows")'.dependencies]

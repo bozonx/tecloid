@@ -1,7 +1,7 @@
 //! Current keyboard layout detection.
 //!
 //! ```text
-//! Current product support is Linux/KDE. The facade keeps the other backends
+//! Supported: KDE, GNOME (extension), X11 desktops and Windows. The facade keeps the other backends
 //! visible as explicit stubs/skeletons so unsupported platforms and desktop
 //! environments fail predictably instead of silently diverging.
 //!
@@ -9,11 +9,9 @@
 //!   * Linux + KDE Plasma     — DBus `org.kde.keyboard`            (implemented)
 //!   * Linux + GNOME          — optional Shell extension over D-Bus
 //!   * Linux + Sway / wlroots — `swaymsg -t get_inputs`             (skeleton)
-//!   * Linux + generic X11    — `setxkbmap -query`                  (skeleton,
-//!                                                                   also used
-//!                                                                   as fallback
-//!                                                                   for unknown
-//!                                                                   DEs)
+//!   * Linux + X11 (Cinnamon, Xfce, MATE, …) — XKB group + `_XKB_RULES_NAMES`
+//!                                                     (implemented; X11 sessions
+//!                                                     only)
 //!   * Windows                — GetKeyboardLayout (foreground)      (implemented)
 //!   * macOS                  — TISCopyCurrentKeyboardInputSource   (stub)
 //!
@@ -187,9 +185,8 @@ pub fn current() -> Result<Option<KeyboardLayoutInfo>, String> {
             Desktop::Kde => linux_kde::current(),
             Desktop::Gnome => linux_gnome::current(),
             Desktop::Sway => linux_sway::current(),
-            // Everything else — Hyprland, Xfce, MATE, Unknown, … — falls
-            // through to the generic X11 backend. It is still a skeleton
-            // but is the correct catch-all once implemented.
+            // Cinnamon, Xfce, MATE, Unknown, …: the XKB state of an X11
+            // session; `Ok(None)` under Wayland.
             _ => linux_x11::current(),
         }
     }
@@ -228,7 +225,8 @@ pub fn available_layouts() -> Result<Vec<KeyboardLayoutInfo>, String> {
         match detect().desktop {
             Desktop::Kde => linux_kde::available_layouts(),
             Desktop::Gnome => linux_gnome::available_layouts(),
-            _ => Ok(vec![]),
+            Desktop::Sway => Ok(vec![]),
+            _ => linux_x11::available_layouts(),
         }
     }
     #[cfg(target_os = "windows")]
@@ -242,7 +240,7 @@ pub fn available_layouts() -> Result<Vec<KeyboardLayoutInfo>, String> {
 }
 
 /// Switch the active OS keyboard layout to the given zero-based index.
-/// Currently implemented for KDE Plasma, GNOME (with its extension) and Windows; other desktops/OSes
+/// Implemented for KDE Plasma, GNOME (with its extension), X11 desktops and Windows; other desktops/OSes
 /// return an explicit error so the shell can disable the control.
 pub fn set(index: u32) -> Result<(), String> {
     #[cfg(target_os = "linux")]
@@ -251,10 +249,11 @@ pub fn set(index: u32) -> Result<(), String> {
         match detect().desktop {
             Desktop::Kde => linux_kde::set_layout(index),
             Desktop::Gnome => linux_gnome::set_layout(index),
-            d => Err(format!(
+            d @ (Desktop::Sway | Desktop::Hyprland) => Err(format!(
                 "Switching layout is not implemented for desktop '{}'",
                 d.label()
             )),
+            _ => linux_x11::set_layout(index),
         }
     }
     #[cfg(target_os = "windows")]

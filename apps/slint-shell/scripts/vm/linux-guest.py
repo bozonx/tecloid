@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Guest side of the Linux VM e2e stand. `run-linux.py` copies this file into
 the VM and calls one subcommand per step over ssh as the autologin user.
-Only the Python standard library and tools of a KDE Plasma install are used.
+Only the Python standard library and tools of a KDE Plasma, GNOME or
+Cinnamon (X11, `xdotool`/`xprop`) install are used.
 """
 
 import argparse
@@ -190,7 +191,7 @@ def session_pid(group=None):
         except OSError:
             continue
         fields = dict(line.split(":\t", 1) for line in text.splitlines() if ":\t" in line)
-        if fields.get("Name", "").strip() not in ("plasmashell", "gnome-shell"):
+        if fields.get("Name", "").strip() not in ("plasmashell", "gnome-shell", "cinnamon"):
             continue
         if fields.get("Name", "").strip() == "gnome-shell" and "WAYLAND_DISPLAY" not in user_environment():
             continue
@@ -203,6 +204,99 @@ def user_environment():
     output = subprocess.run(["systemctl", "--user", "show-environment"],
                             capture_output=True, text=True).stdout
     return dict(line.split("=", 1) for line in output.splitlines() if "=" in line)
+
+
+def desktop():
+    """`kde`, `gnome` or `cinnamon` from the session's XDG_CURRENT_DESKTOP."""
+    current = user_environment().get("XDG_CURRENT_DESKTOP", "").upper()
+    if "CINNAMON" in current:
+        return "cinnamon"
+    return "gnome" if "GNOME" in current else "kde"
+
+
+# Variables the stand's systemd units need to reach an X11 session.
+X11_SESSION_VARIABLES = ("DISPLAY", "XAUTHORITY", "XDG_CURRENT_DESKTOP",
+                         "XDG_SESSION_TYPE", "XDG_SESSION_DESKTOP", "DESKTOP_SESSION")
+
+
+def import_x11_environment():
+    """Copy the X11 session variables of the running `cinnamon` process into
+    the user manager. cinnamon-session does not export DISPLAY to systemd in
+    every release, but units started by the stand need it."""
+    pid = session_pid()
+    if pid is None:
+        return False
+    try:
+        raw = Path(f"/proc/{pid}/environ").read_bytes()
+    except OSError:
+        return False
+    found = dict(item.split("=", 1) for item in raw.decode(errors="replace").split("\0") if "=" in item)
+    if "DISPLAY" not in found:
+        return False
+    if "CINNAMON" not in found.get("XDG_CURRENT_DESKTOP", "").upper():
+        return False
+    assignments = [f"{key}={found[key]}" for key in X11_SESSION_VARIABLES if key in found]
+    subprocess.run(["systemctl", "--user", "set-environment", *assignments], check=True)
+    return True
+
+
+def x11_environment():
+    return {**os.environ, **user_environment()}
+
+
+def xprop_root(atom):
+    result = subprocess.run(["xprop", "-root", atom], capture_output=True, text=True,
+                            env=x11_environment())
+    if result.returncode:
+        fail(f"xprop -root {atom}: {result.stderr.strip()}")
+    return result.stdout.split("=", 1)[1].strip() if "=" in result.stdout else ""
+
+
+def xkb_group():
+    """Effective XKB group of the core keyboard through libX11 (no extra tools)."""
+    import ctypes
+    import ctypes.util
+
+    class XkbState(ctypes.Structure):
+        _fields_ = [("group", ctypes.c_ubyte), ("locked_group", ctypes.c_ubyte),
+                    ("base_group", ctypes.c_ushort), ("latched_group", ctypes.c_short),
+                    ("mods", ctypes.c_ubyte), ("base_mods", ctypes.c_ubyte),
+                    ("latched_mods", ctypes.c_ubyte), ("locked_mods", ctypes.c_ubyte),
+                    ("compat_state", ctypes.c_ubyte), ("grab_mods", ctypes.c_ubyte),
+                    ("compat_grab_mods", ctypes.c_ubyte), ("lookup_mods", ctypes.c_ubyte),
+                    ("compat_lookup_mods", ctypes.c_ubyte), ("ptr_buttons", ctypes.c_ushort)]
+
+    library = ctypes.util.find_library("X11")
+    if not library:
+        fail("libX11 not found")
+    x11 = ctypes.CDLL(library)
+    x11.XOpenDisplay.restype = ctypes.c_void_p
+    x11.XOpenDisplay.argtypes = [ctypes.c_char_p]
+    x11.XkbGetState.argtypes = [ctypes.c_void_p, ctypes.c_uint, ctypes.POINTER(XkbState)]
+    x11.XCloseDisplay.argtypes = [ctypes.c_void_p]
+    display = x11.XOpenDisplay(x11_environment().get("DISPLAY", "").encode())
+    if not display:
+        fail("cannot open the X11 display")
+    try:
+        state = XkbState()
+        if x11.XkbGetState(display, 0x100, ctypes.byref(state)):
+            fail("XkbGetState failed")
+        return state.group
+    finally:
+        x11.XCloseDisplay(display)
+
+
+def x11_layouts():
+    """Layouts from `_XKB_RULES_NAMES = "evdev", "pc105", "us,ru", ",", ""`."""
+    value = xprop_root("_XKB_RULES_NAMES")
+    fields = [field.strip('"').strip() for field in value.split('", "')] if value else []
+    return fields[2] if len(fields) > 2 else ""
+
+
+def active_window_title():
+    result = subprocess.run(["xdotool", "getactivewindow", "getwindowname"],
+                            capture_output=True, text=True, env=x11_environment())
+    return result.stdout.strip() if result.returncode == 0 else ""
 
 
 def systemd_run(unit, command, output, extra_env=(), errors=None):
@@ -233,10 +327,14 @@ def mapper_running():
 def cmd_wait_session(args):
     wait(f"a desktop session{' with group ' + args.group if args.group else ''}",
          args.timeout, lambda: session_pid(args.group), interval=2)
-    wait("WAYLAND_DISPLAY in the user manager", args.timeout,
-         lambda: "WAYLAND_DISPLAY" in user_environment())
+    if args.x11:
+        wait("the Cinnamon X11 session environment", args.timeout,
+             lambda: import_x11_environment() and "DISPLAY" in user_environment(), interval=2)
+    else:
+        wait("WAYLAND_DISPLAY in the user manager", args.timeout,
+             lambda: "WAYLAND_DISPLAY" in user_environment())
     WORK.mkdir(exist_ok=True)
-    print(user_environment().get("XDG_SESSION_TYPE", "wayland"))
+    print(user_environment().get("XDG_SESSION_TYPE", "x11" if args.x11 else "wayland"))
 
 
 def cmd_check_install(args):
@@ -314,7 +412,7 @@ def cmd_probe_keyboard(args):
 def cmd_write_config(args):
     (DATA_DIR / "keymaps").mkdir(parents=True, exist_ok=True)
     layout = E2E_LAYOUT
-    if "GNOME" in user_environment().get("XDG_CURRENT_DESKTOP", "").upper():
+    if desktop() != "kde":
         layout = layout.replace("kde:kwin/Switch to Desktop 1", "sys:switchToDesktop1")
     parsed = json.loads(layout)
     parsed["rules"].append({"key": "KeyU", "tap": "text:" + TEXT_CORPUS})
@@ -338,7 +436,18 @@ def cmd_write_config(args):
     (CONFIG_DIR / "config.json").write_text(
         json.dumps({"version": 1, "settings": settings}, indent=2),
         encoding="utf-8")
-    if "GNOME" in user_environment().get("XDG_CURRENT_DESKTOP", "").upper():
+    if desktop() == "cinnamon":
+        # Read by csd-keyboard and Muffin in this session and the next login.
+        env = x11_environment()
+        settings = [("org.cinnamon.desktop.wm.preferences", "num-workspaces", "2"),
+                    ("org.gnome.libgnomekbd.keyboard", "layouts", "['us', 'ru']")]
+        schemas = subprocess.run(["gsettings", "list-schemas"], capture_output=True,
+                                 text=True, env=env).stdout.split()
+        for schema, key, value in settings:
+            if schema in schemas:
+                subprocess.run(["gsettings", "set", schema, key, value], env=env, check=True)
+        return
+    if desktop() == "gnome":
         env = dict(os.environ, **user_environment())
         for schema, key, value in (
             ("org.gnome.desktop.input-sources", "sources", "[('xkb', 'us'), ('xkb', 'ru')]"),
@@ -469,7 +578,7 @@ def receiver_path(name):
 def cmd_receive(args):
     """Capture the dialog's exit status and text atomically, including empty input."""
     command = (["zenity", "--entry", "--title=Tecloid e2e receiver", "--text=Mapper output"]
-               if "GNOME" in user_environment().get("XDG_CURRENT_DESKTOP", "").upper()
+               if desktop() in ("gnome", "cinnamon")
                else ["kdialog", "--title", "Tecloid e2e receiver", "--inputbox", "Mapper output"])
     result = subprocess.run(command, capture_output=True)
     # kdialog/zenity append one framing newline; preserve all user data before it.
@@ -483,7 +592,9 @@ def cmd_receive(args):
 
 
 def receiver_focused():
-    if "GNOME" in user_environment().get("XDG_CURRENT_DESKTOP", "").upper():
+    if desktop() == "cinnamon":
+        return active_window_title() == "Tecloid e2e receiver"
+    if desktop() == "gnome":
         result = subprocess.run([
             "gdbus", "call", "--session", "--dest", "org.gnome.Shell",
             "--object-path", "/dev/bozonx/Tecloid/Gnome", "--method",
@@ -678,6 +789,24 @@ def cmd_kde_state(args):
     print(f"desktop={desktop} layout={layout}")
 
 
+def cmd_x11_state(args):
+    """Desktop, XKB group and layouts of the X11 session as JSON."""
+    def cardinal(atom):
+        value = xprop_root(atom)
+        return int(value) if value.isdigit() else None
+    print(json.dumps({"desktop": cardinal("_NET_CURRENT_DESKTOP"),
+                      "desktops": cardinal("_NET_NUMBER_OF_DESKTOPS"),
+                      "group": xkb_group(), "layouts": x11_layouts(),
+                      "active": active_window_title()}, ensure_ascii=False))
+
+
+def cmd_x11_layouts(args):
+    """Fall back to `setxkbmap` when the desktop did not apply us,ru."""
+    if x11_layouts() != "us,ru":
+        subprocess.run(["setxkbmap", "-layout", "us,ru"], check=True, env=x11_environment())
+    print(x11_layouts())
+
+
 def cmd_screen_locked(args):
     print("yes" if busctl("call", "org.freedesktop.ScreenSaver", "/ScreenSaver",
                           "org.freedesktop.ScreenSaver", "GetActive")[1] == "true" else "no")
@@ -847,6 +976,7 @@ def main():
     sub = parser.add_subparsers(dest="command", required=True)
     p = sub.add_parser("wait-session")
     p.add_argument("--group")
+    p.add_argument("--x11", action="store_true", help="Cinnamon X11 session instead of Wayland")
     p.add_argument("--timeout", type=float, default=300)
     p = sub.add_parser("check-install")
     p.add_argument("--packaged", action="store_true")
@@ -900,6 +1030,8 @@ def main():
     p = sub.add_parser("portal-deny-point")
     p.add_argument("--x", type=float, required=True)
     p.add_argument("--y", type=float, required=True)
+    sub.add_parser("x11-state")
+    sub.add_parser("x11-layouts")
     sub.add_parser("screen-locked")
     sub.add_parser("lock-screen")
     p = sub.add_parser("game")

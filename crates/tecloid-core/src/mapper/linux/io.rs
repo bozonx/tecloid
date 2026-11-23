@@ -777,9 +777,61 @@ fn run_sys_action(action: &SystemAction) {
         SystemAction::Edit(_) | SystemAction::Keys(_) => {}
         SystemAction::Dbus(call) => call_dbus(call),
         SystemAction::Process(process) => super::super::commands::spawn(process.clone()),
+        SystemAction::X11(action) => run_x11(*action),
         SystemAction::AppEvent(event) => {
             super::super::emit_app_event(event);
         }
+    }
+}
+
+/// Queue an X11 request on the `tecloid-x11` worker, which keeps one
+/// display connection, so a slow X server never blocks the input loop.
+fn run_x11(action: crate::platform::x11::X11Action) {
+    static TX: OnceLock<mpsc::SyncSender<(crate::platform::x11::X11Action, u64)>> = OnceLock::new();
+    let tx = TX.get_or_init(|| {
+        let (tx, rx) = mpsc::sync_channel::<(crate::platform::x11::X11Action, u64)>(WORKER_QUEUE);
+        let spawned = thread::Builder::new()
+            .name("tecloid-x11".into())
+            .spawn(move || {
+                let mut display = None;
+                for (action, generation) in rx {
+                    // Same rule as D-Bus jobs: nothing runs after the mapper stops.
+                    if generation != DBUS_GENERATION.load(Ordering::SeqCst) {
+                        continue;
+                    }
+                    if display.is_none() {
+                        display = crate::platform::x11::Display::open()
+                            .map_err(report_action_failure)
+                            .ok();
+                    }
+                    let Some(connection) = &display else { continue };
+                    match connection.run(action) {
+                        Ok(()) => {
+                            if matches!(action, crate::platform::x11::X11Action::SwitchLayout(_)) {
+                                super::super::refresh_layout();
+                            }
+                            log::debug!("[mapper] x11 {action:?}");
+                        }
+                        Err(error) => {
+                            // A lost connection is reopened for the next request.
+                            display = None;
+                            report_action_failure(format!("{action:?}: {error}"));
+                        }
+                    }
+                }
+            });
+        if let Err(e) = spawned {
+            log::debug!("[mapper] could not spawn x11 worker: {e}");
+        }
+        tx
+    });
+    if tx
+        .try_send((action, DBUS_GENERATION.load(Ordering::SeqCst)))
+        .is_err()
+    {
+        report_action_failure(format!(
+            "System action queue unavailable or full: {action:?}"
+        ));
     }
 }
 

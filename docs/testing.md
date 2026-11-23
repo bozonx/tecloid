@@ -214,7 +214,7 @@ Tecloid log for a missing D-Bus method error. After enabling the extension, it
 verifies that the workspace stayed put and that the same Tecloid process can
 switch to workspace 2 and back without relogin.
 
-### Manual KDE and GNOME acceptance
+### Manual KDE, GNOME and Cinnamon acceptance
 
 Use the [manual acceptance checklist](#manual-acceptance-checklist) for the
 actual checks and expected results; the commands below prepare the VM.
@@ -227,10 +227,12 @@ python3 apps/slint-shell/scripts/vm/manual-linux.py fedora --build
 python3 apps/slint-shell/scripts/vm/manual-linux.py debian
 # GNOME Wayland:
 python3 apps/slint-shell/scripts/vm/manual-linux.py gnome
+# Linux Mint Cinnamon (X11):
+python3 apps/slint-shell/scripts/vm/manual-linux.py cinnamon
 ```
 
 The launcher finds the current version and Cargo target directory itself, then
-selects the RPM for Fedora, DEB for Debian or application tar.gz for GNOME.
+selects the RPM for Fedora, DEB for Debian and Cinnamon or application tar.gz for GNOME.
 `--build` first runs `release-linux-docker.sh`, which builds all Linux release
 artifacts in an `ubuntu:22.04` Docker container like the release workflow, so
 the binary runs on the oldest supported glibc; a build failure stops the
@@ -249,7 +251,8 @@ Local VM location is saved in ignored `dev-files/vm/manual.json`:
 ```
 
 You can override it with `TECLOID_VM_ROOT` or `--vm-root`. This directory contains
-`tecloid-fedora-kde/`, `tecloid-debian13-kde/` and `tecloid-ubuntu2604-gnome/`,
+`tecloid-fedora-kde/`, `tecloid-debian13-kde/`, `tecloid-ubuntu2604-gnome/` and
+`tecloid-mint-cinnamon/`,
 each with `vm.json` and a base disk (`base.qcow2` by default, or the file
 selected by `base` in `vm.json`). Their SSH key is `~/.ssh/tecloid-vm`; package
 removal uses `tecloid`.
@@ -290,6 +293,11 @@ GNOME checks cover desktop actions/focus and Unicode insertion with clipboard
 restoration. Removal commands are shown in the checklist. GNOME remains
 experimental; operator checks are not a claim of KDE feature parity.
 
+For Cinnamon, the runner installs the DEB, sets four fixed workspaces and
+us/ru layouts and reboots into the X11 session, then hands over the checklist
+with extra X11 items (session/tray, layouts, window actions, text without
+portal, window conditions). No config, keymap or autostart entry is generated.
+
 For a custom GNOME stand:
 
 ```sh
@@ -310,6 +318,47 @@ removes the local password). A smaller smoke than KDE: installation, permissions
 bridge, autostart, tray recovery, mapper basics, portal ASCII/Unicode with MIME
 restoration, Quick popup focus, macro. Stops at the first failure.
 `--examples` runs current `editor`/`interactions` binaries in the guest.
+
+### Cinnamon (X11)
+
+```sh
+python3 apps/slint-shell/scripts/vm/run-cinnamon.py --vm <vm-dir> --package <tecloid_…_amd64.deb> [--examples <dir>]
+python3 apps/slint-shell/scripts/vm/run-cinnamon.py --manual --vm <vm-dir> --package <tecloid_…_amd64.deb>
+```
+
+Base: install Linux Mint Cinnamon (current release, ISO installer) with a user
+`tester`, then as root **inside the disposable guest only** run
+`prepare-cinnamon-guest.sh tester "$(cat ~/.ssh/tecloid-vm.pub)"` (copy the
+script and key over first). It installs ssh, `xdotool`, `x11-utils`,
+`x11-xserver-utils`, `zenity`, sets LightDM autologin into the **X11**
+`cinnamon` session, passwordless sudo, us/ru layouts, four workspaces, disables
+idle lock and Mint's welcome/update dialogs, removes the local password and
+keeps the user out of `input`. Reboot, verify autologin, shut down and
+`chmod a-w base.qcow2`. Example `vm.json`:
+
+```json
+{
+  "name": "mint-cinnamon", "base": "base.qcow2",
+  "user": "tester", "ssh_key": "~/.ssh/tecloid-vm", "ssh_port": 2241,
+  "vga": "virtio", "memory": 6144, "cpus": 4,
+  "install": "sudo apt-get install -y {package}",
+  "reinstall": "sudo apt-get install -y --reinstall {package}",
+  "remove": "sudo apt-get remove -y tecloid"
+}
+```
+
+The guest script imports `DISPLAY`/`XAUTHORITY` of the running `cinnamon`
+process into the user manager (`wait-session --x11`), checks state through
+`xprop`, libX11 `XkbGetState` (`x11-state`) and receives text in a `zenity`
+window. Steps: X11 session, install, keyboard probe and config, start with
+session ACLs (no `input` group), tray (`xapp-sn-watcher`), mapper, reboot with
+autostart, disabled/re-enabled autostart, passthrough/remap/chord/tap-hold/
+macro, stop/start, `sys:` layout (XKB group) and desktop (EWMH) switching,
+Russian layout, command, game mode, `text:` ASCII and Unicode through xdotool
+(no portal), Quick popup focus and delivery, popup IPC, CLI, second instance,
+reinstall with autostart, quit and removal. Not covered automatically: lock,
+suspend, replug, window actions other than desktops, previous-version upgrade;
+use the manual Cinnamon checklist. Stops at the first failure.
 
 ### Windows
 

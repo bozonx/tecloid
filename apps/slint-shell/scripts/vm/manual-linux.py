@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Start guided KDE or GNOME VM acceptance with the current release package."""
+"""Start guided KDE, GNOME or Cinnamon VM acceptance with the current release package."""
 
 import argparse
 import json
@@ -12,7 +12,10 @@ import sys
 REPO = Path(__file__).resolve().parents[4]
 STANDS = {"fedora": ("tecloid-fedora-kde", "tecloid-{version}-1.x86_64.rpm"),
           "debian": ("tecloid-debian13-kde", "tecloid_{version}_amd64.deb"),
-          "gnome": ("tecloid-ubuntu2604-gnome", "tecloid-{version}-linux-x86_64.tar.gz")}
+          "gnome": ("tecloid-ubuntu2604-gnome", "tecloid-{version}-linux-x86_64.tar.gz"),
+          "cinnamon": ("tecloid-mint-cinnamon", "tecloid_{version}_amd64.deb")}
+# Stands with their own runner; the others are KDE stands of run-linux.py.
+RUNNERS = {"gnome": "run-gnome.py", "cinnamon": "run-cinnamon.py"}
 
 
 def main():
@@ -52,10 +55,10 @@ def main():
                        cwd=REPO, check=True)
     if not package.is_file():
         parser.error(f"{package} missing; use --build or build packages as described in docs/release.md")
-    runner = "run-gnome.py" if args.stand == "gnome" else "run-linux.py"
+    runner = RUNNERS.get(args.stand, "run-linux.py")
     command = [sys.executable, str(Path(__file__).with_name(runner)),
                "--manual", "--vm", str(vm), "--package", str(package)]
-    if args.stand != "gnome":
+    if args.stand not in RUNNERS:
         command += ["--popup-mode", "auto"]
     print(f"VM: {vm}\nPackage: {package}", flush=True)
     if not args.check:

@@ -23,13 +23,17 @@
 //!                            and gives sub-millisecond latency.
 //!   * `SystemAction::Process` — a Linux child process (`xdg:` actions of
 //!                            applications that are not D-Bus activatable).
+//!   * `SystemAction::X11`     — an EWMH or XKB request on the X11 display.
 //!   * `SystemAction::Windows` — a Win32 call (`mapper::windows::system`).
 //!   * `SystemAction::AppEvent` — handled by the shell on every OS.
 //!
 //! Current product support:
 //!   * Linux + KDE   — implemented.
 //!   * Linux + GNOME — optional Shell extension, fixed action allowlist.
-//!   * Linux + Sway / X11 generic — intentional skeletons for now.
+//!   * Linux + Cinnamon (X11) — EWMH/XKB plus Cinnamon's D-Bus, keys and
+//!     screensaver.
+//!   * Linux + other X11 desktops — EWMH/XKB, `loginctl`, `xset`.
+//!   * Linux + Sway / other Wayland compositors — skeleton.
 //!   * Windows — every id with a documented Win32 API or fixed system
 //!     shortcut; virtual-desktop ids have no public API there.
 //! ```
@@ -86,6 +90,8 @@ pub enum SystemAction {
     Dbus(DbusCall),
     #[cfg(target_os = "linux")]
     Process(ProcessInvocation),
+    #[cfg(target_os = "linux")]
+    X11(crate::platform::x11::X11Action),
     #[cfg(target_os = "windows")]
     Windows(super::windows::system::WindowsAction),
     AppEvent(crate::config::app_action::AppAction),
@@ -230,11 +236,21 @@ fn resolve_for_desktop(
         Desktop::Kde => kde::resolve(name),
         Desktop::Gnome => gnome::resolve(name),
         Desktop::Sway => sway::resolve(name),
-        // Hyprland, Xfce, Cinnamon, MATE, Unknown, … all try the generic
-        // X11/EWMH path. If `wmctrl` is missing or the WM is not EWMH the
-        // command will fail at exec time — we log and move on.
+        // Under Wayland `DISPLAY` is XWayland, which cannot act on the
+        // compositor's windows.
+        _ if !x11_session() => None,
+        Desktop::Cinnamon => cinnamon::resolve(name),
+        // Xfce, MATE, Unknown, …: any EWMH window manager.
         _ => x11_generic::resolve(name),
     }
+}
+
+#[cfg(target_os = "linux")]
+fn x11_session() -> bool {
+    matches!(
+        crate::platform::linux::detect().session_type,
+        crate::platform::linux::SessionType::X11
+    )
 }
 
 // --- KDE Plasma -------------------------------------------------------------
@@ -585,6 +601,53 @@ mod linux_tests {
         assert_eq!(call.path, "/component/org_kde_powerdevil");
         assert!(matches!(call.args.as_slice(), [DbusArg::Str(s)] if s == "Turn Off Screen"));
     }
+
+    #[test]
+    fn x11_actions_use_ewmh_and_xkb() {
+        use super::{cinnamon, x11_generic};
+        use crate::platform::x11::X11Action;
+        for (name, expected) in [
+            ("switchToDesktop2", X11Action::SwitchToDesktop(1)),
+            ("moveWindowToDesktop3", X11Action::MoveWindowToDesktop(2)),
+            ("switchToKeyboardLayout1", X11Action::SwitchLayout(0)),
+            ("switchToKeyboardLayout4", X11Action::SwitchLayout(3)),
+            ("switchToNextDesktop", X11Action::SwitchDesktopBy(1)),
+            ("moveWindowToPreviousDesktop", X11Action::MoveWindowBy(-1)),
+            ("closeWindow", X11Action::CloseWindow),
+            ("showDesktop", X11Action::ToggleShowDesktop),
+            (
+                "maximizeWindowVertically",
+                X11Action::ToggleMaximize { vertical: true, horizontal: false },
+            ),
+        ] {
+            for resolved in [x11_generic::resolve(name), cinnamon::resolve(name)] {
+                assert!(matches!(resolved, Some(SystemAction::X11(a)) if a == expected), "{name}");
+            }
+        }
+        // XKB has four groups; no EWMH request for these.
+        for name in ["switchToKeyboardLayout5", "showClipboardHistory", "moveWindowToNextScreen"] {
+            assert!(x11_generic::resolve(name).is_none(), "{name}");
+            assert!(cinnamon::resolve(name).is_none(), "{name}");
+        }
+        assert!(matches!(
+            x11_generic::resolve("lockSession"),
+            Some(SystemAction::Process(p)) if p.program == "loginctl"
+        ));
+        assert!(matches!(
+            cinnamon::resolve("lockSession"),
+            Some(SystemAction::Process(p)) if p.program == "cinnamon-screensaver-command"
+        ));
+        assert!(matches!(
+            cinnamon::resolve("showOverview"),
+            Some(SystemAction::Dbus(call)) if call.destination == "org.Cinnamon" && call.method == "ShowExpo"
+        ));
+        assert!(x11_generic::resolve("tileWindowLeft").is_none());
+        let Some(SystemAction::Keys(tile)) = cinnamon::resolve("tileWindowLeft") else {
+            panic!("Cinnamon tiles with its keybinding");
+        };
+        assert_eq!(tile.mods, [crate::mapper::key_code::KeyCode::KEY_LEFTMETA]);
+        assert!(matches!(cinnamon::resolve("showAppLauncher"), Some(SystemAction::Keys(_))));
+    }
 }
 
 // --- GNOME (Mutter / Shell) -------------------------------------------------
@@ -645,12 +708,100 @@ mod sway {
 
 #[cfg(target_os = "linux")]
 mod x11_generic {
-    use super::SystemAction;
+    use super::{ProcessInvocation, SystemAction};
+    use crate::platform::x11::{MAX_GROUPS, X11Action};
+
+    pub(super) fn process(program: &str, args: &[&str]) -> SystemAction {
+        SystemAction::Process(ProcessInvocation {
+            program: program.into(),
+            args: args.iter().map(|arg| (*arg).into()).collect(),
+            working_directory: None,
+        })
+    }
+
+    /// Window-manager requests every EWMH window manager honours.
+    pub fn resolve(name: &str) -> Option<SystemAction> {
+        let numbered = |prefix: &str| {
+            name.strip_prefix(prefix)
+                .and_then(crate::config::actions::slot_number)
+        };
+        if let Some(n) = numbered("switchToDesktop") {
+            return Some(SystemAction::X11(X11Action::SwitchToDesktop(n - 1)));
+        }
+        if let Some(n) = numbered("moveWindowToDesktop") {
+            return Some(SystemAction::X11(X11Action::MoveWindowToDesktop(n - 1)));
+        }
+        if let Some(n) = numbered("switchToKeyboardLayout") {
+            // XKB has at most four groups.
+            return (n <= MAX_GROUPS).then_some(SystemAction::X11(X11Action::SwitchLayout(n - 1)));
+        }
+        let action = match name {
+            "closeWindow" => X11Action::CloseWindow,
+            "minimizeWindow" => X11Action::MinimizeWindow,
+            "maximizeWindow" => X11Action::ToggleMaximize {
+                vertical: true,
+                horizontal: true,
+            },
+            "maximizeWindowVertically" => X11Action::ToggleMaximize {
+                vertical: true,
+                horizontal: false,
+            },
+            "maximizeWindowHorizontally" => X11Action::ToggleMaximize {
+                vertical: false,
+                horizontal: true,
+            },
+            "keepWindowAbove" => X11Action::ToggleKeepAbove,
+            "switchToNextDesktop" => X11Action::SwitchDesktopBy(1),
+            "switchToPreviousDesktop" => X11Action::SwitchDesktopBy(-1),
+            "moveWindowToNextDesktop" => X11Action::MoveWindowBy(1),
+            "moveWindowToPreviousDesktop" => X11Action::MoveWindowBy(-1),
+            "showDesktop" => X11Action::ToggleShowDesktop,
+            // logind asks the session's screen locker to lock.
+            "lockSession" => return Some(process("loginctl", &["lock-session"])),
+            "turnOffScreen" => return Some(process("xset", &["dpms", "force", "off"])),
+            _ => {
+                log::debug!("[sys/x11] {name:?}: no EWMH equivalent");
+                return None;
+            }
+        };
+        Some(SystemAction::X11(action))
+    }
+}
+
+// --- Cinnamon (Muffin, X11) -------------------------------------------------
+
+#[cfg(target_os = "linux")]
+mod cinnamon {
+    use super::{DbusCall, SystemAction};
 
     pub fn resolve(name: &str) -> Option<SystemAction> {
-        // TODO: spawn `wmctrl -s (N-1)` (EWMH-compliant WMs: i3, Openbox,
-        // Fluxbox, Xfwm, Mutter-on-X11, Marco, Metacity, Kwin-on-X11).
-        log::debug!("[sys/x11] {name:?}: not implemented yet");
-        None
+        // Muffin's and the Cinnamon menu's default keybindings.
+        let keys = match name {
+            "tileWindowLeft" => Some("Meta+ArrowLeft"),
+            "tileWindowRight" => Some("Meta+ArrowRight"),
+            "tileWindowTop" => Some("Meta+ArrowUp"),
+            "tileWindowBottom" => Some("Meta+ArrowDown"),
+            "showAppLauncher" => Some("MetaLeft"),
+            _ => None,
+        };
+        if let Some(keys) = keys {
+            return crate::mapper::action::parse_action(keys).map(SystemAction::Keys);
+        }
+        match name {
+            "showOverview" => Some(SystemAction::Dbus(DbusCall {
+                destination: "org.Cinnamon".into(),
+                path: "/org/Cinnamon".into(),
+                interface: Some("org.Cinnamon".into()),
+                method: "ShowExpo".into(),
+                args: vec![],
+            })),
+            // cinnamon-screensaver does not lock on logind's request in
+            // every release; its own client always does.
+            "lockSession" => Some(super::x11_generic::process(
+                "cinnamon-screensaver-command",
+                &["--lock"],
+            )),
+            _ => super::x11_generic::resolve(name),
+        }
     }
 }

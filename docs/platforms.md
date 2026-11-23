@@ -1,22 +1,24 @@
 # Platforms
 
-**KDE Plasma 6 on Wayland (primary) and GNOME on Wayland are the supported Linux
-environments.** Other environments compile and partly work; implemented code is
-not acceptance.
+**Supported Linux environments: KDE Plasma 6 on Wayland (primary), GNOME on
+Wayland, and Cinnamon on X11 (Linux Mint).** X11 is a supported display server:
+Cinnamon is its acceptance target; other X11 desktops (Xfce, MATE, …) use the
+same generic X11 backends and are best effort without a VM stand. Other
+environments compile and partly work; implemented code is not acceptance.
 
-| Concern | KDE | GNOME | Sway / Hyprland | X11 | Windows | macOS |
-| --- | --- | --- | --- | --- | --- | --- |
-| Key interception | ✅ evdev + uinput | ✅ | ✅ | ✅ | ✅ session-wide `WH_KEYBOARD_LL` + `SendInput` | ❌ stub |
-| Literal text (`text:`) | ✅ portal libei, data-control clipboard | ⚠ portal + Clipboard portal, needs extension | ⚠ backend dependent | ⚠ keyboard backend only, no clipboard paste | ✅ Unicode `SendInput` | ❌ mapper; popups only |
-| Keyboard layout | ✅ D-Bus `org.kde.keyboard` | ⚠ extension | 🚧 | 🚧 (`linux_x11.rs`) | ✅ foreground window input language | 🚧 |
-| Standard shortcuts (`sys:copy`, `sys:undo`, `sys:moveWordLeft`, …) | ✅ layout via XKB, terminals by window class | ✅ | ✅ | ✅ | ✅ layout via `VkKeyScanEx` | ❌ mapper |
-| System actions (`sys:`) | ✅ kglobalaccel, `org.kde.keyboard`, ScreenSaver | ⚠ extension; Super+Arrow / Super+N for side tiling and task entries 1–9; no `showDesktop`, top/bottom tiling, clipboard history | 🚧 | 🚧 | ✅ except virtual-desktop actions | ❌ |
-| `kde:` shortcuts | ✅ | — | — | — | — | — |
-| `xdg:` app actions | ✅ | ✅ | ✅ | ✅ | — | — |
-| Layer-shell popups (Spell) | ✅ | ❌ winit | ✅ not accepted | ❌ winit | — | — |
-| Active window / fullscreen | ✅ KWin script → D-Bus | ⚠ extension | ✅ IPC; other wlroots via `wlr-foreign-toplevel` | ⚠ `xprop` (+ `xdotool`, `xrandr`) | ✅ Win32, `SetWinEventHook` | ⚠ `NSWorkspace`, `CGWindowList` (untested) |
-| Game mode: GameMode daemon | ✅ D-Bus | ✅ | ✅ | ✅ | — | — |
-| Game mode: known games | ✅ Steam, Lutris, Heroic, umu, gamescope, `.desktop` `Game` | ✅ | ✅ | ✅ | ✅ Steam `RunningAppID`, Game Bar list | ⚠ `Info.plist` category |
+| Concern | KDE | GNOME | Cinnamon (X11, Linux Mint) | Other X11 (Xfce, MATE, …) | Sway / Hyprland | Windows | macOS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Key interception | ✅ evdev + uinput | ✅ | ✅ | ✅ | ✅ | ✅ session-wide `WH_KEYBOARD_LL` + `SendInput` | ❌ stub |
+| Literal text (`text:`) | ✅ portal libei, data-control clipboard | ⚠ portal + Clipboard portal, needs extension | ✅ `xdotool` (XTEST), no portal consent; no clipboard paste | ⚠ same as Cinnamon | ⚠ backend dependent | ✅ Unicode `SendInput` | ❌ mapper; popups only |
+| Keyboard layout | ✅ D-Bus `org.kde.keyboard` | ⚠ extension | ✅ XKB group + `_XKB_RULES_NAMES` (≤ 4 layouts) | ✅ same | 🚧 | ✅ foreground window input language | 🚧 |
+| Standard shortcuts (`sys:copy`, `sys:undo`, `sys:moveWordLeft`, …) | ✅ layout via XKB, terminals by window class | ✅ | ✅ | ✅ | ✅ | ✅ layout via `VkKeyScanEx` | ❌ mapper |
+| System actions (`sys:`) | ✅ kglobalaccel, `org.kde.keyboard`, ScreenSaver | ⚠ extension; Super+Arrow / Super+N for side tiling and task entries 1–9; no `showDesktop`, top/bottom tiling, clipboard history | ✅ EWMH (desktops, window state, show desktop), XKB layouts, Muffin keys for tiling, Expo over `org.Cinnamon`, menu via Super, `cinnamon-screensaver-command`, `xset`; no next/previous screen, task entries, clipboard history | ⚠ EWMH, XKB, `loginctl lock-session`, `xset`; no tiling, overview, launcher | 🚧 | ✅ except virtual-desktop actions | ❌ |
+| `kde:` shortcuts | ✅ | — | — | — | — | — | — |
+| `xdg:` app actions | ✅ | ✅ | ✅ | ✅ | ✅ | — | — |
+| Layer-shell popups (Spell) | ✅ | ❌ winit | ❌ winit | ❌ winit | ✅ not accepted | — | — |
+| Active window / fullscreen | ✅ KWin script → D-Bus | ⚠ extension | ✅ `xprop` (+ `xdotool` for titles, `xrandr`) | ✅ same | ✅ IPC; other wlroots via `wlr-foreign-toplevel` | ✅ Win32, `SetWinEventHook` | ⚠ `NSWorkspace`, `CGWindowList` (untested) |
+| Game mode: GameMode daemon | ✅ D-Bus | ✅ | ✅ | ✅ | ✅ | — | — |
+| Game mode: known games | ✅ Steam, Lutris, Heroic, umu, gamescope, `.desktop` `Game` | ✅ | ✅ | ✅ | ✅ | ✅ Steam `RunningAppID`, Game Bar list | ⚠ `Info.plist` category |
 
 🚧 = skeleton returning `Ok(None)`/`None`; ❌ = explicit "not implemented"
 error. Both compile and are safe to ship.
@@ -28,8 +30,10 @@ Platform code stays behind `#[cfg]` and target-specific dependencies.
 
 Runtime requirements: keyboard/mouse/touchpad event-node read and `/dev/uinput` write (group
 `uaccess` in an active local session; `input` is a fallback, see [development.md](development.md#device-access-linux));
-`xdg-desktop-portal` with the DE backend for `text:`; `hyprctl` / `swaymsg` on
-Hyprland / Sway; `xprop` (+ `xdotool` for title conditions) on X11. KDE Wayland
+`xdg-desktop-portal` with the DE backend for `text:` on Wayland; `hyprctl` /
+`swaymsg` on Hyprland / Sway; on X11 `xdotool` (text, title conditions),
+`xprop` (window conditions) and `xset` (`sys:turnOffScreen`), which the deb/rpm
+recommend (`xdotool`, `x11-utils`/`xprop`, `x11-xserver-utils`/`xset`). KDE Wayland
 needs nothing extra (a persistent KWin script reports focus over D-Bus; calls not
 from KWin are ignored).
 
@@ -37,13 +41,40 @@ Distribution: tar.gz into `~/.local`, deb and rpm (nfpm), built on Ubuntu 22.04
 (glibc 2.35). Flathub/Snap are not possible: a sandbox cannot install the udev
 rule or open `/dev/uinput`.
 
-### X11
+### X11 and Cinnamon
 
-**Not a supported target.** Interception does not depend on the display server,
-so the mapper works, and existing X11 code (xprop/xdotool, `linux_x11.rs`, winit
-popups) stays as best effort without e2e. Do not extend it: GNOME dropped the X11
-session and KDE drops it in Plasma 6.8. Reconsider only as "support desktop X",
-on concrete demand.
+**Supported**, with Cinnamon on Linux Mint as the acceptance target (VM stand
+`run-cinnamon.py`, see [testing.md](testing.md#cinnamon-x11)). Dispatch is by
+`SessionType::X11` from `platform::linux::detect()`; under Wayland `DISPLAY` is
+XWayland and the X11 backends stay off. KDE on X11 keeps its KDE backends;
+GNOME no longer ships an X11 session.
+
+- **Interception** is evdev/uinput as everywhere on Linux.
+- **Keyboard layout** (`keyboard_layout/linux_x11.rs`): the effective XKB group
+  of the core keyboard, layout codes and variants from the `_XKB_RULES_NAMES`
+  root property, long names from `evdev.lst`. A watcher polls one X connection
+  every 150 ms. `switchToKeyboardLayoutN` locks the XKB group; desktop
+  indicators follow. XKB has at most four groups, so N ≤ 4.
+- **System actions** (`platform/x11.rs`, `SystemAction::X11`): EWMH client
+  messages to the root window on a `tecloid-x11` worker with one connection —
+  `_NET_CURRENT_DESKTOP` (numbered, next/previous, clamped), `_NET_WM_DESKTOP`,
+  `_NET_CLOSE_WINDOW`, `WM_CHANGE_STATE` (minimize), `_NET_WM_STATE` toggles
+  (maximize, vertical/horizontal, keep above), `_NET_SHOWING_DESKTOP`. Cinnamon
+  adds Muffin's default Super+Arrow tiling, Super for the menu, `ShowExpo` on
+  `org.Cinnamon` for `showOverview` and `cinnamon-screensaver-command --lock`.
+  Other X11 desktops lock through `loginctl lock-session`. `turnOffScreen` runs
+  `xset dpms force off`. Changed Cinnamon keybindings are not followed.
+- **Text**: Cinnamon has no RemoteDesktop portal and no data-control clipboard,
+  so the default `libeiWithClipboardFallback` and `libeiOnly` modes type with
+  `xdotool type --clearmodifiers` (XTEST; characters missing in the layout get
+  a temporary keycode). No consent dialog; the clipboard is untouched.
+  `linux.textMode: keycode`/`clipboard` still need a portal and fail on X11.
+- **Popups** are winit windows; Muffin may refuse focus stealing, the popup
+  model then behaves as on GNOME. Focus return relies on the window manager
+  re-focusing the previous window; text waits for the captured target (`xprop`).
+- **Tray**: Cinnamon's `xapp-sn-watcher` provides `org.kde.StatusNotifierWatcher`.
+- **Active window / fullscreen**: `xprop -spy` on the root window, titles with
+  `xdotool`, fullscreen by `_NET_WM_STATE_FULLSCREEN` or monitor geometry.
 
 ### GNOME
 

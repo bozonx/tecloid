@@ -48,6 +48,8 @@ pub mod locale;
 #[cfg(target_os = "linux")]
 pub mod osd;
 mod osd_queue;
+#[cfg(target_os = "linux")]
+pub mod x11;
 #[cfg(not(target_os = "linux"))]
 pub mod osd {
     pub use super::osd_queue::enqueue;

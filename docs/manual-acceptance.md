@@ -64,11 +64,13 @@ check. Keep completed copies, logs and screenshots outside Git.
 | --- | --- | --- |
 | Fedora KDE + RPM; Debian KDE + DEB | Common, mapper, Linux, KDE, lifecycle | Primary: Plasma 6 Wayland; test both distributions |
 | Ubuntu GNOME + application tar.gz | Common, mapper, Linux, GNOME, lifecycle | Supported; bundled Shell extension required |
+| Linux Mint Cinnamon (X11) + DEB | Common, mapper, Linux, Cinnamon X11, lifecycle | Supported; X11 acceptance target |
 | Windows 11 + portable ZIP | Common, mapper, Windows, lifecycle | Implemented Windows features; desktop actions have explicit gaps |
 | macOS | Common shell checks, macOS, supported lifecycle checks | Shell only; mapper/layers/macros are N/A |
 
-See [platforms.md](platforms.md) for capabilities. Sway/Hyprland and X11 are not
-additional acceptance targets; an exploratory run there does not replace KDE.
+See [platforms.md](platforms.md) for capabilities. Sway/Hyprland and X11 desktops
+other than Cinnamon are not additional acceptance targets; an exploratory run
+there does not replace KDE or Cinnamon.
 
 ### Prepare one run
 
@@ -229,6 +231,30 @@ Choose a spare key for the layer/tap-hold tests. macOS skips these assignments.
 Dynamic GNOME workspaces add/remove entries while windows move. Test stable
 cyclic movement with a fixed workspace count; record exploratory dynamic-mode
 results separately. The acceptance fixture must not silently change host settings.
+
+### Cinnamon X11 (Linux Mint)
+
+- [ ] The session is X11 (`echo $XDG_SESSION_TYPE` → `x11`, not the
+  experimental Cinnamon Wayland session). `xdotool`, `xprop` and `xset` are
+  installed (recommended by the DEB).
+- [ ] Tecloid appears in the Cinnamon menu; the tray icon is on the panel and its
+  menu opens settings. Restart Cinnamon (Ctrl+Alt+Esc): the icon returns without
+  a second Tecloid process.
+- [ ] `text:` (F9) types exact Unicode in xed, a terminal and Firefox without any
+  permission dialog. The clipboard content stays unchanged.
+- [ ] Emoji and Quick actions are winit popups: keyboard and mouse selection,
+  cancellation and return of focus to the original window; text lands there.
+- [ ] With layouts us and ru, `sys:switchToKeyboardLayout1/2` switch the group
+  and the panel indicator follows. Switch with the desktop's own shortcut:
+  layout conditions and `sys:copy`/`sys:paste` follow the active layout.
+- [ ] With four fixed workspaces, check `sys:switchToDesktopN`, next/previous
+  (no wrap past the first/last), `moveWindowToDesktopN` and next/previous.
+- [ ] Check close, minimize, maximize (also vertical/horizontal), keep above,
+  show desktop (toggles back), tile left/right/top/bottom, overview (Expo),
+  application menu (Super), lock (cinnamon-screensaver) and turn off screen.
+  Next/previous screen, task-manager entries and clipboard history are N/A.
+- [ ] A rule with a window class condition (e.g. `xed`) applies only in that
+  window; a title condition works; fullscreen (F11 in Firefox) is detected.
 
 ### Windows 11
 
