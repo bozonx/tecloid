@@ -59,7 +59,11 @@ chown -R "$user:$group" "$guest_home/.config/autostart"
 
 runuser -u "$user" -- dbus-run-session sh -c '
     gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4
-    gsettings set org.gnome.libgnomekbd.keyboard layouts "[\"us\", \"ru\"]" || true
+    if gsettings list-schemas | grep -qx org.cinnamon.desktop.input-sources; then
+        gsettings set org.cinnamon.desktop.input-sources sources "[(\"xkb\", \"us\"), (\"xkb\", \"ru\")]"
+    else
+        gsettings set org.gnome.libgnomekbd.keyboard layouts "[\"us\", \"ru\"]"
+    fi
     gsettings set org.cinnamon.desktop.session idle-delay 0
     gsettings set org.cinnamon.desktop.screensaver lock-enabled false
     gsettings set org.cinnamon.settings-daemon.plugins.power sleep-display-ac 0

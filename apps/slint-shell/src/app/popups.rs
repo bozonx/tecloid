@@ -244,7 +244,11 @@ impl App {
                     {
                         return;
                     }
-                    if let Err(error) = app.focus.borrow_mut().activate(&native, token.as_deref()) {
+                    if let Err(error) = app.focus.borrow_mut().activate(
+                        &native,
+                        token.as_deref(),
+                        window.popup().is_some(),
+                    ) {
                         log::warn!("activation: {error}");
                     }
                     if window == Window::Settings {
@@ -349,6 +353,13 @@ fn release_mapper_input() {
 }
 
 fn observe(app: &Rc<App>, window: Window) {
+    #[cfg(target_os = "linux")]
+    let x11_popup = window.popup().is_some()
+        && tecloid_core::platform::linux::detect().session_type
+            == tecloid_core::platform::linux::SessionType::X11;
+    #[cfg(not(target_os = "linux"))]
+    let x11_popup = false;
+    let focused = Cell::new(false);
     let weak = Rc::downgrade(app);
     app.window(window).on_close_requested(move || {
         if let Some(app) = weak.upgrade() {
@@ -458,16 +469,40 @@ fn observe(app: &Rc<App>, window: Window) {
             }
             match event {
                 WindowEvent::Focused(true) => {
+                    focused.set(true);
                     app.metrics.borrow_mut().mark(window.name(), "t4_focused");
                     if window.popup().is_some() {
                         release_mapper_input();
                     }
                 }
                 WindowEvent::Focused(false) => {
-                    if let Some(popup) = window.popup() {
+                    let had_focus = focused.replace(false);
+                    if let Some(popup) = window.popup()
+                        && (!x11_popup || had_focus)
+                    {
                         app.defer_hide(window);
                         app.run_pending_action(popup, true);
                     }
+                }
+                #[cfg(target_os = "linux")]
+                WindowEvent::Occluded(false) if x11_popup && !focused.get() => {
+                    // A show request can precede the window manager mapping
+                    // the window. Retry once winit reports it visible.
+                    let generation = app.popups.generation(window);
+                    super::post(move |app| {
+                        if app.popups.generation(window) == generation
+                            && app.window(window).is_visible()
+                        {
+                            app.window(window).with_winit_window(|native| {
+                                if !native.has_focus()
+                                    && let Err(error) =
+                                        app.focus.borrow_mut().activate(native, None, true)
+                                {
+                                    log::warn!("activation: {error}");
+                                }
+                            });
+                        }
+                    });
                 }
                 // Slint keeps the logical size, so a larger scale can push the window off screen.
                 WindowEvent::ScaleFactorChanged { .. } if window == Window::Settings => {

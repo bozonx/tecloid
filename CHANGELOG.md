@@ -6,6 +6,9 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- On Cinnamon 6.6, keyboard layout actions use Cinnamon's input-source API so the desktop keeps the selected layout active.
+- On X11, Quick Actions and Emoji popups request keyboard focus once their windows are mapped.
+
 - X11 is now supported, with Cinnamon on Linux Mint as the tested desktop. On X11 Tecloid follows and switches the keyboard layout (up to four XKB layouts), runs desktop and window system actions (switch/move to desktop, close, minimize, maximize, keep above, show desktop; on Cinnamon also tiling, Expo, the menu and screen lock) and types `text:` with `xdotool` without a permission dialog. The DEB and RPM recommend `xdotool`, `xprop` and `xset`.
 
 - Key bindings can open a numbered or last-used Emoji or Quick Actions page in standard mode.

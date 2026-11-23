@@ -293,6 +293,14 @@ def x11_layouts():
     return fields[2] if len(fields) > 2 else ""
 
 
+def cinnamon_layout_setting(env):
+    schemas = subprocess.check_output(["gsettings", "list-schemas"], text=True, env=env).split()
+    if "org.cinnamon.desktop.input-sources" in schemas:
+        return ("org.cinnamon.desktop.input-sources", "sources",
+                "[('xkb', 'us'), ('xkb', 'ru')]")
+    return ("org.gnome.libgnomekbd.keyboard", "layouts", "['us', 'ru']")
+
+
 def active_window_title():
     result = subprocess.run(["xdotool", "getactivewindow", "getwindowname"],
                             capture_output=True, text=True, env=x11_environment())
@@ -437,15 +445,11 @@ def cmd_write_config(args):
         json.dumps({"version": 1, "settings": settings}, indent=2),
         encoding="utf-8")
     if desktop() == "cinnamon":
-        # Read by csd-keyboard and Muffin in this session and the next login.
+        # Read by Cinnamon in this session and the next login.
         env = x11_environment()
-        settings = [("org.cinnamon.desktop.wm.preferences", "num-workspaces", "2"),
-                    ("org.gnome.libgnomekbd.keyboard", "layouts", "['us', 'ru']")]
-        schemas = subprocess.run(["gsettings", "list-schemas"], capture_output=True,
-                                 text=True, env=env).stdout.split()
-        for schema, key, value in settings:
-            if schema in schemas:
-                subprocess.run(["gsettings", "set", schema, key, value], env=env, check=True)
+        for setting in (("org.cinnamon.desktop.wm.preferences", "num-workspaces", "2"),
+                        cinnamon_layout_setting(env)):
+            subprocess.run(["gsettings", "set", *setting], env=env, check=True)
         return
     if desktop() == "gnome":
         env = dict(os.environ, **user_environment())
@@ -662,22 +666,43 @@ def cmd_popup_wait(args):
          lambda: metric_count(args.popup, args.event) > args.after)
 
 
+def wait_x11_popup(popup, *, hidden=False):
+    title = {"quick": "Quick actions", "emoji": "Emoji"}[popup]
+    if hidden:
+        wait(f"{popup} to hide", 15, lambda: subprocess.run(
+            ["xdotool", "search", "--onlyvisible", "--name", f"^{title}$"],
+            capture_output=True, env=x11_environment()).returncode == 1)
+    else:
+        wait(f"{popup} to take X11 focus", 15, lambda: active_window_title() == title)
+
+
+def cmd_x11_popup(args):
+    wait_x11_popup(args.popup)
+
+
 def cmd_popups(args):
+    x11 = desktop() == "cinnamon"
     for popup in ("quick", "emoji"):
         before = {event: metric_count(popup, event)
-                  for event in ("t3_first_frame", "t4_focused", "hidden")}
+                  for event in ("t3_first_frame", "t4_focused", "hidden")} if not x11 else {}
         try:
             result = app("show", popup)
             if result.returncode:
                 fail(f"show {popup}: {result.stdout}{result.stderr}")
-            for event in ("t3_first_frame", "t4_focused"):
-                wait(f"{popup} {event}", 15,
-                     lambda: metric_count(popup, event) > before[event])
+            if x11:
+                wait_x11_popup(popup)
+            else:
+                for event in ("t3_first_frame", "t4_focused"):
+                    wait(f"{popup} {event}", 15,
+                         lambda: metric_count(popup, event) > before[event])
         finally:
             result = app("hide")
             if result.returncode:
                 fail(f"hide: {result.stdout}{result.stderr}")
-        wait(f"{popup} hidden", 15, lambda: metric_count(popup, "hidden") > before["hidden"])
+        if x11:
+            wait_x11_popup(popup, hidden=True)
+        else:
+            wait(f"{popup} hidden", 15, lambda: metric_count(popup, "hidden") > before["hidden"])
     if app("ping").returncode:
         fail("the instance stopped answering after the popups")
 
@@ -801,10 +826,22 @@ def cmd_x11_state(args):
 
 
 def cmd_x11_layouts(args):
-    """Fall back to `setxkbmap` when the desktop did not apply us,ru."""
-    if x11_layouts() != "us,ru":
-        subprocess.run(["setxkbmap", "-layout", "us,ru"], check=True, env=x11_environment())
-    print(x11_layouts())
+    env = x11_environment()
+    setting = cinnamon_layout_setting(env)
+    if args.configure:
+        subprocess.run(["gsettings", "set", *setting], check=True, env=env)
+    # Cinnamon 6.6 controls XKB through Muffin and can append a fallback
+    # group. Replacing its keymap with setxkbmap breaks its source switching.
+    if setting[0] == "org.cinnamon.desktop.input-sources":
+        def configured():
+            layouts = x11_layouts()
+            return layouts if layouts.split(",")[:2] == ["us", "ru"] else None
+
+        print(wait("Cinnamon to apply the us,ru input sources", 20, configured))
+    else:
+        if x11_layouts() != "us,ru":
+            subprocess.run(["setxkbmap", "-layout", "us,ru"], check=True, env=env)
+        print(x11_layouts())
 
 
 def cmd_screen_locked(args):
@@ -1031,7 +1068,8 @@ def main():
     p.add_argument("--x", type=float, required=True)
     p.add_argument("--y", type=float, required=True)
     sub.add_parser("x11-state")
-    sub.add_parser("x11-layouts")
+    sub.add_parser("x11-layouts").add_argument("--configure", action="store_true")
+    sub.add_parser("x11-popup").add_argument("popup", choices=("quick", "emoji"))
     sub.add_parser("screen-locked")
     sub.add_parser("lock-screen")
     p = sub.add_parser("game")

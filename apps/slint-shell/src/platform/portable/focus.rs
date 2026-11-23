@@ -10,6 +10,7 @@ impl Activation {
         &mut self,
         window: &winit::window::Window,
         _: Option<&str>,
+        _: bool,
     ) -> Result<(), Box<dyn std::error::Error>> {
         window.focus_window();
         Ok(())

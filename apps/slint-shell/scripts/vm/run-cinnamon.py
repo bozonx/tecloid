@@ -132,8 +132,8 @@ def main():
         # Manual mode: four fixed workspaces and us/ru, no generated keymap,
         # config or autostart entry; the operator creates those.
         vm.ssh("DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus sh -c '"
-               "gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4; "
-               "gsettings set org.gnome.libgnomekbd.keyboard layouts \"[\\\"us\\\", \\\"ru\\\"]\" || true'")
+               "gsettings set org.cinnamon.desktop.wm.preferences num-workspaces 4'")
+        guest("x11-layouts --configure")
         return "four workspaces; us,ru layouts"
 
     def x11_state():
@@ -181,7 +181,7 @@ def main():
     def quick_popup():
         def choose():
             vm.qmp.tap("e")
-            time.sleep(2.5)
+            guest("x11-popup quick")
             vm.qmp.screendump(vm.logs / "quick-popup-open.png")
             vm.qmp.tap("q")
             time.sleep(3)
@@ -193,6 +193,7 @@ def main():
                  lambda: x11_state()[field] == expected, timeout=10)
 
     def system_actions():
+        guest("x11-layouts")
         start = x11_state()
         if (start["desktop"], start["group"]) != (0, 0):
             raise StepFailed(f"unexpected start state {start}")
@@ -299,11 +300,11 @@ def main():
         except (StepFailed, subprocess.SubprocessError, OSError, ValueError) as error:
             report.skip("collect-diagnostics", str(error))
         finally:
-            if args.manual and vm.qemu and vm.qemu.poll() is None:
+            if vm.qemu and vm.qemu.poll() is None:
                 try:
                     vm.ssh("sudo systemctl poweroff", check=False, timeout=15)
                 except (StepFailed, subprocess.SubprocessError, OSError) as error:
-                    report.skip("manual-poweroff", str(error))
+                    report.skip("poweroff", str(error))
             vm.stop(keep=args.manual or args.keep or report.unsuccessful)
     report.write([f"Date: {time.strftime('%F %T %z')}", f"Commit: {commit()}",
                   f"Command: {shlex.join(sys.argv)}",

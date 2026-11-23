@@ -1,5 +1,4 @@
-//! Wayland activation of the settings window and popups (XDG activation
-//! tokens).
+//! Window activation through Wayland tokens and X11 keyboard focus.
 
 use raw_window_handle::{HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle};
 use slint::winit_030::winit;
@@ -46,10 +45,25 @@ impl Activation {
         &mut self,
         window: &winit::window::Window,
         token: Option<&str>,
+        popup: bool,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        let RawWindowHandle::Wayland(surface) = window.window_handle()?.as_raw() else {
-            window.focus_window();
-            return Ok(());
+        let surface = match window.window_handle()?.as_raw() {
+            RawWindowHandle::Wayland(surface) => surface,
+            // Muffin rejects requests without a user timestamp. Mapper
+            // shortcuts originate in evdev, outside the X11 event stream.
+            RawWindowHandle::Xlib(handle) if popup => {
+                tecloid_core::platform::x11::Display::open()?
+                    .focus_popup(handle.window.try_into()?)?;
+                return Ok(());
+            }
+            RawWindowHandle::Xcb(handle) if popup => {
+                tecloid_core::platform::x11::Display::open()?.focus_popup(handle.window.get())?;
+                return Ok(());
+            }
+            _ => {
+                window.focus_window();
+                return Ok(());
+            }
         };
         let Some(token) = token else {
             if matches!(

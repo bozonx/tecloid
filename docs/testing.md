@@ -340,7 +340,7 @@ keeps the user out of `input`. Reboot, verify autologin, shut down and
 {
   "name": "mint-cinnamon", "base": "base.qcow2",
   "user": "tester", "ssh_key": "~/.ssh/tecloid-vm", "ssh_port": 2241,
-  "vga": "virtio", "memory": 6144, "cpus": 4,
+  "vga": "VGA", "memory": 6144, "cpus": 4,
   "install": "sudo apt-get install -y {package}",
   "reinstall": "sudo apt-get install -y --reinstall {package}",
   "remove": "sudo apt-get remove -y tecloid"
@@ -359,6 +359,11 @@ Russian layout, command, game mode, `text:` ASCII and Unicode through xdotool
 reinstall with autostart, quit and removal. Not covered automatically: lock,
 suspend, replug, window actions other than desktops, previous-version upgrade;
 use the manual Cinnamon checklist. Stops at the first failure.
+
+Cinnamon 6.6 manages layouts through `org.cinnamon.desktop.input-sources`.
+The runner configures that schema when present and checks the resulting XKB
+group. Muffin can append a fallback layout to the XKB list. The runner checks
+popup visibility and keyboard focus through X11.
 
 ### Windows
 

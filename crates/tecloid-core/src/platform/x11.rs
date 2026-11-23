@@ -9,7 +9,8 @@
 use x11rb::connection::Connection;
 use x11rb::protocol::xkb::{self, ConnectionExt as _};
 use x11rb::protocol::xproto::{
-    AtomEnum, ClientMessageEvent, ConnectionExt as _, EventMask, ModMask, Window,
+    AtomEnum, ClientMessageEvent, ConnectionExt as _, EventMask, InputFocus, MapState, ModMask,
+    Window,
 };
 use x11rb::rust_connection::RustConnection;
 
@@ -112,6 +113,24 @@ impl Display {
             )
             .map_err(err)?;
         self.conn.flush().map_err(err)
+    }
+
+    /// Give a mapped popup keyboard focus in response to an explicit show request.
+    pub fn focus_popup(&self, window: Window) -> Result<(), String> {
+        let attributes = self
+            .conn
+            .get_window_attributes(window)
+            .map_err(err)?
+            .reply()
+            .map_err(err)?;
+        if attributes.map_state != MapState::VIEWABLE {
+            return Ok(());
+        }
+        self.conn
+            .set_input_focus(InputFocus::PARENT, window, x11rb::CURRENT_TIME)
+            .map_err(err)?
+            .check()
+            .map_err(err)
     }
 
     fn desktops(&self) -> Result<(u32, u32), String> {
@@ -236,6 +255,25 @@ impl Display {
     /// indicators follow the XKB state, so no desktop API is needed.
     pub fn lock_group(&self, group: u32) -> Result<(), String> {
         self.require_xkb()?;
+        if group < MAX_GROUPS
+            && crate::platform::linux::detect().desktop == crate::platform::linux::Desktop::Cinnamon
+        {
+            // Muffin owns the locked group on Cinnamon 6.6 and restores it
+            // after external XKB requests. Older versions use XKB directly.
+            let bus = zbus::blocking::Connection::session().map_err(err)?;
+            match bus.call_method(
+                Some("org.Cinnamon"),
+                "/org/Cinnamon",
+                Some("org.Cinnamon"),
+                "ActivateInputSourceIndex",
+                &(group as i32,),
+            ) {
+                Ok(_) => return Ok(()),
+                Err(zbus::Error::MethodError(name, _, _))
+                    if name.as_str() == "org.freedesktop.DBus.Error.UnknownMethod" => {}
+                Err(error) => return Err(err(error)),
+            }
+        }
         let layouts = self.layouts()?;
         if group >= MAX_GROUPS || (!layouts.is_empty() && group as usize >= layouts.len()) {
             return Err(format!(
