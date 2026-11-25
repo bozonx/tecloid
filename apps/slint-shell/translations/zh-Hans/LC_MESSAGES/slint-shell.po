@@ -2412,10 +2412,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "仅运行“ydotool type”。需要 ydotool 及正在运行的 ydotoold 服务。仅对拉丁文本可靠。出错时停止，不会切换方式。"
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "仅运行“xdotool type”。仅适用于 X11 会话和 XWayland 窗口。出错时停止，不会切换方式。"
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "在 X11 会话中通过 XTest 输入文本。需要 xdotool。"
 
 msgid "ydotool from PATH"
 msgstr "来自 PATH 的 ydotool"
@@ -3600,3 +3598,24 @@ msgstr "为终端使用单独的粘贴快捷键"
 
 msgid "Late tap, ms: {}"
 msgstr "延迟轻按，毫秒: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + 剪贴板"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "通过 GNOME Shell 扩展将整段文本输入当前 Wayland 输入框。"
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "当前输入框无法通过 GNOME CommitText 接收文本。"

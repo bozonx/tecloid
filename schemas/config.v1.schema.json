@@ -476,7 +476,8 @@
         {
           "enum": [
             "ydotool",
-            "xdotool"
+            "xdotool",
+            "gnomeCommitText"
           ],
           "type": "string"
         },

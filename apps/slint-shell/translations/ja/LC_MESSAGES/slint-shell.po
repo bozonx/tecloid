@@ -2418,10 +2418,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "「ydotool type」のみを実行します。ydotool と ydotoold サービスの実行が必要です。ラテン文字のテキストでのみ確実に動作します。エラー時は方式を切り替えずに停止します。"
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "「xdotool type」のみを実行します。X11 セッションと XWayland ウィンドウでのみ動作します。エラー時は方式を切り替えずに停止します。"
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "X11 セッションで XTest を使って入力します。xdotool が必要です。"
 
 msgid "ydotool from PATH"
 msgstr "PATH からの ydotool"
@@ -3611,3 +3609,24 @@ msgstr "端末では別の貼り付けショートカットを使う"
 
 msgid "Late tap, ms: {}"
 msgstr "遅延タップ（ミリ秒）: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + クリップボード"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "GNOME Shell 拡張機能を使って、フォーカスのある Wayland の入力欄にテキスト全体を入力します。"
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "フォーカスのある入力欄は GNOME CommitText でテキストを受け取れません。"

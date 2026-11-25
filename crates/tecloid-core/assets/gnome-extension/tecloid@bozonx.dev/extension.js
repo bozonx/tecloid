@@ -11,6 +11,7 @@ const IFACE = 'dev.bozonx.Tecloid.Gnome';
 const PATH = '/dev/bozonx/Tecloid/Gnome';
 const XML = `<node><interface name="${IFACE}">
 <method name="Snapshot"><arg type="b" direction="in"/><arg type="s" direction="out"/></method>
+<method name="CommitText"><arg type="s" direction="in"/><arg type="s" direction="in"/></method>
 <method name="Windows"><arg type="s" direction="out"/></method>
 <method name="Activate"><arg type="s" direction="in"/></method>
 <method name="Action"><arg type="s" direction="in"/></method>
@@ -27,7 +28,7 @@ export default class Bridge extends Extension {
         this._focusId = global.display.connect('notify::focus-window', () => this._watchWindow());
         this._sourceId = this._sources.connect('current-source-changed', () => this._changed());
         this._listId = this._sources.connect('sources-changed', () => this._changed());
-        this._keymapId = this._sources.keyboardManager.connect('keymap-changed', () => this._changed());
+        this._keymapId = this._sources.keyboardManager?.connect?.('keymap-changed', () => this._changed());
         this._windowSignals = [];
         this._watchWindow();
     }
@@ -38,7 +39,8 @@ export default class Bridge extends Extension {
         global.display.disconnect(this._focusId);
         this._sources.disconnect(this._sourceId);
         this._sources.disconnect(this._listId);
-        this._sources.keyboardManager.disconnect(this._keymapId);
+        if (this._keymapId)
+            this._sources.keyboardManager.disconnect(this._keymapId);
         this._object.unexport();
         this._object = null;
         this._sources = null;
@@ -126,11 +128,11 @@ export default class Bridge extends Extension {
 
     _textKeymap() {
         const {currentSource, keyboardManager} = this._sources;
-        const layout = keyboardManager.currentLayout;
+        const layout = keyboardManager?.currentLayout;
         // Use the Shell's rules only while its XKB source is applied.
         // An IBus engine, external keymap or group switch can change the result.
         if (currentSource?.type !== Keyboard.INPUT_SOURCE_TYPE_XKB ||
-            !layout || layout.id !== currentSource.xkbId || keyboardManager.isExternal() ||
+            !layout || layout.id !== currentSource.xkbId || keyboardManager.isExternal?.() !== false ||
             keyboardManager.displayName !== layout.displayName ||
             keyboardManager.shortName !== layout.shortName)
             return null;
@@ -139,6 +141,25 @@ export default class Bridge extends Extension {
             return null;
         const {layouts, variants, options, model} = rules;
         return {layouts, variants, options, model: model ?? '', group: layout.groupIndex};
+    }
+
+    CommitTextAsync([text, expectedWindow], invocation) {
+        this._authorized(invocation, () => {
+            const window = global.display.focus_window;
+            if (!window || Main.modalCount || Main.overview.visible ||
+                expectedWindow !== `${this._epoch}:${window.get_stable_sequence()}`) {
+                const error = new Error('The destination window changed');
+                error.dbusName = `${IFACE}.DestinationChanged`;
+                throw error;
+            }
+            if (window.get_client_type() !== Meta.WindowClientType.WAYLAND || !Main.inputMethod.currentFocus) {
+                const error = new Error('The focused field has no input method context');
+                error.dbusName = `${IFACE}.NoInputContext`;
+                throw error;
+            }
+            Main.inputMethod.commit(text);
+            return null;
+        });
     }
 
     WindowsAsync(_params, invocation) {
@@ -236,7 +257,13 @@ export default class Bridge extends Extension {
         case 'closeWindow': window.delete(global.get_current_time()); return;
         case 'minimizeWindow': window.minimize(); return;
         case 'maximizeWindow':
-            if (window.is_maximized())
+            if (typeof window.is_maximized !== 'function') {
+                const both = Meta.MaximizeFlags.BOTH;
+                if (window.get_maximized() === both)
+                    window.unmaximize(both);
+                else
+                    window.maximize(both);
+            } else if (window.is_maximized())
                 window.unmaximize();
             else
                 window.maximize();
@@ -248,6 +275,13 @@ export default class Bridge extends Extension {
             const flag = action === 'maximizeWindowVertically'
                 ? Meta.MaximizeFlags.VERTICAL
                 : Meta.MaximizeFlags.HORIZONTAL;
+            if (typeof window.get_maximized === 'function') {
+                if (window.get_maximized() & flag)
+                    window.unmaximize(flag);
+                else
+                    window.maximize(flag);
+                return;
+            }
             const api = ['get_maximize_flags', 'set_maximize_flags', 'set_unmaximize_flags'];
             if (api.some(method => typeof window[method] !== 'function'))
                 throw new Error('Unsupported action');

@@ -314,6 +314,7 @@
   "config/$defs/TextMode": [
     "ydotool",
     "xdotool",
+    "gnomeCommitText",
     "libeiWithClipboardFallback",
     "libeiOnly",
     "portalKeycode",

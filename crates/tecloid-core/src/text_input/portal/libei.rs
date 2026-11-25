@@ -3,7 +3,7 @@
 use super::*;
 
 pub(super) struct LibeiBackend {
-    pub(super) clipboard: Option<crate::text_input::portal_clipboard::Clipboard>,
+    pub(super) clipboard: ClipboardAccess,
     pub(super) conn: Connection,
     pub(super) session_handle: OwnedObjectPath,
     pub(super) context: ei::Context,
@@ -126,6 +126,9 @@ impl LibeiBackend {
         let text = text.replace("\r\n", "\n");
         if missing_characters(&table, &text) {
             if let Some(shortcut) = clipboard_fallback {
+                log::debug!(
+                    "[text] libei + clipboard: pasting entire string; keymap lacks a character"
+                );
                 return self.paste_text(&text, shortcut, request);
             }
             return Err(TextInputFailure::MissingCharacters);
@@ -198,7 +201,7 @@ impl LibeiBackend {
         shortcut: ClipboardKeys,
         request: &TextRequest,
     ) -> Result<(), TextInputFailure> {
-        let clipboard = prepare_clipboard(self.clipboard.as_ref(), text, request)?;
+        let clipboard = prepare_clipboard(&self.clipboard, text, request)?;
         request.check()?;
         wait_for_modifiers(request).map_err(temporary_input_failure)?;
         let deadline = Instant::now() + MODIFIER_RELEASE_TIMEOUT;
@@ -412,7 +415,7 @@ impl LibeiBackend {
     }
 
     pub(super) fn close(self) {
-        if self.clipboard.is_none() {
+        if !matches!(self.clipboard, ClipboardAccess::Portal(_)) {
             close_session(&self.conn, &self.session_handle);
         }
     }

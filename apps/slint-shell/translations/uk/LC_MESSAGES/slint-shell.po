@@ -2465,10 +2465,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "Запускає лише «ydotool type». Потрібні ydotool і запущена служба ydotoold. Надійно лише для латинського тексту. У разі помилки зупиняється без зміни методу."
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "Запускає лише «xdotool type». Працює лише в сеансах X11 і вікнах XWayland. У разі помилки зупиняється без зміни методу."
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "Вводить текст через XTest у сеансі X11. Потрібен xdotool."
 
 msgid "ydotool from PATH"
 msgstr "ydotool із PATH"
@@ -3682,3 +3680,24 @@ msgstr "Окреме сполучення вставлення для термі
 
 msgid "Late tap, ms: {}"
 msgstr "Пізнє натискання, мс: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + буфер обміну"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "Вставляє весь текст в активне поле Wayland через розширення GNOME Shell."
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "Активне поле не приймає текст через GNOME CommitText."

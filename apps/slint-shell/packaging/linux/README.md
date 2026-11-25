@@ -21,7 +21,7 @@ logind or use outside an active local session, explicitly add the user to `input
 and log in again. Existing group memberships are retained. Literal text (`text:` actions) needs `xdg-desktop-portal` with
 the desktop backend (`xdg-desktop-portal-kde` on KDE).
 
-GNOME 50: run `./install-gnome-extension.sh`, log in again,
+GNOME 46–51: run `./install-gnome-extension.sh`, log in again,
 then `gnome-extensions enable tecloid@bozonx.dev`. The tray needs an
 AppIndicator extension.
 

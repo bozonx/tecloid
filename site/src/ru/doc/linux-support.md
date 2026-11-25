@@ -3,7 +3,7 @@ title: Поддержка дистрибутивов Linux
 ---
 # Поддержка дистрибутивов Linux
 
-Для Tecloid важен не дистрибутив, а окружение рабочего стола и его версия. Поддерживаются **KDE Plasma 6** и **GNOME 50** в сеансе **Wayland**, а также **Cinnamon** в сеансе **X11** (Linux Mint). Как установить Tecloid, описано на странице [Установка](./installation).
+Для Tecloid важен не дистрибутив, а окружение рабочего стола и его версия. Поддерживаются **KDE Plasma 6** и **GNOME 46–51** в сеансе **Wayland**, а также **Cinnamon** в сеансе **X11** (Linux Mint). Как установить Tecloid, описано на странице [Установка](./installation).
 
 Обозначения:
 
@@ -21,9 +21,9 @@ title: Поддержка дистрибутивов Linux
 | Arch Linux | GNOME | ✅ Проверено | |
 | Fedora | KDE Plasma 6 | ✅ Проверено | |
 | Fedora | GNOME | ✅ Проверено | |
-| Ubuntu | GNOME | ✅ Проверено | Нужен GNOME Shell 50 |
+| Ubuntu | GNOME | ✅ Проверено | Нужен GNOME Shell 46–51 |
 | Debian | KDE Plasma 6 | ✅ Проверено | |
-| Debian | GNOME | ✅ Проверено | Нужен GNOME Shell 50 |
+| Debian | GNOME | ✅ Проверено | Нужен GNOME Shell 46–51 |
 | Linux Mint | Cinnamon (X11) | 🟢 Должно работать | Проверка в тестовом окружении готовится. Рекомендуется пакет `.deb` |
 | EndeavourOS | KDE Plasma 6 | 🟢 Должно работать | |
 | EndeavourOS | GNOME | 🟢 Должно работать | |
@@ -48,7 +48,7 @@ title: Поддержка дистрибутивов Linux
 | NixOS | KDE Plasma 6 | ❌ Не поддерживается | Нет пакета Nix, установка из архива не работает |
 | NixOS | GNOME | ❌ Не поддерживается | Нет пакета Nix, установка из архива не работает |
 
-Если вашего дистрибутива нет в таблице, но в нём есть KDE Plasma 6 или GNOME 50 на Wayland либо Cinnamon на X11, Tecloid, скорее всего, будет работать без проблем. Если столкнётесь с проблемой, пожалуйста, [создайте issue](https://github.com/bozonx/tecloid/issues).
+Если вашего дистрибутива нет в таблице, но в нём есть KDE Plasma 6 или GNOME 46–51 на Wayland либо Cinnamon на X11, Tecloid, скорее всего, будет работать без проблем. Если столкнётесь с проблемой, пожалуйста, [создайте issue](https://github.com/bozonx/tecloid/issues).
 
 ## Неподдерживаемые окружения
 

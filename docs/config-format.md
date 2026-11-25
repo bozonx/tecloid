@@ -421,7 +421,7 @@ Example with every field (the application writes all of them except
 | `gameMode.detectors` | per-source auto detection; each OS uses only its own | OS-dependent |
 | `gameMode.foregroundOnly` | launcher/Game Bar games count only while focused | `true` |
 | `gameMode.processes[]` | `name` pattern (not blank, no `title:`: a process has no title), `foregroundOnly` (default `true`), `exclude` (default `false`) | — |
-| `linux.textMode` | `libeiWithClipboardFallback`, `libeiOnly`, `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` | `libeiWithClipboardFallback` |
+| `linux.textMode` | `libeiWithClipboardFallback`, `libeiOnly`, `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool`, `gnomeCommitText` | `libeiWithClipboardFallback` when omitted; new installations use the session recommendation |
 | `linux.pasteShortcut` | `auto` (Ctrl+V; Ctrl+Shift+V in terminals), `Shift+Insert`, `Ctrl+KeyV`, `Ctrl+Shift+KeyV` (modifier order irrelevant), `Paste` (the Paste key) | `auto` |
 | `linux.terminalPasteShortcut` | same values or `sameAsPaste`; only applied with `experimental` enabled | `sameAsPaste` |
 | `linux.ydotoolPath`, `xdotoolPath` | program path; missing = search `PATH`; empty string is an error | — |

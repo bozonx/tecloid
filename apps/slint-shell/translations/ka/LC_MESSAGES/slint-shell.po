@@ -2449,10 +2449,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "უშვებს მხოლოდ „ydotool type“-ს. საჭიროა ydotool და გაშვებული ydotoold სერვისი. სანდოა მხოლოდ ლათინური ტექსტისთვის. შეცდომისას ჩერდება მეთოდის შეცვლის გარეშე."
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "უშვებს მხოლოდ „xdotool type“-ს. მუშაობს მხოლოდ X11 სესიებსა და XWayland ფანჯრებში. შეცდომისას ჩერდება მეთოდის შეცვლის გარეშე."
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "X11 სესიაში ტექსტს XTest-ის საშუალებით შეიყვანს. საჭიროა xdotool."
 
 msgid "ydotool from PATH"
 msgstr "ydotool PATH-დან"
@@ -3644,3 +3642,24 @@ msgstr "ცალკე ჩასმის მალსახმობი ტე
 
 msgid "Late tap, ms: {}"
 msgstr "დაგვიანებული დაჭერა, მწმ: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + გაცვლის ბუფერი"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "GNOME Shell-ის გაფართოებით მთელ ტექსტს Wayland-ის აქტიურ ველში ჩასვამს."
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "აქტიური ველი GNOME CommitText-ის საშუალებით ტექსტს ვერ მიიღებს."

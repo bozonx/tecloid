@@ -2459,10 +2459,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "Spouští pouze „ydotool type“. Vyžaduje ydotool a běžící službu ydotoold. Spolehlivé jen pro latinku. Při chybě se zastaví bez přepnutí metody."
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "Spouští pouze „xdotool type“. Funguje jen v relacích X11 a oknech XWayland. Při chybě se zastaví bez přepnutí metody."
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "Zadává text pomocí XTest v relaci X11. Vyžaduje xdotool."
 
 msgid "ydotool from PATH"
 msgstr "ydotool z PATH"
@@ -3666,3 +3664,24 @@ msgstr "Samostatná zkratka vložení v terminálech"
 
 msgid "Late tap, ms: {}"
 msgstr "Pozdní klepnutí, ms: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + schránka"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "Vloží celý text do aktivního pole Wayland prostřednictvím rozšíření GNOME Shell."
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "Aktivní pole nemůže přijímat text prostřednictvím GNOME CommitText."

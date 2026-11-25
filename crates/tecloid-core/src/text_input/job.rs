@@ -131,6 +131,14 @@ impl TextRequest {
         Ok(request)
     }
 
+    #[cfg(target_os = "linux")]
+    pub(crate) fn gnome_window(&self) -> Result<&str, TextInputFailure> {
+        match self.target.as_ref() {
+            crate::active_window::TextTarget::Gnome(id, _) => Ok(id),
+            _ => Err(TextInputFailure::DestinationChanged),
+        }
+    }
+
     pub(crate) fn check(&self) -> Result<(), TextInputFailure> {
         self.check_lifetime()?;
         if !self.target.is_current() {

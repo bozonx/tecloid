@@ -66,6 +66,8 @@ pub enum MacroRunFailure {
 pub enum TextInputFailure {
     /// The active keyboard layout lacks a character of the text.
     MissingCharacters,
+    /// The focused field does not accept text from the GNOME input method.
+    NoInputContext,
     /// The active keyboard layout is unknown, so keys cannot be chosen.
     LayoutUnknown,
     /// The input backend could not start or stopped working.

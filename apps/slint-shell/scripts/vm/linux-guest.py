@@ -431,7 +431,7 @@ def cmd_write_config(args):
     (environment / '90-tecloid-e2e.conf').write_text(f'TECLOID_POPUPS={args.popup_mode}\nTECLOID_METRICS={METRICS}\nRUST_LOG=info\n')
     settings = {
         "experimental": True,
-        "linux": {"textMode": {"libei": "libeiWithClipboardFallback"}.get(args.text_backend, args.text_backend)},
+        "linux": {"textMode": {"libei": "libeiWithClipboardFallback", "clipboard": "clipboardPaste"}.get(args.text_backend, args.text_backend)},
         "devices": {"keyboards": [args.device]},
         "keymaps": {"mode": "manual", "manualKeymap": "user:E2E", "commandsAllowed": ["user:E2E"]},
         "startMapperOnLaunch": True,
@@ -1021,7 +1021,7 @@ def main():
     p.add_argument("--timeout", type=float, default=20)
     p = sub.add_parser("write-config")
     p.add_argument("--device", required=True)
-    p.add_argument("--text-backend", choices=("libei", "clipboard"), default="libei")
+    p.add_argument("--text-backend", choices=("libei", "clipboard", "xdotool", "gnomeCommitText"), default="libei")
     p.add_argument("--popup-mode", choices=("winit", "auto", "spell"), default="winit")
     p = sub.add_parser("check-keymap")
     p.add_argument("--device", required=True)

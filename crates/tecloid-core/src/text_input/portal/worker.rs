@@ -180,7 +180,7 @@ pub(super) struct PortalBackend {
     pub(super) conn: Connection,
     pub(super) session_handle: OwnedObjectPath,
     pub(super) portal: Proxy<'static>,
-    pub(super) clipboard: Option<crate::text_input::portal_clipboard::Clipboard>,
+    pub(super) clipboard: ClipboardAccess,
 }
 
 impl PortalBackend {
@@ -209,7 +209,7 @@ pub(super) fn portal_worker(backend: PortalBackend, rx: Receiver<TextInjectionJo
             TextMode::Clipboard => paste_text(
                 &backend.portal,
                 session,
-                backend.clipboard.as_ref(),
+                &backend.clipboard,
                 &cmd.text,
                 cmd.paste,
                 &cmd.request,
@@ -227,7 +227,7 @@ pub(super) fn portal_worker(backend: PortalBackend, rx: Receiver<TextInjectionJo
             break;
         }
     }
-    if backend.clipboard.is_none() {
+    if !matches!(backend.clipboard, ClipboardAccess::Portal(_)) {
         close_session(&backend.conn, &backend.session_handle);
     }
 }

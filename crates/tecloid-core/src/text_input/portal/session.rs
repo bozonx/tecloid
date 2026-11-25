@@ -2,11 +2,13 @@
 
 use super::*;
 
-pub(super) type PortalSession = (
-    Connection,
-    OwnedObjectPath,
-    Option<crate::text_input::portal_clipboard::Clipboard>,
-);
+pub(super) enum ClipboardAccess {
+    DataControl,
+    Portal(crate::text_input::portal_clipboard::Clipboard),
+    Unavailable(String),
+}
+
+pub(super) type PortalSession = (Connection, OwnedObjectPath, ClipboardAccess);
 
 pub(super) fn init_portal(text_request: &TextRequest) -> Result<PortalSession, String> {
     let conn = zbus::blocking::connection::Builder::session()
@@ -54,15 +56,8 @@ pub(super) fn init_portal(text_request: &TextRequest) -> Result<PortalSession, S
         TEXT_BACKEND.lock().unwrap_or_else(|e| e.into_inner()).mode,
         TextMode::LibeiWithClipboardFallback | TextMode::Clipboard
     );
-    let clipboard_requested = wants_clipboard
-        && matches!(
-            crate::platform::linux::detect(),
-            crate::platform::linux::Session {
-                desktop: crate::platform::linux::Desktop::Gnome,
-                session_type: crate::platform::linux::SessionType::Wayland,
-                ..
-            }
-        );
+    let data_control = wants_clipboard && crate::text_input::clipboard::data_control_available();
+    let clipboard_requested = wants_clipboard && !data_control && clipboard_portal_available();
     let token_scope = if clipboard_requested {
         TokenScope::Clipboard
     } else {
@@ -97,16 +92,13 @@ pub(super) fn init_portal(text_request: &TextRequest) -> Result<PortalSession, S
 
     let clipboard = if clipboard_requested {
         match crate::text_input::portal_clipboard::Clipboard::request(&conn, &session_handle) {
-            Ok(clipboard) => Some(clipboard),
-            Err(error) => {
-                log::warn!(
-                    "[portal] clipboard unavailable; keyboard input remains available: {error}"
-                );
-                None
-            }
+            Ok(clipboard) => ClipboardAccess::Portal(clipboard),
+            Err(error) => ClipboardAccess::Unavailable(format!("RequestClipboard: {error}")),
         }
+    } else if data_control {
+        ClipboardAccess::DataControl
     } else {
-        None
+        ClipboardAccess::Unavailable("no clipboard transport available for this session".into())
     };
 
     log::debug!("[portal] handshake: Start (consent dialog if no valid restore_token)");
@@ -134,7 +126,7 @@ pub(super) fn init_portal(text_request: &TextRequest) -> Result<PortalSession, S
         .wait_for_capture()
         .map_err(|error| format!("{error:?}"))?;
 
-    if let Some(clipboard) = &clipboard {
+    if let ClipboardAccess::Portal(clipboard) = &clipboard {
         let enabled = start_results
             .get("clipboard_enabled")
             .and_then(|value| bool::try_from(value).ok())

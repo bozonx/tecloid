@@ -631,6 +631,7 @@ impl Msg {
             Self::TextInputFailed(failure) => {
                 use tecloid_core::events::TextInputFailure as F;
                 match failure {
+                    F::NoInputContext => ("text-no-input-context", empty(), 0),
                     F::MissingCharacters => ("text-missing-characters", empty(), 0),
                     F::DestinationChanged => ("text-destination-changed", empty(), 0),
                     F::LayoutUnknown => ("text-layout-unknown", empty(), 0),

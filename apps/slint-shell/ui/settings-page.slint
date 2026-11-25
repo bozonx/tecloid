@@ -87,6 +87,12 @@ export global SettingsEditor {
     /// Enabled automatic keymap rules with a game-mode condition.
     in property <int> game-auto-rule-count;
     in property <[string]> text-modes;
+    in property <int> default-text-mode-index: -1;
+    in property <[bool]> method-available;
+    public pure function method-label(name: string, index: int) -> string {
+        return name + (index == SettingsEditor.default-text-mode-index ? " (" + @tr("Default") + ")" : "")
+            + (SettingsEditor.method-available.length > index && !SettingsEditor.method-available[index] ? " (" + @tr("Unavailable") + ")" : "");
+    }
     in-out property <int> text-mode-index;
     /// Same order as PasteShortcut::ALL in tecloid-core.
     in-out property <int> paste-shortcut-index;
@@ -616,7 +622,15 @@ export component SettingsPage inherits PageLayout {
                             padding: 0px; spacing: Theme.space-m;
                             FormLabel { text: @tr("Typing method"); }
                             // Same order as TextMode::ALL in tecloid-core.
-                            SelectField { accessible-label: @tr("Typing method"); width: 320px; height: Theme.control-height; vertical-stretch: 0; model: [@tr("libei + clipboard fallback (recommended)"), "libei", "NotifyKeyboardKeycode", @tr("Paste from clipboard"), @tr("ydotool"), @tr("xdotool")]; current-index: SettingsEditor.text-mode-index; selected(value) => { SettingsEditor.text-mode-index = self.current-index; SettingsEditor.save(); } }
+                            SelectField { accessible-label: @tr("Typing method"); width: 320px; height: Theme.control-height; vertical-stretch: 0; model: [
+                                SettingsEditor.method-label(@tr("libei + clipboard"), 0),
+                                SettingsEditor.method-label(@tr("libei"), 1),
+                                SettingsEditor.method-label(@tr("NotifyKeyboardKeycode"), 2),
+                                SettingsEditor.method-label(@tr("Paste from clipboard"), 3),
+                                SettingsEditor.method-label(@tr("ydotool"), 4),
+                                SettingsEditor.method-label(@tr("XTest (xdotool)"), 5),
+                                SettingsEditor.method-label(@tr("GNOME CommitText"), 6)
+                            ]; current-index: SettingsEditor.text-mode-index; selected(value) => { SettingsEditor.text-mode-index = self.current-index; SettingsEditor.save(); } }
                             Text {
                                 vertical-stretch: 0; max-width: Theme.text-column; color: Theme.muted; wrap: word-wrap;
                                 text: [
@@ -625,11 +639,12 @@ export component SettingsPage inherits PageLayout {
                                     @tr("Types only through NotifyKeyboardKeycode using the KDE keyboard layout and readable keyboard state. Skips text with unavailable characters. Requires portal permission. Cancels when a detected destination changes."),
                                     @tr("Pastes with the configured shortcut on Wayland: data-control on KDE, Clipboard portal on GNOME. Preserves all formats within size and time limits. Tecloid then owns the restored clipboard until another app copies; quitting can clear it. A new user copy takes precedence."),
                                     @tr("Runs \"ydotool type\" only. Needs ydotool and its ydotoold service running. Reliable for Latin text only. On an error, stops without switching methods."),
-                                    @tr("Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows. On an error, stops without switching methods."),
+                                    @tr("Types through XTest in an X11 session. Requires xdotool."),
+                                    @tr("Commits the whole text to the focused Wayland field through the GNOME Shell extension."),
                                 ][SettingsEditor.text-mode-index];
                             }
                         }
-                        if SettingsEditor.text-modes[SettingsEditor.text-mode-index] != "ydotool" && SettingsEditor.text-modes[SettingsEditor.text-mode-index] != "xdotool": VerticalLayout {
+                        if SettingsEditor.text-modes[SettingsEditor.text-mode-index] != "gnomeCommitText" && SettingsEditor.text-modes[SettingsEditor.text-mode-index] != "ydotool" && SettingsEditor.text-modes[SettingsEditor.text-mode-index] != "xdotool": VerticalLayout {
                             padding: 0px; spacing: Theme.space-m;
                             FormLabel { text: @tr("Text input permissions"); }
                             Text {

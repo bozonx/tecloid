@@ -667,17 +667,19 @@ pub enum TextMode {
     Clipboard,
     Ydotool,
     Xdotool,
+    GnomeCommitText,
 }
 
 impl TextMode {
     /// Every mode, in the order the settings page lists them.
-    pub const ALL: [Self; 6] = [
+    pub const ALL: [Self; 7] = [
         Self::LibeiWithClipboardFallback,
         Self::LibeiOnly,
         Self::Keycode,
         Self::Clipboard,
         Self::Ydotool,
         Self::Xdotool,
+        Self::GnomeCommitText,
     ];
 
     pub fn as_str(self) -> &'static str {
@@ -688,6 +690,7 @@ impl TextMode {
             Self::Clipboard => "clipboardPaste",
             Self::Ydotool => "ydotool",
             Self::Xdotool => "xdotool",
+            Self::GnomeCommitText => "gnomeCommitText",
         }
     }
 

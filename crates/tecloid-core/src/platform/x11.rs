@@ -57,6 +57,15 @@ fn err(error: impl std::fmt::Display) -> String {
     format!("X11: {error}")
 }
 
+pub(crate) fn xtest_available() -> bool {
+    x11rb::connect(None).ok().is_some_and(|(conn, _)| {
+        conn.query_extension(b"XTEST")
+            .ok()
+            .and_then(|cookie| cookie.reply().ok())
+            .is_some_and(|reply| reply.present)
+    })
+}
+
 impl Display {
     /// Connect to `$DISPLAY`.
     pub fn open() -> Result<Self, String> {

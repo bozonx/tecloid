@@ -169,9 +169,6 @@ once in `src/app/mapper.rs` and posts to the Slint event loop.
   libei + clipboard mode may switch mechanisms: if the active keymap cannot
   represent the entire string, paste it once before typing any characters.
   A lost focus, timeout, denied permission or partial write must end the job.
-  The legacy X11 mapping of saved libei modes to xdotool is documented in
-  [the platform matrix](platforms.md) and must be handled when loading legacy
-  settings so it cannot mask the result of an explicit backend test.
 - **Text input** (`text_input/`): jobs ≤ 1 MiB, ≤ 16 queued, 15 s queue age,
   15 s without progress. Keys pressed after a `text:` wait until it is typed
   (dropped after 4 s with a notice). The destination window is captured with the

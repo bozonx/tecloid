@@ -221,6 +221,10 @@ pub fn validate_catalog(
                         | "F1–F24"
                         | "ID"
                         | "E-ink"
+                        | "libei"
+                        | "NotifyKeyboardKeycode"
+                        | "GNOME CommitText"
+                        | "XTest (xdotool)"
                         | "ydotool"
                         | "xdotool"
                 )

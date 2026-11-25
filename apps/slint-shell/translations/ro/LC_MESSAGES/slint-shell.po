@@ -2469,10 +2469,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "Rulează doar „ydotool type”. Necesită ydotool și serviciul ydotoold pornit. Fiabil doar pentru text latin. La o eroare, se oprește fără a schimba metoda."
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "Rulează doar „xdotool type”. Funcționează doar în sesiuni X11 și ferestre XWayland. La o eroare, se oprește fără a schimba metoda."
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "Tastează prin XTest într-o sesiune X11. Necesită xdotool."
 
 msgid "ydotool from PATH"
 msgstr "ydotool din PATH"
@@ -3689,3 +3687,24 @@ msgstr "Folosește o scurtătură de lipire separată în terminale"
 
 msgid "Late tap, ms: {}"
 msgstr "Atingere întârziată, ms: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + clipboard"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "Inserează tot textul în câmpul Wayland activ prin extensia GNOME Shell."
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "Câmpul activ nu poate primi text prin GNOME CommitText."

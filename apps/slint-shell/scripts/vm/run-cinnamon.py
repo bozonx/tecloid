@@ -121,7 +121,7 @@ def main():
         if probe.returncode:
             raise StepFailed(err.strip())
         state["device"] = out.strip()
-        guest(f"write-config --device {shlex.quote(state['device'])} --popup-mode auto")
+        guest(f"write-config --device {shlex.quote(state['device'])} --popup-mode auto --text-backend xdotool")
         # Startup registration is authoritative; a JSON flag alone does not enable it.
         source = (f"~/.local/share/applications/{APP_ID}.desktop" if archive
                   else f"/usr/share/applications/{APP_ID}.desktop")

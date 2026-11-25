@@ -51,6 +51,13 @@ enum Source {
     Wlr(ZwlrDataControlSourceV1),
 }
 
+pub(crate) fn data_control_available() -> bool {
+    Connection::connect_to_env()
+        .ok()
+        .and_then(|conn| registry_queue_init::<State>(&conn).ok())
+        .is_some_and(|(globals, queue)| Manager::bind(&globals, &queue.handle()).is_ok())
+}
+
 impl Manager {
     fn bind(globals: &GlobalList, qh: &QueueHandle<State>) -> Result<Self, String> {
         globals

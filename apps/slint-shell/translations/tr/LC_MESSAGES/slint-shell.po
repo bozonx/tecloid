@@ -2445,10 +2445,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "Yalnızca “ydotool type” çalıştırır. ydotool ve çalışan ydotoold hizmeti gerekir. Yalnızca Latin metin için güvenilirdir. Hata olursa yöntem değiştirmeden durur."
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "Yalnızca “xdotool type” çalıştırır. Yalnızca X11 oturumlarında ve XWayland pencerelerinde çalışır. Hata olursa yöntem değiştirmeden durur."
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "X11 oturumunda XTest ile yazar. xdotool gerektirir."
 
 msgid "ydotool from PATH"
 msgstr "PATH'den ydotool"
@@ -3647,3 +3645,24 @@ msgstr "Terminallerde ayrı yapıştırma kısayolu kullan"
 
 msgid "Late tap, ms: {}"
 msgstr "Geç dokunma, ms: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + pano"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "Tüm metni GNOME Shell uzantısıyla odaktaki Wayland alanına ekler."
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "Odaktaki alan GNOME CommitText üzerinden metin alamıyor."

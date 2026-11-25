@@ -9,7 +9,7 @@ environments compile and partly work; implemented code is not acceptance.
 | Concern | KDE | GNOME | Cinnamon (X11, Linux Mint) | Other X11 (Xfce, MATE, …) | Sway / Hyprland | Windows | macOS |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Key interception | ✅ evdev + uinput | ✅ | ✅ | ✅ | ✅ | ✅ session-wide `WH_KEYBOARD_LL` + `SendInput` | ❌ stub |
-| Literal text (`text:`) | ✅ portal libei, data-control clipboard | ⚠ portal + Clipboard portal, needs extension | ✅ `xdotool` (XTEST), no portal consent; no clipboard paste | ⚠ same as Cinnamon | ⚠ backend dependent | ✅ Unicode `SendInput` | ❌ mapper; popups only |
+| Literal text (`text:`) | ✅ portal libei, data-control clipboard | ⚠ GNOME CommitText, portal keyboard and Clipboard portal | ✅ `xdotool` (XTEST), no portal consent; no clipboard paste | ⚠ same as Cinnamon | ⚠ backend dependent | ✅ Unicode `SendInput` | ❌ mapper; popups only |
 | Keyboard layout | ✅ D-Bus `org.kde.keyboard` | ⚠ extension | ✅ XKB group + `_XKB_RULES_NAMES` (≤ 4 layouts) | ✅ same | 🚧 | ✅ foreground window input language | 🚧 |
 | Standard shortcuts (`sys:copy`, `sys:undo`, `sys:moveWordLeft`, …) | ✅ layout via XKB, terminals by window class | ✅ | ✅ | ✅ | ✅ | ✅ layout via `VkKeyScanEx` | ❌ mapper |
 | System actions (`sys:`) | ✅ kglobalaccel, `org.kde.keyboard`, ScreenSaver | ⚠ extension; Super+Arrow / Super+N for side tiling and task entries 1–9; no `showDesktop`, top/bottom tiling, clipboard history | ✅ EWMH (desktops, window state, show desktop), XKB layouts, Muffin keys for tiling, Expo over `org.Cinnamon`, menu via Super, `cinnamon-screensaver-command`, `xset`; no next/previous screen, task entries, clipboard history | ⚠ EWMH, XKB, `loginctl lock-session`, `xset`; no tiling, overview, launcher | 🚧 | ✅ except virtual-desktop actions | ❌ |
@@ -64,11 +64,9 @@ GNOME no longer ships an X11 session.
   `org.Cinnamon` for `showOverview` and `cinnamon-screensaver-command --lock`.
   Other X11 desktops lock through `loginctl lock-session`. `turnOffScreen` runs
   `xset dpms force off`. Changed Cinnamon keybindings are not followed.
-- **Text**: Cinnamon has no RemoteDesktop portal and no data-control clipboard,
-  so the default `libeiWithClipboardFallback` and `libeiOnly` modes type with
-  `xdotool type --clearmodifiers` (XTEST; characters missing in the layout get
-  a temporary keycode). No consent dialog; the clipboard is untouched.
-  `linux.textMode: keycode`/`clipboard` still need a portal and fail on X11.
+- **Text**: X11 uses the explicit `xdotool` method (XTEST) by default.
+  Missing layout characters use a temporary keycode. A selected portal method
+  requires its own portal and reports failures on X11 as on other sessions.
 - **Popups** are winit windows; Muffin may refuse focus stealing, the popup
   model then behaves as on GNOME. Focus return relies on the window manager
   re-focusing the previous window; text waits for the captured target (`xprop`).
@@ -79,7 +77,7 @@ GNOME no longer ships an X11 session.
 ### GNOME
 
 Requires the bundled Shell extension `tecloid@bozonx.dev`
-(`crates/tecloid-core/assets/gnome-extension/`, targets GNOME Shell 50),
+(`crates/tecloid-core/assets/gnome-extension/`, targets GNOME Shell 46–51),
 installed with `install-gnome-extension.sh` (bundle, `~/.local/lib/dev.bozonx.tecloid/`
 or `/usr/share/tecloid/`), enabled after a new login. The tray needs an
 AppIndicator host; the app keeps its tray service alive across host restarts and
@@ -98,9 +96,9 @@ eval, shell commands or arbitrary dispatch.
   `switchToKeyboardLayout1..10`, window and shell actions, `lockSession`,
   `turnOffScreen`. `showDesktop` is unavailable.
 
-Single-character mapper actions send a key and its modifiers directly when the
-extension reports the active XKB keymap and the character is available there.
-This path works without Remote Desktop permission.
+The extension exposes `CommitText(s text, s windowId)`. It checks the caller,
+session state, Wayland window identity and input method focus before committing
+the complete string. XWayland windows cannot use this method.
 
 Clipboard: the extension does not own the clipboard (GJS cannot implement a
 multi-MIME selection source, and binary shims are disallowed by extension review
@@ -119,7 +117,15 @@ a supported detector but no target, input is rejected.
 
 `linux.textMode`: `libeiWithClipboardFallback` types via libei and pastes the
 whole text through the clipboard if the layout lacks a character; `libeiOnly`
-rejects such text; `keycode`, `clipboard`, `ydotool`, `xdotool` are explicit.
+rejects such text; `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` and
+`gnomeCommitText` each use their named mechanism. Failures are reported without
+trying another method. This applies to single-character actions too.
+
+The settings list marks the initial recommendation and unavailable backends.
+Discovery checks advertised interfaces, without requesting consent. Actual
+permission, layout and target-field support are checked when typing. A saved
+choice is used verbatim. On other Wayland compositors the same capability probes
+select the initial method.
 
 Clipboard paste uses Wayland data-control (`ext_data_control_manager_v1` or
 `zwlr_data_control_manager_v1`) or, on GNOME, the Clipboard portal:

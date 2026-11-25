@@ -203,24 +203,6 @@ pub fn reset_permissions() {
     retry_text_backend();
 }
 
-/// Key and modifiers (evdev codes) that type `ch` in the active layout, for
-/// sending a one-character text as a plain key press. `None` when the layout
-/// is unknown, has no such character, or a modifier is held: the character
-/// then goes through the text backend, which handles all three.
-pub(crate) fn key_for_char(ch: char) -> Option<(u16, Vec<u16>)> {
-    if ch.is_control() {
-        return None;
-    }
-    modifiers_released().ok()?;
-    let table = literal_key_table().ok()?;
-    let entry = table.get(&text_keysym(ch))?;
-    let code = |key: u32| u16::try_from(key).ok();
-    Some((
-        code(entry.evdev)?,
-        entry.mods.iter().map(|m| code(*m)).collect::<Option<_>>()?,
-    ))
-}
-
 /// evdev key that applications read as the Latin letter `character` in a
 /// shortcut: in the active layout, or in another configured layout when the
 /// active one has no such letter (Qt and GTK borrow Ctrl+C from the Latin
@@ -302,42 +284,51 @@ pub fn set_token_dir(dir: PathBuf) {
 pub(crate) fn type_text(text: &str, request: TextRequest) -> Result<(), TextInputFailure> {
     request.prepare()?;
     request.wait_for_target()?;
-    let released = Instant::now() + MODIFIER_RELEASE_TIMEOUT;
-    let hardware = HardwareState::capture();
-    while let Err(error) = hardware.modifiers_released() {
-        request.check()?;
-        if Instant::now() >= released {
-            return Err(error);
-        }
-        thread::sleep(POLL_INTERVAL);
-    }
     let cfg = TEXT_BACKEND
         .lock()
         .unwrap_or_else(|e| e.into_inner())
         .clone();
+    let mode = cfg.mode;
+    log::debug!("[text] dispatch via {}", mode.as_str());
+    if mode != TextMode::GnomeCommitText {
+        wait_for_modifiers(&request)?;
+    }
     let paste = clipboard_keys(&cfg, request.is_terminal());
-    // X11 desktops have no RemoteDesktop portal (libei) or data-control
-    // clipboard; xdotool types through XTEST, borrowing a spare keycode
-    // for characters the layout lacks.
-    let mode = match cfg.mode {
-        TextMode::LibeiWithClipboardFallback | TextMode::LibeiOnly if x11_session() => {
-            TextMode::Xdotool
-        }
-        mode => mode,
-    };
     match mode {
+        TextMode::GnomeCommitText => {
+            let window = request.gnome_window()?;
+            request.start_typing()?;
+            crate::platform::gnome::commit_text(text, window)
+        }
         TextMode::Ydotool => run_text_tool(
             cfg.ydotool_path.as_deref().unwrap_or("ydotool"),
             &["type", "--escape=0", "--", text],
             text,
             &request,
         ),
-        TextMode::Xdotool => run_text_tool(
-            cfg.xdotool_path.as_deref().unwrap_or("xdotool"),
-            &["type", "--clearmodifiers", "--", text],
-            text,
-            &request,
-        ),
+        TextMode::Xdotool
+            if crate::platform::linux::detect().session_type
+                != crate::platform::linux::SessionType::X11 =>
+        {
+            Err(TextInputFailure::Tool(
+                "xdotool requires an X11 session".into(),
+            ))
+        }
+        TextMode::Xdotool => {
+            // Give clients time to process keymap changes inside joined emoji
+            // and emoji with skin-tone modifiers.
+            let args = if text.contains(['\u{200d}', '🏻', '🏼', '🏽', '🏾', '🏿']) {
+                vec!["type", "--clearmodifiers", "--delay", "50", "--", text]
+            } else {
+                vec!["type", "--clearmodifiers", "--", text]
+            };
+            run_text_tool(
+                cfg.xdotool_path.as_deref().unwrap_or("xdotool"),
+                &args,
+                text,
+                &request,
+            )
+        }
         TextMode::LibeiWithClipboardFallback | TextMode::LibeiOnly => {
             LIBEI.type_text(text, cfg.mode, paste, request)
         }
@@ -345,11 +336,39 @@ pub(crate) fn type_text(text: &str, request: TextRequest) -> Result<(), TextInpu
     }
 }
 
-fn x11_session() -> bool {
-    matches!(
-        crate::platform::linux::detect().session_type,
-        crate::platform::linux::SessionType::X11
+pub(super) fn keyboard_portal_version() -> u32 {
+    let Ok(conn) = zbus::blocking::connection::Builder::session()
+        .and_then(|builder| builder.method_timeout(DBUS_METHOD_TIMEOUT).build())
+    else {
+        return 0;
+    };
+    let Ok(proxy) = Proxy::new(&conn, PORTAL_DEST, PORTAL_PATH, IFACE_REMOTE) else {
+        return 0;
+    };
+    if proxy
+        .get_property::<u32>("AvailableDeviceTypes")
+        .unwrap_or(0)
+        & DEVICE_TYPE_KEYBOARD
+        == 0
+    {
+        return 0;
+    }
+    proxy.get_property("version").unwrap_or(0)
+}
+
+pub(crate) fn clipboard_portal_available() -> bool {
+    let Ok(conn) = zbus::blocking::connection::Builder::session()
+        .and_then(|builder| builder.method_timeout(DBUS_METHOD_TIMEOUT).build())
+    else {
+        return false;
+    };
+    Proxy::new(
+        &conn,
+        PORTAL_DEST,
+        PORTAL_PATH,
+        "org.freedesktop.portal.Clipboard",
     )
+    .is_ok_and(|proxy| proxy.get_property::<u32>("version").is_ok())
 }
 
 /// Run a typing tool with a deadline that grows with the text, so a hung

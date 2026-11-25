@@ -12,7 +12,7 @@ pub(super) fn type_text_keycode(
     hardware.modifiers_released()?;
     let layout = crate::runtime_state::keyboard_layout();
     let caps = hardware.caps_lock_state()?;
-    let table = layout_key_table()?;
+    let table = literal_key_table()?;
     if layout != crate::runtime_state::keyboard_layout() || caps != hardware.caps_lock_state()? {
         return Err(TextInputFailure::LayoutUnknown);
     }
@@ -47,28 +47,19 @@ pub(super) enum ClipboardPaste {
 }
 
 pub(super) fn prepare_clipboard(
-    portal: Option<&crate::text_input::portal_clipboard::Clipboard>,
+    portal: &ClipboardAccess,
     text: &str,
     request: &TextRequest,
 ) -> Result<ClipboardPaste, TextInputFailure> {
-    if portal.is_none()
-        && matches!(
-            crate::platform::linux::detect(),
-            crate::platform::linux::Session {
-                desktop: crate::platform::linux::Desktop::Gnome,
-                session_type: crate::platform::linux::SessionType::Wayland,
-                ..
-            }
-        )
-    {
-        return Err(TextInputFailure::Clipboard(
-            "clipboard portal permission or interface is unavailable".into(),
-        ));
-    }
     match portal {
-        Some(portal) => portal.prepare(text, request).map(ClipboardPaste::Portal),
-        None => crate::text_input::clipboard::Paste::prepare_checked(text, request)
-            .map(ClipboardPaste::Wayland),
+        ClipboardAccess::Unavailable(error) => Err(error.clone()),
+        ClipboardAccess::Portal(portal) => {
+            portal.prepare(text, request).map(ClipboardPaste::Portal)
+        }
+        ClipboardAccess::DataControl => {
+            crate::text_input::clipboard::Paste::prepare_checked(text, request)
+                .map(ClipboardPaste::Wayland)
+        }
     }
     .map_err(TextInputFailure::Clipboard)
 }
@@ -91,7 +82,7 @@ impl ClipboardPaste {
 pub(super) fn paste_text(
     portal: &Proxy,
     session: &OwnedObjectPath,
-    portal_clipboard: Option<&crate::text_input::portal_clipboard::Clipboard>,
+    portal_clipboard: &ClipboardAccess,
     text: &str,
     shortcut: ClipboardKeys,
     request: &TextRequest,

@@ -63,6 +63,36 @@ pub(crate) fn proxy() -> Result<Proxy<'static>, String> {
         .map_err(|error| format!("GNOME bridge: {error}"))
 }
 
+pub(crate) fn supports_commit_text() -> bool {
+    let Ok(conn) = connection() else { return false };
+    let Ok(proxy) = Proxy::new(conn, SERVICE, PATH, "org.freedesktop.DBus.Introspectable") else {
+        return false;
+    };
+    proxy
+        .call::<_, _, String>("Introspect", &())
+        .is_ok_and(|xml| xml.contains("name=\"CommitText\""))
+}
+
+pub(crate) fn commit_text(text: &str, window: &str) -> Result<(), crate::events::TextInputFailure> {
+    use crate::events::TextInputFailure as Failure;
+    proxy()
+        .map_err(Failure::BackendUnavailable)?
+        .call("CommitText", &(text, window))
+        .map_err(|error| match &error {
+            zbus::Error::MethodError(name, _, _)
+                if name.as_str() == "dev.bozonx.Tecloid.Gnome.DestinationChanged" =>
+            {
+                Failure::DestinationChanged
+            }
+            zbus::Error::MethodError(name, _, _)
+                if name.as_str() == "dev.bozonx.Tecloid.Gnome.NoInputContext" =>
+            {
+                Failure::NoInputContext
+            }
+            _ => Failure::BackendUnavailable(format!("GNOME CommitText: {error}")),
+        })
+}
+
 pub(crate) fn snapshot(titles: bool) -> Result<Snapshot, String> {
     let json: String = proxy()?.call("Snapshot", &(titles,)).map_err(|error| {
         format!(

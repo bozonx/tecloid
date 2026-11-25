@@ -91,6 +91,16 @@ impl ConfigDocument {
         paths.ensure().map_err(ConfigError::Io)?;
         let settings_text = paths.load_config().map_err(ConfigError::Io)?;
         let settings = settings::parse(&settings_text).map_err(ConfigError::Parse)?;
+        #[cfg(target_os = "linux")]
+        let settings = if settings_text.is_empty() {
+            AppSettings {
+                linux_wayland_text_mode: crate::text_input::methods::discover(&settings)
+                    .recommended,
+                ..settings
+            }
+        } else {
+            settings
+        };
         let keymap = KeymapPreset::initial();
         crate::gamemode::set_settings(&settings.game_mode, settings.in_development);
         Ok(Self {

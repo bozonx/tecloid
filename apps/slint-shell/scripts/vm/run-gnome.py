@@ -209,6 +209,18 @@ def main():
             raise StepFailed(f"expected {expected!r}, received {result!r}; see {name}.png and app.log")
         return repr(result)
 
+    def commit_text():
+        text = "Привет 👩🏽‍💻"
+
+        def commit():
+            bridge = f"DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus {BRIDGE}"
+            snapshot = json.loads(ast.literal_eval(vm.ssh(bridge + "Snapshot true").strip())[0])
+            target = snapshot["window"]["windowId"]
+            vm.ssh(f"if {bridge}CommitText wrong stale; then exit 1; fi")
+            vm.ssh(f"{bridge}CommitText {shlex.quote(text)} {shlex.quote(target)}")
+
+        return expect("gnome-commit-text", text, action=commit)
+
     def layer():
         def keys():
             vm.qmp.tap("f")
@@ -392,6 +404,7 @@ def main():
                 step("gnome-bridge-lifecycle", bridge_recovery)
                 step("command", command)
                 step("game-mode-on-off", game_mode)
+                step("gnome-commit-text", commit_text)
                 step("clipboard-seed", clipboard_seed)
                 step("text-portal-ascii", consent)
                 step("quick-popup-focus-delivery", quick_popup)

@@ -83,10 +83,6 @@ impl HardwareState {
     }
 }
 
-pub(super) fn modifiers_released() -> Result<(), TextInputFailure> {
-    HardwareState::capture().modifiers_released()
-}
-
 /// Clipboard preparation can take seconds; recheck modifiers immediately before
 /// injection and allow the user to finish a shortcut started in the meantime.
 pub(super) fn wait_for_modifiers(request: &TextRequest) -> Result<(), TextInputFailure> {

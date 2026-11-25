@@ -839,7 +839,6 @@ fn run_loop<D: LoopDriver>(
                 engine.resume_after_permission(started.elapsed());
                 suspended = None;
             }
-            io::resolve_literals(&io::RuntimeSideEffects, &mut out_buf);
             hold.gate(
                 &mut out_buf,
                 std::time::Instant::now(),

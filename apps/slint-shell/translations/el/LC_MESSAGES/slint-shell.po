@@ -2452,10 +2452,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "Εκτελεί μόνο «ydotool type». Χρειάζεται το ydotool και την υπηρεσία ydotoold σε λειτουργία. Αξιόπιστο μόνο για λατινικό κείμενο. Σε σφάλμα σταματά χωρίς αλλαγή μεθόδου."
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "Εκτελεί μόνο «xdotool type». Λειτουργεί μόνο σε συνεδρίες X11 και παράθυρα XWayland. Σε σφάλμα σταματά χωρίς αλλαγή μεθόδου."
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "Πληκτρολογεί μέσω XTest σε συνεδρία X11. Απαιτεί το xdotool."
 
 msgid "ydotool from PATH"
 msgstr "ydotool από το PATH"
@@ -3671,3 +3669,24 @@ msgstr "Ξεχωριστή συντόμευση επικόλλησης στα τ
 
 msgid "Late tap, ms: {}"
 msgstr "Καθυστερημένο πάτημα, ms: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + πρόχειρο"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "Εισάγει ολόκληρο το κείμενο στο ενεργό πεδίο Wayland μέσω της επέκτασης GNOME Shell."
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "Το ενεργό πεδίο δεν μπορεί να λάβει κείμενο μέσω GNOME CommitText."

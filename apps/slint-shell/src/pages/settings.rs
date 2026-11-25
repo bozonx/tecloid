@@ -832,6 +832,19 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
             .map_or(-1, |index| index as i32)
     });
     choices.on_find_device(|items, path| find_device(items, &path));
+    #[cfg(target_os = "linux")]
+    {
+        let settings = document.read().settings().clone();
+        let weak = ui.as_weak();
+        std::thread::spawn(move || {
+            let methods = tecloid_core::text_input::methods::discover(&settings);
+            let _ = weak.upgrade_in_event_loop(move |ui| {
+                let e = ui.global::<SettingsEditor>();
+                e.set_default_text_mode_index(choice_index(&TextMode::ALL, &methods.recommended));
+                e.set_method_available(ModelRc::new(VecModel::from(methods.advertised)));
+            });
+        });
+    }
     e.set_text_modes(strings(TextMode::ALL.map(TextMode::as_str)));
     e.set_fullscreen_non_games(
         tecloid_core::gamemode::FULLSCREEN_NON_GAMES

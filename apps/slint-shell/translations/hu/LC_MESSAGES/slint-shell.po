@@ -2449,10 +2449,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "Csak az „ydotool type” parancsot futtatja. Szükséges hozzá az ydotool és a futó ydotoold szolgáltatás. Csak latin betűs szövegnél megbízható. Hiba esetén leáll, módszerváltás nélkül."
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "Csak az „xdotool type” parancsot futtatja. Csak X11-munkamenetekben és XWayland-ablakokban működik. Hiba esetén leáll, módszerváltás nélkül."
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "X11-munkamenetben XTest segítségével gépel. Az xdotool szükséges hozzá."
 
 msgid "ydotool from PATH"
 msgstr "ydotool a PATH-ból"
@@ -3649,3 +3647,24 @@ msgstr "Külön beillesztési billentyűparancs terminálokhoz"
 
 msgid "Late tap, ms: {}"
 msgstr "Késői koppintás, ms: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + vágólap"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "A GNOME Shell bővítményen keresztül a teljes szöveget beilleszti az aktív Wayland-mezőbe."
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "Az aktív mező nem tud szöveget fogadni a GNOME CommitText használatával."

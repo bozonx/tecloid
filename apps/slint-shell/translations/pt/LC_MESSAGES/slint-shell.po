@@ -2460,10 +2460,8 @@ msgid ""
 "Reliable for Latin text only. On an error, stops without switching methods."
 msgstr "Executa apenas “ydotool type”. Precisa do ydotool e do serviço ydotoold em execução. Confiável apenas para texto latino. Em caso de erro, para sem trocar de método."
 
-msgid ""
-"Runs \"xdotool type\" only. Works only in X11 sessions and XWayland windows."
-" On an error, stops without switching methods."
-msgstr "Executa apenas “xdotool type”. Funciona apenas em sessões X11 e janelas XWayland. Em caso de erro, para sem trocar de método."
+msgid "Types through XTest in an X11 session. Requires xdotool."
+msgstr "Digita através de XTest numa sessão X11. Requer xdotool."
 
 msgid "ydotool from PATH"
 msgstr "ydotool do PATH"
@@ -3682,3 +3680,24 @@ msgstr "Usar um atalho de colar separado nos terminais"
 
 msgid "Late tap, ms: {}"
 msgstr "Toque tardio, ms: {}"
+
+msgid "libei + clipboard"
+msgstr "libei + área de transferência"
+
+msgid "Commits the whole text to the focused Wayland field through the GNOME Shell extension."
+msgstr "Insere todo o texto no campo Wayland ativo através da extensão do GNOME Shell."
+
+msgid "libei"
+msgstr "libei"
+
+msgid "NotifyKeyboardKeycode"
+msgstr "NotifyKeyboardKeycode"
+
+msgid "XTest (xdotool)"
+msgstr "XTest (xdotool)"
+
+msgid "GNOME CommitText"
+msgstr "GNOME CommitText"
+
+msgid "The focused field cannot receive text through GNOME CommitText."
+msgstr "O campo ativo não pode receber texto através do GNOME CommitText."

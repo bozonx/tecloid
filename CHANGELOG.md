@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Linux text actions, including single characters, use the selected typing method. Only libei + clipboard may paste when a character is missing. New X11 configurations select xdotool; GNOME Wayland offers direct text commits through the Tecloid extension.
+
 - On Wayland, a clipboard that once failed to save in time no longer makes every later paste of emoji or text fail with "The clipboard is too large or too slow"; Tecloid reconnects to the clipboard after a timeout and logs which format was slow.
 
 - Tecloid has a new mascot-based application icon and a dedicated tray keycap with distinct active and paused states.
@@ -22,8 +24,6 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 - Interface translations were reviewed against the Russian and English texts: missing strings translated, mistranslations and inconsistent terms fixed in all languages except Russian.
 
 - Standard mode offers the system actions assigned in the bundled Left Hand Control keymap, including its Desktop layer actions. Other system actions, mouse-button outputs beyond left, middle and right, the copy hint and the separate terminal paste shortcut require In development.
-
-- On GNOME Wayland with the Tecloid Shell extension, single-character mapper actions such as `text:.` and `text:(` can send keys from the active XKB layout without Remote Desktop permission.
 
 - Automatic keymap switching shows exceptions directly on each rule, identifies rules overridden by earlier ones, and clarifies the fallback with an inline help icon and a “Keys unchanged” option. The add-rule button shows a plus.
 
