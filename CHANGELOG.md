@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- On Wayland, a clipboard that once failed to save in time no longer makes every later paste of emoji or text fail with "The clipboard is too large or too slow"; Tecloid reconnects to the clipboard after a timeout and logs which format was slow.
+
 - Tecloid has a new mascot-based application icon and a dedicated tray keycap with distinct active and paused states.
 
 - On Cinnamon 6.6, keyboard layout actions use Cinnamon's input-source API so the desktop keeps the selected layout active.

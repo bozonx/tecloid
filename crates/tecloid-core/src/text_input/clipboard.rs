@@ -346,7 +346,7 @@ struct Session {
 }
 
 fn run(requests: Receiver<Request>, waker: Arc<Waker>) {
-    let mut session = match Session::connect(waker) {
+    let mut session = match Session::connect(waker.clone()) {
         Ok(session) => session,
         Err(error) => {
             log::debug!("[clipboard] {error}");
@@ -380,11 +380,27 @@ fn run(requests: Receiver<Request>, waker: Arc<Waker>) {
                         .err()
                         .cloned()
                         .unwrap_or_else(|| "clipboard owner stopped".into())));
+                    let timed_out = result
+                        .as_ref()
+                        .is_err_and(|error| error.contains("timed out"));
                     let _ = done.send(result);
                     // Never keep serving the pasted text as the clipboard:
                     // closing the connection drops the ownership.
                     if session.state.owns() && !session.state.restored {
                         return;
+                    }
+                    // A timeout can leave the connection with stale offers or
+                    // stuck transfers; a fresh connection keeps one failure
+                    // from failing every later paste.
+                    if timed_out && !session.state.owns() {
+                        log::info!("[clipboard] reconnecting after a timeout");
+                        match Session::connect(waker.clone()) {
+                            Ok(fresh) => session = fresh,
+                            Err(error) => {
+                                log::debug!("[clipboard] reconnect: {error}");
+                                return;
+                            }
+                        }
                     }
                 }
                 Err(mpsc::TryRecvError::Empty) => break,
@@ -667,12 +683,22 @@ fn snapshot(
                 wake();
             })
             .map_err(|e| format!("start clipboard reader: {e}"))?;
+        let started = Instant::now();
         let bytes = loop {
             if let Ok(result) = rx.try_recv() {
-                break result?;
+                break result.map_err(|error| {
+                    format!(
+                        "{error} (format {mime}, {} ms)",
+                        started.elapsed().as_millis()
+                    )
+                })?;
             }
             if Instant::now() >= deadline {
-                return Err("saving clipboard timed out; clipboard left unchanged".into());
+                return Err(format!(
+                    "saving clipboard timed out; clipboard left unchanged \
+                     (format {mime}, {} ms)",
+                    started.elapsed().as_millis()
+                ));
             }
             pump(connection, queue, state, deadline)?;
         };
