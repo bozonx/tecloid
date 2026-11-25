@@ -75,6 +75,31 @@ def main():
             command += " --x11"
         return vm.ssh(f"{PY} {command}", **kwargs).strip()
 
+    def ydotool_backend():
+        socket = "/run/user/$(id -u)/tecloid-e2e-ydotool.sock"
+        vm.ssh("if ! command -v ydotool >/dev/null || ! command -v ydotoold >/dev/null; then "
+               "sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y ydotool; fi",
+               timeout=120)
+        guest("quit-app")
+        guest("set-text-backend ydotool")
+        guest(f"start-app --popups auto --ydotool-socket={socket}")
+        guest("mapper")
+        before = int(guest("text-failures --reason Tool"))
+        expect("ydotool-no-daemon", "", ("t",))
+        if int(guest("text-failures --reason Tool")) != before + 1:
+            raise StepFailed("ydotool without a daemon must report one error")
+        vm.ssh("sudo systemd-run --unit=tecloid-e2e-ydotoold --collect "
+               f"ydotoold --socket-path={socket} --socket-own=$(id -u):$(id -g)")
+        try:
+            vm.ssh(f"for i in $(seq 1 50); do test -S {socket} && exit 0; sleep .1; done; exit 1")
+            return expect("ydotool-ascii", "tecloid-ok", ("t",))
+        finally:
+            vm.ssh("sudo systemctl stop tecloid-e2e-ydotoold")
+            guest("quit-app")
+            guest("set-text-backend xdotool")
+            guest("start-app --popups auto")
+            guest("mapper")
+
     def boot():
         vm.start(show=args.manual)
         vm.wait_ssh()
@@ -277,10 +302,13 @@ def main():
                 # No portal on X11: text goes through xdotool without consent.
                 step("text-ascii", expect, "text-ascii", "tecloid-ok", ("t",))
                 step("text-unicode", expect, "text-unicode", TEXT_UNICODE, ("y",), None, 5)
+                step("text-composed-emoji", expect, "text-composed-emoji",
+                     "Привет 👩🏽‍💻", ("i",), None, 5)
                 step("quick-popup-focus-delivery", quick_popup)
                 step("popup-open-hide", guest, "popups")
                 step("cli", guest, "cli")
                 step("second-instance", guest, "second-instance")
+                step("ydotool-explicit", ydotool_backend)
             step("autostart-after-reinstall", upgraded_cycle, vm, guest, lambda: install("reinstall"))
             step("quit", guest, "quit-app")
             step("remove", remove)

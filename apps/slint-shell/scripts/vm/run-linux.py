@@ -112,7 +112,7 @@ def main():
         start-without-input keymap-loaded tray-item mapper-with-session-acl autostart-entry reboot-with-input
         autostart-launch autostart-disabled-cycle tray-after-login mapper-running portal-deny portal-consent
         mapper-keys-and-text text-unicode text-unicode-corpus layer-tap-hold macro command
-        system-actions russian-layout popups emoji-ipc quick-menu-rule emoji-hotkey game-mode
+        system-actions russian-layout popups emoji-ipc quick-menu-rule emoji-hotkey game-mode isolated-key-backends
         screen-lock suspend-resume cli second-instance text-after-second-instance keyboard-replug
         mapper-stop mapper-start stuck-keys-on-stop stuck-keys-on-kill sustained-input-lifecycle
         upgrade-over-running autostart-after-upgrade quit remove""".split())
@@ -289,18 +289,43 @@ def main():
         guest("wait-app --timeout 10")
         return "declined; the next text: failed without a new dialog"
 
+    def approve_visible_portal():
+        point = json.loads(guest("portal-deny-point --x 0.58 --y 0.86"))
+        vm.qmp.screendump(vm.logs / "portal-consent.png")
+        click_point(point["x"], point["y"])
+        wait_for("portal consent dismissed", 15, lambda: guest("portal-visible") == "no")
+
     def portal_approve():
-        # Starting the mapper again gives the declined backend another chance.
         set_mapper(False)
         set_mapper(True)
+
         def approve():
             vm.qmp.tap("t")
             wait_for("portal consent dialog", 20, lambda: guest("portal-visible") == "yes")
-            point = json.loads(guest("portal-deny-point --x 0.58 --y 0.86"))
-            vm.qmp.screendump(vm.logs / "portal-consent.png")
-            click_point(point["x"], point["y"])
-            wait_for("portal consent dismissed", 15, lambda: guest("portal-visible") == "no")
+            approve_visible_portal()
+
         return expect("portal-consent", "tecloid-ok", action=approve)
+
+    def isolated_key_backends():
+        for mode in ("libeiOnly", "portalKeycode"):
+            guest("quit-app")
+            guest(f"set-text-backend {mode}")
+            guest(f"start-app --popups {args.popup_mode}")
+            guest("mapper")
+            def type_ascii():
+                vm.qmp.tap("t")
+                for _ in range(15):
+                    if guest("portal-visible") == "yes":
+                        approve_visible_portal()
+                        return
+                    time.sleep(0.2)
+
+            expect(f"{mode}-ascii", "tecloid-ok", action=type_ascii)
+            before = failures("MissingCharacters")
+            expect(f"{mode}-unrepresentable", "", ("y",))
+            if failures("MissingCharacters") != before + 1:
+                raise StepFailed(f"{mode} did not report one missing-character failure")
+        return "both modes typed ASCII and rejected Unicode outside the active layout"
 
     def layer():
         down = lambda key: (key, True)
@@ -685,6 +710,8 @@ def main():
             else:
                 report.step("autostart-after-upgrade", upgraded_cycle, vm, guest,
                             lambda: install("reinstall"), fatal=True)
+            if not args.autostart_only:
+                report.step("isolated-key-backends", isolated_key_backends)
             report.step("quit", guest, "quit-app")
             report.step("remove", remove)
     except (StepFailed, subprocess.SubprocessError, OSError):

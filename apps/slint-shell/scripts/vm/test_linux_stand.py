@@ -40,6 +40,19 @@ def guest_shared_checks():
 
 
 class LinuxStandTests(unittest.TestCase):
+    def test_selecting_backend_preserves_other_fixture_settings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            config = Path(directory) / "config.json"
+            original = {"version": 1, "settings": {
+                "linux": {"textMode": "libeiWithClipboardFallback", "pasteShortcut": "auto"},
+                "devices": {"keyboards": ["e2e-keyboard"]},
+            }}
+            config.write_text(json.dumps(original), encoding="utf-8")
+            with patch.object(guest, "CONFIG_DIR", config.parent):
+                guest.cmd_set_text_backend(SimpleNamespace(mode="gnomeCommitText"))
+            original["settings"]["linux"]["textMode"] = "gnomeCommitText"
+            self.assertEqual(json.loads(config.read_text(encoding="utf-8")), original)
+
     def test_manual_launcher_selects_native_package_without_booting(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

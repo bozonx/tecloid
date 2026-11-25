@@ -423,6 +423,7 @@ def cmd_write_config(args):
     if desktop() != "kde":
         layout = layout.replace("kde:kwin/Switch to Desktop 1", "sys:switchToDesktop1")
     parsed = json.loads(layout)
+    parsed["rules"].append({"key": "KeyI", "tap": "text:Привет 👩🏽‍💻"})
     parsed["rules"].append({"key": "KeyU", "tap": "text:" + TEXT_CORPUS})
     (DATA_DIR / "keymaps/E2E.json").write_text(json.dumps(parsed, ensure_ascii=False), encoding="utf-8")
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
@@ -482,9 +483,18 @@ def cmd_check_keymap(args):
     print("test keyboard and active keymap retained by the application")
 
 
+def cmd_set_text_backend(args):
+    path = CONFIG_DIR / "config.json"
+    config = json.loads(path.read_text(encoding="utf-8"))
+    config["settings"]["linux"]["textMode"] = args.mode
+    path.write_text(json.dumps(config, ensure_ascii=False), encoding="utf-8")
+
+
 def cmd_start_app(args):
     WORK.mkdir(exist_ok=True)
     env = ["RUST_LOG=info", f"TECLOID_POPUPS={args.popups}", f"TECLOID_METRICS={METRICS}"]
+    if args.ydotool_socket:
+        env.append(f"YDOTOOL_SOCKET={args.ydotool_socket}")
     systemd_run("tecloid-e2e-app", [binary()], APP_LOG, env)
     cmd_wait_app(args)
 
@@ -620,7 +630,8 @@ def cmd_start_receiver(args):
     receiver_path(args.name).unlink(missing_ok=True)
     systemd_run(f"tecloid-e2e-receiver-{args.name}",
                 [sys.executable, str(Path(__file__).resolve()), "receive", "--name", args.name],
-                WORK / "receiver.log")
+                WORK / "receiver.log",
+                ["GDK_BACKEND=x11"] if args.xwayland else [])
     wait("receiver window focus", 15, receiver_focused)
 
 
@@ -1026,6 +1037,7 @@ def main():
     p = sub.add_parser("check-keymap")
     p.add_argument("--device", required=True)
     p = sub.add_parser("start-app")
+    p.add_argument("--ydotool-socket")
     p.add_argument("--popups", default="auto")
     p.add_argument("--timeout", type=float, default=30)
     p = sub.add_parser("wait-app")
@@ -1038,6 +1050,9 @@ def main():
     p = sub.add_parser("mapper")
     p.add_argument("--absent", action="store_true")
     p.add_argument("--timeout", type=float, default=20)
+    p = sub.add_parser("set-text-backend")
+    p.add_argument("mode", choices=("libeiOnly", "portalKeycode", "clipboardPaste",
+                                    "gnomeCommitText", "ydotool", "xdotool"))
     sub.add_parser("toggle-mapper")
     p = sub.add_parser("set-mapper")
     p.add_argument("state", choices=["on", "off"])
@@ -1046,6 +1061,7 @@ def main():
     sub.add_parser("autostart")
     p = sub.add_parser("start-receiver")
     p.add_argument("--name", default="main")
+    p.add_argument("--xwayland", action="store_true")
     p = sub.add_parser("receive")
     p.add_argument("--name", required=True)
     p = sub.add_parser("receiver-result")

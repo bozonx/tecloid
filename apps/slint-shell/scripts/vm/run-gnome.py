@@ -195,8 +195,8 @@ def main():
         restore_host()
         return "host loss/reappearance and startup without host: settings reachable; same-process registration recovered"
 
-    def expect(name, expected, keys=(), action=None):
-        guest(f"start-receiver --name {name}")
+    def expect(name, expected, keys=(), action=None, *, xwayland=False):
+        guest(f"start-receiver --name {name}" + (" --xwayland" if xwayland else ""))
         if action:
             action()
         if keys:
@@ -221,6 +221,35 @@ def main():
 
         return expect("gnome-commit-text", text, action=commit)
 
+    def clipboard_only():
+        guest("quit-app")
+        guest("set-text-backend clipboardPaste")
+        guest("start-app --popups auto")
+        guest("mapper")
+        clipboard_seed()
+        expect("clipboard-only-unicode", "Привет 👩🏽‍💻", ("i",))
+        return clipboard_preserved()
+
+    def commit_through_mapper():
+        guest("quit-app")
+        guest("set-text-backend gnomeCommitText")
+        guest("start-app --popups auto")
+        guest("mapper")
+        expect("commit-mapper", "Привет 👩🏽‍💻", ("i",))
+
+        def emoji():
+            before = int(guest("popup-count emoji t4_focused"))
+            vm.ssh("~/.local/bin/tecloid show emoji")
+            guest(f"popup-wait emoji t4_focused --after {before}")
+            vm.qmp.tap("q")
+
+        expect("commit-emoji", "🙂", action=emoji)
+        before = int(guest("text-failures --reason NoInputContext"))
+        expect("commit-xwayland", "", ("t",), xwayland=True)
+        if int(guest("text-failures --reason NoInputContext")) != before + 1:
+            raise StepFailed("expected one GNOME CommitText error for XWayland")
+        return "mapper and emoji popup delivered exact text; XWayland reported an error"
+
     def layer():
         def keys():
             vm.qmp.tap("f")
@@ -229,6 +258,7 @@ def main():
         return expect("layer", "gk", action=keys)
 
     def clipboard_seed():
+        vm.ssh("systemctl --user stop tecloid-e2e-clipboard-owner.service", check=False)
         vm.copy_to(Path(__file__).with_name("clipboard-owner.py"), "tecloid-e2e/")
         vm.ssh(f"rm -f {GUEST}/clipboard-ready; systemd-run --user --collect --unit=tecloid-e2e-clipboard-owner python3 {GUEST}/clipboard-owner.py")
         deadline = time.monotonic() + 30
@@ -414,6 +444,8 @@ def main():
                 step("popup-open-hide", guest, "popups")
                 step("clipboard-new-owner", clipboard_interruption, "replace")
                 step("clipboard-cancel-on-stop", clipboard_interruption, "hold")
+                step("clipboard-only", clipboard_only)
+                step("commit-through-mapper", commit_through_mapper)
             step("quit", guest, "quit-app")
     except (StepFailed, subprocess.SubprocessError, OSError):
         print("Stopped on the first failed step; remaining acceptance is NOT passed.")

@@ -319,6 +319,55 @@ bridge, autostart, tray recovery, mapper basics, portal ASCII/Unicode with MIME
 restoration, Quick popup focus, macro. Stops at the first failure.
 `--examples` runs current `editor`/`interactions` binaries in the guest.
 
+GNOME tests the commit bridge directly and through a mapped text action and the
+Emoji popup. A separate XWayland receiver must stay empty and produce a text
+input error. Clipboard-only mode checks exact Unicode and clipboard restoration.
+
+KDE runs the libei-only and portal-keycode modes against both an ASCII receiver
+case and a string the keyboard layout cannot represent. The latter must leave
+the receiver empty and report exactly one missing-character error per mode.
+
+### GNOME version coverage
+
+A GNOME Shell version stays in the extension's `shell-version` while a
+supported LTS or stable distribution ships it, plus the newest release. Drop a
+version only after its last such distribution reaches end of life, and only
+when keeping it would need a separate code path.
+
+Only the extension (Meta/Shell API), portals, Mutter focus and the tray host
+depend on the GNOME version; mapper, config and settings UI do not. So one
+version gets full manual acceptance and the others get automation plus a short
+smoke:
+
+| GNOME | Stand | Automated | Manual |
+| --- | --- | --- | --- |
+| 50 | Ubuntu 26.04 LTS (`tecloid-ubuntu2604-gnome`) | every release | full checklist, every release |
+| 51 (newest) | Fedora Workstation, vanilla GNOME, no AppIndicator host | every release | version smoke |
+| 46 | Ubuntu 24.04 LTS (oldest API branch) | every release | version smoke |
+| 48 | Debian 13 (optional) | every release | not required |
+| 47, 49 | none | — | — |
+
+Full acceptance moves to the newest Ubuntu LTS when it ships; the "newest" stand
+moves to each new Fedora release.
+
+Version smoke (about 15 minutes):
+
+1. After a new login the extension is enabled and `Snapshot` reports the focused window.
+2. Tray: with an AppIndicator host the icon and menu work; without one, launching opens settings.
+3. Emoji popup inserts into the target window and focus returns.
+4. First `text:` shows the portal consent; after consent ASCII and Unicode
+   insertion work, clipboard mode restores the previous selection.
+5. Maximize a window and switch workspace (covers the `maximize` API split at 48/49).
+6. Switching the keyboard layout updates Tecloid's state.
+
+Repeat the smoke on 46 and the newest version only when the release diff touches
+`extension.js`, portals or text injection, or popup focus; otherwise full
+acceptance on 50 and automation on every stand cover them. A version added to
+`shell-version` counts as supported only after it passed the smoke once.
+Stands for 46 and the newest version need a Fedora/Debian variant of
+`prepare-gnome-guest.sh` (`/etc/gdm/`, session `gnome`, no
+`ubuntu-appindicators@ubuntu.com`).
+
 ### Cinnamon (X11)
 
 ```sh
@@ -329,7 +378,7 @@ python3 apps/slint-shell/scripts/vm/run-cinnamon.py --manual --vm <vm-dir> --pac
 Base: install Linux Mint Cinnamon (current release, ISO installer) with a user
 `tester`, then as root **inside the disposable guest only** run
 `prepare-cinnamon-guest.sh tester "$(cat ~/.ssh/tecloid-vm.pub)"` (copy the
-script and key over first). It installs ssh, `xdotool`, `x11-utils`,
+script and key over first). It installs ssh, `xdotool`, `ydotool`, `x11-utils`,
 `x11-xserver-utils`, `zenity`, sets LightDM autologin into the **X11**
 `cinnamon` session, passwordless sudo, us/ru layouts, four workspaces, disables
 idle lock and Mint's welcome/update dialogs, removes the local password and
@@ -355,7 +404,8 @@ session ACLs (no `input` group), tray (`xapp-sn-watcher`), mapper, reboot with
 autostart, disabled/re-enabled autostart, passthrough/remap/chord/tap-hold/
 macro, stop/start, `sys:` layout (XKB group) and desktop (EWMH) switching,
 Russian layout, command, game mode, `text:` ASCII and Unicode through xdotool
-(no portal), Quick popup focus and delivery, popup IPC, CLI, second instance,
+(including a joined emoji with a skin-tone modifier), explicit ydotool ASCII
+and missing-daemon error checks, Quick popup focus and delivery, popup IPC, CLI, second instance,
 reinstall with autostart, quit and removal. Not covered automatically: lock,
 suspend, replug, window actions other than desktops, previous-version upgrade;
 use the manual Cinnamon checklist. Stops at the first failure.
