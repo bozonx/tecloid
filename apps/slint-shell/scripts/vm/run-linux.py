@@ -24,7 +24,7 @@ from manual_acceptance import MANUAL_CHECKS, manual_acceptance
 from autostart_cycle import disabled_cycle, upgraded_cycle
 from text_corpus import TEXT_CORPUS, TEXT_UNICODE
 
-from vmlib import Report, StepFailed, Vm, commit, environment_ok, receiver_text, result_path, wait_for
+from vmlib import Report, StepFailed, Vm, commit, environment_ok, receiver_text, result_path, verify_close_window, verify_popup_destination, wait_for
 
 # scp paths are relative to the guest home; shell commands use ~.
 GUEST = "~/tecloid-e2e"
@@ -112,7 +112,7 @@ def main():
         start-without-input keymap-loaded tray-item mapper-with-session-acl autostart-entry reboot-with-input
         autostart-launch autostart-disabled-cycle tray-after-login mapper-running portal-deny portal-consent
         mapper-keys-and-text text-unicode text-unicode-corpus layer-tap-hold macro command
-        system-actions russian-layout popups emoji-ipc quick-menu-rule emoji-hotkey game-mode isolated-key-backends
+        system-actions russian-layout popups popup-destination close-focused-window emoji-ipc quick-menu-rule emoji-hotkey game-mode isolated-key-backends
         screen-lock suspend-resume cli second-instance text-after-second-instance keyboard-replug
         mapper-stop mapper-start stuck-keys-on-stop stuck-keys-on-kill sustained-input-lifecycle
         upgrade-over-running autostart-after-upgrade quit remove""".split())
@@ -128,6 +128,14 @@ def main():
 
     def guest(command, **kwargs):
         return vm.ssh(f"{GUEST_PY} {command}", **kwargs).strip()
+
+    def popup_destination():
+        def open_popup():
+            before = int(guest("popup-count quick t4_focused"))
+            vm.qmp.tap("e")
+            guest(f"popup-wait quick t4_focused --after {before}")
+
+        return verify_popup_destination(vm, guest, open_popup)
 
     def boot():
         vm.start(show=args.show or args.manual)
@@ -683,6 +691,8 @@ def main():
                 report.step("system-actions", system_actions)
                 report.step("russian-layout", russian_layout)
                 report.step("popups", popup_hide_focus)
+                report.step("popup-destination", popup_destination)
+                report.step("close-focused-window", verify_close_window, vm, guest)
                 report.step("emoji-ipc", emoji_ipc)
                 report.step("quick-menu-rule", quick_rule)
                 report.step("emoji-hotkey", emoji_hotkey)

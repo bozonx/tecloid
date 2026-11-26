@@ -16,7 +16,7 @@ import time
 from manual_acceptance import MANUAL_CHECKS, manual_acceptance
 from autostart_cycle import disabled_cycle, reboot, upgraded_cycle
 from text_corpus import TEXT_UNICODE
-from vmlib import Report, StepFailed, Vm, commit, environment_ok, receiver_text, result_path
+from vmlib import Report, StepFailed, Vm, commit, environment_ok, receiver_text, result_path, verify_close_window, verify_popup_destination, verify_session_lock
 
 GUEST = "~/tecloid-e2e"
 PY = f"python3 {GUEST}/linux-guest.py"
@@ -76,6 +76,13 @@ def main():
         if command.startswith("wait-session") and "--x11" not in command:
             command += " --x11"
         return vm.ssh(f"{PY} {command}", **kwargs).strip()
+
+    def popup_destination():
+        def open_popup():
+            vm.qmp.tap("e")
+            guest("x11-popup quick")
+
+        return verify_popup_destination(vm, guest, open_popup)
 
     def ydotool_backend():
         socket = "/run/user/$(id -u)/tecloid-e2e-ydotool.sock"
@@ -316,9 +323,16 @@ def main():
                      "Привет 👩🏽‍💻", ("i",), None, 5)
                 step("quick-popup-focus-delivery", quick_popup)
                 step("popup-open-hide", guest, "popups")
+                step("popup-destination", popup_destination)
+                step("close-focused-window", verify_close_window, vm, guest)
                 step("cli", guest, "cli")
                 step("second-instance", guest, "second-instance")
                 step("ydotool-explicit", ydotool_backend)
+                step("lock-unlock", verify_session_lock, vm, guest)
+                step("remap-after-unlock", expect, "after-unlock", "b", ("a",))
+                step("keyboard-replug", vm.qmp.replug_keyboard)
+                step("mapper-after-replug", guest, "mapper --timeout 20")
+                step("remap-after-replug", expect, "after-replug", "b", ("a",))
             step("autostart-after-reinstall", upgraded_cycle, vm, guest, lambda: install("reinstall"))
             step("quit", guest, "quit-app")
             step("remove", remove)
@@ -352,7 +366,7 @@ def main():
                   f"Keyboard: {state.get('device', 'not detected')}",
                   f"Logs and screenshots: {vm.logs}",
                   ("Scope: manual Cinnamon X11 acceptance; operator checklist results only." if args.manual else
-                   "Scope: Cinnamon X11 smoke; lock/suspend/replug, window actions other than desktops, "
+                   "Scope: Cinnamon X11 smoke; suspend, other window actions, "
                    "clipboard and upgrade from a previous release not covered.")],
                  result_path("linux", vm.name))
     raise SystemExit(1 if report.unsuccessful else 0)

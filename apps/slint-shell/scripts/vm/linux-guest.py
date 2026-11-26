@@ -8,6 +8,8 @@ Cinnamon (X11, `xdotool`/`xprop`) install are used.
 import argparse
 import ast
 import csv
+import errno
+import fcntl
 import glob
 import grp
 import json
@@ -423,6 +425,7 @@ def cmd_write_config(args):
     if desktop() != "kde":
         layout = layout.replace("kde:kwin/Switch to Desktop 1", "sys:switchToDesktop1")
     parsed = json.loads(layout)
+    parsed["rules"].append({"key": "F9", "tap": "sys:closeWindow"})
     parsed["rules"].append({"key": "KeyI", "tap": "text:Привет 👩🏽‍💻"})
     parsed["rules"].append({"key": "KeyU", "tap": "text:" + TEXT_CORPUS})
     (DATA_DIR / "keymaps/E2E.json").write_text(json.dumps(parsed, ensure_ascii=False), encoding="utf-8")
@@ -442,6 +445,8 @@ def cmd_write_config(args):
             "processes": [{"name": FAKE_GAME, "foregroundOnly": False}],
         },
     }
+    if args.capture_tablet:
+        settings["devices"]["mice"] = [test_tablet()]
     (CONFIG_DIR / "config.json").write_text(
         json.dumps({"version": 1, "settings": settings}, indent=2),
         encoding="utf-8")
@@ -594,9 +599,10 @@ def receiver_path(name):
 
 def cmd_receive(args):
     """Capture the dialog's exit status and text atomically, including empty input."""
-    command = (["zenity", "--entry", "--title=Tecloid e2e receiver", "--text=Mapper output"]
+    title = receiver_title(args.title_suffix)
+    command = (["zenity", "--entry", f"--title={title}", "--text=Mapper output"]
                if desktop() in ("gnome", "cinnamon")
-               else ["kdialog", "--title", "Tecloid e2e receiver", "--inputbox", "Mapper output"])
+               else ["kdialog", "--title", title, "--inputbox", "Mapper output"])
     result = subprocess.run(command, capture_output=True)
     # kdialog/zenity append one framing newline; preserve all user data before it.
     text = result.stdout.decode("utf-8").removesuffix("\n")
@@ -608,9 +614,13 @@ def cmd_receive(args):
     pending.replace(path)
 
 
-def receiver_focused():
+def receiver_title(suffix):
+    return f"Tecloid e2e receiver {suffix}" if suffix else "Tecloid e2e receiver"
+
+
+def receiver_focused(title="Tecloid e2e receiver"):
     if desktop() == "cinnamon":
-        return active_window_title() == "Tecloid e2e receiver"
+        return active_window_title() == title
     if desktop() == "gnome":
         result = subprocess.run([
             "gdbus", "call", "--session", "--dest", "org.gnome.Shell",
@@ -618,24 +628,37 @@ def receiver_focused():
             "dev.bozonx.Tecloid.Gnome.Snapshot", "true"],
             capture_output=True, text=True, check=True, env={**os.environ, **user_environment()})
         window = json.loads(ast.literal_eval(result.stdout.strip())[0])["window"]
-        return bool(window and window["title"] == "Tecloid e2e receiver")
+        return bool(window and window["title"] == title)
     return kwin_value("receiver-focus", """
 var w = workspace.activeWindow;
-console.warn(MARKER + JSON.stringify(Boolean(w && String(w.caption) === 'Tecloid e2e receiver')));
-""")
+console.warn(MARKER + JSON.stringify(Boolean(w && String(w.caption) === TITLE)));
+""".replace("TITLE", json.dumps(title)))
 
 
 def cmd_start_receiver(args):
-    subprocess.run(["systemctl", "--user", "kill", "--signal=KILL", "tecloid-e2e-receiver-*.service"],
-                   capture_output=True, timeout=5)
-    subprocess.run(["systemctl", "--user", "stop", "tecloid-e2e-receiver-*.service"],
-                   capture_output=True, check=True, timeout=10)
+    if not args.keep_existing:
+        stopped = subprocess.run(
+            ["systemctl", "--user", "stop", "tecloid-e2e-receiver-*.service"],
+            capture_output=True, text=True, timeout=10)
+        # A completed transient receiver can unload between tests.
+        if stopped.returncode not in (0, 5):
+            fail(f"stop previous receivers: {stopped.stderr.strip()}")
     receiver_path(args.name).unlink(missing_ok=True)
     systemd_run(f"tecloid-e2e-receiver-{args.name}",
-                [sys.executable, str(Path(__file__).resolve()), "receive", "--name", args.name],
+                [sys.executable, str(Path(__file__).resolve()), "receive", "--name", args.name,
+                 "--title-suffix", args.name if args.tagged else ""],
                 WORK / "receiver.log",
                 ["GDK_BACKEND=x11"] if args.xwayland else [])
-    wait("receiver window focus", 15, receiver_focused)
+    wait("receiver window focus", 15, lambda: receiver_focused(
+        receiver_title(args.name if args.tagged else "")))
+
+
+def cmd_receiver_state(args):
+    if unit_active(f"tecloid-e2e-receiver-{args.name}"):
+        print("open")
+        return
+    path = receiver_path(args.name)
+    print(json.loads(path.read_text(encoding="utf-8"))["status"] if path.exists() else "missing")
 
 
 def cmd_receiver_result(args):
@@ -858,9 +881,33 @@ def cmd_x11_layouts(args):
         print(x11_layouts())
 
 
+def test_tablet():
+    paths = sorted(Path("/dev/input/by-id").glob("*QEMU*Tablet*-event-*"))
+    if len(paths) != 1:
+        fail(f"expected one QEMU tablet event device, found {paths}")
+    return str(paths[0])
+
+
+def cmd_tablet_grabbed(args):
+    with open(test_tablet(), "rb") as device:
+        try:
+            fcntl.ioctl(device, 0x40044590, 1)  # EVIOCGRAB
+        except OSError as error:
+            if error.errno == errno.EBUSY:
+                print("yes")
+                return
+            raise
+        fcntl.ioctl(device, 0x40044590, 0)
+        print("no")
+
+
 def cmd_screen_locked(args):
-    print("yes" if busctl("call", "org.freedesktop.ScreenSaver", "/ScreenSaver",
-                          "org.freedesktop.ScreenSaver", "GetActive")[1] == "true" else "no")
+    service, path = {
+        "gnome": ("org.gnome.ScreenSaver", "/org/gnome/ScreenSaver"),
+        "cinnamon": ("org.cinnamon.ScreenSaver", "/org/cinnamon/ScreenSaver"),
+        "kde": ("org.freedesktop.ScreenSaver", "/ScreenSaver"),
+    }[desktop()]
+    print("yes" if busctl("call", service, path, service, "GetActive")[1] == "true" else "no")
 
 
 def cmd_lock_screen(args):
@@ -1033,7 +1080,9 @@ def main():
     p.add_argument("--packaged", action="store_true")
     p = sub.add_parser("probe-keyboard")
     p.add_argument("--timeout", type=float, default=20)
+    sub.add_parser("tablet-grabbed")
     p = sub.add_parser("write-config")
+    p.add_argument("--capture-tablet", action="store_true")
     p.add_argument("--device", required=True)
     p.add_argument("--text-backend", choices=("libei", "clipboard", "xdotool", "gnomeCommitText"), default="libei")
     p.add_argument("--popup-mode", choices=("winit", "auto", "spell"), default="winit")
@@ -1066,7 +1115,11 @@ def main():
     p = sub.add_parser("start-receiver")
     p.add_argument("--name", default="main")
     p.add_argument("--xwayland", action="store_true")
+    p.add_argument("--keep-existing", action="store_true")
+    p.add_argument("--tagged", action="store_true")
+    sub.add_parser("receiver-state").add_argument("--name", required=True)
     p = sub.add_parser("receive")
+    p.add_argument("--title-suffix", default="")
     p.add_argument("--name", required=True)
     p = sub.add_parser("receiver-result")
     p.add_argument("--name", default="main")

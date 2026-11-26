@@ -183,7 +183,7 @@ class LinuxStandTests(unittest.TestCase):
         self.work = patch.object(guest, "WORK", Path(self.tmp.name))
         self.work.start()
         self.addCleanup(self.work.stop)
-        self.args = SimpleNamespace(name="probe", timeout=0, expect=None)
+        self.args = SimpleNamespace(name="probe", timeout=0, expect=None, title_suffix="")
 
     def result(self):
         output = io.StringIO()

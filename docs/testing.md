@@ -327,6 +327,15 @@ KDE runs the libei-only and portal-keycode modes against both an ASCII receiver
 case and a string the keyboard layout cannot represent. The latter must leave
 the receiver empty and report exactly one missing-character error per mode.
 
+KDE, GNOME and Cinnamon also open two receivers of the same application.
+The popup choice must never reach the second receiver after a focus switch or
+when the source closes. The mapped Close Window action must dismiss only the
+focused receiver. GNOME and Cinnamon lock and unlock via logind with a modifier
+held, then verify remapping after unlock and after USB keyboard replug.
+The GNOME portal scenario selects the QEMU tablet and probes its evdev grab
+before, during and after the permission prompt. It clicks the prompt when
+the stand provides `portal_clicks`.
+
 ### GNOME version coverage
 
 A GNOME Shell version stays in the extension's `shell-version` while a
@@ -406,8 +415,8 @@ macro, stop/start, `sys:` layout (XKB group) and desktop (EWMH) switching,
 Russian layout, command, game mode, `text:` ASCII and Unicode through xdotool
 (including a joined emoji with a skin-tone modifier), explicit ydotool ASCII
 and missing-daemon error checks, Quick popup focus and delivery, popup IPC, CLI, second instance,
-reinstall with autostart, quit and removal. Not covered automatically: lock,
-suspend, replug, window actions other than desktops, previous-version upgrade;
+reinstall with autostart, quit and removal. Not covered automatically: suspend, window actions beyond close and desktop switching,
+previous-version upgrade;
 use the manual Cinnamon checklist. Stops at the first failure.
 
 The ydotool scenario requires guest-compatible ydotool and ydotoold 1.0.4.

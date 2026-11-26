@@ -15,7 +15,7 @@ import time
 
 from manual_acceptance import MANUAL_CHECKS, manual_acceptance
 from autostart_cycle import disabled_cycle, upgraded_cycle
-from vmlib import Report, StepFailed, Vm, commit, environment_ok, receiver_text, result_path
+from vmlib import Report, StepFailed, Vm, commit, environment_ok, receiver_text, result_path, verify_close_window, verify_popup_destination, verify_session_lock
 
 GUEST = "~/tecloid-e2e"
 PY = f"python3 {GUEST}/linux-guest.py"
@@ -67,6 +67,14 @@ def main():
     def guest(command, **kwargs):
         return vm.ssh(f"{PY} {command}", **kwargs).strip()
 
+    def popup_destination():
+        def open_popup():
+            before = int(guest("popup-count quick t4_focused"))
+            vm.qmp.tap("e")
+            guest(f"popup-wait quick t4_focused --after {before}")
+
+        return verify_popup_destination(vm, guest, open_popup)
+
     def boot():
         vm.start(show=args.manual)
         vm.wait_ssh()
@@ -106,7 +114,7 @@ def main():
         if probe.returncode:
             raise StepFailed(err.strip())
         state["device"] = out.strip()
-        guest(f"write-config --device {shlex.quote(state['device'])}")
+        guest(f"write-config --capture-tablet --device {shlex.quote(state['device'])}")
         # Startup registration is authoritative; a JSON flag alone does not enable it.
         vm.ssh(f"mkdir -p ~/.config/autostart && "
                f"cp ~/.local/share/applications/{APP_ID}.desktop ~/.config/autostart/{APP_ID}.desktop")
@@ -308,10 +316,13 @@ def main():
         return "new owner retained" if mode == "replace" else "pending paste cancelled on mapper stop; clipboard restored"
 
     def consent():
+        wait_for("Tecloid to grab the configured tablet", lambda: guest("tablet-grabbed") == "yes")
+
         def keys():
             vm.qmp.tap("t")
             time.sleep(4)
             vm.qmp.screendump(vm.logs / "portal-consent.png")
+            wait_for("the portal to release the tablet", lambda: guest("tablet-grabbed") == "no")
             clicks = vm.get("portal_clicks", [])
             if clicks:
                 for x, y in clicks:
@@ -320,7 +331,9 @@ def main():
             else:
                 vm.qmp.tap(*vm.get("portal_keys", ["ret"]))
             time.sleep(4)
-        return expect("text-ascii", "tecloid-ok", action=keys)
+        result = expect("text-ascii", "tecloid-ok", action=keys)
+        wait_for("Tecloid to reclaim the tablet", lambda: guest("tablet-grabbed") == "yes")
+        return result
 
     def quick_popup():
         def choose():
@@ -442,10 +455,17 @@ def main():
                 step("clipboard-restored", clipboard_preserved)
                 step("mixed-macro", expect, "mixed-macro", "nmacO", ("m",))
                 step("popup-open-hide", guest, "popups")
+                step("popup-destination", popup_destination)
+                step("close-focused-window", verify_close_window, vm, guest)
                 step("clipboard-new-owner", clipboard_interruption, "replace")
                 step("clipboard-cancel-on-stop", clipboard_interruption, "hold")
                 step("clipboard-only", clipboard_only)
                 step("commit-through-mapper", commit_through_mapper)
+                step("lock-unlock", verify_session_lock, vm, guest)
+                step("remap-after-unlock", expect, "after-unlock", "b", ("a",))
+                step("keyboard-replug", vm.qmp.replug_keyboard)
+                step("mapper-after-replug", guest, "mapper --timeout 20")
+                step("remap-after-replug", expect, "after-replug", "b", ("a",))
             step("quit", guest, "quit-app")
     except (StepFailed, subprocess.SubprocessError, OSError):
         print("Stopped on the first failed step; remaining acceptance is NOT passed.")
@@ -477,7 +497,7 @@ def main():
                   f"Keyboard: {state.get('device', 'not detected')}",
                   f"Logs and screenshots: {vm.logs}",
                   ("Scope: manual GNOME acceptance; operator checklist results only." if args.manual else
-                   "Scope: GNOME smoke only; lock/suspend/replug, other receivers and upgrade not covered.")],
+                   "Scope: GNOME smoke; suspend, other receivers and previous-version upgrade are outside this run.")],
                  result_path("linux", vm.name))
     raise SystemExit(1 if report.unsuccessful else 0)
 

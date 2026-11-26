@@ -374,6 +374,46 @@ def wait_for(what, timeout, probe, interval=0.5):
         time.sleep(interval)
 
 
+def verify_popup_destination(vm, guest, open_popup):
+    for scenario in ("switch", "closed"):
+        source = f"focus-{scenario}-source"
+        other = f"focus-{scenario}-other"
+        guest(f"start-receiver --name {source} --tagged")
+        open_popup()
+        guest(f"start-receiver --name {other} --tagged --keep-existing")
+        if scenario == "closed":
+            vm.ssh(f"systemctl --user stop tecloid-e2e-receiver-{source}.service")
+        vm.qmp.tap("q")
+        time.sleep(1)
+        vm.qmp.tap("ret")
+        text = receiver_text(guest(f"receiver-result --name {other}"))
+        if text not in ("", "q"):
+            raise StepFailed(f"{scenario}: unexpected text in the other window: {text!r}")
+    return "switching or closing the source never typed the popup choice in the other window"
+
+
+def verify_session_lock(vm, guest):
+    vm.qmp.press("shift")
+    try:
+        vm.ssh("sudo loginctl lock-sessions")
+        wait_for("screen lock", 15, lambda: guest("screen-locked") == "yes")
+    finally:
+        vm.qmp.release("shift")
+        vm.ssh("sudo loginctl unlock-sessions")
+    wait_for("screen unlock", 15, lambda: guest("screen-locked") == "no")
+
+
+def verify_close_window(vm, guest):
+    guest("start-receiver --name close-other --tagged")
+    guest("start-receiver --name close-target --tagged --keep-existing")
+    vm.qmp.tap("f9")
+    wait_for("target window to close", 10,
+             lambda: guest("receiver-state --name close-target") == "failed")
+    if guest("receiver-state --name close-other") != "open":
+        raise StepFailed("the unfocused window closed too")
+    return "only the focused receiver closed"
+
+
 def receiver_text(raw):
     """Decode a completed receiver; empty text is distinct from missing output."""
     try:
