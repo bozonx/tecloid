@@ -171,6 +171,17 @@ impl App {
             ShellCommand::Preferences(preferences) => self.set_preferences(preferences),
             ShellCommand::Ping => {}
             ShellCommand::Execute(action) => {
+                #[cfg(target_os = "linux")]
+                if source == Source::SpellChoice
+                    && let Some(text) = crate::popup_model::typed_text(&action)
+                {
+                    self.submit_popup_text(
+                        self.popups.take_worker_target(token.as_deref()),
+                        &text,
+                        start,
+                    );
+                    return;
+                }
                 if cfg!(target_os = "macos") && unsupported_on_macos(&action) {
                     self.set_error(Msg::ActionUnsupportedMacos);
                 } else if !tecloid_core::mapper::runtime::status().running {

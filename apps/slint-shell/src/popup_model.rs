@@ -49,7 +49,6 @@ fn digit_page(digit: &str) -> Option<i32> {
 }
 
 /// Text a popup action types, if it is a `text:` action.
-#[cfg(any(not(target_os = "linux"), feature = "probes"))]
 pub(crate) fn typed_text(action: &str) -> Option<String> {
     match Action::parse(Some(action)) {
         Action::Text(text) => Some(text),
@@ -533,17 +532,25 @@ impl PopupSession {
     }
 
     /// Run `action` once the focus left `popup`, or after the timeout.
-    pub fn choose(&mut self, popup: Popup, action: String) {
+    pub fn choose(&mut self, popup: Popup, action: String) -> std::time::Instant {
+        let chosen = std::time::Instant::now();
         self.pending = Some(PendingAction {
             popup,
             action,
-            chosen: std::time::Instant::now(),
+            chosen,
         });
+        chosen
     }
 
     /// The pending action of `popup`, whatever the focus did.
     pub fn take_pending(&mut self, popup: Popup) -> Option<PendingAction> {
         self.pending.take_if(|pending| pending.popup == popup)
+    }
+
+    pub fn is_pending_choice(&self, chosen: std::time::Instant) -> bool {
+        self.pending
+            .as_ref()
+            .is_some_and(|pending| pending.chosen == chosen)
     }
 
     /// The pending action whose focus return timed out.
@@ -707,6 +714,17 @@ mod tests {
         assert_eq!(action.map(|a| a.action).as_deref(), Some("text:x"));
         assert_eq!(change, FocusChange::None);
         assert!(!session.has_pending());
+    }
+
+    #[test]
+    fn a_deferred_callback_cannot_run_a_newer_choice() {
+        let mut session = PopupSession::default();
+        let first = session.choose(Popup::Emoji, "text:first".into());
+        session.pending.as_mut().unwrap().chosen = first - FOCUS_RETURN_TIMEOUT;
+        let first = session.pending.as_ref().unwrap().chosen;
+        let second = session.choose(Popup::Emoji, "text:second".into());
+        assert!(!session.is_pending_choice(first));
+        assert!(session.is_pending_choice(second));
     }
 
     #[test]

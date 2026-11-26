@@ -7,7 +7,7 @@
 use crate::platform::dbus;
 use std::path::PathBuf;
 use std::sync::mpsc;
-use std::sync::{Arc, Mutex, OnceLock};
+use std::sync::{Arc, Condvar, Mutex, OnceLock};
 use std::time::{Duration, Instant};
 
 use zbus::blocking::{Connection, Proxy, fdo::DBusProxy};
@@ -89,6 +89,7 @@ callDBus(SERVICE, PATH, IFACE, "Windows", JSON.stringify(out));
 #[derive(Default)]
 struct Focus {
     current: Option<String>,
+    current_is_popup: bool,
     external: Option<String>,
     external_window: Option<super::ActiveWindow>,
 }
@@ -104,7 +105,9 @@ impl Focus {
             .and_then(|id| id.as_str())
             .filter(|id| !id.is_empty())
             .map(str::to_owned);
-        if value.get("appId").and_then(|id| id.as_str()) != Some(crate::storage::POPUP_APP_ID) {
+        self.current_is_popup =
+            value.get("appId").and_then(|id| id.as_str()) == Some(crate::storage::POPUP_APP_ID);
+        if !self.current_is_popup {
             self.external = self.current.clone();
             self.external_window = super::linux::window_from_json(value, "title", "appId");
         }
@@ -113,9 +116,12 @@ impl Focus {
 
 static FOCUS: Mutex<Focus> = Mutex::new(Focus {
     current: None,
+    current_is_popup: false,
     external: None,
     external_window: None,
 });
+
+static FOCUS_CHANGED: Condvar = Condvar::new();
 
 pub(super) fn text_target() -> Option<(String, super::ActiveWindow)> {
     FOCUS.lock().ok()?.text_target()
@@ -126,6 +132,26 @@ pub(super) fn target_is_current(target: &str) -> bool {
         .lock()
         .ok()
         .is_some_and(|focus| focus.current.as_deref() == Some(target))
+}
+
+pub(super) fn popup_has_focus() -> bool {
+    FOCUS.lock().is_ok_and(|focus| focus.current_is_popup)
+}
+
+pub(super) fn popup_target_changed(target: &str) -> bool {
+    FOCUS.lock().is_ok_and(|focus| {
+        !focus.current_is_popup && focus.current.as_deref().is_some_and(|id| id != target)
+    })
+}
+
+pub(super) fn wait_for_popup_focus_update(timeout: Duration) {
+    if let Ok(focus) = FOCUS.lock() {
+        // Check again under the mutex in case the report arrived just before
+        // the worker began waiting.
+        drop(FOCUS_CHANGED.wait_timeout_while(focus, timeout, |focus| {
+            focus.current_is_popup || focus.current.is_none()
+        }));
+    }
 }
 
 static PUSHED: Mutex<Option<Option<ActiveWindow>>> = Mutex::new(None);
@@ -160,6 +186,7 @@ impl Service {
             && let Ok(mut focus) = FOCUS.lock()
         {
             focus.update(&value);
+            FOCUS_CHANGED.notify_all();
         }
         let window = serde_json::from_str::<serde_json::Value>(&json)
             .ok()
@@ -481,9 +508,11 @@ mod tests {
         assert_eq!(focus.current.as_deref(), Some("settings"));
         assert_eq!(focus.external, focus.current);
         focus.update(&report(crate::storage::POPUP_APP_ID, "quick"));
+        assert!(focus.current_is_popup);
         assert_eq!(focus.external.as_deref(), Some("settings"));
         assert_ne!(focus.current, focus.external);
         focus.update(&report(crate::storage::APP_ID, "settings"));
+        assert!(!focus.current_is_popup);
         assert_eq!(focus.external, focus.current);
         focus.update(&serde_json::json!({}));
         assert!(focus.current.is_none());

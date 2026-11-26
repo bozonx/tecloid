@@ -21,10 +21,8 @@ pub fn discover(settings: &AppSettings) -> Methods {
     let commit = wayland
         && session.desktop == Desktop::Gnome
         && crate::platform::gnome::supports_commit_text();
-    let direct_text = wayland
-        && session.desktop == Desktop::Kde
-        && keyboard >= 2
-        && kwin_advertises_eis_text();
+    let direct_text =
+        wayland && session.desktop == Desktop::Kde && keyboard >= 2 && kwin_advertises_eis_text();
     let tool = |path: &str, name| command_available(if path.is_empty() { name } else { path });
     let xtest = x11 && crate::platform::x11::xtest_available();
     let xdotool = xtest && tool(&settings.linux_xdotool_path, "xdotool");
@@ -37,7 +35,8 @@ pub fn discover(settings: &AppSettings) -> Methods {
                 .unwrap_or_else(std::env::temp_dir)
                 .join(".ydotool_socket")
         });
-    let ydotool = graphical && tool(&settings.linux_ydotool_path, "ydotool")
+    let ydotool = graphical
+        && tool(&settings.linux_ydotool_path, "ydotool")
         && UnixDatagram::unbound()
             .and_then(|client| client.connect(socket))
             .is_ok();
@@ -73,7 +72,10 @@ pub fn discover(settings: &AppSettings) -> Methods {
         TextMode::LibeiWithClipboardFallback
     });
     Methods {
-        supported: TextMode::ALL.into_iter().filter(|mode| supported(*mode)).collect(),
+        supported: TextMode::ALL
+            .into_iter()
+            .filter(|mode| supported(*mode))
+            .collect(),
         recommended,
     }
 }
@@ -84,15 +86,18 @@ fn kwin_advertises_eis_text() -> bool {
     use crate::platform::dbus::{KWIN_INTERFACE, KWIN_PATH, KWIN_SERVICE};
     use zbus::blocking::{Proxy, connection::Builder};
 
-    let Ok(conn) = Builder::session()
-        .and_then(|builder| builder.method_timeout(std::time::Duration::from_secs(1)).build())
-    else {
+    let Ok(conn) = Builder::session().and_then(|builder| {
+        builder
+            .method_timeout(std::time::Duration::from_secs(1))
+            .build()
+    }) else {
         return false;
     };
     let Ok(proxy) = Proxy::new(&conn, KWIN_SERVICE, KWIN_PATH, KWIN_INTERFACE) else {
         return false;
     };
-    proxy.call::<_, _, String>("supportInformation", &())
+    proxy
+        .call::<_, _, String>("supportInformation", &())
         .is_ok_and(|info| kwin_has_eis_text(&info))
 }
 
@@ -104,7 +109,8 @@ fn kwin_has_eis_text(info: &str) -> bool {
         Some((major.parse::<u32>().ok()?, minor.parse::<u32>().ok()?))
     });
     version.is_some_and(|version| version >= (6, 8))
-        && info.lines()
+        && info
+            .lines()
             .skip_while(|line| *line != "Loaded Plugins:")
             .skip(1)
             .take_while(|line| !line.is_empty())

@@ -71,6 +71,7 @@ pub enum Source {
     Ipc,
     Mapper,
     Diagnostic,
+    SpellChoice,
 }
 
 impl Source {
@@ -88,6 +89,7 @@ impl Source {
             Self::Ipc => "ipc",
             Self::Mapper => "mapper",
             Self::Diagnostic => "diagnostic",
+            Self::SpellChoice => "spell-choice",
         }
     }
 
@@ -99,6 +101,7 @@ impl Source {
             Some("evdev") => Self::Evdev,
             Some("hotkey") => Self::Hotkey,
             Some("mapper") => Self::Mapper,
+            Some("spell-choice") => Self::SpellChoice,
             _ => Self::Ipc,
         }
     }

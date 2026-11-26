@@ -187,8 +187,8 @@ impl SideEffects for RuntimeSideEffects {
     }
 }
 
-// Submission stays on the mapper thread; injection runs on the text worker.
-fn submit_text(
+// Injection runs on the text worker.
+pub(super) fn submit_text(
     text: &str,
     request: Result<crate::text_input::job::TextRequest, crate::events::TextInputFailure>,
 ) {

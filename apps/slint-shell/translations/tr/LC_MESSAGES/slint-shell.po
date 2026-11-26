@@ -3667,8 +3667,11 @@ msgstr "GNOME CommitText"
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "Odaktaki alan GNOME CommitText üzerinden metin alamıyor."
 
-msgid "libei direct text"
-msgstr "libei ile doğrudan metin"
+msgid "Direct UTF-8 text (EIS)"
+msgstr "Doğrudan UTF-8 metin girişi (EIS)"
+
+msgid "The saved text input method is unavailable in this session."
+msgstr "Kaydedilen metin giriş yöntemi bu oturumda kullanılamıyor."
 
 msgid "Sends up to 254 UTF-8 bytes directly. Requires a KDE Wayland session with EIS text support and portal permission."
 msgstr "254 bayta kadar UTF-8 metni doğrudan gönderir. EIS metin desteği olan KDE Wayland ve portal izni gerekir."

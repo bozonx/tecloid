@@ -616,7 +616,7 @@ export component SettingsPage inherits PageLayout {
                         }
                     }
                 }
-                if SettingsEditor.tab == SettingsTab.mapper && AppState.is-linux: text-input := Section {
+                if SettingsEditor.tab == SettingsTab.mapper && AppState.is-linux && SettingsEditor.text-methods-loaded: text-input := Section {
                     property <string> text-mode: SettingsEditor.text-modes[SettingsEditor.text-mode-index];
                     property <int> method-row: SettingsEditor.text-method-row(SettingsEditor.supported-text-methods, SettingsEditor.text-mode-index);
                     property <bool> portal-method: self.method-row >= 0 && self.text-mode != "gnomeCommitText" && self.text-mode != "ydotool" && self.text-mode != "xdotool";
@@ -643,7 +643,7 @@ export component SettingsPage inherits PageLayout {
                                     SettingsEditor.save();
                                 }
                             } }
-                            if SettingsEditor.text-methods-loaded && text-input.method-row < 0: Text {
+                            if text-input.method-row < 0: Text {
                                 vertical-stretch: 0; max-width: Theme.text-column; color: Theme.warning; wrap: word-wrap;
                                 text: @tr("The saved text input method is unavailable in this session.");
                             }

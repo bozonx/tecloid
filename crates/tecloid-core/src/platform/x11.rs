@@ -105,7 +105,7 @@ impl Display {
         Ok(reply.value32().and_then(|mut values| values.next()))
     }
 
-    fn active_window(&self) -> Result<Window, String> {
+    pub(crate) fn active_window(&self) -> Result<Window, String> {
         self.root_cardinal("_NET_ACTIVE_WINDOW", AtomEnum::WINDOW)?
             .filter(|window| *window != 0)
             .ok_or_else(|| "X11: no active window".to_owned())

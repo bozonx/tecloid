@@ -442,6 +442,11 @@ pub(crate) enum TextTarget {
     Kwin(String, ActiveWindow),
     Gnome(String, ActiveWindow),
     Cached(ActiveWindow),
+    X11(
+        u32,
+        Arc<crate::platform::x11::Display>,
+        Option<ActiveWindow>,
+    ),
     /// No detector exists for this environment; allow best-effort input.
     Unsupported,
     /// A supported detector has no usable destination; never guess a window.
@@ -493,6 +498,45 @@ impl TextTarget {
         }
     }
 
+    pub(crate) fn capture_popup() -> Self {
+        if crate::platform::linux::detect().session_type != crate::platform::linux::SessionType::X11
+        {
+            return Self::capture();
+        }
+        let Ok(display) = crate::platform::x11::Display::open() else {
+            return Self::capture();
+        };
+        let Ok(id) = display.active_window() else {
+            return Self::Unavailable;
+        };
+        let window = TEXT_WINDOW.lock().ok().and_then(|window| window.clone());
+        Self::X11(id, Arc::new(display), window)
+    }
+
+    pub(crate) fn can_wait_for_popup_return(&self) -> bool {
+        match self {
+            Self::Kwin(..) => kwin::popup_has_focus(),
+            Self::Gnome(..) => ACTUAL_WINDOW
+                .lock()
+                .is_ok_and(|current| current.as_ref().is_some_and(is_text_popup)),
+            _ => false,
+        }
+    }
+
+    pub(crate) fn wait_for_popup_focus_update(&self, timeout: Duration) {
+        match self {
+            Self::Kwin(..) => kwin::wait_for_popup_focus_update(timeout),
+            _ => thread::sleep(timeout),
+        }
+    }
+
+    pub(crate) fn popup_target_changed(&self) -> bool {
+        match self {
+            Self::Kwin(id, _) => kwin::popup_target_changed(id),
+            _ => false,
+        }
+    }
+
     pub(crate) fn is_terminal(&self) -> bool {
         self.window().is_some_and(terminal::is_terminal)
     }
@@ -510,6 +554,7 @@ impl TextTarget {
     fn window(&self) -> Option<&ActiveWindow> {
         match self {
             Self::Kwin(_, window) | Self::Gnome(_, window) | Self::Cached(window) => Some(window),
+            Self::X11(_, _, window) => window.as_ref(),
             Self::Unsupported | Self::Unavailable => None,
         }
     }
@@ -517,6 +562,9 @@ impl TextTarget {
     pub(crate) fn is_current(&self) -> bool {
         match self {
             Self::Kwin(id, _) => kwin::target_is_current(id),
+            Self::X11(id, display, _) => {
+                display.active_window().is_ok_and(|current| current == *id)
+            }
             Self::Gnome(id, _) => gnome::target_is_current(id),
             Self::Cached(target) => ACTUAL_WINDOW
                 .lock()

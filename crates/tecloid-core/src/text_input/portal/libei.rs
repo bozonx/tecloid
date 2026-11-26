@@ -105,6 +105,9 @@ impl LibeiBackend {
         let serial = self.connection.serial();
         device.start_emulating(serial, self.sequence);
         self.sequence = self.sequence.wrapping_add(1);
+        if let Some(elapsed) = request.popup_elapsed() {
+            log::debug!("[text] popup choice to EIS text send: {elapsed:?}");
+        }
         input.utf8(text);
         device.frame(serial, monotonic_micros());
         device.stop_emulating(serial);

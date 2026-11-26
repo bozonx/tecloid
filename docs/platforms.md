@@ -121,18 +121,36 @@ rejects such text; `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` and
 `gnomeCommitText` each use their named mechanism. Failures are reported without
 trying another method. This applies to single-character actions too.
 
-`libeiText` is an opt-in mode for KDE Plasma Wayland with EIS text support
+`libeiText` sends direct UTF-8 text on KDE Plasma Wayland with EIS text support
 (KWin 6.8 or later built with libeis 1.6 support). It sends up to 254 UTF-8
 bytes per action directly through the RemoteDesktop portal. The portal must
 grant keyboard access and advertise an EIS text device. Applications without
 an active Wayland text-input context may fail to receive Unicode text.
 Select a clipboard mode for those applications.
 
-The settings list marks the initial recommendation and unavailable backends.
-Discovery checks advertised interfaces, without requesting consent. Actual
-permission, layout and target-field support are checked when typing. A saved
-choice is used verbatim. On other Wayland compositors the same capability probes
-select the initial method.
+New configurations on KDE Wayland prefer direct EIS text if the keyboard
+portal supports EIS and the running KWin is at least 6.8 with its EIS plugin
+loaded. Otherwise they prefer libei with clipboard fallback when available.
+Discovery does not request consent. The EIS text device itself, permission
+and target-field support are checked when typing. Saved choices are used verbatim.
+
+The settings list is filtered by the running session and its capabilities.
+
+| Method | Shown when |
+| --- | --- |
+| Direct UTF-8 text (EIS) | KDE Wayland, a recent KWin with EIS loaded, and a keyboard portal with EIS |
+| GNOME CommitText | GNOME Wayland with a Shell extension that exposes CommitText |
+| libei + clipboard | A keyboard portal with EIS and a Wayland clipboard transport |
+| libei | A keyboard portal with EIS |
+| NotifyKeyboardKeycode | A keyboard portal |
+| Paste from clipboard | A keyboard portal and a Wayland clipboard transport |
+| XTest (xdotool) | An X11 session with XTEST |
+| ydotool | An X11 or Wayland session |
+
+xdotool and ydotool remain visible when they need to be installed. Selecting
+one shows its requirements and executable path. The permissions reset appears
+with portal methods. Paste shortcut controls accompany the clipboard methods,
+and the shortcuts also apply to the Paste action.
 
 Clipboard paste uses Wayland data-control (`ext_data_control_manager_v1` or
 `zwlr_data_control_manager_v1`) or, on GNOME, the Clipboard portal:

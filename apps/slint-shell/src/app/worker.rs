@@ -40,6 +40,7 @@ pub(super) struct PendingShow {
     pub(super) command: WorkerCommand,
     pub(super) source: Source,
     pub(super) start: Instant,
+    #[cfg(not(target_os = "linux"))]
     pub(super) token: Option<String>,
     pub(super) queued: bool,
     id: u64,
@@ -73,14 +74,15 @@ impl Supervisor {
         command: WorkerCommand,
         source: Source,
         start: Instant,
-        token: Option<String>,
+        _token: Option<String>,
     ) {
         self.next_show = self.next_show.wrapping_add(1);
         self.pending_show = Some(PendingShow {
             command,
             source,
             start,
-            token,
+            #[cfg(not(target_os = "linux"))]
+            token: _token,
             queued: false,
             id: self.next_show,
         });
@@ -156,12 +158,16 @@ impl App {
         let result = self
             .sync_worker_menus(pending.source, pending.start)
             .and_then(|()| {
-                self.send_worker(
-                    &pending.command,
-                    pending.source,
-                    pending.start,
-                    pending.token,
-                )
+                self.send_worker(&pending.command, pending.source, pending.start, {
+                    #[cfg(target_os = "linux")]
+                    {
+                        Some(self.popups.capture_worker_target(pending.id))
+                    }
+                    #[cfg(not(target_os = "linux"))]
+                    {
+                        pending.token
+                    }
+                })
             });
         match result {
             Ok(()) => {
@@ -335,6 +341,7 @@ mod tests {
                 command: WorkerCommand::Show(crate::command::Popup::Emoji),
                 source,
                 start: Instant::now(),
+                #[cfg(not(target_os = "linux"))]
                 token: None,
                 queued: false,
                 id: 1,

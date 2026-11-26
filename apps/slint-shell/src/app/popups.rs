@@ -26,6 +26,10 @@ pub(super) struct PopupController {
     generations: RefCell<HashMap<Window, u64>>,
     /// Requested page and the chosen action waiting for the focus to leave.
     session: RefCell<PopupSession>,
+    #[cfg(target_os = "linux")]
+    local_target: RefCell<Option<(Popup, tecloid_core::mapper::linux::PopupTextTarget)>>,
+    #[cfg(target_os = "linux")]
+    worker_target: RefCell<Option<(String, tecloid_core::mapper::linux::PopupTextTarget)>>,
     /// Menus of the active keymap for the winit popups.
     configured: RefCell<Option<Rc<ConfiguredMenus>>>,
     /// Menus the winit popups show now; their page ids locate the last
@@ -78,6 +82,29 @@ impl PopupController {
 
     pub(super) fn reset_worker(&self) {
         self.sent.borrow_mut().take();
+        #[cfg(target_os = "linux")]
+        self.worker_target.borrow_mut().take();
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(super) fn capture_worker_target(&self, id: u64) -> String {
+        let token = id.to_string();
+        *self.worker_target.borrow_mut() = Some((
+            token.clone(),
+            tecloid_core::mapper::linux::PopupTextTarget::capture(),
+        ));
+        token
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(super) fn take_worker_target(
+        &self,
+        token: Option<&str>,
+    ) -> Option<tecloid_core::mapper::linux::PopupTextTarget> {
+        self.worker_target
+            .borrow_mut()
+            .take_if(|(expected, _)| Some(expected.as_str()) == token)
+            .map(|(_, target)| target)
     }
 
     fn needs_worker_update(&self, id: &Option<String>) -> bool {
@@ -197,6 +224,19 @@ impl App {
                     self.return_input.borrow_mut().capture();
                 }
             }
+            self.popups.session.borrow_mut().take_pending(popup);
+            #[cfg(target_os = "linux")]
+            {
+                let mut target = self.popups.local_target.borrow_mut();
+                let destination = target
+                    .take()
+                    .filter(|(owner, _)| {
+                        *owner == popup.other() && self.window(Window::Popup(*owner)).is_visible()
+                    })
+                    .map(|(_, destination)| destination)
+                    .unwrap_or_else(tecloid_core::mapper::linux::PopupTextTarget::capture);
+                *target = Some((popup, destination));
+            }
             self.refresh_popup_data();
             self.popups
                 .session
@@ -299,16 +339,49 @@ impl App {
             self.return_input.borrow_mut().selected(text);
             return;
         }
-        // Run once the popup no longer has the keyboard focus.
-        self.popups.session.borrow_mut().choose(popup, action);
+        #[cfg(target_os = "linux")]
+        if popup_model::typed_text(&action).is_some()
+            && self
+                .popups
+                .local_target
+                .borrow()
+                .as_ref()
+                .is_some_and(|(owner, target)| *owner == popup && target.can_wait_for_return())
+        {
+            let chosen = self.popups.session.borrow_mut().choose(popup, action);
+            // The compositor has observed the popup. After hiding we can
+            // wait for the destination even if winit drops Focused(false).
+            super::post(move |app| {
+                if app.popups.session.borrow().is_pending_choice(chosen) {
+                    app.run_pending_action(popup, false);
+                }
+            });
+            return;
+        }
+        let chosen = self.popups.session.borrow_mut().choose(popup, action);
         slint::Timer::single_shot(FOCUS_RETURN_TIMEOUT, move || {
-            with_app(|app| app.run_pending_action(popup, false));
+            with_app(|app| {
+                if app.popups.session.borrow().is_pending_choice(chosen) {
+                    app.run_pending_action(popup, false);
+                }
+            });
         });
     }
 
     fn run_pending_action(&self, popup: Popup, focus_left: bool) {
         let action = self.popups.session.borrow_mut().take_pending(popup);
         if let Some(PendingAction { action, chosen, .. }) = action {
+            #[cfg(target_os = "linux")]
+            if let Some(text) = popup_model::typed_text(&action) {
+                let target = self
+                    .popups
+                    .local_target
+                    .borrow_mut()
+                    .take_if(|(owner, _)| *owner == popup)
+                    .map(|(_, target)| target);
+                self.submit_popup_text(target, &text, chosen);
+                return;
+            }
             if focus_left {
                 log::info!(
                     "focus left {} {} ms after the choice",
@@ -330,6 +403,20 @@ impl App {
                 Instant::now(),
                 None,
             );
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(super) fn submit_popup_text(
+        &self,
+        target: Option<tecloid_core::mapper::linux::PopupTextTarget>,
+        text: &str,
+        chosen: Instant,
+    ) {
+        if !tecloid_core::mapper::runtime::status().running {
+            self.set_error(crate::i18n::Msg::MapperRequired);
+        } else if let Some(target) = target {
+            target.submit(text, chosen);
         }
     }
 

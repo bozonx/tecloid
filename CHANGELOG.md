@@ -6,7 +6,10 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
-- KDE Plasma Wayland offers an opt-in libei direct text mode for fast Unicode and emoji input through the RemoteDesktop portal when KWin provides EIS text support.
+- Linux popup text targets the window that was active when the popup opened. On KDE and GNOME Wayland, winit popups can start insertion as soon as the compositor reports the focus returning.
+
+- New Linux configurations prefer direct UTF-8 text via EIS on KDE Plasma Wayland when KWin and the RemoteDesktop portal advertise support. Otherwise they prefer libei with clipboard fallback when available.
+- Linux text input settings list methods supported by the session, including compatible tools that still need installation. Portal permissions and paste shortcuts appear with the methods that use them.
 
 - GNOME Wayland clipboard-only text input uses the active XKB keymap from the Tecloid Shell extension to resolve the paste shortcut.
 
@@ -27,7 +30,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 - Interface translations were reviewed against the Russian and English texts: missing strings translated, mistranslations and inconsistent terms fixed in all languages except Russian.
 
-- Standard mode offers the system actions assigned in the bundled Left Hand Control keymap, including its Desktop layer actions. Other system actions, mouse-button outputs beyond left, middle and right, the copy hint and the separate terminal paste shortcut require In development.
+- Standard mode offers the system actions assigned in the bundled Left Hand Control keymap, including its Desktop layer actions. Other system actions, mouse-button outputs beyond left, middle and right, and the copy hint require In development.
 
 - Automatic keymap switching shows exceptions directly on each rule, identifies rules overridden by earlier ones, and clarifies the fallback with an inline help icon and a “Keys unchanged” option. The add-rule button shows a plus.
 

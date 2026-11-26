@@ -68,6 +68,8 @@ impl MacroText {
 #[derive(Clone)]
 pub(crate) struct TextRequest {
     macro_job: Option<MacroText>,
+    #[cfg_attr(not(target_os = "linux"), allow(dead_code))]
+    popup_choice: Option<Instant>,
     completed: Arc<AtomicBool>,
     generation: u64,
     timing: Arc<Mutex<TextTiming>>,
@@ -103,30 +105,55 @@ impl Progress {
 
 impl TextRequest {
     pub(crate) fn enqueue(text: &str) -> Result<Self, TextInputFailure> {
-        Self::enqueue_inner(text, None)
+        Self::enqueue_inner(
+            text,
+            None,
+            crate::active_window::TextTarget::capture(),
+            None,
+        )
     }
 
     pub(crate) fn enqueue_macro(text: &str, job: MacroText) -> Result<Self, TextInputFailure> {
         if job.cancelled() {
             return Err(unavailable("macro text input cancelled"));
         }
-        let result = Self::enqueue_inner(text, Some(job.clone()));
+        let result = Self::enqueue_inner(
+            text,
+            Some(job.clone()),
+            crate::active_window::TextTarget::capture(),
+            None,
+        );
         if result.is_err() {
             job.complete(true);
         }
         result
     }
 
-    fn enqueue_inner(text: &str, macro_job: Option<MacroText>) -> Result<Self, TextInputFailure> {
+    #[cfg(target_os = "linux")]
+    pub(crate) fn enqueue_popup(
+        text: &str,
+        target: crate::active_window::TextTarget,
+        chosen: Instant,
+    ) -> Result<Self, TextInputFailure> {
+        Self::enqueue_inner(text, None, target, Some(chosen))
+    }
+
+    fn enqueue_inner(
+        text: &str,
+        macro_job: Option<MacroText>,
+        target: crate::active_window::TextTarget,
+        popup_choice: Option<Instant>,
+    ) -> Result<Self, TextInputFailure> {
         let timing = TextTiming::new(text).map_err(|e| unavailable(&e))?;
         let mut progress = PROGRESS.lock().unwrap_or_else(|e| e.into_inner());
         let generation = progress.reserve(text.len())?;
         let request = Self {
             macro_job,
+            popup_choice,
             completed: Arc::new(AtomicBool::new(false)),
             generation,
             timing: Arc::new(Mutex::new(timing)),
-            target: Arc::new(crate::active_window::TextTarget::capture()),
+            target: Arc::new(target),
         };
         Ok(request)
     }
@@ -246,6 +273,32 @@ impl TextRequest {
             }
             std::thread::sleep(TARGET_POLL);
         }
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn wait_for_initial_target(&self) -> Result<(), TextInputFailure> {
+        let Some(chosen) = self.popup_choice else {
+            return self.wait_for_target();
+        };
+        loop {
+            self.check_lifetime()?;
+            if chosen.elapsed() >= TARGET_TIMEOUT || self.target.popup_target_changed() {
+                return Err(TextInputFailure::DestinationChanged);
+            }
+            if self.target.is_current() {
+                log::debug!(
+                    "[text] popup choice to verified target: {:?}",
+                    chosen.elapsed()
+                );
+                return Ok(());
+            }
+            self.target.wait_for_popup_focus_update(TARGET_POLL);
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    pub(crate) fn popup_elapsed(&self) -> Option<Duration> {
+        self.popup_choice.map(|chosen| chosen.elapsed())
     }
 
     pub(crate) fn check_lifetime(&self) -> Result<(), TextInputFailure> {

@@ -95,6 +95,7 @@ const PORTAL_RESPONSE_TIMEOUT: Duration = Duration::from_secs(30);
 /// `Start` may show the consent dialog: leave the user time to read it.
 const CONSENT_TIMEOUT: Duration = Duration::from_secs(180);
 /// How long typing waits for the user to release physical modifiers.
+const GNOME_CONTEXT_READY_TIMEOUT: Duration = Duration::from_millis(40);
 const MODIFIER_RELEASE_TIMEOUT: Duration = Duration::from_secs(2);
 /// Pause between checks of a condition that is polled.
 const POLL_INTERVAL: Duration = Duration::from_millis(10);
@@ -286,22 +287,46 @@ pub fn set_token_dir(dir: PathBuf) {
 /// mapper thread. Failures are reported as `CoreEvent::TextInputFailed`.
 pub(crate) fn type_text(text: &str, request: TextRequest) -> Result<(), TextInputFailure> {
     request.prepare()?;
-    request.wait_for_target()?;
+    request.wait_for_initial_target()?;
     let cfg = TEXT_BACKEND
         .lock()
         .unwrap_or_else(|e| e.into_inner())
         .clone();
     let mode = cfg.mode;
     log::debug!("[text] dispatch via {}", mode.as_str());
-    if !matches!(mode, TextMode::GnomeCommitText | TextMode::LibeiText) {
-        wait_for_modifiers(&request)?;
+    let popup_elapsed = request.popup_elapsed();
+    if let Some(elapsed) = popup_elapsed {
+        log::debug!(
+            "[text] popup choice to backend {}: {elapsed:?}",
+            mode.as_str()
+        );
+    }
+    match mode {
+        TextMode::GnomeCommitText | TextMode::LibeiText => {}
+        // Clipboard input already waits for modifiers after preparing the
+        // clipboard. Let that preparation overlap a key still being released.
+        TextMode::Clipboard if popup_elapsed.is_some() => {}
+        _ => wait_for_modifiers(&request)?,
     }
     let paste = clipboard_keys(&cfg, request.is_terminal());
     match mode {
         TextMode::GnomeCommitText => {
             let window = request.gnome_window()?;
             request.start_typing()?;
-            crate::platform::gnome::commit_text(text, window)
+            let deadline = Instant::now() + GNOME_CONTEXT_READY_TIMEOUT;
+            loop {
+                request.check_lifetime()?;
+                let result = crate::platform::gnome::commit_text(text, window);
+                // The extension returns this before committing any text. Its
+                // window check runs again on every attempt.
+                if result != Err(TextInputFailure::NoInputContext)
+                    || popup_elapsed.is_none()
+                    || Instant::now() >= deadline
+                {
+                    break result;
+                }
+                thread::sleep(POLL_INTERVAL);
+            }
         }
         TextMode::Ydotool => run_text_tool(
             cfg.ydotool_path.as_deref().unwrap_or("ydotool"),

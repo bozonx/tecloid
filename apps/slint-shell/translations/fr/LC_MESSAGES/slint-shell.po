@@ -3728,8 +3728,11 @@ msgstr "GNOME CommitText"
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "Le champ actif ne peut pas recevoir de texte via GNOME CommitText."
 
-msgid "libei direct text"
-msgstr "Saisie directe avec libei"
+msgid "Direct UTF-8 text (EIS)"
+msgstr "Saisie directe en UTF-8 (EIS)"
+
+msgid "The saved text input method is unavailable in this session."
+msgstr "La méthode de saisie de texte enregistrée est indisponible dans cette session."
 
 msgid "Sends up to 254 UTF-8 bytes directly. Requires a KDE Wayland session with EIS text support and portal permission."
 msgstr "Envoie directement jusqu’à 254 octets UTF-8. Nécessite KDE Wayland avec la prise en charge du texte EIS et l’autorisation du portail."

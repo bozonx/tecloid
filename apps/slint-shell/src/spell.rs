@@ -39,7 +39,7 @@ const ACTIVE_GRACE: Duration = Duration::from_millis(250);
 const IDLE_POLL: Duration = Duration::from_millis(500);
 
 enum Event {
-    Command(WorkerCommand, Source, Instant),
+    Command(WorkerCommand, Source, Instant, Option<String>),
     Key(Popup, String),
     Shortcut(Popup, popup_model::Shortcut),
     Choose(Popup, i32),
@@ -282,16 +282,20 @@ fn env_choice(
 }
 
 /// Run `action` in the settings process, which owns the mapper.
-fn execute(action: String) {
+fn execute(action: String, chosen: Instant, token: Option<String>) {
     let parent =
         std::env::var(crate::env::PARENT_SOCKET).unwrap_or_else(|_| ipc::DEFAULT_SOCKET.into());
     std::thread::spawn(move || {
         if let Err(error) = ipc::send(
             &parent,
             &Command::Execute(action),
-            Source::Ipc,
-            Instant::now(),
-            None,
+            if token.is_some() {
+                Source::SpellChoice
+            } else {
+                Source::Ipc
+            },
+            chosen,
+            token,
         ) {
             log::error!("execute popup action: {error}");
         }
@@ -416,11 +420,12 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
     }
     bind_callbacks(&layers, &waker);
     let ipc_waker = waker.clone();
-    let dispatch: Dispatch = Arc::new(move |command, source, start, _| {
+    let dispatch: Dispatch = Arc::new(move |command, source, start, token| {
         ipc_waker.try_send(Event::Command(
             WorkerCommand::try_from(command)?,
             source,
             start,
+            token,
         ))
     });
     let stdin_waker = waker.clone();
@@ -430,6 +435,7 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
             WorkerCommand::Quit,
             Source::Ipc,
             Instant::now(),
+            None,
         ));
     });
     let server = ipc::Server::bind()?;
@@ -437,6 +443,8 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(feature = "probes")]
     let mut probe = crate::platform::return_input::ReturnInput::new()?;
     let mut session = PopupSession::default();
+    let mut show_token = None;
+    let mut choice_token = None;
     let mut last_activity = Instant::now();
     // Navigation keys handled since the popup opened (metrics only).
     let mut navigation_count = 0;
@@ -461,7 +469,7 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
             let mut dismiss = None;
             let mut outcome = None;
             match event {
-                Event::Command(WorkerCommand::Preferences(preferences), _, _) => {
+                Event::Command(WorkerCommand::Preferences(preferences), _, _, _) => {
                     layers.apply(preferences);
                     // Format parsed by scripts/check/check-preferences.py.
                     log::info!(
@@ -471,14 +479,14 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
                         session.visible().map(Popup::name)
                     );
                 }
-                Event::Command(WorkerCommand::Quit, _, _) => {
+                Event::Command(WorkerCommand::Quit, _, _, _) => {
                     for popup in Popup::ALL {
                         layers.way(popup).hide();
                     }
                     layers.hint_way.hide();
                     return Ok(());
                 }
-                Event::Command(WorkerCommand::PopupContents(contents), _, _) => {
+                Event::Command(WorkerCommand::PopupContents(contents), _, _, _) => {
                     match tecloid_core::config::keymap_file::parse(&contents) {
                         Ok(keymap) => layers.set_menus(ConfiguredMenus {
                             keymap: keymap.unwrap_or_default(),
@@ -486,7 +494,7 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
                         Err(error) => log::error!("popup configuration: {error}"),
                     }
                 }
-                Event::Command(WorkerCommand::PopupKeymap(id), _, _) => {
+                Event::Command(WorkerCommand::PopupKeymap(id), _, _, _) => {
                     let menus = ConfiguredMenus::load_for(id.as_deref()).unwrap_or_else(|error| {
                         log::error!("load popup configuration: {error}");
                         ConfiguredMenus::default()
@@ -497,7 +505,9 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
                     command @ (WorkerCommand::Show(_) | WorkerCommand::ShowPage(_, _)),
                     source,
                     start,
+                    token,
                 ) => {
+                    show_token = token;
                     let (popup, page) = match command {
                         WorkerCommand::ShowPage(popup, page) => (popup, Some(page)),
                         WorkerCommand::Show(popup) => (popup, None),
@@ -512,9 +522,9 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
                     navigation_count = 0;
                     layers.show(&mut session, &mut metrics, popup, page, source, start);
                 }
-                Event::Command(WorkerCommand::LayerHint(hint), _, _) => layers.set_hint(hint),
-                Event::Command(WorkerCommand::Hide, _, _) => dismiss = session.visible(),
-                Event::Command(WorkerCommand::Ping, _, _) => {}
+                Event::Command(WorkerCommand::LayerHint(hint), _, _, _) => layers.set_hint(hint),
+                Event::Command(WorkerCommand::Hide, _, _, _) => dismiss = session.visible(),
+                Event::Command(WorkerCommand::Ping, _, _, _) => {}
                 Event::Focus(popup, active) => {
                     let (action, change) = session.focus(popup, active);
                     if let Some(action) = action {
@@ -523,7 +533,7 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
                             "Spell focus left {} ms after the choice",
                             action.chosen.elapsed().as_millis()
                         );
-                        execute(action.action);
+                        execute(action.action, action.chosen, choice_token.take());
                     }
                     match change {
                         FocusChange::Entered => metrics.mark(popup.name(), "t4_focused"),
@@ -556,6 +566,7 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
                     #[cfg(not(feature = "probes"))]
                     let probed = false;
                     if !probed {
+                        choice_token = show_token.clone();
                         session.choose(popup, action);
                     }
                     dismiss = Some(popup);
@@ -606,8 +617,15 @@ pub fn run(start: Instant) -> Result<(), Box<dyn std::error::Error>> {
         }
         if let Some(action) = session.timed_out() {
             metrics.mark(action.popup.name(), "focus_return_timeout");
-            log::info!("Spell focus did not leave the popup, running the choice anyway");
-            execute(action.action);
+            let token = choice_token.take();
+            if token.is_some() && popup_model::typed_text(&action.action).is_some() {
+                log::warn!(
+                    "Spell cancelled popup text because keyboard focus release was not confirmed"
+                );
+            } else {
+                log::info!("Spell focus did not leave the popup, running the choice anyway");
+                execute(action.action, action.chosen, token);
+            }
         }
         #[cfg(feature = "probes")]
         if let Some(probe) = &mut probe

@@ -4,6 +4,28 @@
 mod devices;
 mod io;
 
+/// The application that had focus when a popup was opened.
+pub struct PopupTextTarget(crate::active_window::TextTarget);
+
+impl PopupTextTarget {
+    pub fn capture() -> Self {
+        Self(crate::active_window::TextTarget::capture_popup())
+    }
+
+    /// The compositor has observed a popup take focus, so the text worker
+    /// can wait for the destination to return as soon as hiding is requested.
+    pub fn can_wait_for_return(&self) -> bool {
+        self.0.can_wait_for_popup_return()
+    }
+
+    pub fn submit(self, text: &str, chosen: std::time::Instant) {
+        io::submit_text(
+            text,
+            crate::text_input::job::TextRequest::enqueue_popup(text, self.0, chosen),
+        );
+    }
+}
+
 pub use devices::{discover_input_devices, list_input_devices, list_keyboards, list_mice};
 
 use super::config::MapperConfig;
