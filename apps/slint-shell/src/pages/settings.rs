@@ -832,6 +832,20 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
             .map_or(-1, |index| index as i32)
     });
     choices.on_find_device(|items, path| find_device(items, &path));
+    e.on_visible_text_methods(|methods, in_development, selected| {
+        let indices = methods
+            .iter()
+            .filter(|&index| {
+                in_development
+                    || index == selected
+                    || !matches!(
+                        TextMode::ALL.get(index as usize),
+                        Some(TextMode::LibeiOnly | TextMode::Keycode | TextMode::Ydotool)
+                    )
+            })
+            .collect::<Vec<_>>();
+        ModelRc::new(VecModel::from(indices))
+    });
     e.on_filter_text_labels(|methods, labels| {
         strings(
             methods

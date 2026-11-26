@@ -140,6 +140,8 @@ Discovery does not request consent. The EIS text device itself, permission
 and target-field support are checked when typing. Saved choices are used verbatim.
 
 The settings list is filtered by the running session and its capabilities.
+Plain libei, NotifyKeyboardKeycode and ydotool require In development to appear
+as alternatives. A supported method that is already selected remains visible.
 
 | Method | Shown when |
 | --- | --- |
@@ -152,7 +154,7 @@ The settings list is filtered by the running session and its capabilities.
 | XTest (xdotool) | An X11 session with XTEST |
 | ydotool | An X11 or Wayland session |
 
-xdotool and ydotool remain visible when they need to be installed. Selecting
+The list can offer xdotool and ydotool before they are installed. Selecting
 one shows its requirements and executable path. The permissions reset appears
 with portal methods. Paste shortcut controls accompany the clipboard methods,
 and the shortcuts also apply to the Paste action.

@@ -9,7 +9,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 - Linux popup text targets the window that was active when the popup opened. On KDE and GNOME Wayland, winit popups can start insertion as soon as the compositor reports the focus returning.
 
 - New Linux configurations prefer direct UTF-8 text via EIS on KDE Plasma Wayland when KWin and the RemoteDesktop portal advertise support. Otherwise they prefer libei with clipboard fallback when available.
-- Linux text input settings list methods supported by the session, including compatible tools that still need installation. Portal permissions and paste shortcuts appear with the methods that use them.
+- Linux text input settings list methods supported by the session, including compatible tools that still need installation. Portal permissions and paste shortcuts appear with the methods that use them. Plain libei, NotifyKeyboardKeycode and ydotool are listed in In development or when currently selected.
 
 - GNOME Wayland clipboard-only text input uses the active XKB keymap from the Tecloid Shell extension to resolve the paste shortcut.
 
