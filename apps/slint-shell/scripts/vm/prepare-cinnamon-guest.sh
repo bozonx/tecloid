@@ -13,7 +13,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update
 # xdotool/x11-utils/x11-xserver-utils are what the .deb recommends; zenity is
 # the receiver window; python3-gi and xclip help diagnostics.
-apt-get install -y openssh-server python3 python3-gi zenity xdotool ydotool x11-utils \
+apt-get install -y openssh-server python3 python3-gi zenity xdotool x11-utils \
     x11-xserver-utils x11-xkb-utils xclip desktop-file-utils fonts-noto-color-emoji
 
 guest_home=$(getent passwd "$user" | cut -d: -f6)

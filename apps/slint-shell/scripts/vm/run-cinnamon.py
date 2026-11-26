@@ -45,6 +45,8 @@ def main():
     parser.add_argument("--autostart-only", action="store_true", help="only startup, disable/re-enable and reinstall checks")
     parser.add_argument("--manual", action="store_true", help="prepare a visible Cinnamon session for guided operator checks")
     parser.add_argument("--keep", action="store_true")
+    parser.add_argument("--ydotool-bin-dir", type=Path,
+                        help="directory with guest-compatible ydotool and ydotoold 1.0.4")
     parser.add_argument("--examples", type=Path, help="directory with current editor and interactions binaries")
     args = parser.parse_args()
     if args.manual and (args.autostart_only or args.examples):
@@ -77,11 +79,19 @@ def main():
 
     def ydotool_backend():
         socket = "/run/user/$(id -u)/tecloid-e2e-ydotool.sock"
-        vm.ssh("if ! command -v ydotool >/dev/null || ! command -v ydotoold >/dev/null; then "
-               "sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y ydotool; fi",
-               timeout=120)
+        daemon = "ydotoold"
+        tool_option = ""
+        if args.ydotool_bin_dir:
+            fixture = vm.ssh('printf %s "$HOME"').strip() + "/tecloid-e2e"
+            for tool in ("ydotool", "ydotoold"):
+                vm.copy_to(args.ydotool_bin_dir / tool, "tecloid-e2e/")
+            daemon = shlex.quote(f"{fixture}/ydotoold")
+            tool_option = " --ydotool-path " + shlex.quote(f"{fixture}/ydotool")
+        version = vm.ssh(f"{daemon} --version", check=False).strip()
+        if not version.startswith("1.0.4"):
+            raise StepFailed("ydotool 1.0.4 fixture required; use --ydotool-bin-dir")
         guest("quit-app")
-        guest("set-text-backend ydotool")
+        guest("set-text-backend ydotool" + tool_option)
         guest(f"start-app --popups auto --ydotool-socket={socket}")
         guest("mapper")
         before = int(guest("text-failures --reason Tool"))
@@ -89,7 +99,7 @@ def main():
         if int(guest("text-failures --reason Tool")) != before + 1:
             raise StepFailed("ydotool without a daemon must report one error")
         vm.ssh("sudo systemd-run --unit=tecloid-e2e-ydotoold --collect "
-               f"ydotoold --socket-path={socket} --socket-own=$(id -u):$(id -g)")
+               f"{daemon} --socket-path={socket} --socket-own=$(id -u):$(id -g)")
         try:
             vm.ssh(f"for i in $(seq 1 50); do test -S {socket} && exit 0; sleep .1; done; exit 1")
             return expect("ydotool-ascii", "tecloid-ok", ("t",))

@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- GNOME Wayland clipboard-only text input uses the active XKB keymap from the Tecloid Shell extension to resolve the paste shortcut.
+
 - Linux text actions, including single characters, use the selected typing method. Only libei + clipboard may paste when a character is missing. New X11 configurations select xdotool; GNOME Wayland offers direct text commits through the Tecloid extension.
 
 - On Wayland, a clipboard that once failed to save in time no longer makes every later paste of emoji or text fail with "The clipboard is too large or too slow"; Tecloid reconnects to the clipboard after a timeout and logs which format was slow.

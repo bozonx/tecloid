@@ -378,7 +378,7 @@ python3 apps/slint-shell/scripts/vm/run-cinnamon.py --manual --vm <vm-dir> --pac
 Base: install Linux Mint Cinnamon (current release, ISO installer) with a user
 `tester`, then as root **inside the disposable guest only** run
 `prepare-cinnamon-guest.sh tester "$(cat ~/.ssh/tecloid-vm.pub)"` (copy the
-script and key over first). It installs ssh, `xdotool`, `ydotool`, `x11-utils`,
+script and key over first). It installs ssh, `xdotool`, `x11-utils`,
 `x11-xserver-utils`, `zenity`, sets LightDM autologin into the **X11**
 `cinnamon` session, passwordless sudo, us/ru layouts, four workspaces, disables
 idle lock and Mint's welcome/update dialogs, removes the local password and
@@ -409,6 +409,10 @@ and missing-daemon error checks, Quick popup focus and delivery, popup IPC, CLI,
 reinstall with autostart, quit and removal. Not covered automatically: lock,
 suspend, replug, window actions other than desktops, previous-version upgrade;
 use the manual Cinnamon checklist. Stops at the first failure.
+
+The ydotool scenario requires guest-compatible ydotool and ydotoold 1.0.4.
+Pass their directory with `--ydotool-bin-dir` when the guest packages an older
+release. The runner starts the test daemon on a private socket.
 
 Cinnamon 6.6 manages layouts through `org.cinnamon.desktop.input-sources`.
 The runner configures that schema when present and checks the resulting XKB

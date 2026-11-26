@@ -486,7 +486,10 @@ def cmd_check_keymap(args):
 def cmd_set_text_backend(args):
     path = CONFIG_DIR / "config.json"
     config = json.loads(path.read_text(encoding="utf-8"))
-    config["settings"]["linux"]["textMode"] = args.mode
+    linux = config["settings"]["linux"]
+    linux["textMode"] = args.mode
+    if getattr(args, "ydotool_path", None):
+        linux["ydotoolPath"] = args.ydotool_path
     path.write_text(json.dumps(config, ensure_ascii=False), encoding="utf-8")
 
 
@@ -1051,6 +1054,7 @@ def main():
     p.add_argument("--absent", action="store_true")
     p.add_argument("--timeout", type=float, default=20)
     p = sub.add_parser("set-text-backend")
+    p.add_argument("--ydotool-path")
     p.add_argument("mode", choices=("libeiOnly", "portalKeycode", "clipboardPaste",
                                     "gnomeCommitText", "ydotool", "xdotool"))
     sub.add_parser("toggle-mapper")

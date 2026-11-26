@@ -182,12 +182,31 @@ pub(super) fn shortcut_key_from_names(
     }
     let codes: Vec<&str> = layouts.iter().map(|l| l.0).collect();
     let variants: Vec<&str> = layouts.iter().map(|l| l.1).collect();
-    let layout = CString::new(codes.join(",")).ok()?;
-    let variant = CString::new(variants.join(",")).ok()?;
+    shortcut_key_from_rules(
+        &codes.join(","),
+        &variants.join(","),
+        options,
+        "",
+        group,
+        character,
+    )
+}
+
+fn shortcut_key_from_rules(
+    layout: &str,
+    variant: &str,
+    options: &str,
+    model: &str,
+    group: u32,
+    character: char,
+) -> Option<u32> {
+    let layout = CString::new(layout).ok()?;
+    let variant = CString::new(variant).ok()?;
+    let model = CString::new(model).ok()?;
     let options = CString::new(options).ok()?;
     let names = XkbRuleNames {
         rules: std::ptr::null(),
-        model: std::ptr::null(),
+        model: model.as_ptr(),
         layout: layout.as_ptr(),
         variant: variant.as_ptr(),
         options: options.as_ptr(),
@@ -214,6 +233,20 @@ pub(super) fn shortcut_key_from_names(
 /// clipboard modes, which have no compositor keymap). `None` when the
 /// layouts or their variants cannot be verified.
 pub(super) fn desktop_paste_v_key() -> Option<u32> {
+    use crate::platform::linux::{Desktop, SessionType, detect};
+    let session = detect();
+    if session.desktop == Desktop::Gnome && session.session_type == SessionType::Wayland {
+        let keymap = crate::keyboard_layout::gnome_text_keymap()?;
+        return shortcut_key_from_rules(
+            &keymap.layouts,
+            &keymap.variants,
+            &keymap.options,
+            &keymap.model,
+            keymap.group,
+            'v',
+        );
+    }
+
     let active = crate::runtime_state::keyboard_layout();
     let listed = crate::keyboard_layout::verified_shortcut_layouts()?;
     let active = active.as_ref()?;

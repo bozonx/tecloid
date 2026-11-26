@@ -254,6 +254,10 @@ def main():
         return state
 
     def portal_deny():
+        # KWin can list the dialog while the login splash still covers it.
+        wait_for("Plasma login splash to close", 45, lambda: vm.ssh(
+            "if pgrep -x ksplashqml >/dev/null; then echo busy; else echo ready; fi"
+        ).strip() == "ready")
         # The first `text:` asks for RemoteDesktop consent. A declined dialog
         # must not hang the mapper or ask again until the mapper restarts.
         before = failures("user cancelled")

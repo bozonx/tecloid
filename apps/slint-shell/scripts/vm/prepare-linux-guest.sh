@@ -16,16 +16,16 @@ home=$(getent passwd "$user" | cut -d: -f6)
 
 if command -v apt-get >/dev/null 2>&1; then
     DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
-        openssh-server sudo python3 kdialog desktop-file-utils kbd
+        openssh-server sudo python3 kdialog desktop-file-utils wl-clipboard kbd
     ssh_service=ssh
 elif command -v dnf >/dev/null 2>&1; then
-    dnf install -y -q openssh-server sudo python3 kdialog desktop-file-utils
+    dnf install -y -q openssh-server sudo python3 kdialog desktop-file-utils wl-clipboard
     ssh_service=sshd
 elif command -v zypper >/dev/null 2>&1; then
-    zypper --non-interactive install openssh-server sudo python3 kdialog desktop-file-utils
+    zypper --non-interactive install openssh-server sudo python3 kdialog desktop-file-utils wl-clipboard
     ssh_service=sshd
 elif command -v pacman >/dev/null 2>&1; then
-    pacman -S --noconfirm --needed openssh sudo python kdialog desktop-file-utils
+    pacman -S --noconfirm --needed openssh sudo python kdialog desktop-file-utils wl-clipboard
     ssh_service=sshd
 else
     echo 'Unknown package manager.' >&2
