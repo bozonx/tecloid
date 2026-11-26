@@ -832,6 +832,12 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
             .map_or(-1, |index| index as i32)
     });
     choices.on_find_device(|items, path| find_device(items, &path));
+    e.on_filter_text_labels(|methods, labels| {
+        strings(methods.iter().filter_map(|index| labels.row_data(index as usize)))
+    });
+    e.on_text_method_row(|methods, selected| {
+        methods.iter().position(|index| index == selected).map_or(-1, |row| row as i32)
+    });
     #[cfg(target_os = "linux")]
     {
         let settings = document.read().settings().clone();
@@ -841,7 +847,9 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
             let _ = weak.upgrade_in_event_loop(move |ui| {
                 let e = ui.global::<SettingsEditor>();
                 e.set_default_text_mode_index(choice_index(&TextMode::ALL, &methods.recommended));
-                e.set_method_available(ModelRc::new(VecModel::from(methods.advertised)));
+                let indices = methods.supported.iter().map(|mode| choice_index(&TextMode::ALL, mode)).collect::<Vec<_>>();
+                e.set_supported_text_methods(ModelRc::new(VecModel::from(indices)));
+                e.set_text_methods_loaded(true);
             });
         });
     }
