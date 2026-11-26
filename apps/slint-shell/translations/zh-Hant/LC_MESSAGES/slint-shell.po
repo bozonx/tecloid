@@ -3618,3 +3618,9 @@ msgstr "GNOME CommitText"
 
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "目前的欄位無法透過 GNOME CommitText 接收文字。"
+
+msgid "libei direct text"
+msgstr "libei 直接文字輸入"
+
+msgid "Sends up to 254 UTF-8 bytes directly. Requires a KDE Wayland session with EIS text support and portal permission."
+msgstr "直接傳送最多 254 位元組的 UTF-8 文字。需要支援 EIS 文字的 KDE Wayland 工作階段與入口網站權限。"

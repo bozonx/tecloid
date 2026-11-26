@@ -180,6 +180,7 @@ pub fn set_text_backend(
     };
     if mode_changed {
         LIBEI.stop();
+        LIBEI_TEXT.stop();
         PORTAL.stop();
         retry_text_backend();
     }
@@ -190,6 +191,7 @@ pub fn set_text_backend(
 /// backend (and possibly its consent dialog) again.
 pub fn retry_text_backend() {
     LIBEI.clear_failure();
+    LIBEI_TEXT.clear_failure();
     PORTAL.clear_failure();
 }
 
@@ -197,6 +199,7 @@ pub fn retry_text_backend() {
 /// The clipboard owner may outlive the keyboard backend to serve restored data.
 pub fn reset_permissions() {
     LIBEI.stop();
+    LIBEI_TEXT.stop();
     PORTAL.stop();
     clear_restore_token(TokenScope::Keyboard);
     clear_restore_token(TokenScope::Clipboard);
@@ -290,7 +293,7 @@ pub(crate) fn type_text(text: &str, request: TextRequest) -> Result<(), TextInpu
         .clone();
     let mode = cfg.mode;
     log::debug!("[text] dispatch via {}", mode.as_str());
-    if mode != TextMode::GnomeCommitText {
+    if !matches!(mode, TextMode::GnomeCommitText | TextMode::LibeiText) {
         wait_for_modifiers(&request)?;
     }
     let paste = clipboard_keys(&cfg, request.is_terminal());
@@ -328,6 +331,17 @@ pub(crate) fn type_text(text: &str, request: TextRequest) -> Result<(), TextInpu
                 text,
                 &request,
             )
+        }
+        TextMode::LibeiText => {
+            if !text.is_empty() && (text.len() > 254 || text.contains('\0')) {
+                return Err(TextInputFailure::NativeInput(
+                    "EIS text requires at most 254 UTF-8 bytes and no NUL characters".into(),
+                ));
+            }
+            if text.is_empty() {
+                return Ok(());
+            }
+            LIBEI_TEXT.type_text(text, mode, paste, request)
         }
         TextMode::LibeiWithClipboardFallback | TextMode::LibeiOnly => {
             LIBEI.type_text(text, cfg.mode, paste, request)

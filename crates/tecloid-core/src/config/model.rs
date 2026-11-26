@@ -668,11 +668,13 @@ pub enum TextMode {
     Ydotool,
     Xdotool,
     GnomeCommitText,
+    /// Direct UTF-8 text through the RemoteDesktop portal EIS connection.
+    LibeiText,
 }
 
 impl TextMode {
     /// Every mode, in the order the settings page lists them.
-    pub const ALL: [Self; 7] = [
+    pub const ALL: [Self; 8] = [
         Self::LibeiWithClipboardFallback,
         Self::LibeiOnly,
         Self::Keycode,
@@ -680,6 +682,7 @@ impl TextMode {
         Self::Ydotool,
         Self::Xdotool,
         Self::GnomeCommitText,
+        Self::LibeiText,
     ];
 
     pub fn as_str(self) -> &'static str {
@@ -691,6 +694,7 @@ impl TextMode {
             Self::Ydotool => "ydotool",
             Self::Xdotool => "xdotool",
             Self::GnomeCommitText => "gnomeCommitText",
+            Self::LibeiText => "libeiText",
         }
     }
 

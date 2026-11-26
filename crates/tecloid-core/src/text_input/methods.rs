@@ -3,7 +3,7 @@ use std::os::unix::net::UnixDatagram;
 use std::path::PathBuf;
 
 use crate::config::model::{AppSettings, TextMode};
-use crate::platform::linux::{SessionType, command_available, detect};
+use crate::platform::linux::{Desktop, SessionType, command_available, detect};
 
 pub struct Methods {
     pub advertised: Vec<bool>,
@@ -11,9 +11,9 @@ pub struct Methods {
 }
 
 pub fn discover(settings: &AppSettings) -> Methods {
-    let session = detect().session_type;
-    let wayland = session == SessionType::Wayland;
-    let x11 = session == SessionType::X11;
+    let session = detect();
+    let wayland = session.session_type == SessionType::Wayland;
+    let x11 = session.session_type == SessionType::X11;
     let keyboard = super::portal::keyboard_portal_version();
     let clipboard = wayland
         && (super::clipboard::data_control_available()
@@ -39,6 +39,8 @@ pub fn discover(settings: &AppSettings) -> Methods {
         TextMode::GnomeCommitText => commit,
         TextMode::LibeiWithClipboardFallback => keyboard >= 2 && clipboard,
         TextMode::LibeiOnly => keyboard >= 2,
+        // The portal only exposes the EIS device after authorization.
+        TextMode::LibeiText => wayland && session.desktop == Desktop::Kde && keyboard >= 2,
         TextMode::Keycode => keyboard >= 1,
         TextMode::Clipboard => keyboard >= 1 && clipboard,
         TextMode::Xdotool => xtest,

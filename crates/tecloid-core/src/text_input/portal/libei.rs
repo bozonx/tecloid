@@ -9,6 +9,8 @@ pub(super) struct LibeiBackend {
     pub(super) context: ei::Context,
     pub(super) converter: EiEventConverter,
     pub(super) connection: reis::event::Connection,
+    capability: DeviceCapability,
+    text_device: Option<(ei::Device, ei::Text)>,
     pub(super) keyboard_device: Option<(ei::Device, ei::Keyboard)>,
     pub(super) keyboard_emulating: bool,
     pub(super) sequence: u32,
@@ -24,7 +26,7 @@ pub(super) struct LibeiBackend {
 }
 
 impl LibeiBackend {
-    pub(super) fn new(request: &TextRequest) -> Result<Self, String> {
+    pub(super) fn new(request: &TextRequest, capability: DeviceCapability) -> Result<Self, String> {
         let (conn, session_handle, clipboard) = init_portal(request)?;
         let portal = match Proxy::new(&conn, PORTAL_DEST, PORTAL_PATH, IFACE_REMOTE) {
             Ok(portal) => portal,
@@ -65,6 +67,8 @@ impl LibeiBackend {
             context,
             converter,
             connection,
+            capability,
+            text_device: None,
             keyboard_device: None,
             keyboard_emulating: false,
             sequence: 1,
@@ -75,11 +79,37 @@ impl LibeiBackend {
             depressed: 0,
             latched: 0,
         };
-        if let Err(e) = backend.wait_until(EI_SETUP_TIMEOUT, Self::has_keyboard) {
+        let ready = if capability == DeviceCapability::Text {
+            |backend: &Self| backend.text_device.is_some()
+        } else {
+            Self::has_keyboard
+        };
+        if let Err(e) = backend.wait_until(EI_SETUP_TIMEOUT, ready) {
             close_session(&backend.conn, &backend.session_handle);
             return Err(e);
         }
         Ok(backend)
+    }
+
+    pub(super) fn commit_text(
+        &mut self,
+        text: &str,
+        request: &TextRequest,
+    ) -> Result<(), TextInputFailure> {
+        self.pump_events()
+            .map_err(TextInputFailure::BackendUnavailable)?;
+        let (device, input) = self.text_device.as_ref().ok_or_else(|| {
+            TextInputFailure::BackendUnavailable("EIS text device is not ready".into())
+        })?;
+        request.start_typing()?;
+        let serial = self.connection.serial();
+        device.start_emulating(serial, self.sequence);
+        self.sequence = self.sequence.wrapping_add(1);
+        input.utf8(text);
+        device.frame(serial, monotonic_micros());
+        device.stop_emulating(serial);
+        self.synchronize(request)
+            .map_err(TextInputFailure::BackendUnavailable)
     }
 
     /// Type `text`, pasting it with `clipboard_fallback` when the layout
@@ -311,7 +341,12 @@ impl LibeiBackend {
                 return Ok(());
             }
             if Instant::now() >= deadline {
-                return Err("EI keyboard device is not available".into());
+                return Err(if self.capability == DeviceCapability::Text {
+                    "The portal did not provide an EIS text device"
+                } else {
+                    "EI keyboard device is not available"
+                }
+                .into());
             }
             thread::sleep(POLL_INTERVAL);
         }
@@ -352,8 +387,7 @@ impl LibeiBackend {
                 return Err(format!("EI disconnected: {:?}", e.explanation));
             }
             EiEvent::SeatAdded(e) => {
-                e.seat
-                    .bind_capabilities(BitFlags::from(DeviceCapability::Keyboard));
+                e.seat.bind_capabilities(BitFlags::from(self.capability));
             }
             EiEvent::DeviceAdded(e) => {
                 if let Some(keyboard) = e.device.interface::<ei::Keyboard>() {
@@ -383,6 +417,17 @@ impl LibeiBackend {
                 self.group = None;
                 self.table = None;
             }
+            EiEvent::DeviceResumed(e) if self.capability == DeviceCapability::Text => {
+                if let Some(text) = e.device.interface::<ei::Text>() {
+                    self.text_device = Some((e.device.device().clone(), text));
+                }
+            }
+            EiEvent::DevicePaused(e) if self.is_text(e.device.device()) => {
+                self.text_device = None;
+            }
+            EiEvent::DeviceRemoved(e) if self.is_text(e.device.device()) => {
+                self.text_device = None;
+            }
             EiEvent::DeviceResumed(e) if self.is_keyboard(e.device.device()) => {
                 self.start_keyboard_emulation(e.device.device());
             }
@@ -399,6 +444,12 @@ impl LibeiBackend {
             _ => {}
         }
         Ok(())
+    }
+
+    fn is_text(&self, device: &ei::Device) -> bool {
+        self.text_device
+            .as_ref()
+            .is_some_and(|(text, _)| text == device)
     }
 
     pub(super) fn has_keyboard(&self) -> bool {

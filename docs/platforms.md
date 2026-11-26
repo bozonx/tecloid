@@ -121,6 +121,13 @@ rejects such text; `portalKeycode`, `clipboardPaste`, `ydotool`, `xdotool` and
 `gnomeCommitText` each use their named mechanism. Failures are reported without
 trying another method. This applies to single-character actions too.
 
+`libeiText` is an opt-in mode for KDE Plasma Wayland with EIS text support
+(KWin 6.8 or later built with libeis 1.6 support). It sends up to 254 UTF-8
+bytes per action directly through the RemoteDesktop portal. The portal must
+grant keyboard access and advertise an EIS text device. Applications without
+an active Wayland text-input context may fail to receive Unicode text.
+Select a clipboard mode for those applications.
+
 The settings list marks the initial recommendation and unavailable backends.
 Discovery checks advertised interfaces, without requesting consent. Actual
 permission, layout and target-field support are checked when typing. A saved

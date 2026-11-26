@@ -318,7 +318,8 @@
     "libeiWithClipboardFallback",
     "libeiOnly",
     "portalKeycode",
-    "clipboardPaste"
+    "clipboardPaste",
+    "libeiText"
   ],
   "config/$defs/TimingDoc/properties": [
     "chordMs",

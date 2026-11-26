@@ -629,7 +629,8 @@ export component SettingsPage inherits PageLayout {
                                 SettingsEditor.method-label(@tr("Paste from clipboard"), 3),
                                 SettingsEditor.method-label(@tr("ydotool"), 4),
                                 SettingsEditor.method-label(@tr("XTest (xdotool)"), 5),
-                                SettingsEditor.method-label(@tr("GNOME CommitText"), 6)
+                                SettingsEditor.method-label(@tr("GNOME CommitText"), 6),
+                                SettingsEditor.method-label(@tr("libei direct text"), 7)
                             ]; current-index: SettingsEditor.text-mode-index; selected(value) => { SettingsEditor.text-mode-index = self.current-index; SettingsEditor.save(); } }
                             Text {
                                 vertical-stretch: 0; max-width: Theme.text-column; color: Theme.muted; wrap: word-wrap;
@@ -641,6 +642,7 @@ export component SettingsPage inherits PageLayout {
                                     @tr("Runs \"ydotool type\" only. Needs ydotool and its ydotoold service running. Reliable for Latin text only. On an error, stops without switching methods."),
                                     @tr("Types through XTest in an X11 session. Requires xdotool."),
                                     @tr("Commits the whole text to the focused Wayland field through the GNOME Shell extension."),
+                                    @tr("Sends up to 254 UTF-8 bytes directly. Requires a KDE Wayland session with EIS text support and portal permission."),
                                 ][SettingsEditor.text-mode-index];
                             }
                         }

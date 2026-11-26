@@ -845,6 +845,7 @@ mod tests {
                 TextMode::LibeiWithClipboardFallback,
             ),
             ("libeiOnly", TextMode::LibeiOnly),
+            ("libeiText", TextMode::LibeiText),
             ("clipboardPaste", TextMode::Clipboard),
             ("portalKeycode", TextMode::Keycode),
         ] {

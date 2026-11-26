@@ -3684,3 +3684,9 @@ msgstr "GNOME CommitText"
 
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "El campo activo no admite texto mediante GNOME CommitText."
+
+msgid "libei direct text"
+msgstr "Texto directo con libei"
+
+msgid "Sends up to 254 UTF-8 bytes directly. Requires a KDE Wayland session with EIS text support and portal permission."
+msgstr "Envía directamente hasta 254 bytes UTF-8. Requiere KDE Wayland con soporte de texto EIS y permiso del portal."

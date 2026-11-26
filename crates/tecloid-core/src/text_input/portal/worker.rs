@@ -22,8 +22,22 @@ pub(super) struct Worker {
     pub(super) start: fn(TextRequest) -> Result<Sender<TextInjectionJob>, String>,
 }
 
-pub(super) static LIBEI: Worker =
-    Worker::new(|request| start_worker("tecloid-libei", LibeiBackend::new, libei_worker, request));
+pub(super) static LIBEI: Worker = Worker::new(|request| {
+    start_worker(
+        "tecloid-libei",
+        |request| LibeiBackend::new(request, DeviceCapability::Keyboard),
+        libei_worker,
+        request,
+    )
+});
+pub(super) static LIBEI_TEXT: Worker = Worker::new(|request| {
+    start_worker(
+        "tecloid-libei-text",
+        |request| LibeiBackend::new(request, DeviceCapability::Text),
+        libei_worker,
+        request,
+    )
+});
 pub(super) static PORTAL: Worker = Worker::new(|request| {
     start_worker("tecloid-portal", PortalBackend::new, portal_worker, request)
 });
@@ -236,7 +250,11 @@ pub(super) fn libei_worker(mut backend: LibeiBackend, rx: Receiver<TextInjection
     log::debug!("[libei] backend online");
     for cmd in rx {
         let fallback = (cmd.mode == TextMode::LibeiWithClipboardFallback).then_some(cmd.paste);
-        let result = backend.type_text(&cmd.text, fallback, &cmd.request);
+        let result = if cmd.mode == TextMode::LibeiText {
+            backend.commit_text(&cmd.text, &cmd.request)
+        } else {
+            backend.type_text(&cmd.text, fallback, &cmd.request)
+        };
         let fatal = matches!(result, Err(TextInputFailure::BackendUnavailable(_)));
         let _ = cmd.done.send(result);
         if fatal {

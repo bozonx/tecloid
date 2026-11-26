@@ -500,6 +500,11 @@
           "const": "clipboardPaste",
           "description": "MIME-preserving clipboard ownership and the paste shortcut.",
           "type": "string"
+        },
+        {
+          "const": "libeiText",
+          "description": "Direct UTF-8 text through the RemoteDesktop portal EIS connection.",
+          "type": "string"
         }
       ]
     },

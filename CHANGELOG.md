@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- KDE Plasma Wayland offers an opt-in libei direct text mode for fast Unicode and emoji input through the RemoteDesktop portal when KWin provides EIS text support.
+
 - GNOME Wayland clipboard-only text input uses the active XKB keymap from the Tecloid Shell extension to resolve the paste shortcut.
 
 - Linux text actions, including single characters, use the selected typing method. Only libei + clipboard may paste when a character is missing. New X11 configurations select xdotool; GNOME Wayland offers direct text commits through the Tecloid extension.
