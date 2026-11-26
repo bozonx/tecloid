@@ -282,7 +282,7 @@ impl App {
         if let Some(tray) = self.tray.borrow().as_ref() {
             tray.set_language(preferences.language);
         }
-        if self.supervisor.borrow().enabled {
+        if self.supervisor.borrow().running() {
             let _ = self.send_worker(
                 &WorkerCommand::Preferences(preferences),
                 Source::Ipc,
