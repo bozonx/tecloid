@@ -9,7 +9,7 @@ environments compile and partly work; implemented code is not acceptance.
 | Concern | KDE | GNOME | Cinnamon (X11, Linux Mint) | Other X11 (Xfce, MATE, …) | Sway / Hyprland | Windows | macOS |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Key interception | ✅ evdev + uinput | ✅ | ✅ | ✅ | ✅ | ✅ session-wide `WH_KEYBOARD_LL` + `SendInput` | ❌ stub |
-| Literal text (`text:`) | ✅ portal libei, data-control clipboard | ⚠ GNOME CommitText, portal keyboard and Clipboard portal | ✅ `xdotool` (XTEST), no portal consent; no clipboard paste | ⚠ same as Cinnamon | ⚠ backend dependent | ✅ Unicode `SendInput` | ❌ mapper; popups only |
+| Literal text (`text:`) | ✅ Direct EIS text on compatible KWin, portal libei, data-control clipboard | ⚠ GNOME CommitText, portal keyboard and Clipboard portal | ✅ `xdotool` (XTEST) or `ydotool`, without portal consent | ⚠ same as Cinnamon | ⚠ backend dependent | ✅ Unicode `SendInput` | ❌ mapper; popups only |
 | Keyboard layout | ✅ D-Bus `org.kde.keyboard` | ⚠ extension | ✅ XKB group + `_XKB_RULES_NAMES` (≤ 4 layouts) | ✅ same | 🚧 | ✅ foreground window input language | 🚧 |
 | Standard shortcuts (`sys:copy`, `sys:undo`, `sys:moveWordLeft`, …) | ✅ layout via XKB, terminals by window class | ✅ | ✅ | ✅ | ✅ | ✅ layout via `VkKeyScanEx` | ❌ mapper |
 | System actions (`sys:`) | ✅ kglobalaccel, `org.kde.keyboard`, ScreenSaver | ⚠ extension; Super+Arrow / Super+N for side tiling and task entries 1–9; no `showDesktop`, top/bottom tiling, clipboard history | ✅ EWMH (desktops, window state, show desktop), XKB layouts, Muffin keys for tiling, Expo over `org.Cinnamon`, menu via Super, `cinnamon-screensaver-command`, `xset`; no next/previous screen, task entries, clipboard history | ⚠ EWMH, XKB, `loginctl lock-session`, `xset`; no tiling, overview, launcher | 🚧 | ✅ except virtual-desktop actions | ❌ |
@@ -64,12 +64,12 @@ GNOME no longer ships an X11 session.
   `org.Cinnamon` for `showOverview` and `cinnamon-screensaver-command --lock`.
   Other X11 desktops lock through `loginctl lock-session`. `turnOffScreen` runs
   `xset dpms force off`. Changed Cinnamon keybindings are not followed.
-- **Text**: X11 uses the explicit `xdotool` method (XTEST) by default.
-  Missing layout characters use a temporary keycode. A selected portal method
-  requires its own portal and reports failures on X11 as on other sessions.
+- **Text**: New X11 configurations prefer `xdotool` when XTEST is available
+  and the executable is found. Missing layout characters use a temporary
+  keycode. Other available methods can be selected in Settings.
 - **Popups** are winit windows; Muffin may refuse focus stealing, the popup
-  model then behaves as on GNOME. Focus return relies on the window manager
-  re-focusing the previous window; text waits for the captured target (`xprop`).
+  model then behaves as on GNOME. Focus return relies on the window manager.
+  Popup text checks the original window against the current EWMH window ID.
 - **Tray**: Cinnamon's `xapp-sn-watcher` provides `org.kde.StatusNotifierWatcher`.
 - **Active window / fullscreen**: `xprop -spy` on the root window, titles with
   `xdotool`, fullscreen by `_NET_WM_STATE_FULLSCREEN` or monitor geometry.
@@ -110,10 +110,12 @@ until another owner replaces it.
 
 ## Text input
 
-Text jobs capture the destination window; Linux waits up to 500 ms for focus to
-return from a popup. KDE checks KWin window ids, GNOME extension ids; the
-fallback compares app/process (cannot distinguish two windows of one app). With
-a supported detector but no target, input is rejected.
+On Linux, popup text captures the focused window when the popup opens and
+allows up to 500 ms from the choice for focus to return. KDE Wayland checks
+KWin window IDs, GNOME Wayland uses IDs from the Shell extension, and X11
+checks the active EWMH window ID when it can open the X11 display. The fallback
+compares app and process. With a supported detector but no target, input is
+rejected.
 
 `linux.textMode`: `libeiWithClipboardFallback` types via libei and pastes the
 whole text through the clipboard if the layout lacks a character; `libeiOnly`
@@ -131,6 +133,9 @@ Select a clipboard mode for those applications.
 New configurations on KDE Wayland prefer direct EIS text if the keyboard
 portal supports EIS and the running KWin is at least 6.8 with its EIS plugin
 loaded. Otherwise they prefer libei with clipboard fallback when available.
+New GNOME Wayland configurations prefer CommitText when the extension exposes
+it. If no ready method is found, discovery recommends xdotool on X11 with
+XTEST and libei with clipboard fallback elsewhere.
 Discovery does not request consent. The EIS text device itself, permission
 and target-field support are checked when typing. Saved choices are used verbatim.
 
@@ -138,7 +143,7 @@ The settings list is filtered by the running session and its capabilities.
 
 | Method | Shown when |
 | --- | --- |
-| Direct UTF-8 text (EIS) | KDE Wayland, a recent KWin with EIS loaded, and a keyboard portal with EIS |
+| Direct UTF-8 text (EIS) | KDE Wayland, KWin 6.8 or newer with EIS loaded, and a keyboard portal with EIS |
 | GNOME CommitText | GNOME Wayland with a Shell extension that exposes CommitText |
 | libei + clipboard | A keyboard portal with EIS and a Wayland clipboard transport |
 | libei | A keyboard portal with EIS |
