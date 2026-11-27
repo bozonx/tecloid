@@ -653,6 +653,47 @@ def cmd_start_receiver(args):
         receiver_title(args.name if args.tagged else "")))
 
 
+TERMINAL_TITLE = "Tecloid e2e terminal"
+
+
+def cmd_terminal_receive(args):
+    """Read one line from Konsole's tty: a paste arrives as typed text, a
+    plain Ctrl+V becomes the tty's literal-next character instead."""
+    raw = sys.stdin.buffer.readline()
+    value = {"status": "accepted", "exit_code": 0,
+             "text": raw.decode("utf-8", "replace").removesuffix("\n")}
+    path = receiver_path(args.name)
+    pending = path.with_suffix(".tmp")
+    pending.write_text(json.dumps(value, ensure_ascii=False), encoding="utf-8")
+    pending.replace(path)
+
+
+def terminal_focused():
+    return kwin_value("terminal-focus", """
+var w = workspace.activeWindow;
+console.warn(MARKER + JSON.stringify(Boolean(w && String(w.resourceClass).indexOf("konsole") >= 0 &&
+    String(w.caption).indexOf(TITLE) >= 0)));
+""".replace("TITLE", json.dumps(TERMINAL_TITLE)))
+
+
+def cmd_start_terminal_receiver(args):
+    if not shutil.which("konsole"):
+        fail("konsole is not installed in the guest")
+    subprocess.run(["systemctl", "--user", "stop", "tecloid-e2e-receiver-*.service"],
+                   capture_output=True, text=True, timeout=10)
+    receiver_path(args.name).unlink(missing_ok=True)
+    systemd_run(f"tecloid-e2e-receiver-{args.name}",
+                ["konsole", "--separate", "--nofork", "--hide-menubar", "--hide-tabbar",
+                 "-p", f"tabtitle={TERMINAL_TITLE}",
+                 "-e", sys.executable, str(Path(__file__).resolve()), "terminal-receive", "--name", args.name],
+                WORK / "receiver.log")
+    wait("terminal receiver focus", 20, terminal_focused)
+
+
+def cmd_focus_terminal_receiver(args):
+    test_window_point("konsole", TERMINAL_TITLE, 0.5, 0.5, activate=True)
+
+
 def cmd_receiver_state(args):
     if unit_active(f"tecloid-e2e-receiver-{args.name}"):
         print("open")
@@ -1118,6 +1159,9 @@ def main():
     p.add_argument("--keep-existing", action="store_true")
     p.add_argument("--tagged", action="store_true")
     sub.add_parser("receiver-state").add_argument("--name", required=True)
+    sub.add_parser("start-terminal-receiver").add_argument("--name", default="terminal")
+    sub.add_parser("terminal-receive").add_argument("--name", required=True)
+    sub.add_parser("focus-terminal-receiver")
     p = sub.add_parser("receive")
     p.add_argument("--title-suffix", default="")
     p.add_argument("--name", required=True)

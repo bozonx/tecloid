@@ -111,7 +111,7 @@ def main():
     required = set("""boot upload plasma-session install installed-files keyboard-probe test-config
         start-without-input keymap-loaded tray-item mapper-with-session-acl autostart-entry reboot-with-input
         autostart-launch autostart-disabled-cycle tray-after-login mapper-running portal-deny portal-consent
-        mapper-keys-and-text text-unicode text-unicode-corpus layer-tap-hold macro command
+        mapper-keys-and-text text-unicode terminal-paste text-unicode-corpus layer-tap-hold macro command
         system-actions russian-layout popups popup-destination close-focused-window emoji-ipc quick-menu-rule emoji-hotkey game-mode isolated-key-backends
         screen-lock suspend-resume cli second-instance text-after-second-instance keyboard-replug
         mapper-stop mapper-start stuck-keys-on-stop stuck-keys-on-kill sustained-input-lifecycle
@@ -243,6 +243,29 @@ def main():
         if text != expected:
             raise StepFailed(f"expected {expected!r}, received {text!r}; see {name}.png")
         return text
+
+    def terminal_paste():
+        """Paste into Konsole: auto paste must send Ctrl+Shift+V there; a
+        plain Ctrl+V reaches the tty as literal-next and no text arrives."""
+        name = "terminal-paste"
+        guest(f"start-terminal-receiver --name {name}")
+        point = json.loads(guest("focus-terminal-receiver"))
+        click_point(point["x"], point["y"])
+        time.sleep(0.3)
+        # The Unicode text is not in the US layout, so libei mode pastes it too.
+        vm.qmp.tap("y")
+        time.sleep(5)
+        vm.qmp.screendump(vm.logs / f"{name}.png")
+        vm.qmp.tap("ret")
+        try:
+            text = receiver_text(guest(f"receiver-result --name {name} --timeout 5"))
+        except StepFailed:
+            # After a literal-next the first Enter is inserted as ^M; end the line.
+            vm.qmp.tap("ret")
+            text = receiver_text(guest(f"receiver-result --name {name} --timeout 5"))
+        if text != TEXT_UNICODE:
+            raise StepFailed(f"expected {TEXT_UNICODE!r} in Konsole, received {text!r}; see {name}.png")
+        return "auto paste shortcut pasted into Konsole"
 
     def failures(reason):
         return int(guest(f"text-failures --reason {shlex.quote(reason)}"))
@@ -684,6 +707,7 @@ def main():
                     report.step("clipboard-preservation", clipboard_preservation)
                 report.step("mapper-keys-and-text", mapper_text)
                 report.step("text-unicode", expect, "text-unicode", TEXT_UNICODE, ["y"], None, 5)
+                report.step("terminal-paste", terminal_paste)
                 report.step("text-unicode-corpus", expect, "text-corpus", TEXT_CORPUS, ["u"], None, 5)
                 report.step("layer-tap-hold", layer)
                 report.step("macro", expect, "macro", "nmacO", ["m"])

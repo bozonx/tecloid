@@ -429,6 +429,25 @@ mod tests {
     use super::*;
     use std::collections::HashMap;
 
+    #[test]
+    fn automatic_paste_uses_ctrl_shift_v_in_terminals() {
+        let cfg = |paste, terminal_paste| TextBackendConfig {
+            mode: TextMode::Clipboard,
+            paste,
+            terminal_paste,
+            ydotool_path: None,
+            xdotool_path: None,
+        };
+        let auto = cfg(PasteShortcut::Auto, None);
+        assert_eq!(clipboard_keys(&auto, true), ClipboardKeys::CtrlShiftV);
+        assert_eq!(clipboard_keys(&auto, false), ClipboardKeys::CtrlV);
+        let terminal = cfg(PasteShortcut::Auto, Some(PasteShortcut::ShiftInsert));
+        assert_eq!(clipboard_keys(&terminal, true), ClipboardKeys::ShiftInsert);
+        assert_eq!(clipboard_keys(&terminal, false), ClipboardKeys::CtrlV);
+        let explicit = cfg(PasteShortcut::CtrlV, None);
+        assert_eq!(clipboard_keys(&explicit, true), ClipboardKeys::CtrlV);
+    }
+
     fn has(table: &KeyTable, ch: char) -> bool {
         table.contains_key(&text_keysym(ch))
     }
