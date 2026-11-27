@@ -54,7 +54,7 @@ revision being tested. For example, from the repo root:
 
 ```sh
 python3 apps/slint-shell/scripts/vm/bench-popup-text.py \
-  --vm /mnt/disk2/vm/tecloid-fedora-kde \
+  --vm /mnt/disk2/vm/tecloid-plasma6-fedora44 \
   --package target/release-artifacts/tecloid-0.4.7-1.x86_64.rpm \
   --binary target/release-container/target/release/tecloid \
   --mode clipboardPaste --trials 20

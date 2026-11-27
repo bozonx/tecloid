@@ -224,14 +224,21 @@ actual checks and expected results; the commands below prepare the VM.
 On the prepared local machine, from the repository root:
 
 ```sh
-python3 apps/slint-shell/scripts/vm/manual-linux.py fedora --build
+python3 apps/slint-shell/scripts/vm/manual-linux.py plasma6-fedora44 --build
 # After completing Fedora:
-python3 apps/slint-shell/scripts/vm/manual-linux.py debian
-# GNOME Wayland:
-python3 apps/slint-shell/scripts/vm/manual-linux.py gnome
+python3 apps/slint-shell/scripts/vm/manual-linux.py plasma6-debian13
+# GNOME 50 Wayland:
+python3 apps/slint-shell/scripts/vm/manual-linux.py gnome50-ubuntu26.04
+# GNOME 46 Wayland (once prepared):
+python3 apps/slint-shell/scripts/vm/manual-linux.py gnome46-ubuntu24.04
 # Linux Mint Cinnamon (X11):
-python3 apps/slint-shell/scripts/vm/manual-linux.py cinnamon
+python3 apps/slint-shell/scripts/vm/manual-linux.py cinnamon6.6-mint22.3
 ```
+
+Stand IDs use the desktop version followed by the distribution release. The
+VM directory adds the `tecloid-` prefix. `gnome46` and `gnome50` are shortcuts
+for their Ubuntu stands. The legacy aliases `fedora`, `debian`, `gnome` and
+`cinnamon` still select Fedora 44, Debian 13, Ubuntu 26.04 and Mint 22.3, respectively.
 
 The launcher finds the current version and Cargo target directory itself, then
 selects the RPM for Fedora, DEB for Debian and Cinnamon or application tar.gz for GNOME.
@@ -253,9 +260,9 @@ Local VM location is saved in ignored `dev-files/vm/manual.json`:
 ```
 
 You can override it with `TECLOID_VM_ROOT` or `--vm-root`. This directory contains
-`tecloid-fedora-kde/`, `tecloid-debian13-kde/`, `tecloid-ubuntu2604-gnome/` and
-`tecloid-mint-cinnamon/`,
-each with `vm.json` and a base disk (`base.qcow2` by default, or the file
+`tecloid-plasma6-fedora44/`, `tecloid-plasma6-debian13/`, `tecloid-gnome50-ubuntu26.04/`,
+`tecloid-cinnamon6.6-mint22.3/` and, once prepared,
+`tecloid-gnome46-ubuntu24.04/`. Each directory has `vm.json` and a base disk (`base.qcow2` by default, or the file
 selected by `base` in `vm.json`). Their SSH key is `~/.ssh/tecloid-vm`; package
 removal uses `tecloid`.
 The prepared bases are standalone frozen copies; they do not depend on the
@@ -352,9 +359,9 @@ smoke:
 
 | GNOME | Stand | Automated | Manual |
 | --- | --- | --- | --- |
-| 50 | Ubuntu 26.04 LTS (`tecloid-ubuntu2604-gnome`) | every release | full checklist, every release |
+| 50 | Ubuntu 26.04 LTS (`tecloid-gnome50-ubuntu26.04`) | every release | full checklist, every release |
 | 51 (newest) | Fedora Workstation, vanilla GNOME, no AppIndicator host | every release | version smoke |
-| 46 | Ubuntu 24.04 LTS (oldest API branch) | every release | version smoke |
+| 46 | Ubuntu 24.04 LTS (`tecloid-gnome46-ubuntu24.04`, oldest API branch) | every release | version smoke |
 | 48 | Debian 13 (optional) | every release | not required |
 | 47, 49 | none | — | — |
 

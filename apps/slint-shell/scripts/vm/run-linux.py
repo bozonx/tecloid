@@ -5,7 +5,7 @@ real keyboard events from QEMU (layers, macros, commands, system actions, game
 mode, lock screen, suspend, replugging, stuck keys), `text:` through the portal,
 popups, upgrades and removal.
 
-Usage: run-linux.py --vm /mnt/disk2/vm/tecloid-fedora-kde --package <file>
+Usage: run-linux.py --vm /mnt/disk2/vm/tecloid-plasma6-fedora44 --package <file>
        [--previous <older release>] [--show] [--keep]
 See docs/testing.md, "L4: virtual machines".
 """

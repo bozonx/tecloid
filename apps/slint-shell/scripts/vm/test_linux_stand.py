@@ -58,11 +58,21 @@ class LinuxStandTests(unittest.TestCase):
             root = Path(directory)
             key = root / "key"
             key.touch()
-            for stand, (name, filename) in manual_launcher.STANDS.items():
-                vm = root / name
-                vm.mkdir()
+            aliases = {
+                "fedora": "plasma6-fedora44",
+                "debian": "plasma6-debian13",
+                "gnome": "gnome50-ubuntu26.04",
+                "gnome50": "gnome50-ubuntu26.04",
+                "gnome46": "gnome46-ubuntu24.04",
+                "cinnamon": "cinnamon6.6-mint22.3",
+            }
+            stands = {stand: stand for stand in manual_launcher.STANDS}
+            for stand, canonical in (stands | aliases).items():
+                filename, _ = manual_launcher.STANDS[canonical]
+                vm = root / f"tecloid-{canonical}"
+                vm.mkdir(exist_ok=True)
                 config = {"ssh_key": str(key)}
-                if stand == "fedora":
+                if canonical == "plasma6-fedora44":
                     config["base"] = "acceptance.qcow2"
                 (vm / config.get("base", "base.qcow2")).touch()
                 (vm / "vm.json").write_text(json.dumps(config))
@@ -87,10 +97,15 @@ class LinuxStandTests(unittest.TestCase):
                         contextlib.redirect_stdout(output):
                     manual_launcher.main()
                 command = boot.call_args.args[1]
-                runner = {"gnome": "run-gnome.py", "cinnamon": "run-cinnamon.py"}.get(stand, "run-linux.py")
+                runner = {
+                    "gnome50-ubuntu26.04": "run-gnome.py",
+                    "gnome46-ubuntu24.04": "run-gnome.py",
+                    "cinnamon6.6-mint22.3": "run-cinnamon.py",
+                }.get(canonical, "run-linux.py")
+                self.assertEqual(command[command.index("--vm") + 1], str(vm))
                 self.assertEqual(Path(command[1]).name, runner)
                 self.assertIn("--manual", command)
-                self.assertEqual("--popup-mode" in command, stand not in ("gnome", "cinnamon"))
+                self.assertEqual("--popup-mode" in command, runner == "run-linux.py")
 
 
     def test_cinnamon_checklist_keeps_shared_checks_and_ends_with_removal(self):

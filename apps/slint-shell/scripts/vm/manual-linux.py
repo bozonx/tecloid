@@ -10,17 +10,29 @@ import sys
 
 
 REPO = Path(__file__).resolve().parents[4]
-STANDS = {"fedora": ("tecloid-fedora-kde", "tecloid-{version}-1.x86_64.rpm"),
-          "debian": ("tecloid-debian13-kde", "tecloid_{version}_amd64.deb"),
-          "gnome": ("tecloid-ubuntu2604-gnome", "tecloid-{version}-linux-x86_64.tar.gz"),
-          "cinnamon": ("tecloid-mint-cinnamon", "tecloid_{version}_amd64.deb")}
-# Stands with their own runner; the others are KDE stands of run-linux.py.
-RUNNERS = {"gnome": "run-gnome.py", "cinnamon": "run-cinnamon.py"}
+RPM = "tecloid-{version}-1.x86_64.rpm"
+DEB = "tecloid_{version}_amd64.deb"
+BUNDLE = "tecloid-{version}-linux-x86_64.tar.gz"
+STANDS = {
+    "plasma6-fedora44": (RPM, "run-linux.py"),
+    "plasma6-debian13": (DEB, "run-linux.py"),
+    "gnome50-ubuntu26.04": (BUNDLE, "run-gnome.py"),
+    "gnome46-ubuntu24.04": (BUNDLE, "run-gnome.py"),
+    "cinnamon6.6-mint22.3": (DEB, "run-cinnamon.py"),
+}
+ALIASES = {
+    "fedora": "plasma6-fedora44",
+    "debian": "plasma6-debian13",
+    "gnome": "gnome50-ubuntu26.04",
+    "gnome50": "gnome50-ubuntu26.04",
+    "gnome46": "gnome46-ubuntu24.04",
+    "cinnamon": "cinnamon6.6-mint22.3",
+}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stand", choices=STANDS)
+    parser.add_argument("stand", choices=[*STANDS, *ALIASES])
     parser.add_argument("--vm-root", type=Path, help="directory containing the prepared Tecloid VM stands")
     parser.add_argument("--check", action="store_true", help="validate and print selected paths without booting")
     parser.add_argument("--build", action="store_true",
@@ -38,8 +50,9 @@ def main():
     metadata = json.loads(subprocess.check_output(
         ["cargo", "metadata", "--locked", "--format-version", "1", "--no-deps"], cwd=REPO))
     version = next(p["version"] for p in metadata["packages"] if p["name"] == "slint-shell")
-    directory, filename = STANDS[args.stand]
-    vm = Path(root).expanduser().resolve() / directory
+    stand = ALIASES.get(args.stand, args.stand)
+    filename, runner = STANDS[stand]
+    vm = Path(root).expanduser().resolve() / f"tecloid-{stand}"
     package = Path(metadata["target_directory"]) / "release-artifacts" / filename.format(version=version)
     if not (vm / "vm.json").is_file():
         parser.error(f"{vm / 'vm.json'} missing; prepare the stand")
@@ -55,10 +68,9 @@ def main():
                        cwd=REPO, check=True)
     if not package.is_file():
         parser.error(f"{package} missing; use --build or build packages as described in docs/release.md")
-    runner = RUNNERS.get(args.stand, "run-linux.py")
     command = [sys.executable, str(Path(__file__).with_name(runner)),
                "--manual", "--vm", str(vm), "--package", str(package)]
-    if args.stand not in RUNNERS:
+    if runner == "run-linux.py":
         command += ["--popup-mode", "auto"]
     print(f"VM: {vm}\nPackage: {package}", flush=True)
     if not args.check:
