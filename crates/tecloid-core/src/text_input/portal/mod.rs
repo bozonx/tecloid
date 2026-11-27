@@ -39,25 +39,26 @@
 
 #![cfg(target_os = "linux")]
 
+mod desktop_layout;
 mod hardware;
 mod inject;
-mod keymap;
 mod libei;
+mod paste_keys;
 mod session;
 mod token;
 mod worker;
+mod xkb;
 
+pub(crate) use self::desktop_layout::shortcut_key_for_letter;
 use self::hardware::*;
 pub(crate) use self::inject::close_session;
 use self::inject::*;
-use self::keymap::*;
-use self::libei::*;
+use self::libei::LibeiBackend;
 use self::session::*;
 use self::token::*;
 use self::worker::*;
 
 use std::collections::HashMap;
-use std::ffi::{CString, c_char};
 use std::os::unix::fs::FileExt;
 use std::os::unix::net::UnixStream;
 use std::path::{Path, PathBuf};
@@ -67,7 +68,7 @@ use std::sync::{Arc, Mutex, OnceLock};
 use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
-use reis::ei::{self, handshake::ContextType, keyboard::KeyState};
+use reis::ei::{self, handshake::ContextType};
 use reis::enumflags2::BitFlags;
 use reis::event::{DeviceCapability, EiEvent, EiEventConverter};
 use zbus::blocking::{Connection, Proxy};
@@ -205,55 +206,6 @@ pub fn reset_permissions() {
     clear_restore_token(TokenScope::Keyboard);
     clear_restore_token(TokenScope::Clipboard);
     retry_text_backend();
-}
-
-/// evdev key that applications read as the Latin letter `character` in a
-/// shortcut: in the active layout, or in another configured layout when the
-/// active one has no such letter (Qt and GTK borrow Ctrl+C from the Latin
-/// layout on Cyrillic). `None` when the layout is unknown.
-/// Cached: compiling an XKB keymap reads files, and the mapper asks on
-/// every standard shortcut it sends.
-pub(crate) fn shortcut_key_for_letter(character: char) -> Option<u16> {
-    type Cache = Mutex<HashMap<(Vec<(String, String)>, String, String, u32, char), Option<u16>>>;
-    static CACHE: OnceLock<Cache> = OnceLock::new();
-    let layout = crate::runtime_state::keyboard_layout()?;
-    let layouts = crate::keyboard_layout::shortcut_layouts();
-    let cache_key = (
-        layouts.clone(),
-        layout.code.clone(),
-        layout.variant.clone(),
-        layout.index,
-        character,
-    );
-    let cache = CACHE.get_or_init(Default::default);
-    if let Some(key) = cache
-        .lock()
-        .unwrap_or_else(|e| e.into_inner())
-        .get(&cache_key)
-    {
-        return *key;
-    }
-    let group = layout.index as usize;
-    let key = if layouts
-        .get(group)
-        .is_some_and(|(code, variant)| *code == layout.code && *variant == layout.variant)
-    {
-        let names: Vec<_> = layouts
-            .iter()
-            .map(|(code, variant)| (code.as_str(), variant.as_str()))
-            .collect();
-        shortcut_key_from_names(&names, layout.index, "", character)
-    } else {
-        shortcut_key_from_names(&[(&layout.code, &layout.variant)], 0, "", character)
-    };
-    let key = key.and_then(|key| u16::try_from(key).ok());
-    let mut cache = cache.lock().unwrap_or_else(|e| e.into_inner());
-    // Layout sets change rarely; the bound only guards against growth.
-    if cache.len() >= 256 {
-        cache.clear();
-    }
-    cache.insert(cache_key, key);
-    key
 }
 
 /// What the focused window is, and the clipboard shortcuts the paste
@@ -439,6 +391,9 @@ fn run_text_tool(
 
 #[cfg(test)]
 mod tests {
+    use super::paste_keys::*;
+    use super::xkb::*;
+
     #[test]
     fn shortcut_letters_follow_the_layout() {
         use crate::mapper::key_code::KeyCode as K;
@@ -464,11 +419,11 @@ mod tests {
 
     #[test]
     fn text_control_characters_use_keyboard_keysyms() {
-        assert_eq!(super::text_keysym('\n'), 0xff0d);
-        assert_eq!(super::text_keysym('\r'), 0xff0d);
-        assert_eq!(super::text_keysym('\t'), 0xff09);
-        assert_eq!(super::text_keysym(' '), 0x20);
-        assert_eq!(super::text_keysym('a'), 0x61);
+        assert_eq!(text_keysym('\n'), 0xff0d);
+        assert_eq!(text_keysym('\r'), 0xff0d);
+        assert_eq!(text_keysym('\t'), 0xff09);
+        assert_eq!(text_keysym(' '), 0x20);
+        assert_eq!(text_keysym('a'), 0x61);
     }
 
     use super::*;
@@ -512,54 +467,32 @@ mod tests {
 
     #[test]
     fn gnome_literal_keymap_uses_the_active_group_and_variant() {
-        let mut rules = crate::platform::gnome::TextKeymap {
-            layouts: "us,ru,us".into(),
-            variants: "dvorak,,".into(),
-            options: String::new(),
-            model: "pc105".into(),
-            group: 0,
+        let rules = RuleNames {
+            layouts: "us,ru,us",
+            variants: "dvorak,,",
+            options: "",
+            model: "pc105",
         };
-        let table = table_from_rules(&rules, false).expect("Dvorak group");
+        let table = table_from_rules(rules, 0, false).expect("Dvorak group");
         assert_eq!(table[&text_keysym(',')].evdev, 17);
         assert_eq!(table[&text_keysym('.')].evdev, 18);
         assert_eq!(table[&text_keysym('(')].evdev, 10);
         assert_eq!(table[&text_keysym('(')].mods, [KEY_LEFTSHIFT_EVDEV]);
 
-        rules.group = 1;
-        let table = table_from_rules(&rules, false).expect("Russian group");
+        let table = table_from_rules(rules, 1, false).expect("Russian group");
         assert_eq!(table[&text_keysym('.')].evdev, 53);
         assert_eq!(table[&text_keysym(',')].evdev, 53);
         assert_eq!(table[&text_keysym(',')].mods, [KEY_LEFTSHIFT_EVDEV]);
         assert!(!has(&table, 'q'));
 
-        rules.group = 3;
-        assert!(table_from_rules(&rules, false).is_none());
+        assert!(table_from_rules(rules, 3, false).is_none());
     }
 
     #[test]
     fn keymap_tables_use_the_requested_group() {
-        let layout = CString::new("us,ru").expect("layout");
-        let names = XkbRuleNames {
-            rules: std::ptr::null(),
-            model: std::ptr::null(),
-            layout: layout.as_ptr(),
-            variant: std::ptr::null(),
-            options: std::ptr::null(),
-        };
-        // SAFETY: test-only FFI with null checks; everything is released.
-        let (latin, cyrillic) = unsafe {
-            let ctx = xkb_context_new(0);
-            assert!(!ctx.is_null());
-            let keymap = xkb_keymap_new_from_names(ctx, &names, 0);
-            xkb_context_unref(ctx);
-            assert!(!keymap.is_null());
-            let tables = (
-                table_from_keymap(keymap, 0, 0),
-                table_from_keymap(keymap, 1, 0),
-            );
-            xkb_keymap_unref(keymap);
-            tables
-        };
+        let [latin, cyrillic]: [KeyTable; 2] = tables_of_groups("us,ru", 2)
+            .try_into()
+            .unwrap_or_else(|_| panic!("two groups"));
         assert!(has(&latin, 'q') && !has(&latin, 'й'));
         assert!(has(&cyrillic, 'й') && !has(&cyrillic, 'q'));
         // Both groups share the same key.

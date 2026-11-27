@@ -340,10 +340,15 @@ fn action_picker() -> Result<(), Box<dyn std::error::Error>> {
         .iter()
         .map(|item| item.value)
         .collect();
-    assert!(buttons.iter().any(|button| button == "MouseBack"));
-    assert!(buttons.iter().any(|button| button == "MouseForward"));
-    for primary in ["MouseLeft", "MouseRight", "MouseMiddle"] {
-        assert!(!buttons.iter().any(|button| button == primary));
+    // Primary buttons are never triggers; the extra ones are in development.
+    for button in [
+        "MouseLeft",
+        "MouseRight",
+        "MouseMiddle",
+        "MouseBack",
+        "MouseForward",
+    ] {
+        assert!(!buttons.iter().any(|item| item == button), "{button}");
     }
     stable_picker.invoke_dismiss_picker();
     let settings = ui.global::<SettingsEditor>();
@@ -357,6 +362,13 @@ fn action_picker() -> Result<(), Box<dyn std::error::Error>> {
     let picker = ui.global::<ActionPicker>();
     assert!(picker.get_opened());
     assert!(picker.get_key_only());
+    picker.set_query("Mouse".into());
+    picker.invoke_refresh();
+    let buttons: Vec<_> = picker.get_items().iter().map(|item| item.value).collect();
+    assert!(buttons.iter().any(|button| button == "MouseBack"));
+    assert!(buttons.iter().any(|button| button == "MouseForward"));
+    picker.set_query("".into());
+    picker.invoke_refresh();
     picker.invoke_begin_capture();
     assert!(picker.get_capturing());
     picker.invoke_begin_capture();

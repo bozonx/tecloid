@@ -47,7 +47,7 @@ xkb_symbols "extra" {
 `~/.config/kxkbrc`: `Options=…,tecloid:extra`.
 
 **Keysym names must match what the code looks up:** `text_keysym()` in
-`portal/keymap.rs` uses `xkb_utf32_to_keysym`, which returns legacy keysyms for
+`portal/xkb.rs` uses `xkb_utf32_to_keysym`, which returns legacy keysyms for
 many characters (`→` → `rightarrow`, not `U2192`). The generator must write
 `xkb_keysym_get_name(xkb_utf32_to_keysym(ch))`. Multi-codepoint emoji need every
 codepoint in the table.
@@ -76,7 +76,7 @@ Rollback: remove the option and both files, reload.
 
 ## Code changes needed
 
-`build_keymap_table()` in `portal/keymap.rs` compiles only the current layout and
+`desktop_key_table()` in `portal/desktop_layout.rs` compiles only the current layout and
 variant without options and for group 0. It must compile the full KWin keymap
 (all layouts, variants, options), search the active group with wrapping
 (`group % xkb_keymap_num_layouts_for_key`) and drop its cache when `kxkbrc`

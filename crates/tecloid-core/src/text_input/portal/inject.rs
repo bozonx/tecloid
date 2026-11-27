@@ -1,5 +1,8 @@
 //! Keycode typing and clipboard paste through `NotifyKeyboardKeycode`.
 
+use super::desktop_layout::{desktop_key_table, desktop_paste_v_key};
+use super::paste_keys::checked_paste_keys;
+use super::xkb::{missing_characters, text_keysym};
 use super::*;
 
 pub(super) fn type_text_keycode(
@@ -12,7 +15,7 @@ pub(super) fn type_text_keycode(
     hardware.modifiers_released()?;
     let layout = crate::runtime_state::keyboard_layout();
     let caps = hardware.caps_lock_state()?;
-    let table = literal_key_table()?;
+    let table = desktop_key_table()?;
     if layout != crate::runtime_state::keyboard_layout() || caps != hardware.caps_lock_state()? {
         return Err(TextInputFailure::LayoutUnknown);
     }

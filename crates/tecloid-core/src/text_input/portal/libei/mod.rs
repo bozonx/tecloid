@@ -1,28 +1,31 @@
 //! The libei backend: typing through an EIS connection from the portal.
 
+mod keys;
+
 use super::*;
+use crate::text_input::portal::xkb::KeyTable;
 
 pub(super) struct LibeiBackend {
-    pub(super) clipboard: ClipboardAccess,
-    pub(super) conn: Connection,
-    pub(super) session_handle: OwnedObjectPath,
-    pub(super) context: ei::Context,
-    pub(super) converter: EiEventConverter,
-    pub(super) connection: reis::event::Connection,
+    clipboard: ClipboardAccess,
+    conn: Connection,
+    session_handle: OwnedObjectPath,
+    context: ei::Context,
+    converter: EiEventConverter,
+    connection: reis::event::Connection,
     capability: DeviceCapability,
     text_device: Option<(ei::Device, ei::Text)>,
-    pub(super) keyboard_device: Option<(ei::Device, ei::Keyboard)>,
-    pub(super) keyboard_emulating: bool,
-    pub(super) sequence: u32,
+    keyboard_device: Option<(ei::Device, ei::Keyboard)>,
+    keyboard_emulating: bool,
+    sequence: u32,
     /// XKB keymap text of the keyboard device, as the compositor sent it.
-    pub(super) keymap: Option<Vec<u8>>,
+    keymap: Option<Vec<u8>>,
     /// Active layout group the compositor reported.
-    pub(super) group: Option<u32>,
+    group: Option<u32>,
     /// Key table built from `keymap` for a group.
-    pub(super) table: Option<((u32, u32), Arc<KeyTable>)>,
-    pub(super) locked: u32,
-    pub(super) depressed: u32,
-    pub(super) latched: u32,
+    table: Option<((u32, u32), Arc<KeyTable>)>,
+    locked: u32,
+    depressed: u32,
+    latched: u32,
 }
 
 impl LibeiBackend {
@@ -115,192 +118,7 @@ impl LibeiBackend {
             .map_err(TextInputFailure::BackendUnavailable)
     }
 
-    /// Type `text`, pasting it with `clipboard_fallback` when the layout
-    /// lacks a character. `Err` means the EI connection is unusable; other
-    /// failures are reported and leave the session open.
-    pub(super) fn type_text(
-        &mut self,
-        text: &str,
-        clipboard_fallback: Option<ClipboardKeys>,
-        request: &TextRequest,
-    ) -> Result<(), TextInputFailure> {
-        request.check()?;
-        self.pump_events()
-            .map_err(TextInputFailure::BackendUnavailable)?;
-        if !self.has_keyboard() {
-            self.wait_until(EI_KEYBOARD_TIMEOUT, Self::has_keyboard)
-                .map_err(TextInputFailure::BackendUnavailable)?;
-        }
-        // Events sent while the compositor paused the device are a protocol
-        // error, e.g. on the lock screen.
-        if !self.keyboard_emulating
-            && self
-                .wait_until(EI_EMULATION_TIMEOUT, |backend| backend.keyboard_emulating)
-                .is_err()
-        {
-            return Err(TextInputFailure::BackendUnavailable(
-                "the compositor paused the input device".into(),
-            ));
-        }
-        if self.depressed != 0 || self.latched != 0 {
-            return Err(TextInputFailure::NativeInput(
-                "release or unlatch keyboard modifiers before text input".into(),
-            ));
-        }
-        self.synchronize(request)
-            .map_err(TextInputFailure::BackendUnavailable)?;
-        let hardware = HardwareState::capture();
-        hardware
-            .modifiers_released()
-            .map_err(temporary_input_failure)?;
-        let table = self.key_table()?;
-        let table_identity = self.table.as_ref().map(|(identity, _)| *identity);
-        request.check()?;
-        let text = text.replace("\r\n", "\n");
-        if missing_characters(&table, &text) {
-            if let Some(shortcut) = clipboard_fallback {
-                log::debug!(
-                    "[text] libei + clipboard: pasting entire string; keymap lacks a character"
-                );
-                return self.paste_text(&text, shortcut, request);
-            }
-            return Err(TextInputFailure::MissingCharacters);
-        }
-        request.start_typing()?;
-        for ch in text.chars() {
-            self.pump_events()
-                .map_err(TextInputFailure::BackendUnavailable)?;
-            request.check()?;
-            if !self.keyboard_emulating
-                || self
-                    .table
-                    .as_ref()
-                    .is_none_or(|(_, current)| !Arc::ptr_eq(current, &table))
-                || self.table.as_ref().map(|(identity, _)| *identity) != table_identity
-                || self.group.is_some_and(|group| {
-                    self.table
-                        .as_ref()
-                        .is_some_and(|(cached, _)| cached.0 != group || cached.1 != self.locked)
-                })
-                || self.depressed != 0
-                || self.latched != 0
-            {
-                return Err(TextInputFailure::NativeInput(
-                    "keyboard state changed during text input".into(),
-                ));
-            }
-            hardware
-                .modifiers_released()
-                .map_err(temporary_input_failure)?;
-            if let Some(entry) = table.get(&text_keysym(ch)) {
-                self.inject_keycode_combo(&entry.mods, entry.evdev, request)
-                    .map_err(TextInputFailure::BackendUnavailable)?;
-                request.mark_progress();
-            }
-        }
-        Ok(())
-    }
-
-    /// Key table of the layout the compositor uses now. Without a keymap
-    /// from the compositor, fail rather than guess its options. Without
-    /// a reported group, use the active layout's index.
-    pub(super) fn key_table(&mut self) -> Result<Arc<KeyTable>, TextInputFailure> {
-        let Some(keymap) = self.keymap.as_deref() else {
-            return Err(TextInputFailure::BackendUnavailable(
-                "the compositor did not provide a keyboard keymap".into(),
-            ));
-        };
-        let group = self
-            .group
-            .or_else(|| crate::runtime_state::keyboard_layout().map(|layout| layout.index))
-            .ok_or(TextInputFailure::LayoutUnknown)?;
-        if let Some((cached, table)) = &self.table
-            && *cached == (group, self.locked)
-        {
-            return Ok(Arc::clone(table));
-        }
-        let table = Arc::new(
-            table_from_keymap_text(keymap, group, self.locked).ok_or_else(|| {
-                TextInputFailure::BackendUnavailable("cannot read the compositor keymap".into())
-            })?,
-        );
-        self.table = Some(((group, self.locked), Arc::clone(&table)));
-        Ok(table)
-    }
-
-    pub(super) fn paste_text(
-        &mut self,
-        text: &str,
-        shortcut: ClipboardKeys,
-        request: &TextRequest,
-    ) -> Result<(), TextInputFailure> {
-        let clipboard = prepare_clipboard(&self.clipboard, text, request)?;
-        request.check()?;
-        wait_for_modifiers(request).map_err(temporary_input_failure)?;
-        let deadline = Instant::now() + MODIFIER_RELEASE_TIMEOUT;
-        loop {
-            self.pump_events()
-                .map_err(TextInputFailure::BackendUnavailable)?;
-            request.check()?;
-            if self.depressed == 0 && self.latched == 0 {
-                break;
-            }
-            if Instant::now() >= deadline {
-                return Err(TextInputFailure::NativeInput(
-                    "release or unlatch keyboard modifiers before paste".into(),
-                ));
-            }
-            thread::sleep(POLL_INTERVAL);
-        }
-        let group = self
-            .group
-            .or_else(|| crate::runtime_state::keyboard_layout().map(|layout| layout.index))
-            .unwrap_or(0);
-        let v_key = self
-            .keymap
-            .as_deref()
-            .and_then(|keymap| paste_v_key_from_keymap_text(keymap, group));
-        let (mods, key) = checked_paste_keys(shortcut, v_key)?;
-        clipboard.arm().map_err(TextInputFailure::Clipboard)?;
-        let result = self
-            .inject_keycode_combo(mods, key, request)
-            .map_err(TextInputFailure::BackendUnavailable);
-        let transfer = clipboard
-            .finish(result.is_ok())
-            .map_err(TextInputFailure::Clipboard);
-        result.and(transfer)
-    }
-
-    pub(super) fn inject_keycode_combo(
-        &mut self,
-        mods: &[u32],
-        key: u32,
-        request: &TextRequest,
-    ) -> Result<(), String> {
-        let mut pressed = Vec::new();
-        let mut result = (|| {
-            for &m in mods {
-                self.inject_key(m, KeyState::Press)?;
-                pressed.push(m);
-            }
-            self.inject_key(key, KeyState::Press)?;
-            self.inject_key(key, KeyState::Released)
-        })();
-        if result.is_err() {
-            let _ = self.inject_key(key, KeyState::Released);
-        }
-        for m in pressed.into_iter().rev() {
-            if let Err(error) = self.inject_key(m, KeyState::Released)
-                && result.is_ok()
-            {
-                result = Err(error);
-            }
-        }
-        result?;
-        self.synchronize(request)
-    }
-
-    pub(super) fn synchronize(&mut self, request: &TextRequest) -> Result<(), String> {
+    fn synchronize(&mut self, request: &TextRequest) -> Result<(), String> {
         let done = Arc::new(AtomicBool::new(false));
         let completed = done.clone();
         let callback = self.connection.connection().sync(1);
@@ -323,20 +141,7 @@ impl LibeiBackend {
         Ok(())
     }
 
-    pub(super) fn inject_key(&mut self, key: u32, state: KeyState) -> Result<(), String> {
-        let Some((device, keyboard)) = self.keyboard_device.as_ref() else {
-            return Err("no EI keyboard device".into());
-        };
-        keyboard.key(key, state);
-        device.frame(self.connection.serial(), monotonic_micros());
-        self.context.flush().map_err(|e| format!("EI flush: {e}"))
-    }
-
-    pub(super) fn wait_until(
-        &mut self,
-        timeout: Duration,
-        ready: fn(&Self) -> bool,
-    ) -> Result<(), String> {
+    fn wait_until(&mut self, timeout: Duration, ready: fn(&Self) -> bool) -> Result<(), String> {
         let deadline = Instant::now() + timeout;
         loop {
             self.pump_events()?;
@@ -355,7 +160,7 @@ impl LibeiBackend {
         }
     }
 
-    pub(super) fn pump_events(&mut self) -> Result<(), String> {
+    fn pump_events(&mut self) -> Result<(), String> {
         self.context.read().map_err(|e| format!("EI read: {e}"))?;
         while let Some(result) = self.context.pending_event() {
             let event = match result {
@@ -378,13 +183,13 @@ impl LibeiBackend {
         Ok(())
     }
 
-    pub(super) fn is_keyboard(&self, device: &ei::Device) -> bool {
+    fn is_keyboard(&self, device: &ei::Device) -> bool {
         self.keyboard_device
             .as_ref()
             .is_some_and(|(keyboard, _)| keyboard == device)
     }
 
-    pub(super) fn handle_event(&mut self, event: EiEvent) -> Result<(), String> {
+    fn handle_event(&mut self, event: EiEvent) -> Result<(), String> {
         match event {
             EiEvent::Disconnected(e) => {
                 return Err(format!("EI disconnected: {:?}", e.explanation));
@@ -455,11 +260,11 @@ impl LibeiBackend {
             .is_some_and(|(text, _)| text == device)
     }
 
-    pub(super) fn has_keyboard(&self) -> bool {
+    fn has_keyboard(&self) -> bool {
         self.keyboard_device.is_some()
     }
 
-    pub(super) fn start_keyboard_emulation(&mut self, device: &ei::Device) {
+    fn start_keyboard_emulation(&mut self, device: &ei::Device) {
         if self.keyboard_emulating {
             return;
         }
@@ -476,7 +281,7 @@ impl LibeiBackend {
 }
 
 /// Read the XKB keymap an EI keyboard device carries.
-pub(super) fn read_keymap(keymap: &reis::event::Keymap) -> Option<Vec<u8>> {
+fn read_keymap(keymap: &reis::event::Keymap) -> Option<Vec<u8>> {
     if keymap.type_ != ei::keyboard::KeymapType::Xkb {
         return None;
     }
@@ -491,7 +296,7 @@ pub(super) fn read_keymap(keymap: &reis::event::Keymap) -> Option<Vec<u8>> {
     }
 }
 
-pub(super) fn monotonic_micros() -> u64 {
+fn monotonic_micros() -> u64 {
     let mut ts = libc::timespec {
         tv_sec: 0,
         tv_nsec: 0,
@@ -507,7 +312,7 @@ pub(super) fn monotonic_micros() -> u64 {
     }
 }
 
-pub(super) fn ei_handshake_with_timeout(
+fn ei_handshake_with_timeout(
     context: &ei::Context,
     timeout: Duration,
 ) -> Result<reis::handshake::HandshakeResp, String> {
@@ -541,29 +346,4 @@ pub(super) fn ei_handshake_with_timeout(
         thread::sleep(POLL_INTERVAL);
     }
     Err("EI handshake timed out".into())
-}
-
-// Physical input can interrupt a job without invalidating the EI connection.
-fn temporary_input_failure(error: TextInputFailure) -> TextInputFailure {
-    match error {
-        TextInputFailure::BackendUnavailable(detail) => TextInputFailure::NativeInput(detail),
-        other => other,
-    }
-}
-
-#[cfg(test)]
-mod recovery_tests {
-    use super::*;
-
-    #[test]
-    fn interrupted_input_preserves_the_session_and_destination_errors() {
-        assert_eq!(
-            temporary_input_failure(TextInputFailure::BackendUnavailable("held modifier".into())),
-            TextInputFailure::NativeInput("held modifier".into())
-        );
-        assert_eq!(
-            temporary_input_failure(TextInputFailure::DestinationChanged),
-            TextInputFailure::DestinationChanged
-        );
-    }
 }
