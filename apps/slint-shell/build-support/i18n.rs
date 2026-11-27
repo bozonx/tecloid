@@ -224,6 +224,7 @@ pub fn validate_catalog(
                         | "libei"
                         | "NotifyKeyboardKeycode"
                         | "GNOME CommitText"
+                        | "EIS (ei_text.utf8)"
                         | "XTest (xdotool)"
                         | "ydotool"
                         | "xdotool"

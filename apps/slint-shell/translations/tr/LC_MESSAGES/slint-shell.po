@@ -3670,8 +3670,8 @@ msgstr "GNOME CommitText"
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "Odaktaki alan GNOME CommitText üzerinden metin alamıyor."
 
-msgid "Direct UTF-8 text (EIS)"
-msgstr "Doğrudan UTF-8 metin girişi (EIS)"
+msgid "EIS (ei_text.utf8)"
+msgstr "EIS (ei_text.utf8)"
 
 msgid "The saved text input method is unavailable in this session."
 msgstr "Kaydedilen metin giriş yöntemi bu oturumda kullanılamıyor."

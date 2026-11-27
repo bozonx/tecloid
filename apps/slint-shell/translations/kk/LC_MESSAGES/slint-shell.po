@@ -3667,8 +3667,8 @@ msgstr "GNOME CommitText"
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "Белсенді өріс GNOME CommitText арқылы мәтінді қабылдай алмайды."
 
-msgid "Direct UTF-8 text (EIS)"
-msgstr "UTF-8 мәтінін тікелей енгізу (EIS)"
+msgid "EIS (ei_text.utf8)"
+msgstr "EIS (ei_text.utf8)"
 
 msgid "The saved text input method is unavailable in this session."
 msgstr "Сақталған мәтін енгізу әдісі осы сеанста қолжетімсіз."

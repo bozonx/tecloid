@@ -868,11 +868,20 @@ pub(super) fn bind(ui: &SettingsWindow, document: &Rc<Document>) {
             let _ = weak.upgrade_in_event_loop(move |ui| {
                 let e = ui.global::<SettingsEditor>();
                 e.set_default_text_mode_index(choice_index(&TextMode::ALL, &methods.recommended));
-                let indices = methods
-                    .supported
-                    .iter()
-                    .map(|mode| choice_index(&TextMode::ALL, mode))
-                    .collect::<Vec<_>>();
+                let indices = [
+                    TextMode::LibeiText,
+                    TextMode::GnomeCommitText,
+                    TextMode::Xdotool,
+                    TextMode::LibeiOnly,
+                    TextMode::Keycode,
+                    TextMode::Ydotool,
+                    TextMode::Clipboard,
+                    TextMode::LibeiWithClipboardFallback,
+                ]
+                .iter()
+                .filter(|mode| methods.supported.contains(mode))
+                .map(|mode| choice_index(&TextMode::ALL, mode))
+                .collect::<Vec<_>>();
                 e.set_supported_text_methods(ModelRc::new(VecModel::from(indices)));
                 e.set_text_methods_loaded(true);
             });

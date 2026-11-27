@@ -3623,8 +3623,8 @@ msgstr "GNOME CommitText"
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "当前输入框无法通过 GNOME CommitText 接收文本。"
 
-msgid "Direct UTF-8 text (EIS)"
-msgstr "直接输入 UTF-8 文本 (EIS)"
+msgid "EIS (ei_text.utf8)"
+msgstr "EIS (ei_text.utf8)"
 
 msgid "The saved text input method is unavailable in this session."
 msgstr "已保存的文本输入方式在此会话中不可用。"

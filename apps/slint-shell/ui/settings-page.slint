@@ -629,11 +629,11 @@ export component SettingsPage inherits PageLayout {
                     title: @tr("Text input");
                     TitledCard {
                         accessible-name: @tr("Text input");
-                        VerticalLayout {
+                        method-form := VerticalLayout {
                             padding: 0px; spacing: Theme.space-m;
                             FormLabel { text: @tr("Typing method"); }
                             // Same order as TextMode::ALL in tecloid-core.
-                            method-picker := SelectField { accessible-label: @tr("Typing method"); width: 320px; height: Theme.control-height; vertical-stretch: 0; enabled: text-input.visible-methods.length > 0; model: SettingsEditor.filter-text-labels(text-input.visible-methods, [
+                            method-picker := SelectField { accessible-label: @tr("Typing method"); width: min(method-form.width, Theme.text-column); height: Theme.control-height; vertical-stretch: 0; enabled: text-input.visible-methods.length > 0; model: SettingsEditor.filter-text-labels(text-input.visible-methods, [
                                 SettingsEditor.method-label(@tr("libei + clipboard"), 0),
                                 SettingsEditor.method-label(@tr("libei"), 1),
                                 SettingsEditor.method-label(@tr("NotifyKeyboardKeycode"), 2),
@@ -641,7 +641,7 @@ export component SettingsPage inherits PageLayout {
                                 SettingsEditor.method-label(@tr("ydotool"), 4),
                                 SettingsEditor.method-label(@tr("XTest (xdotool)"), 5),
                                 SettingsEditor.method-label(@tr("GNOME CommitText"), 6),
-                                SettingsEditor.method-label(@tr("Direct UTF-8 text (EIS)"), 7)
+                                SettingsEditor.method-label(@tr("EIS (ei_text.utf8)"), 7)
                             ]); current-index: text-input.method-row; selected(value) => {
                                 if self.current-index >= 0 && self.current-index < text-input.visible-methods.length {
                                     SettingsEditor.text-mode-index = text-input.visible-methods[self.current-index];

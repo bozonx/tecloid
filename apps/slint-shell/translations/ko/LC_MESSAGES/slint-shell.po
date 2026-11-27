@@ -3623,8 +3623,8 @@ msgstr "GNOME CommitText"
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "포커스된 입력란에서 GNOME CommitText를 통한 텍스트 입력을 받을 수 없습니다."
 
-msgid "Direct UTF-8 text (EIS)"
-msgstr "UTF-8 텍스트 직접 입력 (EIS)"
+msgid "EIS (ei_text.utf8)"
+msgstr "EIS (ei_text.utf8)"
 
 msgid "The saved text input method is unavailable in this session."
 msgstr "저장된 텍스트 입력 방식은 이 세션에서 사용할 수 없습니다."

@@ -673,7 +673,7 @@ pub enum TextMode {
 }
 
 impl TextMode {
-    /// Every mode, in the order the settings page lists them.
+    /// Every mode, indexed by the settings page for labels and saved selections.
     pub const ALL: [Self; 8] = [
         Self::LibeiWithClipboardFallback,
         Self::LibeiOnly,

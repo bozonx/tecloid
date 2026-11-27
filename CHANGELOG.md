@@ -6,6 +6,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Linux text input settings list primary methods first and clipboard methods last. The wider selector shows the default marker, and the direct UTF-8 mode names the EIS request it uses (ei_text.utf8).
 - Scrolling the mouse wheel while a dual-role key is held uses its modifier (Ctrl+wheel zoom, Shift+wheel pan) instead of scrolling plainly and typing the key's tap afterwards.
 - On Linux, clicks of the selected mouse are no longer held behind macros, text input or opening popups, so they land where the pointer is; a mouse button released during a key combo is no longer delayed.
 - On Linux, touchpad touches and tool codes of the selected device pass through as pointer data instead of acting as key presses, and pointer frames keep their misc data. Touchscreens, pen tablets and game controllers can no longer be selected as the mouse.
@@ -25,7 +26,6 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 - New Linux configurations prefer direct UTF-8 text via EIS on KDE Plasma Wayland when KWin and the RemoteDesktop portal advertise support. Otherwise they prefer libei with clipboard fallback when available.
 - Linux text input settings list methods supported by the session, including compatible tools that still need installation. Portal permissions and paste shortcuts appear with the methods that use them. Plain libei, NotifyKeyboardKeycode and ydotool are listed in In development or when currently selected.
-
 - GNOME Wayland clipboard-only text input uses the active XKB keymap from the Tecloid Shell extension to resolve the paste shortcut.
 
 - Linux text actions, including single characters, use the selected typing method. Only libei + clipboard may paste when a character is missing. New X11 configurations select xdotool; GNOME Wayland offers direct text commits through the Tecloid extension.

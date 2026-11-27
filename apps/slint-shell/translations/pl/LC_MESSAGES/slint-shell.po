@@ -3698,8 +3698,8 @@ msgstr "GNOME CommitText"
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "Aktywne pole nie przyjmuje tekstu przez GNOME CommitText."
 
-msgid "Direct UTF-8 text (EIS)"
-msgstr "Bezpośrednie wprowadzanie tekstu UTF-8 (EIS)"
+msgid "EIS (ei_text.utf8)"
+msgstr "EIS (ei_text.utf8)"
 
 msgid "The saved text input method is unavailable in this session."
 msgstr "Zapisana metoda wprowadzania tekstu jest niedostępna w tej sesji."

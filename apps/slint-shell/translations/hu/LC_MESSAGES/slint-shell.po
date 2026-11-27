@@ -3672,8 +3672,8 @@ msgstr "GNOME CommitText"
 msgid "The focused field cannot receive text through GNOME CommitText."
 msgstr "Az aktív mező nem tud szöveget fogadni a GNOME CommitText használatával."
 
-msgid "Direct UTF-8 text (EIS)"
-msgstr "Közvetlen UTF-8-bevitel (EIS)"
+msgid "EIS (ei_text.utf8)"
+msgstr "EIS (ei_text.utf8)"
 
 msgid "The saved text input method is unavailable in this session."
 msgstr "A mentett szövegbeviteli mód ebben a munkamenetben nem érhető el."
