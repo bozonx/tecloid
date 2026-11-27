@@ -1336,17 +1336,20 @@ msgstr ""
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Оқиғалары ұсталуы керек физикалық құрылғыны таңдаңыз."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Маппер қосымша түймелер мен шертулерді көруі үшін тінтуірді таңдаңыз. Көрсеткіш қозғалысына әсер етпейді."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Екі рөлді пернелер мен қабат пернелері тінтуірдің шертулері мен дөңгелегіне жауап беруі және оның қосымша түймелерін қайта тағайындауға болуы үшін тінтуірді таңдаңыз."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Тінтуір әлі толық ұсталмайды: қайта тағайындалған қосымша түйме жаңа әрекетті орындай алады, бірақ оның жүйедегі немесе қолданбадағы төл әрекеті де орындалуы мүмкін. Бұл кедергі келтірсе, сол түйменің төл әрекетін жүйе, браузер немесе драйвер баптауларында өшіріңіз."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Маппер жұмыс істеп тұрғанда тінтуір «Tecloid Pointer» виртуалды құрылғысы арқылы жұмыс істейді. Дәл осы тінтуір үшін сақталған көрсеткіш баптауларын бұл құрылғы үшін бір рет орнату қажет болуы мүмкін."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Тінтуір түймелері мен дөңгелегі бақыланады, бірақ ұсталмайды: қайта тағайындалған түйме бәрібір өзінің бастапқы әрекетін орындайды, екі рөлді пернеден кейін бірден жасалған шерту немесе айналдыру оның модификаторынан бұрын жетуі мүмкін, ал тінтуір түймелерін әрекет ретінде жіберу мүмкін емес. Бастапқы әрекет кедергі келтірсе, оны жүйенің, браузердің немесе драйвердің баптауларында өшіріңіз."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Тінтуір таңдалмаса, екі рөлді пернені немесе қабат пернесін басқаннан кейін бірден жасалған шерту оның модификаторынсыз жетеді, ал перне кейін бәрібір таңба теруі мүмкін."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Бұл құрылғы тінтуір де, сенсорлық тақта да емес. Сенсорлық экрандарды, графикалық планшеттерді және ойын контроллерлерін таңдау мүмкін емес."
 
 msgid "Refresh device list"
 msgstr "Құрылғылар тізімін жаңарту"

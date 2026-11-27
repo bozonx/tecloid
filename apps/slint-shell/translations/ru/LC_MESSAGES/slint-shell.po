@@ -1282,11 +1282,20 @@ msgstr "Разрешите команды на вкладке «Команды»
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Выберите физическое устройство, события которого нужно перехватывать."
 
-msgid "Select the mouse so the mapper can see extra buttons and clicks. Pointer movement is not affected."
-msgstr "Выберите мышь, чтобы маппер видел дополнительные кнопки и клики. Движение курсора не затрагивается."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Выберите мышь, чтобы клавиши с двумя ролями и клавиши слоёв реагировали на её клики и колесо, а её дополнительные кнопки можно было переназначить."
 
-msgid "The mouse is not fully intercepted yet: a remapped extra button can emit the new action, but its native system or app action may still run. If that gets in the way, disable the native action for that button in your system, browser, or driver settings."
-msgstr "Сейчас мышь не перехватывается полностью: переназначенная дополнительная кнопка может выполнить новое действие, но её исходное действие в системе или приложении тоже может сработать. Если это мешает, отключите исходное действие этой кнопки в настройках системы, браузера или драйвера."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Пока работает маппер, мышь действует через виртуальное устройство «Tecloid Pointer». Настройки указателя, сохранённые в системе именно для этой мыши, возможно, придётся один раз задать и для него."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Кнопки мыши и колесо отслеживаются, но не перехватываются: переназначенная кнопка всё равно выполняет своё исходное действие, клик или прокрутка сразу после клавиши с двумя ролями могут прийти раньше её модификатора, а кнопки мыши нельзя отправлять как действия. Если исходное действие мешает, отключите его в настройках системы, браузера или драйвера."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Без выбранной мыши клик сразу после нажатия клавиши с двумя ролями или клавиши слоя приходит без её модификатора, а сама клавиша может потом ещё и напечататься."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Это устройство — не мышь и не тачпад. Сенсорные экраны, графические планшеты и игровые контроллеры выбрать нельзя."
 
 msgid "Refresh device list"
 msgstr "Обновить список устройств"

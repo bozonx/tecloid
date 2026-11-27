@@ -1337,17 +1337,20 @@ msgid "Pick the physical device whose events should be intercepted."
 msgstr ""
 "Alegeți dispozitivul fizic ale cărui evenimente ar trebui interceptate."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Selectați mouse-ul pentru ca mapperul să vadă butoanele suplimentare și clicurile. Mișcarea cursorului nu este afectată."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Selectați mouse-ul pentru ca tastele cu rol dublu și tastele de strat să reacționeze la clicurile și rotița lui și pentru ca butoanele lui suplimentare să poată fi reatribuite."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Mouse-ul nu este încă interceptat complet: un buton suplimentar remapat poate emite noua acțiune, dar acțiunea lui nativă din sistem sau din aplicație poate rula în continuare. Dacă vă deranjează, dezactivați acțiunea nativă a acelui buton în setările sistemului, ale browserului sau ale driverului."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Cât timp mapperul rulează, mouse-ul funcționează prin dispozitivul virtual „Tecloid Pointer”. Setările cursorului salvate pentru acest mouse anume ar putea trebui setate o dată și pentru acel dispozitiv."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Butoanele și rotița mouse-ului sunt observate, nu interceptate: un buton reatribuit își execută în continuare acțiunea originală, un clic sau o derulare imediat după o tastă cu rol dublu poate ajunge înaintea modificatorului ei, iar butoanele mouse-ului nu pot fi trimise ca acțiuni. Dacă o acțiune originală vă încurcă, dezactivați-o în setările sistemului, browserului sau driverului."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Fără un mouse selectat, un clic imediat după apăsarea unei taste cu rol dublu sau de strat ajunge fără modificatorul ei, iar tasta poate totuși să scrie după aceea."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Acest dispozitiv nu este mouse sau touchpad. Ecranele tactile, tabletele grafice și controlerele de joc nu pot fi selectate."
 
 msgid "Refresh device list"
 msgstr "Actualizează lista de dispozitive"

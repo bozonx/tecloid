@@ -13,6 +13,9 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 - On Linux, a mouse with letter keys on the same input node is offered as a mouse rather than as a keyboard that cannot start. A mouse held down while the mapper starts is grabbed once released and is never replaced by another device at the same path; its own held modifiers no longer block text input.
 - On Windows, the mouse wheel counts as use of held layer and dual-role keys, mouse buttons released on the secure desktop are released on return, and mouse button actions are marked unavailable instead of doing nothing.
 - The action picker's capture records the mouse Back and Forward buttons.
+- On Linux, a touchscreen, pen tablet or controller chosen as the mouse is reported as unsupported as soon as it is selected.
+- On Linux, a mouse button held through a system permission dialog or mapper stop is released, and a key mapped to the same button no longer lifts it while the physical button is still held. A clickpad button is sent after the touch position of its frame.
+- The mouse settings explain that dual-role and layer keys need the mouse to see clicks and the wheel, that on Linux it works through the “Tecloid Pointer” device, and, when no mouse is selected, what a quick click after such a key does. The Windows note lists what mouse interception does not do yet.
 
 - Advanced rule options omit hidden fields from the layout instead of leaving blank gaps.
 

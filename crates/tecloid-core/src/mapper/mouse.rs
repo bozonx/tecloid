@@ -16,6 +16,8 @@ pub enum MouseStatus {
     AccessDenied,
     DeviceChanged,
     InUse,
+    /// Not a mouse or touchpad (a touchscreen, pen tablet or controller).
+    Unsupported,
     Unavailable,
 }
 
@@ -37,9 +39,13 @@ pub fn probe(path: Option<&str>) -> MouseStatus {
     };
     #[cfg(target_os = "linux")]
     {
-        std::fs::File::open(path)
-            .map(|_| MouseStatus::Ready)
-            .unwrap_or_else(|error| MouseStatus::from_error(&error))
+        match evdev::Device::open(path) {
+            Ok(device) if super::linux::validate_mouse_capabilities(&device).is_err() => {
+                MouseStatus::Unsupported
+            }
+            Ok(_) => MouseStatus::Ready,
+            Err(error) => MouseStatus::from_error(&error),
+        }
     }
     #[cfg(not(target_os = "linux"))]
     {
@@ -95,8 +101,9 @@ mod tests {
             let dir = tempfile::tempdir().unwrap();
             let path = dir.path().join("mouse");
             assert_eq!(probe(path.to_str()), MouseStatus::Missing);
+            // A readable file that is no input device cannot be the mouse.
             std::fs::write(&path, "").unwrap();
-            assert_eq!(probe(path.to_str()), MouseStatus::Ready);
+            assert_eq!(probe(path.to_str()), MouseStatus::Unavailable);
         }
     }
 

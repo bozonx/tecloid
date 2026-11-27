@@ -580,7 +580,7 @@ export component SettingsPage inherits PageLayout {
                         MapperStatusCard { horizontal-stretch: 1; }
                         // Takes only what is left once the card reaches its max width.
                         Rectangle { horizontal-stretch: 0.0001; min-width: 0px; }
-                        VerticalLayout { alignment: center; InfoTip { text: @tr("The mapper intercepts keyboard input, applies layers, rules and macros, and emits output through a virtual device.") + "\n\n" + @tr("Select the mouse so the mapper can see extra buttons and clicks. Pointer movement is not affected.") + (AppState.is-windows ? "\n\n" + @tr("The mouse is not fully intercepted yet: a remapped extra button can emit the new action, but its native system or app action may still run. If that gets in the way, disable the native action for that button in your system, browser, or driver settings.") : ""); } }
+                        VerticalLayout { alignment: center; InfoTip { text: @tr("The mapper intercepts keyboard input, applies layers, rules and macros, and emits output through a virtual device.") + "\n\n" + @tr("Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped.") + "\n\n" + (AppState.is-windows ? @tr("Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings.") : @tr("While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device.")); } }
                     }
                     if AppState.mapper-supported: TitledCard {
                         accessible-name: @tr("Mapper");
@@ -613,6 +613,8 @@ export component SettingsPage inherits PageLayout {
                                 color: SettingsEditor.mouse-status.id == "mouse-ready" || SettingsEditor.mouse-status.id == "mouse-connected" ? Theme.muted : Theme.warning;
                                 wrap: word-wrap;
                             }
+                            // Without the mouse, holds cannot be decided by clicks: say so where it is chosen.
+                            if SettingsEditor.mouse-device-path == "": Text { text: @tr("Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."); color: Theme.muted; font-size: Theme.font-body; wrap: word-wrap; }
                             if AppState.is-windows: CheckBox { text: @tr("Intercept buttons of all mice"); enabled: AppState.mapper-supported && !AppState.mapper-busy; checked: SettingsEditor.mouse-device-path == "windows:mouse"; toggled => { SettingsEditor.select-mouse(self.checked ? "windows:mouse" : ""); } }
                         }
                     }

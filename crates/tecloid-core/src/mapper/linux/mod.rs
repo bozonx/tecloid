@@ -684,7 +684,7 @@ fn run_device(
                 Ok(()) => devices.push(mouse),
                 Err(error) => {
                     log::warn!("[mapper] mouse {mp}: {error}");
-                    mouse_status.set(super::mouse::MouseStatus::Unavailable);
+                    mouse_status.set(super::mouse::MouseStatus::Unsupported);
                 }
             },
             Err(error) => {
@@ -818,7 +818,7 @@ fn validate_keyboard_capabilities(
 /// tablets and joysticks report absolute positions or tools that a
 /// grab-and-replay pointer cannot forward faithfully, so they stay with the
 /// desktop.
-fn validate_mouse_capabilities(mouse: &Device) -> Result<(), String> {
+pub(crate) fn validate_mouse_capabilities(mouse: &Device) -> Result<(), String> {
     pointer_capabilities(
         mouse.properties(),
         mouse.supported_keys(),

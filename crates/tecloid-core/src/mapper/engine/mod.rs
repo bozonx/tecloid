@@ -400,6 +400,14 @@ impl Engine {
             }
             if !self.should_handle_mouse_button(key, down) {
                 out.push(EngineOutput::KeyRaw { key, down });
+                if down {
+                    // Tracked like a passed-through key: a dialog or shutdown
+                    // releases it, and a mapped key sending the same button
+                    // does not release it under the held physical button.
+                    self.virt
+                        .emitted
+                        .insert(key, Keystroke { mods: vec![], key });
+                }
                 return;
             }
             // Fall through to normal key handling below.

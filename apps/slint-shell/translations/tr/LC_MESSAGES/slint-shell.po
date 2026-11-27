@@ -1330,17 +1330,20 @@ msgstr ""
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Olayları yakalanacak fiziksel cihazı seçin."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Eşleyicinin ek düğmeleri ve tıklamaları görebilmesi için fareyi seçin. İşaretçi hareketi etkilenmez."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Çift görevli tuşların ve katman tuşlarının farenin tıklamalarına ve tekerleğine tepki vermesi ve ek düğmelerinin yeniden atanabilmesi için fareyi seçin."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Fare henüz tam olarak yakalanmıyor: yeniden eşlenen bir ek düğme yeni eylemi tetikleyebilir, ancak düğmenin sistemdeki veya uygulamadaki yerel eylemi yine de çalışabilir. Bu sorun olursa o düğmenin yerel eylemini sistem, tarayıcı veya sürücü ayarlarından kapatın."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Eşleyici çalışırken fare “Tecloid Pointer” sanal aygıtı üzerinden çalışır. Bu fareye özel kaydedilmiş işaretçi ayarlarının bu aygıt için bir kez ayarlanması gerekebilir."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Fare düğmeleri ve tekerleği izlenir, ancak yakalanmaz: yeniden atanmış bir düğme özgün eylemini yine gerçekleştirir, çift görevli bir tuştan hemen sonraki tıklama veya kaydırma, tuşun değiştiricisinden önce ulaşabilir ve fare düğmeleri eylem olarak gönderilemez. Özgün bir eylem rahatsız ederse sistem, tarayıcı veya sürücü ayarlarından kapatın."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Fare seçilmeden, çift görevli bir tuşa veya katman tuşuna basıldıktan hemen sonraki tıklama değiştiricisi olmadan ulaşır ve tuş ardından yine de karakter yazabilir."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Bu aygıt fare veya dokunmatik yüzey değil. Dokunmatik ekranlar, grafik tabletler ve oyun denetleyicileri seçilemez."
 
 msgid "Refresh device list"
 msgstr "Cihaz listesini yenile"

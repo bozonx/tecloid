@@ -1336,17 +1336,20 @@ msgstr ""
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Elija el dispositivo físico cuyos eventos deben ser interceptados."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Seleccione el ratón para que el mapeador vea los botones adicionales y los clics. El movimiento del puntero no se ve afectado."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Seleccione el ratón para que las teclas de doble función y las teclas de capa reaccionen a sus clics y a su rueda, y para poder reasignar sus botones adicionales."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "El ratón aún no se intercepta por completo: un botón adicional reasignado puede emitir la nueva acción, pero su acción nativa del sistema o de la aplicación puede seguir ejecutándose. Si eso molesta, desactive la acción nativa de ese botón en la configuración del sistema, del navegador o del controlador."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Mientras el mapeador funciona, el ratón actúa a través del dispositivo virtual «Tecloid Pointer». Puede que haya que definir una vez para ese dispositivo los ajustes del puntero guardados para este ratón concreto."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Los botones y la rueda del ratón se observan, pero no se interceptan: un botón reasignado sigue realizando su acción original, un clic o desplazamiento justo después de una tecla de doble función puede llegar antes que su modificador, y los botones del ratón no se pueden enviar como acciones. Si una acción original molesta, desactívela en los ajustes del sistema, del navegador o del controlador."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Sin un ratón seleccionado, un clic justo después de pulsar una tecla de doble función o de capa llega sin su modificador, y la tecla puede escribir igualmente después."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Este dispositivo no es un ratón ni un panel táctil. No se pueden seleccionar pantallas táctiles, tabletas gráficas ni mandos de juego."
 
 msgid "Refresh device list"
 msgstr "Actualizar lista de dispositivos"

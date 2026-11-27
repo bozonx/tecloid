@@ -501,3 +501,42 @@ fn wheel_leaves_a_pure_layer_key_undecided() {
     // The layer maps no wheel, so the scroll decides nothing.
     assert!(out.is_empty());
 }
+
+#[test]
+fn passed_through_click_is_released_by_a_dialog_and_not_under_a_mapped_click() {
+    let cfg: MapperConfig = serde_json::from_value(serde_json::json!({
+        "rules": [{"key": "CapsLock", "layerId": "m"}],
+        "layerKeymaps": {"m": {"keys": {"KeyJ": "MouseLeft"}}}
+    }))
+    .unwrap();
+    let mut engine = Engine::new(&cfg);
+    // Physical drag; a system dialog suspends input in the middle of it.
+    let mut out = run(&mut engine, &[(KeyCode::BTN_LEFT, true)]);
+    engine.suspend_input(&mut out);
+    assert_eq!(
+        transitions(&out),
+        [(KeyCode::BTN_LEFT, true), (KeyCode::BTN_LEFT, false)]
+    );
+
+    // A layer key sends the same button while the physical one is held:
+    // the first release must not lift the button under the other.
+    let mut engine = Engine::new(&cfg);
+    let out = run(
+        &mut engine,
+        &[
+            (KeyCode::KEY_CAPSLOCK, true),
+            (KeyCode::BTN_LEFT, true),
+            (KeyCode::KEY_J, true),
+            (KeyCode::KEY_J, false),
+            (KeyCode::BTN_LEFT, false),
+        ],
+    );
+    let left: Vec<_> = transitions(&out)
+        .into_iter()
+        .filter(|(key, _)| *key == KeyCode::BTN_LEFT)
+        .collect();
+    assert_eq!(
+        left,
+        [(KeyCode::BTN_LEFT, true), (KeyCode::BTN_LEFT, true), (KeyCode::BTN_LEFT, false)]
+    );
+}

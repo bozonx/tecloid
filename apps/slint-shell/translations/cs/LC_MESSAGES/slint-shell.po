@@ -1337,17 +1337,20 @@ msgstr "Před spuštěním této akce schvalte příkazy na kartě Příkazy"
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Vyberte fyzické zařízení, jehož události mají být zachyceny."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Vyberte myš, aby mapovač viděl další tlačítka a kliknutí. Pohyb ukazatele není ovlivněn."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Vyberte myš, aby klávesy s dvojí funkcí a klávesy vrstev reagovaly na její kliknutí a kolečko a aby bylo možné přemapovat její další tlačítka."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Myš zatím není plně zachytávána: přemapované tlačítko navíc může vyvolat novou akci, ale jeho nativní akce systému nebo aplikace se může stále provést. Pokud to vadí, vypněte nativní akci tohoto tlačítka v nastavení systému, prohlížeče nebo ovladače."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Když mapovač běží, myš pracuje přes virtuální zařízení „Tecloid Pointer“. Nastavení ukazatele uložená pro tuto konkrétní myš bude možná potřeba jednou nastavit i pro toto zařízení."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Tlačítka a kolečko myši jsou sledována, ale nezachytávána: přemapované tlačítko stále provede svou původní akci, kliknutí nebo posun hned po klávese s dvojí funkcí může dorazit dříve než její modifikátor a tlačítka myši nelze odesílat jako akce. Pokud původní akce překáží, vypněte ji v nastavení systému, prohlížeče nebo ovladače."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Bez vybrané myši dorazí kliknutí hned po stisku klávesy s dvojí funkcí nebo klávesy vrstvy bez jejího modifikátoru a klávesa pak může přesto napsat znak."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Toto zařízení není myš ani touchpad. Dotykové obrazovky, grafické tablety a herní ovladače nelze vybrat."
 
 msgid "Refresh device list"
 msgstr "Obnovit seznam zařízení"

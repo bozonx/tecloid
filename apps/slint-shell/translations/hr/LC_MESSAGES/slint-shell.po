@@ -1335,17 +1335,20 @@ msgstr "Prije pokretanja ove radnje odobrite naredbe na kartici Naredbe"
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Odaberite fizički uređaj čije događaje treba presresti."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Odaberite miš kako bi maper vidio dodatne gumbe i klikove. Kretanje pokazivača nije pogođeno."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Odaberite miš kako bi tipke s dvostrukom ulogom i tipke slojeva reagirale na njegove klikove i kotačić te kako bi se njegovi dodatni gumbi mogli preraspodijeliti."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Miš još nije potpuno presretnut: remapirani dodatni gumb može pokrenuti novu radnju, ali se i dalje može izvesti njegova izvorna radnja sustava ili aplikacije. Ako vam to smeta, onemogućite izvornu radnju tog gumba u postavkama sustava, preglednika ili upravljačkog programa."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Dok maper radi, miš radi preko virtualnog uređaja „Tecloid Pointer”. Postavke pokazivača spremljene za upravo ovaj miš možda ćete morati jednom postaviti i za taj uređaj."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Gumbi i kotačić miša se prate, ali ne presreću: preraspodijeljeni gumb i dalje izvodi svoju izvornu radnju, klik ili pomicanje odmah nakon tipke s dvostrukom ulogom može stići prije njezina modifikatora, a gumbi miša ne mogu se slati kao radnje. Ako izvorna radnja smeta, isključite je u postavkama sustava, preglednika ili upravljačkog programa."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Bez odabranog miša klik odmah nakon pritiska tipke s dvostrukom ulogom ili tipke sloja stiže bez njezina modifikatora, a tipka poslije svejedno može upisati znak."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Ovaj uređaj nije miš ni dodirna ploča. Zasloni osjetljivi na dodir, grafički tableti i kontroleri za igre ne mogu se odabrati."
 
 msgid "Refresh device list"
 msgstr "Osvježi popis uređaja"

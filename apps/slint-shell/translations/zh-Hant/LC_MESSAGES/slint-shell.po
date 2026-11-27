@@ -1319,17 +1319,20 @@ msgstr "執行此操作前，請在“命令”選項卡上批准命令"
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "選擇要攔截其事件的物理裝置。"
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "選擇滑鼠，使映射器能看到額外按鈕和點選。指標移動不受影響。"
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "選擇滑鼠，使雙功能按鍵和層按鍵能回應其點選和滾輪，並可重新分配其額外按鈕。"
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "滑鼠尚未被完全攔截：重新映射的額外按鈕可以發出新操作，但其原有的系統或應用操作仍可能執行。如有影響，請在系統、瀏覽器或驅動程式設定中禁用該按鈕的原有操作。"
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "映射器執行時，滑鼠透過虛擬裝置「Tecloid Pointer」運作。為這隻滑鼠單獨儲存的指標設定可能需要為該裝置重新設定一次。"
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "滑鼠按鈕和滾輪只會被監測，不會被攔截：重新分配的按鈕仍會執行其原有動作，雙功能按鍵之後緊接著的點選或捲動可能先於其修飾鍵到達，且無法將滑鼠按鈕作為動作傳送。如果原有動作造成干擾，請在系統、瀏覽器或驅動程式設定中將其關閉。"
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "未選擇滑鼠時，按下雙功能按鍵或層按鍵後緊接著的點選會在沒有修飾鍵的情況下到達，之後該按鍵仍可能輸入字元。"
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "此裝置不是滑鼠或觸控板。無法選擇觸控螢幕、繪圖板和遊戲控制器。"
 
 msgid "Refresh device list"
 msgstr "刷新設備列表"

@@ -1341,17 +1341,20 @@ msgid "Pick the physical device whose events should be intercepted."
 msgstr ""
 "Wybierz urządzenie fizyczne, którego zdarzenia mają zostać przechwycone."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Wybierz mysz, aby maper widział dodatkowe przyciski i kliknięcia. Nie wpływa to na ruch wskaźnika."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Wybierz mysz, aby klawisze o podwójnej funkcji i klawisze warstw reagowały na jej kliknięcia i kółko oraz aby można było przypisać na nowo jej dodatkowe przyciski."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Mysz nie jest jeszcze w pełni przechwytywana: przemapowany dodatkowy przycisk może wywołać nową akcję, ale jego natywna akcja systemu lub aplikacji może nadal zostać wykonana. Jeśli to przeszkadza, wyłącz natywną akcję tego przycisku w ustawieniach systemu, przeglądarki lub sterownika."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Gdy maper działa, mysz pracuje przez urządzenie wirtualne „Tecloid Pointer”. Ustawienia wskaźnika zapisane dla tej konkretnej myszy może być trzeba raz ustawić dla tego urządzenia."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Przyciski i kółko myszy są obserwowane, a nie przechwytywane: przypisany na nowo przycisk nadal wykonuje swoje pierwotne działanie, kliknięcie lub przewinięcie tuż po klawiszu o podwójnej funkcji może dotrzeć przed jego modyfikatorem, a przycisków myszy nie można wysyłać jako akcji. Jeśli pierwotne działanie przeszkadza, wyłącz je w ustawieniach systemu, przeglądarki lub sterownika."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Bez wybranej myszy kliknięcie tuż po naciśnięciu klawisza o podwójnej funkcji lub klawisza warstwy dociera bez jego modyfikatora, a sam klawisz może potem i tak wpisać znak."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "To urządzenie nie jest myszą ani touchpadem. Nie można wybrać ekranów dotykowych, tabletów graficznych ani kontrolerów do gier."
 
 msgid "Refresh device list"
 msgstr "Odśwież listę urządzeń"

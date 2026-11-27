@@ -476,6 +476,7 @@ impl Msg {
                         "mouse-device-changed"
                     }
                     tecloid_core::mapper::mouse::MouseStatus::InUse => "mouse-in-use",
+                    tecloid_core::mapper::mouse::MouseStatus::Unsupported => "mouse-unsupported",
                     tecloid_core::mapper::mouse::MouseStatus::Unavailable => "mouse-unavailable",
                 },
                 empty(),

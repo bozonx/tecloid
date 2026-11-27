@@ -1340,17 +1340,20 @@ msgstr "დაადასტურეთ ბრძანებები ბრ�
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "აირჩიეთ ფიზიკური მოწყობილობა, რომლის მოვლენებიც უნდა გადაიჭიროს."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "აირჩიეთ მაუსი, რომ მაპერმა დაინახოს დამატებითი ღილაკები და დაწკაპუნებები. მაჩვენებლის მოძრაობაზე ეს გავლენას არ ახდენს."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "აირჩიეთ მაუსი, რომ ორმაგი როლის კლავიშები და ფენის კლავიშები რეაგირებდნენ მის დაწკაპუნებებსა და ბორბალზე და მისი დამატებითი ღილაკების ხელახლა მინიჭება შესაძლებელი იყოს."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "მაუსი ჯერ სრულად არ არის გადაჭერილი: გადანაწილებულ დამატებით ღილაკს შეუძლია ახალი მოქმედების შესრულება, მაგრამ მისი თავდაპირველი სისტემური ან აპლიკაციის მოქმედებაც შეიძლება შესრულდეს. თუ ეს ხელს გიშლით, გამორთეთ ამ ღილაკის თავდაპირველი მოქმედება სისტემის, ბრაუზერის ან დრაივერის პარამეტრებში."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "სანამ მაპერი მუშაობს, მაუსი ვირტუალური მოწყობილობის „Tecloid Pointer“ გავლით მუშაობს. სწორედ ამ მაუსისთვის შენახული მაჩვენებლის პარამეტრები შესაძლოა ერთხელ ამ მოწყობილობისთვისაც უნდა დააყენოთ."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "მაუსის ღილაკებსა და ბორბალს პროგრამა აკვირდება, მაგრამ არ იჭერს: ხელახლა მინიჭებული ღილაკი მაინც ასრულებს თავის საწყის მოქმედებას, დაწკაპუნება ან გადახვევა ორმაგი როლის კლავიშის შემდეგ შეიძლება მის მოდიფიკატორზე ადრე მივიდეს, ხოლო მაუსის ღილაკების მოქმედებებად გაგზავნა შეუძლებელია. თუ საწყისი მოქმედება ხელს გიშლით, გამორთეთ ის სისტემის, ბრაუზერის ან დრაივერის პარამეტრებში."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "არჩეული მაუსის გარეშე დაწკაპუნება ორმაგი როლის ან ფენის კლავიშის დაჭერისთანავე მოდიფიკატორის გარეშე მიდის, ხოლო კლავიშმა შემდეგ შეიძლება სიმბოლოც აკრიფოს."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "ეს მოწყობილობა არც მაუსია და არც სენსორული პანელი. სენსორული ეკრანების, გრაფიკული პლანშეტების და სათამაშო კონტროლერების არჩევა შეუძლებელია."
 
 msgid "Refresh device list"
 msgstr "განაახლეთ მოწყობილობების სია"

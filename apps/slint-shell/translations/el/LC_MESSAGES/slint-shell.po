@@ -1340,17 +1340,20 @@ msgstr ""
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Επιλέξτε τη φυσική συσκευή της οποίας τα συμβάντα θα αναχαιτίζονται."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Επιλέξτε το ποντίκι ώστε ο αντιστοιχιστής να βλέπει τα επιπλέον κουμπιά και τα κλικ. Η κίνηση του δείκτη δεν επηρεάζεται."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Επιλέξτε το ποντίκι ώστε τα πλήκτρα διπλού ρόλου και τα πλήκτρα επιπέδων να αντιδρούν στα κλικ και στη ροδέλα του, και ώστε να μπορούν να αντιστοιχιστούν ξανά τα επιπλέον κουμπιά του."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Το ποντίκι δεν αναχαιτίζεται ακόμη πλήρως: ένα επαναντιστοιχισμένο επιπλέον κουμπί μπορεί να εκτελέσει τη νέα ενέργεια, αλλά η εγγενής ενέργεια του συστήματος ή της εφαρμογής μπορεί να εκτελεστεί κι αυτή. Αν αυτό σας ενοχλεί, απενεργοποιήστε την εγγενή ενέργεια του κουμπιού στις ρυθμίσεις του συστήματος, του προγράμματος περιήγησης ή του προγράμματος οδήγησης."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Όσο λειτουργεί ο αντιστοιχιστής, το ποντίκι λειτουργεί μέσω της εικονικής συσκευής «Tecloid Pointer». Ρυθμίσεις δείκτη που έχουν αποθηκευτεί ειδικά για αυτό το ποντίκι ίσως χρειαστεί να οριστούν μία φορά και για αυτή τη συσκευή."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Τα κουμπιά και η ροδέλα του ποντικιού παρακολουθούνται αλλά δεν υποκλέπτονται: ένα κουμπί με νέα αντιστοίχιση εκτελεί ακόμη την αρχική του ενέργεια, ένα κλικ ή μια κύλιση αμέσως μετά από πλήκτρο διπλού ρόλου μπορεί να φτάσει πριν από τον τροποποιητή του, και τα κουμπιά του ποντικιού δεν μπορούν να σταλούν ως ενέργειες. Αν μια αρχική ενέργεια ενοχλεί, απενεργοποιήστε την στις ρυθμίσεις του συστήματος, του προγράμματος περιήγησης ή του προγράμματος οδήγησης."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Χωρίς επιλεγμένο ποντίκι, ένα κλικ αμέσως μετά το πάτημα πλήκτρου διπλού ρόλου ή πλήκτρου επιπέδου φτάνει χωρίς τον τροποποιητή του, και το πλήκτρο μπορεί μετά να πληκτρολογήσει ακόμη χαρακτήρα."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Αυτή η συσκευή δεν είναι ποντίκι ούτε επιφάνεια αφής. Οθόνες αφής, ταμπλέτες γραφίδας και χειριστήρια παιχνιδιών δεν μπορούν να επιλεγούν."
 
 msgid "Refresh device list"
 msgstr "Ανανέωση λίστας συσκευών"

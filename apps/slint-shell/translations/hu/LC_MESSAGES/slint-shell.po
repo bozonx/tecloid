@@ -1337,17 +1337,20 @@ msgstr ""
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Válassza ki azt a fizikai eszközt, amelynek eseményeit el kell fogni."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Válassza ki az egeret, hogy a leképező lássa az extra gombokat és kattintásokat. Az egérmutató mozgását ez nem érinti."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Válassza ki az egeret, hogy a kettős szerepű billentyűk és a rétegbillentyűk reagáljanak a kattintásaira és a görgőjére, és hogy az extra gombjai átkiosztathatók legyenek."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Az egér még nincs teljesen elfogva: egy átképezett extra gomb kiválthatja az új műveletet, de a rendszer vagy az alkalmazás natív művelete is lefuthat. Ha ez zavar, kapcsolja ki az adott gomb natív műveletét a rendszer, a böngésző vagy az illesztőprogram beállításaiban."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Amíg a leképező fut, az egér a „Tecloid Pointer” virtuális eszközön keresztül működik. A kifejezetten ehhez az egérhez mentett mutatóbeállításokat lehet, hogy egyszer meg kell adni ehhez az eszközhöz is."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "Az egérgombokat és a görgőt a program figyeli, de nem fogja el: az átkiosztott gomb továbbra is végrehajtja eredeti műveletét, a kettős szerepű billentyű utáni azonnali kattintás vagy görgetés a módosítója előtt érkezhet meg, és egérgombok nem küldhetők műveletként. Ha egy eredeti művelet zavar, kapcsolja ki a rendszer, a böngésző vagy az illesztőprogram beállításaiban."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Kiválasztott egér nélkül a kettős szerepű vagy rétegbillentyű lenyomása utáni azonnali kattintás a módosítója nélkül érkezik, és a billentyű utána még karaktert is beírhat."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Ez az eszköz nem egér és nem érintőpad. Érintőképernyő, rajztábla és játékvezérlő nem választható."
 
 msgid "Refresh device list"
 msgstr "Eszközlista frissítése"

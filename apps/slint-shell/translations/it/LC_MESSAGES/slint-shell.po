@@ -1344,17 +1344,20 @@ msgstr "Approva i comandi nella scheda Comandi prima di eseguire questa azione"
 msgid "Pick the physical device whose events should be intercepted."
 msgstr "Scegli il dispositivo fisico i cui eventi devono essere intercettati."
 
-msgid ""
-"Select the mouse so the mapper can see extra buttons and clicks. Pointer "
-"movement is not affected."
-msgstr "Seleziona il mouse affinché il mapper veda i pulsanti aggiuntivi e i clic. Il movimento del puntatore non viene influenzato."
+msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
+msgstr "Seleziona il mouse affinché i tasti a doppio ruolo e i tasti livello reagiscano ai suoi clic e alla sua rotellina, e per poter riassegnare i suoi pulsanti aggiuntivi."
 
-msgid ""
-"The mouse is not fully intercepted yet: a remapped extra button can emit the"
-" new action, but its native system or app action may still run. If that gets"
-" in the way, disable the native action for that button in your system, "
-"browser, or driver settings."
-msgstr "Il mouse non è ancora intercettato completamente: un pulsante aggiuntivo rimappato può emettere la nuova azione, ma la sua azione nativa del sistema o dell'app potrebbe comunque essere eseguita. Se ciò dà fastidio, disattiva l'azione nativa di quel pulsante nelle impostazioni del sistema, del browser o del driver."
+msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
+msgstr "Mentre il mapper è in funzione, il mouse passa per il dispositivo virtuale «Tecloid Pointer». Le impostazioni del puntatore salvate per questo specifico mouse potrebbero dover essere impostate una volta per quel dispositivo."
+
+msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
+msgstr "I pulsanti e la rotellina del mouse vengono osservati, non intercettati: un pulsante riassegnato esegue comunque la sua azione originale, un clic o uno scorrimento subito dopo un tasto a doppio ruolo può arrivare prima del suo modificatore e i pulsanti del mouse non possono essere inviati come azioni. Se un'azione originale dà fastidio, disattivala nelle impostazioni del sistema, del browser o del driver."
+
+msgid "Without a mouse, a click right after pressing a dual-role or layer key arrives without its modifier, and the key may still type afterwards."
+msgstr "Senza un mouse selezionato, un clic subito dopo la pressione di un tasto a doppio ruolo o di livello arriva senza il suo modificatore, e il tasto può comunque digitare dopo."
+
+msgid "This device is not a mouse or touchpad. Touchscreens, pen tablets and game controllers cannot be selected."
+msgstr "Questo dispositivo non è un mouse né un touchpad. Non è possibile selezionare touchscreen, tavolette grafiche e controller di gioco."
 
 msgid "Refresh device list"
 msgstr "Aggiorna l'elenco dei dispositivi"

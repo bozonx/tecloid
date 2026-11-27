@@ -455,7 +455,7 @@ impl MultiDeviceLoopDriver {
         }
         if let Err(error) = super::validate_mouse_capabilities(&mouse) {
             log::debug!("[mapper] mouse on reconnect: {error}");
-            self.set_mouse_status(MouseStatus::Unavailable);
+            self.set_mouse_status(MouseStatus::Unsupported);
             return;
         }
         if let Err(error) = Self::prepare_device(&mouse) {
@@ -711,9 +711,13 @@ impl LoopDriver for MultiDeviceLoopDriver {
             self.last_event = self.last_event.max(at);
             inputs.push(DriverInput::Pointer { event, at });
         }
+        // A button splits its pointer frame. Within one capture time the axes
+        // go first, so the button acts at the position of its own frame (a
+        // clickpad decides left or right click from where the finger is).
         inputs.sort_by_key(|input| match input {
-            DriverInput::Key { at, .. } | DriverInput::Pointer { at, .. } => *at,
-            DriverInput::Repeat(_) => now,
+            DriverInput::Pointer { at, .. } => (*at, 0),
+            DriverInput::Key { at, .. } => (*at, 1),
+            DriverInput::Repeat(_) => (now, 1),
         });
         Ok(inputs)
     }
