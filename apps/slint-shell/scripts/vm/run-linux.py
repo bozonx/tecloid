@@ -32,6 +32,10 @@ GUEST_PY = f"python3 {GUEST}/linux-guest.py"
 CONFIG = "~/.config/dev.bozonx.tecloid/config.json"
 
 
+class EisTextUnavailable(Exception):
+    """The guest portal offers no EIS text device; `libeiText` cannot be checked."""
+
+
 def decline_portal_dialogs(points, click, cancelled, visible):
     """Some portal versions finish after one Cancel, others show another dialog."""
     for index, point in enumerate(points):
@@ -244,28 +248,62 @@ def main():
             raise StepFailed(f"expected {expected!r}, received {text!r}; see {name}.png")
         return text
 
-    def terminal_paste():
-        """Paste into Konsole: auto paste must send Ctrl+Shift+V there; a
-        plain Ctrl+V reaches the tty as literal-next and no text arrives."""
-        name = "terminal-paste"
+    def terminal_typed(name, key):
+        """Text that `key` produces in a fresh Konsole receiver."""
         guest(f"start-terminal-receiver --name {name}")
         point = json.loads(guest("focus-terminal-receiver"))
         click_point(point["x"], point["y"])
         time.sleep(0.3)
-        # The Unicode text is not in the US layout, so libei mode pastes it too.
-        vm.qmp.tap("y")
+        vm.qmp.tap(key)
         time.sleep(5)
         vm.qmp.screendump(vm.logs / f"{name}.png")
         vm.qmp.tap("ret")
         try:
-            text = receiver_text(guest(f"receiver-result --name {name} --timeout 5"))
+            return receiver_text(guest(f"receiver-result --name {name} --timeout 5"))
         except StepFailed:
             # After a literal-next the first Enter is inserted as ^M; end the line.
             vm.qmp.tap("ret")
-            text = receiver_text(guest(f"receiver-result --name {name} --timeout 5"))
+            return receiver_text(guest(f"receiver-result --name {name} --timeout 5"))
+
+    def terminal_paste():
+        """Paste into Konsole: auto paste must send Ctrl+Shift+V there; a
+        plain Ctrl+V reaches the tty as literal-next and no text arrives."""
+        # The Unicode text is not in the US layout, so libei mode pastes it too.
+        text = terminal_typed("terminal-paste", "y")
         if text != TEXT_UNICODE:
-            raise StepFailed(f"expected {TEXT_UNICODE!r} in Konsole, received {text!r}; see {name}.png")
+            raise StepFailed(f"expected {TEXT_UNICODE!r} in Konsole, received {text!r}; see terminal-paste.png")
         return "auto paste shortcut pasted into Konsole"
+
+    def eis_text():
+        """EIS text (`libeiText`) commits text without keys or the clipboard,
+        in a dialog and in Konsole."""
+        guest("quit-app")
+        guest("set-text-backend libeiText")
+        guest(f"start-app --popups {args.popup_mode}")
+        guest("mapper")
+
+        def type_unicode():
+            vm.qmp.tap("y")
+            for _ in range(15):
+                if guest("portal-visible") == "yes":
+                    approve_visible_portal()
+                    return
+                time.sleep(0.2)
+
+        unavailable = "did not provide an EIS text device"
+        before = failures(unavailable)
+        problems = []
+        dialog = typed("eis-text-dialog", action=type_unicode, settle=5)
+        if not dialog and failures(unavailable) > before:
+            raise EisTextUnavailable("N/A: the guest portal provides no EIS text device")
+        if dialog != TEXT_UNICODE:
+            problems.append(f"dialog received {dialog!r}")
+        terminal = terminal_typed("eis-text-terminal", "y")
+        if terminal != TEXT_UNICODE:
+            problems.append(f"Konsole received {terminal!r}")
+        if problems:
+            raise StepFailed("; ".join(problems) + "; see eis-text-*.png")
+        return "Unicode committed in a dialog and in Konsole"
 
     def failures(reason):
         return int(guest(f"text-failures --reason {shlex.quote(reason)}"))
@@ -750,6 +788,10 @@ def main():
                             lambda: install("reinstall"), fatal=True)
             if not args.autostart_only:
                 report.step("isolated-key-backends", isolated_key_backends)
+                try:
+                    report.step("eis-text", eis_text)
+                except EisTextUnavailable as reason:
+                    report.skip("eis-text", str(reason))
             report.step("quit", guest, "quit-app")
             report.step("remove", remove)
     except (StepFailed, subprocess.SubprocessError, OSError):

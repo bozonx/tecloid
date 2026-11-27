@@ -1145,7 +1145,7 @@ def main():
     p.add_argument("--timeout", type=float, default=20)
     p = sub.add_parser("set-text-backend")
     p.add_argument("--ydotool-path")
-    p.add_argument("mode", choices=("libeiOnly", "portalKeycode", "clipboardPaste",
+    p.add_argument("mode", choices=("libeiOnly", "libeiText", "portalKeycode", "clipboardPaste",
                                     "gnomeCommitText", "ydotool", "xdotool"))
     sub.add_parser("toggle-mapper")
     p = sub.add_parser("set-mapper")

@@ -6,6 +6,7 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- The app icon has a friendlier expression, and the tray shows the same hand mascot in both active and paused states.
 - Linux text input settings list primary methods first and clipboard methods last. The wider selector shows the default marker, and the direct UTF-8 mode names the EIS request it uses (ei_text.utf8).
 - Scrolling the mouse wheel while a dual-role key is held uses its modifier (Ctrl+wheel zoom, Shift+wheel pan) instead of scrolling plainly and typing the key's tap afterwards.
 - On Linux, clicks of the selected mouse are no longer held behind macros, text input or opening popups, so they land where the pointer is; a mouse button released during a key combo is no longer delayed.

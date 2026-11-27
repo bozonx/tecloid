@@ -1,4 +1,4 @@
-//! Tray keycap pixels for the active and paused mapper states.
+//! Tray icon pixels for the active and paused mapper states.
 
 /// Side of the plain square drawn when the icon cannot be decoded.
 const FALLBACK_SIZE: u32 = 22;

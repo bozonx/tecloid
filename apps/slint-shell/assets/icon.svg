@@ -9,12 +9,12 @@
   <path fill="url(#body)" stroke="#101a31" stroke-width="2" stroke-linejoin="round"
         d="M19 33 16 13q-.4-3 2.5-3.6l5-1q3-.6 3.6 2.4L30 27 29 6q0-3 3-3h5q3 0 3 3v21l3-17q.5-3 3.5-2.5l5 .9q3 .5 2.5 3.5L51 30l4-11q1-2.7 3.7-1.7l2.3.9q2.5 1 1.5 3.7L57 40v5c0 11-8 16-19 16S20 56 15 49L4 37q-2-2 .2-4.4l3-3q2.2-2.2 4.4 0L19 37Z"/>
   <path fill="#8da7db"
-        d="m19 13 5-1 1 6-5 1Zm13-6h5v7h-5Zm14 4 5 1-1 7-5-1Zm11 10 3 1-2 5-3-1ZM7 35l3-3 5 5-3 3Z"/>
+        d="m19 13 5-1 1 6-5 1Zm13-6h5v7h-5Zm14 4 5 1-1 7-5-1Zm13 10 3 1-2 5-3-1ZM7 35l3-3 5 5-3 3Z"/>
   <path fill="#5d79b0"
         d="m21 22 5-1 1 5-5 1Zm11-4h5v6h-5Zm12 4 5 1-1 5-5-1Zm10 8 3 1-2 5-3-1Z"/>
   <path fill="#24385d" d="M19 39c0-5 8-9 18-9s17 3 17 10v5c0 9-6 13-16 13S21 52 19 45Z"/>
   <path fill="none" stroke="#a7baea" stroke-linecap="round" stroke-width="2.5"
-        d="m24 36 6 1m13 0 6-1"/>
+        d="M23 36q4-4 8-1m10 0q4-3 8 1"/>
   <g fill="#bdeaff" stroke="#101a31" stroke-width="1.5">
     <circle cx="27.5" cy="44.5" r="4.5"/>
     <circle cx="45.5" cy="44.5" r="4.5"/>
