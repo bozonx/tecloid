@@ -20,9 +20,14 @@ impl Engine {
         }
     }
 
-    /// Commit the undecided rules a mouse click needs: a held modifier or
-    /// keystroke (Shift+click), or a layer that maps `button`.
-    pub(super) fn commit_decisions_for_click(&mut self, button: KeyCode, out: &mut Vec<EngineOutput>) {
+    /// Commit the undecided rules a mouse click or scroll needs: a held
+    /// modifier or keystroke (Shift+click, Ctrl+wheel), or a layer that maps
+    /// the clicked `button`.
+    pub(super) fn commit_decisions_for_pointer(
+        &mut self,
+        button: Option<KeyCode>,
+        out: &mut Vec<EngineOutput>,
+    ) {
         let keys: Vec<KeyCode> = self
             .pending
             .iter()
@@ -30,11 +35,13 @@ impl Engine {
                 p.rule.long_hold.is_none()
                     && matches!(p.phase, RulePhase::WaitingDecision { .. })
                     && (!matches!(p.rule.hold, HoldOutputMode::Swallow)
-                        || p.rule.layer_id.as_ref().is_some_and(|layer| {
-                            self.keymap
-                                .layer_maps
-                                .get(layer)
-                                .is_some_and(|keys| keys.contains_key(&button))
+                        || button.is_some_and(|button| {
+                            p.rule.layer_id.as_ref().is_some_and(|layer| {
+                                self.keymap
+                                    .layer_maps
+                                    .get(layer)
+                                    .is_some_and(|keys| keys.contains_key(&button))
+                            })
                         }))
             })
             .map(|(k, _)| *k)

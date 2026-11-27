@@ -22,14 +22,25 @@ pub(in crate::pages) fn capture(
         abort(&picker, capture);
         return false;
     }
-    let WindowEvent::KeyboardInput { event, .. } = event else {
-        return false;
+    let (key, event_state) = match event {
+        WindowEvent::KeyboardInput { event, .. } => {
+            if event.repeat {
+                return true;
+            }
+            (physical_key_name(event.physical_key), event.state)
+        }
+        // The side buttons are valid rule triggers; the primary buttons keep
+        // operating the dialog.
+        WindowEvent::MouseInput { state, button, .. } => {
+            let Some(name) = mouse_button_name(*button) else {
+                return false;
+            };
+            (Some(name), *state)
+        }
+        _ => return false,
     };
-    if event.repeat {
-        return true;
-    }
-    let pressed = event.state == slint::winit_030::winit::event::ElementState::Pressed;
-    let Some(key) = physical_key_name(event.physical_key) else {
+    let pressed = event_state == slint::winit_030::winit::event::ElementState::Pressed;
+    let Some(key) = key else {
         if pressed {
             capture.borrow().cancel_timer.stop();
             picker.set_cancel_armed(false);
@@ -48,14 +59,14 @@ pub(in crate::pages) fn capture(
         let known = state.known(&key, picker.get_trigger_chords());
         let value = state.update(
             &key,
-            event.state,
+            event_state,
             picker.get_trigger_chords(),
             picker.get_key_only(),
         );
         picker.set_capture_keys(state.held.join("+").into());
         (known, value)
     };
-    if event.state == slint::winit_030::winit::event::ElementState::Pressed {
+    if pressed {
         picker.set_capture_unsupported(!known);
     }
     picker.set_cancel_armed(capture.borrow().cancel_timer.running());
@@ -106,6 +117,19 @@ pub(super) fn cancel(picker: &ActionPicker) {
 pub(super) fn abort(picker: &ActionPicker, capture: &RefCell<CaptureState>) {
     capture.borrow_mut().reset();
     cancel(picker);
+}
+
+/// Config key code of a mouse button capture records: only the side
+/// buttons, which winit names on every platform.
+pub(super) fn mouse_button_name(
+    button: slint::winit_030::winit::event::MouseButton,
+) -> Option<String> {
+    use slint::winit_030::winit::event::MouseButton;
+    match button {
+        MouseButton::Back => Some("MouseBack".into()),
+        MouseButton::Forward => Some("MouseForward".into()),
+        _ => None,
+    }
 }
 
 /// Config key code of a physical key. Keys winit cannot name on Linux

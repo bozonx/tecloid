@@ -197,17 +197,23 @@ fn is_keyboard(dev: &Device) -> bool {
         KeyCode::KEY_SPACE,
         KeyCode::KEY_ENTER,
     ];
+    // A node that also reports pointer input cannot run as the keyboard
+    // (the grab would block its pointer); it is offered as a mouse.
     required.iter().all(|k| keys.contains(*k))
+        && super::validate_keyboard_capabilities(dev.supported_events(), Some(keys)).is_ok()
 }
 
 fn is_mouse(dev: &Device) -> bool {
     let Some(keys) = dev.supported_keys() else {
         return false;
     };
-    // Heuristic: mouse has left/right buttons but NOT letter keys.
-    // We also skip devices that already pass the keyboard heuristic
-    // (mixed interfaces cannot safely be grabbed by the keyboard backend).
-    keys.contains(KeyCode::BTN_LEFT) && keys.contains(KeyCode::BTN_RIGHT) && !is_keyboard(dev)
+    // Heuristic: a pointer with left/right buttons. A node that also has
+    // letter keys (a gaming mouse's macro keys) is a mouse too: the keyboard
+    // backend cannot grab it, while its keys are still remapped as a mouse.
+    keys.contains(KeyCode::BTN_LEFT)
+        && keys.contains(KeyCode::BTN_RIGHT)
+        && !is_keyboard(dev)
+        && super::validate_mouse_capabilities(dev).is_ok()
 }
 
 #[cfg(test)]

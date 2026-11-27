@@ -37,6 +37,13 @@ recommend (`xdotool`, `x11-utils`/`xprop`, `x11-xserver-utils`/`xset`). KDE Wayl
 needs nothing extra (a persistent KWin script reports focus over D-Bus; calls not
 from KWin are ignored).
 
+Mouse: the selected mouse or touchpad is grabbed and replayed through
+"Tecloid Pointer", which keeps the physical bus/vendor/product id (udev hwdb and
+libinput quirks still match). Its buttons go through the engine; axes, touch and
+tool codes (`BTN_TOUCH`, `BTN_TOOL_*`) and misc data stay in their `SYN_REPORT`
+frame. Touchscreens, pen tablets and game controllers are rejected as mice.
+Clicks are never held behind macros, text or popups, since pointer motion is not.
+
 Distribution: tar.gz into `~/.local`, deb and rpm (nfpm), built on Ubuntu 22.04
 (glibc 2.35). Flathub/Snap are not possible: a sandbox cannot install the udev
 rule or open `/dev/uinput`.
@@ -188,6 +195,10 @@ Windows ones (redo `Ctrl+Y`). User `Ctrl+KeyC` chords stay physical. Settings
   queues. Output is `SendInput` with scan codes, so the target's layout applies.
   Injected input is never processed (own output and other tools). Windows does
   not auto-repeat injected keys, so the engine re-presses held keys on repeats.
+- Mouse buttons and the wheel are observed, not captured: they commit pending
+  holds but reach the window unchanged and possibly before the committed
+  modifier. Mouse button output is not injected; such actions are shown as
+  unavailable.
 - No per-device interception without a driver: the mapper takes every keyboard
   of the session ("All keyboards"). Input to elevated windows and the secure
   desktop (UAC, Ctrl+Alt+Del, lock screen) bypasses hooks; on return, keys

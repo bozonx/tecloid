@@ -18,7 +18,7 @@ impl HardwareState {
             evdev::enumerate()
                 .map(|(path, device)| {
                     let grabbed = std::fs::metadata(path)
-                        .is_ok_and(|meta| crate::mapper::linux::is_grabbed_keyboard(meta.rdev()));
+                        .is_ok_and(|meta| crate::mapper::linux::is_grabbed_input(meta.rdev()));
                     (grabbed, device)
                 })
                 .collect(),

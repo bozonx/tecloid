@@ -99,36 +99,75 @@ impl EventSink for VirtualEventSink<'_> {
 
 /// Build the replacement before grabbing: any setup failure leaves the
 /// physical pointer usable. A fresh device also handles reconnect capability changes.
-fn grab_mouse(mouse: &mut Device) -> Result<VirtualDevice, String> {
+fn grab_mouse(mouse: &mut Device) -> Result<VirtualDevice, MouseGrabError> {
     if mouse
         .get_key_state()
-        .map_err(|e| format!("mouse key state: {e}"))?
+        .map_err(|e| MouseGrabError::Failed(format!("mouse key state: {e}")))?
         .iter()
         .next()
         .is_some()
     {
         // Its existing press belongs to the physical device in the compositor.
         // Wait for release before moving subsequent clicks to a new device.
-        return Err("mouse buttons are still held".into());
+        return Err(MouseGrabError::ButtonsHeld);
     }
-    let virt = virtual_pointer(Some(mouse)).map_err(|e| format!("create virtual pointer: {e}"))?;
-    mouse.grab().map_err(|e| format!("grab mouse: {e}"))?;
+    let virt = virtual_pointer(Some(mouse))
+        .map_err(|e| MouseGrabError::Failed(format!("create virtual pointer: {e}")))?;
+    mouse
+        .grab()
+        .map_err(|e| MouseGrabError::Failed(format!("grab mouse: {e}")))?;
     Ok(virt)
+}
+
+/// Why the selected mouse was not grabbed (yet).
+enum MouseGrabError {
+    /// A button is down; the next retry grabs it once it is released.
+    ButtonsHeld,
+    Failed(String),
+}
+
+impl std::fmt::Display for MouseGrabError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::ButtonsHeld => f.write_str("mouse buttons are still held"),
+            Self::Failed(error) => f.write_str(error),
+        }
+    }
 }
 
 /// Also provide an output pointer for mouse actions when no physical mouse is captured.
 fn virtual_pointer(mouse: Option<&Device>) -> std::io::Result<VirtualDevice> {
     let mut builder = VirtualDevice::builder()?.name(super::VIRTUAL_POINTER_NAME);
+    if let Some(mouse) = mouse {
+        // The physical id keeps udev's hwdb entries (MOUSE_DPI, wheel click
+        // angle) and libinput quirks matched by vendor and product.
+        builder = builder.input_id(mouse.input_id());
+    }
     let mut keys = mouse
         .and_then(Device::supported_keys)
         .map(|keys| keys.iter().collect::<AttributeSet<KeyCode>>())
         .unwrap_or_default();
-    for code in 0x110..=0x117 {
-        keys.insert(KeyCode::new(code));
+    // A clickpad has a single physical button; extra buttons on it make
+    // libinput treat it as a buggy device.
+    let buttonpad =
+        mouse.is_some_and(|mouse| mouse.properties().contains(evdev::PropType::BUTTONPAD));
+    if !buttonpad {
+        for code in 0x110..=0x117 {
+            keys.insert(KeyCode::new(code));
+        }
     }
     builder = builder.with_keys(&keys)?;
     if let Some(mouse) = mouse {
         builder = builder.with_properties(mouse.properties())?;
+        if let Some(misc) = mouse.misc_properties() {
+            let misc: AttributeSet<evdev::MiscCode> = misc
+                .iter()
+                .filter(|code| *code != evdev::MiscCode::MSC_SCAN)
+                .collect();
+            if misc.iter().next().is_some() {
+                builder = builder.with_msc(&misc)?;
+            }
+        }
         if let Some(axes) = mouse.supported_relative_axes() {
             builder = builder.with_relative_axes(axes)?;
         }
@@ -254,6 +293,10 @@ pub(super) struct MultiDeviceLoopDriver {
     pub(super) mouse_output: MouseOutput,
     mouse_path: Option<String>,
     mouse_identity: Option<super::DeviceIdentity>,
+    /// Registered while the mouse in `devices[1]` is grabbed.
+    grabbed_mouse: Option<super::GrabbedMouse>,
+    /// The mouse was found but its grab waits for held buttons.
+    mouse_waiting_release: bool,
     next_mouse_retry: Instant,
     mouse_status: Option<super::super::mouse::Monitor>,
     hotkeys: PopupHotkeys,
@@ -285,11 +328,19 @@ impl MultiDeviceLoopDriver {
     ) -> Result<Self, String> {
         let mut devices = devices;
         Self::prepare_device(&devices[0])?;
+        // Remember which mouse was selected even if it cannot be grabbed now:
+        // a reconnect must not take whatever device later uses its path.
+        let mouse_identity = devices.get(1).map(super::DeviceIdentity::of);
+        let mut mouse_waiting_release = false;
         let mouse_output = if let Some(mouse) = devices.get_mut(1) {
-            match Self::prepare_device(mouse).and_then(|()| grab_mouse(mouse)) {
+            match Self::prepare_device(mouse)
+                .map_err(MouseGrabError::Failed)
+                .and_then(|()| grab_mouse(mouse))
+            {
                 Ok(output) => Some(output),
                 Err(error) => {
                     log::warn!("[mapper] prepare mouse: {error}");
+                    mouse_waiting_release = matches!(error, MouseGrabError::ButtonsHeld);
                     devices.truncate(1);
                     None
                 }
@@ -297,6 +348,9 @@ impl MultiDeviceLoopDriver {
         } else {
             None
         };
+        let grabbed_mouse = devices
+            .get(1)
+            .map(|mouse| super::GrabbedMouse::register(device_rdev(mouse)));
         let mouse_output = mouse_output.or_else(|| match virtual_pointer(None) {
             Ok(output) => Some(output),
             Err(error) => {
@@ -306,7 +360,9 @@ impl MultiDeviceLoopDriver {
         });
         Ok(Self {
             mouse_output: Arc::new(Mutex::new(mouse_output)),
-            mouse_identity: devices.get(1).map(super::DeviceIdentity::of),
+            mouse_identity,
+            grabbed_mouse,
+            mouse_waiting_release,
             devices: {
                 let mut slots: Vec<_> = devices.into_iter().map(Some).collect();
                 slots.resize_with(2, || None);
@@ -348,6 +404,8 @@ impl MultiDeviceLoopDriver {
     pub(super) fn monitor_mouse(&mut self, monitor: super::super::mouse::Monitor) {
         if self.devices[1].is_some() {
             monitor.set(super::super::mouse::MouseStatus::Connected);
+        } else if self.mouse_waiting_release {
+            monitor.set(super::super::mouse::MouseStatus::Ready);
         } else if self.mouse_path.is_some()
             && monitor.get() == super::super::mouse::MouseStatus::NotSelected
         {
@@ -395,6 +453,11 @@ impl MultiDeviceLoopDriver {
             self.set_mouse_status(MouseStatus::InUse);
             return;
         }
+        if let Err(error) = super::validate_mouse_capabilities(&mouse) {
+            log::debug!("[mapper] mouse on reconnect: {error}");
+            self.set_mouse_status(MouseStatus::Unavailable);
+            return;
+        }
         if let Err(error) = Self::prepare_device(&mouse) {
             log::debug!("[mapper] prepare mouse on reconnect: {error}");
             self.set_mouse_status(MouseStatus::Unavailable);
@@ -402,6 +465,12 @@ impl MultiDeviceLoopDriver {
         };
         let output = match grab_mouse(&mut mouse) {
             Ok(output) => output,
+            // Present and accessible: grabbed on a retry after the release.
+            Err(MouseGrabError::ButtonsHeld) => {
+                self.set_mouse_status(MouseStatus::Ready);
+                self.mouse_identity.get_or_insert(identity);
+                return;
+            }
             Err(error) => {
                 log::warn!("[mapper] reconnect mouse: {error}");
                 self.set_mouse_status(MouseStatus::Unavailable);
@@ -410,6 +479,9 @@ impl MultiDeviceLoopDriver {
         };
         *self.mouse_output.lock().unwrap_or_else(|e| e.into_inner()) = Some(output);
         self.set_mouse_status(MouseStatus::Connected);
+        // Drop the previous registration first: its drop clears the slot.
+        self.grabbed_mouse = None;
+        self.grabbed_mouse = Some(super::GrabbedMouse::register(Some(rdev)));
         self.devices[1] = Some(mouse);
         self.mouse_identity = Some(identity);
     }
@@ -555,21 +627,24 @@ impl LoopDriver for MultiDeviceLoopDriver {
                 Ok(iter) => {
                     let mut frame = Vec::new();
                     for ev in iter {
+                        // Touch, tool and other non-button codes of a pointer
+                        // (BTN_TOUCH, BTN_TOOL_FINGER, BTN_0) belong to its
+                        // frame: they are not keys the engine may buffer or
+                        // count as presses, and the frame must reach
+                        // libinput whole.
+                        if source == 1 && pointer_frame_event(&ev) {
+                            frame.push(ev);
+                            continue;
+                        }
                         if ev.event_type() != EventType::KEY {
-                            if source == 1
-                                && matches!(
-                                    ev.event_type(),
-                                    EventType::RELATIVE | EventType::ABSOLUTE
-                                )
-                            {
-                                frame.push(ev);
-                            }
                             if ev.event_type() == EventType::SYNCHRONIZATION && !frame.is_empty() {
                                 pointer.push(std::mem::take(&mut frame));
                             }
                             continue;
                         }
-                        if !frame.is_empty() {
+                        // A button splits the frame; misc data (MSC_TIMESTAMP)
+                        // stays with the axes that follow it.
+                        if frame.iter().any(|ev| ev.event_type() != EventType::MISC) {
                             pointer.push(std::mem::take(&mut frame));
                         }
                         let value = ev.value();
@@ -608,6 +683,14 @@ impl LoopDriver for MultiDeviceLoopDriver {
                 }
             }
         }
+        if self.devices[1].is_none() && self.grabbed_mouse.take().is_some() {
+            // Touches and tools pass by the engine, so nothing would release
+            // them on the clone: replacing it ends whatever was down.
+            let replacement = virtual_pointer(None)
+                .inspect_err(|error| log::warn!("[mapper] recreate virtual pointer: {error}"))
+                .ok();
+            *self.mouse_output.lock().unwrap_or_else(|e| e.into_inner()) = replacement;
+        }
         let wall = event_clock_now()?;
         let now = Instant::now();
         let previous = self.last_event;
@@ -633,6 +716,22 @@ impl LoopDriver for MultiDeviceLoopDriver {
             DriverInput::Repeat(_) => now,
         });
         Ok(inputs)
+    }
+}
+
+/// Whether `ev` of the selected mouse passes through inside its pointer
+/// frame instead of reaching the engine as a key: axes, misc data (serials,
+/// timestamps) and the `BTN_*` codes that are not mouse buttons.
+fn pointer_frame_event(ev: &InputEvent) -> bool {
+    match ev.event_type() {
+        EventType::RELATIVE | EventType::ABSOLUTE => true,
+        // The scan code of a button means nothing to the virtual pointer.
+        EventType::MISC => ev.code() != evdev::MiscCode::MSC_SCAN.0,
+        EventType::KEY => {
+            super::NON_KEYBOARD_BUTTON_CODES.contains(&ev.code())
+                && !super::MOUSE_BUTTON_CODES.contains(&ev.code())
+        }
+        _ => false,
     }
 }
 
@@ -1092,6 +1191,22 @@ mod tests {
             generation,
             worker,
         }
+    }
+
+    #[test]
+    fn pointer_frames_keep_touch_tool_and_misc_codes() {
+        use evdev::{EventType, InputEvent, KeyCode, MiscCode};
+        let key = |code: KeyCode| InputEvent::new(EventType::KEY.0, code.0, 1);
+        assert!(super::pointer_frame_event(&key(KeyCode::BTN_TOUCH)));
+        assert!(super::pointer_frame_event(&key(KeyCode::BTN_TOOL_FINGER)));
+        assert!(super::pointer_frame_event(&key(KeyCode::BTN_0)));
+        // Mouse buttons and keys of a gaming mouse go to the engine.
+        assert!(!super::pointer_frame_event(&key(KeyCode::BTN_LEFT)));
+        assert!(!super::pointer_frame_event(&key(KeyCode::BTN_TASK)));
+        assert!(!super::pointer_frame_event(&key(KeyCode::KEY_A)));
+        let misc = |code: MiscCode| InputEvent::new(EventType::MISC.0, code.0, 7);
+        assert!(super::pointer_frame_event(&misc(MiscCode::MSC_TIMESTAMP)));
+        assert!(!super::pointer_frame_event(&misc(MiscCode::MSC_SCAN)));
     }
 
     #[test]

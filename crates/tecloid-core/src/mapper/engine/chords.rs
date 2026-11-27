@@ -365,6 +365,11 @@ impl Engine {
                 if self.flush_trigger_chord_buffer(out) && !down {
                     return self.handle_chord(key, down, now, out);
                 }
+            } else if is_mouse_button(key) && !self.pending.contains_key(&key) {
+                // The release of a button held before the combo (ending a
+                // drag) belongs where the pointer is now; the buffered keys
+                // cannot change its meaning.
+                return false;
             } else {
                 // Release of a key held before the combo started: keep it
                 // ordered behind the buffered presses.

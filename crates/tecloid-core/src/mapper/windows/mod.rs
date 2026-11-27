@@ -395,6 +395,7 @@ impl HookDriver {
                 self.inputs.push_back(DriverInput::Key { key, down, at })
             }
             HookEvent::Repeat(key) => self.inputs.push_back(DriverInput::Repeat(key)),
+            HookEvent::Scroll { at } => self.inputs.push_back(DriverInput::Scroll { at }),
             HookEvent::Wake => {}
         }
     }
@@ -490,7 +491,7 @@ impl LoopDriver for HookDriver {
             .drain(..)
             .filter_map(|input| match input {
                 DriverInput::Key { key, down, at } => Some((key, down, at)),
-                DriverInput::Repeat(_) => None,
+                DriverInput::Repeat(_) | DriverInput::Scroll { .. } => None,
             })
             .collect())
     }
@@ -645,6 +646,7 @@ mod tests {
             .map(|input| match input {
                 DriverInput::Key { key, down, .. } => (key, Some(down)),
                 DriverInput::Repeat(key) => (key, None),
+                DriverInput::Scroll { .. } => unreachable!("no scroll in these tests"),
             })
             .collect()
     }

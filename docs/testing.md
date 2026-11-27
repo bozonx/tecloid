@@ -106,6 +106,8 @@ Game mode: `cargo test --locked -p tecloid-core gamemode`,
 `--test game_mode_lifecycle`, `cargo test --locked -p slint-shell --lib game_mode`
 (KWin checks run their own `dbus-daemon`).
 
+For end-to-end Emoji selection and text delivery in KVM, see the [popup text latency measurements](popup-text-latency.md).
+
 Popup latency benches: `scripts/bench/bench-open.sh`, `bench-virtual.sh <dir>
 geometry|input|lifecycle` (private KWin with two outputs), `summarize.py`
 over the `TECLOID_METRICS` CSV. Metrics `t0`…`t5` are trigger, UI callback,

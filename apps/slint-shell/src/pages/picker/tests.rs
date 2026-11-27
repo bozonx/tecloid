@@ -97,6 +97,28 @@ fn physical_key_names_match_config_codes() {
 }
 
 #[test]
+fn capture_records_side_mouse_buttons_as_triggers() {
+    use slint::winit_030::winit::event::ElementState::{Pressed, Released};
+    use slint::winit_030::winit::event::MouseButton;
+    assert_eq!(
+        capture::mouse_button_name(MouseButton::Back).as_deref(),
+        Some("MouseBack")
+    );
+    assert_eq!(
+        capture::mouse_button_name(MouseButton::Forward).as_deref(),
+        Some("MouseForward")
+    );
+    // The primary buttons still operate the dialog.
+    assert_eq!(capture::mouse_button_name(MouseButton::Left), None);
+    let mut state = CaptureState::default();
+    assert_eq!(state.update("MouseBack", Pressed, true, false), None);
+    assert_eq!(
+        state.update("MouseBack", Released, true, false).as_deref(),
+        Some("MouseBack")
+    );
+}
+
+#[test]
 fn picker_modes_restrict_values() {
     let keys = Filter {
         key_only: true,

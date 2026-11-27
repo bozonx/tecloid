@@ -1231,3 +1231,19 @@ fn physical_trigger_takes_priority_over_generic_in_either_rule_order() {
         assert_eq!(engine.layers.active, vec!["specific"]);
     }
 }
+
+#[test]
+fn drag_release_is_not_held_behind_a_starting_trigger_chord() {
+    let cfg = config_with_rule(serde_json::json!({"key": "KeyJ+KeyK", "tapAction": "Escape"}));
+    let mut engine = Engine::new(&cfg);
+    let now = Instant::now();
+    let mut out = Vec::new();
+    engine.handle_key_event(KeyCode::BTN_LEFT, true, now, &mut out);
+    engine.handle_key_event(KeyCode::KEY_J, true, now + Duration::from_millis(10), &mut out);
+    engine.handle_key_event(KeyCode::BTN_LEFT, false, now + Duration::from_millis(15), &mut out);
+    // The drop happens now; J still waits for a possible K.
+    assert_eq!(
+        transitions(&out),
+        [(KeyCode::BTN_LEFT, true), (KeyCode::BTN_LEFT, false)]
+    );
+}

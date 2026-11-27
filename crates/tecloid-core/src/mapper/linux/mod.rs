@@ -54,6 +54,9 @@ const KEYBOARD_KEY_CODES: std::ops::RangeInclusive<u16> = 1..=248;
 const EXTENDED_KEY_CODES: std::ops::RangeInclusive<u16> = 352..=511;
 /// `BTN_*` block: mouse, joystick and gamepad buttons.
 const NON_KEYBOARD_BUTTON_CODES: std::ops::RangeInclusive<u16> = 256..=351;
+/// Mouse buttons the engine handles (`BTN_LEFT`..`BTN_TASK` and the rest of
+/// the `BTN_MOUSE` block); the same range as the engine's mouse buttons.
+const MOUSE_BUTTON_CODES: std::ops::RangeInclusive<u16> = 272..=281;
 const DEVICE_DISCONNECTED: &str = "mapper input device disconnected";
 const START_TIMEOUT: Duration = Duration::from_secs(5);
 
@@ -64,6 +67,33 @@ static GRABBED_KEYBOARD: Mutex<Option<u64>> = Mutex::new(None);
 /// Whether `rdev` is the keyboard the running mapper grabbed.
 pub(crate) fn is_grabbed_keyboard(rdev: u64) -> bool {
     *GRABBED_KEYBOARD.lock().unwrap_or_else(|e| e.into_inner()) == Some(rdev)
+}
+
+/// Device number of the mouse the mapper holds grabbed. Keys it reports
+/// (gaming mice with modifier keys) never reach the compositor either.
+static GRABBED_MOUSE: Mutex<Option<u64>> = Mutex::new(None);
+
+/// Whether `rdev` is an input device the running mapper grabbed: its
+/// physical key state is not what the desktop sees.
+pub(crate) fn is_grabbed_input(rdev: u64) -> bool {
+    is_grabbed_keyboard(rdev)
+        || *GRABBED_MOUSE.lock().unwrap_or_else(|e| e.into_inner()) == Some(rdev)
+}
+
+/// Registers the grabbed mouse until dropped with its device slot.
+struct GrabbedMouse;
+
+impl GrabbedMouse {
+    fn register(rdev: Option<u64>) -> Self {
+        *GRABBED_MOUSE.lock().unwrap_or_else(|e| e.into_inner()) = rdev;
+        Self
+    }
+}
+
+impl Drop for GrabbedMouse {
+    fn drop(&mut self) {
+        *GRABBED_MOUSE.lock().unwrap_or_else(|e| e.into_inner()) = None;
+    }
 }
 
 /// Registers the grabbed keyboard until dropped with the mapper loop.
@@ -650,7 +680,13 @@ fn run_device(
     let mut devices = vec![device];
     if let Some(mp) = mouse_path {
         match Device::open(mp) {
-            Ok(mouse) => devices.push(mouse),
+            Ok(mouse) => match validate_mouse_capabilities(&mouse) {
+                Ok(()) => devices.push(mouse),
+                Err(error) => {
+                    log::warn!("[mapper] mouse {mp}: {error}");
+                    mouse_status.set(super::mouse::MouseStatus::Unavailable);
+                }
+            },
             Err(error) => {
                 log::warn!("[mapper] open mouse {mp}: {error}");
                 mouse_status.set(super::mouse::MouseStatus::from_error(&error));
@@ -774,6 +810,42 @@ fn validate_keyboard_capabilities(
         })
     {
         return Err("This input device also provides pointer movement or non-keyboard buttons; select its separate keyboard interface to avoid blocking those inputs".into());
+    }
+    Ok(())
+}
+
+/// A selected mouse must be a relative pointer or a touchpad. Touchscreens,
+/// tablets and joysticks report absolute positions or tools that a
+/// grab-and-replay pointer cannot forward faithfully, so they stay with the
+/// desktop.
+fn validate_mouse_capabilities(mouse: &Device) -> Result<(), String> {
+    pointer_capabilities(
+        mouse.properties(),
+        mouse.supported_keys(),
+        mouse.supported_relative_axes(),
+        mouse.supported_absolute_axes(),
+    )
+}
+
+fn pointer_capabilities(
+    properties: &evdev::AttributeSetRef<evdev::PropType>,
+    keys: Option<&evdev::AttributeSetRef<KeyCode>>,
+    relative: Option<&evdev::AttributeSetRef<evdev::RelativeAxisCode>>,
+    absolute: Option<&evdev::AttributeSetRef<evdev::AbsoluteAxisCode>>,
+) -> Result<(), String> {
+    use evdev::{AbsoluteAxisCode as Abs, RelativeAxisCode as Rel};
+    let has_key = |key| keys.is_some_and(|keys| keys.contains(key));
+    let relative_pointer =
+        relative.is_some_and(|axes| axes.contains(Rel::REL_X) && axes.contains(Rel::REL_Y));
+    let touchpad = has_key(KeyCode::BTN_TOOL_FINGER)
+        && absolute.is_some_and(|axes| axes.contains(Abs::ABS_X) && axes.contains(Abs::ABS_Y));
+    if properties.contains(evdev::PropType::DIRECT)
+        || has_key(KeyCode::BTN_TOOL_PEN)
+        || has_key(KeyCode::BTN_STYLUS)
+        || !has_key(KeyCode::BTN_LEFT)
+        || !(relative_pointer || touchpad)
+    {
+        return Err("this device is not a mouse or touchpad (touchscreens, pen tablets and game controllers cannot be selected)".into());
     }
     Ok(())
 }
@@ -1006,6 +1078,51 @@ mod tests {
             pointer.insert(axis);
             assert!(super::validate_keyboard_capabilities(&pointer, None).is_err());
         }
+    }
+
+    #[test]
+    fn only_pointers_and_touchpads_are_accepted_as_mice() {
+        use evdev::{
+            AbsoluteAxisCode as Abs, AttributeSet, KeyCode as K, PropType, RelativeAxisCode as Rel,
+        };
+        let keys = |codes: &[K]| codes.iter().copied().collect::<AttributeSet<K>>();
+        let rel: AttributeSet<Rel> = [Rel::REL_X, Rel::REL_Y].into_iter().collect();
+        let abs: AttributeSet<Abs> = [Abs::ABS_X, Abs::ABS_Y].into_iter().collect();
+        let none = AttributeSet::<PropType>::new();
+        let check = |props: &AttributeSet<PropType>, k: &[K], r: bool, a: bool| {
+            super::pointer_capabilities(
+                props,
+                Some(&keys(k)),
+                r.then_some(&*rel),
+                a.then_some(&*abs),
+            )
+            .is_ok()
+        };
+        assert!(check(&none, &[K::BTN_LEFT, K::BTN_RIGHT], true, false));
+        let mut buttonpad = AttributeSet::new();
+        buttonpad.insert(PropType::BUTTONPAD);
+        assert!(check(
+            &buttonpad,
+            &[K::BTN_LEFT, K::BTN_TOOL_FINGER],
+            false,
+            true
+        ));
+        // Pen tablet, touchscreen, gamepad.
+        assert!(!check(
+            &none,
+            &[K::BTN_LEFT, K::BTN_TOOL_PEN, K::BTN_STYLUS],
+            false,
+            true
+        ));
+        let mut direct = AttributeSet::new();
+        direct.insert(PropType::DIRECT);
+        assert!(!check(
+            &direct,
+            &[K::BTN_LEFT, K::BTN_TOOL_FINGER],
+            false,
+            true
+        ));
+        assert!(!check(&none, &[K::BTN_SOUTH], false, true));
     }
 
     /// Scripted device opens for [`super::reconnect_loop`]: each entry is

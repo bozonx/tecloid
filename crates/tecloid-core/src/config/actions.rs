@@ -676,6 +676,14 @@ pub fn execution_issue(action: &Action, config: &ResolvedAppConfig) -> Option<Ex
                     .into_iter()
                     .find_map(|value| check(&Action::parse(Some(value)), config, depth + 1))
             }
+            // The Windows backend injects keyboard input only; mouse buttons
+            // would be dropped silently.
+            Action::Keys(keys)
+                if cfg!(target_os = "windows")
+                    && keys.split('+').any(|key| key.trim().starts_with("Mouse")) =>
+            {
+                Some(ExecutionIssue::Unavailable)
+            }
             _ => None,
         }
     }
@@ -921,6 +929,11 @@ mod tests {
         if cfg!(target_os = "windows") {
             assert_eq!(issue(&config, "sys:closeWindow"), None);
         }
+        // Mouse button output needs the Linux virtual pointer.
+        let mouse = cfg!(target_os = "windows").then_some(ExecutionIssue::Unavailable);
+        assert_eq!(issue(&config, "MouseLeft"), mouse);
+        assert_eq!(issue(&config, "Ctrl+MouseLeft"), mouse);
+        assert_eq!(issue(&config, "KeyA"), None);
         if !crate::mapper::runtime::SUPPORTED {
             assert_eq!(
                 issue(&config, "sys:closeWindow"),

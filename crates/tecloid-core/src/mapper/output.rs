@@ -136,7 +136,9 @@ impl OutputHold {
             return;
         }
         for out in buf.split_off(start) {
-            if is_release(&out) && !releases_held_press(&self.typed, &out) {
+            if is_mouse_button(&out) {
+                buf.push(out);
+            } else if is_release(&out) && !releases_held_press(&self.typed, &out) {
                 preserve_released_modifiers(&mut self.typed, &out);
                 buf.push(out);
             } else {
@@ -191,7 +193,9 @@ impl OutputHold {
         for out in rest {
             // As for text: releases of keys pressed before the popup pass,
             // so the popup does not open with a modifier still down.
-            if is_release(&out) && !releases_held_press(&self.held, &out) {
+            if is_mouse_button(&out) {
+                buf.push(out);
+            } else if is_release(&out) && !releases_held_press(&self.held, &out) {
                 preserve_released_modifiers(&mut self.held, &out);
                 buf.push(out);
             } else {
@@ -240,7 +244,9 @@ impl OutputHold {
         for out in rest {
             // Releases of keys pressed before the text pass: a modifier
             // still down in the compositor would make the text fail.
-            if is_release(&out) && !releases_held_press(&self.after_text, &out) {
+            if is_mouse_button(&out) {
+                buf.push(out);
+            } else if is_release(&out) && !releases_held_press(&self.after_text, &out) {
                 preserve_released_modifiers(&mut self.after_text, &out);
                 buf.push(out);
             } else {
@@ -266,6 +272,13 @@ fn preserve_released_modifiers(held: &mut Vec<EngineOutput>, release: &EngineOut
         held.insert(0, EngineOutput::KeyRaw { key, down: true });
         held.push(EngineOutput::KeyRaw { key, down: false });
     }
+}
+
+/// A mouse button passed through as it is. Pointer movement is never held,
+/// so a click held behind a macro, text or popup would replay at wherever
+/// the pointer went meanwhile; it goes out at once instead.
+fn is_mouse_button(out: &EngineOutput) -> bool {
+    matches!(out, EngineOutput::KeyRaw { key, .. } if (272..=281).contains(&key.code()))
 }
 
 fn is_release(out: &EngineOutput) -> bool {
@@ -339,6 +352,10 @@ pub(super) enum DriverInput {
         event: Vec<evdev::InputEvent>,
         at: Instant,
     },
+    /// A mouse wheel step the OS delivers by itself (Windows observes the
+    /// wheel without capturing it).
+    #[cfg(target_os = "windows")]
+    Scroll { at: Instant },
 }
 
 pub(super) trait LoopDriver {
@@ -441,6 +458,8 @@ pub(super) fn process_iteration_with<D: LoopDriver, S: EventSink, E: SideEffects
                 DriverInput::Repeat(_) => now,
                 #[cfg(target_os = "linux")]
                 DriverInput::Pointer { at, .. } => (*at).max(now),
+                #[cfg(target_os = "windows")]
+                DriverInput::Scroll { at } => (*at).max(now),
             };
             let during_macro = engine.macro_running();
             let start = out_buf.len();
@@ -463,6 +482,8 @@ pub(super) fn process_iteration_with<D: LoopDriver, S: EventSink, E: SideEffects
                     effects.held_layer_changed(engine.held_layer_state());
                 }
                 DriverInput::Repeat(key) => engine.repeat(key, out_buf),
+                #[cfg(target_os = "windows")]
+                DriverInput::Scroll { at } => engine.handle_scroll(at, out_buf),
                 #[cfg(target_os = "linux")]
                 DriverInput::Pointer { event, at } => {
                     if event.iter().any(|ev| {
@@ -476,7 +497,7 @@ pub(super) fn process_iteration_with<D: LoopDriver, S: EventSink, E: SideEffects
                             )
                     }) {
                         // Ctrl+scroll and the like: the held key was used.
-                        engine.note_activity(at);
+                        engine.handle_scroll(at, out_buf);
                     }
                     // Deliver earlier modifiers/buttons before pointer movement.
                     hold.gate(out_buf, arrived, effects.text_pending());
@@ -1873,6 +1894,53 @@ mod tests {
         hold.hold_typed(&mut buf, 0, late);
         assert_eq!(buf.len(), 1);
     }
+    #[test]
+    fn clicks_are_not_held_behind_macros_text_or_popups() {
+        let click = |down| EngineOutput::KeyRaw {
+            key: KeyCode::BTN_LEFT,
+            down,
+        };
+        let key_a = || EngineOutput::KeyRaw {
+            key: KeyCode::KEY_A,
+            down: true,
+        };
+        let now = Instant::now();
+        // Typed during a macro: the key waits, the click goes out.
+        let mut hold = OutputHold::default();
+        let mut buf = vec![key_a(), click(true), click(false)];
+        hold.hold_typed(&mut buf, 0, now);
+        assert_eq!(
+            transitions_of(&buf),
+            [(KeyCode::BTN_LEFT, true), (KeyCode::BTN_LEFT, false)]
+        );
+        // Behind text that is still being typed.
+        let mut hold = OutputHold::default();
+        let mut buf = vec![EngineOutput::Literal("x".into()), key_a(), click(true)];
+        hold.gate(&mut buf, now, true);
+        assert!(matches!(
+            buf.as_slice(),
+            [
+                EngineOutput::Literal(_),
+                EngineOutput::KeyRaw { key: KeyCode::BTN_LEFT, down: true }
+            ]
+        ));
+        // Behind a popup that has not taken the focus yet.
+        let mut hold = OutputHold::default();
+        let popup = SystemAction::AppEvent(crate::config::app_action::AppAction::ShowMenu {
+            menu: crate::config::app_action::Menu::Emoji,
+            page: None,
+        });
+        let mut buf = vec![EngineOutput::RunSystem(popup), key_a(), click(true)];
+        hold.gate(&mut buf, now, false);
+        assert!(matches!(
+            buf.as_slice(),
+            [
+                EngineOutput::RunSystem(_),
+                EngineOutput::KeyRaw { key: KeyCode::BTN_LEFT, down: true }
+            ]
+        ));
+    }
+
     #[test]
     fn cancelled_macro_text_is_not_submitted_when_buffered_output_is_flushed() {
         let job = crate::text_input::MacroText::default();

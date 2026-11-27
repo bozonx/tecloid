@@ -21,7 +21,8 @@ use windows::Win32::UI::WindowsAndMessaging::{
     LLKHF_EXTENDED, LLKHF_INJECTED, LLKHF_UP, LLMHF_INJECTED, MSG, MSLLHOOKSTRUCT, PM_NOREMOVE,
     PeekMessageW, PostThreadMessageW, SetWindowsHookExW, TranslateMessage, UnhookWindowsHookEx,
     WH_KEYBOARD_LL, WH_MOUSE_LL, WM_LBUTTONDOWN, WM_LBUTTONUP, WM_MBUTTONDOWN, WM_MBUTTONUP,
-    WM_QUIT, WM_RBUTTONDOWN, WM_RBUTTONUP, WM_XBUTTONDOWN, WM_XBUTTONUP, XBUTTON1, XBUTTON2,
+    WM_MOUSEHWHEEL, WM_MOUSEWHEEL, WM_QUIT, WM_RBUTTONDOWN, WM_RBUTTONUP, WM_XBUTTONDOWN,
+    WM_XBUTTONUP, XBUTTON1, XBUTTON2,
 };
 
 /// Input for the mapper loop.
@@ -33,6 +34,8 @@ pub(super) enum HookEvent {
     },
     /// Auto-repeat of a key that is already down.
     Repeat(KeyCode),
+    /// A wheel step: it uses undecided modifier holds (Ctrl+wheel).
+    Scroll { at: Instant },
     /// Return to the loop so control messages are handled.
     Wake,
 }
@@ -43,7 +46,8 @@ const FAKE_ALTGR_CTRL: u32 = 0x200;
 
 static SINK: Mutex<Option<mpsc::Sender<HookEvent>>> = Mutex::new(None);
 
-/// Keys down as the keyboard hook saw them; a second press is a repeat.
+/// Keys and mouse buttons down as the hooks saw them; a second key press is
+/// a repeat.
 static DOWN: Mutex<Vec<KeyCode>> = Mutex::new(Vec::new());
 
 /// Forget every key the hook saw pressed and return them. Used when their
@@ -122,6 +126,10 @@ unsafe extern "system" fn mouse_proc(code: i32, wparam: WPARAM, lparam: LPARAM) 
                 XBUTTON2 => Some(KeyCode::BTN_EXTRA),
                 _ => None,
             };
+            if matches!(wparam.0 as u32, WM_MOUSEWHEEL | WM_MOUSEHWHEEL) {
+                deliver(HookEvent::Scroll { at: Instant::now() });
+                return unsafe { CallNextHookEx(None, code, wparam, lparam) };
+            }
             let event = match wparam.0 as u32 {
                 WM_LBUTTONDOWN => Some((KeyCode::BTN_LEFT, true)),
                 WM_LBUTTONUP => Some((KeyCode::BTN_LEFT, false)),
@@ -134,6 +142,15 @@ unsafe extern "system" fn mouse_proc(code: i32, wparam: WPARAM, lparam: LPARAM) 
                 _ => None,
             };
             if let Some((key, down)) = event {
+                // Tracked like keys, so a button released on the secure
+                // desktop is released on return (a held MouseBack layer).
+                {
+                    let mut keys = DOWN.lock().unwrap_or_else(|e| e.into_inner());
+                    keys.retain(|k| *k != key);
+                    if down {
+                        keys.push(key);
+                    }
+                }
                 deliver(HookEvent::Key {
                     key,
                     down,

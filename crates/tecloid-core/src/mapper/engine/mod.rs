@@ -326,6 +326,24 @@ impl Engine {
         self.last_activity = Some(self.last_activity.map_or(at, |last| last.max(at)));
     }
 
+    /// A mouse wheel step. Like a click, it uses the undecided modifier and
+    /// keystroke holds (Ctrl+wheel zooms, Shift+wheel pans), so they are
+    /// committed before the scroll reaches the desktop.
+    pub fn handle_scroll(&mut self, at: Instant, out: &mut Vec<EngineOutput>) {
+        self.note_activity(at);
+        self.last_typing_press = None;
+        self.flush_waiting_second(at, out);
+        self.commit_decisions_for_pointer(None, out);
+        // Keys pressed after the deciding key must not be overtaken by the
+        // scroll either (a layer key, then Shift, then the wheel).
+        if self.deciding_key().is_some() && !self.decision_buffer.is_empty() {
+            self.resolve_deciding_as_hold(out);
+        }
+        if self.deciding_key().is_none() {
+            self.drain_decision_buffer(out);
+        }
+    }
+
     /// Auto-repeat of a held physical key, for backends whose OS does not
     /// repeat injected keys itself (Windows). Only a key that currently
     /// holds a virtual key down repeats it; undecided taps, layer triggers
@@ -368,7 +386,7 @@ impl Engine {
                 // click is emitted through the virtual pointer.
                 self.flush_waiting_second(now, out);
                 self.resolve_long_hold_decisions(key, now, out);
-                self.commit_decisions_for_click(key, out);
+                self.commit_decisions_for_pointer(Some(key), out);
                 // Keys pressed after the deciding key wait in the buffer; a
                 // click that passed them would arrive without them (Shift
                 // pressed after a layer key, then a click). A key and a click

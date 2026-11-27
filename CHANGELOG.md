@@ -6,6 +6,14 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Scrolling the mouse wheel while a dual-role key is held uses its modifier (Ctrl+wheel zoom, Shift+wheel pan) instead of scrolling plainly and typing the key's tap afterwards.
+- On Linux, clicks of the selected mouse are no longer held behind macros, text input or opening popups, so they land where the pointer is; a mouse button released during a key combo is no longer delayed.
+- On Linux, touchpad touches and tool codes of the selected device pass through as pointer data instead of acting as key presses, and pointer frames keep their misc data. Touchscreens, pen tablets and game controllers can no longer be selected as the mouse.
+- On Linux, the virtual pointer keeps the vendor and product id of the selected mouse, so its hwdb DPI and wheel settings still apply; clickpads are no longer given extra buttons.
+- On Linux, a mouse with letter keys on the same input node is offered as a mouse rather than as a keyboard that cannot start. A mouse held down while the mapper starts is grabbed once released and is never replaced by another device at the same path; its own held modifiers no longer block text input.
+- On Windows, the mouse wheel counts as use of held layer and dual-role keys, mouse buttons released on the secure desktop are released on return, and mouse button actions are marked unavailable instead of doing nothing.
+- The action picker's capture records the mouse Back and Forward buttons.
+
 - Advanced rule options omit hidden fields from the layout instead of leaving blank gaps.
 
 - On Linux, the held-layer hint follows theme, contrast, motion and language changes when popups use the default window backend.

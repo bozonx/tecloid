@@ -448,3 +448,56 @@ fn rule_mouse_button_is_buffered_by_permissive_decision() {
     assert_eq!(taps, [KeyCode::KEY_SPACE, KeyCode::KEY_ESC]);
     assert!(engine.layers.active.is_empty());
 }
+
+#[test]
+fn wheel_commits_pending_modifier_hold_and_suppresses_its_tap() {
+    for mode in ["permissiveHold", "holdOnOtherKeyPress"] {
+        let cfg: MapperConfig = serde_json::from_value(serde_json::json!({
+            "settings": {"tapDecision": mode},
+            "rules": [{
+                "key": "CapsLock",
+                "tapAction": "Escape",
+                "holdAction": "ControlLeft",
+                "holdTimeoutMs": 200
+            }]
+        }))
+        .unwrap();
+        let mut engine = Engine::new(&cfg);
+        let now = Instant::now();
+        let mut out = Vec::new();
+        engine.handle_key_event(KeyCode::KEY_CAPSLOCK, true, now, &mut out);
+        assert!(out.is_empty(), "{mode}");
+        // Ctrl+wheel well before the hold timeout: Ctrl must already be down.
+        engine.handle_scroll(now + Duration::from_millis(30), &mut out);
+        assert_eq!(transitions(&out), [(KeyCode::KEY_LEFTCTRL, true)], "{mode}");
+        engine.handle_key_event(
+            KeyCode::KEY_CAPSLOCK,
+            false,
+            now + Duration::from_millis(60),
+            &mut out,
+        );
+        // The release ends the hold; no Escape follows the zoom.
+        assert_eq!(
+            transitions(&out),
+            [(KeyCode::KEY_LEFTCTRL, true), (KeyCode::KEY_LEFTCTRL, false)],
+            "{mode}"
+        );
+        assert!(
+            !out.iter().any(|o| matches!(o, EngineOutput::Stroke { .. })),
+            "{mode}"
+        );
+    }
+}
+
+#[test]
+fn wheel_leaves_a_pure_layer_key_undecided() {
+    let mut engine = Engine::new(&config_with_rule(serde_json::json!({
+        "key": "KeyF", "layerId": "nav", "holdTimeoutMs": 200
+    })));
+    let now = Instant::now();
+    let mut out = Vec::new();
+    engine.handle_key_event(KeyCode::KEY_F, true, now, &mut out);
+    engine.handle_scroll(now + Duration::from_millis(30), &mut out);
+    // The layer maps no wheel, so the scroll decides nothing.
+    assert!(out.is_empty());
+}
