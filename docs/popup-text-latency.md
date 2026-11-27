@@ -22,11 +22,30 @@ The Fedora clipboard series still took about 140 ms end to end. These samples
 describe the current build. A matching before-change run would be needed to
 quantify the improvement.
 
+## Same-VM comparison with immediate follow-up typing
+
+On Fedora 44 with KWin 6.8.3 and libei 1.6.0, the winit popup ran two
+20-sample series with a physical `c` synthesized by QEMU 25 ms after
+selection. Both modes used the same guest, receiver, and executable.
+
+| Text method | Min | Median | p95 | Max | Median to confirmed target | Final field contents |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `libeiText` | 12.23 ms | 29.03 ms | 52.04 ms | 53.23 ms | 5.85 ms | `🙂c` in 20/20 |
+| `clipboardPaste` | 131.29 ms | 137.05 ms | 162.68 ms | 174.83 ms | 6.49 ms | `c🙂` in 20/20 |
+
+The median from the guest's popup choice to EIS send was 6.15 ms.
+The direct mode reduced the measured median by 108.02 ms compared with
+clipboard insertion in this run. The order result applies to this delay
+and fixture. It does not guarantee order at shorter intervals or in other apps.
+Artifacts are in the Fedora 6.8 overlay run `20261127-102246`.
+
 In a separate Fedora 6.7.5 Spell run (`20261127-100540`), sending `c` after
 25 ms produced `c🙂` in the one completed measured trial. The runner then
 timed out waiting for the receiver's focus notification on the next opening.
 The sample confirms that a key can overtake clipboard insertion. It does not
 establish a frequency. The runner now waits for Tecloid's popup-focus metric.
+
+Windows and macOS were outside these Linux runs.
 
 ## Reproducing the measurement
 
