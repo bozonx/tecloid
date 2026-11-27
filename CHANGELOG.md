@@ -6,6 +6,8 @@ New entries go under `[Unreleased]`; `cargo release` turns it into a dated versi
 
 ## [Unreleased]
 
+- Advanced rule options omit hidden fields from the layout instead of leaving blank gaps.
+
 - On Linux, the held-layer hint follows theme, contrast, motion and language changes when popups use the default window backend.
 
 - Linux popup text targets the window that was active when the popup opened. On KDE and GNOME Wayland, winit popups can start insertion as soon as the compositor reports the focus returning.
