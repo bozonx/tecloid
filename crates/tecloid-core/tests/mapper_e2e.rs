@@ -19,8 +19,6 @@ use std::{
 use tecloid_core::mapper::runtime;
 
 const MAPPER_DEVICE_NAME: &str = "Tecloid Virtual Keyboard";
-/// Location of the mapper's pointer; a clone of a mouse has that mouse's name.
-const VIRTUAL_POINTER_PHYS: &str = "tecloid/virtual-pointer";
 
 /// The mapper runtime is process-global: scenarios run one at a time.
 static SERIAL: Mutex<()> = Mutex::new(());
@@ -515,7 +513,7 @@ fn stable_mouse_output_works_without_a_selected_mouse() {
     let mut pointer = wait_until("virtual pointer", Duration::from_secs(5), || {
         evdev::enumerate()
             .find(|(path, device)| {
-                !existing.contains(path) && device.physical_path() == Some(VIRTUAL_POINTER_PHYS)
+                !existing.contains(path) && device.name() == Some("Tecloid Pointer")
             })
             .map(|(_, device)| device)
     });
@@ -586,7 +584,8 @@ fn captured_mouse_orders_modifier_click_and_relays_movement_without_original_sid
     let mut pointer = wait_until("virtual pointer", Duration::from_secs(5), || {
         evdev::enumerate()
             .find(|(path, device)| {
-                !existing.contains(path) && device.physical_path() == Some(VIRTUAL_POINTER_PHYS)
+                // The clone carries the physical mouse's name.
+                !existing.contains(path) && device.name() == Some("Tecloid e2e physical mouse")
             })
             .map(|(_, device)| device)
     });

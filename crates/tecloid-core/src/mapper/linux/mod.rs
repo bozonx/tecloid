@@ -43,9 +43,40 @@ use std::time::Duration;
 
 const VIRTUAL_DEVICE_NAME: &str = "Tecloid Virtual Keyboard";
 const VIRTUAL_POINTER_NAME: &str = "Tecloid Pointer";
-/// Physical location reported by the virtual pointer. A pointer cloned from
-/// the selected mouse carries that mouse's name, so this marks it as ours.
-const VIRTUAL_POINTER_PHYS: &std::ffi::CStr = c"tecloid/virtual-pointer";
+/// Sysfs devices of the virtual pointers this process created. A pointer
+/// cloned from the selected mouse carries that mouse's name and id, so
+/// discovery recognizes it by its device instead. (A `phys` marker cannot be
+/// set: evdev 0.13 encodes `UI_SET_PHYS` with the wrong size.)
+static OWN_POINTERS: Mutex<Vec<std::path::PathBuf>> = Mutex::new(Vec::new());
+
+fn register_own_pointer(syspath: std::path::PathBuf) {
+    let mut own = OWN_POINTERS.lock().unwrap_or_else(|e| e.into_inner());
+    own.retain(|path| path.exists());
+    own.push(syspath);
+}
+
+/// Whether the event node `event` (e.g. `/dev/input/event7`) belongs to a
+/// virtual pointer of this process.
+fn is_own_pointer(event: &std::path::Path) -> bool {
+    let Some(name) = std::fs::canonicalize(event)
+        .ok()
+        .and_then(|path| path.file_name().map(ToOwned::to_owned))
+    else {
+        return false;
+    };
+    let Ok(device) = std::fs::canonicalize(
+        std::path::Path::new("/sys/class/input")
+            .join(name)
+            .join("device"),
+    ) else {
+        return false;
+    };
+    OWN_POINTERS
+        .lock()
+        .unwrap_or_else(|e| e.into_inner())
+        .iter()
+        .any(|own| std::fs::canonicalize(own).is_ok_and(|own| own == device))
+}
 /// Id of the virtual keyboard: the Linux Foundation vendor id with its
 /// "multifunction composite gadget" product, used by software devices. The
 /// bus follows the physical keyboard (see `virtual_keyboard_bus`).

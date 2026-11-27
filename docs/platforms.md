@@ -39,8 +39,9 @@ from KWin are ignored).
 
 Mouse: the selected mouse or touchpad is grabbed and replayed through a virtual
 pointer with the physical name and bus/vendor/product id (udev hwdb, libinput
-quirks and per-device desktop settings still match); its `phys` is
-`tecloid/virtual-pointer`, which is how discovery skips it. Without a selected
+quirks and per-device desktop settings still match); discovery skips it by the
+sysfs device the mapper registered when creating it (evdev 0.13 cannot set a
+`phys` marker: its `UI_SET_PHYS` ioctl has the wrong size and fails with EINVAL). Without a selected
 mouse a button-only "Tecloid Pointer" carries mouse actions. A click or wheel
 step decides undecided holds as held. The virtual keyboard reports the PS/2 bus
 when the grabbed keyboard is PS/2, so libinput still pairs it with the

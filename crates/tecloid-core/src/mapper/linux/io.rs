@@ -143,9 +143,7 @@ fn virtual_pointer(mouse: Option<&Device>) -> std::io::Result<VirtualDevice> {
     let name = mouse
         .and_then(Device::name)
         .unwrap_or(super::VIRTUAL_POINTER_NAME);
-    let mut builder = VirtualDevice::builder()?
-        .name(name)
-        .with_phys(super::VIRTUAL_POINTER_PHYS)?;
+    let mut builder = VirtualDevice::builder()?.name(name);
     if let Some(mouse) = mouse {
         builder = builder.input_id(mouse.input_id());
     }
@@ -193,7 +191,12 @@ fn virtual_pointer(mouse: Option<&Device>) -> std::io::Result<VirtualDevice> {
         axes.insert(RelativeAxisCode::REL_Y);
         builder = builder.with_relative_axes(&axes)?;
     }
-    builder.build()
+    let mut pointer = builder.build()?;
+    match pointer.get_syspath() {
+        Ok(syspath) => super::register_own_pointer(syspath),
+        Err(error) => log::warn!("[mapper] virtual pointer sysfs path: {error}"),
+    }
+    Ok(pointer)
 }
 
 pub(super) struct RuntimeSideEffects;
@@ -303,6 +306,8 @@ pub(super) struct MultiDeviceLoopDriver {
     grabbed_mouse: Option<super::GrabbedMouse>,
     /// The mouse was found but its grab waits for held buttons.
     mouse_waiting_release: bool,
+    /// Last reconnect failure logged; a retry every second must not repeat it.
+    mouse_error: Option<String>,
     next_mouse_retry: Instant,
     mouse_status: Option<super::super::mouse::Monitor>,
     hotkeys: PopupHotkeys,
@@ -369,6 +374,7 @@ impl MultiDeviceLoopDriver {
             mouse_identity,
             grabbed_mouse,
             mouse_waiting_release,
+            mouse_error: None,
             devices: {
                 let mut slots: Vec<_> = devices.into_iter().map(Some).collect();
                 slots.resize_with(2, || None);
@@ -478,11 +484,16 @@ impl MultiDeviceLoopDriver {
                 return;
             }
             Err(error) => {
-                log::warn!("[mapper] reconnect mouse: {error}");
+                let error = error.to_string();
+                if self.mouse_error.as_ref() != Some(&error) {
+                    log::warn!("[mapper] reconnect mouse: {error}");
+                    self.mouse_error = Some(error);
+                }
                 self.set_mouse_status(MouseStatus::Unavailable);
                 return;
             }
         };
+        self.mouse_error = None;
         *self.mouse_output.lock().unwrap_or_else(|e| e.into_inner()) = Some(output);
         self.set_mouse_status(MouseStatus::Connected);
         // Drop the previous registration first: its drop clears the slot.

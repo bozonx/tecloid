@@ -1,7 +1,7 @@
 //! Enumeration of Linux input devices (keyboards, mice) with stable
 //! `/dev/input/by-id` paths.
 
-use super::{VIRTUAL_DEVICE_NAME, VIRTUAL_POINTER_NAME, VIRTUAL_POINTER_PHYS};
+use super::{VIRTUAL_DEVICE_NAME, VIRTUAL_POINTER_NAME};
 use crate::mapper::devices::{DeviceDiscovery, UnavailableDevice};
 use crate::mapper::{InputDevice, KeyboardDevice};
 use crate::platform::INPUT_DIR;
@@ -68,7 +68,7 @@ fn probe(path: &Path) -> std::io::Result<ProbedDevice> {
         is_mouse: is_mouse(&dev),
         bus_virtual: dev.input_id().bus_type() == evdev::BusType::BUS_VIRTUAL,
         has_physical_path: dev.physical_path().is_some_and(|path| !path.is_empty()),
-        mapper_output: is_mapper_output(&dev),
+        mapper_output: is_mapper_output(path, &dev),
     })
 }
 
@@ -186,13 +186,14 @@ pub fn list_mice() -> Result<Vec<KeyboardDevice>, String> {
         .collect())
 }
 
-/// Whether `dev` is one of the mapper's output devices. A pointer cloned
-/// from the selected mouse has that mouse's name; its location marks it.
-fn is_mapper_output(dev: &Device) -> bool {
+/// Whether `dev` at `path` is one of the mapper's output devices. A pointer
+/// cloned from the selected mouse has that mouse's name; it is known by its
+/// device.
+fn is_mapper_output(path: &Path, dev: &Device) -> bool {
     let name = dev.name();
     name == Some(VIRTUAL_DEVICE_NAME)
         || name == Some(VIRTUAL_POINTER_NAME)
-        || dev.physical_path() == VIRTUAL_POINTER_PHYS.to_str().ok()
+        || super::is_own_pointer(path)
 }
 
 fn is_keyboard(dev: &Device) -> bool {
