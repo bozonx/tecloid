@@ -19,6 +19,8 @@ use std::{
 use tecloid_core::mapper::runtime;
 
 const MAPPER_DEVICE_NAME: &str = "Tecloid Virtual Keyboard";
+/// Location of the mapper's pointer; a clone of a mouse has that mouse's name.
+const VIRTUAL_POINTER_PHYS: &str = "tecloid/virtual-pointer";
 
 /// The mapper runtime is process-global: scenarios run one at a time.
 static SERIAL: Mutex<()> = Mutex::new(());
@@ -513,7 +515,7 @@ fn stable_mouse_output_works_without_a_selected_mouse() {
     let mut pointer = wait_until("virtual pointer", Duration::from_secs(5), || {
         evdev::enumerate()
             .find(|(path, device)| {
-                !existing.contains(path) && device.name() == Some("Tecloid Pointer")
+                !existing.contains(path) && device.physical_path() == Some(VIRTUAL_POINTER_PHYS)
             })
             .map(|(_, device)| device)
     });
@@ -574,7 +576,8 @@ fn captured_mouse_orders_modifier_click_and_relays_movement_without_original_sid
         &keyboard,
         path.to_str(),
         json!({
-            "settings": {"inDevelopment": false},
+            // Extra mouse buttons are an in-development feature.
+            "settings": {"inDevelopment": true},
             "rules":[{"key":"Space","tapAction":"Space","holdAction":"ShiftLeft"},
                      {"key":"CapsLock","layerId":"nav","tapAction":null}],
             "layerKeymaps":{"nav":{"keys":{"MouseBack":"KeyA", "MouseForward":null}}}
@@ -583,7 +586,7 @@ fn captured_mouse_orders_modifier_click_and_relays_movement_without_original_sid
     let mut pointer = wait_until("virtual pointer", Duration::from_secs(5), || {
         evdev::enumerate()
             .find(|(path, device)| {
-                !existing.contains(path) && device.name() == Some("Tecloid Pointer")
+                !existing.contains(path) && device.physical_path() == Some(VIRTUAL_POINTER_PHYS)
             })
             .map(|(_, device)| device)
     });

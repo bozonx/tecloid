@@ -37,9 +37,14 @@ recommend (`xdotool`, `x11-utils`/`xprop`, `x11-xserver-utils`/`xset`). KDE Wayl
 needs nothing extra (a persistent KWin script reports focus over D-Bus; calls not
 from KWin are ignored).
 
-Mouse: the selected mouse or touchpad is grabbed and replayed through
-"Tecloid Pointer", which keeps the physical bus/vendor/product id (udev hwdb and
-libinput quirks still match). Its buttons go through the engine; axes, touch and
+Mouse: the selected mouse or touchpad is grabbed and replayed through a virtual
+pointer with the physical name and bus/vendor/product id (udev hwdb, libinput
+quirks and per-device desktop settings still match); its `phys` is
+`tecloid/virtual-pointer`, which is how discovery skips it. Without a selected
+mouse a button-only "Tecloid Pointer" carries mouse actions. A click or wheel
+step decides undecided holds as held. The virtual keyboard reports the PS/2 bus
+when the grabbed keyboard is PS/2, so libinput still pairs it with the
+touchpad for disable-while-typing. Its buttons go through the engine; axes, touch and
 tool codes (`BTN_TOUCH`, `BTN_TOOL_*`) and misc data stay in their `SYN_REPORT`
 frame. Touchscreens, pen tablets and game controllers are rejected as mice.
 Clicks are never held behind macros, text or popups, since pointer motion is not.

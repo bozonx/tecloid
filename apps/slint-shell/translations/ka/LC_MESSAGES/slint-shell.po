@@ -1343,9 +1343,6 @@ msgstr "აირჩიეთ ფიზიკური მოწყობილ�
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "აირჩიეთ მაუსი, რომ ორმაგი როლის კლავიშები და ფენის კლავიშები რეაგირებდნენ მის დაწკაპუნებებსა და ბორბალზე და მისი დამატებითი ღილაკების ხელახლა მინიჭება შესაძლებელი იყოს."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "სანამ მაპერი მუშაობს, მაუსი ვირტუალური მოწყობილობის „Tecloid Pointer“ გავლით მუშაობს. სწორედ ამ მაუსისთვის შენახული მაჩვენებლის პარამეტრები შესაძლოა ერთხელ ამ მოწყობილობისთვისაც უნდა დააყენოთ."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "მაუსის ღილაკებსა და ბორბალს პროგრამა აკვირდება, მაგრამ არ იჭერს: ხელახლა მინიჭებული ღილაკი მაინც ასრულებს თავის საწყის მოქმედებას, დაწკაპუნება ან გადახვევა ორმაგი როლის კლავიშის შემდეგ შეიძლება მის მოდიფიკატორზე ადრე მივიდეს, ხოლო მაუსის ღილაკების მოქმედებებად გაგზავნა შეუძლებელია. თუ საწყისი მოქმედება ხელს გიშლით, გამორთეთ ის სისტემის, ბრაუზერის ან დრაივერის პარამეტრებში."
 

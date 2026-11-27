@@ -137,10 +137,16 @@ impl std::fmt::Display for MouseGrabError {
 
 /// Also provide an output pointer for mouse actions when no physical mouse is captured.
 fn virtual_pointer(mouse: Option<&Device>) -> std::io::Result<VirtualDevice> {
-    let mut builder = VirtualDevice::builder()?.name(super::VIRTUAL_POINTER_NAME);
+    // A clone keeps the name and id of the physical mouse: udev's hwdb
+    // (MOUSE_DPI, wheel click angle), libinput quirks and the desktop's
+    // per-device pointer settings all match on them.
+    let name = mouse
+        .and_then(Device::name)
+        .unwrap_or(super::VIRTUAL_POINTER_NAME);
+    let mut builder = VirtualDevice::builder()?
+        .name(name)
+        .with_phys(super::VIRTUAL_POINTER_PHYS)?;
     if let Some(mouse) = mouse {
-        // The physical id keeps udev's hwdb entries (MOUSE_DPI, wheel click
-        // angle) and libinput quirks matched by vendor and product.
         builder = builder.input_id(mouse.input_id());
     }
     let mut keys = mouse

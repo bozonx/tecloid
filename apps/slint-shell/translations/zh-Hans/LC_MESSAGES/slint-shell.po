@@ -1322,9 +1322,6 @@ msgstr "选择要拦截其事件的物理设备。"
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "选择鼠标，使双功能按键和层按键能响应其点击和滚轮，并可重新分配其额外按钮。"
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "映射器运行时，鼠标通过虚拟设备“Tecloid Pointer”工作。为这只鼠标单独保存的指针设置可能需要为该设备重新设置一次。"
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "鼠标按钮和滚轮只会被监测，不会被拦截：重新分配的按钮仍会执行其原有操作，双功能按键之后紧接着的点击或滚动可能先于其修饰键到达，且无法将鼠标按钮作为操作发送。如果原有操作造成干扰，请在系统、浏览器或驱动程序设置中将其关闭。"
 

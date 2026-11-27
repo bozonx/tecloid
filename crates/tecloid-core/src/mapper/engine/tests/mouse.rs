@@ -358,7 +358,7 @@ fn explicit_null_mouse_key_in_layer_keymap_swallows_key() {
 }
 
 #[test]
-fn click_the_layer_does_not_map_leaves_a_layer_key_typing() {
+fn click_decides_a_layer_key_as_held() {
     let trace = timeline(
         serde_json::json!({
             "rules": [{"key": "KeyF", "layerId": "nav", "holdTimeoutMs": 200}],
@@ -372,13 +372,12 @@ fn click_the_layer_does_not_map_leaves_a_layer_key_typing() {
         ],
         &[0, 50, 60, 100],
     );
-    // The unrelated click passes through untouched; F is still a tap.
+    // The click used the held key: no "f" lands in the clicked field.
     assert_eq!(
         trace,
         [
             TraceEvent::Raw(KeyCode::BTN_LEFT, true),
             TraceEvent::Raw(KeyCode::BTN_LEFT, false),
-            TraceEvent::Tap(KeyCode::KEY_F, vec![])
         ]
     );
 }
@@ -490,7 +489,7 @@ fn wheel_commits_pending_modifier_hold_and_suppresses_its_tap() {
 }
 
 #[test]
-fn wheel_leaves_a_pure_layer_key_undecided() {
+fn wheel_decides_a_layer_key_as_held() {
     let mut engine = Engine::new(&config_with_rule(serde_json::json!({
         "key": "KeyF", "layerId": "nav", "holdTimeoutMs": 200
     })));
@@ -498,7 +497,9 @@ fn wheel_leaves_a_pure_layer_key_undecided() {
     let mut out = Vec::new();
     engine.handle_key_event(KeyCode::KEY_F, true, now, &mut out);
     engine.handle_scroll(now + Duration::from_millis(30), &mut out);
-    // The layer maps no wheel, so the scroll decides nothing.
+    assert_eq!(engine.layers.active, vec!["nav"]);
+    engine.handle_key_event(KeyCode::KEY_F, false, now + Duration::from_millis(60), &mut out);
+    // Released inside the hold timeout, yet no "f" follows the scroll.
     assert!(out.is_empty());
 }
 

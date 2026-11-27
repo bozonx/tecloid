@@ -1339,9 +1339,6 @@ msgstr "Elija el dispositivo físico cuyos eventos deben ser interceptados."
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "Seleccione el ratón para que las teclas de doble función y las teclas de capa reaccionen a sus clics y a su rueda, y para poder reasignar sus botones adicionales."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "Mientras el mapeador funciona, el ratón actúa a través del dispositivo virtual «Tecloid Pointer». Puede que haya que definir una vez para ese dispositivo los ajustes del puntero guardados para este ratón concreto."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "Los botones y la rueda del ratón se observan, pero no se interceptan: un botón reasignado sigue realizando su acción original, un clic o desplazamiento justo después de una tecla de doble función puede llegar antes que su modificador, y los botones del ratón no se pueden enviar como acciones. Si una acción original molesta, desactívela en los ajustes del sistema, del navegador o del controlador."
 

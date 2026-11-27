@@ -1333,9 +1333,6 @@ msgstr "Olayları yakalanacak fiziksel cihazı seçin."
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "Çift görevli tuşların ve katman tuşlarının farenin tıklamalarına ve tekerleğine tepki vermesi ve ek düğmelerinin yeniden atanabilmesi için fareyi seçin."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "Eşleyici çalışırken fare “Tecloid Pointer” sanal aygıtı üzerinden çalışır. Bu fareye özel kaydedilmiş işaretçi ayarlarının bu aygıt için bir kez ayarlanması gerekebilir."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "Fare düğmeleri ve tekerleği izlenir, ancak yakalanmaz: yeniden atanmış bir düğme özgün eylemini yine gerçekleştirir, çift görevli bir tuştan hemen sonraki tıklama veya kaydırma, tuşun değiştiricisinden önce ulaşabilir ve fare düğmeleri eylem olarak gönderilemez. Özgün bir eylem rahatsız ederse sistem, tarayıcı veya sürücü ayarlarından kapatın."
 

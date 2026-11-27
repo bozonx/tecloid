@@ -1355,9 +1355,6 @@ msgstr "Choisissez le périphérique physique dont les événements doivent êtr
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "Sélectionnez la souris pour que les touches à double rôle et les touches de calque réagissent à ses clics et à sa molette, et pour pouvoir réaffecter ses boutons supplémentaires."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "Pendant que le mappeur fonctionne, la souris passe par le périphérique virtuel « Tecloid Pointer ». Les réglages du pointeur enregistrés pour cette souris précise devront peut-être être définis une fois pour ce périphérique."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "Les boutons et la molette de la souris sont observés, pas interceptés : un bouton réaffecté exécute toujours son action d'origine, un clic ou un défilement juste après une touche à double rôle peut arriver avant son modificateur, et les boutons de la souris ne peuvent pas être envoyés comme actions. Si une action d'origine gêne, désactivez-la dans les réglages du système, du navigateur ou du pilote."
 

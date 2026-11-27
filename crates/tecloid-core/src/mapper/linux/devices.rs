@@ -1,7 +1,7 @@
 //! Enumeration of Linux input devices (keyboards, mice) with stable
 //! `/dev/input/by-id` paths.
 
-use super::{VIRTUAL_DEVICE_NAME, VIRTUAL_POINTER_NAME};
+use super::{VIRTUAL_DEVICE_NAME, VIRTUAL_POINTER_NAME, VIRTUAL_POINTER_PHYS};
 use crate::mapper::devices::{DeviceDiscovery, UnavailableDevice};
 use crate::mapper::{InputDevice, KeyboardDevice};
 use crate::platform::INPUT_DIR;
@@ -56,6 +56,8 @@ struct ProbedDevice {
     is_mouse: bool,
     bus_virtual: bool,
     has_physical_path: bool,
+    /// One of the mapper's own output devices.
+    mapper_output: bool,
 }
 
 fn probe(path: &Path) -> std::io::Result<ProbedDevice> {
@@ -66,6 +68,7 @@ fn probe(path: &Path) -> std::io::Result<ProbedDevice> {
         is_mouse: is_mouse(&dev),
         bus_virtual: dev.input_id().bus_type() == evdev::BusType::BUS_VIRTUAL,
         has_physical_path: dev.physical_path().is_some_and(|path| !path.is_empty()),
+        mapper_output: is_mapper_output(&dev),
     })
 }
 
@@ -126,7 +129,7 @@ fn discover_in(
             dev.is_keyboard,
             dev.is_mouse
         );
-        if dev.name == VIRTUAL_DEVICE_NAME || dev.name == VIRTUAL_POINTER_NAME {
+        if dev.mapper_output {
             continue;
         }
         let path_to_store = stable_path(&path, stable);
@@ -183,6 +186,15 @@ pub fn list_mice() -> Result<Vec<KeyboardDevice>, String> {
         .collect())
 }
 
+/// Whether `dev` is one of the mapper's output devices. A pointer cloned
+/// from the selected mouse has that mouse's name; its location marks it.
+fn is_mapper_output(dev: &Device) -> bool {
+    let name = dev.name();
+    name == Some(VIRTUAL_DEVICE_NAME)
+        || name == Some(VIRTUAL_POINTER_NAME)
+        || dev.physical_path() == VIRTUAL_POINTER_PHYS.to_str().ok()
+}
+
 fn is_keyboard(dev: &Device) -> bool {
     let Some(keys) = dev.supported_keys() else {
         return false;
@@ -231,18 +243,27 @@ mod tests {
             is_mouse: !is_keyboard,
             bus_virtual: false,
             has_physical_path: true,
+            mapper_output: false,
         }
     }
 
     #[test]
     fn mapper_outputs_cannot_be_selected_as_physical_inputs() {
-        for name in [super::VIRTUAL_DEVICE_NAME, super::VIRTUAL_POINTER_NAME] {
-            let discovery = discover_in(vec![PathBuf::from("/x/event0")], &HashMap::new(), |_| {
-                Ok(device(name, false))
+        // The pointer clone carries the selected mouse's name; it is
+        // recognized by its location instead.
+        let discovery = discover_in(vec![PathBuf::from("/x/event0")], &HashMap::new(), |_| {
+            Ok(ProbedDevice {
+                mapper_output: true,
+                ..device("Logitech USB Optical Mouse", false)
             })
-            .unwrap();
-            assert!(discovery.devices.is_empty());
-        }
+        })
+        .unwrap();
+        assert!(discovery.devices.is_empty());
+        let discovery = discover_in(vec![PathBuf::from("/x/event0")], &HashMap::new(), |_| {
+            Ok(device("Logitech USB Optical Mouse", false))
+        })
+        .unwrap();
+        assert_eq!(discovery.devices.len(), 1);
     }
 
     #[test]

@@ -339,9 +339,9 @@ pub(super) fn refresh(
         .filter(|entry| {
             entry.category != PickerCategory::Commands
                 && filter.admits(&entry.value)
-                && (filter.key_only
-                    || development
-                    || !Action::parse(Some(&entry.value)).development_only())
+                // Also for key slots: the extra mouse buttons are the only
+                // in-development keys.
+                && (development || !Action::parse(Some(&entry.value)).development_only())
         })
         .collect();
     let sidebar = sidebar(

@@ -224,6 +224,10 @@ impl Engine {
         }
         for r in &expanded_rules {
             if !r.enabled
+                || (!in_development
+                    && r.key
+                        .split('+')
+                        .any(crate::config::key_catalog::is_extra_mouse_button))
                 || (!in_development && [&r.condition_window_patterns, &r.condition_excluded_window_patterns]
                     .into_iter()
                     .flatten()
@@ -439,6 +443,9 @@ impl Engine {
             }
             let mut m = HashMap::new();
             for (code, action) in &km.keys {
+                if !in_development && crate::config::key_catalog::is_extra_mouse_button(code) {
+                    continue;
+                }
                 let Some(key) = code_to_key(code) else {
                     log::debug!("[mapper] unknown key code in keymap {layer_id}: {code}");
                     continue;

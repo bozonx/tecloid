@@ -1338,9 +1338,6 @@ msgstr "Odaberite fizički uređaj čije događaje treba presresti."
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "Odaberite miš kako bi tipke s dvostrukom ulogom i tipke slojeva reagirale na njegove klikove i kotačić te kako bi se njegovi dodatni gumbi mogli preraspodijeliti."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "Dok maper radi, miš radi preko virtualnog uređaja „Tecloid Pointer”. Postavke pokazivača spremljene za upravo ovaj miš možda ćete morati jednom postaviti i za taj uređaj."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "Gumbi i kotačić miša se prate, ali ne presreću: preraspodijeljeni gumb i dalje izvodi svoju izvornu radnju, klik ili pomicanje odmah nakon tipke s dvostrukom ulogom može stići prije njezina modifikatora, a gumbi miša ne mogu se slati kao radnje. Ako izvorna radnja smeta, isključite je u postavkama sustava, preglednika ili upravljačkog programa."
 

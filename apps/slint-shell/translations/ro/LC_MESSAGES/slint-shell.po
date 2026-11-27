@@ -1340,9 +1340,6 @@ msgstr ""
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "Selectați mouse-ul pentru ca tastele cu rol dublu și tastele de strat să reacționeze la clicurile și rotița lui și pentru ca butoanele lui suplimentare să poată fi reatribuite."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "Cât timp mapperul rulează, mouse-ul funcționează prin dispozitivul virtual „Tecloid Pointer”. Setările cursorului salvate pentru acest mouse anume ar putea trebui setate o dată și pentru acel dispozitiv."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "Butoanele și rotița mouse-ului sunt observate, nu interceptate: un buton reatribuit își execută în continuare acțiunea originală, un clic sau o derulare imediat după o tastă cu rol dublu poate ajunge înaintea modificatorului ei, iar butoanele mouse-ului nu pot fi trimise ca acțiuni. Dacă o acțiune originală vă încurcă, dezactivați-o în setările sistemului, browserului sau driverului."
 

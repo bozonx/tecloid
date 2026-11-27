@@ -251,6 +251,9 @@ diagnostics report it and the mapper does not start with it.
   (`BTN_EXTRA`) — the side buttons of ordinary mice — and `Mouse6`, `Mouse7`,
   `Mouse8` for the further buttons (`BTN_FORWARD`, `BTN_BACK`, `BTN_TASK` in
   that order; despite their kernel names they are not the usual back/forward).
+  The names stay valid in every mode, but outside In development the mapper
+  ignores rules triggered by the extra buttons (`MouseBack`…`Mouse8`), layer
+  entries for them and actions sending them.
   `ScrollUp` and `ScrollDown` are keyboard keys (`KEY_SCROLLUP`,
   `KEY_SCROLLDOWN`), not the mouse wheel. `WheelUp`, `WheelDown`, `WheelLeft`
   and `WheelRight` are reserved for the wheel and never name a key.

@@ -982,6 +982,13 @@ impl ResolvedAppConfig {
         self.commands.clear();
         self.settings.auto_rules.clear();
         for rule in &mut self.rules {
+            if rule
+                .key
+                .split('+')
+                .any(|key| super::key_catalog::is_extra_mouse_button(key.trim()))
+            {
+                rule.enabled = Some(false);
+            }
             // Removing the conditions alone would make a scoped rule global.
             if [
                 &rule.condition_window_patterns,
@@ -1032,8 +1039,10 @@ impl ResolvedAppConfig {
             }
         }
         for map in self.layer_keymaps.values_mut() {
-            map.keys
-                .retain(|_, action| !action.as_deref().is_some_and(hidden));
+            map.keys.retain(|key, action| {
+                !super::key_catalog::is_extra_mouse_button(key)
+                    && !action.as_deref().is_some_and(hidden)
+            });
         }
         super::menus::hide_development_actions(&mut self.quick_action_pages);
         self
@@ -1069,6 +1078,38 @@ impl ResolvedAppConfig {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn regular_mode_leaves_out_extra_mouse_buttons() {
+        let mut side = KeyRule::new("side".into(), "MouseBack");
+        side.tap_action = Some("KeyC".into());
+        let mut chord = KeyRule::new("chord".into(), "ShiftLeft+Mouse6");
+        chord.tap_action = Some("KeyC".into());
+        let keymap = || KeymapPreset {
+            rules: vec![side.clone(), chord.clone()],
+            ..KeymapPreset::default()
+        };
+        let mut config = ResolvedAppConfig::from_parts(AppSettings::default(), keymap(), None);
+        let layer = config.layer_keymaps.entry("nav".into()).or_default();
+        layer
+            .keys
+            .insert("MouseForward".into(), Some("KeyA".into()));
+        layer.keys.insert("MouseMiddle".into(), Some("KeyB".into()));
+        let regular = config.clone().for_runtime();
+        assert!(regular.rules.iter().all(|rule| !rule.is_enabled()));
+        let keys = &regular.layer_keymaps["nav"].keys;
+        assert!(!keys.contains_key("MouseForward"));
+        assert!(keys.contains_key("MouseMiddle"));
+
+        config.settings.in_development = true;
+        let development = config.for_runtime();
+        assert!(development.rules.iter().all(KeyRule::is_enabled));
+        assert!(
+            development.layer_keymaps["nav"]
+                .keys
+                .contains_key("MouseForward")
+        );
+    }
 
     #[test]
     fn hidden_tap_does_not_shadow_the_next_rule() {

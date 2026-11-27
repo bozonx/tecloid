@@ -1358,9 +1358,6 @@ msgstr ""
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "Wählen Sie die Maus aus, damit Tasten mit Doppelfunktion und Ebenentasten auf ihre Klicks und ihr Mausrad reagieren und ihre Zusatztasten neu belegt werden können."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "Solange der Mapper läuft, arbeitet die Maus über das virtuelle Gerät „Tecloid Pointer“. Zeigereinstellungen, die speziell für diese Maus gespeichert sind, müssen eventuell einmal für dieses Gerät festgelegt werden."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "Maustasten und Mausrad werden beobachtet, aber nicht abgefangen: Eine neu belegte Taste führt weiterhin ihre ursprüngliche Aktion aus, ein Klick oder Bildlauf direkt nach einer Taste mit Doppelfunktion kann vor deren Modifikator ankommen, und Maustasten können nicht als Aktionen gesendet werden. Wenn eine ursprüngliche Aktion stört, deaktivieren Sie sie in den Einstellungen von System, Browser oder Treiber."
 

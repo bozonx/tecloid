@@ -5,44 +5,14 @@ use super::*;
 impl Engine {
     /// Promote every rule currently in WaitingDecision to HoldActive
     /// (hold gets committed). Called from `on_press` for any new key to
-    /// implement "interrupt on other key press".
+    /// implement "interrupt on other key press", and for a click or wheel
+    /// step: the held key was used, so it no longer taps.
     pub(super) fn commit_waiting_decisions(&mut self, out: &mut Vec<EngineOutput>) {
         let keys: Vec<KeyCode> = self
             .pending
             .iter()
             .filter(|(_, p)| {
                 p.rule.long_hold.is_none() && matches!(p.phase, RulePhase::WaitingDecision { .. })
-            })
-            .map(|(k, _)| *k)
-            .collect();
-        for k in keys {
-            self.commit_hold(k, out);
-        }
-    }
-
-    /// Commit the undecided rules a mouse click or scroll needs: a held
-    /// modifier or keystroke (Shift+click, Ctrl+wheel), or a layer that maps
-    /// the clicked `button`.
-    pub(super) fn commit_decisions_for_pointer(
-        &mut self,
-        button: Option<KeyCode>,
-        out: &mut Vec<EngineOutput>,
-    ) {
-        let keys: Vec<KeyCode> = self
-            .pending
-            .iter()
-            .filter(|(_, p)| {
-                p.rule.long_hold.is_none()
-                    && matches!(p.phase, RulePhase::WaitingDecision { .. })
-                    && (!matches!(p.rule.hold, HoldOutputMode::Swallow)
-                        || button.is_some_and(|button| {
-                            p.rule.layer_id.as_ref().is_some_and(|layer| {
-                                self.keymap
-                                    .layer_maps
-                                    .get(layer)
-                                    .is_some_and(|keys| keys.contains_key(&button))
-                            })
-                        }))
             })
             .map(|(k, _)| *k)
             .collect();

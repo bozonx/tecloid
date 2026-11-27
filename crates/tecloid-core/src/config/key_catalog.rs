@@ -428,6 +428,15 @@ pub fn trigger_alternatives(key: &str) -> Vec<&str> {
     }
 }
 
+/// Mouse buttons beyond left, right and middle. They are an in-development
+/// feature: hidden as triggers, layer keys and actions in the regular mode.
+pub fn is_extra_mouse_button(key: &str) -> bool {
+    matches!(
+        key,
+        "MouseBack" | "MouseForward" | "Mouse6" | "Mouse7" | "Mouse8"
+    )
+}
+
 /// Trigger components, preserving side-neutral modifier names.
 pub fn trigger_keys(value: &str) -> Option<Vec<&str>> {
     let mut keys = Vec::new();

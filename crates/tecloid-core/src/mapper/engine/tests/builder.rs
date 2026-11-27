@@ -356,25 +356,28 @@ fn stable_mode_ignores_retained_experimental_actions() {
     for key in [
         KeyCode::KEY_A, KeyCode::KEY_B, KeyCode::KEY_D, KeyCode::KEY_F,
         KeyCode::KEY_G, KeyCode::KEY_I, KeyCode::KEY_J, KeyCode::KEY_K,
+        // Extra mouse buttons are in development as triggers too.
+        KeyCode::BTN_SIDE,
     ] {
         assert!(!engine.keymap.rules.contains_key(&key), "{key:?}");
     }
-    for key in [KeyCode::KEY_C, KeyCode::KEY_H, KeyCode::KEY_L, KeyCode::BTN_SIDE] {
+    for key in [KeyCode::KEY_C, KeyCode::KEY_H, KeyCode::KEY_L] {
         assert!(matches!(engine.keymap.rules[&key][0].tap,
             crate::mapper::engine::model::TapMode::Action(_)));
     }
     assert!(!engine.keymap.layer_maps["nav"].contains_key(&KeyCode::KEY_A));
     assert!(!engine.keymap.layer_maps["nav"].contains_key(&KeyCode::KEY_B));
-    assert!(engine.keymap.layer_maps["nav"].contains_key(&KeyCode::BTN_EXTRA));
+    assert!(!engine.keymap.layer_maps["nav"].contains_key(&KeyCode::BTN_EXTRA));
     let mut out = Vec::new();
     engine.execute_remote("sys:lockSession", &mut out);
     assert!(out.is_empty());
 
     cfg.settings.in_development = Some(true);
     let engine = Engine::new(&cfg);
-    for key in [KeyCode::KEY_J, KeyCode::KEY_K, KeyCode::KEY_L] {
+    for key in [KeyCode::KEY_J, KeyCode::KEY_K, KeyCode::KEY_L, KeyCode::BTN_SIDE] {
         assert!(engine.keymap.rules.contains_key(&key), "{key:?}");
     }
+    assert!(engine.keymap.layer_maps["nav"].contains_key(&KeyCode::BTN_EXTRA));
 }
 
 

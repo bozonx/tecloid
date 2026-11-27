@@ -91,12 +91,9 @@ impl Action {
                 true
             }
             Self::System(id) => !LEFT_HAND_CONTROL_SYSTEM_ACTIONS.contains(&id.as_str()),
-            Self::Keys(keys) => keys.split('+').any(|key| {
-                matches!(
-                    key,
-                    "MouseBack" | "MouseForward" | "Mouse6" | "Mouse7" | "Mouse8"
-                )
-            }),
+            Self::Keys(keys) => keys
+                .split('+')
+                .any(|key| super::key_catalog::is_extra_mouse_button(key.trim())),
             Self::App(id) => matches!(AppAction::parse(id), Some(AppAction::GameMode(_))),
             _ => false,
         }

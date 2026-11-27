@@ -1339,9 +1339,6 @@ msgstr "Оқиғалары ұсталуы керек физикалық құры
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "Екі рөлді пернелер мен қабат пернелері тінтуірдің шертулері мен дөңгелегіне жауап беруі және оның қосымша түймелерін қайта тағайындауға болуы үшін тінтуірді таңдаңыз."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "Маппер жұмыс істеп тұрғанда тінтуір «Tecloid Pointer» виртуалды құрылғысы арқылы жұмыс істейді. Дәл осы тінтуір үшін сақталған көрсеткіш баптауларын бұл құрылғы үшін бір рет орнату қажет болуы мүмкін."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "Тінтуір түймелері мен дөңгелегі бақыланады, бірақ ұсталмайды: қайта тағайындалған түйме бәрібір өзінің бастапқы әрекетін орындайды, екі рөлді пернеден кейін бірден жасалған шерту немесе айналдыру оның модификаторынан бұрын жетуі мүмкін, ал тінтуір түймелерін әрекет ретінде жіберу мүмкін емес. Бастапқы әрекет кедергі келтірсе, оны жүйенің, браузердің немесе драйвердің баптауларында өшіріңіз."
 

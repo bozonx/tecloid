@@ -1285,9 +1285,6 @@ msgstr "Выберите физическое устройство, событи
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "Выберите мышь, чтобы клавиши с двумя ролями и клавиши слоёв реагировали на её клики и колесо, а её дополнительные кнопки можно было переназначить."
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "Пока работает маппер, мышь действует через виртуальное устройство «Tecloid Pointer». Настройки указателя, сохранённые в системе именно для этой мыши, возможно, придётся один раз задать и для него."
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "Кнопки мыши и колесо отслеживаются, но не перехватываются: переназначенная кнопка всё равно выполняет своё исходное действие, клик или прокрутка сразу после клавиши с двумя ролями могут прийти раньше её модификатора, а кнопки мыши нельзя отправлять как действия. Если исходное действие мешает, отключите его в настройках системы, браузера или драйвера."
 

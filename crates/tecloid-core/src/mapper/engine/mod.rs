@@ -326,14 +326,14 @@ impl Engine {
         self.last_activity = Some(self.last_activity.map_or(at, |last| last.max(at)));
     }
 
-    /// A mouse wheel step. Like a click, it uses the undecided modifier and
-    /// keystroke holds (Ctrl+wheel zooms, Shift+wheel pans), so they are
-    /// committed before the scroll reaches the desktop.
+    /// A mouse wheel step. Like a click, it decides the undecided holds:
+    /// modifiers are down before the scroll reaches the desktop (Ctrl+wheel
+    /// zooms, Shift+wheel pans) and a layer key no longer taps afterwards.
     pub fn handle_scroll(&mut self, at: Instant, out: &mut Vec<EngineOutput>) {
         self.note_activity(at);
         self.last_typing_press = None;
         self.flush_waiting_second(at, out);
-        self.commit_decisions_for_pointer(None, out);
+        self.commit_waiting_decisions(out);
         // Keys pressed after the deciding key must not be overtaken by the
         // scroll either (a layer key, then Shift, then the wheel).
         if self.deciding_key().is_some() && !self.decision_buffer.is_empty() {
@@ -382,11 +382,12 @@ impl Engine {
             }
             if down {
                 self.last_typing_press = None;
-                // Commit modifiers and mapped layers before the captured
-                // click is emitted through the virtual pointer.
+                // The click decides undecided holds: modifiers are down
+                // before it is emitted, and a layer key held through a click
+                // does not type its tap afterwards (into the clicked field).
                 self.flush_waiting_second(now, out);
                 self.resolve_long_hold_decisions(key, now, out);
-                self.commit_decisions_for_pointer(Some(key), out);
+                self.commit_waiting_decisions(out);
                 // Keys pressed after the deciding key wait in the buffer; a
                 // click that passed them would arrive without them (Shift
                 // pressed after a layer key, then a click). A key and a click

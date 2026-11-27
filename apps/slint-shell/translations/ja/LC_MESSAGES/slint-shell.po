@@ -1327,9 +1327,6 @@ msgstr "イベントをインターセプトする物理デバイスを選択し
 msgid "Select the mouse so dual-role and layer keys react to its clicks and wheel, and so its extra buttons can be remapped."
 msgstr "デュアルロールキーとレイヤーキーがマウスのクリックとホイールに反応し、マウスの追加ボタンを割り当て直せるように、マウスを選択してください。"
 
-msgid "While the mapper runs, the mouse works through the virtual device “Tecloid Pointer”. Desktop pointer settings saved for this specific mouse may need to be set once for that device."
-msgstr "マッパーの実行中、マウスは仮想デバイス「Tecloid Pointer」を通して動作します。このマウス専用に保存されたポインター設定は、このデバイスに対して一度設定し直す必要がある場合があります。"
-
 msgid "Mouse buttons and the wheel are observed, not intercepted: a remapped button still performs its native action, a click or scroll right after a dual-role key may arrive before its modifier, and mouse buttons cannot be sent as actions. If a native action gets in the way, disable it in your system, browser, or driver settings."
 msgstr "マウスのボタンとホイールは監視されますが、横取りはされません。割り当て直したボタンも本来の動作を実行し、デュアルロールキーの直後のクリックやスクロールはその修飾キーより先に届くことがあり、マウスボタンをアクションとして送ることはできません。本来の動作が邪魔な場合は、システム、ブラウザー、またはドライバーの設定で無効にしてください。"
 

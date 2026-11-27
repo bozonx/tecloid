@@ -43,8 +43,12 @@ use std::time::Duration;
 
 const VIRTUAL_DEVICE_NAME: &str = "Tecloid Virtual Keyboard";
 const VIRTUAL_POINTER_NAME: &str = "Tecloid Pointer";
-/// USB id of the virtual keyboard: the Linux Foundation vendor id with its
-/// "multifunction composite gadget" product, used by software devices.
+/// Physical location reported by the virtual pointer. A pointer cloned from
+/// the selected mouse carries that mouse's name, so this marks it as ours.
+const VIRTUAL_POINTER_PHYS: &std::ffi::CStr = c"tecloid/virtual-pointer";
+/// Id of the virtual keyboard: the Linux Foundation vendor id with its
+/// "multifunction composite gadget" product, used by software devices. The
+/// bus follows the physical keyboard (see `virtual_keyboard_bus`).
 const VIRTUAL_VENDOR_ID: u16 = 0x1d6b;
 const VIRTUAL_PRODUCT_ID: u16 = 0x0104;
 const VIRTUAL_VERSION: u16 = 1;
@@ -677,6 +681,7 @@ fn run_device(
     let _grabbed = GrabbedKeyboard::register(keyboard.rdev());
 
     let all_keys = virtual_keyboard_keys(device.supported_keys());
+    let keyboard_bus = virtual_keyboard_bus(device.input_id().bus_type());
     let mut devices = vec![device];
     if let Some(mp) = mouse_path {
         match Device::open(mp) {
@@ -698,7 +703,7 @@ fn run_device(
         .map_err(|e| format!("uinput builder (need /dev/uinput access?): {e}"))?
         .name(VIRTUAL_DEVICE_NAME)
         .input_id(InputId::new(
-            BusType::BUS_USB,
+            keyboard_bus,
             VIRTUAL_VENDOR_ID,
             VIRTUAL_PRODUCT_ID,
             VIRTUAL_VERSION,
@@ -796,6 +801,18 @@ fn virtual_keyboard_keys(
         all_keys.insert(key);
     }
     all_keys
+}
+
+/// Bus the virtual keyboard reports. libinput treats a PS/2 keyboard as the
+/// laptop's built-in one and pairs it with the touchpad ("disable touchpad
+/// while typing"); the physical keyboard is grabbed, so its replacement must
+/// keep that bus. Other keyboards appear as USB, as before.
+fn virtual_keyboard_bus(physical: BusType) -> BusType {
+    if physical == BusType::BUS_I8042 {
+        physical
+    } else {
+        BusType::BUS_USB
+    }
 }
 
 fn validate_keyboard_capabilities(
@@ -1077,6 +1094,22 @@ mod tests {
             let mut pointer = events.clone();
             pointer.insert(axis);
             assert!(super::validate_keyboard_capabilities(&pointer, None).is_err());
+        }
+    }
+
+    #[test]
+    fn built_in_keyboard_stays_built_in_for_touchpad_pairing() {
+        use evdev::BusType;
+        assert_eq!(
+            super::virtual_keyboard_bus(BusType::BUS_I8042),
+            BusType::BUS_I8042
+        );
+        for other in [
+            BusType::BUS_USB,
+            BusType::BUS_BLUETOOTH,
+            BusType::BUS_VIRTUAL,
+        ] {
+            assert_eq!(super::virtual_keyboard_bus(other), BusType::BUS_USB);
         }
     }
 
